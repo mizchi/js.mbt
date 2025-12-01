@@ -102,7 +102,7 @@ async test "IndexedDB: add and get item" {
   let _ = request_to_promise(add_request).wait()
 
   // Get the item
-  let get_request = store._get(@nostd.any(1))
+  let get_request = store.get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
   assert_eq(@js.identity(result._get("name")), "Test")
   db.close()
@@ -138,7 +138,7 @@ async test "IndexedDB: put updates existing item" {
   request_to_promise(store.put(item2)).wait() |> ignore
 
   // Get and verify
-  let result = request_to_promise(store._get(@nostd.any(1))).wait()
+  let result = request_to_promise(store.get(@nostd.any(1))).wait()
   assert_eq(@js.identity(result._get("value")), "updated")
   db.close()
   @indexeddb.deleteDatabase("test-put-db") |> ignore
@@ -169,7 +169,7 @@ async test "IndexedDB: delete removes item" {
   request_to_promise(store.delete(@nostd.any(1))).wait() |> ignore
 
   // Verify deletion
-  let result = request_to_promise(store._get(@nostd.any(1))).wait()
+  let result = request_to_promise(store.get(@nostd.any(1))).wait()
   assert_true(@js.is_undefined(result))
   db.close()
   @indexeddb.deleteDatabase("test-delete-db") |> ignore
@@ -408,7 +408,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   request_to_promise(add_request).wait() |> ignore
 
   // Get with type parameter User: @indexeddb.IDBRequest[User]
-  let get_request : @indexeddb.IDBRequest[User] = store._get(@nostd.any(1))
+  let get_request : @indexeddb.IDBRequest[User] = store.get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
 
   // result is User type - direct cast, no from_js() needed
@@ -462,7 +462,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   request_to_promise(store.add(mouse)).wait() |> ignore
 
   // Get with IDBRequest[Product]
-  let laptop_request : @indexeddb.IDBRequest[Product] = store._get(
+  let laptop_request : @indexeddb.IDBRequest[Product] = store.get(
     @nostd.any("LAPTOP-001"),
   )
   let laptop_result = request_to_promise(laptop_request).wait()
@@ -486,7 +486,9 @@ async test "IndexedDB: manage products with Product struct type safety" {
   assert_eq(length, 2)
 
   // Access first product with direct cast
-  let first_product_js : @nostd.Any = electronics_array.call1("at", 0)
+  let first_product_js : @nostd.Any = electronics_array._call("at", [
+    "0" |> @nostd.any,
+  ])
   let first_product : Product = first_product_js |> @js.identity
   assert_eq(first_product.category, "electronics")
   db.close()

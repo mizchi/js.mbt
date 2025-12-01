@@ -41,7 +41,7 @@ pub(all) struct SourceMap {
 }
 #alias(find_entry)
 fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
-impl @js.JsImpl for SourceMap
+fn SourceMap::as_any(Self) -> @nostd.Any
 
 pub(all) struct SourceMapEntry {
   originalLine : Int
@@ -51,9 +51,8 @@ pub(all) struct SourceMapEntry {
   generatedColumn : Int
   name : String?
 }
-impl @js.JsImpl for SourceMapEntry
+fn SourceMapEntry::as_any(Self) -> @nostd.Any
 
 // Type aliases
 
 // Traits
-

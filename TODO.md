@@ -108,6 +108,7 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - npm パッケージの主要部分は移行完了
 - `src/mbtconv/` パッケージ作成済み (`@js.from_map` → `@mbtconv.from_map`)
 - `src/builtins/global/` パッケージ作成済み (setTimeout等のグローバル関数)
+- node/http・https・http2・net・tls・v8・wasi などを順次 nostd 呼び出しに置換中
 - テスト: 2365 件パス
 
 ### In Progress
@@ -116,7 +117,10 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [ ] `src/builtins/collection` - `@js.JsIterator` 依存
 - [ ] `src/builtins/weak` - `K : @js.JsImpl` trait 制約使用
 - [ ] `src/web/blob` - `@js.Promise`, `@js.ArrayBuffer`, `Array[&@js.JsImpl]` 依存
-- [ ] `src/node/` パッケージ群 - `&@js.JsImpl` trait 参照使用
+- [ ] `src/browser/canvas` - nostd import 追加と `drawImage` 等の引数ラップ未完
+- [ ] `src/node/` パッケージ群 - `&@js.JsImpl` trait 参照使用 (worker_threads など)
+- [ ] `src/npm/modelcontextprotocol` - HashMap/get 置換や nostd ラップの残
+- [ ] `_experimental/runtime` - nostd 依存追加済み、コード側の整合性確認が必要
 
 ### Deferred (要設計検討)
 

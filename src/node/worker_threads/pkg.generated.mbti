@@ -21,16 +21,17 @@ fn workerData() -> @nostd.Any?
 // Types and methods
 #external
 pub type MessagePort
+fn MessagePort::as_any(Self) -> @nostd.Any
 fn MessagePort::close(Self) -> Unit
-fn MessagePort::postMessage(Self, &@js.JsImpl, transferList? : Array[&@js.JsImpl]) -> Unit
+fn MessagePort::postMessage(Self, @nostd.Any, transferList? : Array[@nostd.Any]) -> Unit
 fn MessagePort::start(Self) -> Unit
-impl @js.JsImpl for MessagePort
 impl @events.EventEmitterImpl for MessagePort
 
 #external
 pub type Worker
+fn Worker::as_any(Self) -> @nostd.Any
 fn Worker::new(String, workerData? : @nostd.Any, env? : @nostd.Any, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @nostd.Any) -> Self
-fn Worker::postMessage(Self, &@js.JsImpl, transferList? : Array[&@js.JsImpl]) -> Unit
+fn Worker::postMessage(Self, @nostd.Any, transferList? : Array[@nostd.Any]) -> Unit
 fn Worker::ref_(Self) -> Unit
 fn Worker::stderr(Self) -> @streams.ReadableStream?
 fn Worker::stdin(Self) -> @streams.WritableStream?
@@ -38,10 +39,8 @@ fn Worker::stdout(Self) -> @streams.ReadableStream?
 fn Worker::terminate(Self) -> Unit
 fn Worker::threadId(Self) -> Int
 fn Worker::unref(Self) -> Unit
-impl @js.JsImpl for Worker
 impl @events.EventEmitterImpl for Worker
 
 // Type aliases
 
 // Traits
-

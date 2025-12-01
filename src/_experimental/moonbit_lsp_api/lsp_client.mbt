@@ -20,7 +20,7 @@ pub(all) struct Position {
 }
 
 ///|
-pub impl @js.JsImpl for Position
+pub fn Position::as_any(self : Position) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Position::to_json(self : Position) -> @nostd.Any {
@@ -43,7 +43,7 @@ pub(all) struct Range {
 }
 
 ///|
-pub impl @js.JsImpl for Range
+pub fn Range::as_any(self : Range) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Range::to_json(self : Range) -> @nostd.Any {
@@ -69,7 +69,7 @@ pub(all) struct Location {
 }
 
 ///|
-pub impl @js.JsImpl for Location
+pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Location::from_json(json : @nostd.Any) -> Location {
@@ -129,7 +129,7 @@ pub(all) struct TextEdit {
 }
 
 ///|
-pub impl @js.JsImpl for TextEdit
+pub fn TextEdit::as_any(self : TextEdit) -> @nostd.Any = "%identity"
 
 ///|
 pub fn TextEdit::from_json(json : @nostd.Any) -> TextEdit {

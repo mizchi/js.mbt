@@ -209,7 +209,7 @@ pub fn unzip(
 pub type Gzip
 
 ///|
-pub impl @js.JsImpl for Gzip
+pub fn Gzip::as_any(self : Gzip) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_gzip(options : @nostd.Any) -> Gzip =
@@ -230,7 +230,7 @@ pub fn create_gzip(options : ZlibOptions) -> Gzip {
 pub type Gunzip
 
 ///|
-pub impl @js.JsImpl for Gunzip
+pub fn Gunzip::as_any(self : Gunzip) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_gunzip(options : @nostd.Any) -> Gunzip =
@@ -251,7 +251,7 @@ pub fn create_gunzip(options : ZlibOptions) -> Gunzip {
 pub type Deflate
 
 ///|
-pub impl @js.JsImpl for Deflate
+pub fn Deflate::as_any(self : Deflate) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_deflate(options : @nostd.Any) -> Deflate =
@@ -272,7 +272,7 @@ pub fn create_deflate(options : ZlibOptions) -> Deflate {
 pub type Inflate
 
 ///|
-pub impl @js.JsImpl for Inflate
+pub fn Inflate::as_any(self : Inflate) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_inflate(options : @nostd.Any) -> Inflate =
@@ -293,7 +293,7 @@ pub fn create_inflate(options : ZlibOptions) -> Inflate {
 pub type BrotliCompress
 
 ///|
-pub impl @js.JsImpl for BrotliCompress
+pub fn BrotliCompress::as_any(self : BrotliCompress) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_brotli_compress(
@@ -316,7 +316,7 @@ pub fn create_brotli_compress(options : ZlibOptions) -> BrotliCompress {
 pub type BrotliDecompress
 
 ///|
-pub impl @js.JsImpl for BrotliDecompress
+pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_brotli_decompress(

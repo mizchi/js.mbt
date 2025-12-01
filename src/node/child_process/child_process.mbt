@@ -9,6 +9,9 @@
 pub type ChildProcess
 
 ///|
+pub fn ChildProcess::as_any(self : ChildProcess) -> @nostd.Any = "%identity"
+
+///|
 pub fn ChildProcess::to_any(self : ChildProcess) -> @nostd.Any = "%identity"
 
 ///|
@@ -24,43 +27,43 @@ pub fn ChildProcess::as_event_emitter(
 ///|
 /// Get pid
 pub fn ChildProcess::pid(self : ChildProcess) -> Int {
-  @nostd.any(self)["pid"].cast()
+  self.as_any()["pid"].cast()
 }
 
 ///|
 /// Get killed
 pub fn ChildProcess::killed(self : ChildProcess) -> Bool {
-  @nostd.any(self)["killed"].cast()
+  self.as_any()["killed"].cast()
 }
 
 ///|
 /// Get exitCode
 pub fn ChildProcess::exitCode(self : ChildProcess) -> Int {
-  @nostd.any(self)["exitCode"].cast()
+  self.as_any()["exitCode"].cast()
 }
 
 ///|
 /// Get signalCode
 pub fn ChildProcess::signalCode(self : ChildProcess) -> String {
-  @nostd.any(self)["signalCode"].cast()
+  self.as_any()["signalCode"].cast()
 }
 
 ///|
 /// Get stdin
 pub fn ChildProcess::stdin(self : ChildProcess) -> @streams.WritableStream {
-  @nostd.any(self)["stdin"].cast()
+  self.as_any()["stdin"].cast()
 }
 
 ///|
 /// Get stdout
 pub fn ChildProcess::stdout(self : ChildProcess) -> @streams.ReadableStream {
-  @nostd.any(self)["stdout"].cast()
+  self.as_any()["stdout"].cast()
 }
 
 ///|
 /// Get stderr
 pub fn ChildProcess::stderr(self : ChildProcess) -> @streams.ReadableStream {
-  @nostd.any(self)["stderr"].cast()
+  self.as_any()["stderr"].cast()
 }
 
 ///|
@@ -83,33 +86,33 @@ pub fn ChildProcess::on_stderr_data(
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : ChildProcess, signal? : String) -> Bool {
   match signal {
-    Some(sig) => @nostd.any(self)._call("kill", [@nostd.any(sig)]).cast()
-    None => @nostd.any(self)._call("kill", []).cast()
+    Some(sig) => self.as_any()._call("kill", [@nostd.any(sig)]).cast()
+    None => self.as_any()._call("kill", []).cast()
   }
 }
 
 ///|
 /// Send a message to the child process (for IPC)
 pub fn ChildProcess::send(self : ChildProcess, message : @nostd.Any) -> Bool {
-  @nostd.any(self)._call("send", [message]).cast()
+  self.as_any()._call("send", [message]).cast()
 }
 
 ///|
 /// Close the IPC channel between parent and child
 pub fn ChildProcess::disconnect(self : ChildProcess) -> Unit {
-  @nostd.any(self)._call("disconnect", []) |> ignore
+  self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// Prevent the parent process from waiting for this child
 pub fn ChildProcess::unref(self : ChildProcess) -> Unit {
-  @nostd.any(self)._call("unref", []) |> ignore
+  self.as_any()._call("unref", []) |> ignore
 }
 
 ///|
 /// Require the parent process to wait for this child
 pub fn ChildProcess::ref_(self : ChildProcess) -> Unit {
-  @nostd.any(self)._call("ref", []) |> ignore
+  self.as_any()._call("ref", []) |> ignore
 }
 
 ///|
@@ -236,18 +239,18 @@ pub fn fork(
 pub type SpawnSyncResult
 
 ///|
-pub impl @js.JsImpl for SpawnSyncResult
+pub fn SpawnSyncResult::as_any(self : SpawnSyncResult) -> @nostd.Any = "%identity"
 
 ///|
 /// Get pid
 pub fn SpawnSyncResult::pid(self : SpawnSyncResult) -> Int {
-  @nostd.any(self)["pid"].cast()
+  self.as_any()["pid"].cast()
 }
 
 ///|
 /// Get status
 pub fn SpawnSyncResult::status(self : SpawnSyncResult) -> Int? {
-  let v = @nostd.any(self)["status"]
+  let v = self.as_any()["status"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -258,7 +261,7 @@ pub fn SpawnSyncResult::status(self : SpawnSyncResult) -> Int? {
 ///|
 /// Get signal
 pub fn SpawnSyncResult::signal(self : SpawnSyncResult) -> String? {
-  let v = @nostd.any(self)["signal"]
+  let v = self.as_any()["signal"]
   if @nostd.is_nullish(v) {
     None
   } else {
@@ -271,7 +274,7 @@ pub fn SpawnSyncResult::signal(self : SpawnSyncResult) -> String? {
 pub fn SpawnSyncResult::stdout(
   self : SpawnSyncResult,
 ) -> @streams.ReadableStream {
-  @nostd.any(self)["stdout"].cast()
+  self.as_any()["stdout"].cast()
 }
 
 ///|
@@ -279,13 +282,13 @@ pub fn SpawnSyncResult::stdout(
 pub fn SpawnSyncResult::stderr(
   self : SpawnSyncResult,
 ) -> @streams.ReadableStream {
-  @nostd.any(self)["stderr"].cast()
+  self.as_any()["stderr"].cast()
 }
 
 ///|
 /// Get error
 pub fn SpawnSyncResult::error(self : SpawnSyncResult) -> @nostd.Any {
-  @nostd.any(self)["error"]
+  self.as_any()["error"]
 }
 
 ///|

@@ -7,6 +7,9 @@
 pub type Session
 
 ///|
+pub fn Session::as_any(self : Session) -> @nostd.Any = "%identity"
+
+///|
 pub fn Session::to_any(self : Session) -> @nostd.Any = "%identity"
 
 ///|
@@ -126,6 +129,9 @@ extern "js" fn ffi_wait_for_debugger() -> Unit =
 ///|
 /// Console object for inspector
 pub type Console
+
+///|
+pub fn Console::as_any(self : Console) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Console::to_any(self : Console) -> @nostd.Any = "%identity"

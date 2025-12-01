@@ -137,6 +137,11 @@ pub(all) struct SourceMap {
 }
 
 ///|
+pub fn SourceMap::as_any(self : SourceMap) -> @nostd.Any {
+  self.to_any()
+}
+
+///|
 pub fn SourceMap::to_any(self : SourceMap) -> @nostd.Any {
   self.payload |> @nostd.any
 }
@@ -183,6 +188,9 @@ pub(all) struct SourceMapEntry {
   generatedColumn : Int
   name : String?
 }
+
+///|
+pub fn SourceMapEntry::as_any(self : SourceMapEntry) -> @nostd.Any = "%identity"
 
 ///|
 pub fn SourceMapEntry::to_any(self : SourceMapEntry) -> @nostd.Any = "%identity"

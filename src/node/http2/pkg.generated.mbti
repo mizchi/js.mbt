@@ -26,7 +26,6 @@ fn ClientHttp2Stream::on_data(Self, (@js.Object) -> Unit) -> Self
 fn ClientHttp2Stream::on_end(Self, () -> Unit) -> Self
 fn ClientHttp2Stream::on_response(Self, (@js.Object) -> Unit) -> Self
 fn ClientHttp2Stream::write(Self, String) -> Unit
-impl @js.JsImpl for ClientHttp2Stream
 impl @event.EventTargetImpl for ClientHttp2Stream
 
 #external
@@ -35,7 +34,6 @@ fn Http2SecureServer::as_any(Self) -> @nostd.Any
 fn Http2SecureServer::as_event_target(Self) -> @event.EventTarget
 fn Http2SecureServer::close(Self, () -> Unit) -> Unit
 fn Http2SecureServer::listen(Self, Int, () -> Unit) -> Unit
-impl @js.JsImpl for Http2SecureServer
 impl @event.EventTargetImpl for Http2SecureServer
 
 #external
@@ -44,7 +42,6 @@ fn Http2Server::as_any(Self) -> @nostd.Any
 fn Http2Server::as_event_target(Self) -> @event.EventTarget
 fn Http2Server::close(Self, () -> Unit) -> Unit
 fn Http2Server::listen(Self, Int, () -> Unit) -> Unit
-impl @js.JsImpl for Http2Server
 impl @event.EventTargetImpl for Http2Server
 
 #external
@@ -54,14 +51,12 @@ fn Http2Session::as_event_target(Self) -> @event.EventTarget
 fn Http2Session::close(Self) -> Unit
 fn Http2Session::ping(Self, () -> Unit) -> Unit
 fn Http2Session::request(Self, @js.Object) -> ClientHttp2Stream
-impl @js.JsImpl for Http2Session
 impl @event.EventTargetImpl for Http2Session
 
 #external
 pub type Http2Stream
 fn Http2Stream::as_any(Self) -> @nostd.Any
 fn Http2Stream::as_event_target(Self) -> @event.EventTarget
-impl @js.JsImpl for Http2Stream
 impl @event.EventTargetImpl for Http2Stream
 
 #external
@@ -70,10 +65,8 @@ fn ServerHttp2Stream::as_any(Self) -> @nostd.Any
 fn ServerHttp2Stream::as_event_target(Self) -> @event.EventTarget
 fn ServerHttp2Stream::end(Self, String) -> Unit
 fn ServerHttp2Stream::respond(Self, @js.Object) -> Unit
-impl @js.JsImpl for ServerHttp2Stream
 impl @event.EventTargetImpl for ServerHttp2Stream
 
 // Type aliases
 
 // Traits
-

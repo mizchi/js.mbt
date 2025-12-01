@@ -12,7 +12,7 @@
 /// Example:
 /// ```moonbit
 /// let bytes = Bytes::from_array([1, 2, 3, 4, 5])
-/// let uint8array = bytes_to_uint8array(bytes)
+/// let uint8array = bytes_to_uint8array(bytes).as_typed_array()
 /// assert_eq(uint8array.length(), 5)
 /// ```
 pub fn bytes_to_uint8array(bytes : Bytes) -> Uint8Array {

@@ -28,14 +28,6 @@ pub extern "js" fn new_(cls : Any, args : Array[Any]) -> Any =
   #|(cls, args) => new cls(...args)
 
 ///|
-extern "js" fn ffi_type_of(value : Any) -> String =
-  #| (value) => typeof value
-
-///|
-extern "js" fn ffi_instance_of(value : Any, cls : Any) -> Bool =
-  #| (value, cls) => value instanceof cls
-
-///|
 // extern "js" fn ffi_is_array(value : Any) -> Bool =
 //   #| (value) => Array.isArray(value)
 

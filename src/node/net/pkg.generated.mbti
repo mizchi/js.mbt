@@ -40,7 +40,6 @@ fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> U
 fn Server::listening(Self) -> Bool
 fn Server::maxConnections(Self) -> Int?
 fn Server::set_maxConnections(Self, Int) -> Unit
-impl @js.JsImpl for Server
 impl @events.EventEmitterImpl for Server
 
 #external
@@ -64,10 +63,8 @@ fn Socket::setKeepAlive(Self, Bool) -> Self
 fn Socket::setNoDelay(Self, Bool) -> Self
 fn Socket::setTimeout(Self, Int) -> Self
 fn Socket::write(Self, String) -> Bool
-impl @js.JsImpl for Socket
 impl @events.EventEmitterImpl for Socket
 
 // Type aliases
 
 // Traits
-

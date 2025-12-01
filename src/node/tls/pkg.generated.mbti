@@ -21,7 +21,6 @@ fn Server::as_any(Self) -> @nostd.Any
 fn Server::as_event_target(Self) -> @event.EventTarget
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
-impl @js.JsImpl for Server
 impl @event.EventTargetImpl for Server
 
 #external
@@ -39,10 +38,8 @@ fn TLSSocket::on_end(Self, () -> Unit) -> Self
 fn TLSSocket::on_error(Self, (@js.Object) -> Unit) -> Self
 fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
 fn TLSSocket::write(Self, String) -> Unit
-impl @js.JsImpl for TLSSocket
 impl @event.EventTargetImpl for TLSSocket
 
 // Type aliases
 
 // Traits
-

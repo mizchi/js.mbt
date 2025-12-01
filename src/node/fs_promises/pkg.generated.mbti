@@ -70,7 +70,6 @@ fn Dirent::isDirectory(Self) -> Bool
 #alias(is_file)
 fn Dirent::isFile(Self) -> Bool
 fn Dirent::name(Self) -> String
-impl @js.JsImpl for Dirent
 
 #external
 pub type FileHandle
@@ -83,9 +82,7 @@ fn Stat::isDirectory(Self) -> Bool
 fn Stat::isFile(Self) -> Bool
 fn Stat::mtime_ms(Self) -> Float
 fn Stat::size(Self) -> Int
-impl @js.JsImpl for Stat
 
 // Type aliases
 
 // Traits
-

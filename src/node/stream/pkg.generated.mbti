@@ -36,12 +36,10 @@ fn Duplex::as_any(Self) -> @nostd.Any
 fn Duplex::from(@nostd.Any) -> Self
 fn Duplex::fromWeb(@nostd.Any) -> Self
 fn Duplex::toWeb(Self) -> @nostd.Any
-impl @js.JsImpl for Duplex
 
 #external
 pub type PassThrough
 fn PassThrough::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for PassThrough
 
 #external
 pub type Readable
@@ -67,17 +65,14 @@ fn Readable::setEncoding(Self, String) -> Self
 fn Readable::toWeb(Self) -> @streams.ReadableStream
 fn Readable::unpipe(Self, destination? : Writable) -> Self
 fn Readable::unshift(Self, @nostd.Any, encoding? : String) -> Unit
-impl @js.JsImpl for Readable
 
 #external
 pub type Stream
 fn Stream::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for Stream
 
 #external
 pub type Transform
 fn Transform::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for Transform
 
 #external
 pub type Writable
@@ -99,9 +94,7 @@ fn Writable::writableHighWaterMark(Self) -> Int
 fn Writable::writableLength(Self) -> Int
 fn Writable::writableObjectMode(Self) -> Bool
 fn Writable::write(Self, @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Bool
-impl @js.JsImpl for Writable
 
 // Type aliases
 
 // Traits
-

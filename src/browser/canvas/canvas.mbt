@@ -12,7 +12,9 @@ pub(all) struct CanvasRenderingContext2D {
 }
 
 ///|
-pub impl @js.JsImpl for CanvasRenderingContext2D
+pub extern "js" fn CanvasRenderingContext2D::as_any(
+  self : CanvasRenderingContext2D,
+) -> @nostd.Any = "%identity"
 
 ///|
 /// Drawing rectangles
@@ -24,7 +26,15 @@ pub fn CanvasRenderingContext2D::fillRect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self._call("fillRect", [x, y, width, height]) |> ignore
+  self
+  .as_any()
+  ._call("fillRect", [
+    x |> @nostd.any,
+    y |> @nostd.any,
+    width |> @nostd.any,
+    height |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -36,7 +46,15 @@ pub fn CanvasRenderingContext2D::strokeRect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self._call("strokeRect", [x, y, width, height]) |> ignore
+  self
+  .as_any()
+  ._call("strokeRect", [
+    x |> @nostd.any,
+    y |> @nostd.any,
+    width |> @nostd.any,
+    height |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -48,20 +66,28 @@ pub fn CanvasRenderingContext2D::clearRect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self._call("clearRect", [x, y, width, height]) |> ignore
+  self
+  .as_any()
+  ._call("clearRect", [
+    x |> @nostd.any,
+    y |> @nostd.any,
+    width |> @nostd.any,
+    height |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
 /// Drawing paths
 #alias(begin_path)
 pub fn CanvasRenderingContext2D::beginPath(self : Self) -> Unit {
-  self.call0("beginPath") |> ignore
+  self.as_any().call0("beginPath") |> ignore
 }
 
 ///|
 #alias(close_path)
 pub fn CanvasRenderingContext2D::closePath(self : Self) -> Unit {
-  self.call0("closePath") |> ignore
+  self.as_any().call0("closePath") |> ignore
 }
 
 ///|
@@ -71,7 +97,7 @@ pub fn CanvasRenderingContext2D::moveTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call2("moveTo", x, y) |> ignore
+  self.as_any()._call("moveTo", [x |> @nostd.any, y |> @nostd.any]) |> ignore
 }
 
 ///|
@@ -81,7 +107,7 @@ pub fn CanvasRenderingContext2D::lineTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call2("lineTo", x, y) |> ignore
+  self.as_any()._call("lineTo", [x |> @nostd.any, y |> @nostd.any]) |> ignore
 }
 
 ///|
@@ -97,8 +123,24 @@ pub fn CanvasRenderingContext2D::arc(
   let js = self.as_any()
   match counterclockwise {
     Some(ccw) =>
-      js._call("arc", [x, y, radius, start_angle, end_angle, ccw]) |> ignore
-    None => js._call("arc", [x, y, radius, start_angle, end_angle]) |> ignore
+      js._call("arc", [
+        x |> @nostd.any,
+        y |> @nostd.any,
+        radius |> @nostd.any,
+        start_angle |> @nostd.any,
+        end_angle |> @nostd.any,
+        ccw |> @nostd.any,
+      ])
+      |> ignore
+    None =>
+      js._call("arc", [
+        x |> @nostd.any,
+        y |> @nostd.any,
+        radius |> @nostd.any,
+        start_angle |> @nostd.any,
+        end_angle |> @nostd.any,
+      ])
+      |> ignore
   }
 }
 
@@ -111,7 +153,16 @@ pub fn CanvasRenderingContext2D::arcTo(
   y2 : Double,
   radius : Double,
 ) -> Unit {
-  self._call("arcTo", [x1, y1, x2, y2, radius]) |> ignore
+  self
+  .as_any()
+  ._call("arcTo", [
+    x1 |> @nostd.any,
+    y1 |> @nostd.any,
+    x2 |> @nostd.any,
+    y2 |> @nostd.any,
+    radius |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -124,7 +175,17 @@ pub fn CanvasRenderingContext2D::bezierCurveTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self._call("bezierCurveTo", [cp1x, cp1y, cp2x, cp2y, x, y]) |> ignore
+  self
+  .as_any()
+  ._call("bezierCurveTo", [
+    cp1x |> @nostd.any,
+    cp1y |> @nostd.any,
+    cp2x |> @nostd.any,
+    cp2y |> @nostd.any,
+    x |> @nostd.any,
+    y |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -135,7 +196,15 @@ pub fn CanvasRenderingContext2D::quadraticCurveTo(
   x : Double,
   y : Double,
 ) -> Unit {
-  self._call("quadraticCurveTo", [cpx, cpy, x, y]) |> ignore
+  self
+  .as_any()
+  ._call("quadraticCurveTo", [
+    cpx |> @nostd.any,
+    cpy |> @nostd.any,
+    x |> @nostd.any,
+    y |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -146,22 +215,30 @@ pub fn CanvasRenderingContext2D::rect(
   width : Double,
   height : Double,
 ) -> Unit {
-  self._call("rect", [x, y, width, height]) |> ignore
+  self
+  .as_any()
+  ._call("rect", [
+    x |> @nostd.any,
+    y |> @nostd.any,
+    width |> @nostd.any,
+    height |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::fill(self : Self) -> Unit {
-  self.call0("fill") |> ignore
+  self.as_any().call0("fill") |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::stroke(self : Self) -> Unit {
-  self.call0("stroke") |> ignore
+  self.as_any().call0("stroke") |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
-  self.call0("clip") |> ignore
+  self.as_any().call0("clip") |> ignore
 }
 
 ///|
@@ -175,8 +252,21 @@ pub fn CanvasRenderingContext2D::fillText(
 ) -> Unit {
   let js = self.as_any()
   match max_width {
-    Some(w) => js._call("fillText", [text, x, y, w]) |> ignore
-    None => js._call("fillText", [text, x, y]) |> ignore
+    Some(w) =>
+      js._call("fillText", [
+        text |> @nostd.any,
+        x |> @nostd.any,
+        y |> @nostd.any,
+        w |> @nostd.any,
+      ])
+      |> ignore
+    None =>
+      js._call("fillText", [
+        text |> @nostd.any,
+        x |> @nostd.any,
+        y |> @nostd.any,
+      ])
+      |> ignore
   }
 }
 
@@ -190,8 +280,21 @@ pub fn CanvasRenderingContext2D::strokeText(
 ) -> Unit {
   let js = self.as_any()
   match max_width {
-    Some(w) => js._call("strokeText", [text, x, y, w]) |> ignore
-    None => js._call("strokeText", [text, x, y]) |> ignore
+    Some(w) =>
+      js._call("strokeText", [
+        text |> @nostd.any,
+        x |> @nostd.any,
+        y |> @nostd.any,
+        w |> @nostd.any,
+      ])
+      |> ignore
+    None =>
+      js._call("strokeText", [
+        text |> @nostd.any,
+        x |> @nostd.any,
+        y |> @nostd.any,
+      ])
+      |> ignore
   }
 }
 
@@ -200,7 +303,7 @@ pub fn CanvasRenderingContext2D::measureText(
   self : Self,
   text : String,
 ) -> TextMetrics {
-  self._call("measureText", [text]).cast()
+  self.as_any()._call("measureText", [text |> @nostd.any]).cast()
 }
 
 ///|
@@ -210,12 +313,12 @@ pub fn CanvasRenderingContext2D::scale(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call2("scale", x, y) |> ignore
+  self.as_any()._call("scale", [x |> @nostd.any, y |> @nostd.any]) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::rotate(self : Self, angle : Double) -> Unit {
-  self._call("rotate", [angle]) |> ignore
+  self.as_any()._call("rotate", [angle |> @nostd.any]) |> ignore
 }
 
 ///|
@@ -224,7 +327,7 @@ pub fn CanvasRenderingContext2D::translate(
   x : Double,
   y : Double,
 ) -> Unit {
-  self.call2("translate", x, y) |> ignore
+  self.as_any()._call("translate", [x |> @nostd.any, y |> @nostd.any]) |> ignore
 }
 
 ///|
@@ -237,7 +340,17 @@ pub fn CanvasRenderingContext2D::transform(
   e : Double,
   f : Double,
 ) -> Unit {
-  self._call("transform", [a, b, c, d, e, f]) |> ignore
+  self
+  .as_any()
+  ._call("transform", [
+    a |> @nostd.any,
+    b |> @nostd.any,
+    c |> @nostd.any,
+    d |> @nostd.any,
+    e |> @nostd.any,
+    f |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -250,41 +363,61 @@ pub fn CanvasRenderingContext2D::setTransform(
   e : Double,
   f : Double,
 ) -> Unit {
-  self._call("setTransform", [a, b, c, d, e, f]) |> ignore
+  self
+  .as_any()
+  ._call("setTransform", [
+    a |> @nostd.any,
+    b |> @nostd.any,
+    c |> @nostd.any,
+    d |> @nostd.any,
+    e |> @nostd.any,
+    f |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
-  self.call0("resetTransform") |> ignore
+  self.as_any().call0("resetTransform") |> ignore
 }
 
 ///|
 /// Drawing images
 pub fn CanvasRenderingContext2D::drawImage(
   self : Self,
-  image : &@js.JsImpl,
+  image : @nostd.Any,
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self._call("drawImage", [image.as_any(), dx, dy]) |> ignore
+  self.as_any()._call("drawImage", [image, dx |> @nostd.any, dy |> @nostd.any])
+  |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::drawImageScaled(
   self : Self,
-  image : &@js.JsImpl,
+  image : @nostd.Any,
   dx : Double,
   dy : Double,
   d_width : Double,
   d_height : Double,
 ) -> Unit {
-  self._call("drawImage", [image.as_any(), dx, dy, d_width, d_height]) |> ignore
+  self
+  .as_any()
+  ._call("drawImage", [
+    image,
+    dx |> @nostd.any,
+    dy |> @nostd.any,
+    d_width |> @nostd.any,
+    d_height |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::drawImageSub(
   self : Self,
-  image : &@js.JsImpl,
+  image : @nostd.Any,
   sx : Double,
   sy : Double,
   s_width : Double,
@@ -297,15 +430,15 @@ pub fn CanvasRenderingContext2D::drawImageSub(
   self
   .as_any()
   ._call("drawImage", [
-    image.as_any(),
-    sx,
-    sy,
-    s_width,
-    s_height,
-    dx,
-    dy,
-    d_width,
-    d_height,
+    image,
+    sx |> @nostd.any,
+    sy |> @nostd.any,
+    s_width |> @nostd.any,
+    s_height |> @nostd.any,
+    dx |> @nostd.any,
+    dy |> @nostd.any,
+    d_width |> @nostd.any,
+    d_height |> @nostd.any,
   ])
   |> ignore
 }
@@ -319,7 +452,15 @@ pub fn CanvasRenderingContext2D::getImageData(
   sw : Double,
   sh : Double,
 ) -> ImageData {
-  self._call("getImageData", [sx, sy, sw, sh]).cast()
+  self
+  .as_any()
+  ._call("getImageData", [
+    sx |> @nostd.any,
+    sy |> @nostd.any,
+    sw |> @nostd.any,
+    sh |> @nostd.any,
+  ])
+  .cast()
 }
 
 ///|
@@ -329,7 +470,14 @@ pub fn CanvasRenderingContext2D::putImageData(
   dx : Double,
   dy : Double,
 ) -> Unit {
-  self._call("putImageData", [image_data.as_any(), dx, dy]) |> ignore
+  self
+  .as_any()
+  ._call("putImageData", [
+    image_data |> @nostd.any,
+    dx |> @nostd.any,
+    dy |> @nostd.any,
+  ])
+  |> ignore
 }
 
 ///|
@@ -338,18 +486,21 @@ pub fn CanvasRenderingContext2D::createImageData(
   width : Int,
   height : Int,
 ) -> ImageData {
-  self.call2("createImageData", width, height).cast()
+  self
+  .as_any()
+  ._call("createImageData", [width |> @nostd.any, height |> @nostd.any])
+  .cast()
 }
 
 ///|
 /// State
 pub fn CanvasRenderingContext2D::save(self : Self) -> Unit {
-  self.call0("save") |> ignore
+  self.as_any()._call("save", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::restore(self : Self) -> Unit {
-  self.call0("restore") |> ignore
+  self.as_any()._call("restore", []) |> ignore
 }
 
 ///|
@@ -359,18 +510,12 @@ pub(all) struct TextMetrics {
 }
 
 ///|
-pub impl @js.JsImpl for TextMetrics
-
-///|
 /// ImageData
 pub(all) struct ImageData {
   width : Int
   height : Int
   data : @typedarray.Uint8Array
 }
-
-///|
-pub impl @js.JsImpl for ImageData
 
 ///|
 extern "js" fn ffi_new_image_data(
@@ -389,7 +534,7 @@ extern "js" fn ffi_new_image_data_with_data(
 
 ///|
 pub fn ImageData::new(width : Int, height : Int) -> ImageData {
-  @js.identity(ffi_new_image_data(width |> @js.any, height |> @js.any))
+  @nostd.identity(ffi_new_image_data(width |> @nostd.any, height |> @nostd.any))
 }
 
 ///|
@@ -398,11 +543,11 @@ pub fn ImageData::from_data(
   width : Int,
   height : Int,
 ) -> ImageData {
-  @js.identity(
+  @nostd.identity(
     ffi_new_image_data_with_data(
-      data.as_any(),
-      width |> @js.any,
-      height |> @js.any,
+      data |> @nostd.any,
+      width |> @nostd.any,
+      height |> @nostd.any,
     ),
   )
 }
@@ -415,7 +560,7 @@ pub(all) struct ImageBitmap {
 }
 
 ///|
-pub impl @js.JsImpl for ImageBitmap
+pub extern "js" fn ImageBitmap::as_any(self : ImageBitmap) -> @nostd.Any = "%identity"
 
 ///|
 pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @nostd.Any {
@@ -424,7 +569,7 @@ pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @nos
 
 ///|
 pub fn ImageBitmap::close(self : Self) -> Unit {
-  self.call0("close") |> ignore
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -444,14 +589,14 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 
 ///|
 #alias(create_image_bitmap)
-pub fn createImageBitmap(image : &@js.JsImpl) -> ImageBitmap {
-  @js.identity(ffi_create_image_bitmap(image.as_any()))
+pub fn createImageBitmap(image : @nostd.Any) -> ImageBitmap {
+  @js.identity(ffi_create_image_bitmap(image))
 }
 
 ///|
 #alias(create_image_bitmap_rect)
 pub async fn createImageBitmapRect(
-  image : &@js.JsImpl,
+  image : @nostd.Any,
   sx : Int,
   sy : Int,
   sw : Int,
@@ -459,11 +604,11 @@ pub async fn createImageBitmapRect(
 ) -> ImageBitmap {
   let promise : @js.Promise[ImageBitmap] = @js.identity(
     ffi_create_image_bitmap_with_rect(
-      image.as_any(),
-      sx |> @js.any,
-      sy |> @js.any,
-      sw |> @js.any,
-      sh |> @js.any,
+      image,
+      sx |> @nostd.any,
+      sy |> @nostd.any,
+      sw |> @nostd.any,
+      sh |> @nostd.any,
     ),
   )
   promise.wait()

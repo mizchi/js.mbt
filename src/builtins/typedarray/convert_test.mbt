@@ -3,7 +3,7 @@
 ///|
 test "bytes_to_uint8array - basic conversion" {
   let bytes = Bytes::from_array([1, 2, 3, 4, 5])
-  let uint8array = bytes_to_uint8array(bytes)
+  let uint8array = bytes_to_uint8array(bytes).as_typed_array()
   assert_eq(uint8array.length(), 5)
   assert_eq(uint8array.get_at(0), 1)
   assert_eq(uint8array.get_at(4), 5)
@@ -21,7 +21,7 @@ test "uint8array_to_bytes - basic conversion" {
 ///|
 test "Uint8Array::from_bytes - static method" {
   let bytes = Bytes::from_array([100, 101, 102])
-  let uint8array = Uint8Array::from_bytes(bytes)
+  let uint8array = Uint8Array::from_bytes(bytes).as_typed_array()
   assert_eq(uint8array.length(), 3)
   assert_eq(uint8array.get_at(0), 100)
   assert_eq(uint8array.get_at(2), 102)
@@ -51,13 +51,13 @@ test "round-trip conversion - Bytes -> Uint8Array -> Bytes" {
 test "round-trip conversion - Uint8Array -> Bytes -> Uint8Array" {
   let original = Uint8Array::from_array([10, 20, 30, 40, 50, 60])
   let bytes = uint8array_to_bytes(original)
-  let result = bytes_to_uint8array(bytes)
-  assert_eq(result.length(), original.length())
-  let len = original.length().reinterpret_as_int()
+  let result = bytes_to_uint8array(bytes).as_typed_array()
+  assert_eq(result.length(), original.as_typed_array().length())
+  let len = original.as_typed_array().length().reinterpret_as_int()
   for i = 0; i < len; i = i + 1 {
     assert_eq(
       result.get_at(i.reinterpret_as_uint()),
-      original.get_at(i.reinterpret_as_uint()),
+      original.as_typed_array().get_at(i.reinterpret_as_uint()),
     )
   }
 }
@@ -65,7 +65,7 @@ test "round-trip conversion - Uint8Array -> Bytes -> Uint8Array" {
 ///|
 test "empty Bytes to Uint8Array" {
   let bytes = Bytes::from_array([])
-  let uint8array = bytes_to_uint8array(bytes)
+  let uint8array = bytes_to_uint8array(bytes).as_typed_array()
   assert_eq(uint8array.length(), 0)
 }
 
@@ -79,7 +79,7 @@ test "empty Uint8Array to Bytes" {
 ///|
 test "modifications are shared - Bytes and Uint8Array share memory" {
   let bytes = Bytes::from_array([1, 2, 3])
-  let uint8array = bytes_to_uint8array(bytes)
+  let uint8array = bytes_to_uint8array(bytes).as_typed_array()
 
   // Modify via Uint8Array
   uint8array.set_at(1, 99)

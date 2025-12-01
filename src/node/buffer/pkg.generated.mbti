@@ -13,7 +13,7 @@ import(
 // Types and methods
 #external
 pub type Buffer
-fn Buffer::alloc(Int, fill? : &@js.JsImpl, encoding? : String) -> Self
+fn Buffer::alloc(Int, fill? : @nostd.Any, encoding? : String) -> Self
 #alias(alloc_unsafe)
 fn Buffer::allocUnsafe(Int) -> Self
 fn Buffer::as_any(Self) -> @nostd.Any
@@ -27,20 +27,20 @@ fn Buffer::compare_with(Self, Self, target_start? : Int, target_end? : Int, sour
 fn Buffer::concat(Array[Self], total_length? : Int) -> Self
 fn Buffer::copy(Self, Self, target_start? : Int, source_start? : Int, source_end? : Int) -> Int
 fn Buffer::equals(Self, Self) -> Bool
-fn Buffer::fill(Self, &@js.JsImpl, offset? : Int, end? : Int, encoding? : String) -> Self
+fn Buffer::fill(Self, @nostd.Any, offset? : Int, end? : Int, encoding? : String) -> Self
 fn Buffer::from_array(Array[Int]) -> Self
 fn Buffer::from_arraybuffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 fn Buffer::from_buffer(Self) -> Self
 fn Buffer::from_string(String, encoding? : String) -> Self
-fn Buffer::includes(Self, &@js.JsImpl, byte_offset? : Int, encoding? : String) -> Bool
+fn Buffer::includes(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Bool
 #alias(index_of)
-fn Buffer::indexOf(Self, &@js.JsImpl, byte_offset? : Int, encoding? : String) -> Int
+fn Buffer::indexOf(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Int
 #alias(is_buffer)
-fn Buffer::isBuffer(&@js.JsImpl) -> Bool
+fn Buffer::isBuffer(@nostd.Any) -> Bool
 #alias(is_encoding)
 fn Buffer::isEncoding(String) -> Bool
 #alias(last_index_of)
-fn Buffer::lastIndexOf(Self, &@js.JsImpl, byte_offset? : Int, encoding? : String) -> Int
+fn Buffer::lastIndexOf(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Int
 fn Buffer::length(Self) -> Int
 fn Buffer::slice(Self, start? : Int, end? : Int) -> Self
 fn Buffer::subarray(Self, start? : Int, end? : Int) -> Self
@@ -49,16 +49,13 @@ fn Buffer::toJSON(Self) -> BufferJSON
 #alias(to_string)
 fn Buffer::toString(Self, encoding? : String, start? : Int, end? : Int) -> String
 fn Buffer::write(Self, String, offset? : Int, length? : Int, encoding? : String) -> Int
-impl @js.JsImpl for Buffer
 
 #external
 pub type BufferJSON
 fn BufferJSON::as_any(Self) -> @nostd.Any
 fn BufferJSON::data(Self) -> Array[Int]
 fn BufferJSON::type_(Self) -> String
-impl @js.JsImpl for BufferJSON
 
 // Type aliases
 
 // Traits
-

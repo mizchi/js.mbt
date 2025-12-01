@@ -113,7 +113,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   }
 
   // Make request
-  let client_req = @http._get("http://127.0.0.1:\{port}/", callback=fn(
+  let client_req = @http.get("http://127.0.0.1:\{port}/", callback=fn(
     _res : @http.IncomingMessage,
   ) {
     response_received = true

@@ -22,7 +22,6 @@ fn request(String, (@nostd.Any) -> Unit, method_? : String, host? : String, port
 #external
 pub type Agent
 fn Agent::new(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
-impl @js.JsImpl for Agent
 
 #external
 pub type ClientRequest
@@ -30,7 +29,6 @@ fn ClientRequest::as_any(Self) -> @nostd.Any
 fn ClientRequest::as_event_target(Self) -> @event.EventTarget
 fn ClientRequest::end(Self) -> Unit
 fn ClientRequest::write(Self, String) -> Unit
-impl @js.JsImpl for ClientRequest
 impl @event.EventTargetImpl for ClientRequest
 
 #external
@@ -39,10 +37,8 @@ fn Server::as_any(Self) -> @nostd.Any
 fn Server::as_event_target(Self) -> @event.EventTarget
 fn Server::close(Self, () -> Unit) -> Unit
 fn Server::listen(Self, Int, () -> Unit) -> Unit
-impl @js.JsImpl for Server
 impl @event.EventTargetImpl for Server
 
 // Type aliases
 
 // Traits
-

@@ -6,7 +6,7 @@ test "WeakMap::set and get - store and retrieve values" {
   let key : @nostd.Any = @nostd.Object::new() |> @js.identity
   let value = @nostd.any("test value")
   wm.set(key, value) |> ignore
-  let result = wm._get(key)
+  let result = wm.get(key)
   assert_false(result is None)
 }
 
@@ -38,7 +38,7 @@ test "WeakMap::delete - remove a key-value pair" {
 test "WeakMap::get - return None for non-existent key" {
   let wm : WeakMap[@nostd.Any, @nostd.Any] = WeakMap::new()
   let key : @nostd.Any = @nostd.Object::new() |> @js.identity
-  let result = wm._get(key)
+  let result = wm.get(key)
   assert_true(result is None)
 }
 

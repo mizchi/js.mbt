@@ -3,6 +3,7 @@
   "is_main": false,
   "import": [
     "mizchi/js",
+    "mizchi/js/nostd",
     "mizchi/js/web/blob",
     "mizchi/js/builtins/typedarray",
     "mizchi/js/web/worker",

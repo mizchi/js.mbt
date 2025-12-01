@@ -14,9 +14,6 @@ pub type WasiModule
 pub fn WasiModule::as_any(self : WasiModule) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for WasiModule
-
-///|
 /// Get wasi module
 fn wasi_module() -> WasiModule {
   wasi_module_ffi().cast()
@@ -35,9 +32,6 @@ pub type WASI
 
 ///|
 pub fn WASI::as_any(self : WASI) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for WASI
 
 ///|
 /// Create a new WASI instance

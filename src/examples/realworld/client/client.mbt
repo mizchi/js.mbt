@@ -8,7 +8,7 @@
 pub type ApiClient
 
 ///|
-pub impl @js.JsImpl for ApiClient
+pub fn ApiClient::as_any(self : ApiClient) -> @nostd.Any = "%identity"
 
 ///|
 /// Create a new API client
@@ -21,21 +21,21 @@ pub fn create_api_client(base_url : String) -> ApiClient {
 ///|
 /// Fetch todos from API
 pub async fn ApiClient::fetch_todos(self : ApiClient) -> Array[@nostd.Any] {
-  let base_url : String = self._get("baseUrl").cast()
+  let base_url : String = self.as_any()["baseUrl"].cast()
   ffi_fetch_json(base_url + "/api/todos").wait() |> @js.identity
 }
 
 ///|
 /// Add a new todo
 pub async fn ApiClient::add_todo(self : ApiClient, title : String) -> Unit {
-  let base_url : String = self._get("baseUrl").cast()
+  let base_url : String = self.as_any()["baseUrl"].cast()
   ffi_post_json(base_url + "/api/todos", title).wait()
 }
 
 ///|
 /// Delete a todo
 pub async fn ApiClient::delete_todo(self : ApiClient, id : Int) -> Unit {
-  let base_url : String = self._get("baseUrl").cast()
+  let base_url : String = self.as_any()["baseUrl"].cast()
   ffi_delete(base_url + "/api/todos/" + id.to_string()).wait()
 }
 

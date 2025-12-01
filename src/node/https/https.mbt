@@ -7,9 +7,6 @@
 pub type Agent
 
 ///|
-pub impl @js.JsImpl for Agent
-
-///|
 extern "js" fn ffi_new_agent(options : @nostd.Any) -> Agent =
   #| (options) => {
   #|   const https = require('https');
@@ -50,9 +47,6 @@ pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @js.JsImpl for Server
 
 ///|
 pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
@@ -116,9 +110,6 @@ pub fn ClientRequest::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for ClientRequest
-
-///|
 pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @nostd.Any {
   self.as_any()
 }
@@ -162,7 +153,7 @@ pub fn request(
     obj.set("path", v)
   }
   if agent is Some(v) {
-    obj.set("agent", v.as_any())
+    obj.set("agent", v |> @nostd.any)
   }
   if rejectUnauthorized is Some(v) {
     obj.set("rejectUnauthorized", v)

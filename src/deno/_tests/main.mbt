@@ -517,7 +517,7 @@ fn main {
     let msg = @nostd.Object::new()
     msg.set("a", 3)
     msg.set("b", 4)
-    let result = worker_round_trip(worker, msg.as_any())
+    let result = worker_round_trip(worker, @nostd.any(msg))
     let sum : Int = @js.identity(result._get("sum"))
     let product : Int = @js.identity(result._get("product"))
     assert_eq(sum, 7)

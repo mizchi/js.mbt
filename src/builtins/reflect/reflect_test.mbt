@@ -3,8 +3,8 @@ test "Reflect.get" {
   let obj = @nostd.Object::new()
   obj._set("name", @nostd.any("Alice"))
   obj._set("age", @nostd.any(30))
-  let name = @reflect._get(obj, @nostd.any("name"), None)
-  let age = @reflect._get(obj, @nostd.any("age"), None)
+  let name = @reflect.get(obj, @nostd.any("name"), None)
+  let age = @reflect.get(obj, @nostd.any("age"), None)
   assert_eq(@nostd.identity(name), "Alice")
   assert_eq(@nostd.identity(age), 30)
 }
@@ -131,7 +131,7 @@ test "Reflect.get with receiver" {
   let obj = @nostd.Object::new()
   obj._set("value", @nostd.any(100))
   let receiver = @nostd.Object::new()
-  let result = @reflect._get(obj, @nostd.any("value"), Some(receiver))
+  let result = @reflect.get(obj, @nostd.any("value"), Some(receiver))
   assert_eq(@nostd.identity(result), 100)
 }
 
@@ -155,7 +155,7 @@ test "Reflect operations on frozen object" {
   assert_false(delete_result)
 
   // Can still read properties
-  let value = @reflect._get(obj, @nostd.any("frozen"), None)
+  let value = @reflect.get(obj, @nostd.any("frozen"), None)
   assert_eq(@nostd.identity(value), true)
 
   // Frozen object is not extensible

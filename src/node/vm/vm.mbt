@@ -16,9 +16,10 @@ extern "js" fn vm_module() -> @nostd.Any =
 pub type Script
 
 ///|
-/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
-pub impl @js.JsImpl for Script
+pub fn Script::as_any(self : Script) -> @nostd.Any = "%identity"
 
+///|
+/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 ///|
 /// Create a new Script object
 pub fn Script::new(
@@ -61,7 +62,7 @@ pub fn Script::runInThisContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  @nostd.any(self)._call("runInThisContext", [options]).cast()
+  self.as_any()._call("runInThisContext", [options]).cast()
 }
 
 ///|
@@ -92,10 +93,10 @@ pub fn Script::runInNewContext(
   })
   match contextObject {
     Some(ctx) =>
-      @nostd.any(self)
+      self.as_any()
       ._call("runInNewContext", [@nostd.any(ctx), options])
       .cast()
-    None => @nostd.any(self)._call("runInNewContext", [options]).cast()
+    None => self.as_any()._call("runInNewContext", [options]).cast()
   }
 }
 
@@ -119,7 +120,7 @@ pub fn Script::runInContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  @nostd.any(self)
+  self.as_any()
   ._call("runInContext", [@nostd.any(contextifiedObject), options])
   .cast()
 }
@@ -127,19 +128,19 @@ pub fn Script::runInContext(
 ///|
 /// Create cached data
 pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
-  @nostd.any(self)._call("createCachedData", []).cast()
+  self.as_any()._call("createCachedData", []).cast()
 }
 
 ///|
 /// Get cachedDataRejected property
 pub fn Script::cachedDataRejected(self : Script) -> Bool? {
-  @nostd.any(self)["cachedDataRejected"] |> @nostd.identity_option
+  self.as_any()["cachedDataRejected"] |> @nostd.identity_option
 }
 
 ///|
 /// Get sourceMapURL property
 pub fn Script::sourceMapURL(self : Script) -> String? {
-  @nostd.any(self)["sourceMapURL"] |> @nostd.identity_option
+  self.as_any()["sourceMapURL"] |> @nostd.identity_option
 }
 
 ///| Module functions

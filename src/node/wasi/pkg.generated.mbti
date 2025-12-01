@@ -20,14 +20,11 @@ fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
 fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
 fn WASI::wasiImport(Self) -> @nostd.Any
-impl @js.JsImpl for WASI
 
 #external
 pub type WasiModule
 fn WasiModule::as_any(Self) -> @nostd.Any
-impl @js.JsImpl for WasiModule
 
 // Type aliases
 
 // Traits
-

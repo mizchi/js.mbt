@@ -15,9 +15,6 @@ pub type HeapStatistics
 pub fn HeapStatistics::as_any(self : HeapStatistics) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for HeapStatistics
-
-///|
 pub fn HeapStatistics::total_heap_size(self : HeapStatistics) -> Int {
   self.as_any()._get("total_heap_size") |> @js.identity
 }
@@ -89,9 +86,6 @@ pub fn HeapCodeStatistics::as_any(self : HeapCodeStatistics) -> @nostd.Any =
   "%identity"
 
 ///|
-pub impl @js.JsImpl for HeapCodeStatistics
-
-///|
 pub fn HeapCodeStatistics::code_and_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
@@ -127,9 +121,6 @@ pub type HeapSpaceStatistics
 ///|
 pub fn HeapSpaceStatistics::as_any(self : HeapSpaceStatistics) -> @nostd.Any =
   "%identity"
-
-///|
-pub impl @js.JsImpl for HeapSpaceStatistics
 
 ///|
 pub fn HeapSpaceStatistics::space_name(self : HeapSpaceStatistics) -> String {
@@ -231,9 +222,9 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 
 ///|
 /// Serialize a value to a Buffer
-pub fn serialize(value : &@js.JsImpl) -> @buffer.Buffer {
+pub fn serialize(value : @nostd.Any) -> @buffer.Buffer {
   let v8 = ffi_require_v8()
-  @js.identity(v8._call("serialize", [@nostd.any(value)]))
+  @js.identity(v8._call("serialize", [value]))
 }
 
 ///|
@@ -251,9 +242,6 @@ pub type Serializer
 
 ///|
 pub fn Serializer::as_any(self : Serializer) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for Serializer
 
 ///|
 extern "js" fn ffi_new_serializer() -> @nostd.Any =
@@ -275,8 +263,8 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 ///|
 /// Write a value
 #alias(write_value)
-pub fn Serializer::writeValue(self : Self, value : &@js.JsImpl) -> Bool {
-  self.as_any()._call("writeValue", [@nostd.any(value)]).cast()
+pub fn Serializer::writeValue(self : Self, value : @nostd.Any) -> Bool {
+  self.as_any()._call("writeValue", [value]).cast()
 }
 
 ///|
@@ -317,8 +305,8 @@ pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
 ///|
 /// Write raw bytes
 #alias(writeRawBytes)
-pub fn Serializer::write_raw_bytes(self : Self, buffer : &@js.JsImpl) -> Unit {
-  self.as_any()._call("writeRawBytes", [@nostd.any(buffer)]) |> ignore
+pub fn Serializer::write_raw_bytes(self : Self, buffer : @nostd.Any) -> Unit {
+  self.as_any()._call("writeRawBytes", [buffer]) |> ignore
 }
 
 ///| Deserializer Class
@@ -329,9 +317,6 @@ pub type Deserializer
 
 ///|
 pub fn Deserializer::as_any(self : Deserializer) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for Deserializer
 
 ///|
 extern "js" fn ffi_new_deserializer(buffer : @nostd.Any) -> @nostd.Any =

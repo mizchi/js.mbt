@@ -8,10 +8,7 @@
 pub type Worker
 
 ///|
-pub impl @js.JsImpl for Worker
-
-///|
-pub impl @events.EventEmitterImpl for Worker
+pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
 
 ///|
 /// MessagePort represents a message port for communication
@@ -19,10 +16,7 @@ pub impl @events.EventEmitterImpl for Worker
 pub type MessagePort
 
 ///|
-pub impl @js.JsImpl for MessagePort
-
-///|
-pub impl @events.EventEmitterImpl for MessagePort
+pub fn MessagePort::as_any(self : MessagePort) -> @nostd.Any = "%identity"
 
 ///|
 /// Module Functions
@@ -65,13 +59,16 @@ pub fn Worker::new(
 /// https://nodejs.org/api/worker_threads.html#workerpostmessagevalue-transferlist
 pub fn Worker::postMessage(
   self : Worker,
-  value : &@js.JsImpl,
-  transferList? : Array[&@js.JsImpl],
+  value : @nostd.Any,
+  transferList? : Array[@nostd.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.call2("postMessage", value.as_any(), @js.from_array(list)) |> ignore
-    None => self._call("postMessage", [value.as_any()]) |> ignore
+      self
+      .as_any()
+      .call2("postMessage", value, @js.from_array(list))
+      |> ignore
+    None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
 
@@ -79,69 +76,72 @@ pub fn Worker::postMessage(
 /// Terminate the worker
 /// https://nodejs.org/api/worker_threads.html#workerterminate
 pub fn Worker::terminate(self : Worker) -> Unit {
-  self.call0("terminate") |> ignore
+  self.as_any().call0("terminate") |> ignore
 }
 
 ///|
 /// Prevent the worker from keeping the event loop active
 pub fn Worker::unref(self : Worker) -> Unit {
-  self.call0("unref") |> ignore
+  self.as_any().call0("unref") |> ignore
 }
 
 ///|
 /// Require the worker to keep the event loop active
 pub fn Worker::ref_(self : Worker) -> Unit {
-  self.call0("ref") |> ignore
+  self.as_any().call0("ref") |> ignore
 }
 
 ///|
 /// Get the threadId of the worker
 pub fn Worker::threadId(self : Worker) -> Int {
-  self._get("threadId").cast()
+  self.as_any()._get("threadId").cast()
 }
 
 ///|
 /// Get the stdin stream of the worker (if enabled)
 pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
-  self._get("stdin") |> @js.identity_option()
+  self.as_any()._get("stdin") |> @js.identity_option()
 }
 
 ///|
 /// Get the stdout stream of the worker (if enabled)
 pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
-  self._get("stdout") |> @js.identity_option()
+  self.as_any()._get("stdout") |> @js.identity_option()
 }
 
 ///|
 /// Get the stderr stream of the worker (if enabled)
 pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
-  self._get("stderr") |> @js.identity_option()
+  self.as_any()._get("stderr") |> @js.identity_option()
 }
 
 ///|
 /// MessagePort methods
 pub fn MessagePort::postMessage(
   self : MessagePort,
-  value : &@js.JsImpl,
-  transferList? : Array[&@js.JsImpl],
+  value : @nostd.Any,
+  transferList? : Array[@nostd.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.call2("postMessage", value.as_any(), @js.from_array(list)) |> ignore
-    None => self._call("postMessage", [value.as_any()]) |> ignore
+      self
+      .as_any()
+      .call2("postMessage", value, @js.from_array(list))
+      |> ignore
+    None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
 
 ///|
 /// Start receiving messages on this MessagePort
 pub fn MessagePort::start(self : MessagePort) -> Unit {
-  self.call0("start") |> ignore
+  self.as_any().call0("start") |> ignore
 }
 
 ///|
 /// Close the MessagePort
 pub fn MessagePort::close(self : MessagePort) -> Unit {
-  self.call0("close") |> ignore
+  self.as_any().call0("close") |> ignore
 }
 
 ///|

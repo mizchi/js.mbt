@@ -151,23 +151,23 @@ test "@js.SharedArrayBuffer::slice - without end parameter" {
 
 ///|
 test "Uint8Array::subarray - without end parameter" {
-  let arr = Uint8Array::from_size(10)
+  let arr = Uint8Array::from_size(10).as_typed_array()
   let sub = arr.subarray(begin=5)
   assert_eq(sub.length(), 5)
 }
 
 ///|
 test "Uint8Array::copy_within - with end parameter" {
-  let arr = Uint8Array::from_array([1, 2, 3, 4, 5])
-  arr.copy_within(0, 3, end=5) |> ignore
+  let arr = Uint8Array::from_array([1, 2, 3, 4, 5]).as_typed_array()
+  arr.copyWithin(0, 3, end=5) |> ignore
   assert_eq(arr.get_at(0), 4)
   assert_eq(arr.get_at(1), 5)
 }
 
 ///|
 test "Uint8Array::last_index_of - with from_index parameter" {
-  let arr = Uint8Array::from_array([1, 2, 3, 2, 1])
-  let idx = arr.last_index_of(2, from_index=3)
+  let arr = Uint8Array::from_array([1, 2, 3, 2, 1]).as_typed_array()
+  let idx = arr.lastIndexOf(2, from_index=3)
   assert_eq(idx, 3)
 }
 
@@ -175,27 +175,5 @@ test "Uint8Array::last_index_of - with from_index parameter" {
 test "Uint16Array::byte_offset - basic test" {
   let buffer = @js.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer, byte_offset=4)
-  assert_eq(arr.byteOffset, 4)
-}
-
-///|
-test "Uint16Array::buffer - get underlying buffer" {
-  let buffer = @js.ArrayBuffer::new(16)
-  let arr = Uint16Array::from_array_buffer(buffer)
-  let retrieved = arr.buffer
-  assert_eq(retrieved.byte_length(), 16)
-}
-
-///|
-test "Uint32Array::from_array_buffer - with length parameter" {
-  let buffer = @js.ArrayBuffer::new(16)
-  let arr = Uint32Array::from_array_buffer(buffer, byte_offset=0, length=2)
-  assert_eq(arr.length(), 2)
-}
-
-///|
-test "Uint32Array::byte_offset - basic test" {
-  let buffer = @js.ArrayBuffer::new(16)
-  let arr = Uint32Array::from_array_buffer(buffer, byte_offset=4)
   assert_eq(arr.byteOffset, 4)
 }

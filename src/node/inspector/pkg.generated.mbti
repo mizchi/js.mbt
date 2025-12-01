@@ -22,7 +22,6 @@ fn wait_for_debugger() -> Unit
 
 // Types and methods
 pub type Console
-impl @js.JsImpl for Console
 
 pub type Session
 fn Session::as_any(Self) -> @nostd.Any
@@ -32,10 +31,8 @@ fn Session::connect_to_main_thread(Self) -> Unit
 fn Session::disconnect(Self) -> Unit
 fn Session::new() -> Self
 fn Session::post(Self, String, @js.Object?, (@js.Object?, @js.Object) -> Unit) -> Unit
-impl @js.JsImpl for Session
 impl @event.EventTargetImpl for Session
 
 // Type aliases
 
 // Traits
-

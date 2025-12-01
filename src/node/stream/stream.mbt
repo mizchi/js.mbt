@@ -11,17 +11,11 @@ pub type Stream
 pub fn Stream::as_any(self : Stream) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Stream
-
-///|
 #external
 pub type Readable
 
 ///|
 pub fn Readable::as_any(self : Readable) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for Readable
 
 ///|
 /// Readable stream methods
@@ -159,9 +153,6 @@ pub type Writable
 pub fn Writable::as_any(self : Writable) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Writable
-
-///|
 /// Writable stream methods
 pub fn Writable::write(
   self : Writable,
@@ -297,9 +288,6 @@ pub type Duplex
 pub fn Duplex::as_any(self : Duplex) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Duplex
-
-///|
 /// Duplex stream properties
 pub fn Duplex::allowHalfOpen(self : Duplex) -> Bool {
   @nostd.any(self)["allowHalfOpen"].cast()
@@ -329,17 +317,11 @@ pub type Transform
 pub fn Transform::as_any(self : Transform) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Transform
-
-///|
 #external
 pub type PassThrough
 
 ///|
 pub fn PassThrough::as_any(self : PassThrough) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for PassThrough
 
 ///|
 extern "js" fn ffi_pipeline(

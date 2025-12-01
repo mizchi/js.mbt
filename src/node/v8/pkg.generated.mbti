@@ -24,7 +24,7 @@ fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics]
 #alias(get_heap_statistics)
 fn getHeapStatistics() -> HeapStatistics
 
-fn serialize(&@js.JsImpl) -> @buffer.Buffer
+fn serialize(@nostd.Any) -> @buffer.Buffer
 
 #alias(set_flags_from_string)
 fn setFlagsFromString(String) -> Unit
@@ -61,27 +61,28 @@ fn Deserializer::readUint32(Self) -> Int
 fn Deserializer::readValue(Self) -> @nostd.Any
 #alias(transferArrayBuffer)
 fn Deserializer::transfer_array_buffer(Self, Int, @js.ArrayBuffer) -> Unit
-impl @js.JsImpl for Deserializer
+fn Deserializer::as_any(Self) -> @nostd.Any
 
 #external
 pub type HeapCodeStatistics
+fn HeapCodeStatistics::as_any(Self) -> @nostd.Any
 fn HeapCodeStatistics::bytecode_and_metadata_size(Self) -> Int
 fn HeapCodeStatistics::code_and_metadata_size(Self) -> Int
 fn HeapCodeStatistics::cpu_profiler_metadata_size(Self) -> Int
 fn HeapCodeStatistics::external_script_source_size(Self) -> Int
-impl @js.JsImpl for HeapCodeStatistics
 
 #external
 pub type HeapSpaceStatistics
+fn HeapSpaceStatistics::as_any(Self) -> @nostd.Any
 fn HeapSpaceStatistics::physical_space_size(Self) -> Int
 fn HeapSpaceStatistics::space_available_size(Self) -> Int
 fn HeapSpaceStatistics::space_name(Self) -> String
 fn HeapSpaceStatistics::space_size(Self) -> Int
 fn HeapSpaceStatistics::space_used_size(Self) -> Int
-impl @js.JsImpl for HeapSpaceStatistics
 
 #external
 pub type HeapStatistics
+fn HeapStatistics::as_any(Self) -> @nostd.Any
 fn HeapStatistics::does_zap_garbage(Self) -> Int
 fn HeapStatistics::external_memory(Self) -> Int
 fn HeapStatistics::heap_size_limit(Self) -> Int
@@ -94,10 +95,10 @@ fn HeapStatistics::total_heap_size(Self) -> Int
 fn HeapStatistics::total_heap_size_executable(Self) -> Int
 fn HeapStatistics::total_physical_size(Self) -> Int
 fn HeapStatistics::used_heap_size(Self) -> Int
-impl @js.JsImpl for HeapStatistics
 
 #external
 pub type Serializer
+fn Serializer::as_any(Self) -> @nostd.Any
 fn Serializer::new() -> Self
 #alias(release_buffer)
 fn Serializer::releaseBuffer(Self) -> @buffer.Buffer
@@ -106,16 +107,14 @@ fn Serializer::transferArrayBuffer(Self, Int, @js.ArrayBuffer) -> Unit
 #alias(write_header)
 fn Serializer::writeHeader(Self) -> Unit
 #alias(write_value)
-fn Serializer::writeValue(Self, &@js.JsImpl) -> Bool
+fn Serializer::writeValue(Self, @nostd.Any) -> Bool
 #alias(writeDouble)
 fn Serializer::write_double(Self, Double) -> Unit
 #alias(writeRawBytes)
-fn Serializer::write_raw_bytes(Self, &@js.JsImpl) -> Unit
+fn Serializer::write_raw_bytes(Self, @nostd.Any) -> Unit
 #alias(writeUint32)
 fn Serializer::write_uint32(Self, Int) -> Unit
-impl @js.JsImpl for Serializer
 
 // Type aliases
 
 // Traits
-

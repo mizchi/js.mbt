@@ -1,140 +1,204 @@
-// TypedArray trait - Common interface for all TypedArray types
-//
-// This trait provides default implementations for common TypedArray methods
-// following the same pattern as EventTargetImpl in src/web/event/
+///|
+/// TypedArray の共通操作をまとめたベース型。
+/// 具体的な TypedArray 型から as_typed_array() でダウンキャストして利用する。
+#external
+pub type TypedArray
 
 ///|
-/// Base trait for TypedArray types (Uint8Array, Int32Array, Float64Array, etc.)
-/// Provides common methods shared by all TypedArray implementations
-pub(open) trait TypedArrayImpl: @js.JsImpl {
-  /// Get the length of the array (number of elements)
-  length(Self) -> UInt = _
+pub fn TypedArray::as_any(self : TypedArray) -> @nostd.Any = "%identity"
 
-  /// Get the byte length of the array
-  byteLength(Self) -> UInt = _
+///|
+/// JS との橋渡し用ヘルパー
+// pub fn TypedArray::_get(self : TypedArray, key : String) -> @nostd.Any {
+//   self.as_any()._get(key)
+// }
 
-  /// Get the byte offset in the underlying ArrayBuffer
-  byteOffset(Self) -> UInt = _
+///|
+// pub fn TypedArray::_call(
+//   self : TypedArray,
+//   key : String,
+//   args : Array[@nostd.Any],
+// ) -> @nostd.Any {
+//   self.as_any()._call(key, args)
+// }
 
-  /// Create a new array with a shallow copy of a portion of the array
-  slice(Self, start? : Int, end? : Int) -> Self = _
+///|
+// pub fn TypedArray::call0(self : TypedArray, key : String) -> @nostd.Any {
+//   self.as_any().call0(key)
+// }
 
-  /// Create a new view on the same ArrayBuffer
-  subarray(Self, begin? : Int, end? : Int) -> Self = _
+///|
+// pub fn TypedArray::call2(
+//   self : TypedArray,
+//   key : String,
+//   arg1 : @nostd.Any,
+//   arg2 : @nostd.Any,
+// ) -> @nostd.Any {
+//   self.as_any().call2(key, arg1, arg2)
+// }
 
-  /// Copy a sequence of array elements within the array
-  copyWithin(Self, target : Int, start : Int, end? : Int) -> Self = _
-
-  /// Reverse the array in place
-  reverse(Self) -> Self = _
-
-  /// Sort the array in place
-  sort(Self) -> Self = _
-
-  /// Join all elements into a string
-  join(Self, separator? : String) -> String = _
-
-  /// Convert to string
-  toString(Self) -> String = _
-
-  /// Internal helpers for JS interop
-  _get(Self, String) -> @nostd.Any = _
-  _call(Self, String, Array[@nostd.Any]) -> @nostd.Any = _
-  call0(Self, String) -> @nostd.Any = _
-  call2(Self, String, @nostd.Any, @nostd.Any) -> @nostd.Any = _
-}
-
-///| Helper bridge to @nostd.Any operations for typed arrays
-impl TypedArrayImpl with _get(self, key : String) -> @nostd.Any {
-  @nostd.any(self)._get(key)
+///|
+/// 共通メソッド群
+pub fn TypedArray::length(self : TypedArray) -> UInt {
+  self.as_any()._get("length").cast()
 }
 
 ///|
-impl TypedArrayImpl with _call(
-  self,
-  key : String,
-  args : Array[@nostd.Any],
-) -> @nostd.Any {
-  @nostd.any(self)._call(key, args)
+pub fn TypedArray::byteLength(self : TypedArray) -> UInt {
+  self.as_any()._get("byteLength").cast()
 }
 
 ///|
-impl TypedArrayImpl with call0(self, key : String) -> @nostd.Any {
-  @nostd.any(self).call0(key)
+pub fn TypedArray::byteOffset(self : TypedArray) -> UInt {
+  self.as_any()._get("byteOffset").cast()
 }
 
 ///|
-impl TypedArrayImpl with call2(
-  self,
-  key : String,
-  arg1 : @nostd.Any,
-  arg2 : @nostd.Any,
-) -> @nostd.Any {
-  @nostd.any(self).call2(key, arg1, arg2)
-}
-
-///| Default implementations
-
-///|
-impl TypedArrayImpl with length(self) -> UInt {
-  self._get("length").cast()
-}
-
-///|
-impl TypedArrayImpl with byteLength(self) -> UInt {
-  self._get("byteLength").cast()
-}
-
-///|
-impl TypedArrayImpl with byteOffset(self) -> UInt {
-  self._get("byteOffset").cast()
-}
-
-///|
-impl TypedArrayImpl with slice(self, start? : Int = 0, end? : Int) -> Self {
-  match end {
-    Some(e) => self.call2("slice", @nostd.any(start), @nostd.any(e)).cast()
-    None => self._call("slice", [@nostd.any(start)]).cast()
-  }
-}
-
-///|
-impl TypedArrayImpl with subarray(self, begin? : Int = 0, end? : Int) -> Self {
-  match end {
-    Some(e) => self.call2("subarray", @nostd.any(begin), @nostd.any(e)).cast()
-    None => self._call("subarray", [@nostd.any(begin)]).cast()
-  }
-}
-
-///|
-impl TypedArrayImpl with copyWithin(self, target, start, end? : Int) -> Self {
+pub fn TypedArray::slice(
+  self : TypedArray,
+  start? : Int = 0,
+  end? : Int,
+) -> TypedArray {
   match end {
     Some(e) =>
-      self._call("copyWithin", [
+      self.as_any()._call("slice", [@nostd.any(start), @nostd.any(e)]).cast()
+    None => self.as_any()._call("slice", [@nostd.any(start)]).cast()
+  }
+}
+
+///|
+pub fn TypedArray::subarray(
+  self : TypedArray,
+  begin? : Int = 0,
+  end? : Int,
+) -> TypedArray {
+  match end {
+    Some(e) =>
+      self.as_any()._call("subarray", [@nostd.any(begin), @nostd.any(e)]).cast()
+    None => self.as_any()._call("subarray", [@nostd.any(begin)]).cast()
+  }
+}
+
+///|
+pub fn TypedArray::indexOf(
+  self : Self,
+  search_element : UInt,
+  from_index? : Int = 0,
+) -> Int {
+  self
+  .as_any()
+  ._call("indexOf", [@nostd.any(search_element), @nostd.any(from_index)])
+  .cast()
+}
+
+///|
+pub fn TypedArray::lastIndexOf(
+  self : Self,
+  search_element : UInt,
+  from_index? : Int = 0,
+) -> Int {
+  self
+  .as_any()
+  ._call("indexOf", [@nostd.any(search_element), @nostd.any(from_index)])
+  .cast()
+}
+
+///|
+pub fn TypedArray::copyWithin(
+  self : TypedArray,
+  target : Int,
+  start : Int,
+  end? : Int,
+) -> TypedArray {
+  match end {
+    Some(e) =>
+      self
+      .as_any()
+      ._call("copyWithin", [
         @nostd.any(target),
         @nostd.any(start),
         @nostd.any(e),
-      ]).cast()
-    None => self.call2("copyWithin", @nostd.any(target), @nostd.any(start)).cast()
+      ])
+      .cast()
+    None =>
+      self
+      .as_any()
+      ._call("copyWithin", [@nostd.any(target), @nostd.any(start)])
+      .cast()
   }
 }
 
 ///|
-impl TypedArrayImpl with reverse(self) -> Self {
-  self.call0("reverse").cast()
+pub fn TypedArray::reverse(self : TypedArray) -> TypedArray {
+  self.as_any()._call("reverse", []).cast()
 }
 
 ///|
-impl TypedArrayImpl with sort(self) -> Self {
-  self.call0("sort").cast()
+pub fn TypedArray::sort(self : TypedArray) -> TypedArray {
+  self.as_any()._call("sort", []).cast()
 }
 
 ///|
-impl TypedArrayImpl with join(self, separator? : String = ",") -> String {
-  self._call("join", [@nostd.any(separator)]).cast()
+pub fn TypedArray::join(self : TypedArray, separator? : String = ",") -> String {
+  self.as_any()._call("join", [@nostd.any(separator)]).cast()
 }
 
 ///|
-impl TypedArrayImpl with toString(self) -> String {
-  self.call0("toString").cast()
+pub fn TypedArray::toString(self : TypedArray) -> String {
+  self.as_any()._call("toString", []).cast()
+}
+
+///|
+#alias("_[_]=_")
+pub extern "js" fn TypedArray::set_at(
+  self : Self,
+  index : UInt,
+  value : UInt,
+) -> Unit =
+  #| (arr, i, v) => arr[i] = v
+
+///|
+#alias("_[_]")
+pub extern "js" fn TypedArray::get_at(self : Self, index : UInt) -> UInt =
+  #| (arr, i) => arr[i]
+
+///|
+pub fn TypedArray::set(
+  self : Self,
+  array : Array[UInt],
+  offset? : UInt = 0,
+) -> Unit {
+  let arr : @nostd.Any = @nostd.any(array) |> @nostd.any
+  let self_any : @nostd.Any = self.as_any() |> @nostd.any
+  self_any._call("set", [arr, @nostd.any(offset)]) |> ignore
+}
+
+///|
+pub fn TypedArray::fill(
+  self : Self,
+  value : UInt,
+  start? : Int = 0,
+  end? : Int,
+) -> Self {
+  match end {
+    Some(e) =>
+      self
+      .as_any()
+      ._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)])
+      .cast()
+    None =>
+      self.as_any()._call("fill", [@nostd.any(value), @nostd.any(start)]).cast()
+  }
+}
+
+///|
+pub fn TypedArray::includes(
+  self : Self,
+  search_element : UInt,
+  from_index? : Int = 0,
+) -> Bool {
+  self
+  .as_any()
+  ._call("includes", [@nostd.any(search_element), @nostd.any(from_index)])
+  .cast()
 }

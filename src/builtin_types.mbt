@@ -412,7 +412,7 @@ pub impl Show for ThrowError with to_string(self) {
 /// let throw_error = ThrowError::from_js(js_error)
 /// // Returns ThrowError::TypeError(...)
 /// ```
-pub fn ThrowError::from_js(value : Any) -> ThrowError {
+pub fn ThrowError::from_js(value : @nostd.Any) -> ThrowError {
   let global = globalThis()
 
   // Check specific error types first (most specific to least specific)

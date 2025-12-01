@@ -15,13 +15,12 @@ import(
 pub type EventEmitter
 fn EventEmitter::as_any(Self) -> @nostd.Any
 fn EventEmitter::new() -> Self
-impl @js.JsImpl for EventEmitter
 impl EventEmitterImpl for EventEmitter
 
 // Type aliases
 
 // Traits
-pub(open) trait EventEmitterImpl : @js.JsImpl {
+pub(open) trait EventEmitterImpl {
   on(Self, String, (@nostd.Any) -> Unit) -> Unit = _
   on2(Self, String, (@nostd.Any?, @nostd.Any) -> Unit) -> Unit = _
   once(Self, String, (@nostd.Any) -> Unit) -> Unit = _
@@ -33,4 +32,3 @@ pub(open) trait EventEmitterImpl : @js.JsImpl {
   removeAllListeners(Self) -> Unit = _
   emit(Self, String, @nostd.Any) -> Unit = _
 }
-

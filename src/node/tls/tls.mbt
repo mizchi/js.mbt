@@ -14,9 +14,6 @@ pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Server
-
-///|
 pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
   self.as_any()
 }
@@ -33,9 +30,6 @@ pub fn TLSSocket::as_any(self : TLSSocket) -> @nostd.Any = "%identity"
 ///|
 /// Cast to EventTarget for event handling
 pub fn TLSSocket::as_event_target(self : TLSSocket) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @js.JsImpl for TLSSocket
 
 ///|
 pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @nostd.Any {

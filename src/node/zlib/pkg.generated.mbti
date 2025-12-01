@@ -37,27 +37,27 @@ fn unzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
 // Types and methods
 #external
 pub type BrotliCompress
-impl @js.JsImpl for BrotliCompress
+fn BrotliCompress::as_any(Self) -> @nostd.Any
 
 #external
 pub type BrotliDecompress
-impl @js.JsImpl for BrotliDecompress
+fn BrotliDecompress::as_any(Self) -> @nostd.Any
 
 #external
 pub type Deflate
-impl @js.JsImpl for Deflate
+fn Deflate::as_any(Self) -> @nostd.Any
 
 #external
 pub type Gunzip
-impl @js.JsImpl for Gunzip
+fn Gunzip::as_any(Self) -> @nostd.Any
 
 #external
 pub type Gzip
-impl @js.JsImpl for Gzip
+fn Gzip::as_any(Self) -> @nostd.Any
 
 #external
 pub type Inflate
-impl @js.JsImpl for Inflate
+fn Inflate::as_any(Self) -> @nostd.Any
 
 pub struct ZlibOptions {
   level : Int?
@@ -72,4 +72,3 @@ fn ZlibOptions::new() -> Self
 // Type aliases
 
 // Traits
-

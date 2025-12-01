@@ -15,13 +15,12 @@ import(
 pub type AsyncLocalStorage[T]
 fn[T] AsyncLocalStorage::as_any(Self[T]) -> @nostd.Any
 fn[T] AsyncLocalStorage::disable(Self[T]) -> Unit
-fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(Self[T], T) -> Unit
+fn[T] AsyncLocalStorage::enterWith(Self[T], T) -> Unit
 fn[T] AsyncLocalStorage::exit(Self[T], () -> Unit) -> Unit
 fn[T] AsyncLocalStorage::getStore(Self[T]) -> T?
 fn[T] AsyncLocalStorage::new() -> Self[T]
-fn[T : @js.JsImpl] AsyncLocalStorage::run(Self[T], T, () -> Unit) -> Unit
+fn[T] AsyncLocalStorage::run(Self[T], T, () -> Unit) -> Unit
 
 // Type aliases
 
 // Traits
-

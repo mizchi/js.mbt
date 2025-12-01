@@ -17,9 +17,6 @@ pub(all) struct IncomingMessage {
 }
 
 ///|
-pub impl @js.JsImpl for IncomingMessage
-
-///|
 pub fn IncomingMessage::as_any(self : IncomingMessage) -> @nostd.Any = "%identity"
 
 ///|
@@ -58,9 +55,6 @@ pub type ServerResponse
 
 ///|
 pub fn ServerResponse::as_any(self : ServerResponse) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for ServerResponse
 
 ///|
 /// ServerResponse is a Writable stream
@@ -224,9 +218,6 @@ pub type Server
 pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
-pub impl @js.JsImpl for Server
-
-///|
 /// Listen on a port and host
 pub fn Server::listen(
   self : Server,
@@ -337,9 +328,6 @@ pub type ClientRequest
 
 ///|
 pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
-
-///|
-pub impl @js.JsImpl for ClientRequest
 
 ///|
 /// ClientRequest is a Writable stream

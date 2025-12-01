@@ -40,8 +40,6 @@ pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
-pub impl @js.JsImpl for Socket
-
 ///|
 /// Socket is a Duplex stream
 pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
@@ -165,8 +163,6 @@ pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
-pub impl @js.JsImpl for Server
-
 ///|
 /// Listen on a port and host
 pub fn Server::listen(

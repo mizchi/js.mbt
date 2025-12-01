@@ -127,6 +127,9 @@ pub fn EventEmitter::emit(
 pub type EventEmitter
 
 ///|
+pub fn EventEmitter::as_any(self : EventEmitter) -> @nostd.Any = "%identity"
+
+///|
 pub fn EventEmitter::to_any(self : EventEmitter) -> @nostd.Any = "%identity"
 
 ///|

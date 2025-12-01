@@ -34,7 +34,6 @@ fn ClientRequest::removeHeader(Self, String) -> Unit
 fn ClientRequest::setHeader(Self, String, String) -> Unit
 fn ClientRequest::setTimeout(Self, Int, callback? : () -> Unit) -> Self
 fn ClientRequest::write(Self, String, encoding? : String) -> Bool
-impl @js.JsImpl for ClientRequest
 impl @events.EventEmitterImpl for ClientRequest
 
 pub(all) struct IncomingMessage {
@@ -49,7 +48,6 @@ pub(all) struct IncomingMessage {
 fn IncomingMessage::as_readable(Self) -> @stream.Readable
 fn IncomingMessage::method_(Self) -> String?
 fn IncomingMessage::setTimeout(Self, Int, callback? : () -> Unit) -> Self
-impl @js.JsImpl for IncomingMessage
 impl @events.EventEmitterImpl for IncomingMessage
 
 #external
@@ -64,7 +62,6 @@ fn Server::setTimeout(Self, Int, callback? : () -> Unit) -> Self
 fn Server::set_maxHeadersCount(Self, Int) -> Unit
 fn Server::set_timeout(Self, Int) -> Unit
 fn Server::timeout(Self) -> Int
-impl @js.JsImpl for Server
 impl @events.EventEmitterImpl for Server
 
 #external
@@ -83,10 +80,8 @@ fn ServerResponse::statusCode(Self) -> Int
 fn ServerResponse::statusMessage(Self) -> String
 fn ServerResponse::write(Self, String, encoding? : String) -> Bool
 fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : @nostd.Any) -> Self
-impl @js.JsImpl for ServerResponse
 impl @events.EventEmitterImpl for ServerResponse
 
 // Type aliases
 
 // Traits
-

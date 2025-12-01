@@ -24,7 +24,7 @@ pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
 ///|
 /// Run a function synchronously within a context
 /// https://nodejs.org/api/async_context.html#asynclocalstoragerunstore-callback-args
-pub fn[T : @js.JsImpl] AsyncLocalStorage::run(
+pub fn[T] AsyncLocalStorage::run(
   self : AsyncLocalStorage[T],
   store : T,
   callback : () -> Unit,
@@ -32,7 +32,7 @@ pub fn[T : @js.JsImpl] AsyncLocalStorage::run(
   self
   .as_any()
   ._call("run", [
-    @nostd.any(store.as_any()),
+    @nostd.any(store),
     @nostd.any(callback |> @js.from_fn0),
   ])
   |> ignore
@@ -58,11 +58,11 @@ pub fn[T] AsyncLocalStorage::getStore(self : AsyncLocalStorage[T]) -> T? {
 ///|
 /// Transitions into the context for the remainder of the current synchronous execution
 /// https://nodejs.org/api/async_context.html#asynclocalstoragenterwithstore
-pub fn[T : @js.JsImpl] AsyncLocalStorage::enterWith(
+pub fn[T] AsyncLocalStorage::enterWith(
   self : AsyncLocalStorage[T],
   store : T,
 ) -> Unit {
-  self.as_any()._call("enterWith", [@nostd.any(store.as_any())]) |> ignore
+  self.as_any()._call("enterWith", [@nostd.any(store)]) |> ignore
 }
 
 ///|

@@ -198,8 +198,8 @@ pub(all) struct Location {
   uri : String
   range : Range
 }
+fn Location::as_any(Self) -> @nostd.Any
 fn Location::from_json(@nostd.Any) -> Self
-impl @js.JsImpl for Location
 
 pub struct LspClient {
   process : @child_process.ChildProcess
@@ -245,17 +245,17 @@ pub(all) struct Position {
   line : Int
   character : Int
 }
+fn Position::as_any(Self) -> @nostd.Any
 fn Position::from_json(@nostd.Any) -> Self
 fn Position::to_json(Self) -> @nostd.Any
-impl @js.JsImpl for Position
 
 pub(all) struct Range {
   start : Position
   end_ : Position
 }
+fn Range::as_any(Self) -> @nostd.Any
 fn Range::from_json(@nostd.Any) -> Self
 fn Range::to_json(Self) -> @nostd.Any
-impl @js.JsImpl for Range
 
 pub(all) struct RenameParams {
   text_document : TextDocumentIdentifier
@@ -298,8 +298,8 @@ pub(all) struct TextEdit {
   range : Range
   new_text : String
 }
+fn TextEdit::as_any(Self) -> @nostd.Any
 fn TextEdit::from_json(@nostd.Any) -> Self
-impl @js.JsImpl for TextEdit
 
 pub(all) struct WorkspaceEdit {
   changes : Map[String, Array[TextEdit]]
@@ -309,4 +309,3 @@ fn WorkspaceEdit::from_json(@nostd.Any) -> Self
 // Type aliases
 
 // Traits
-

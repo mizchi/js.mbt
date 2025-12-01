@@ -24,6 +24,7 @@ fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset?
 // Types and methods
 #external
 pub type Script
+fn Script::as_any(Self) -> @nostd.Any
 fn Script::cachedDataRejected(Self) -> Bool?
 fn Script::createCachedData(Self) -> @buffer.Buffer
 fn Script::new(String, filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool) -> Self
@@ -31,9 +32,7 @@ fn Script::runInContext(Self, @nostd.Any, filename? : String, lineOffset? : Int,
 fn Script::runInNewContext(Self, contextObject? : @nostd.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @nostd.Any
 fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @nostd.Any
 fn Script::sourceMapURL(Self) -> String?
-impl @js.JsImpl for Script
 
 // Type aliases
 
 // Traits
-

@@ -13,9 +13,6 @@ pub fn Http2Session::as_any(self : Http2Session) -> @nostd.Any = "%identity"
 pub fn Http2Session::as_event_target(self : Http2Session) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @js.JsImpl for Http2Session
-
-///|
 pub impl @event.EventTargetImpl for Http2Session with as_any(self) -> @nostd.Any {
   self.as_any()
 }
@@ -32,8 +29,6 @@ pub fn Http2Server::as_any(self : Http2Server) -> @nostd.Any = "%identity"
 ///|
 pub fn Http2Server::as_event_target(self : Http2Server) -> @event.EventTarget = "%identity"
 
-///|
-pub impl @js.JsImpl for Http2Server
 
 ///|
 pub impl @event.EventTargetImpl for Http2Server with as_any(self) -> @nostd.Any {
@@ -54,8 +49,6 @@ pub fn Http2SecureServer::as_event_target(
   self : Http2SecureServer,
 ) -> @event.EventTarget = "%identity"
 
-///|
-pub impl @js.JsImpl for Http2SecureServer
 
 ///|
 pub impl @event.EventTargetImpl for Http2SecureServer with as_any(self) -> @nostd.Any {
@@ -74,8 +67,6 @@ pub fn Http2Stream::as_any(self : Http2Stream) -> @nostd.Any = "%identity"
 ///|
 pub fn Http2Stream::as_event_target(self : Http2Stream) -> @event.EventTarget = "%identity"
 
-///|
-pub impl @js.JsImpl for Http2Stream
 
 ///|
 pub impl @event.EventTargetImpl for Http2Stream with as_any(self) -> @nostd.Any {
@@ -96,8 +87,6 @@ pub fn ClientHttp2Stream::as_event_target(
   self : ClientHttp2Stream,
 ) -> @event.EventTarget = "%identity"
 
-///|
-pub impl @js.JsImpl for ClientHttp2Stream
 
 ///|
 pub impl @event.EventTargetImpl for ClientHttp2Stream with as_any(self) -> @nostd.Any {
@@ -118,8 +107,6 @@ pub fn ServerHttp2Stream::as_event_target(
   self : ServerHttp2Stream,
 ) -> @event.EventTarget = "%identity"
 
-///|
-pub impl @js.JsImpl for ServerHttp2Stream
 
 ///|
 pub impl @event.EventTargetImpl for ServerHttp2Stream with as_any(self) -> @nostd.Any {

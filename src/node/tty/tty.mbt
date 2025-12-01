@@ -7,6 +7,9 @@
 pub type ReadStream
 
 ///|
+pub fn ReadStream::as_any(self : ReadStream) -> @nostd.Any = "%identity"
+
+///|
 pub fn ReadStream::to_any(self : ReadStream) -> @nostd.Any = "%identity"
 
 ///|
@@ -42,6 +45,9 @@ pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
 /// Extends net.Socket which extends stream.Duplex
 #external
 pub type WriteStream
+
+///|
+pub fn WriteStream::as_any(self : WriteStream) -> @nostd.Any = "%identity"
 
 ///|
 pub fn WriteStream::to_any(self : WriteStream) -> @nostd.Any = "%identity"

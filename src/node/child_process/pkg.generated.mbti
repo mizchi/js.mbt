@@ -55,20 +55,18 @@ fn ChildProcess::stderr(Self) -> @streams.ReadableStream
 fn ChildProcess::stdin(Self) -> @streams.WritableStream
 fn ChildProcess::stdout(Self) -> @streams.ReadableStream
 fn ChildProcess::unref(Self) -> Unit
-impl @js.JsImpl for ChildProcess
 impl @events.EventEmitterImpl for ChildProcess
 
 #external
 pub type SpawnSyncResult
+fn SpawnSyncResult::as_any(Self) -> @nostd.Any
 fn SpawnSyncResult::error(Self) -> @nostd.Any
 fn SpawnSyncResult::pid(Self) -> Int
 fn SpawnSyncResult::signal(Self) -> String?
 fn SpawnSyncResult::status(Self) -> Int?
 fn SpawnSyncResult::stderr(Self) -> @streams.ReadableStream
 fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
-impl @js.JsImpl for SpawnSyncResult
 
 // Type aliases
 
 // Traits
-
