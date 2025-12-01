@@ -195,8 +195,8 @@ fn app(props : AppProps) -> @react.Element {
             on_change~,
             props={
               let obj = @nostd.Object::new()
-              obj["rows"] = 4
-              obj["cols"] = 40
+              obj["rows"] = 4 |> @nostd.identity
+              obj["cols"] = 40 |> @nostd.identity
               obj
             },
             ref_=textarea_ref,
@@ -223,7 +223,7 @@ fn app(props : AppProps) -> @react.Element {
           enc_type="application/x-www-form-urlencoded",
           action=form => {
             log(form)
-            let v : String = form._get("username") |> identity
+            let v : String = form.get("username") |> identity
             log("Username: \{v}")
           },
           [

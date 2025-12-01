@@ -44,10 +44,10 @@ test "RenderResult methods" {
   let result = @testing_library_react.render(@react.component(comp, ()))
   // Test container
   let container = result.container()
-  @nostd.typeof_(container) |> assert_eq("object")
+  @nostd.typeof_(container |> @nostd.any) |> assert_eq("object")
   // Test baseElement
   let base = result.baseElement()
-  @nostd.typeof_(base) |> assert_eq("object")
+  @nostd.typeof_(base |> @nostd.any) |> assert_eq("object")
   let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
   result.rerender(@react.component(comp2, ()))
   @testing_library_react.expect(
@@ -311,7 +311,7 @@ test "configure function exists" {
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
   let config = @nostd.Object::new()
-  let config_any : @nostd.Any = config.as_any().cast()
+  let config_any : @nostd.Any = config.cast()
   configure(config_any)
 }
 
@@ -651,7 +651,7 @@ fn about_component(_props : @react_router.RouteProps) -> @react.Element {
 ///|
 fn user_component(_props : @react_router.RouteProps) -> @react.Element {
   let params = @react_router.useParams()
-  let user_id = params._get("id").unwrap_or("unknown")
+  let user_id = params.get("id").unwrap_or("unknown")
   @react_element.div(["User: \{user_id}"], id="user")
 }
 
