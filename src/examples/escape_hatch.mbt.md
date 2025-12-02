@@ -52,12 +52,12 @@ test "call methods with call()" {
 ///|
 test "feature detection" {
   // Check if Math exists
-  let math = @js.globalThis()._get("Math")
+  let math = @nostd.global_this()._get("Math")
   let has_math = !@js.is_undefined(math)
   assert_eq(has_math, true)
 
   // Check if a fictional API exists
-  let fake_api = @js.globalThis()._get("FakeAPI12345")
+  let fake_api = @nostd.global_this()._get("FakeAPI12345")
   let has_fake = !@js.is_undefined(fake_api)
   assert_eq(has_fake, false)
 }
@@ -132,7 +132,7 @@ test "error handling with throwable" {
 ///|
 test "create instances of unsupported classes" {
   // Access constructor from globalThis
-  let map_constructor = @js.globalThis()._get("Map")
+  let map_constructor = @nostd.global_this()._get("Map")
   let map = @nostd.new(map_constructor, [])
 
   // Use methods via call()

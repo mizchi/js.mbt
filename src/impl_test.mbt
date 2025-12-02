@@ -383,14 +383,14 @@ test "ThrowError Show through throwable" {
 }
 
 ///|
-test "ThrowError::from_js with TypeError" {
+test "ThrowError::from with TypeError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testTypeError = new TypeError('Type error')"),
   ])
   |> ignore
   let js_error = global._get("testTypeError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::TypeError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -398,14 +398,14 @@ test "ThrowError::from_js with TypeError" {
 }
 
 ///|
-test "ThrowError::from_js with RangeError" {
+test "ThrowError::from with RangeError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testRangeError = new RangeError('Range error')"),
   ])
   |> ignore
   let js_error = global._get("testRangeError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::RangeError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -413,14 +413,14 @@ test "ThrowError::from_js with RangeError" {
 }
 
 ///|
-test "ThrowError::from_js with ReferenceError" {
+test "ThrowError::from with ReferenceError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testRefError = new ReferenceError('Ref error')"),
   ])
   |> ignore
   let js_error = global._get("testRefError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::ReferenceError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -428,14 +428,14 @@ test "ThrowError::from_js with ReferenceError" {
 }
 
 ///|
-test "ThrowError::from_js with SyntaxError" {
+test "ThrowError::from with SyntaxError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
   ])
   |> ignore
   let js_error = global._get("testSyntaxError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::SyntaxError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -443,14 +443,14 @@ test "ThrowError::from_js with SyntaxError" {
 }
 
 ///|
-test "ThrowError::from_js with URIError" {
+test "ThrowError::from with URIError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testURIError = new URIError('URI error')"),
   ])
   |> ignore
   let js_error = global._get("testURIError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::URIError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -458,14 +458,14 @@ test "ThrowError::from_js with URIError" {
 }
 
 ///|
-test "ThrowError::from_js with EvalError" {
+test "ThrowError::from with EvalError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testEvalError = new EvalError('Eval error')"),
   ])
   |> ignore
   let js_error = global._get("testEvalError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::EvalError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -473,14 +473,14 @@ test "ThrowError::from_js with EvalError" {
 }
 
 ///|
-test "ThrowError::from_js with AggregateError" {
+test "ThrowError::from with AggregateError" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
   ])
   |> ignore
   let js_error = global._get("testAggError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::AggregateError(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -488,14 +488,14 @@ test "ThrowError::from_js with AggregateError" {
 }
 
 ///|
-test "ThrowError::from_js with generic Error" {
+test "ThrowError::from with generic Error" {
   let global = @global.global_this()
   global._call("eval", [
     @nostd.any("globalThis.testGenericError = new Error('Generic error')"),
   ])
   |> ignore
   let js_error = global._get("testGenericError")
-  let throw_error = ThrowError::from_js(js_error)
+  let throw_error = ThrowError::from(js_error)
   match throw_error {
     ThrowError::Error(_) => inspect(true, content="true")
     _ => inspect(false, content="true")
@@ -503,9 +503,9 @@ test "ThrowError::from_js with generic Error" {
 }
 
 ///|
-test "ThrowError::from_js with non-error value" {
+test "ThrowError::from with non-error value" {
   let value = @nostd.any("plain string value")
-  let throw_error = ThrowError::from_js(value)
+  let throw_error = ThrowError::from(value)
   match throw_error {
     ThrowError::Value(_) => inspect(true, content="true")
     _ => inspect(false, content="true")

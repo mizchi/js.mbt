@@ -33,7 +33,7 @@ extern "js" fn ffi_set_property(
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 pub fn Object::defineProperty(
   obj : @nostd.Any,
-  prop : &PropertyKey,
+  prop : String,
   value? : @nostd.Any,
   writable? : Bool,
   enumerable? : Bool,
@@ -62,7 +62,7 @@ pub fn Object::defineProperty(
   }
   @nostd.any(object_class())._call("defineProperty", [
     obj,
-    @nostd.any(prop.to_key()),
+    @nostd.any(prop),
     @nostd.any(descriptor),
   ])
   |> identity
@@ -72,7 +72,10 @@ pub fn Object::defineProperty(
 /// JS: Object.defineProperties(obj, props)
 /// Defines new or modifies existing properties directly on an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties
-pub fn Object::defineProperties(obj : @nostd.Any, props : @nostd.Any) -> @nostd.Any {
+pub fn Object::defineProperties(
+  obj : @nostd.Any,
+  props : @nostd.Any,
+) -> @nostd.Any {
   @nostd.any(object_class())._call("defineProperties", [obj, @nostd.any(props)])
   |> identity
 }
@@ -83,12 +86,12 @@ pub fn Object::defineProperties(obj : @nostd.Any, props : @nostd.Any) -> @nostd.
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
 pub fn Object::getOwnPropertyDescriptor(
   obj : @nostd.Any,
-  prop : &PropertyKey,
+  prop : String,
 ) -> PropertyDescriptor? {
   let desc : @nostd.Any = @nostd.any(object_class())._call(
-      "getOwnPropertyDescriptor",
-      [obj, @nostd.any(prop.to_key())],
-    )
+    "getOwnPropertyDescriptor",
+    [obj, @nostd.any(prop)],
+  )
   if @nostd.is_nullish(desc) {
     None
   } else {
@@ -160,7 +163,7 @@ pub fn[T] Object::groupBy(
   items : Array[T],
   callback : (T, Int) -> String,
 ) -> @nostd.Any {
-  let js_callback : (Any, Int) -> String = fn(item, index) {
+  let js_callback : (@nostd.Any, Int) -> String = fn(item, index) {
     callback(item |> identity, index)
   }
   @nostd.any(object_class())._call("groupBy", [

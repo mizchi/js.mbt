@@ -133,7 +133,7 @@ test "function conversion" {
   assert_eq(result, 20)
 
   // Calling JS functions
-  let parseInt = @js.globalThis()._get("parseInt")
+  let parseInt = @nostd.global_this()._get("parseInt")
   let parsed : Int = @js.identity(parseInt.call_self(["123" |> @nostd.any]))
   assert_eq(parsed, 123)
 }
@@ -145,7 +145,7 @@ test "function conversion" {
 
 ///|
 test "constructors" {
-  let array_ctor = @js.globalThis()._get("Array")
+  let array_ctor = @nostd.global_this()._get("Array")
   let arr = @nostd.new(array_ctor, [@nostd.any(3)])
   inspect(@js.JSON::stringify(arr), content=(
     #|[

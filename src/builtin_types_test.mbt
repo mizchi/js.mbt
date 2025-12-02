@@ -243,7 +243,9 @@ test "JsError Show trait" {
 
 ///|
 test "ThrowError from call_throwable" {
-  let v = try? throwable(fn() { globalThis()._call("nonexistentMethod", []) })
+  let v = try? throwable(fn() {
+    @nostd.global_this()._call("nonexistentMethod", [])
+  })
   match v {
     Err(ThrowError::Error(e)) | Err(ThrowError::TypeError(e)) =>
       assert_true(JsError::isError(e.to_any()))
@@ -255,7 +257,7 @@ test "ThrowError from call_throwable" {
 ///|
 test "ThrowError Show trait" {
   let result = try? throwable(fn() {
-    globalThis()._call("nonexistentMethod", [])
+    @nostd.global_this()._call("nonexistentMethod", [])
   })
   match result {
     Err(throw_err) => {

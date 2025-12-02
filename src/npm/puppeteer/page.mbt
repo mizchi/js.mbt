@@ -175,7 +175,7 @@ pub async fn Page::focus(
     ._call("focus", [@nostd.any(selector)])
     |> @js.identity
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
+    e => raise @js.ThrowError::from(@js.unsafe_any(e))
   }
 }
 
@@ -190,7 +190,7 @@ pub async fn Page::hover(
     ._call("hover", [@nostd.any(selector)])
     |> @js.identity
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
+    e => raise @js.ThrowError::from(@js.unsafe_any(e))
   }
 }
 
@@ -208,7 +208,7 @@ pub async fn Page::select(
     ._call("select", [@nostd.any(selector), @nostd.any(js_values)])
     |> @js.identity
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
+    e => raise @js.ThrowError::from(@js.unsafe_any(e))
   }
 }
 
@@ -273,11 +273,15 @@ pub(all) struct Cookie {
 ///|
 /// Page: Get cookies
 /// JS: page.cookies()
-pub async fn Page::cookies(self : Page) -> Array[@nostd.Any] raise @js.ThrowError {
-  let promise : @js.Promise[Array[@nostd.Any]] = self.to_any()._call("cookies", [])
+pub async fn Page::cookies(
+  self : Page,
+) -> Array[@nostd.Any] raise @js.ThrowError {
+  let promise : @js.Promise[Array[@nostd.Any]] = self
+    .to_any()
+    ._call("cookies", [])
     |> @js.identity
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
+    e => raise @js.ThrowError::from(@js.unsafe_any(e))
   }
 }
 
@@ -296,7 +300,10 @@ pub async fn Page::setCookie(self : Page, cookies : Array[@nostd.Any]) -> Unit {
 ///|
 /// Page: Delete cookies
 /// JS: page.deleteCookie(...cookies)
-pub async fn Page::deleteCookie(self : Page, cookies : Array[@nostd.Any]) -> Unit {
+pub async fn Page::deleteCookie(
+  self : Page,
+  cookies : Array[@nostd.Any],
+) -> Unit {
   let js_cookies = @js.from_array(cookies)
   let promise : @js.Promise[Unit] = self
     .to_any()
@@ -315,7 +322,7 @@ pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError 
   let promise : @js.Promise[Unit] = self.to_any()._call("pdf", [opts])
     |> @js.identity
   promise.wait() catch {
-    e => raise @js.ThrowError::from_js(@js.unsafe_any(e))
+    e => raise @js.ThrowError::from(@js.unsafe_any(e))
   }
 }
 

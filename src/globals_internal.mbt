@@ -2,10 +2,10 @@
 // These are kept here to avoid circular dependencies with @global package
 
 ///|
-/// JS: globalThis (internal use)
-pub fn globalThis() -> @nostd.Any {
-  ffi_global_this()
-}
+/// JS: globalThis  (internal use)
+// pub fn globalThis() -> @nostd.Any {
+//   ffi_global_this()
+// }
 
 ///|
 /// JS: undefined (internal use)

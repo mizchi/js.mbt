@@ -17,7 +17,7 @@ pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @nostd.Any = "%identity"
 extern "js" fn ffi_new_array_buffer(
   byte_length : Int,
   max_byte_length : Int?,
-) -> Any =
+) -> @nostd.Any =
   #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
@@ -83,7 +83,7 @@ pub type SharedArrayBuffer
 pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_shared_array_buffer(byte_length : Int) -> Any =
+extern "js" fn ffi_new_shared_array_buffer(byte_length : Int) -> @nostd.Any =
   #| (len) => new SharedArrayBuffer(len)
 
 ///|

@@ -514,7 +514,7 @@ test "SuppressedError instanceof check" {
   ])
   // Check instanceof
   assert_true(@js.instanceof_(suppressed_err, suppressed_error_cls))
-  // Check ThrowError::from_js
-  let throw_err = ThrowError::from_js(suppressed_err)
+  // Check ThrowError::from
+  let throw_err = ThrowError::from(suppressed_err)
   inspect(throw_err, content="Suppressed error message")
 }

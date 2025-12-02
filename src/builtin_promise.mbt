@@ -144,7 +144,7 @@ pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
 pub(all) struct SettledResult[T] {
   status : String // "fulfilled" | "rejected"
   value : T?
-  reason : Nullable[Any]
+  reason : Nullable[@nostd.Any]
 }
 
 ///|

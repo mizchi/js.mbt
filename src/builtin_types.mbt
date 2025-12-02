@@ -21,23 +21,6 @@
 ///|
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
-pub trait PropertyKey {
-  to_key(Self) -> @nostd.Any = _
-}
-
-///|
-impl PropertyKey with to_key(self) -> @nostd.Any {
-  self |> @nostd.any
-}
-
-///|
-pub impl PropertyKey for String
-
-///|
-pub impl PropertyKey for Int
-
-///|
-pub impl PropertyKey for Symbol
 
 ///| Object - Most frequently used builtin type
 
@@ -144,7 +127,7 @@ pub fn Object::isSealed(obj : @nostd.Any) -> Bool {
 ///|
 /// JS: Object.preventExtensions(obj)
 /// Prevents new properties from being added to an object
-pub fn Object::preventExtensions(obj : @nostd.Any) -> Any {
+pub fn Object::preventExtensions(obj : @nostd.Any) -> @nostd.Any {
   @nostd.any(object_class())._call("preventExtensions", [obj]) |> identity
 }
 
@@ -157,11 +140,8 @@ pub fn Object::isExtensible_static(obj : @nostd.Any) -> Bool {
 
 ///|
 /// JS: object.propertyIsEnumerable(k)
-pub fn Object::propertyIsEnumerable(self : Self, key : &PropertyKey) -> Bool {
-  ffi_property_is_enumerable(
-    self.to_any() |> identity,
-    key.to_key() |> identity,
-  )
+pub fn Object::propertyIsEnumerable(self : Self, key : String) -> Bool {
+  ffi_property_is_enumerable(self |> identity, key |> identity)
 }
 
 ///|
@@ -171,8 +151,8 @@ pub fn Object::isPrototypeOf(self : Self, target : @nostd.Any) -> Bool {
 }
 
 ///|
-pub fn Object::hasOwnProperty(self : Self, key : &PropertyKey) -> Bool {
-  ffi_has_own_property(self.to_any() |> identity, key.to_key() |> identity)
+pub fn Object::hasOwnProperty(self : Self, key : String) -> Bool {
+  ffi_has_own_property(self |> identity, key |> identity)
 }
 
 ///|
@@ -403,11 +383,11 @@ pub impl Show for ThrowError with to_string(self) {
 ///
 /// ```moonbit no-check
 /// let js_error = globalThis()._get("TypeError")
-/// let throw_error = ThrowError::from_js(js_error)
+/// let throw_error = ThrowError::from(js_error)
 /// // Returns ThrowError::TypeError(...)
 /// ```
-pub fn ThrowError::from_js(value : @nostd.Any) -> ThrowError {
-  let global = globalThis()
+pub fn ThrowError::from(value : @nostd.Any) -> ThrowError {
+  let global = @nostd.global_this()
 
   // Check specific error types first (most specific to least specific)
   if ffi_instance_of(value, ffi_get(global, "TypeError")) {
@@ -525,7 +505,7 @@ pub fn JsString::to_any(self : JsString) -> @nostd.Any = "%identity"
 
 ///|
 fn string_instance() -> JsString {
-  ffi_get(globalThis(), "String") |> identity
+  ffi_get(@nostd.global_this(), "String") |> identity
 }
 
 ///|
