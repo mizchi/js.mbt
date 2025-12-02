@@ -466,7 +466,7 @@ pub fn textarea(
   on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if rows is Some(r) {
@@ -545,7 +545,7 @@ pub fn input(
   on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if name is Some(n) {
@@ -1078,7 +1078,7 @@ pub fn form(
   on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if disabled is Some(d) {
@@ -1159,7 +1159,7 @@ pub fn select(
   on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if multiple is Some(m) {
@@ -1228,7 +1228,7 @@ pub fn option(
   on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("value", value |> @core.any)
@@ -1291,7 +1291,7 @@ pub fn label(
   on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("htmlFor", htmlFor |> @core.any)
@@ -1584,7 +1584,7 @@ pub fn a(
   on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("href", href |> @core.any)
@@ -1657,7 +1657,7 @@ pub fn iframe(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
@@ -1747,7 +1747,7 @@ pub fn img(
   on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
@@ -1837,7 +1837,7 @@ pub fn video(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if controls is Some(c) {
@@ -1901,7 +1901,7 @@ pub fn source(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
@@ -2302,7 +2302,7 @@ pub fn button(
   on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.new_object(), p)
+    Some(p) => @core.object_assign(@core.new_object(), p)
     None => @core.new_object()
   }
   if type_ is Some(t) {

@@ -87,3 +87,51 @@ test "AbortController::signal and abort" {
   // let aborted_after : Bool = @core.identity(signal._get("aborted"))
   // assert_true(aborted_after)
 }
+
+///|
+test "JsIterator::from converts iterable to iterator" {
+  // Create an array - arrays are iterable in JavaScript
+  let arr = @core.any([1, 2, 3])
+
+  // Use Iterator.from to convert iterable to iterator
+  let js_iter : @js.JsIterator[@core.Any] = @js.JsIterator::from(arr)
+
+  // Verify it's created (basic type check)
+  assert_true(@core.is_object(js_iter.as_any()))
+}
+
+///| Show trait tests
+
+///|
+test "identity_option for nullish detection" {
+  let obj = @core.new_object()
+  let result : @core.Any? = @core.identity_option(obj)
+  assert_false(result is None)
+  let null_result : @core.Any? = @core.identity_option(@core.null())
+  assert_true(null_result is None)
+  let undef_result : @core.Any? = @core.identity_option(@global.undefined())
+  assert_true(undef_result is None)
+}
+
+///|
+test "JsError Show output" {
+  let err = @js.JsError::new("test message")
+  // Using inspect triggers Show::output
+  inspect(err |> @core.any, content="Error: test message")
+  assert_eq(err.message, "test message")
+}
+
+///|
+test "ThrowError Show output" {
+  let result = try? @js.throwable(fn() {
+    @global.global_this()._call("nonexistentMethod", [])
+  })
+  match result {
+    Err(throw_err) => {
+      // Using inspect triggers Show::output
+      let str = throw_err.to_string()
+      assert_true(str.length() > 0)
+    }
+    Ok(_) => fail("Expected error")
+  }
+}

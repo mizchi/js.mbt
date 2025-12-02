@@ -272,8 +272,8 @@ test "Proxy with preventExtensions trap" {
     prevent_called = true
     // Actually prevent extensions on target
     let object_class = @global.global_this()._get("Object")
-    let target_as_obj : @js.Object = target_obj.cast()
-    object_class._call("preventExtensions", [target_as_obj.to_any()]) |> ignore
+    let target_as_obj : @js.Any = target_obj.cast()
+    object_class._call("preventExtensions", [target_as_obj]) |> ignore
     true
   })
   let object_class = @global.global_this()._get("Object")
@@ -315,19 +315,18 @@ test "Proxy with defineProperty trap" {
     descriptor,
   ) {
     define_called = true
-    let obj : @js.Object = target_obj.cast()
     let key : String = @core.identity(prop)
     let val : Int = @core.identity(descriptor["value"])
-    obj.to_any()._set(key, @core.any(val))
+    target_obj._set(key, @core.any(val))
     true
   })
   let descriptor = @core.new_object()
   descriptor._set("value", 123 |> @core.any)
   descriptor._set("writable", true |> @core.any)
   let object_class = @global.global_this()._get("Object")
-  let proxy_obj : @js.Object = @core.identity(proxy)
+  let proxy_obj : @js.Any = @core.identity(proxy)
   object_class._call("defineProperty", [
-    proxy_obj.to_any(),
+    proxy_obj,
     @core.any("newProp"),
     @core.any(descriptor),
   ])

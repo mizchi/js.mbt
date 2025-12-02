@@ -5,7 +5,9 @@
   "import": [
     "moonbitlang/async/js_async",
     "mizchi/js/core",
-    "mizchi/js/builtins/symbol"
+    "mizchi/js/builtins/symbol",
+    "mizchi/js/builtins/object"
+
   ],
   "test-import": [
     "moonbitlang/async",

@@ -1,55 +1,20 @@
 // Frequently used JavaScript builtin types
-//
-// This file contains the most commonly used JavaScript builtin types:
-// - Object, Array, Function (core object types)
-// - Error (error handling)
-// - Symbol, JsString (primitive types)
-// - JSON (serialization)
-// - Iterator, AsyncIterator (iteration protocols)
-// - AbortController, AbortSignal (async control)
-//
-// For more specialized builtin types, see src/builtins/:
-// - arraybuffer/ - ArrayBuffer, TypedArrays, DataView
-// - bigint/ - BigInt operations
-// - date/ - Date object
-// - math/ - Math utilities
-// - proxy/ - Proxy and traps
-// - reflect/ - Reflect API
-// - regexp/ - Regular expressions
-// - weak/ - WeakMap, WeakSet, WeakRef
-
-///|
-/// property key for js object access
-/// obj[0], obj["name"], obj[symbol]
 
 ///|
 /// Object - Most frequently used builtin type
-#external
-pub type Object
 
 ///|
-pub fn Object::to_any(self : Object) -> @core.Any = "%identity"
-
-///|
-/// JS: new Object()
-/// Returns Any directly - use from_map() for creating objects with initial properties
-/// Example: `let obj = @js.from_map({ "key": @core.any(value) })` for typed object creation
-pub fn Object::new() -> @core.Any {
-  @core.new_object()
-}
-
-///|
-pub fn Object::keys(v : @core.Any) -> Array[String] {
-  let object_class = @core.global_this()._get("Object")
-  object_class._call("keys", [v]) |> identity
-}
+// pub fn Object::keys(v : @core.Any) -> Array[String] {
+//   let object_class = @core.global_this()._get("Object")
+//   object_class._call("keys", [v]) |> identity
+// }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : @core.Any, source : @core.Any) -> @core.Any {
-  let object_class = @core.global_this()._get("Object")
-  object_class._call("assign", [target, source]) |> identity
-}
+// pub fn Object::assign(target : @core.Any, source : @core.Any) -> @core.Any {
+//   let object_class = @core.global_this()._get("Object")
+//   object_class._call("assign", [target, source]) |> identity
+// }
 
 ///| Array - Second most frequently used builtin type
 

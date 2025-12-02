@@ -124,5 +124,5 @@ test "bench: Object::keys" (b : @bench.T) {
   o._set("a", @core.any(1))
   o._set("b", @core.any(2))
   o._set("c", @core.any(3))
-  b.bench(fn() { b.keep(@js.Object::keys(o)) })
+  b.bench(fn() { b.keep(@core.object_keys(o)) })
 }

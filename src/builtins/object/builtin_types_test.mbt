@@ -181,24 +181,6 @@ test "JsArray creation and type checking" {
   assert_true(@core.is_array([1] |> @core.any))
 }
 
-///| Iterator tests
-
-///|
-test "JsIterator::from converts iterable to iterator" {
-  // Create an array - arrays are iterable in JavaScript
-  let arr = @core.any([1, 2, 3])
-
-  // Use Iterator.from to convert iterable to iterator
-  let js_iter : @js.JsIterator[@core.Any] = @js.JsIterator::from(arr)
-
-  // Verify it's created (basic type check)
-  assert_true(@core.is_object(js_iter.as_any()))
-}
-
-///| Function tests
-
-///| Error tests
-
 ///| Type conversion and casting tests
 
 ///|
@@ -253,17 +235,6 @@ test "identity_option with Show types" {
 }
 
 ///|
-test "identity_option for nullish detection" {
-  let obj = @core.new_object()
-  let result : @js.Object? = @core.identity_option(obj)
-  assert_false(result is None)
-  let null_result : @js.Object? = @core.identity_option(@core.null())
-  assert_true(null_result is None)
-  let undef_result : @js.Object? = @core.identity_option(@global.undefined())
-  assert_true(undef_result is None)
-}
-
-///|
 test "Conditional property setting with Option" {
   let obj = @core.new_object()
 
@@ -303,37 +274,12 @@ test "instanceof_" {
   assert_true(@core.instanceof_(obj, object_class))
 }
 
-///| Show trait tests
-
-///|
-test "JsError Show output" {
-  let err = @js.JsError::new("test message")
-  // Using inspect triggers Show::output
-  inspect(err |> @core.any, content="Error: test message")
-  assert_eq(err.message, "test message")
-}
-
-///|
-test "ThrowError Show output" {
-  let result = try? @js.throwable(fn() {
-    @global.global_this()._call("nonexistentMethod", [])
-  })
-  match result {
-    Err(throw_err) => {
-      // Using inspect triggers Show::output
-      let str = throw_err.to_string()
-      assert_true(str.length() > 0)
-    }
-    Ok(_) => fail("Expected error")
-  }
-}
-
 ///| Object.defineProperty tests
 
 ///|
 test "Object::defineProperty with value" {
   let obj = @core.new_object()
-  Object::defineProperty(obj, "name", value="Alice" |> @js.any, writable=true)
+  Object::defineProperty(obj, "name", value="Alice" |> @core.any, writable=true)
   |> ignore
   assert_eq(@core.identity(obj._get("name")), "Alice")
   // Should be writable
@@ -347,7 +293,7 @@ test "Object::defineProperty with non-writable" {
   Object::defineProperty(
     obj,
     "id",
-    value=123 |> @js.any,
+    value=123 |> @core.any,
     writable=false,
     configurable=true,
   )
@@ -366,7 +312,7 @@ test "Object::defineProperty with getter/setter" {
   Object::defineProperty(
     obj,
     "value",
-    get=fn() { storage.val |> @js.any },
+    get=fn() { storage.val |> @core.any },
     set=fn(v) { storage.val = @core.identity(v) },
     enumerable=true,
     configurable=true,
@@ -405,7 +351,7 @@ test "Object::getOwnPropertyNames" {
   let obj = @core.new_object()
   obj._set("a", 1 |> @core.any)
   obj._set("b", 2 |> @core.any)
-  Object::defineProperty(obj, "c", value=3 |> @js.any, enumerable=false)
+  Object::defineProperty(obj, "c", value=3 |> @core.any, enumerable=false)
   |> ignore
   let names = Object::getOwnPropertyNames(obj)
   // Should include non-enumerable property "c"
@@ -444,7 +390,7 @@ test "Object::defineProperties" {
 
 ///|
 test "Object::groupBy basic" {
-  let items : Array[@core.Any] = [1, 2, 3, 4, 5].map(fn(x) { x |> @js.any })
+  let items : Array[@core.Any] = [1, 2, 3, 4, 5].map(fn(x) { x |> @core.any })
   let result = Object::groupBy(items, fn(item, _index) {
     let n : Int = item |> @core.identity
     if n % 2 == 0 {

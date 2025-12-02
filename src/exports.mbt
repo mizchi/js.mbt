@@ -18,4 +18,7 @@ pub using @core {
 }
 
 ///|
+pub using @object {type Object}
+
+///|
 pub using @symbol {type Symbol, symbol}

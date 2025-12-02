@@ -32,8 +32,8 @@ pub fn svg(
   // Optimize: avoid Object.assign when props is provided but reuse if empty
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -101,8 +101,8 @@ pub fn circle(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -183,8 +183,8 @@ pub fn ellipse(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -266,8 +266,8 @@ pub fn rect(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -349,8 +349,8 @@ pub fn line(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -429,8 +429,8 @@ pub fn path(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -503,8 +503,8 @@ pub fn use_(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -725,8 +725,8 @@ pub fn g(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -796,8 +796,8 @@ pub fn defs(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -870,8 +870,8 @@ pub fn text(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
@@ -960,8 +960,8 @@ pub fn image(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.new_object(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
