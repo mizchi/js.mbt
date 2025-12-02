@@ -48,7 +48,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   |> ignore
 
   // Wait for server to start
-  @js.sleep(48)
+  @core.sleep(48)
   inspect(listening_called, content="true")
   inspect(server.listening(), content="true")
 
@@ -56,7 +56,7 @@ async test "Node HTTP: HTTP server can listen and close properly" {
   server.close(callback=fn() { close_called = true }) |> ignore
 
   // Wait for server to close
-  @js.sleep(96)
+  @core.sleep(96)
   inspect(close_called, content="true")
 }
 
@@ -66,7 +66,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
   let server = createServerNoListener()
   defer server.close() |> ignore // Cleanup to prevent leaks
   server.listen(0, host="127.0.0.1") |> ignore
-  @js.sleep(48)
+  @core.sleep(48)
   let address = server.address()
   inspect(address is None, content="false")
   match address {
@@ -78,7 +78,7 @@ async test "Node HTTP: HTTP server can get address after listening" {
   }
   // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
-  @js.sleep(96)
+  @core.sleep(96)
   inspect(close_called, content="true")
 }
 
@@ -103,7 +103,7 @@ async test "Node HTTP: HTTP server handles simple request" {
   // Start server with callback to ensure it's ready
   server.listen(0, host="127.0.0.1", callback=fn() { server_listening = true })
   |> ignore
-  @js.sleep(300)
+  @core.sleep(300)
   inspect(server_listening, content="true")
 
   // Get port
@@ -121,13 +121,13 @@ async test "Node HTTP: HTTP server handles simple request" {
   client_req.end()
 
   // Wait for request/response (increased timeout for reliability)
-  @js.sleep(500)
+  @core.sleep(500)
   inspect(request_handled, content="true")
   inspect(response_received, content="true")
 
   // Explicitly close server with callback
   server.close(callback=fn() { close_called = true }) |> ignore
-  @js.sleep(500)
+  @core.sleep(500)
   inspect(close_called, content="true")
 }
 

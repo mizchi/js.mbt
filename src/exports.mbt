@@ -8,6 +8,7 @@ pub using @core {
   type Any,
   type Nullable,
   type Nullish,
+  type Promise,
   identity,
   any,
   typeof_,

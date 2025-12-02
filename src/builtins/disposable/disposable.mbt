@@ -135,7 +135,7 @@ pub fn AsyncDisposableStack::defer_(
 pub async fn AsyncDisposableStack::disposeAsync(
   self : AsyncDisposableStack,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .to_any()
     ._call("disposeAsync", [])
     .cast()

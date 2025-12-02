@@ -3,7 +3,7 @@
 
 ///|
 async test "JS Async: setTimeout" {
-  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[Bool] = @core.Promise::withResolvers()
   let _timer = @global.set_timeout(() => resolver.resolve(true), 16)
   let executed = resolver.promise.wait()
   assert_true(executed)
@@ -15,7 +15,7 @@ async test "JS Async: clearTimeout" {
   let timer = @global.set_timeout(() => executed = true, 16)
   defer @global.clear_timeout(timer)
   @global.clear_timeout(timer)
-  @js.sleep(32)
+  @core.sleep(32)
   assert_false(executed)
 }
 
@@ -24,7 +24,7 @@ async test "JS Async: clearTimeout" {
 async test "JS Async: setTimeout with zero delay" {
   let mut executed = false
   let _ = @global.set_timeout(() => executed = true, 0)
-  @js.sleep(60)
+  @core.sleep(60)
   assert_true(executed)
 }
 
@@ -32,7 +32,7 @@ async test "JS Async: setTimeout with zero delay" {
 #skip("Flaky test - setTimeout execution order not guaranteed")
 async test "JS Async: multiple setTimeouts" {
   let order = []
-  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   let _ = @global.set_timeout(
     () => {
       order.push(1)
@@ -75,13 +75,13 @@ async test "JS Async: setInterval immediate execution" {
     16,
   )
   defer @global.clear_interval(timer)
-  @js.sleep(16)
+  @core.sleep(16)
   assert_true(first_execution)
 }
 
 ///|
 async test "JS Async: sleep with very short duration" {
-  @js.sleep(16)
+  @core.sleep(16)
   // Just verify sleep completes without error
   assert_true(true)
 }
@@ -91,11 +91,11 @@ async test "JS Async: sleep with very short duration" {
 ///|
 async test "JS Async: sleep multiple times" {
   let mut count = 0
-  @js.sleep(16)
+  @core.sleep(16)
   count += 1
-  @js.sleep(16)
+  @core.sleep(16)
   count += 1
-  @js.sleep(16)
+  @core.sleep(16)
   count += 1
   assert_eq(count, 3)
 }
@@ -194,14 +194,14 @@ async test "JS Async: nested run_async" {
   let mut outer = false
   let mut inner = false
   @js.run_async(() => {
-    @js.sleep(16)
+    @core.sleep(16)
     outer = true
     @js.run_async(() => {
-      @js.sleep(16)
+      @core.sleep(16)
       inner = true
     })
   })
-  @js.sleep(100)
+  @core.sleep(100)
   assert_true(outer)
   assert_true(inner)
 }
@@ -210,11 +210,11 @@ async test "JS Async: nested run_async" {
 async test "JS Async: run_async with multiple sleep calls" {
   let checkpoints = []
   checkpoints.push(1)
-  @js.sleep(16)
+  @core.sleep(16)
   checkpoints.push(2)
-  @js.sleep(16)
+  @core.sleep(16)
   checkpoints.push(3)
-  @js.sleep(48)
+  @core.sleep(48)
   assert_eq(checkpoints.length(), 3)
   assert_eq(checkpoints[0], 1)
   assert_eq(checkpoints[1], 2)

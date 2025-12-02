@@ -89,7 +89,7 @@ async test "Node Stream: Readable destroy" {
   let readable = create_readable_from_string("destroy test")
   // Destroy without error - stream will handle it
   ignore(readable.as_any()._call("destroy", []))
-  @js.sleep(16)
+  @core.sleep(16)
   // After destroy, stream should be closed
   assert_eq(readable.closed(), true)
 }
@@ -115,7 +115,7 @@ async test "Node Stream: Writable cork/uncork" {
   let _ = writable.write(@core.any("corked2"))
   writable.uncork()
   assert_eq(writable.writableCorked(), 0)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 2)
 }
@@ -125,7 +125,7 @@ async test "Node Stream: Writable destroy" {
   let writable : @stream.Writable = @core.identity(create_writable_to_array())
   // Destroy without error - stream will handle it
   ignore(writable.as_any()._call("destroy", []))
-  @js.sleep(16)
+  @core.sleep(16)
   assert_eq(writable.closed(), true)
 }
 
@@ -134,7 +134,7 @@ async test "Node Stream: Writable end" {
   let writable : @stream.Writable = @core.identity(create_writable_to_array())
   // Call end without chunk - use call directly
   ignore(writable.as_any()._call("end", []))
-  @js.sleep(16)
+  @core.sleep(16)
   assert_eq(writable.writableEnded(), true)
 }
 
@@ -146,7 +146,7 @@ async test "Node Stream: pipe - Readable to Writable" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @core.identity(writable_js)
   let _ = readable.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "Hello Pipe!")
@@ -164,7 +164,7 @@ async test "Node Stream: Transform stream - uppercase" {
     readable.pipe(@core.identity(transform)),
   )
   let _ = piped.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "HELLO TRANSFORM")
@@ -180,7 +180,7 @@ async test "Node Stream: PassThrough stream" {
     readable.pipe(@core.identity(passthrough)),
   )
   let _ = piped.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "passthrough test")
@@ -201,7 +201,7 @@ async test "Node Stream: multiple transforms in pipeline" {
     piped1.pipe(@core.identity(transform2)),
   )
   let _ = piped2.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "MULTI TRANSFORM")
@@ -213,7 +213,7 @@ async test "Node Stream: stream properties after operations" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @core.identity(writable_js)
   let _ = readable.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   assert_eq(readable.readableEnded(), true)
   assert_eq(writable.writableFinished(), true)
 }
@@ -231,7 +231,7 @@ async test "Node Stream: pipeline - multiple streams" {
     readable.pipe(@core.identity(transform)),
   )
   let _ = piped.pipe(writable)
-  @js.sleep(16)
+  @core.sleep(16)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks.length(), 1)
   assert_eq(chunks[0], "PIPELINE TEST")
@@ -250,7 +250,7 @@ async test "Node Stream: pipeline with callback" {
     }),
   )
   let _ = @stream.pipeline([readable.as_any(), writable.as_any()], callback~)
-  @js.sleep(32)
+  @core.sleep(32)
   assert_eq(callback_called, true)
   let chunks = get_chunks(writable_js)
   assert_eq(chunks[0], "callback test")
@@ -270,14 +270,14 @@ async test "Node Stream: finished - stream completion" {
   )
   let _ = readable.pipe(writable)
   let _ = @stream.finished(writable.as_any(), callback~)
-  @js.sleep(32)
+  @core.sleep(32)
   assert_eq(finished_called, true)
 }
 
 ///|
 async test "Node Stream: async pipeline with Promise" {
-  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
-  @js.run_async(fn() {
+  let resolver : @core.PromiseResolvers[Bool] = @core.Promise::withResolvers()
+  @core.run_async(fn() {
     let readable = create_readable_from_string("async test")
     let transform = create_transform_uppercase()
     let writable_js = create_writable_to_array()

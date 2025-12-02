@@ -18,7 +18,7 @@ using @react {
 using @react_router {router_provider}
 
 ///|
-using @js {log, identity, sleep, run_async}
+using @js {log, identity, run_async}
 
 ///|
 using @react_element {
@@ -119,7 +119,7 @@ fn async_counter(_ : Unit) -> @react.Element {
   )
   let on_click = useCallback(
     _ => run_async(async fn() noraise {
-      sleep(500)
+      @core.sleep(500)
       @react.startTransition(() => dispatch(Increment))
     }),
     [@core.any(count)],
@@ -157,7 +157,7 @@ fn app(props : AppProps) -> @react.Element {
   useEffect(
     () => {
       run_async(async fn() noraise {
-        sleep(300)
+        @core.sleep(300)
         if textarea_ref.get_current() is Some(textarea) {
           textarea.focus()
         }

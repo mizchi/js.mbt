@@ -1027,7 +1027,7 @@ pub async fn[T] with_lsp_client(
   let client = LspClient::new()
   let _ = client.initialize(root_uri)
   // Give the server time to initialize
-  @js.sleep(100)
+  @core.sleep(100)
   let result = action(client)
   client.shutdown()
   client.exit()

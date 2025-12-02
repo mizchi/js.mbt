@@ -3,7 +3,7 @@
 
 ///|
 async test "MessageChannel: send and receive message between ports" {
-  let resolver : @js.PromiseResolvers[String] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[String] = @core.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -30,8 +30,8 @@ async test "MessageChannel: send and receive message between ports" {
 
 ///|
 async test "MessageChannel: bidirectional messaging" {
-  let resolver1 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver1 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
+  let resolver2 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -68,7 +68,7 @@ async test "MessageChannel: bidirectional messaging" {
 ///|
 async test "MessageChannel: multiple messages in sequence" {
   let messages : Array[String] = []
-  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -102,7 +102,7 @@ async test "MessageChannel: multiple messages in sequence" {
 
 ///|
 async test "MessageChannel: port closes properly" {
-  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[Bool] = @core.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -120,12 +120,12 @@ async test "MessageChannel: port closes properly" {
 
   // After closing, sending should not crash (though message won't be received)
   MessagePort::post_message(port1, @core.any("should not receive"))
-  @js.sleep(16)
+  @core.sleep(16)
 }
 
 ///|
 async test "MessageChannel: message event properties" {
-  let resolver : @js.PromiseResolvers[@core.Any] = @js.Promise::withResolvers()
+  let resolver : @core.PromiseResolvers[@core.Any] = @core.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
