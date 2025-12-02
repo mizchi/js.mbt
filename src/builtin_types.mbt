@@ -19,12 +19,6 @@
 // - weak/ - WeakMap, WeakSet, WeakRef
 
 ///|
-/// JS: null
-pub fn null_() -> @nostd.Any {
-  ffi_null()
-}
-
-///|
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
 pub trait PropertyKey {

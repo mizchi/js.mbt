@@ -405,7 +405,7 @@ pub async fn LspClient::initialize(
 /// Shutdown the LSP server
 pub async fn LspClient::shutdown(self : LspClient) -> Unit raise LspError {
   @js.suspend(fn(resolve, reject) {
-    self.send_request("shutdown", @js.null_(), fn(response) {
+    self.send_request("shutdown", @nostd.null(), fn(response) {
       let error = response._get("error")
       if not(@js.is_nullish(error)) {
         reject(
@@ -424,7 +424,7 @@ pub async fn LspClient::shutdown(self : LspClient) -> Unit raise LspError {
 ///|
 /// Exit the LSP server
 pub fn LspClient::exit(self : LspClient) -> Unit {
-  self.send_notification("exit", @js.null_())
+  self.send_notification("exit", @nostd.null())
   self.process.kill() |> ignore
 }
 

@@ -528,7 +528,7 @@ pub fn RegExp::split(
   limit? : Int,
 ) -> Array[String] {
   let limit_val = match limit {
-    None => @js.null_()
+    None => @nostd.null()
     Some(n) => @nostd.identity(n)
   }
   ffi_string_split(string, self, limit_val |> @nostd.any)

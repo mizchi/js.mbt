@@ -35,11 +35,11 @@ test "identity converts struct to Any object" {
 ///|
 test "JsImpl::to_string" {
   assert_eq(@nostd.any(42).to_string(), "42")
-  assert_eq(null_().to_string(), "null")
+  assert_eq(@nostd.null().to_string(), "null")
   assert_eq(@nostd.any(true).to_string(), "true")
   assert_eq(@nostd.any("hello").to_string(), "hello")
-  assert_true(@js.is_undefined(undefined()))
-  assert_true(@js.is_null(null_()))
+  assert_true(@js.is_undefined(@nostd.undefined()))
+  assert_true(@js.is_null(@nostd.null()))
   assert_eq(@nostd.Object::new().to_string(), "[object Object]")
   // assert_eq(@js.JsArray::new().to_string(), "[object Object]")
   from_array([1, 2, 3]).to_string() |> assert_eq("1,2,3")
@@ -56,24 +56,24 @@ test "type checking" {
   let obj = Object::new()
   assert_true(@js.is_object(obj))
   assert_false(@js.is_object(42 |> @nostd.any))
-  assert_false(@js.is_object(null_()))
+  assert_false(@js.is_object(@nostd.null()))
 
   // Test is_null
-  assert_true(@js.is_null(null_()))
-  assert_false(@js.is_null(undefined()))
+  assert_true(@js.is_null(@nostd.null()))
+  assert_false(@js.is_null(@nostd.undefined()))
   assert_false(@js.is_null(@nostd.any(42)))
 
   // Test is_undefined
-  assert_true(@js.is_undefined(undefined()))
-  assert_false(@js.is_undefined(null_()))
+  assert_true(@js.is_undefined(@nostd.undefined()))
+  assert_false(@js.is_undefined(@nostd.null()))
   assert_false(@js.is_undefined(@nostd.any(42)))
 
   // Test is_some and is_none
   assert_false(@nostd.any(42) |> @js.is_nullish())
   assert_true(undefined() |> @js.is_nullish())
   assert_false(@nostd.any(42) |> @js.is_nullish())
-  assert_true(undefined() |> @js.is_nullish())
-  assert_true(null_() |> @js.is_nullish())
+  assert_true(@nostd.undefined() |> @js.is_nullish())
+  assert_true(@nostd.null() |> @js.is_nullish())
 }
 
 ///|
@@ -85,7 +85,7 @@ test "Js typeof_" {
   assert_eq(@js.typeof_(undefined()), "undefined")
   assert_eq(@js.typeof_(Object::new()), "object")
   assert_eq(@js.typeof_(JsArray::new()), "object")
-  assert_eq(@js.typeof_(null_()), "object") // JavaScript quirk
+  assert_eq(@js.typeof_(@nostd.null()), "object") // JavaScript quirk
 }
 
 ///|
@@ -130,9 +130,9 @@ test "JsImpl::equal" {
   assert_false(@nostd.any("hello") == @nostd.any("world"))
 
   // Special values
-  assert_eq(null_(), null_())
-  assert_eq(undefined(), undefined())
-  assert_false(null_() == undefined())
+  assert_eq(@nostd.null(), @nostd.null())
+  assert_eq(@nostd.undefined(), @nostd.undefined())
+  assert_false(@nostd.null() == @nostd.undefined())
 }
 
 ///|
@@ -179,7 +179,7 @@ test "Val Show trait" {
   assert_eq(@nostd.any("hello").to_string(), "hello")
   assert_eq(@nostd.any(true).to_string(), "true")
   assert_eq(@nostd.any(false).to_string(), "false")
-  assert_eq(null_().to_string(), "null")
+  assert_eq(@nostd.null().to_string(), "null")
   assert_eq(Object::new().to_string(), "[object Object]")
   assert_eq(JsArray::new().to_string(), "")
 }

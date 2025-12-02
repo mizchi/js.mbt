@@ -38,6 +38,6 @@ pub impl[T : VueNode] VueNode for Array[T] with to_vue_node(self) {
 pub impl[T : VueNode] VueNode for T? with to_vue_node(self) {
   match self {
     Some(v) => v.to_vue_node()
-    None => @js.null_()
+    None => @nostd.null()
   }
 }

@@ -431,7 +431,7 @@ extern "js" fn get_outlet() -> @nostd.Any =
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
   let empty : Array[@nostd.Any] = []
-  ffi_create_element(outlet_component, @js.null_(), @js.from_array(empty))
+  ffi_create_element(outlet_component, @nostd.null(), @js.from_array(empty))
 }
 
 // =============================================================================

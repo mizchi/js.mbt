@@ -87,8 +87,8 @@ test "to_json handles arrays" {
 
 ///|
 test "to_json handles null and undefined" {
-  let null_val = @js.null_()
-  let undef_val = @js.undefined()
+  let null_val = @nostd.null()
+  let undef_val = @nostd.undefined()
   inspect(to_json(@nostd.any(null_val)), content="Null")
   inspect(to_json(@nostd.any(undef_val)), content="Null")
 }
@@ -107,7 +107,7 @@ test "from_option converts Option to Any" {
 ///|
 test "to_option converts Any to Option" {
   let val = @nostd.any(123)
-  let null_val = @js.null_()
+  let null_val = @nostd.null()
   let opt1 : Int? = to_option(val)
   let opt2 : Int? = to_option(@nostd.any(null_val))
   inspect(opt1, content="Some(123)")

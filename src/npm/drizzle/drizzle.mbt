@@ -47,7 +47,7 @@ pub fn Row::bool(self : Row, key : String, value : Bool) -> Row {
 ///|
 /// Set a null value
 pub fn Row::null(self : Row, key : String) -> Row {
-  self.obj.set(key, @js.null_())
+  self.obj.set(key, @nostd.null())
   self
 }
 

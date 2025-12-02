@@ -339,7 +339,7 @@ test "identity_option" {
   // None cases
   let none_str : String? = undefined() |> @js.identity_option()
   assert_eq(none_str, None)
-  let none_int : Int? = null_() |> @js.identity_option()
+  let none_int : Int? = @nostd.null() |> @js.identity_option()
   assert_eq(none_int, None)
 }
 
@@ -353,7 +353,7 @@ test "identity_option with Show types" {
   assert_eq(str_opt, Some("hello"))
 
   // Test with null - should not cause infinite loop
-  let null_val = @js.null_()
+  let null_val = @nostd.null()
   let null_opt : String? = @js.identity_option(null_val)
   assert_eq(null_opt, None)
 
@@ -368,7 +368,7 @@ test "identity_option for nullish detection" {
   let obj = @nostd.Object::new()
   let result : @js.Object? = @js.identity_option(obj)
   assert_false(result is None)
-  let null_result : @js.Object? = @js.identity_option(@js.null_())
+  let null_result : @js.Object? = @js.identity_option(@nostd.null())
   assert_true(null_result is None)
   let undef_result : @js.Object? = @js.identity_option(@global.undefined())
   assert_true(undef_result is None)
