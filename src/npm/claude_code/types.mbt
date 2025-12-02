@@ -225,7 +225,7 @@ pub fn SDKAssistantMessage::from_any(value : @nostd.Any) -> SDKAssistantMessage 
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
     arr.map(ContentBlock::from_any)
   }
   { role: "assistant", content, raw: value }
@@ -268,7 +268,7 @@ pub fn SDKResultMessage::from_any(value : @nostd.Any) -> SDKResultMessage {
     @js.is_null(denials_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(denials_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(denials_raw)
     arr.map(PermissionDenial::from_any)
   }
   {
@@ -298,7 +298,7 @@ pub fn SDKSystemMessage::from_any(value : @nostd.Any) -> SDKSystemMessage {
     @js.is_null(tools_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(tools_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(tools_raw)
     arr.map(fn(v) { v.cast() })
   }
   let mcp_raw = value._get("mcpServers")
@@ -306,7 +306,7 @@ pub fn SDKSystemMessage::from_any(value : @nostd.Any) -> SDKSystemMessage {
     @js.is_null(mcp_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(mcp_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(mcp_raw)
     arr.map(fn(v) { v.cast() })
   }
   let perm_raw = value._get("permissionMode")
@@ -338,7 +338,7 @@ pub fn SDKPartialMessage::from_any(value : @nostd.Any) -> SDKPartialMessage {
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
     arr.map(ContentBlock::from_any)
   }
   { content, raw: value }

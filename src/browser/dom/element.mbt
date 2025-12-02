@@ -74,7 +74,7 @@ impl ElementImpl with getAttribute(self, name) -> String? {
     .as_any()
     ._call("getAttribute", [@nostd.any(name)])
     .cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -101,7 +101,7 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
     .as_any()
     ._call("getElementsByTagName", [@nostd.any(tag_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @js.identity(v) })
+  @js.array_from(arr).map(fn(v) { @nostd.identity(v) })
 }
 
 ///|
@@ -112,7 +112,7 @@ impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element]
     .as_any()
     ._call("getElementsByClassName", [@nostd.any(class_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @js.identity(v) })
+  @js.array_from(arr).map(fn(v) { @nostd.identity(v) })
 }
 
 ///|
@@ -121,7 +121,7 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
     .as_any()
     ._call("querySelector", [@nostd.any(selector)])
     .cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -132,5 +132,5 @@ impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
     .as_any()
     ._call("querySelectorAll", [@nostd.any(selector)])
     .cast()
-  @js.array_from(arr).map(@js.identity(_))
+  @js.array_from(arr).map(@nostd.identity(_))
 }

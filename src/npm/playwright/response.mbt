@@ -39,14 +39,14 @@ pub fn Response::ok(self : Response) -> Bool {
 ///|
 /// Get response headers
 pub fn Response::headers(self : Response) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @js.identity
+  self.to_any()._call("headers", []) |> @nostd.identity
 }
 
 ///|
 /// Get all response headers
 pub async fn Response::allHeaders(self : Response) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("allHeaders", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -54,7 +54,7 @@ pub async fn Response::allHeaders(self : Response) -> @nostd.Any {
 /// Get response body as text
 pub async fn Response::text(self : Response) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("text", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -62,7 +62,7 @@ pub async fn Response::text(self : Response) -> String {
 /// Get response body as JSON
 pub async fn Response::json(self : Response) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("json", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -70,7 +70,7 @@ pub async fn Response::json(self : Response) -> @nostd.Any {
 /// Get response body as buffer
 pub async fn Response::body(self : Response) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("body", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -123,14 +123,14 @@ pub fn Request::method_(self : Request) -> String {
 ///|
 /// Get request headers
 pub fn Request::headers(self : Request) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @js.identity
+  self.to_any()._call("headers", []) |> @nostd.identity
 }
 
 ///|
 /// Get all request headers
 pub async fn Request::allHeaders(self : Request) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("allHeaders", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -148,7 +148,7 @@ pub fn Request::postData(self : Request) -> String? {
 ///|
 /// Get request post data as JSON
 pub fn Request::postDataJSON(self : Request) -> @nostd.Any {
-  self.to_any()._call("postDataJSON", []) |> @js.identity
+  self.to_any()._call("postDataJSON", []) |> @nostd.identity
 }
 
 ///|
@@ -167,7 +167,7 @@ pub fn Request::isNavigationRequest(self : Request) -> Bool {
 /// Get response for this request
 pub async fn Request::response(self : Request) -> Response? {
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("response", [])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -202,7 +202,7 @@ pub fn Frame::name(self : Frame) -> String {
 /// Get frame title
 pub async fn Frame::title(self : Frame) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("title", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -210,7 +210,7 @@ pub async fn Frame::title(self : Frame) -> String {
 /// Get frame content
 pub async fn Frame::content(self : Frame) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("content", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -261,7 +261,7 @@ pub async fn Frame::goto(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("goto", [@nostd.any(url), options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None

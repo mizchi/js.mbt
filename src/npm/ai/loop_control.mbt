@@ -178,13 +178,13 @@ pub fn StopCondition::as_any(self : StopCondition) -> @nostd.Any {
   let StopCondition(f) = self
   @js.from_fn1(fn(ctx_raw : @nostd.Any) -> Bool {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
-    let messages : Array[@nostd.Any] = @js.identity(ctx_raw._get("messages"))
+    let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
     let tool_calls_raw = ctx_raw._get("toolCalls")
     let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
       @js.is_null(tool_calls_raw) {
       []
     } else {
-      let arr : Array[@nostd.Any] = @js.identity(tool_calls_raw)
+      let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
       arr.map(ToolCall::from_any)
     }
     let finish_reason = FinishReason::from_string(
@@ -208,18 +208,18 @@ pub fn PrepareStep::as_any(self : PrepareStep) -> @nostd.Any {
     ctx_raw : @nostd.Any,
   ) -> @nostd.Any {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
-    let messages : Array[@nostd.Any] = @js.identity(ctx_raw._get("messages"))
+    let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
     let steps_raw = ctx_raw._get("steps")
     let steps : Array[StepResult] = if @js.is_undefined(steps_raw) ||
       @js.is_null(steps_raw) {
       []
     } else {
-      let arr : Array[@nostd.Any] = @js.identity(steps_raw)
+      let arr : Array[@nostd.Any] = @nostd.identity(steps_raw)
       arr.map(StepResult::from_any)
     }
     let ctx : PrepareStepContext = { step_number, messages, steps }
     let result = f(ctx)
     result.as_any()
   })
-  @js.identity(promisified)
+  @nostd.identity(promisified)
 }

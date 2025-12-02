@@ -43,7 +43,7 @@ pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 ///|
 /// Socket is a Duplex stream
 pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
@@ -190,9 +190,9 @@ pub fn Server::listen(
       ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @js.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @nostd.identity
     (None, Some(b)) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @js.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @nostd.identity
     (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
@@ -200,7 +200,7 @@ pub fn Server::listen(
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.as_any().call0("close") |> @js.identity
+  self.as_any().call0("close") |> @nostd.identity
 }
 
 ///|
@@ -224,7 +224,7 @@ pub fn Server::listening(self : Server) -> Bool {
 ///|
 /// Get max connections
 pub fn Server::maxConnections(self : Server) -> Int? {
-  self.as_any()._get("maxConnections") |> @js.identity_option
+  self.as_any()._get("maxConnections") |> @nostd.identity_option
 }
 
 ///|
@@ -242,7 +242,7 @@ pub fn createConnection(port : Int, host? : String) -> Socket {
     Some(h) =>
       net_module()
       .call2("createConnection", @nostd.any(port), @nostd.any(h))
-      |> @js.identity
+      |> @nostd.identity
     None => net_module()._call("createConnection", [@nostd.any(port)]).cast()
   }
 }
@@ -275,9 +275,9 @@ pub fn createServer(
       "keepAlive": keepAlive.map(fn(x) { @nostd.any(x) }),
       "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @nostd.any(x) }),
     }).cast()
-    net_module().call1("createServer", opts) |> @js.identity
+    net_module().call1("createServer", opts) |> @nostd.identity
   } else {
-    net_module().call0("createServer") |> @js.identity
+    net_module().call0("createServer") |> @nostd.identity
   }
 }
 

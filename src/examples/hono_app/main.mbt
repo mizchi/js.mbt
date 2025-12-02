@@ -237,7 +237,7 @@ pub fn create_app() -> App {
   })
   // Login handler
   .post("/auth/login", async fn(c) {
-    let body = ffi_parse_body(c |> @js.identity).wait()
+    let body = ffi_parse_body(c |> @nostd.identity).wait()
     let username : String = body._get("username").cast()
     if username.length() > 0 {
       set_cookie(c, "user", username, path="/", httpOnly=true, maxAge=3600)
@@ -292,7 +292,7 @@ extern "js" fn ffi_parse_body(c : @nostd.Any) -> @js.Promise[@nostd.Any] =
 ///|
 /// Serve the Hono app using @hono/node-server
 fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @js.identity, port)
+  ffi_serve(app |> @nostd.identity, port)
 }
 
 ///|

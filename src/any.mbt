@@ -12,12 +12,12 @@
 // #deprecated("Use @nostd.Any instead for better performance and usability")
 // pub type Any = @nostd.Any
 
-pub using @nostd {type Any}
+pub using @nostd {type Any, type Nullable, type Nullish}
 
 ///|
 /// Nullable type for explicit null handling in FFI struct fields.
-pub type Nullable[T] = @nostd.Nullable[T]
+// pub type Nullable[T] = @nostd.Nullable[T]
 
-///|
-/// Null or undefined wrapper type.
-pub type Nullish[T] = @nostd.Nullish[T]
+// ///|
+// /// Null or undefined wrapper type.
+// pub type Nullish[T] = @nostd.Nullish[T]

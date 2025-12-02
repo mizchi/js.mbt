@@ -18,7 +18,7 @@ extern "js" fn ffi_new_offscreen_canvas(
 
 ///|
 pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  @js.identity(ffi_new_offscreen_canvas(width |> @js.any, height |> @js.any))
+  @nostd.identity(ffi_new_offscreen_canvas(width |> @js.any, height |> @js.any))
 }
 
 ///|

@@ -11,7 +11,7 @@ pub fn ChildProcess::on_exit(
     @nostd.any("exit"),
     @nostd.any(
       @js.from_fn2(fn(code : @nostd.Any, signal : @nostd.Any) {
-        callback(code |> @js.identity_option(), signal |> @js.identity_option())
+        callback(code |> @nostd.identity_option(), signal |> @nostd.identity_option())
       }),
     ),
   ])
@@ -29,7 +29,7 @@ pub fn ChildProcess::on_close(
     @nostd.any("close"),
     @nostd.any(
       @js.from_fn2(fn(code : @nostd.Any, signal : @nostd.Any) {
-        callback(code |> @js.identity_option(), signal |> @js.identity_option())
+        callback(code |> @nostd.identity_option(), signal |> @nostd.identity_option())
       }),
     ),
   ])
@@ -61,7 +61,7 @@ pub fn ChildProcess::on_message(
     @nostd.any("message"),
     @nostd.any(
       @js.from_fn2(fn(message : @nostd.Any, sendHandle : @nostd.Any) {
-        callback(message, sendHandle |> @js.identity_option())
+        callback(message, sendHandle |> @nostd.identity_option())
       }),
     ),
   ])

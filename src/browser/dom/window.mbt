@@ -149,7 +149,7 @@ pub fn Window::prompt(
       self.as_any()._call("prompt", [@nostd.any(message), @nostd.any(d)]).cast()
     None => self.as_any()._call("prompt", [@nostd.any(message)]).cast()
   }
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -172,7 +172,7 @@ pub fn Window::open(
     (Some(u), None, _) => self.as_any()._call("open", [@nostd.any(u)]).cast()
     (None, _, _) => self.as_any()._call("open", []).cast()
   }
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -304,7 +304,7 @@ pub async fn Window::fetch(
 #alias(get_selection)
 pub fn Window::getSelection(self : Self) -> @nostd.Any? {
   let v : @nostd.Any = self.as_any()._call("getSelection", []).cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|

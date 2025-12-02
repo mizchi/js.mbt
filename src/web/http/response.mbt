@@ -20,19 +20,19 @@ pub fn Response::new(
   headers? : @nostd.Any,
 ) -> Response {
   let body_js = match body {
-    Some(b) => @js.identity(b)
+    Some(b) => @nostd.identity(b)
     None => @global.undefined()
   }
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
-      new_impl_full(body_js, s, @js.identity(st), h.cast())
+      new_impl_full(body_js, s, @nostd.identity(st), h.cast())
     (Some(s), Some(st), None) =>
-      new_impl_status_text(body_js, s, @js.identity(st))
+      new_impl_status_text(body_js, s, @nostd.identity(st))
     (Some(s), None, Some(h)) => new_impl_status_headers(body_js, s, h.cast())
     (Some(s), None, None) => new_impl_status(body_js, s)
     (None, Some(st), Some(h)) =>
-      new_impl_text_headers(body_js, @js.identity(st), h.cast())
-    (None, Some(st), None) => new_impl_text(body_js, @js.identity(st))
+      new_impl_text_headers(body_js, @nostd.identity(st), h.cast())
+    (None, Some(st), None) => new_impl_text(body_js, @nostd.identity(st))
     (None, None, Some(h)) => new_impl_headers(body_js, h.cast())
     (None, None, None) => new_impl_plain(body_js)
   }

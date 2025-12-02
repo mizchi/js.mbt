@@ -17,7 +17,7 @@ pub async fn StorageArea::get(
   self : StorageArea,
   keys : @nostd.Any,
 ) -> @nostd.Any {
-  ffi_storage_get(self |> @js.identity, keys).wait()
+  ffi_storage_get(self |> @nostd.identity, keys).wait()
 }
 
 ///|
@@ -34,13 +34,13 @@ pub async fn StorageArea::get_item(
   key : String,
 ) -> @nostd.Any {
   let result : @nostd.Any = self.as_any()._get(key) |> @nostd.any
-  result[key] |> @js.identity
+  result[key] |> @nostd.identity
 }
 
 ///|
 /// Get all items from storage
 pub async fn StorageArea::get_all(self : StorageArea) -> @nostd.Any {
-  ffi_storage_get_all(self |> @js.identity).wait()
+  ffi_storage_get_all(self |> @nostd.identity).wait()
 }
 
 ///|
@@ -52,7 +52,7 @@ extern "js" fn ffi_storage_get_all(
 ///|
 /// Set items in storage
 pub async fn StorageArea::set(self : StorageArea, items : @nostd.Any) -> Unit {
-  ffi_storage_set(self |> @js.identity, items).wait()
+  ffi_storage_set(self |> @nostd.identity, items).wait()
 }
 
 ///|
@@ -71,13 +71,13 @@ pub async fn StorageArea::set_item(
 ) -> Unit {
   let items = @nostd.Object::new()
   items[key] = @nostd.any(value)
-  self.set(items |> @js.identity)
+  self.set(items |> @nostd.identity)
 }
 
 ///|
 /// Remove items from storage
 pub async fn StorageArea::remove(self : StorageArea, keys : @nostd.Any) -> Unit {
-  ffi_storage_remove(self |> @js.identity, keys).wait()
+  ffi_storage_remove(self |> @nostd.identity, keys).wait()
 }
 
 ///|
@@ -96,7 +96,7 @@ pub async fn StorageArea::remove_item(self : StorageArea, key : String) -> Unit 
 ///|
 /// Clear all items from storage
 pub async fn StorageArea::clear(self : StorageArea) -> Unit {
-  ffi_storage_clear(self |> @js.identity).wait()
+  ffi_storage_clear(self |> @nostd.identity).wait()
 }
 
 ///|
@@ -136,8 +136,8 @@ pub struct StorageChange {
 pub fn StorageChange::from_any(obj : @nostd.Any) -> StorageChange {
   let o : @nostd.Any = obj |> @nostd.any
   {
-    old_value: o["oldValue"] |> @js.identity,
-    new_value: o["newValue"] |> @js.identity,
+    old_value: o["oldValue"] |> @nostd.identity,
+    new_value: o["newValue"] |> @nostd.identity,
   }
 }
 

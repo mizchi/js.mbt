@@ -7,7 +7,7 @@ pub trait TextMatch {
 
 ///|
 impl TextMatch with as_any(self) -> @nostd.Any {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|

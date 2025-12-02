@@ -2,14 +2,14 @@
 test "JsImpl::as_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
   let v : @nostd.Any = @mbtconv.from_json(j)
-  assert_eq(@js.identity(v._get("items")._get_by_index(0)), 1)
-  assert_eq(@js.identity(v._get("nested")._get("key")), "value")
+  assert_eq(@nostd.identity(v._get("items")._get_by_index(0)), 1)
+  assert_eq(@nostd.identity(v._get("nested")._get("key")), "value")
 }
 
 ///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
-  let v : @nostd.Any = @js.identity(show)
+  let v : @nostd.Any = @nostd.identity(show)
   assert_true(is_builtin_trait(v))
 }
 
@@ -33,7 +33,7 @@ fn Point::x2(self : Self) -> Int {
 
 ///|
 /// [Test Helper] Creates a plain JS object with x and y properties.
-/// Used to test @js.identity casting JS objects to MoonBit structs.
+/// Used to test @nostd.identity casting JS objects to MoonBit structs.
 extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @nostd.Any =
   #|(x, y) => ({ x: x, y: y })
 
@@ -41,15 +41,15 @@ extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @nostd.Any =
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
   let v : @nostd.Any = @nostd.any(p)
-  assert_eq(@js.identity(v._get("x")), 10)
-  assert_eq(@js.identity(v._get("y")), 20)
+  assert_eq(@nostd.identity(v._get("x")), 10)
+  assert_eq(@nostd.identity(v._get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
 }
 
 ///|
 test "identity to struct" {
   let v : @nostd.Any = test_ffi_point_new(5, 15)
-  let p : Point = @js.identity(v)
+  let p : Point = @nostd.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
@@ -62,8 +62,8 @@ test "from_entries converts Array to Any object" {
     ("name", @nostd.any("Alice")),
     ("age", @nostd.any(30)),
   ]).cast()
-  assert_eq(@js.identity(obj._get("name")), "Alice")
-  assert_eq(@js.identity(obj._get("age")), 30)
+  assert_eq(@nostd.identity(obj._get("name")), "Alice")
+  assert_eq(@nostd.identity(obj._get("age")), 30)
 }
 
 ///|
@@ -90,9 +90,9 @@ test "from_entries" {
     ("age", @nostd.any(30)),
     ("active", @nostd.any(true)),
   ]).cast()
-  assert_eq(@js.identity(obj._get("name")), "Alice")
-  assert_eq(@js.identity(obj._get("age")), 30)
-  assert_eq(@js.identity(obj._get("active")), true)
+  assert_eq(@nostd.identity(obj._get("name")), "Alice")
+  assert_eq(@nostd.identity(obj._get("age")), 30)
+  assert_eq(@nostd.identity(obj._get("active")), true)
 }
 
 ///|
@@ -100,9 +100,9 @@ test "from_array" {
   let arr = [1, 2, 3, 4, 5]
   let val = @nostd.any(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.identity(val._get("0")), 1)
-  assert_eq(@js.identity(val._get("2")), 3)
-  assert_eq(@js.identity(val._get("4")), 5)
+  assert_eq(@nostd.identity(val._get("0")), 1)
+  assert_eq(@nostd.identity(val._get("2")), 3)
+  assert_eq(@nostd.identity(val._get("4")), 5)
 }
 
 ///|
@@ -111,7 +111,7 @@ test "from_fn2 converts 2-arg function to Js" {
   let js_add : @nostd.Any = @nostd.from_fn2(add)
   assert_eq(@js.typeof_(js_add), "function")
   let result = js_add._invoke([@nostd.any(5), @nostd.any(3)])
-  assert_eq(@js.identity(result), 8)
+  assert_eq(@nostd.identity(result), 8)
 }
 
 ///| Global Objects
@@ -234,7 +234,7 @@ test "from_fn0 converts 0-arg function to Js" {
   let js_greet : @nostd.Any = @nostd.from_fn0(greet)
   assert_eq(@js.typeof_(js_greet), "function")
   let result = js_greet._invoke([])
-  assert_eq(@js.identity(result), "Hello")
+  assert_eq(@nostd.identity(result), "Hello")
 }
 
 ///|
@@ -243,7 +243,7 @@ test "from_fn1 converts 1-arg function to Js" {
   let js_double : @nostd.Any = @nostd.from_fn1(double)
   assert_eq(@js.typeof_(js_double), "function")
   let result = js_double._invoke([@nostd.any(5)])
-  assert_eq(@js.identity(result), 10)
+  assert_eq(@nostd.identity(result), 10)
 }
 
 ///|
@@ -252,16 +252,16 @@ test "from_fn3 converts 3-arg function to Js" {
   let js_add3 : @nostd.Any = @nostd.from_fn3(add3)
   assert_eq(@js.typeof_(js_add3), "function")
   let result = js_add3._invoke([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
-  assert_eq(@js.identity(result), 6)
+  assert_eq(@nostd.identity(result), 6)
 }
 
 // ///|
 // test "JsImpl for Map[String, &JsImpl]" {
 //   let map : Map[String, &JsImpl] = { "name": "Bob", "age": 25, "active": true }
 //   let obj : @nostd.Any = @nostd.any(map)
-//   assert_eq(@js.identity(obj._get("name")), "Bob")
-//   assert_eq(@js.identity(obj._get("age")), 25)
-//   assert_eq(@js.identity(obj._get("active")), true)
+//   assert_eq(@nostd.identity(obj._get("name")), "Bob")
+//   assert_eq(@nostd.identity(obj._get("age")), 25)
+//   assert_eq(@nostd.identity(obj._get("active")), true)
 // }
 
 ///|
@@ -269,10 +269,10 @@ test "from_fn3 converts 3-arg function to Js" {
 //   let arr : Array[&JsImpl] = [1, "hello", true, 3.14]
 //   let js_arr : @nostd.Any = JsImpl::as_any(arr)
 //   assert_true(@js.is_array(js_arr))
-//   assert_eq(@js.identity(js_arr._get(0)), 1)
-//   assert_eq(@js.identity(js_arr._get(1)), "hello")
-//   assert_eq(@js.identity(js_arr._get(2)), true)
-//   assert_eq(@js.identity(js_arr._get(3)), 3.14)
+//   assert_eq(@nostd.identity(js_arr._get(0)), 1)
+//   assert_eq(@nostd.identity(js_arr._get(1)), "hello")
+//   assert_eq(@nostd.identity(js_arr._get(2)), true)
+//   assert_eq(@nostd.identity(js_arr._get(3)), 3.14)
 // }
 
 ///|
@@ -281,7 +281,7 @@ test "JsImpl for Option types" {
   let none_val : Int? = None
   let js_some : @nostd.Any = @nostd.any(some_val)
   let js_none : @nostd.Any = @nostd.any(none_val)
-  assert_eq(@js.identity(js_some), 42)
+  assert_eq(@nostd.identity(js_some), 42)
   assert_true(is_undefined(js_none))
 }
 
@@ -425,7 +425,7 @@ test "throwable catches non-error value" {
   }) catch {
     ThrowError::Value(val) => {
       caught_value = true
-      assert_eq(@js.identity(val), "custom error string")
+      assert_eq(@nostd.identity(val), "custom error string")
     }
     _ => assert_true(false) // Should not catch other error types
   }
@@ -486,7 +486,7 @@ test "ThrowError Show trait works for all variants" {
 test "call_self_throwable success" {
   let parse_int = @global.global_this()._get("parseInt")
   let result = throwable(fn() { parse_int._invoke([@nostd.any("42")]) })
-  let num : Int = @js.identity(result)
+  let num : Int = @nostd.identity(result)
   assert_eq(num, 42)
 }
 

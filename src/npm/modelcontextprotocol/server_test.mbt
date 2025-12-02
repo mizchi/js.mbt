@@ -13,12 +13,12 @@ test "JsonRpcRequest as_any" {
   obj.set("jsonrpc", "2.0")
   obj.set("id", "test-123")
   obj.set("method", "test/method")
-  let request = JsonRpcRequest::from_js(@js.identity(obj))
+  let request = JsonRpcRequest::from_js(@nostd.identity(obj))
   match request {
     Some(req) => {
       let result = req.as_any()
-      let jsonrpc : String = @js.identity(result._get("jsonrpc"))
-      let method_name : String = @js.identity(result._get("method"))
+      let jsonrpc : String = @nostd.identity(result._get("jsonrpc"))
+      let method_name : String = @nostd.identity(result._get("method"))
       inspect(jsonrpc, content="2.0")
       inspect(method_name, content="test/method")
     }
@@ -50,8 +50,8 @@ test "Content::resource creates resource content" {
 
 ///|
 test "RequestId conversions" {
-  let js_str : @nostd.Any = @js.identity("abc")
+  let js_str : @nostd.Any = @nostd.identity("abc")
   inspect(RequestId::from_js(js_str), content="Some(String(\"abc\"))")
-  let js_num : @nostd.Any = @js.identity(42)
+  let js_num : @nostd.Any = @nostd.identity(42)
   inspect(RequestId::from_js(js_num), content="Some(Number(42))")
 }

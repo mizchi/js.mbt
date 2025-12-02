@@ -45,7 +45,7 @@ pub fn parse_int(string : String, radix? : Int = 10) -> Int? {
   if is_nan(result) {
     None
   } else {
-    Some(@js.identity(result))
+    Some(@nostd.identity(result))
   }
 }
 
@@ -59,7 +59,7 @@ pub fn parse_float(string : String) -> Double? {
   if is_nan(result) {
     None
   } else {
-    Some(@js.identity(result))
+    Some(@nostd.identity(result))
   }
 }
 

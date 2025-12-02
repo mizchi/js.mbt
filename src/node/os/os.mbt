@@ -179,7 +179,7 @@ pub fn loadavg() -> Array[Double] {
 #alias(network_interfaces)
 pub fn networkInterfaces() -> @nostd.Any {
   let os : @nostd.Any = os_module() |> @nostd.any
-  os._call("networkInterfaces", []) |> @js.identity
+  os._call("networkInterfaces", []) |> @nostd.identity
 }
 
 ///|

@@ -94,7 +94,7 @@ test "Proxy with set trap" {
     }
   })
   proxy.as_any()["x"] = @nostd.any(42)
-  assert_eq(@js.identity(target._get("x")), 42)
+  assert_eq(@nostd.identity(target._get("x")), 42)
 }
 
 ///|
@@ -162,7 +162,7 @@ test "Proxy with apply trap for function" {
     @nostd.any(first * 10)
   })
   let proxy_fn : @nostd.Any = proxy.as_any().cast()
-  let result : Int = @js.identity(proxy_fn.call_self([@nostd.any(5)]))
+  let result : Int = @nostd.identity(proxy_fn.call_self([@nostd.any(5)]))
   inspect(result, content="50")
 }
 
@@ -186,7 +186,7 @@ test "Proxy with construct trap" {
     @nostd.any(obj)
   })
   let instance = @nostd.new(proxy.as_any().cast(), [@nostd.any(5)])
-  let value : Int = @js.identity(instance._get("constructed"))
+  let value : Int = @nostd.identity(instance._get("constructed"))
   inspect(value, content="500")
 }
 
@@ -215,11 +215,11 @@ test "Proxy with ownKeys trap" {
   )
   let object_class = @global.global_this()._get("Object")
   let keys_any = object_class.call1("keys", proxy.as_any())
-  let keys : @js.JsArray = @js.identity(keys_any)
+  let keys : @js.JsArray = @nostd.identity(keys_any)
   inspect(ownkeys_called, content="true")
-  let length : Int = @js.identity(keys._get("length"))
+  let length : Int = @nostd.identity(keys._get("length"))
   inspect(length, content="3")
-  let first : String = @js.identity(keys._get("0"))
+  let first : String = @nostd.identity(keys._get("0"))
   inspect(first, content="x")
 }
 
@@ -233,7 +233,7 @@ test "Proxy with getPrototypeOf trap" {
   })
   let object_class = @global.global_this()._get("Object")
   let proto = object_class.call1("getPrototypeOf", proxy.as_any())
-  let has_custom : Bool = @js.identity(proto._get("custom"))
+  let has_custom : Bool = @nostd.identity(proto._get("custom"))
   inspect(has_custom, content="true")
 }
 
@@ -261,7 +261,7 @@ test "Proxy with isExtensible trap" {
   let object_class = @global.global_this()._get("Object")
   object_class.call1("preventExtensions", @nostd.any(target)) |> ignore
   let proxy = Proxy::new(@nostd.any(target), isExtensible=fn(_target) { false })
-  let extensible : Bool = @js.identity(
+  let extensible : Bool = @nostd.identity(
     object_class.call1("isExtensible", proxy.as_any()),
   )
   inspect(extensible, content="false")
@@ -305,7 +305,7 @@ test "Proxy with getOwnPropertyDescriptor trap" {
     proxy.as_any(),
     @nostd.any("x"),
   )
-  let value : Int = @js.identity(descriptor._get("value"))
+  let value : Int = @nostd.identity(descriptor._get("value"))
   inspect(value, content="999")
 }
 
@@ -329,7 +329,7 @@ test "Proxy with defineProperty trap" {
   descriptor.set("value", 123)
   descriptor.set("writable", true)
   let object_class = @global.global_this()._get("Object")
-  let proxy_obj : @js.Object = @js.identity(proxy)
+  let proxy_obj : @js.Object = @nostd.identity(proxy)
   object_class._call("defineProperty", [
     proxy_obj.to_any(),
     @nostd.any("newProp"),
@@ -337,6 +337,6 @@ test "Proxy with defineProperty trap" {
   ])
   |> ignore
   inspect(define_called, content="true")
-  let value : Int = @js.identity(target._get("newProp"))
+  let value : Int = @nostd.identity(target._get("newProp"))
   inspect(value, content="123")
 }

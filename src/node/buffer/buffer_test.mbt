@@ -160,11 +160,11 @@ test "Buffer toJSON" {
   let json = buf.toJSON()
 
   // JSON representation has type and data fields
-  let json_type : String = @js.identity(json.as_any()._get("type"))
+  let json_type : String = @nostd.identity(json.as_any()._get("type"))
   assert_eq(json_type, "Buffer")
   // The data field is an array, verify it has the correct length
   let data = json.as_any()._get("data")
-  let data_length : Int = @js.identity(data._get("length"))
+  let data_length : Int = @nostd.identity(data._get("length"))
   assert_eq(data_length, 5)
 }
 

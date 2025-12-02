@@ -252,7 +252,7 @@ test "PrepareStepResult::as_any with empty" {
 test "PrepareStepResult::as_any with active_tools" {
   let result = @ai.PrepareStepResult::with_active_tools(["tool1", "tool2"])
   let js_obj = result.as_any()
-  let tools_arr : Array[String] = @js.identity(js_obj._get("activeTools"))
+  let tools_arr : Array[String] = @nostd.identity(js_obj._get("activeTools"))
   assert_eq(tools_arr.length(), 2)
   assert_eq(tools_arr[0], "tool1")
 }

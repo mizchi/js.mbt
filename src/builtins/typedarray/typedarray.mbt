@@ -18,7 +18,7 @@ extern "js" fn ffi_uint8array_from_size(length : Int) -> @nostd.Any =
 
 ///|
 pub fn Uint8Array::from_size(length : Int) -> Uint8Array {
-  @js.identity(ffi_uint8array_from_size(length))
+  @nostd.identity(ffi_uint8array_from_size(length))
 }
 
 ///|
@@ -27,7 +27,7 @@ extern "js" fn ffi_uint8array_from_array(array : @nostd.Any) -> @nostd.Any =
 
 ///|
 pub fn Uint8Array::from_array(array : Array[Int]) -> Uint8Array {
-  @js.identity(ffi_uint8array_from_array(@nostd.any(array)))
+  @nostd.identity(ffi_uint8array_from_array(@nostd.any(array)))
 }
 
 ///|
@@ -44,9 +44,9 @@ pub fn Uint8Array::from_array_buffer(
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Uint8Array {
-  @js.identity(
+  @nostd.identity(
     ffi_uint8array_from_buffer(
-      buffer.to_any() |> @js.identity,
+      buffer.to_any() |> @nostd.identity,
       byte_offset,
       length,
     ),
@@ -77,9 +77,9 @@ pub fn Uint16Array::from_array_buffer(
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Uint16Array {
-  @js.identity(
+  @nostd.identity(
     ffi_uint16array_from_buffer(
-      buffer.to_any() |> @js.identity,
+      buffer.to_any() |> @nostd.identity,
       byte_offset,
       length,
     ),

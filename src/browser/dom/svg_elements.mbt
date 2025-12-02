@@ -42,7 +42,7 @@ pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
     .as_any()
     ._call("getAttribute", [@nostd.any(name)])
     .cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -106,7 +106,7 @@ pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
     .as_any()
     ._call("getAttribute", [@nostd.any(name)])
     .cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|

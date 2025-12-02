@@ -68,7 +68,7 @@ extern "js" fn ffi_worker_post_message(
 ///|
 #alias(post_message)
 pub fn Worker::postMessage(worker : Worker, message : @nostd.Any) -> Unit {
-  ffi_worker_post_message(worker, message |> @js.identity, @global.undefined())
+  ffi_worker_post_message(worker, message |> @nostd.identity, @global.undefined())
 }
 
 ///|
@@ -78,7 +78,7 @@ pub fn Worker::postMessageWithTransfer(
   message : @nostd.Any,
   transfer : Array[@nostd.Any],
 ) -> Unit {
-  ffi_worker_post_message(worker, message |> @js.identity, transfer |> @js.any)
+  ffi_worker_post_message(worker, message |> @nostd.identity, transfer |> @js.any)
 }
 
 ///|

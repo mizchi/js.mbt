@@ -11,7 +11,7 @@ pub fn Util::as_any(self : Util) -> @nostd.Any = "%identity"
 
 ///|
 fn util() -> Util {
-  util_module() |> @js.identity
+  util_module() |> @nostd.identity
 }
 
 ///|

@@ -67,7 +67,7 @@ pub fn LighthouseResult::categories(self : LighthouseResult) -> Categories {
 ///|
 /// Get all audits
 pub fn LighthouseResult::audits(self : LighthouseResult) -> @nostd.Any {
-  self.to_any()["audits"] |> @js.identity
+  self.to_any()["audits"] |> @nostd.identity
 }
 
 ///|
@@ -252,7 +252,7 @@ pub fn RunnerResult::report(self : RunnerResult) -> String {
 ///|
 /// Get the artifacts collected during the audit
 pub fn RunnerResult::artifacts(self : RunnerResult) -> @nostd.Any {
-  self.to_any()["artifacts"] |> @js.identity
+  self.to_any()["artifacts"] |> @nostd.identity
 }
 
 ///| Lighthouse Options
@@ -401,7 +401,7 @@ pub async fn run(
   }
   let promise : @js.Promise[RunnerResult] = lighthouse_fn
     ._invoke([@nostd.any(url), js_flags, js_config, js_page])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -431,7 +431,7 @@ pub async fn run_with_port(
   }
   let promise : @js.Promise[RunnerResult] = lighthouse_fn
     ._invoke([@nostd.any(url), flags_with_port.to_any(), js_config])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -456,7 +456,7 @@ pub fn desktop_config() -> @nostd.Any {
   throttling["cpuSlowdownMultiplier"] = @nostd.any(1)
   settings["throttling"] = throttling
   config["settings"] = settings
-  config |> @js.identity
+  config |> @nostd.identity
 }
 
 ///|
@@ -473,7 +473,7 @@ pub fn mobile_config() -> @nostd.Any {
   screen["deviceScaleFactor"] = @nostd.any(1.75)
   settings["screenEmulation"] = screen
   config["settings"] = settings
-  config |> @js.identity
+  config |> @nostd.identity
 }
 
 ///| Common Categories

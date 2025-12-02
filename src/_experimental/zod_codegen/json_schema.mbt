@@ -99,7 +99,7 @@ pub fn JsonSchema::required(self : JsonSchema) -> Array[String] {
   if @js.is_undefined(req) || @js.is_null(req) {
     []
   } else {
-    @js.identity(req)
+    @nostd.identity(req)
   }
 }
 
@@ -139,7 +139,7 @@ pub fn JsonSchema::any_of(self : JsonSchema) -> Array[JsonSchema]? {
   if @js.is_undefined(any) {
     None
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(any)
+    let arr : Array[@nostd.Any] = @nostd.identity(any)
     Some(arr.map(fn(x) { { raw: x } }))
   }
 }
@@ -150,7 +150,7 @@ pub fn JsonSchema::enum_values(self : JsonSchema) -> Array[String]? {
   if @js.is_undefined(e) {
     None
   } else {
-    Some(@js.identity(e))
+    Some(@nostd.identity(e))
   }
 }
 

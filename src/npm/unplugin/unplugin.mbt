@@ -308,55 +308,55 @@ pub fn UnpluginInstance::to_any(self : UnpluginInstance) -> @nostd.Any = "%ident
 ///|
 /// Get Vite plugin from the unplugin instance
 pub fn UnpluginInstance::vite(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["vite"] |> @js.identity
+  self.to_any()["vite"] |> @nostd.identity
 }
 
 ///|
 /// Get Rollup plugin from the unplugin instance
 pub fn UnpluginInstance::rollup(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rollup"] |> @js.identity
+  self.to_any()["rollup"] |> @nostd.identity
 }
 
 ///|
 /// Get webpack plugin from the unplugin instance
 pub fn UnpluginInstance::webpack(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["webpack"] |> @js.identity
+  self.to_any()["webpack"] |> @nostd.identity
 }
 
 ///|
 /// Get Rspack plugin from the unplugin instance
 pub fn UnpluginInstance::rspack(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rspack"] |> @js.identity
+  self.to_any()["rspack"] |> @nostd.identity
 }
 
 ///|
 /// Get esbuild plugin from the unplugin instance
 pub fn UnpluginInstance::esbuild(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["esbuild"] |> @js.identity
+  self.to_any()["esbuild"] |> @nostd.identity
 }
 
 ///|
 /// Get Farm plugin from the unplugin instance
 pub fn UnpluginInstance::farm(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["farm"] |> @js.identity
+  self.to_any()["farm"] |> @nostd.identity
 }
 
 ///|
 /// Get Rolldown plugin from the unplugin instance
 pub fn UnpluginInstance::rolldown(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rolldown"] |> @js.identity
+  self.to_any()["rolldown"] |> @nostd.identity
 }
 
 ///|
 /// Get Bun plugin from the unplugin instance
 pub fn UnpluginInstance::bun(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["bun"] |> @js.identity
+  self.to_any()["bun"] |> @nostd.identity
 }
 
 ///|
 /// Get raw plugin for any framework
 pub fn UnpluginInstance::raw(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["raw"] |> @js.identity
+  self.to_any()["raw"] |> @nostd.identity
 }
 
 ///| Factory Functions
@@ -437,7 +437,7 @@ pub fn transform_result_with_map(
   let obj = @nostd.Object::new()
   obj["code"] = @nostd.any(code)
   obj["map"] = @nostd.any(map)
-  obj |> @js.identity
+  obj |> @nostd.identity
 }
 
 ///| Resolve Result Helpers
@@ -448,7 +448,7 @@ pub fn resolve_external(id : String) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj["id"] = @nostd.any(id)
   obj["external"] = @nostd.any(true)
-  obj |> @js.identity
+  obj |> @nostd.identity
 }
 
 ///|
@@ -456,5 +456,5 @@ pub fn resolve_external(id : String) -> @nostd.Any {
 pub fn resolve_id(id : String) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj["id"] = @nostd.any(id)
-  obj |> @js.identity
+  obj |> @nostd.identity
 }

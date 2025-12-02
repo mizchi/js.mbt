@@ -59,7 +59,7 @@ pub async fn put_object(
   if contentType is Some(ct) {
     input["ContentType"] = ct |> @nostd.any
   }
-  let result = ffi_put_object(client |> @js.identity, input).wait()
+  let result = ffi_put_object(client |> @nostd.identity, input).wait()
   { etag: result["ETag"].cast() }
 }
 
@@ -235,8 +235,8 @@ pub async fn list_objects_v2(
   if continuationToken is Some(ct) {
     input["ContinuationToken"] = ct |> @nostd.any
   }
-  let result = ffi_list_objects_v2(client |> @js.identity, input).wait()
-  let contents_raw : Array[@nostd.Any] = result["Contents"] |> @js.identity
+  let result = ffi_list_objects_v2(client |> @nostd.identity, input).wait()
+  let contents_raw : Array[@nostd.Any] = result["Contents"] |> @nostd.identity
   let contents = contents_raw.map(fn(obj) {
     {
       key: obj["Key"].cast(),
@@ -317,7 +317,7 @@ extern "js" fn ffi_delete_bucket(
 ///|
 /// ListBuckets - list all buckets
 pub async fn list_buckets(client : S3Client) -> ListBucketsOutput {
-  let result = ffi_list_buckets(client |> @js.identity).wait()
+  let result = ffi_list_buckets(client |> @nostd.identity).wait()
   let buckets_raw : Array[@nostd.Any] = result["Buckets"].cast()
   let buckets = buckets_raw.map(fn(b) { { name: b["Name"].cast() } })
   { buckets, }
@@ -356,7 +356,7 @@ pub async fn copy_object(
   input["Key"] = destKey |> @nostd.any
   let result = ffi_copy_object(client |> @nostd.identity, input).wait()
   let copy_result = result["CopyObjectResult"]
-  { etag: copy_result["ETag"] |> @js.identity }
+  { etag: copy_result["ETag"] |> @nostd.identity }
 }
 
 ///|

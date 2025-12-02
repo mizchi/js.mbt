@@ -214,7 +214,7 @@ pub fn Expect::value(self : Expect, value : @nostd.Any) -> @nostd.Any {
 ///|
 /// Create page assertions
 pub fn Expect::page(self : Expect, page : @playwright.Page) -> PageAssertions {
-  @js.identity(ffi_expect_value(self, page.to_any() |> @js.identity))
+  @nostd.identity(ffi_expect_value(self, page.to_any() |> @nostd.identity))
 }
 
 ///|
@@ -223,7 +223,7 @@ pub fn Expect::locator(
   self : Expect,
   locator : @playwright.Locator,
 ) -> LocatorAssertions {
-  @js.identity(ffi_expect_value(self, locator.to_any() |> @js.identity))
+  @nostd.identity(ffi_expect_value(self, locator.to_any() |> @nostd.identity))
 }
 
 ///| Page Assertions
@@ -242,7 +242,7 @@ pub async fn PageAssertions::toHaveTitle(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveTitle", [@nostd.any(title), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -279,7 +279,7 @@ pub async fn LocatorAssertions::toBeVisible(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeVisible", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -294,7 +294,7 @@ pub async fn LocatorAssertions::toBeHidden(
     options["timeout"] = @nostd.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("toBeHidden", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -393,7 +393,7 @@ pub async fn LocatorAssertions::toContainText(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toContainText", [@nostd.any(text), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -411,7 +411,7 @@ pub async fn LocatorAssertions::toHaveValue(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveValue", [@nostd.any(value), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -430,7 +430,7 @@ pub async fn LocatorAssertions::toHaveAttribute(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveAttribute", [@nostd.any(name), @nostd.any(value), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -448,7 +448,7 @@ pub async fn LocatorAssertions::toHaveClass(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveClass", [@nostd.any(class_), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -466,7 +466,7 @@ pub async fn LocatorAssertions::toHaveCount(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveCount", [@nostd.any(count), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -483,7 +483,7 @@ pub async fn LocatorAssertions::toBeFocused(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeFocused", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -584,6 +584,6 @@ pub async fn TestInfo::attach(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("attach", [@nostd.any(name), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }

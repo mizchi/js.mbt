@@ -119,7 +119,7 @@ pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
   if @js.is_undefined(files_arr) || @js.is_null(files_arr) {
     return []
   }
-  let len : Int = @js.identity(files_arr._get("length"))
+  let len : Int = @nostd.identity(files_arr._get("length"))
   let result : Array[OutputFile] = []
   for i = 0; i < len; i = i + 1 {
     result.push(files_arr._get(i.to_string()).cast())
@@ -134,7 +134,7 @@ pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
   if @js.is_undefined(errors_arr) || @js.is_null(errors_arr) {
     return []
   }
-  let len : Int = @js.identity(errors_arr._get("length"))
+  let len : Int = @nostd.identity(errors_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(errors_arr._get(i.to_string()).cast())
@@ -149,7 +149,7 @@ pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
   if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @js.identity(warnings_arr._get("length"))
+  let len : Int = @nostd.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(warnings_arr._get(i.to_string()).cast())
@@ -172,13 +172,13 @@ pub fn OutputFile::as_any(self : OutputFile) -> @nostd.Any = "%identity"
 ///|
 /// Get the file path
 pub fn OutputFile::path(self : OutputFile) -> String {
-  @js.identity(self.as_any()._get("path"))
+  @nostd.identity(self.as_any()._get("path"))
 }
 
 ///|
 /// Get the file contents as text
 pub fn OutputFile::text(self : OutputFile) -> String {
-  @js.identity(self.as_any()._get("text"))
+  @nostd.identity(self.as_any()._get("text"))
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn Message::as_any(self : Message) -> @nostd.Any = "%identity"
 ///|
 /// Get the message text
 pub fn Message::text(self : Message) -> String {
-  @js.identity(self.as_any()._get("text"))
+  @nostd.identity(self.as_any()._get("text"))
 }
 
 // ============================================================
@@ -220,7 +220,7 @@ pub fn TransformResult::as_any(self : TransformResult) -> @nostd.Any = "%identit
 ///|
 /// Get the transformed code
 pub fn TransformResult::code(self : TransformResult) -> String {
-  @js.identity(self.as_any()._get("code"))
+  @nostd.identity(self.as_any()._get("code"))
 }
 
 ///|
@@ -230,7 +230,7 @@ pub fn TransformResult::map(self : TransformResult) -> String {
   if @js.is_undefined(m) || @js.is_null(m) {
     ""
   } else {
-    @js.identity(m)
+    @nostd.identity(m)
   }
 }
 
@@ -241,7 +241,7 @@ pub fn TransformResult::warnings(self : TransformResult) -> Array[Message] {
   if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @js.identity(warnings_arr._get("length"))
+  let len : Int = @nostd.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(warnings_arr._get(i.to_string()).cast())

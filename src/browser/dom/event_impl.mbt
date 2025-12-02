@@ -136,7 +136,7 @@ pub impl EventImpl for MouseEvent with as_any(self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
   let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -196,7 +196,7 @@ pub impl EventImpl for FocusEvent with as_any(self) -> @nostd.Any {
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
   let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -399,7 +399,7 @@ pub impl EventImpl for MessageEvent with as_any(self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
   let v : @nostd.Any = self.as_any()._get("source").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -423,7 +423,7 @@ pub impl EventImpl for PopStateEvent with as_any(self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent/state
 pub fn PopStateEvent::state(self : Self) -> @nostd.Any? {
   let v : @nostd.Any = self.as_any()._get("state").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|

@@ -48,7 +48,7 @@ pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @nostd.Any = "%identity"
 /// Returns the default openai provider function from @ai-sdk/openai
 pub fn OpenAIProvider::require() -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
-  pkg._get("openai") |> @js.identity
+  pkg._get("openai") |> @nostd.identity
 }
 
 ///|
@@ -56,14 +56,14 @@ pub fn OpenAIProvider::require() -> OpenAIProvider {
 pub fn OpenAIProvider::create(options : OpenAIOptions) -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
   let create_fn = pkg._get("createOpenAI")
-  create_fn.call_self([options.as_any()]) |> @js.identity
+  create_fn.call_self([options.as_any()]) |> @nostd.identity
 }
 
 ///|
 /// Create an OpenAI model instance
 /// Example: openai.model("gpt-4o")
 pub fn OpenAIProvider::model(self : OpenAIProvider, model_id : String) -> Model {
-  self.as_any().call_self([model_id |> @js.any]) |> @js.identity
+  self.as_any().call_self([model_id |> @js.any]) |> @nostd.identity
 }
 
 ///|
@@ -119,7 +119,7 @@ pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @nostd.Any = "%ide
 /// Returns the default anthropic provider function from @ai-sdk/anthropic
 pub fn AnthropicProvider::require() -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
-  pkg._get("anthropic") |> @js.identity
+  pkg._get("anthropic") |> @nostd.identity
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn AnthropicProvider::create(
 ) -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
   let create_fn = pkg._get("createAnthropic")
-  create_fn.call_self([options.as_any()]) |> @js.identity
+  create_fn.call_self([options.as_any()]) |> @nostd.identity
 }
 
 ///|
@@ -139,7 +139,7 @@ pub fn AnthropicProvider::model(
   self : AnthropicProvider,
   model_id : String,
 ) -> Model {
-  self.as_any().call_self([model_id |> @js.any]) |> @js.identity
+  self.as_any().call_self([model_id |> @js.any]) |> @nostd.identity
 }
 
 ///|
@@ -198,7 +198,7 @@ pub fn GoogleProvider::as_any(self : GoogleProvider) -> @nostd.Any = "%identity"
 /// Returns the default google provider function from @ai-sdk/google
 pub fn GoogleProvider::require() -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
-  pkg._get("google") |> @js.identity
+  pkg._get("google") |> @nostd.identity
 }
 
 ///|
@@ -206,14 +206,14 @@ pub fn GoogleProvider::require() -> GoogleProvider {
 pub fn GoogleProvider::create(options : GoogleOptions) -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
   let create_fn = pkg._get("createGoogleGenerativeAI")
-  create_fn.call_self([options.as_any()]) |> @js.identity
+  create_fn.call_self([options.as_any()]) |> @nostd.identity
 }
 
 ///|
 /// Create a Google Generative AI model instance
 /// Example: google.model("gemini-2.0-flash")
 pub fn GoogleProvider::model(self : GoogleProvider, model_id : String) -> Model {
-  self.as_any().call_self([model_id |> @js.any]) |> @js.identity
+  self.as_any().call_self([model_id |> @js.any]) |> @nostd.identity
 }
 
 ///|

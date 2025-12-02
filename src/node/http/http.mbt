@@ -22,13 +22,13 @@ pub fn IncomingMessage::as_any(self : IncomingMessage) -> @nostd.Any = "%identit
 ///|
 /// IncomingMessage is a Readable stream
 pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
 /// Get HTTP method
 pub fn IncomingMessage::method_(self : IncomingMessage) -> String? {
-  self.as_any()._get("method") |> @js.identity_option
+  self.as_any()._get("method") |> @nostd.identity_option
 }
 
 ///|
@@ -42,7 +42,7 @@ pub fn IncomingMessage::setTimeout(
     Some(cb) =>
       self.as_any()
       .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -59,7 +59,7 @@ pub fn ServerResponse::as_any(self : ServerResponse) -> @nostd.Any = "%identity"
 ///|
 /// ServerResponse is a Writable stream
 pub fn ServerResponse::as_writable(self : ServerResponse) -> @stream.Writable {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
@@ -84,12 +84,12 @@ pub fn ServerResponse::writeHead(
       self
       .as_any()
       .call2("writeHead", @nostd.any(statusCode), @nostd.any(msg))
-      |> @js.identity
+      |> @nostd.identity
     (None, Some(hdrs)) =>
       self
       .as_any()
       .call2("writeHead", @nostd.any(statusCode), hdrs)
-      |> @js.identity
+      |> @nostd.identity
     (None, None) =>
       self.as_any()._call("writeHead", [@nostd.any(statusCode)]).cast()
   }
@@ -107,7 +107,7 @@ pub fn ServerResponse::write(
       self
       .as_any()
       .call2("write", @nostd.any(chunk), @nostd.any(enc))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
   }
 }
@@ -143,7 +143,7 @@ pub fn ServerResponse::getHeader(
   self : ServerResponse,
   name : String,
 ) -> String? {
-  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @js.identity_option
+  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @nostd.identity_option
 }
 
 ///|
@@ -203,7 +203,7 @@ pub fn ServerResponse::setTimeout(
       self
       .as_any()
       .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -244,9 +244,9 @@ pub fn Server::listen(
       ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @js.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @nostd.identity
     (None, Some(b)) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @js.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @nostd.identity
     (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
@@ -257,7 +257,7 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
     Some(cb) =>
       self.as_any()._call("close", [@nostd.any(@js.from_fn0(cb))]).cast()
-    None => self.as_any().call0("close") |> @js.identity
+    None => self.as_any().call0("close") |> @nostd.identity
   }
 }
 
@@ -282,7 +282,7 @@ pub fn Server::listening(self : Server) -> Bool {
 ///|
 /// Get max headers count
 pub fn Server::maxHeadersCount(self : Server) -> Int? {
-  self.as_any()._get("maxHeadersCount") |> @js.identity_option
+  self.as_any()._get("maxHeadersCount") |> @nostd.identity_option
 }
 
 ///|
@@ -303,7 +303,7 @@ pub fn Server::setTimeout(
       self
       .as_any()
       .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -332,7 +332,7 @@ pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
 ///|
 /// ClientRequest is a Writable stream
 pub fn ClientRequest::as_writable(self : ClientRequest) -> @stream.Writable {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
@@ -347,7 +347,7 @@ pub fn ClientRequest::write(
       self
       .as_any()
       .call2("write", @nostd.any(chunk), @nostd.any(enc))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
   }
 }
@@ -389,7 +389,7 @@ pub fn ClientRequest::setHeader(
 ///|
 /// Get header
 pub fn ClientRequest::getHeader(self : ClientRequest, name : String) -> String? {
-  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @js.identity_option
+  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @nostd.identity_option
 }
 
 ///|
@@ -410,7 +410,7 @@ pub fn ClientRequest::setTimeout(
       self
       .as_any()
       .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @js.identity
+      |> @nostd.identity
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -425,8 +425,8 @@ pub fn createServer(
   match requestListener {
     Some(listener) =>
       http_module()._call("createServer", [@nostd.any(@js.from_fn2(listener))])
-      |> @js.identity
-    None => http_module().call0("createServer") |> @js.identity
+      |> @nostd.identity
+    None => http_module().call0("createServer") |> @nostd.identity
   }
 }
 
@@ -441,13 +441,13 @@ pub fn request(
     (Some(opts), Some(cb)) =>
       http_module()
       ._call("request", [@nostd.any(url), opts, @nostd.any(@js.from_fn1(cb))])
-      |> @js.identity
+      |> @nostd.identity
     (Some(opts), None) =>
-      http_module().call2("request", @nostd.any(url), opts) |> @js.identity
+      http_module().call2("request", @nostd.any(url), opts) |> @nostd.identity
     (None, Some(cb)) =>
       http_module()
       .call2("request", @nostd.any(url), @nostd.any(@js.from_fn1(cb)))
-      |> @js.identity
+      |> @nostd.identity
     (None, None) => http_module()._call("request", [@nostd.any(url)]).cast()
   }
 }
@@ -465,11 +465,11 @@ pub fn get(
       ._call("get", [@nostd.any(url), opts, @nostd.any(@js.from_fn1(cb))])
       .cast()
     (Some(opts), None) =>
-      http_module().call2("get", @nostd.any(url), opts) |> @js.identity
+      http_module().call2("get", @nostd.any(url), opts) |> @nostd.identity
     (None, Some(cb)) =>
       http_module()
       .call2("get", @nostd.any(url), @nostd.any(@js.from_fn1(cb)))
-      |> @js.identity
+      |> @nostd.identity
     (None, None) => http_module()._call("get", [@nostd.any(url)]).cast()
   }
 }

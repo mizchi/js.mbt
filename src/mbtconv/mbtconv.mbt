@@ -4,7 +4,7 @@
 /// This module provides functions to convert MoonBit built-in types to JavaScript values.
 /// These conversions have runtime overhead due to iteration and recursive processing.
 ///
-/// For zero-cost conversions, use @js.identity() or @nostd.any() instead.
+/// For zero-cost conversions, use @nostd.identity() or @nostd.any() instead.
 ///
 /// ## Conversion Overhead Summary
 /// - Map[String, T] -> JS Object: O(n) iteration + property setting

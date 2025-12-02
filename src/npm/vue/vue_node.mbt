@@ -6,27 +6,27 @@ pub trait VueNode {
 
 ///|
 pub impl VueNode for VNode with to_vue_node(self) {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
 pub impl VueNode for String with to_vue_node(self) {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
 pub impl VueNode for Int with to_vue_node(self) {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
 pub impl VueNode for Double with to_vue_node(self) {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|
 pub impl VueNode for Bool with to_vue_node(self) {
-  @js.identity(self)
+  @nostd.identity(self)
 }
 
 ///|

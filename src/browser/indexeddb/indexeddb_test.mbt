@@ -24,7 +24,7 @@ fn[T] request_to_promise(
     resolvers.resolve(event._get("target")._get("result"))
   })
   request.addEventListener("error", fn(event) {
-    let error_msg = @js.identity(
+    let error_msg = @nostd.identity(
       event._get("target")._get("error").call0("toString"),
     )
     resolvers.reject(Failure(error_msg))
@@ -49,7 +49,7 @@ fn open_request_to_promise(
     resolvers.resolve(event._get("target")._get("result"))
   })
   request.addEventListener("error", fn(event) {
-    let error_msg = @js.identity(
+    let error_msg = @nostd.identity(
       event._get("target")._get("error").call0("toString"),
     )
     resolvers.reject(Failure(error_msg))
@@ -64,13 +64,13 @@ async test "IndexedDB: open and close database" {
   init_fake_indexeddb()
   let request = @indexeddb.open("test-open-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("store1", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   assert_eq(db.name, "test-open-db")
   assert_eq(db.version, 1)
   db.close()
@@ -83,13 +83,13 @@ async test "IndexedDB: open and close database" {
 async test "IndexedDB: add and get item" {
   let request = @indexeddb.open("test-add-get-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("items", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
 
   // Add an item
   let tx = db.transaction(["items"], mode="readwrite")
@@ -104,7 +104,7 @@ async test "IndexedDB: add and get item" {
   // Get the item
   let get_request = store.get(@nostd.any(1))
   let result = request_to_promise(get_request).wait()
-  assert_eq(@js.identity(result._get("name")), "Test")
+  assert_eq(@nostd.identity(result._get("name")), "Test")
   db.close()
   @indexeddb.deleteDatabase("test-add-get-db") |> ignore
 }
@@ -113,13 +113,13 @@ async test "IndexedDB: add and get item" {
 async test "IndexedDB: put updates existing item" {
   let request = @indexeddb.open("test-put-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("records", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["records"], mode="readwrite")
   let store = tx.objectStore("records")
 
@@ -139,7 +139,7 @@ async test "IndexedDB: put updates existing item" {
 
   // Get and verify
   let result = request_to_promise(store.get(@nostd.any(1))).wait()
-  assert_eq(@js.identity(result._get("value")), "updated")
+  assert_eq(@nostd.identity(result._get("value")), "updated")
   db.close()
   @indexeddb.deleteDatabase("test-put-db") |> ignore
 }
@@ -148,13 +148,13 @@ async test "IndexedDB: put updates existing item" {
 async test "IndexedDB: delete removes item" {
   let request = @indexeddb.open("test-delete-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("todos", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["todos"], mode="readwrite")
   let store = tx.objectStore("todos")
 
@@ -179,13 +179,13 @@ async test "IndexedDB: delete removes item" {
 async test "IndexedDB: clear removes all items" {
   let request = @indexeddb.open("test-clear-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("data", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["data"], mode="readwrite")
   let store = tx.objectStore("data")
 
@@ -206,7 +206,7 @@ async test "IndexedDB: clear removes all items" {
 
   // Verify empty
   let count_result = request_to_promise(store.count()).wait()
-  assert_eq(@js.identity(count_result), 0)
+  assert_eq(@nostd.identity(count_result), 0)
   db.close()
   @indexeddb.deleteDatabase("test-clear-db") |> ignore
 }
@@ -215,13 +215,13 @@ async test "IndexedDB: clear removes all items" {
 async test "IndexedDB: getAll returns all items" {
   let request = @indexeddb.open("test-getall-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("entries", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["entries"], mode="readwrite")
   let store = tx.objectStore("entries")
 
@@ -244,7 +244,7 @@ async test "IndexedDB: getAll returns all items" {
 
   // Get all
   let results = request_to_promise(store.getAll()).wait()
-  let len : Int = @js.identity(results._get("length"))
+  let len : Int = @nostd.identity(results._get("length"))
   assert_eq(len, 3)
   db.close()
   @indexeddb.deleteDatabase("test-getall-db") |> ignore
@@ -254,13 +254,13 @@ async test "IndexedDB: getAll returns all items" {
 async test "IndexedDB: count returns correct number" {
   let request = @indexeddb.open("test-count-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("counters", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["counters"], mode="readwrite")
   let store = tx.objectStore("counters")
 
@@ -274,7 +274,7 @@ async test "IndexedDB: count returns correct number" {
 
   // Count
   let count_result = request_to_promise(store.count()).wait()
-  assert_eq(@js.identity(count_result), 3)
+  assert_eq(@nostd.identity(count_result), 3)
   db.close()
   @indexeddb.deleteDatabase("test-count-db") |> ignore
 }
@@ -283,13 +283,13 @@ async test "IndexedDB: count returns correct number" {
 async test "IndexedDB: transaction modes work correctly" {
   let request = @indexeddb.open("test-tx-mode-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("txtest", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
 
   // Read-only transaction
   let readonly_tx = db.transaction(["txtest"], mode="readonly")
@@ -308,13 +308,13 @@ async test "IndexedDB: transaction modes work correctly" {
 async test "IndexedDB: IDBKeyRange operations" {
   let request = @indexeddb.open("test-keyrange-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("numbers", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
   let tx = db.transaction(["numbers"], mode="readwrite")
   let store = tx.objectStore("numbers")
 
@@ -332,7 +332,7 @@ async test "IndexedDB: IDBKeyRange operations" {
     upperOpen=false,
   )
   let results = request_to_promise(store.getAll(query=range.as_any())).wait()
-  let len : Int = @js.identity(results._get("length"))
+  let len : Int = @nostd.identity(results._get("length"))
   assert_eq(len, 5) // 3, 4, 5, 6, 7
   db.close()
   @indexeddb.deleteDatabase("test-keyrange-db") |> ignore
@@ -382,13 +382,13 @@ struct Order {
 async test "IndexedDB: store and retrieve User struct with full type safety" {
   let request = @indexeddb.open("typed-user-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("users", keyPath="id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
 
   // Create User struct
   let alice : User = {
@@ -401,7 +401,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   // Type-safe store: @indexeddb.IDBObjectStore[User] with identity
   let tx = db.transaction(["users"], mode="readwrite")
   let store : @indexeddb.IDBObjectStore[User] = tx.objectStore("users")
-    |> @js.identity
+    |> @nostd.identity
 
   // Add User directly - internal casting handled by IndexedDB
   let add_request = store.add(alice)
@@ -412,7 +412,7 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
   let result = request_to_promise(get_request).wait()
 
   // result is User type - direct cast, no from_js() needed
-  let retrieved_user : User = result |> @js.identity
+  let retrieved_user : User = result |> @nostd.identity
 
   // Type-safe assertions with struct fields
   assert_eq(retrieved_user.id, 1)
@@ -427,14 +427,14 @@ async test "IndexedDB: store and retrieve User struct with full type safety" {
 async test "IndexedDB: manage products with Product struct type safety" {
   let request = @indexeddb.open("typed-product-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     let store = db.createObjectStore("products", keyPath="sku")
     store.createIndex("category", "category", unique=false) |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
 
   // Create Product structs
   let laptop : Product = {
@@ -455,7 +455,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
   // Type-safe store: @indexeddb.IDBObjectStore[Product]
   let tx = db.transaction(["products"], mode="readwrite")
   let store : @indexeddb.IDBObjectStore[Product] = tx.objectStore("products")
-    |> @js.identity
+    |> @nostd.identity
 
   // Add Product directly - internal casting handled by IndexedDB
   request_to_promise(store.add(laptop)).wait() |> ignore
@@ -466,7 +466,7 @@ async test "IndexedDB: manage products with Product struct type safety" {
     @nostd.any("LAPTOP-001"),
   )
   let laptop_result = request_to_promise(laptop_request).wait()
-  let retrieved_laptop : Product = laptop_result |> @js.identity
+  let retrieved_laptop : Product = laptop_result |> @nostd.identity
 
   // Type-safe field access
   assert_eq(retrieved_laptop.sku, "LAPTOP-001")
@@ -482,14 +482,14 @@ async test "IndexedDB: manage products with Product struct type safety" {
   let electronics_array = request_to_promise(electronics_request).wait()
 
   // Array operations with Js
-  let length : Int = @js.identity(electronics_array._get("length"))
+  let length : Int = @nostd.identity(electronics_array._get("length"))
   assert_eq(length, 2)
 
   // Access first product with direct cast
   let first_product_js : @nostd.Any = electronics_array._call("at", [
     "0" |> @nostd.any,
   ])
-  let first_product : Product = first_product_js |> @js.identity
+  let first_product : Product = first_product_js |> @nostd.identity
   assert_eq(first_product.category, "electronics")
   db.close()
   @indexeddb.deleteDatabase("typed-product-db") |> ignore
@@ -499,18 +499,18 @@ async test "IndexedDB: manage products with Product struct type safety" {
 async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" {
   let request = @indexeddb.open("typed-orders-db", version=1)
   let db_promise = open_request_to_promise(request, onupgradeneeded=fn(event) {
-    let db : @indexeddb.IDBDatabase = @js.identity(
+    let db : @indexeddb.IDBDatabase = @nostd.identity(
       event._get("target")._get("result"),
     )
     db.createObjectStore("orders", keyPath="order_id") |> ignore
   })
   let db_js = db_promise.wait()
-  let db : @indexeddb.IDBDatabase = @js.identity(db_js)
+  let db : @indexeddb.IDBDatabase = @nostd.identity(db_js)
 
   // Create and store Order structs
   let tx = db.transaction(["orders"], mode="readwrite")
   let store : @indexeddb.IDBObjectStore[Order] = tx.objectStore("orders")
-    |> @js.identity
+    |> @nostd.identity
   for i = 1; i <= 3; i = i + 1 {
     let order : Order = {
       order_id: i,
@@ -528,7 +528,7 @@ async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" 
   // Type-safe cursor access
   if not(@js.is_nullish(cursor_result)) {
     let cursor : @indexeddb.IDBCursorWithValue[Order] = cursor_result
-      |> @js.identity
+      |> @nostd.identity
 
     // cursor.value is Order - direct access, no conversion needed
     let order : Order = cursor.value

@@ -97,7 +97,7 @@ fn QueryOptions::to_any(self : QueryOptions) -> @nostd.Any {
   if self.status is Some(v) {
     obj["status"] = @nostd.any(v)
   }
-  obj |> @js.identity
+  obj |> @nostd.identity
 }
 
 ///|
@@ -106,7 +106,7 @@ pub async fn query(
   options? : QueryOptions = QueryOptions::default(),
 ) -> Array[Tab] {
   let result = ffi_query(options.to_any()).wait()
-  let arr : Array[@nostd.Any] = result |> @js.identity
+  let arr : Array[@nostd.Any] = result |> @nostd.identity
   arr.map(Tab::from_any)
 }
 
@@ -190,7 +190,7 @@ fn CreateOptions::to_any(self : CreateOptions) -> @nostd.Any {
   if self.opener_tab_id is Some(v) {
     obj["openerTabId"] = @nostd.any(v)
   }
-  obj |> @js.identity
+  obj |> @nostd.identity
 }
 
 ///|
@@ -240,7 +240,7 @@ fn UpdateOptions::to_any(self : UpdateOptions) -> @nostd.Any {
   if self.muted is Some(v) {
     obj["muted"] = @nostd.any(v)
   }
-  obj |> @js.identity
+  obj |> @nostd.identity
 }
 
 ///|
@@ -286,7 +286,7 @@ pub async fn reload(tab_id : Int, bypass_cache? : Bool = false) -> Unit {
   if bypass_cache {
     options["bypassCache"] = @nostd.any(true)
   }
-  ffi_reload(tab_id, options |> @js.identity).wait()
+  ffi_reload(tab_id, options |> @nostd.identity).wait()
 }
 
 ///|

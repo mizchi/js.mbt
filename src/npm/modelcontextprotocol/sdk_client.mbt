@@ -40,17 +40,17 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   let sdk = require_mcp_client()
   let client_class = sdk._get("Client")
   // Build client info
-  let client_info = @js.identity(
+  let client_info = @nostd.identity(
     @mbtconv.from_map({
       "name": name |> @nostd.any,
       "version": version |> @nostd.any,
     }),
   )
   // Create client instance with empty capabilities
-  let opts = @js.identity(
+  let opts = @nostd.identity(
     @mbtconv.from_map({ "capabilities": @nostd.any(@nostd.Object::new()) }),
   )
-  ffi_construct_client(client_class, [client_info, opts]) |> @js.identity
+  ffi_construct_client(client_class, [client_info, opts]) |> @nostd.identity
 }
 
 ///|
@@ -116,13 +116,13 @@ pub(all) struct ToolInfo {
 ///|
 /// List available tools
 pub async fn SdkClient::list_tools(self : SdkClient) -> ListToolsResult {
-  let request = @js.identity(
+  let request = @nostd.identity(
     @nostd.from_entries([("method", "tools/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListToolsResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let tools : Array[ToolInfo] = result._get("tools") |> @js.identity
+  let tools : Array[ToolInfo] = result._get("tools") |> @nostd.identity
   { tools, raw: result }
 }
 
@@ -160,7 +160,7 @@ pub async fn SdkClient::call_tool(
     "name": name |> @nostd.any,
     "arguments": @nostd.any(arguments),
   })
-  let request = @js.identity(
+  let request = @nostd.identity(
     @mbtconv.from_map({
       "method": "tools/call" |> @nostd.any,
       "params": @nostd.any(params),
@@ -169,8 +169,8 @@ pub async fn SdkClient::call_tool(
   let types = require_mcp_client_types()
   let schema = types._get("CallToolResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let content : Array[ContentResult] = result._get("content") |> @js.identity
-  let is_error : Bool? = result._get("isError") |> @js.identity_option()
+  let content : Array[ContentResult] = result._get("content") |> @nostd.identity
+  let is_error : Bool? = result._get("isError") |> @nostd.identity_option()
   { content, is_error, raw: result }
 }
 
@@ -197,13 +197,13 @@ pub(all) struct ResourceInfo {
 ///|
 /// List available resources
 pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult {
-  let request = @js.identity(
+  let request = @nostd.identity(
     @nostd.from_entries([("method", "resources/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListResourcesResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let resources : Array[ResourceInfo] = result._get("resources") |> @js.identity
+  let resources : Array[ResourceInfo] = result._get("resources") |> @nostd.identity
   { resources, raw: result }
 }
 
@@ -228,7 +228,7 @@ pub async fn SdkClient::read_resource(
   let types = require_mcp_client_types()
   let schema = types._get("ReadResourceResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let contents : Array[ContentResult] = result._get("contents") |> @js.identity
+  let contents : Array[ContentResult] = result._get("contents") |> @nostd.identity
   { contents, raw: result }
 }
 
@@ -262,13 +262,13 @@ pub(all) struct PromptArgumentInfo {
 ///|
 /// List available prompts
 pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
-  let request = @js.identity(
+  let request = @nostd.identity(
     @nostd.from_entries([("method", "prompts/list" |> @nostd.any)]),
   )
   let types = require_mcp_client_types()
   let schema = types._get("ListPromptsResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let prompts : Array[PromptInfo] = result._get("prompts") |> @js.identity
+  let prompts : Array[PromptInfo] = result._get("prompts") |> @nostd.identity
   { prompts, raw: result }
 }
 
@@ -299,7 +299,7 @@ pub async fn SdkClient::get_prompt(
   if arguments is Some(args) {
     params.set("arguments", args)
   }
-  let request = @js.identity(
+  let request = @nostd.identity(
     @mbtconv.from_map({
       "method": "prompts/get" |> @nostd.any,
       "params": @nostd.any(params),
@@ -309,9 +309,9 @@ pub async fn SdkClient::get_prompt(
   let schema = types._get("GetPromptResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
   let messages : Array[PromptMessageResult] = result._get("messages")
-    |> @js.identity
+    |> @nostd.identity
   {
-    description: result._get("description") |> @js.identity_option(),
+    description: result._get("description") |> @nostd.identity_option(),
     messages,
     raw: result,
   }
@@ -340,7 +340,7 @@ pub fn StdioClientTransport::new(
   if cwd is Some(c) {
     opts.set("cwd", c)
   }
-  ffi_construct_client(transport_class, [@nostd.any(opts)]) |> @js.identity
+  ffi_construct_client(transport_class, [@nostd.any(opts)]) |> @nostd.identity
 }
 
 ///|
@@ -349,14 +349,14 @@ pub async fn StdioClientTransport::start(self : StdioClientTransport) -> Unit {
   let promise : @js.Promise[Unit] = (self |> @nostd.any)
     ._get("start")
     .call_self([])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
 ///|
 /// Close the transport
 pub async fn StdioClientTransport::close(self : StdioClientTransport) -> Unit {
-  let promise : @js.Promise[Unit] = self |> @nostd.any |> @js.identity
+  let promise : @js.Promise[Unit] = self |> @nostd.any |> @nostd.identity
   promise.wait()
 }
 
@@ -375,8 +375,8 @@ pub fn SdkClient::set_notification_handler(
   .as_any()
   ._get("setNotificationHandler")
   .call_self([
-    @js.identity(@nostd.from_entries([("method", method_name |> @nostd.any)])),
-    @js.identity(handler),
+    @nostd.identity(@nostd.from_entries([("method", method_name |> @nostd.any)])),
+    @nostd.identity(handler),
   ])
   |> ignore
 }
@@ -391,7 +391,7 @@ pub fn SdkClient::on_log_message(
     let params = notification._get("params")
     let level : String = params._get("level").cast()
     let logger : String = params._get("logger")
-      |> @js.identity_option()
+      |> @nostd.identity_option()
       |> Option::unwrap_or("")
     let data = params._get("data")
     handler(level, logger, data)

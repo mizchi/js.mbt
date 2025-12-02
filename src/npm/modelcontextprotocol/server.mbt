@@ -53,7 +53,7 @@ pub fn[T] McpServer::add_tool(
   handler : ToolHandler[T],
 ) -> Unit {
   let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
-    handler(@js.identity(args))
+    handler(@nostd.identity(args))
   }
   let promisified : InternalToolHandler = @js.promisify1(wrapped)
   self.tools = self.tools.add(tool.name, (tool, promisified))
@@ -78,7 +78,7 @@ pub fn[T] McpServer::add_prompt(
   handler : PromptHandler[T],
 ) -> Unit {
   let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
-    handler(@js.identity(args))
+    handler(@nostd.identity(args))
   }
   let promisified : InternalPromptHandler = @js.promisify1(wrapped)
   self.prompts = self.prompts.add(prompt.name, (prompt, promisified))
@@ -131,7 +131,7 @@ fn McpServer::handle_initialize(
     "serverInfo": @nostd.any(self.info.as_any()),
     "capabilities": @nostd.any(capabilities.as_any()),
   })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
 }
 
 ///|
@@ -145,7 +145,7 @@ fn McpServer::handle_tools_list(
     tools.push(tool.as_any())
   })
   let result = @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools)) })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
 }
 
 ///|
@@ -155,7 +155,7 @@ fn McpServer::handle_tools_call(
   params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(@nostd.any(p)._get("name")) is Some(tool_name) else {
+    @nostd.identity_option(@nostd.any(p)._get("name")) is Some(tool_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing tool name")),
     )
@@ -165,7 +165,7 @@ fn McpServer::handle_tools_call(
       Err(self.method_not_found_error(id, "Tool not found: " + tool_name)),
     )
   }
-  let arguments : @nostd.Any = @js.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
+  let arguments : @nostd.Any = @nostd.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
     @nostd.Object::new(),
   )
   handler(arguments).then(fn(content) {
@@ -173,7 +173,7 @@ fn McpServer::handle_tools_call(
       "content": @nostd.any(@js.from_array(content.map(fn(c) { @nostd.any(c) }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
     )
   })
 }
@@ -191,7 +191,7 @@ fn McpServer::handle_resources_list(
   let result = @mbtconv.from_map({
     "resources": @nostd.any(@js.from_array(resources)),
   })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
 }
 
 ///|
@@ -201,7 +201,7 @@ fn McpServer::handle_resources_read(
   params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(@nostd.any(p)._get("uri")) is Some(resource_uri) else {
+    @nostd.identity_option(@nostd.any(p)._get("uri")) is Some(resource_uri) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing resource URI")),
     )
@@ -218,7 +218,7 @@ fn McpServer::handle_resources_read(
       "contents": @nostd.any(@js.from_array(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
     )
   })
 }
@@ -236,7 +236,7 @@ fn McpServer::handle_prompts_list(
   let result = @mbtconv.from_map({
     "prompts": @nostd.any(@js.from_array(prompts)),
   })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }))
+  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
 }
 
 ///|
@@ -246,7 +246,7 @@ fn McpServer::handle_prompts_get(
   params : @nostd.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @js.identity_option(@nostd.any(p)._get("name")) is Some(prompt_name) else {
+    @nostd.identity_option(@nostd.any(p)._get("name")) is Some(prompt_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing prompt name")),
     )
@@ -256,7 +256,7 @@ fn McpServer::handle_prompts_get(
       Err(self.method_not_found_error(id, "Prompt not found: " + prompt_name)),
     )
   }
-  let arguments : @nostd.Any = @js.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
+  let arguments : @nostd.Any = @nostd.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
     @nostd.Object::new(),
   )
   handler(arguments).then(fn(content) {
@@ -264,7 +264,7 @@ fn McpServer::handle_prompts_get(
       "messages": @nostd.any(@js.from_array(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @js.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
     )
   })
 }

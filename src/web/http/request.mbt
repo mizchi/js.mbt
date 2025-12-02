@@ -173,14 +173,14 @@ pub fn Request::as_any(self : Request) -> @nostd.Any = "%identity"
 /// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
 pub fn Request::new(url : String) -> Request {
   let req = ffi_request_new(url)
-  @js.identity(req)
+  @nostd.identity(req)
 }
 
 ///|
 /// Create a new Request with init options
 pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
   let req = ffi_request_new_with_init(url, init.as_any())
-  @js.identity(req)
+  @nostd.identity(req)
 }
 
 ///|

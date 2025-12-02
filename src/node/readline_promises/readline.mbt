@@ -39,7 +39,7 @@ pub fn createInterface(
     "tabSize": tabSize.map(fn(x) { @nostd.any(x) }),
     "signal": signal.map(fn(x) { @nostd.identity(x) }),
   }).cast()
-  @js.identity(
+  @nostd.identity(
     readline_promises_module()._get("createInterface").call_self([opts]),
   )
 }

@@ -17,8 +17,8 @@ pub fn[T] watch(
   if deep is Some(v) {
     options.set("deep", v)
   }
-  @js.identity(
-    ffi_watch(source |> @js.identity, callback |> @js.unsafe_any, options),
+  @nostd.identity(
+    ffi_watch(source |> @nostd.identity, callback |> @js.unsafe_any, options),
   )
 }
 
@@ -29,19 +29,19 @@ pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
   if flush is Some(v) {
     options.set("flush", v)
   }
-  @js.identity(ffi_watch_effect(effect |> @js.unsafe_any, options))
+  @nostd.identity(ffi_watch_effect(effect |> @js.unsafe_any, options))
 }
 
 ///|
 /// Vue.watchPostEffect - watchEffect with flush: 'post'
 pub fn watchPostEffect(effect : () -> Unit) -> WatchStopHandle {
-  @js.identity(ffi_watch_post_effect(effect |> @js.unsafe_any))
+  @nostd.identity(ffi_watch_post_effect(effect |> @js.unsafe_any))
 }
 
 ///|
 /// Vue.watchSyncEffect - watchEffect with flush: 'sync'
 pub fn watchSyncEffect(effect : () -> Unit) -> WatchStopHandle {
-  @js.identity(ffi_watch_sync_effect(effect |> @js.unsafe_any))
+  @nostd.identity(ffi_watch_sync_effect(effect |> @js.unsafe_any))
 }
 
 ///|
@@ -112,24 +112,24 @@ pub fn onErrorCaptured(
 ///|
 /// Vue.provide - Provide value for injection
 pub fn[T] provide(key : String, value : T) -> Unit {
-  ffi_provide(@nostd.any(key), value |> @js.identity)
+  ffi_provide(@nostd.any(key), value |> @nostd.identity)
 }
 
 ///|
 /// Vue.inject - Inject provided value
 pub fn[T] inject(key : String, default_value? : T) -> T {
   let default_val = match default_value {
-    Some(v) => v |> @js.identity
+    Some(v) => v |> @nostd.identity
     None => @global.undefined()
   }
-  @js.identity(ffi_inject(@nostd.any(key), default_val))
+  @nostd.identity(ffi_inject(@nostd.any(key), default_val))
 }
 
 ///|
 /// Vue.nextTick - Execute callback after DOM update
 #alias(next_tick)
 pub async fn nextTick() -> Unit {
-  let promise : @js.Promise[Unit] = @js.identity(
+  let promise : @js.Promise[Unit] = @nostd.identity(
     ffi_next_tick(@global.undefined()),
   )
   promise.wait()

@@ -5,7 +5,7 @@
 ///|
 /// Render a VNode to HTML string (async)
 pub async fn renderToString(vnode : VNode) -> String {
-  ffi_render_to_string(vnode |> @js.identity).wait()
+  ffi_render_to_string(vnode |> @nostd.identity).wait()
 }
 
 ///|
@@ -15,7 +15,7 @@ extern "js" fn ffi_render_to_string(vnode : @nostd.Any) -> @js.Promise[String] =
 ///|
 /// Render a VNode to a readable stream (returns readable stream)
 pub fn renderToStream(vnode : VNode) -> @nostd.Any {
-  ffi_render_to_stream(vnode |> @js.identity)
+  ffi_render_to_stream(vnode |> @nostd.identity)
 }
 
 ///|
@@ -25,7 +25,7 @@ extern "js" fn ffi_render_to_stream(vnode : @nostd.Any) -> @nostd.Any =
 ///|
 /// Render to static string (no hydration markers)
 pub async fn renderToStaticMarkup(vnode : VNode) -> String {
-  ffi_render_to_static_markup(vnode |> @js.identity).wait()
+  ffi_render_to_static_markup(vnode |> @nostd.identity).wait()
 }
 
 ///|

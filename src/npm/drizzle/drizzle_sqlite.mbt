@@ -82,7 +82,7 @@ pub fn sqliteTableWithConfig(
 ) -> Table {
   let fn_ = drizzle_sqlite_core()._get("sqliteTable")
   let extra_fn : @nostd.Any = @js.from_fn1(fn(t : @nostd.Any) -> @nostd.Any {
-    extra(@js.identity(t))
+    extra(@nostd.identity(t))
   })
   @nostd.any(fn_)
   ._invoke([@nostd.any(name), @nostd.any(columns), @nostd.any(extra_fn)])
@@ -197,7 +197,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
   let opts = @nostd.Object::new()
   opts.set("autoIncrement", true)
-  self.call1("primaryKey", opts) |> @js.identity
+  self.call1("primaryKey", opts) |> @nostd.identity
 }
 
 // ============ SQLite Specific Index ============

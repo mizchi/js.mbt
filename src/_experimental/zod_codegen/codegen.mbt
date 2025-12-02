@@ -165,7 +165,7 @@ fn generate_struct_ctx(
   let props = schema.properties()
   if not(@js.is_undefined(props)) {
     let required = schema.required()
-    let keys : Array[String] = @js.Object::keys(props) |> @js.identity
+    let keys : Array[String] = @js.Object::keys(props) |> @nostd.identity
     for key in keys {
       let prop_schema = JsonSchema::from_any(props._get(key))
       let field_name = to_snake_case(key)
@@ -290,7 +290,7 @@ pub fn generate_all_types(
   // Generate definitions first
   let defs = schema.definitions()
   if not(@js.is_undefined(defs)) && not(@js.is_null(defs)) {
-    let keys : Array[String] = @js.Object::keys(defs) |> @js.identity
+    let keys : Array[String] = @js.Object::keys(defs) |> @nostd.identity
     for key in keys {
       let def_schema = JsonSchema::from_any(defs._get(key))
       let code = generate_struct(

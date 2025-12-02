@@ -21,8 +21,8 @@ async test "Response: read body as JSON" {
   let json_result : @nostd.Any = response.as_any()._call("json", [])
   let json_promise : @js.Promise[@nostd.Any] = json_result.cast()
   let json_obj = json_promise.wait()
-  let name : String = @js.identity(json_obj._get("name"))
-  let value : Int = @js.identity(json_obj._get("value"))
+  let name : String = @nostd.identity(json_obj._get("name"))
+  let value : Int = @nostd.identity(json_obj._get("value"))
   assert_eq(name, "test")
   assert_eq(value, 42)
 }
@@ -43,7 +43,7 @@ async test "Response: read body stream chunk by chunk" {
         let result : @nostd.Any = reader.as_any()._call("read", [])
         let promise : @js.Promise[@nostd.Any] = result.cast()
         let data = promise.wait()
-        done = @js.identity(data._get("done"))
+        done = @nostd.identity(data._get("done"))
         if not(done) {
           // Decode Uint8Array to string using TextDecoder from @encoding
           let value : @typedarray.Uint8Array = data._get("value").cast()
@@ -146,7 +146,7 @@ async test "Response: arrayBuffer method" {
   assert_eq(buffer_type, "object")
 
   // Get byte length
-  let byte_length : Int = @js.identity(buffer._get("byteLength"))
+  let byte_length : Int = @nostd.identity(buffer._get("byteLength"))
   assert_true(byte_length > 0)
 }
 
@@ -162,6 +162,6 @@ async test "Response: blob method" {
   assert_eq(blob_type, "object")
 
   // Get blob size
-  let size : Int = @js.identity(blob._get("size"))
+  let size : Int = @nostd.identity(blob._get("size"))
   assert_true(size > 0)
 }

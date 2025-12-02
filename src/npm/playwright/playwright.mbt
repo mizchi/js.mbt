@@ -134,7 +134,7 @@ pub async fn BrowserType::launch(
   let promise : @js.Promise[Browser] = self
     .to_any()
     ._call("launch", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -168,7 +168,7 @@ pub async fn BrowserType::launchPersistentContext(
   let promise : @js.Promise[BrowserContext] = self
     .to_any()
     ._call("launchPersistentContext", [@nostd.any(userDataDir), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -184,7 +184,7 @@ pub fn BrowserType::name(self : BrowserType) -> String {
 /// Close browser (async)
 pub async fn Browser::close(self : Browser) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -196,7 +196,7 @@ pub fn Browser::close_with_error_callback(
   on_error : (Error) -> Unit,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -287,7 +287,7 @@ pub async fn Browser::newContext(
   let promise : @js.Promise[BrowserContext] = self
     .to_any()
     ._call("newContext", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -351,7 +351,7 @@ pub async fn Browser::newPage(
   let promise : @js.Promise[Page] = self
     .to_any()
     ._call("newPage", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -379,7 +379,7 @@ pub fn Browser::version(self : Browser) -> String {
 /// Close context
 pub async fn BrowserContext::close(self : BrowserContext) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -391,7 +391,7 @@ pub fn BrowserContext::close_with_error_callback(
   on_error : (Error) -> Unit,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -403,7 +403,7 @@ pub fn BrowserContext::close_with_error_callback(
 /// Create new page in context
 pub async fn BrowserContext::newPage(self : BrowserContext) -> Page {
   let promise : @js.Promise[Page] = self.to_any()._call("newPage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -441,7 +441,7 @@ pub async fn BrowserContext::addCookies(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("addCookies", [@nostd.any(cookies)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -449,7 +449,7 @@ pub async fn BrowserContext::addCookies(
 /// Clear cookies
 pub async fn BrowserContext::clearCookies(self : BrowserContext) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("clearCookies", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -462,8 +462,8 @@ pub async fn BrowserContext::cookies(
   let promise : @js.Promise[@nostd.Any] = match urls {
     Some(u) =>
       self.to_any()._call("cookies", [@nostd.any(@js.from_array(u))])
-      |> @js.identity
-    None => self.to_any()._call("cookies", []) |> @js.identity
+      |> @nostd.identity
+    None => self.to_any()._call("cookies", []) |> @nostd.identity
   }
   promise.wait()
 }
@@ -482,7 +482,7 @@ pub async fn BrowserContext::grantPermissions(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("grantPermissions", [@nostd.any(@js.from_array(permissions)), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -490,7 +490,7 @@ pub async fn BrowserContext::grantPermissions(
 /// Clear permissions
 pub async fn BrowserContext::clearPermissions(self : BrowserContext) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("clearPermissions", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -511,7 +511,7 @@ pub async fn BrowserContext::setGeolocation(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setGeolocation", [geo])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -524,6 +524,6 @@ pub async fn BrowserContext::setOffline(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setOffline", [@nostd.any(offline)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }

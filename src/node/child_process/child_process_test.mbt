@@ -121,7 +121,7 @@ test "spawnSync with env option" {
   let env_obj = @nostd.from_entries([("TEST_VAR", @nostd.any("test_value"))]).cast()
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
   let stdout = result.stdout()
-  let buffer : @buffer.Buffer = @js.identity(stdout)
+  let buffer : @buffer.Buffer = @nostd.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("test_value"))
 }
@@ -156,7 +156,7 @@ test "spawnSync handles command not found" {
 test "spawnSync captures output in result" {
   let result = spawnSync("echo", args=["captured"])
   let stdout = result.stdout()
-  let buffer : @buffer.Buffer = @js.identity(stdout)
+  let buffer : @buffer.Buffer = @nostd.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("captured"))
 }
@@ -420,7 +420,7 @@ async test "Node Child Process: ChildProcess signalCode returns signal" {
 test "Node Child Process: Nullish to_option converts null to None" {
   // Test that Nullish type works correctly
   // Create a nullish value using undefined
-  let nullish_val : @js.Nullish[@js.JsError] = @js.identity(@global.undefined())
+  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(@global.undefined())
   let opt = nullish_val.to_option()
   inspect(opt, content="None")
 }
@@ -429,7 +429,7 @@ test "Node Child Process: Nullish to_option converts null to None" {
 test "Node Child Process: Nullish to_option converts value to Some" {
   // Create a JsError and wrap it as Nullish
   let err = @js.JsError::new("test error")
-  let nullish_val : @js.Nullish[@js.JsError] = @js.identity(err)
+  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(err)
   let opt = nullish_val.to_option()
   match opt {
     Some(e) => inspect(e.message, content="test error")

@@ -88,7 +88,7 @@ pub async fn launch(
   if handleSIGTERM is Some(v) {
     options["handleSIGTERM"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Browser] = ffi_launch(options) |> @js.identity
+  let promise : @js.Promise[Browser] = ffi_launch(options) |> @nostd.identity
   promise.wait()
 }
 
@@ -98,7 +98,7 @@ pub async fn launch(
 /// Browser: Create new page
 pub async fn Browser::newPage(self : Browser) -> Page {
   let promise : @js.Promise[Page] = self.to_any()._call("newPage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -106,7 +106,7 @@ pub async fn Browser::newPage(self : Browser) -> Page {
 /// Browser: Close browser
 pub async fn Browser::close(self : Browser) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -114,7 +114,7 @@ pub async fn Browser::close(self : Browser) -> Unit {
 /// Browser: Get all pages
 pub async fn Browser::pages(self : Browser) -> Array[Page] {
   let promise : @js.Promise[Array[Page]] = self.to_any()._call("pages", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -122,7 +122,7 @@ pub async fn Browser::pages(self : Browser) -> Array[Page] {
 /// Browser: Get version
 pub async fn Browser::version(self : Browser) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("version", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -130,6 +130,6 @@ pub async fn Browser::version(self : Browser) -> String {
 /// Browser: Get user agent
 pub async fn Browser::userAgent(self : Browser) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("userAgent", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }

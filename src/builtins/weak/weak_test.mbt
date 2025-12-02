@@ -3,7 +3,7 @@
 ///|
 test "WeakMap::set and get - store and retrieve values" {
   let wm : WeakMap[@nostd.Any, @nostd.Any] = WeakMap::new()
-  let key : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let key : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let value = @nostd.any("test value")
   wm.set(key, value) |> ignore
   let result = wm.get(key)
@@ -13,7 +13,7 @@ test "WeakMap::set and get - store and retrieve values" {
 ///|
 test "WeakMap::has - check if key exists" {
   let wm : WeakMap[@nostd.Any, @nostd.Any] = WeakMap::new()
-  let key : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let key : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let value = @nostd.any("test")
   let has_before = wm.has(key)
   wm.set(key, value) |> ignore
@@ -25,7 +25,7 @@ test "WeakMap::has - check if key exists" {
 ///|
 test "WeakMap::delete - remove a key-value pair" {
   let wm : WeakMap[@nostd.Any, @nostd.Any] = WeakMap::new()
-  let key : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let key : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let value = @nostd.any("test")
   wm.set(key, value) |> ignore
   let deleted = wm.delete(key)
@@ -37,7 +37,7 @@ test "WeakMap::delete - remove a key-value pair" {
 ///|
 test "WeakMap::get - return None for non-existent key" {
   let wm : WeakMap[@nostd.Any, @nostd.Any] = WeakMap::new()
-  let key : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let key : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let result = wm.get(key)
   assert_true(result is None)
 }
@@ -45,7 +45,7 @@ test "WeakMap::get - return None for non-existent key" {
 ///|
 test "WeakSet::add and has - add and check values" {
   let ws : WeakSet[@nostd.Any] = WeakSet::new()
-  let value : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let value : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let has_before = ws.has(value)
   ws.add(value) |> ignore
   let has_after = ws.has(value)
@@ -56,7 +56,7 @@ test "WeakSet::add and has - add and check values" {
 ///|
 test "WeakSet::delete - remove a value" {
   let ws : WeakSet[@nostd.Any] = WeakSet::new()
-  let value : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let value : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   ws.add(value) |> ignore
   let deleted = ws.delete(value)
   let has_after = ws.has(value)
@@ -67,14 +67,14 @@ test "WeakSet::delete - remove a value" {
 ///|
 test "WeakSet::has - return false for non-existent value" {
   let ws : WeakSet[@nostd.Any] = WeakSet::new()
-  let value : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let value : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let has = ws.has(value)
   assert_false(has)
 }
 
 ///|
 test "WeakRef::new and deref - create and dereference" {
-  let target : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let target : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let wr : WeakRef[@nostd.Any] = WeakRef::new(target)
   let result = wr.deref()
   assert_false(result is None)
@@ -87,7 +87,7 @@ test "FinalizationRegistry::register - register an object" {
   ) {
     ()
   })
-  let target : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let target : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let held_value = "cleanup info"
   registry.register(target, held_value |> @nostd.any)
   // Registry was created successfully
@@ -101,7 +101,7 @@ test "FinalizationRegistry::unregister - unregister with token" {
   ) {
     ()
   })
-  let target : @nostd.Any = @nostd.Object::new() |> @js.identity
+  let target : @nostd.Any = @nostd.Object::new() |> @nostd.identity
   let held_value = "cleanup info"
   let token : @nostd.Any = @nostd.Object::new()
   registry.register(target, held_value |> @nostd.any, unregister_token=token)
@@ -115,7 +115,7 @@ test "WeakRef::deref returns None when target is collected" {
   let undef_ref : @nostd.Any = @global.undefined()
   let mock_weakref = @nostd.Object::new()
   mock_weakref._set("deref", @js.from_fn0(fn() { undef_ref }) |> @nostd.any)
-  let wr : WeakRef[@nostd.Any] = @js.identity(mock_weakref |> @js.identity)
+  let wr : WeakRef[@nostd.Any] = @nostd.identity(mock_weakref |> @nostd.identity)
   let result = wr.deref()
   assert_true(result is None)
 }

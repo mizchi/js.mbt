@@ -37,14 +37,14 @@ pub fn Event::type_(self : Event) -> String {
 /// Get the event target
 pub fn Event::target(self : Event) -> EventTarget? {
   let v : @nostd.Any = self.as_any()._get("target").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
 /// Get the current target
 pub fn Event::currentTarget(self : Event) -> EventTarget? {
   let v : @nostd.Any = self.as_any()._get("currentTarget").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -120,7 +120,7 @@ impl EventTargetImpl with addEventListener(
       "capture": Some(@nostd.any(capture)),
       "once": Some(@nostd.any(once)),
       "passive": Some(@nostd.any(passive)),
-      "signal": signal.map(fn(x) { x |> @js.identity }),
+      "signal": signal.map(fn(x) { x |> @nostd.identity }),
     }),
   ])
   |> ignore
@@ -185,7 +185,7 @@ pub fn EventTarget::addEventListener(
       "capture": Some(@nostd.any(capture)),
       "once": Some(@nostd.any(once)),
       "passive": Some(@nostd.any(passive)),
-      "signal": signal.map(fn(x) { x |> @js.identity }),
+      "signal": signal.map(fn(x) { x |> @nostd.identity }),
     }),
   ])
   |> ignore

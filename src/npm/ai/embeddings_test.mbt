@@ -82,7 +82,7 @@ test "cosine similarity normalized" {
 #skip
 async test "embed with mock" {
   // This test requires actual API key, so skip by default
-  let model : @ai.EmbeddingModel = @js.identity(
+  let model : @ai.EmbeddingModel = @nostd.identity(
     @node.require("@ai-sdk/openai")
     ._get("openai")
     .call_self([])

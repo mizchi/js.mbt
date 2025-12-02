@@ -94,15 +94,15 @@ test "JsImpl get/set" {
   obj._set("name", "Alice" |> @nostd.any)
   obj._set("age", 30 |> @nostd.any)
   obj._set("active", true |> @nostd.any)
-  assert_eq(@js.identity(obj._get("name")), "Alice")
-  assert_eq(@js.identity(obj._get("age")), 30)
-  assert_eq(@js.identity(obj._get("active")), true)
+  assert_eq(@nostd.identity(obj._get("name")), "Alice")
+  assert_eq(@nostd.identity(obj._get("age")), 30)
+  assert_eq(@nostd.identity(obj._get("active")), true)
 
   // Test nested objects
   let nested = @nostd.Object::new()
   nested._set("inner", "value" |> @nostd.any)
   obj._set("nested", nested)
-  assert_eq(@js.identity(obj._get("nested")._get("inner")), "value")
+  assert_eq(@nostd.identity(obj._get("nested")._get("inner")), "value")
 }
 
 ///|
@@ -139,12 +139,12 @@ test "JsImpl::equal" {
 test "Js with arrays" {
   let arr = @nostd.any([1, 2, 3])
   assert_true(@js.is_array(arr))
-  assert_eq(@js.identity(arr._get("0")), 1)
-  assert_eq(@js.identity(arr._get("1")), 2)
-  assert_eq(@js.identity(arr._get("2")), 3)
+  assert_eq(@nostd.identity(arr._get("0")), 1)
+  assert_eq(@nostd.identity(arr._get("1")), 2)
+  assert_eq(@nostd.identity(arr._get("2")), 3)
   // Modify array
   arr._set("1", 10 |> @nostd.any)
-  assert_eq(@js.identity(arr._get("1")), 10)
+  assert_eq(@nostd.identity(arr._get("1")), 10)
 }
 
 ///|
@@ -160,14 +160,14 @@ test "Js with nested structures" {
   root._set("user", user)
 
   // Access nested values
-  assert_eq(@js.identity(root._get("user")._get("name")), "Alice")
-  assert_eq(@js.identity(root._get("user")._get("age")), 30)
+  assert_eq(@nostd.identity(root._get("user")._get("name")), "Alice")
+  assert_eq(@nostd.identity(root._get("user")._get("age")), 30)
   assert_eq(
-    @js.identity(root._get("user")._get("address")._get("city")),
+    @nostd.identity(root._get("user")._get("address")._get("city")),
     "Tokyo",
   )
   assert_eq(
-    @js.identity(root._get("user")._get("address")._get("country")),
+    @nostd.identity(root._get("user")._get("address")._get("country")),
     "Japan",
   )
 }
@@ -207,19 +207,19 @@ test "Val with mixed types in object" {
 test "Js trait for primitives" {
   // String
   let str_js : @nostd.Any = @nostd.any("hello")
-  assert_eq(@js.identity(str_js), "hello")
+  assert_eq(@nostd.identity(str_js), "hello")
 
   // Int
   let int_js : @nostd.Any = @nostd.any(42)
-  assert_eq(@js.identity(int_js), 42)
+  assert_eq(@nostd.identity(int_js), 42)
 
   // Double
   let double_js : @nostd.Any = @nostd.any(3.14)
-  assert_eq(@js.identity(double_js), 3.14)
+  assert_eq(@nostd.identity(double_js), 3.14)
 
   // Bool
   let bool_js : @nostd.Any = @nostd.any(true)
-  assert_eq(@js.identity(bool_js), true)
+  assert_eq(@nostd.identity(bool_js), true)
 
   // Val (identity)
   let val = @nostd.any(100)
@@ -237,10 +237,10 @@ test "JsImpl for Array[&JsImpl]" {
   ]
   let val = @nostd.any(arr)
   assert_true(@js.is_array(val))
-  assert_eq(@js.identity(val._get("0")), "hello")
-  assert_eq(@js.identity(val._get("1")), 42)
-  assert_eq(@js.identity(val._get("2")), 3.14)
-  assert_eq(@js.identity(val._get("3")), true)
+  assert_eq(@nostd.identity(val._get("0")), "hello")
+  assert_eq(@nostd.identity(val._get("1")), 42)
+  assert_eq(@nostd.identity(val._get("2")), 3.14)
+  assert_eq(@nostd.identity(val._get("3")), true)
 }
 
 ///|
@@ -248,7 +248,7 @@ test "JsImpl for Option[T]" {
   // Some value
   let some_val : Int? = Some(42)
   let some_js = @nostd.nullable(some_val)
-  assert_eq(@js.identity(some_js), 42)
+  assert_eq(@nostd.identity(some_js), 42)
 
   // None value - represented as undefined in MoonBit
   let none_val : Int? = None
@@ -260,15 +260,15 @@ test "JsImpl for Option[T]" {
 test "Js numeric edge cases" {
   // Large integers
   let large = @nostd.any(1000000)
-  assert_eq(@js.identity(large), 1000000)
+  assert_eq(@nostd.identity(large), 1000000)
 
   // Negative numbers
   let negative = @nostd.any(-42)
-  assert_eq(@js.identity(negative), -42)
+  assert_eq(@nostd.identity(negative), -42)
 
   // Very small float
   let small = @nostd.any(0.0001)
-  assert_eq(@js.identity(small), 0.0001)
+  assert_eq(@nostd.identity(small), 0.0001)
 }
 
 ///| Global Functions Tests

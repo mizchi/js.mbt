@@ -72,7 +72,7 @@ pub fn Document::getElementById(self : Self, id : String) -> Element? {
     .as_any()
     ._call("getElementById", [@nostd.any(id)])
     .cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -89,7 +89,7 @@ pub fn Document::getElementsByClassName(
     .as_any()
     ._call("getElementsByClassName", [@nostd.any(class_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { v |> @js.identity })
+  @js.array_from(arr).map(fn(v) { v |> @nostd.identity })
 }
 
 ///|
@@ -125,7 +125,7 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
   let v : @nostd.Any = self.as_any()._get("body").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -140,7 +140,7 @@ pub fn Document::setBody(self : Self, body : HTMLBodyElement) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
   let v : @nostd.Any = self.as_any()._get("head").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -231,7 +231,7 @@ pub fn Document::contentType(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
 pub fn Document::doctype(self : Self) -> @nostd.Any? {
   let v : @nostd.Any = self.as_any()._get("doctype").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -250,7 +250,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
   let self_js : @nostd.Any = self.as_any().cast()
   let node_js : @nostd.Any = node.as_any().cast()
-  self_js.call2("importNode", node_js, @nostd.any(deep)) |> @js.identity
+  self_js.call2("importNode", node_js, @nostd.any(deep)) |> @nostd.identity
 }
 
 ///|
@@ -273,7 +273,7 @@ pub fn Document::elementFromPoint(
     .as_any()
     ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
     .cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -290,5 +290,5 @@ pub fn Document::elementsFromPoint(
     .as_any()
     ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @js.identity(v) })
+  @js.array_from(arr).map(fn(v) { @nostd.identity(v) })
 }

@@ -228,7 +228,7 @@ pub async fn ServiceWorkerContainer::getRegistration(
 pub async fn ServiceWorkerContainer::getRegistrations(
   self : ServiceWorkerContainer,
 ) -> Array[ServiceWorkerRegistration] {
-  @js.identity(ffi_sw_get_registrations(self).wait())
+  @nostd.identity(ffi_sw_get_registrations(self).wait())
 }
 
 ///|

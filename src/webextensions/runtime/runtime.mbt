@@ -11,7 +11,7 @@ fn runtime() -> @nostd.Any {
 ///|
 /// Get the extension's manifest
 pub fn get_manifest() -> @nostd.Any {
-  runtime()._call("getManifest", []) |> @js.identity
+  runtime()._call("getManifest", []) |> @nostd.identity
 }
 
 ///|
@@ -39,7 +39,7 @@ pub struct MessageSender {
 pub fn MessageSender::from_any(obj : @nostd.Any) -> MessageSender {
   let o : @nostd.Any = obj |> @nostd.any
   {
-    tab: o["tab"] |> @js.identity,
+    tab: o["tab"] |> @nostd.identity,
     frame_id: @nostd.identity_option(o["frameId"]),
     id: @nostd.identity_option(o["id"]),
     url: @nostd.identity_option(o["url"]),
@@ -126,7 +126,7 @@ pub fn Port::disconnect(self : Port) -> Unit {
 ///|
 /// Add message listener to port
 pub fn Port::on_message(self : Port, callback : (@nostd.Any) -> Unit) -> Unit {
-  ffi_port_on_message(self.to_any() |> @js.identity, callback)
+  ffi_port_on_message(self.to_any() |> @nostd.identity, callback)
 }
 
 ///|
@@ -141,7 +141,7 @@ extern "js" fn ffi_port_on_message(
 ///|
 /// Add disconnect listener to port
 pub fn Port::on_disconnect(self : Port, callback : () -> Unit) -> Unit {
-  ffi_port_on_disconnect(self.to_any() |> @js.identity, callback)
+  ffi_port_on_disconnect(self.to_any() |> @nostd.identity, callback)
 }
 
 ///|
@@ -156,7 +156,7 @@ extern "js" fn ffi_port_on_disconnect(
 ///|
 /// Connect to background script or other extension
 pub fn connect(name? : String) -> Port {
-  ffi_connect(name.unwrap_or("")) |> @js.identity
+  ffi_connect(name.unwrap_or("")) |> @nostd.identity
 }
 
 ///|
@@ -170,7 +170,7 @@ extern "js" fn ffi_connect(name : String) -> @nostd.Any =
 ///|
 /// Listen for incoming connections
 pub fn on_connect(callback : (Port) -> Unit) -> Unit {
-  ffi_on_connect(fn(port) { callback(port |> @js.identity) })
+  ffi_on_connect(fn(port) { callback(port |> @nostd.identity) })
 }
 
 ///|
@@ -255,5 +255,5 @@ pub fn reload() -> Unit {
 ///|
 /// Get the last error
 pub fn last_error() -> @nostd.Any {
-  runtime()["lastError"] |> @js.identity
+  runtime()["lastError"] |> @nostd.identity
 }

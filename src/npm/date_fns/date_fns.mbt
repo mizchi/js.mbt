@@ -14,7 +14,7 @@ pub(open) trait DateArgs {
 
 ///|
 impl DateArgs with to_date(self) {
-  self |> @js.identity
+  self |> @nostd.identity
 }
 
 ///|

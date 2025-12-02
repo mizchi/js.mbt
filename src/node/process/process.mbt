@@ -11,7 +11,7 @@ pub fn Process::as_any(self : Process) -> @nostd.Any = "%identity"
 
 ///|
 pub fn process() -> Process {
-  @js.identity(process_module())
+  @nostd.identity(process_module())
 }
 
 ///|

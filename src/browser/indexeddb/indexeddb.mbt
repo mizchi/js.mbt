@@ -43,7 +43,7 @@ pub fn[T] IDBRequest::is_done(self : IDBRequest[T]) -> Bool {
 pub fn[T] IDBRequest::source_as_object_store(
   self : IDBRequest[T],
 ) -> IDBObjectStore[@nostd.Any] {
-  self.source |> @js.identity
+  self.source |> @nostd.identity
 }
 
 ///|
@@ -51,13 +51,13 @@ pub fn[T] IDBRequest::source_as_object_store(
 pub fn[T] IDBRequest::source_as_index(
   self : IDBRequest[T],
 ) -> IDBIndex[@nostd.Any] {
-  self.source |> @js.identity
+  self.source |> @nostd.identity
 }
 
 ///|
 /// Cast source to IDBCursor
 pub fn[T, U] IDBRequest::source_as_cursor(self : IDBRequest[T]) -> IDBCursor[U] {
-  self.source |> @js.identity
+  self.source |> @nostd.identity
 }
 
 ///| IDBOpenDBRequest - Request for opening database

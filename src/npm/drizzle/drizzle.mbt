@@ -513,7 +513,7 @@ extern "js" fn ffi_default_value(col : Column, value : @nostd.Any) -> Column =
 /// Set default value (accepts any value)
 #alias(default_value)
 pub fn Column::defaultValue(self : Column, value : @nostd.Any) -> Column {
-  ffi_default_value(self, @js.identity(value))
+  ffi_default_value(self, @nostd.identity(value))
 }
 
 ///|
@@ -649,7 +649,7 @@ pub fn QueryBuilder::values(
   self : QueryBuilder,
   data : @nostd.Any,
 ) -> QueryBuilder {
-  ffi_values(self, @js.identity(data))
+  ffi_values(self, @nostd.identity(data))
 }
 
 ///|
@@ -662,7 +662,7 @@ pub fn QueryBuilder::set(
   self : QueryBuilder,
   data : @nostd.Any,
 ) -> QueryBuilder {
-  ffi_set(self, @js.identity(data))
+  ffi_set(self, @nostd.identity(data))
 }
 
 ///|
@@ -764,7 +764,7 @@ pub async fn QueryBuilder::execute(self : QueryBuilder) -> @nostd.Any {
 ///|
 /// Execute and get typed array result
 pub async fn[T] QueryBuilder::execute_array(self : QueryBuilder) -> Array[T] {
-  ffi_query_then(self).wait() |> @js.identity
+  ffi_query_then(self).wait() |> @nostd.identity
 }
 
 // ============ SQL Operators ============
@@ -776,7 +776,7 @@ extern "js" fn ffi_eq(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Equal comparison (accepts any value)
 pub fn eq(column : Column, value : @nostd.Any) -> SQL {
-  ffi_eq(column, @js.identity(value))
+  ffi_eq(column, @nostd.identity(value))
 }
 
 ///|
@@ -786,7 +786,7 @@ extern "js" fn ffi_ne(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Not equal comparison (accepts any value)
 pub fn ne(column : Column, value : @nostd.Any) -> SQL {
-  ffi_ne(column, @js.identity(value))
+  ffi_ne(column, @nostd.identity(value))
 }
 
 ///|
@@ -796,7 +796,7 @@ extern "js" fn ffi_gt(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Greater than comparison (accepts any value)
 pub fn gt(column : Column, value : @nostd.Any) -> SQL {
-  ffi_gt(column, @js.identity(value))
+  ffi_gt(column, @nostd.identity(value))
 }
 
 ///|
@@ -806,7 +806,7 @@ extern "js" fn ffi_gte(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Greater than or equal comparison (accepts any value)
 pub fn gte(column : Column, value : @nostd.Any) -> SQL {
-  ffi_gte(column, @js.identity(value))
+  ffi_gte(column, @nostd.identity(value))
 }
 
 ///|
@@ -816,7 +816,7 @@ extern "js" fn ffi_lt(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Less than comparison (accepts any value)
 pub fn lt(column : Column, value : @nostd.Any) -> SQL {
-  ffi_lt(column, @js.identity(value))
+  ffi_lt(column, @nostd.identity(value))
 }
 
 ///|
@@ -826,7 +826,7 @@ extern "js" fn ffi_lte(column : Column, value : @nostd.Any) -> SQL =
 ///|
 /// Less than or equal comparison (accepts any value)
 pub fn lte(column : Column, value : @nostd.Any) -> SQL {
-  ffi_lte(column, @js.identity(value))
+  ffi_lte(column, @nostd.identity(value))
 }
 
 ///|
@@ -910,7 +910,7 @@ pub fn between(
   min_val : @nostd.Any,
   max_val : @nostd.Any,
 ) -> SQL {
-  ffi_between(column, @js.identity(min_val), @js.identity(max_val))
+  ffi_between(column, @nostd.identity(min_val), @nostd.identity(max_val))
 }
 
 ///|

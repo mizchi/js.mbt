@@ -64,7 +64,7 @@ pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult 
     @js.is_null(images_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(images_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(images_raw)
     arr.map(GeneratedImage::from_any)
   }
   // Parse warnings array
@@ -73,7 +73,7 @@ pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult 
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
@@ -149,7 +149,7 @@ pub async fn generateImage(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("experimental_generateImage")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   GenerateImageResult::from_any(result)
 }

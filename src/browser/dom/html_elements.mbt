@@ -547,7 +547,7 @@ pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
   let v : @nostd.Any = self.as_any()._get("contentWindow").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -555,7 +555,7 @@ pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
   let v : @nostd.Any = self.as_any()._get("contentDocument").cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|

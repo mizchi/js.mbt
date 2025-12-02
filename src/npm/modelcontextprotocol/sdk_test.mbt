@@ -26,7 +26,7 @@ test "PromptResult::as_any with description" {
   let js_obj = result.as_any()
   let desc : String = js_obj._get("description").cast()
   assert_eq(desc, "A test prompt")
-  let messages : Array[@nostd.Any] = @js.identity(js_obj._get("messages"))
+  let messages : Array[@nostd.Any] = @nostd.identity(js_obj._get("messages"))
   assert_eq(messages.length(), 1)
 }
 
@@ -48,7 +48,7 @@ test "ToolInfo identity cast" {
     ("description", @nostd.any("A test tool")),
     ("inputSchema", @nostd.from_entries([("type", @nostd.any("object"))])),
   ])
-  let info : ToolInfo = @js.identity(raw)
+  let info : ToolInfo = @nostd.identity(raw)
   assert_eq(info.name, "test-tool")
   guard info.description is Some(desc)
   assert_eq(desc, "A test tool")
@@ -61,7 +61,7 @@ test "ContentResult identity cast" {
     ("text", @nostd.any("Hello, world!")),
     ("raw", @nostd.from_entries([("type", @nostd.any("text"))])),
   ])
-  let content : ContentResult = @js.identity(raw)
+  let content : ContentResult = @nostd.identity(raw)
   assert_eq(content.type_(), "text")
   guard content.text is Some(text)
   assert_eq(text, "Hello, world!")
@@ -75,7 +75,7 @@ test "ResourceInfo identity cast" {
     ("description", @nostd.any("A test file")),
     ("mime_type", @nostd.any("text/plain")),
   ])
-  let info : ResourceInfo = @js.identity(raw)
+  let info : ResourceInfo = @nostd.identity(raw)
   assert_eq(info.uri, "file:///test.txt")
   assert_eq(info.name, "test.txt")
   guard info.description is Some(desc)
@@ -91,7 +91,7 @@ test "PromptArgumentInfo identity cast" {
     ("description", @nostd.any("The search query")),
     ("required", @nostd.any(true)),
   ])
-  let info : PromptArgumentInfo = @js.identity(raw)
+  let info : PromptArgumentInfo = @nostd.identity(raw)
   assert_eq(info.name, "query")
   guard info.description is Some(desc)
   assert_eq(desc, "The search query")
@@ -105,7 +105,7 @@ test "PromptInfo identity cast" {
     ("name", @nostd.any("greeting")),
     ("description", @nostd.any("A greeting prompt")),
   ])
-  let info : PromptInfo = @js.identity(raw)
+  let info : PromptInfo = @nostd.identity(raw)
   assert_eq(info.name, "greeting")
   guard info.description is Some(desc)
   assert_eq(desc, "A greeting prompt")
@@ -125,7 +125,7 @@ test "PromptMessageResult identity cast" {
       ]),
     ),
   ])
-  let msg : PromptMessageResult = @js.identity(raw)
+  let msg : PromptMessageResult = @nostd.identity(raw)
   assert_eq(msg.role, "assistant")
   assert_eq(msg.content.type_(), "text")
   guard msg.content.text is Some(text)

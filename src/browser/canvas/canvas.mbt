@@ -590,7 +590,7 @@ extern "js" fn ffi_create_image_bitmap_with_rect(
 ///|
 #alias(create_image_bitmap)
 pub fn createImageBitmap(image : @nostd.Any) -> ImageBitmap {
-  @js.identity(ffi_create_image_bitmap(image))
+  @nostd.identity(ffi_create_image_bitmap(image))
 }
 
 ///|
@@ -602,7 +602,7 @@ pub async fn createImageBitmapRect(
   sw : Int,
   sh : Int,
 ) -> ImageBitmap {
-  let promise : @js.Promise[ImageBitmap] = @js.identity(
+  let promise : @js.Promise[ImageBitmap] = @nostd.identity(
     ffi_create_image_bitmap_with_rect(
       image,
       sx |> @nostd.any,

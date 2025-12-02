@@ -22,7 +22,7 @@ pub fn builtinModules() -> Array[String] {
 #alias(create_require)
 pub fn createRequire(filename : String) -> @nostd.Any {
   let mod : @nostd.Any = ffi_require_module() |> @nostd.any
-  mod._call("createRequire", [@nostd.any(filename)]) |> @js.identity
+  mod._call("createRequire", [@nostd.any(filename)]) |> @nostd.identity
 }
 
 ///|
@@ -53,7 +53,7 @@ pub fn findSourceMap(path : String) -> SourceMap? {
   if @nostd.is_nullish(result) {
     None
   } else {
-    Some({ payload: result |> @js.identity })
+    Some({ payload: result |> @nostd.identity })
   }
 }
 

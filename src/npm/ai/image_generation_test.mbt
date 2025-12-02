@@ -55,7 +55,7 @@ test "generate image result multiple images" {
 #skip
 async test "generate image with openai" {
   // This test requires actual API key, so skip by default
-  let model : @ai.ImageModel = @js.identity(
+  let model : @ai.ImageModel = @nostd.identity(
     @node.require("@ai-sdk/openai")
     ._get("openai")
     .call_self([])

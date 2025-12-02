@@ -65,7 +65,7 @@ pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::activeElement(self : Self) -> Element? {
   let v : @nostd.Any = self.as_any()._get("activeElement").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -80,7 +80,7 @@ pub fn ShadowRoot::elementFromPoint(
     .as_any()
     ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
     .cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -138,5 +138,5 @@ pub fn HTMLElement::attachShadow(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
   let v : @nostd.Any = self.as_any()._get("shadowRoot").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }

@@ -819,7 +819,7 @@ extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@nostd.Any] =
 
 ///|
 pub fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @js.identity, port)
+  ffi_serve(app |> @nostd.identity, port)
 }
 
 ///|

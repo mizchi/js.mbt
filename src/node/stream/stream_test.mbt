@@ -77,7 +77,7 @@ async test "Node Stream: Readable setEncoding" {
 ///|
 async test "Node Stream: Readable unpipe" {
   let readable = create_readable_from_string("unpipe test")
-  let writable : @stream.Writable = @js.identity(create_writable_to_array())
+  let writable : @stream.Writable = @nostd.identity(create_writable_to_array())
   let _ = readable.pipe(writable)
   let _ = readable.unpipe(destination=writable)
   // Stream should be unpiped
@@ -98,7 +98,7 @@ async test "Node Stream: Readable destroy" {
 
 ///|
 async test "Node Stream: Writable stream - write and properties" {
-  let writable : @stream.Writable = @js.identity(create_writable_to_array())
+  let writable : @stream.Writable = @nostd.identity(create_writable_to_array())
   assert_eq(writable.writable(), true)
   assert_eq(writable.writableObjectMode(), false)
   let success = writable.write(@nostd.any("test"))
@@ -108,7 +108,7 @@ async test "Node Stream: Writable stream - write and properties" {
 ///|
 async test "Node Stream: Writable cork/uncork" {
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   writable.cork()
   assert_eq(writable.writableCorked(), 1)
   let _ = writable.write(@nostd.any("corked1"))
@@ -122,7 +122,7 @@ async test "Node Stream: Writable cork/uncork" {
 
 ///|
 async test "Node Stream: Writable destroy" {
-  let writable : @stream.Writable = @js.identity(create_writable_to_array())
+  let writable : @stream.Writable = @nostd.identity(create_writable_to_array())
   // Destroy without error - stream will handle it
   ignore(writable.as_any()._call("destroy", []))
   @js.sleep(16)
@@ -131,7 +131,7 @@ async test "Node Stream: Writable destroy" {
 
 ///|
 async test "Node Stream: Writable end" {
-  let writable : @stream.Writable = @js.identity(create_writable_to_array())
+  let writable : @stream.Writable = @nostd.identity(create_writable_to_array())
   // Call end without chunk - use call directly
   ignore(writable.as_any()._call("end", []))
   @js.sleep(16)
@@ -144,7 +144,7 @@ async test "Node Stream: Writable end" {
 async test "Node Stream: pipe - Readable to Writable" {
   let readable = create_readable_from_string("Hello Pipe!")
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   let _ = readable.pipe(writable)
   @js.sleep(16)
   let chunks = get_chunks(writable_js)
@@ -155,11 +155,11 @@ async test "Node Stream: pipe - Readable to Writable" {
 ///|
 async test "Node Stream: Transform stream - uppercase" {
   let readable = create_readable_from_string("hello transform")
-  let transform : @stream.Readable = @js.identity(create_transform_uppercase())
+  let transform : @stream.Readable = @nostd.identity(create_transform_uppercase())
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
-  let piped : @stream.Readable = @js.identity(
-    readable.pipe(@js.identity(transform)),
+  let writable : @stream.Writable = @nostd.identity(writable_js)
+  let piped : @stream.Readable = @nostd.identity(
+    readable.pipe(@nostd.identity(transform)),
   )
   let _ = piped.pipe(writable)
   @js.sleep(16)
@@ -171,11 +171,11 @@ async test "Node Stream: Transform stream - uppercase" {
 ///|
 async test "Node Stream: PassThrough stream" {
   let readable = create_readable_from_string("passthrough test")
-  let passthrough : @stream.Readable = @js.identity(create_passthrough())
+  let passthrough : @stream.Readable = @nostd.identity(create_passthrough())
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
-  let piped : @stream.Readable = @js.identity(
-    readable.pipe(@js.identity(passthrough)),
+  let writable : @stream.Writable = @nostd.identity(writable_js)
+  let piped : @stream.Readable = @nostd.identity(
+    readable.pipe(@nostd.identity(passthrough)),
   )
   let _ = piped.pipe(writable)
   @js.sleep(16)
@@ -190,13 +190,13 @@ async test "Node Stream: multiple transforms in pipeline" {
   let transform1 = create_transform_uppercase()
   let transform2 = create_passthrough()
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   // Use pipe instead of pipeline for multiple streams without callback
-  let piped1 : @stream.Readable = @js.identity(
-    readable.pipe(@js.identity(transform1)),
+  let piped1 : @stream.Readable = @nostd.identity(
+    readable.pipe(@nostd.identity(transform1)),
   )
-  let piped2 : @stream.Readable = @js.identity(
-    piped1.pipe(@js.identity(transform2)),
+  let piped2 : @stream.Readable = @nostd.identity(
+    piped1.pipe(@nostd.identity(transform2)),
   )
   let _ = piped2.pipe(writable)
   @js.sleep(16)
@@ -209,7 +209,7 @@ async test "Node Stream: multiple transforms in pipeline" {
 async test "Node Stream: stream properties after operations" {
   let readable = create_readable_from_string("props test")
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   let _ = readable.pipe(writable)
   @js.sleep(16)
   assert_eq(readable.readableEnded(), true)
@@ -223,10 +223,10 @@ async test "Node Stream: pipeline - multiple streams" {
   let readable = create_readable_from_string("pipeline test")
   let transform = create_transform_uppercase()
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   // Use pipe instead of pipeline for streams without callback
-  let piped : @stream.Readable = @js.identity(
-    readable.pipe(@js.identity(transform)),
+  let piped : @stream.Readable = @nostd.identity(
+    readable.pipe(@nostd.identity(transform)),
   )
   let _ = piped.pipe(writable)
   @js.sleep(16)
@@ -240,7 +240,7 @@ async test "Node Stream: pipeline with callback" {
   let mut callback_called = false
   let readable = create_readable_from_string("callback test")
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   let callback : @nostd.Any = @nostd.any(
     @js.from_fn1(fn(err : @nostd.Any) -> Unit {
       callback_called = true
@@ -259,7 +259,7 @@ async test "Node Stream: finished - stream completion" {
   let mut finished_called = false
   let readable = create_readable_from_string("finished test")
   let writable_js = create_writable_to_array()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   let callback : @nostd.Any = @nostd.any(
     @js.from_fn1(fn(err : @nostd.Any) -> Unit {
       finished_called = true
@@ -279,7 +279,7 @@ async test "Node Stream: async pipeline with Promise" {
     let readable = create_readable_from_string("async test")
     let transform = create_transform_uppercase()
     let writable_js = create_writable_to_array()
-    let writable : @stream.Writable = @js.identity(writable_js)
+    let writable : @stream.Writable = @nostd.identity(writable_js)
     let callback : @nostd.Any = @nostd.any(
       @js.from_fn1(fn(err : @nostd.Any) -> Unit {
         ignore(err)

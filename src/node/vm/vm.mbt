@@ -40,8 +40,8 @@ pub fn Script::new(
     "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
     "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
   })
-  @nostd.new(script_constructor, [@nostd.any(code), @js.identity(options)])
-  |> @js.identity
+  @nostd.new(script_constructor, [@nostd.any(code), @nostd.identity(options)])
+  |> @nostd.identity
 }
 
 ///|

@@ -97,19 +97,19 @@ pub fn Worker::threadId(self : Worker) -> Int {
 ///|
 /// Get the stdin stream of the worker (if enabled)
 pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
-  self.as_any()._get("stdin") |> @js.identity_option()
+  self.as_any()._get("stdin") |> @nostd.identity_option()
 }
 
 ///|
 /// Get the stdout stream of the worker (if enabled)
 pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stdout") |> @js.identity_option()
+  self.as_any()._get("stdout") |> @nostd.identity_option()
 }
 
 ///|
 /// Get the stderr stream of the worker (if enabled)
 pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stderr") |> @js.identity_option()
+  self.as_any()._get("stderr") |> @nostd.identity_option()
 }
 
 ///|
@@ -149,14 +149,14 @@ pub fn isMainThread() -> Bool {
 /// Get the parent port (null in main thread)
 /// https://nodejs.org/api/worker_threads.html#workerparentport
 pub fn parentPort() -> MessagePort? {
-  ffi_require_worker_threads()._get("parentPort") |> @js.identity_option()
+  ffi_require_worker_threads()._get("parentPort") |> @nostd.identity_option()
 }
 
 ///|
 /// Get the worker data passed to the worker
 /// https://nodejs.org/api/worker_threads.html#workerworkerdata
 pub fn workerData() -> @nostd.Any? {
-  ffi_require_worker_threads()._get("workerData") |> @js.identity_option()
+  ffi_require_worker_threads()._get("workerData") |> @nostd.identity_option()
 }
 
 ///|

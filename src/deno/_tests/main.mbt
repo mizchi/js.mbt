@@ -501,7 +501,7 @@ fn main {
 
     // Set up message handler and wait for response
     let result = worker_round_trip(worker, @nostd.any(21))
-    let value : Int = @js.identity(result)
+    let value : Int = @nostd.identity(result)
     assert_eq(value, 42)
     worker.terminate()
   })
@@ -518,8 +518,8 @@ fn main {
     msg.set("a", 3)
     msg.set("b", 4)
     let result = worker_round_trip(worker, @nostd.any(msg))
-    let sum : Int = @js.identity(result._get("sum"))
-    let product : Int = @js.identity(result._get("product"))
+    let sum : Int = @nostd.identity(result._get("sum"))
+    let product : Int = @nostd.identity(result._get("product"))
     assert_eq(sum, 7)
     assert_eq(product, 12)
     worker.terminate()
@@ -533,7 +533,7 @@ fn main {
       #|};
     let worker = create_inline_worker(worker_code)
     let result = worker_round_trip(worker, @nostd.any("World"))
-    let text : String = @js.identity(result)
+    let text : String = @nostd.identity(result)
     assert_eq(text, "Hello, World!")
     worker.terminate()
   })

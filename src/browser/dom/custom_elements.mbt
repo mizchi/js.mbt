@@ -18,7 +18,7 @@ pub fn CustomElementRegistry::as_any(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry {
-  @js.identity(@global.global_this()._get("customElements"))
+  @nostd.identity(@global.global_this()._get("customElements"))
 }
 
 ///|
@@ -113,7 +113,7 @@ pub fn CustomElementRegistry::define_element_with_attributes(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
 pub fn CustomElementRegistry::get(self : Self, name : String) -> @nostd.Any? {
   let v : @nostd.Any = self.as_any()._call("get", [@nostd.any(name)]).cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|
@@ -127,7 +127,7 @@ pub fn CustomElementRegistry::getName(
     .as_any()
     ._call("getName", [@nostd.any(element_constructor)])
     .cast()
-  v |> @js.identity_option
+  v |> @nostd.identity_option
 }
 
 ///|

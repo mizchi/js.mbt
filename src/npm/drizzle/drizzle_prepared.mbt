@@ -17,7 +17,7 @@ pub fn QueryBuilder::prepare(
   self : QueryBuilder,
   name : String,
 ) -> PreparedQuery {
-  self.call1("prepare", @nostd.any(name)) |> @js.identity
+  self.call1("prepare", @nostd.any(name)) |> @nostd.identity
 }
 
 ///|
@@ -55,7 +55,7 @@ pub async fn[T] PreparedQuery::execute_array(
     Some(p) => ffi_prepared_execute(self, p).wait()
     None => ffi_prepared_execute_no_params(self).wait()
   }
-  @js.identity(result)
+  @nostd.identity(result)
 }
 
 // ============ Raw SQL Helpers ============
@@ -188,7 +188,7 @@ pub fn QueryBuilder::having(
   self : QueryBuilder,
   condition : SQL,
 ) -> QueryBuilder {
-  self.call1("having", @nostd.any(condition.as_any())) |> @js.identity
+  self.call1("having", @nostd.any(condition.as_any())) |> @nostd.identity
 }
 
 // ============ UNION / INTERSECT / EXCEPT ============
@@ -199,7 +199,7 @@ pub fn QueryBuilder::union(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("union", @nostd.any(other.as_any())) |> @js.identity
+  self.call1("union", @nostd.any(other.as_any())) |> @nostd.identity
 }
 
 ///|
@@ -209,7 +209,7 @@ pub fn QueryBuilder::unionAll(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("unionAll", @nostd.any(other.as_any())) |> @js.identity
+  self.call1("unionAll", @nostd.any(other.as_any())) |> @nostd.identity
 }
 
 ///|
@@ -218,7 +218,7 @@ pub fn QueryBuilder::intersect(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("intersect", @nostd.any(other.as_any())) |> @js.identity
+  self.call1("intersect", @nostd.any(other.as_any())) |> @nostd.identity
 }
 
 ///|
@@ -227,7 +227,7 @@ pub fn QueryBuilder::except(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("except", @nostd.any(other.as_any())) |> @js.identity
+  self.call1("except", @nostd.any(other.as_any())) |> @nostd.identity
 }
 
 // ============ ON CONFLICT (Upsert) ============
@@ -236,7 +236,7 @@ pub fn QueryBuilder::except(
 /// ON CONFLICT DO NOTHING
 #alias(on_conflict_do_nothing)
 pub fn QueryBuilder::onConflictDoNothing(self : QueryBuilder) -> QueryBuilder {
-  self.call0("onConflictDoNothing") |> @js.identity
+  self.call0("onConflictDoNothing") |> @nostd.identity
 }
 
 ///|

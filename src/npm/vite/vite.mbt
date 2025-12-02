@@ -478,13 +478,13 @@ pub fn ModuleNode::moduleType(self : ModuleNode) -> String {
 ///|
 /// Get modules that import this module
 pub fn ModuleNode::importers(self : ModuleNode) -> Array[ModuleNode] {
-  @js.identity(ffi_node_importers(self))
+  @nostd.identity(ffi_node_importers(self))
 }
 
 ///|
 /// Get modules imported by this module
 pub fn ModuleNode::importedModules(self : ModuleNode) -> Array[ModuleNode] {
-  @js.identity(ffi_node_imported_modules(self))
+  @nostd.identity(ffi_node_imported_modules(self))
 }
 
 ///| ModuleRunner Methods

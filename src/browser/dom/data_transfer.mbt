@@ -21,7 +21,7 @@ pub fn DataTransfer::get_files(self : Self) -> Array[@nostd.Any] {
 ///|
 /// Returns an array of formats used in the drag operation
 pub fn DataTransfer::get_types(self : Self) -> Array[String] {
-  @js.array_from(self.types).map(fn(v) { @js.identity(v) })
+  @js.array_from(self.types).map(fn(v) { @nostd.identity(v) })
 }
 
 ///|

@@ -188,7 +188,7 @@ pub fn Http2Server::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
@@ -199,14 +199,14 @@ pub fn Http2SecureServer::listen(
   port : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Http2Server::close(self : Http2Server, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any()._call("close", [cb]) |> ignore
 }
 
@@ -216,7 +216,7 @@ pub fn Http2SecureServer::close(
   self : Http2SecureServer,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any()._call("close", [cb]) |> ignore
 }
 
@@ -254,7 +254,7 @@ pub fn Http2Session::close(self : Http2Session) -> Unit {
 ///|
 /// Send a ping
 pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any()._call("ping", [cb]) |> ignore
 }
 
@@ -294,7 +294,7 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : @nostd.Any) { callback(@js.identity(e)) })
+  self.addEventListener("data", fn(e : @nostd.Any) { callback(@nostd.identity(e)) })
   self
 }
 
@@ -305,7 +305,7 @@ pub fn ClientHttp2Stream::on_response(
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
   self.addEventListener("response", fn(e : @nostd.Any) {
-    callback(@js.identity(e))
+    callback(@nostd.identity(e))
   })
   self
 }

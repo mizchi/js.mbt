@@ -85,14 +85,14 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   self.as_any()._call("close", [cb]) |> ignore
 }
 
@@ -137,7 +137,7 @@ pub fn request(
   agent? : Agent,
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   let obj = headers.unwrap_or(@nostd.Object::new())
   obj.set("url", url)
   if method_ is Some(v) {
@@ -183,7 +183,7 @@ extern "js" fn ffi_get(url : String, callback : @nostd.Any) -> ClientRequest =
 ///|
 /// Make an HTTPS GET request
 pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_get(url, cb)
 }
 

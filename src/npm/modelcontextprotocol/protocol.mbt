@@ -69,7 +69,7 @@ pub(all) struct Tool {
 
 ///|
 pub fn Tool::as_any(self : Tool) -> @nostd.Any {
-  @js.identity(
+  @nostd.identity(
     @mbtconv.from_map({
       "name": @nostd.any(self.name),
       "description": @nostd.any(self.description),
@@ -154,7 +154,7 @@ pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @nostd.Any {
   if self.prompts {
     capabilities.set("prompts", @nostd.Object::new())
   }
-  @js.identity(
+  @nostd.identity(
     @nostd.from_entries([("capabilities", @nostd.any(capabilities))]),
   )
 }
@@ -168,7 +168,7 @@ pub struct ServerInfo {
 
 ///|
 pub fn ServerInfo::as_any(self : ServerInfo) -> @nostd.Any {
-  @js.identity(
+  @nostd.identity(
     @mbtconv.from_map({
       "name": @nostd.any(self.name),
       "version": @nostd.any(self.version),
@@ -185,11 +185,11 @@ pub struct ClientInfo {
 
 ///|
 pub fn ClientInfo::from_js(js : @nostd.Any) -> ClientInfo? {
-  let obj : @js.Object = @js.identity(js)
+  let obj : @js.Object = @nostd.identity(js)
   let name : String? =
-    @nostd.any(obj)._get("name") |> @js.identity_option()
+    @nostd.any(obj)._get("name") |> @nostd.identity_option()
   let version : String? =
-    @nostd.any(obj)._get("version") |> @js.identity_option()
+    @nostd.any(obj)._get("version") |> @nostd.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

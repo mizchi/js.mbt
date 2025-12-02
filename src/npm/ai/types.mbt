@@ -324,7 +324,7 @@ pub(all) struct Tool {
 
 ///|
 /// Create a typed tool with input/output type conversion.
-/// Input type must be convertible from @nostd.Any (via @js.identity cast).
+/// Input type must be convertible from @nostd.Any (via @nostd.identity cast).
 /// Output type must implement ToJson for serialization.
 pub fn[Input, Output : ToJson] Tool::typed(
   description~ : String,
@@ -335,7 +335,7 @@ pub fn[Input, Output : ToJson] Tool::typed(
     description,
     input_schema: @mbtconv.from_json(input_schema).cast(),
     execute: fn(args) {
-      let typed_input : Input = @js.identity(args)
+      let typed_input : Input = @nostd.identity(args)
       let result = execute(typed_input)
       @mbtconv.from_json(result.to_json()).cast()
     },
@@ -344,7 +344,7 @@ pub fn[Input, Output : ToJson] Tool::typed(
 
 ///|
 /// Create an async typed tool with input/output type conversion.
-/// Input type must be convertible from @nostd.Any (via @js.identity cast).
+/// Input type must be convertible from @nostd.Any (via @nostd.identity cast).
 /// Output type must implement ToJson for serialization.
 /// The execute function can be async for API calls, database access, etc.
 pub fn[Input, Output : ToJson] Tool::typed_async(
@@ -354,14 +354,14 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
 ) -> Tool {
   // Wrap async function with promisify1 to return a Promise
   let promisified = @js.promisify1(async fn(args : @nostd.Any) -> @nostd.Any {
-    let typed_input : Input = @js.identity(args)
+    let typed_input : Input = @nostd.identity(args)
     let result = execute(typed_input)
     @mbtconv.from_json(result.to_json()).cast()
   })
   {
     description,
     input_schema: @mbtconv.from_json(input_schema).cast(),
-    execute: fn(args) { promisified(args) |> @js.identity },
+    execute: fn(args) { promisified(args) |> @nostd.identity },
   }
 }
 
@@ -676,7 +676,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
       let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) {
         []
       } else {
-        let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
+        let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
         arr.map(CallWarning::from_any)
       }
       StartStep(
@@ -925,7 +925,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
@@ -934,7 +934,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(reasoning_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse files array
@@ -943,7 +943,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(files_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(files_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(files_raw)
     arr.map(GeneratedFile::from_any)
   }
   // Parse sources array
@@ -952,7 +952,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(sources_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(sources_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(sources_raw)
     arr.map(Source::from_any)
   }
   // Parse tool_calls array
@@ -961,7 +961,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(tool_calls_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(tool_calls_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
     arr.map(ToolCall::from_any)
   }
   // Parse tool_results array
@@ -970,7 +970,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(tool_results_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(tool_results_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(tool_results_raw)
     arr.map(ToolResult::from_any)
   }
   // Parse warnings array
@@ -979,7 +979,7 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   // Parse reasoning_text
@@ -1038,7 +1038,7 @@ pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
     @js.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(content_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
@@ -1047,7 +1047,7 @@ pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
     @js.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(reasoning_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse warnings array
@@ -1056,7 +1056,7 @@ pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {

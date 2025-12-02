@@ -52,7 +52,7 @@ pub fn Page::coverage(self : Page) -> Coverage {
 /// See: https://pptr.dev/api/puppeteer.coverage.startjscoverage
 pub async fn Coverage::startJSCoverage(self : Coverage) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("startJSCoverage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -66,7 +66,7 @@ pub async fn Coverage::startJSCoverage_with(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("startJSCoverage", [@nostd.any(options)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -79,7 +79,7 @@ pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@nostd.Any] {
   let promise : @js.Promise[Array[@nostd.Any]] = self
     .to_any()
     ._call("stopJSCoverage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -89,7 +89,7 @@ pub async fn Coverage::stopJSCoverage(self : Coverage) -> Array[@nostd.Any] {
 /// See: https://pptr.dev/api/puppeteer.coverage.startcsscoverage
 pub async fn Coverage::startCSSCoverage(self : Coverage) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("startCSSCoverage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -103,7 +103,7 @@ pub async fn Coverage::startCSSCoverage_with(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("startCSSCoverage", [@nostd.any(options)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -116,6 +116,6 @@ pub async fn Coverage::stopCSSCoverage(self : Coverage) -> Array[@nostd.Any] {
   let promise : @js.Promise[Array[@nostd.Any]] = self
     .to_any()
     ._call("stopCSSCoverage", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }

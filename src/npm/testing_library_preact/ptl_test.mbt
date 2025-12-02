@@ -54,7 +54,7 @@ test "fireEvent click" {
   let clicked = Ref::new(false)
   let handler : () -> Unit = fn() { clicked.val = true }
   let vnode = @preact.h("button", ["Click me"], props={
-    "onClick": handler |> @js.identity,
+    "onClick": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -145,7 +145,7 @@ test "fireEvent change" {
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
-    "onChange": handler |> @js.identity,
+    "onChange": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -168,7 +168,7 @@ test "fireEvent input" {
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
-    "onInput": handler |> @js.identity,
+    "onInput": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -189,8 +189,8 @@ test "fireEvent focus and blur" {
   let blur_handler : () -> Unit = fn() { focused.val = false }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
-    "onFocus": focus_handler |> @js.identity,
-    "onBlur": blur_handler |> @js.identity,
+    "onFocus": focus_handler |> @nostd.identity,
+    "onBlur": blur_handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -211,7 +211,7 @@ test "fireEvent keyDown" {
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
-    "onKeyDown": handler |> @js.identity,
+    "onKeyDown": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -231,7 +231,7 @@ test "fireEvent keyUp" {
   }
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
-    "onKeyUp": handler |> @js.identity,
+    "onKeyUp": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -248,7 +248,7 @@ test "fireEvent dblClick" {
   let count = Ref::new(0)
   let handler : () -> Unit = fn() { count.val = count.val + 1 }
   let vnode = @preact.h("button", ["Double Click"], props={
-    "onDblClick": handler |> @js.identity,
+    "onDblClick": handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -266,8 +266,8 @@ test "fireEvent mouseDown and mouseUp" {
   let down_handler : () -> Unit = fn() { down.val = true }
   let up_handler : () -> Unit = fn() { up.val = true }
   let vnode = @preact.h("button", ["Mouse"], props={
-    "onMouseDown": down_handler |> @js.identity,
-    "onMouseUp": up_handler |> @js.identity,
+    "onMouseDown": down_handler |> @nostd.identity,
+    "onMouseUp": up_handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -287,8 +287,8 @@ test "fireEvent mouseEnter and mouseLeave" {
   let enter_handler : () -> Unit = fn() { entered.val = true }
   let leave_handler : () -> Unit = fn() { left.val = true }
   let vnode = @preact.h("div", ["Hover me"], props={
-    "onMouseEnter": enter_handler |> @js.identity,
-    "onMouseLeave": leave_handler |> @js.identity,
+    "onMouseEnter": enter_handler |> @nostd.identity,
+    "onMouseLeave": leave_handler |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -367,7 +367,7 @@ test "getByDisplayValue" {
   let vnode = @preact.h("input", [], props={
     "type": @nostd.any("text"),
     "value": @nostd.any("current value"),
-    "onChange": (fn() {  }) |> @js.identity,
+    "onChange": (fn() {  }) |> @nostd.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -587,7 +587,7 @@ test "fireEvent submit" {
   let vnode = @preact.h(
     "form",
     [@preact.h("button", ["Submit"], props={ "type": @nostd.any("submit") })],
-    props={ "onSubmit": handler |> @js.identity },
+    props={ "onSubmit": handler |> @nostd.identity },
   )
   let result = render(vnode)
   let form : @dom.HTMLElement = match
@@ -609,7 +609,7 @@ test "fireEvent scroll" {
     ("overflow", @nostd.any("auto")),
     ("height", @nostd.any("100px")),
   ]).cast()
-  let handler_any : @nostd.Any = @js.identity(handler)
+  let handler_any : @nostd.Any = @nostd.identity(handler)
   let vnode = @preact.h("div", ["Scrollable"], props={
     "onScroll": handler_any,
     "style": style_obj.cast(),

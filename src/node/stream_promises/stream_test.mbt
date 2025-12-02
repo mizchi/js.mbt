@@ -161,7 +161,7 @@ async test "Node Stream Promises: pipeline with promises - large data" {
 ///|
 async test "Node Stream Promises: finished with promises - writable" {
   let writable_js = create_writable_to_array_promises()
-  let writable : @stream.Writable = @js.identity(writable_js)
+  let writable : @stream.Writable = @nostd.identity(writable_js)
   // Write some data
   let _ = writable.write(@nostd.any("test"))
   // End the stream
@@ -185,9 +185,9 @@ async test "Node Stream Promises: finished with promises - readable" {
 ///|
 async test "Node Stream Promises: finished with promises - multiple streams" {
   let writable1_js = create_writable_to_array_promises()
-  let writable1 : @stream.Writable = @js.identity(writable1_js)
+  let writable1 : @stream.Writable = @nostd.identity(writable1_js)
   let writable2_js = create_writable_to_array_promises()
-  let writable2 : @stream.Writable = @js.identity(writable2_js)
+  let writable2 : @stream.Writable = @nostd.identity(writable2_js)
   // End both streams
   ignore(writable1.as_any()._call("end", []))
   ignore(writable2.as_any()._call("end", []))

@@ -20,7 +20,7 @@ pub fn Query::async_iterator(self : Query) -> @js.AsyncIterator[@nostd.Any] {
   let any : @nostd.Any = self.as_any().cast()
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = any._call(key, [])
-  @js.identity(iter)
+  @nostd.identity(iter)
 }
 
 ///|
@@ -47,7 +47,7 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
   if options is Some(o) {
     let options_any = o.as_any()
     // Merge options into opts
-    let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
+    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }
@@ -57,7 +57,7 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = result._call(key, [])
-  { raw: @js.identity(iter) }
+  { raw: @nostd.identity(iter) }
 }
 
 ///|
@@ -72,7 +72,7 @@ pub fn queryStream(
   opts.set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
-    let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
+    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }
@@ -82,7 +82,7 @@ pub fn queryStream(
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = result._call(key, [])
-  { raw: @js.identity(iter) }
+  { raw: @nostd.identity(iter) }
 }
 
 ///|
@@ -112,11 +112,11 @@ pub fn queryWithAbort(
   let opts = @nostd.Object::new()
   opts.set("prompt", prompt)
   let abort_controller = @js.AbortController::new()
-  let signal : @nostd.Any = @js.identity(abort_controller.signal())
+  let signal : @nostd.Any = @nostd.identity(abort_controller.signal())
   opts.set("abortSignal", signal)
   if options is Some(o) {
     let options_any = o.as_any()
-    let keys : Array[String] = @js.Object::keys(options_any) |> @js.identity
+    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }
@@ -126,7 +126,7 @@ pub fn queryWithAbort(
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = result._call(key, [])
-  ({ raw: @js.identity(iter) }, @js.identity(abort_controller))
+  ({ raw: @nostd.identity(iter) }, @nostd.identity(abort_controller))
 }
 
 ///|

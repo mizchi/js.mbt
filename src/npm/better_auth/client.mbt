@@ -15,7 +15,7 @@ pub fn AuthClient::to_any(self : AuthClient) -> @nostd.Any = "%identity"
 pub fn createAuthClient(base_url~ : String) -> AuthClient {
   let obj = @nostd.Object::new()
   obj["baseURL"] = @nostd.any(base_url)
-  ffi_create_auth_client(obj |> @js.identity) |> @nostd.identity
+  ffi_create_auth_client(obj |> @nostd.identity) |> @nostd.identity
 }
 
 ///|
@@ -62,7 +62,7 @@ pub async fn SignUpClient::email(
   let promise : @js.Promise[AuthResponse] = self
     .to_any()["email"]
     ._invoke([obj])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -101,7 +101,7 @@ pub async fn SignInClient::email(
   let promise : @js.Promise[AuthResponse] = self
     .to_any()["email"]
     ._invoke([obj])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -121,7 +121,7 @@ pub async fn SignInClient::social(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()["social"]
     ._invoke([obj])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -131,7 +131,7 @@ pub async fn AuthClient::getSession(self : AuthClient) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()["getSession"]
     ._invoke([])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -139,7 +139,7 @@ pub async fn AuthClient::getSession(self : AuthClient) -> @nostd.Any {
 /// Sign out (client-side)
 pub async fn AuthClient::signOut(self : AuthClient) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()["signOut"]._invoke([])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -155,7 +155,7 @@ pub fn UseSessionResult::to_any(self : UseSessionResult) -> @nostd.Any =
 ///|
 /// Get session data
 pub fn UseSessionResult::data(self : UseSessionResult) -> @nostd.Any {
-  self.to_any()["data"] |> @js.identity
+  self.to_any()["data"] |> @nostd.identity
 }
 
 ///|

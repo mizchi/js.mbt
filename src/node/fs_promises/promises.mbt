@@ -30,7 +30,7 @@ pub fn Stat::size(self : Self) -> Int {
 ///|
 pub fn Stat::mtime_ms(self : Self) -> Float {
   let mtime = self.as_any()._get("mtime")
-  @js.identity(mtime._get("getTime")._call("call", [mtime]))
+  @nostd.identity(mtime._get("getTime")._call("call", [mtime]))
 }
 
 ///|
@@ -173,7 +173,7 @@ pub async fn read_file_as_string(
 /// JS: fs.promises.readFile(path)
 pub async fn read_file_as_buffer(path : String) -> @buffer.Buffer {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[@buffer.Buffer] = @js.identity(
+  let promise : @nostd.Promise[@buffer.Buffer] = @nostd.identity(
     fs._call("readFile", [path |> @nostd.any]),
   )
   promise.wait()
@@ -196,7 +196,7 @@ pub async fn writeFile(
     "mode": Some(@nostd.any(mode)),
     "flag": Some(@nostd.any(flag)),
     "flush": Some(@nostd.any(flush)),
-    "signal": signal.map(fn(x) { x |> @js.identity }),
+    "signal": signal.map(fn(x) { x |> @nostd.identity }),
   }).cast()
   let promise : @nostd.Promise[
     Unit,
@@ -240,7 +240,7 @@ pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
   let opts : @nostd.Any = @mbtconv.from_option_map({
     "recursive": recursive.map(fn(x) { @nostd.any(x) }),
   }).cast()
-  let promise : @nostd.Promise[Unit] = @js.identity(
+  let promise : @nostd.Promise[Unit] = @nostd.identity(
     fs._call("cp", [path |> @nostd.any, dest |> @nostd.any, opts |> @nostd.any]),
   )
   promise.wait()
@@ -262,7 +262,7 @@ pub async fn chmod(path : String, mode : Int) -> Unit {
 /// Change file owner
 pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = @js.identity(
+  let promise : @nostd.Promise[Unit] = @nostd.identity(
     fs._call("chown", [path |> @nostd.any, uid |> @nostd.any, gid |> @nostd.any]),
   )
   promise.wait()
@@ -274,7 +274,7 @@ pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
   let fs = fs_promises_module()
   let promise : @nostd.Promise[Unit] = match type_ {
     Some(t) =>
-      @js.identity(
+      @nostd.identity(
         fs._call("symlink", [
           target |> @nostd.any,
           path |> @nostd.any,
@@ -291,7 +291,7 @@ pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
 /// Read symbolic link
 pub async fn readlink(path : String) -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = @js.identity(
+  let promise : @nostd.Promise[String] = @nostd.identity(
     fs._call("readlink", [path |> @nostd.any]),
   )
   promise.wait()
@@ -301,7 +301,7 @@ pub async fn readlink(path : String) -> String {
 /// Get real path
 pub async fn realpath(path : String) -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = @js.identity(
+  let promise : @nostd.Promise[String] = @nostd.identity(
     fs._call("realpath", [path |> @nostd.any]),
   )
   promise.wait()
@@ -314,7 +314,7 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
   let promise : @nostd.Promise[Unit] = match len {
     Some(l) =>
       fs._call("truncate", [path |> @nostd.any, l |> @nostd.any]).cast()
-    None => @js.identity(fs._call("truncate", [path |> @nostd.any]))
+    None => @nostd.identity(fs._call("truncate", [path |> @nostd.any]))
   }
   promise.wait()
 }
@@ -338,7 +338,7 @@ pub async fn access(path : String, mode? : Int) -> Unit {
   let fs = fs_promises_module()
   let promise : @nostd.Promise[Unit] = match mode {
     Some(m) => fs._call("access", [path |> @nostd.any, m |> @nostd.any]).cast()
-    None => @js.identity(fs._call("access", [path |> @nostd.any]))
+    None => @nostd.identity(fs._call("access", [path |> @nostd.any]))
   }
   promise.wait()
 }
@@ -356,7 +356,7 @@ pub async fn appendFile(
       let opts : @nostd.Any = @mbtconv.from_option_map({
         "encoding": Some(@nostd.any(enc)),
       }).cast()
-      @js.identity(
+      @nostd.identity(
         fs._call("appendFile", [
           path |> @nostd.any,
           data |> @nostd.any,
@@ -384,7 +384,7 @@ pub async fn copyFile(src : String, dest : String) -> Unit {
 /// Read directory contents
 pub async fn readdir(path : String) -> Array[String] {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Array[String]] = @js.identity(
+  let promise : @nostd.Promise[Array[String]] = @nostd.identity(
     fs._call("readdir", [path |> @nostd.any]),
   )
   promise.wait()
@@ -394,7 +394,7 @@ pub async fn readdir(path : String) -> Array[String] {
 /// Unlink (delete) file
 pub async fn unlink(path : String) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = @js.identity(
+  let promise : @nostd.Promise[Unit] = @nostd.identity(
     fs._call("unlink", [path |> @nostd.any]),
   )
   promise.wait()

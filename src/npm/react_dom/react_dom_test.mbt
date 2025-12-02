@@ -8,7 +8,7 @@ fn init_jsdom() -> Unit {
 
 ///|
 fn get_react_dom() -> ReactDOM {
-  @node.require("react-dom") |> @js.identity
+  @node.require("react-dom") |> @nostd.identity
 }
 
 ///|

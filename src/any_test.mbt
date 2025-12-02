@@ -83,7 +83,7 @@ test "@js.Nullable[String] - null value" {
 
 ///|
 test "@js.Nullable[String] - actual value" {
-  let js_str : @nostd.Any = @js.identity("hello")
+  let js_str : @nostd.Any = @nostd.identity("hello")
   let nullable : @js.Nullable[String] = js_str |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -100,7 +100,7 @@ test "@js.Nullable[Bool] - null value" {
 
 ///|
 test "@js.Nullable[Bool] - false value is not null" {
-  let js_false : @nostd.Any = @js.identity(false)
+  let js_false : @nostd.Any = @nostd.identity(false)
   let nullable : @js.Nullable[Bool] = js_false |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -111,7 +111,7 @@ test "@js.Nullable[Bool] - false value is not null" {
 
 ///|
 test "@js.Nullable[Bool] - true value" {
-  let js_true : @nostd.Any = @js.identity(true)
+  let js_true : @nostd.Any = @nostd.identity(true)
   let nullable : @js.Nullable[Bool] = js_true |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -128,7 +128,7 @@ test "@js.Nullable[Double] - null value" {
 
 ///|
 test "@js.Nullable[Double] - zero is not null" {
-  let js_zero : @nostd.Any = @js.identity(0.0)
+  let js_zero : @nostd.Any = @nostd.identity(0.0)
   let nullable : @js.Nullable[Double] = js_zero |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -139,7 +139,7 @@ test "@js.Nullable[Double] - zero is not null" {
 
 ///|
 test "@js.Nullable[Double] - actual value" {
-  let js_val : @nostd.Any = @js.identity(3.14)
+  let js_val : @nostd.Any = @nostd.identity(3.14)
   let nullable : @js.Nullable[Double] = js_val |> identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 3.14)
@@ -284,7 +284,7 @@ test "@js.Nullish[String]::to_option() - undefined returns None" {
 
 ///|
 test "@js.Nullish[String]::to_option() - actual value returns Some" {
-  let js_str : @nostd.Any = @js.identity("hello")
+  let js_str : @nostd.Any = @nostd.identity("hello")
   let nullish : @js.Nullish[String] = js_str |> identity
   match nullish.to_option() {
     Some(s) => assert_eq(s, "hello")

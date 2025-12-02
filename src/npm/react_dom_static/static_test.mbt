@@ -5,7 +5,7 @@ fn init_react() -> Unit {
 
 ///|
 fn get_react_dom_static() -> ReactDOMStatic {
-  @node.require("react-dom/static") |> @js.identity
+  @node.require("react-dom/static") |> @nostd.identity
 }
 
 ///|

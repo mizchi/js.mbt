@@ -24,8 +24,8 @@ test "Atomics isLockFree checks size support" {
 test "Atomics add operation" {
   // Create a SharedArrayBuffer (or regular ArrayBuffer for testing)
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Test add operation
@@ -38,8 +38,8 @@ test "Atomics add operation" {
 ///|
 test "Atomics load and store operations" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Store a value
@@ -54,8 +54,8 @@ test "Atomics load and store operations" {
 ///|
 test "Atomics sub operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Set initial value
@@ -71,8 +71,8 @@ test "Atomics sub operation" {
 ///|
 test "Atomics and_ bitwise operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Set initial value (binary: 1111)
@@ -88,8 +88,8 @@ test "Atomics and_ bitwise operation" {
 ///|
 test "Atomics or_ bitwise operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Set initial value (binary: 0101)
@@ -105,8 +105,8 @@ test "Atomics or_ bitwise operation" {
 ///|
 test "Atomics xor bitwise operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
   // Set initial value (binary: 1111)
   @atomics.store(ta_any, 0, 15) |> ignore
@@ -121,8 +121,8 @@ test "Atomics xor bitwise operation" {
 ///|
 test "Atomics exchange operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Set initial value
@@ -138,8 +138,8 @@ test "Atomics exchange operation" {
 ///|
 test "Atomics compareExchange operation" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @js.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @js.identity, [buffer])
+  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
+  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
   let ta_any : @nostd.Any = ta |> @nostd.any
 
   // Set initial value

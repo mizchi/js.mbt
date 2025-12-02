@@ -263,12 +263,12 @@ pub fn ForeignKeyAction::to_string(self : ForeignKeyAction) -> String {
 /// Set ON DELETE action for column reference
 #alias(on_delete)
 pub fn Column::onDelete(self : Column, action : ForeignKeyAction) -> Column {
-  self.call1("onDelete", @nostd.any(action.to_string())) |> @js.identity
+  self.call1("onDelete", @nostd.any(action.to_string())) |> @nostd.identity
 }
 
 ///|
 /// Set ON UPDATE action for column reference
 #alias(on_update)
 pub fn Column::onUpdate(self : Column, action : ForeignKeyAction) -> Column {
-  self.call1("onUpdate", @nostd.any(action.to_string())) |> @js.identity
+  self.call1("onUpdate", @nostd.any(action.to_string())) |> @nostd.identity
 }

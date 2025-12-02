@@ -44,13 +44,13 @@ pub fn File::new(
       "lastModified": last_modified.map(fn(x) { @nostd.any(x) }),
     }).cast(),
   )
-  |> @js.identity
+  |> @nostd.identity
 }
 
 ///|
 /// Cast File to Blob
 pub fn File::as_blob(self : Self) -> @blob.Blob {
-  self.as_any() |> @js.identity
+  self.as_any() |> @nostd.identity
 }
 
 ///|
@@ -105,7 +105,7 @@ extern "js" fn ffi_new_file_reader() -> @nostd.Any =
 ///|
 /// Create a new FileReader
 pub fn FileReader::new() -> FileReader {
-  ffi_new_file_reader() |> @js.identity
+  ffi_new_file_reader() |> @nostd.identity
 }
 
 ///|

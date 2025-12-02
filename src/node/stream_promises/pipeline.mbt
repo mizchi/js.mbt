@@ -15,7 +15,7 @@ extern "js" fn ffi_stream_promises_finished(stream : @nostd.Any) -> @nostd.Any =
 ///|
 pub async fn pipeline(streams : Array[@nostd.Any]) -> @stream.Stream {
   let promise : @js.Promise[@stream.Stream] = ffi_stream_promises_pipeline(
-    @js.identity(streams),
+    @nostd.identity(streams),
   ).cast()
   promise.wait()
 }

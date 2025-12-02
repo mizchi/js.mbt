@@ -17,7 +17,7 @@ pub fn CSSStyleDeclaration::as_any(self : CSSStyleDeclaration) -> @nostd.Any = "
 ///|
 /// Returns a CSS style declaration from a Val
 pub fn css_style_from_val(val : @nostd.Any) -> CSSStyleDeclaration {
-  @js.identity(val)
+  @nostd.identity(val)
 }
 
 ///|
@@ -101,14 +101,14 @@ pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
   let v : @nostd.Any = self.as_any()._get("parentRule").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
   let v : @nostd.Any = self.as_any()._get("parentStyleSheet").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -164,7 +164,7 @@ pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
 /// Returns the owner node
 pub fn CSSStyleSheet::ownerNode(self : Self) -> @nostd.Any? {
   let v : @nostd.Any = self.as_any()._get("ownerNode").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -183,14 +183,14 @@ pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
   let v : @nostd.Any = self.as_any()._get("href").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
   let v : @nostd.Any = self.as_any()._get("title").cast()
-  v |> @js.identity_option()
+  v |> @nostd.identity_option()
 }
 
 ///|
@@ -215,7 +215,7 @@ pub fn MediaQueryList::as_any(self : MediaQueryList) -> @nostd.Any = "%identity"
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  @js.identity(
+  @nostd.identity(
     @global.global_this().call1("matchMedia", @nostd.any(query)),
   )
 }
@@ -281,7 +281,7 @@ pub fn MediaQueryList::removeChangeListener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @global.global_this()._get("CSS")
-  @js.identity(css_obj.call1("escape", @nostd.any(value)))
+  @nostd.identity(css_obj.call1("escape", @nostd.any(value)))
 }
 
 ///|
@@ -298,7 +298,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @global.global_this()._get("CSS")
-  @js.identity(css_obj.call1("supports", @nostd.any(condition)))
+  @nostd.identity(css_obj.call1("supports", @nostd.any(condition)))
 }
 
 ///|

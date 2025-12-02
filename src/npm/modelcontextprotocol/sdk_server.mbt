@@ -54,17 +54,17 @@ pub fn SdkServer::new(
     capabilities.set("prompts", @nostd.Object::new())
   }
   // Build server info
-  let server_info = @js.identity(
+  let server_info = @nostd.identity(
     @mbtconv.from_map({
       "name": name |> @nostd.any,
       "version": version |> @nostd.any,
     }),
   )
   // Create server instance
-  let opts = @js.identity(
+  let opts = @nostd.identity(
     @mbtconv.from_map({ "capabilities": @nostd.any(capabilities) }),
   )
-  ffi_construct(server_class, [server_info, opts]) |> @js.identity
+  ffi_construct(server_class, [server_info, opts]) |> @nostd.identity
 }
 
 ///|
@@ -85,7 +85,7 @@ pub fn SdkServer::set_tools_list_handler(
   let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let tools = handler()
     let tools_arr : Array[@nostd.Any] = tools.map(fn(t) { t.as_any() })
-    @js.identity(
+    @nostd.identity(
       @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools_arr)) }),
     )
   }
@@ -116,7 +116,7 @@ pub fn SdkServer::set_tools_call_handler(
     promise_handler(name, args).then(fn(contents) {
       let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @js.identity(
+        @nostd.identity(
           @mbtconv.from_map({
             "content": @nostd.any(@js.from_array(content_arr)),
           }),
@@ -146,7 +146,7 @@ pub fn SdkServer::set_resources_list_handler(
   let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let resources = handler()
     let resources_arr : Array[@nostd.Any] = resources.map(fn(r) { r.as_any() })
-    @js.identity(
+    @nostd.identity(
       @mbtconv.from_map({
         "resources": @nostd.any(@js.from_array(resources_arr)),
       }),
@@ -170,7 +170,7 @@ pub fn SdkServer::set_resources_read_handler(
     promise_handler(uri).then(fn(contents) {
       let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @js.identity(
+        @nostd.identity(
           @mbtconv.from_map({
             "contents": @nostd.any(@js.from_array(content_arr)),
           }),
@@ -192,7 +192,7 @@ pub fn SdkServer::set_prompts_list_handler(
   let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
     let prompts = handler()
     let prompts_arr : Array[@nostd.Any] = prompts.map(fn(p) { p.as_any() })
-    @js.identity(
+    @nostd.identity(
       @mbtconv.from_map({ "prompts": @nostd.any(@js.from_array(prompts_arr)) }),
     )
   }
@@ -235,7 +235,7 @@ pub(all) struct PromptMessage {
 
 ///|
 pub fn PromptMessage::as_any(self : PromptMessage) -> @nostd.Any {
-  @js.identity(
+  @nostd.identity(
     @mbtconv.from_map({
       "role": self.role |> @nostd.any,
       "content": @nostd.any(self.content.as_any()),
@@ -261,7 +261,7 @@ pub fn PromptResult::as_any(self : PromptResult) -> @nostd.Any {
 pub fn StdioServerTransport::new() -> StdioServerTransport {
   let stdio_mod = require_stdio_transport()
   let transport_class = stdio_mod._get("StdioServerTransport")
-  ffi_construct(transport_class, []) |> @js.identity
+  ffi_construct(transport_class, []) |> @nostd.identity
 }
 
 ///|
@@ -297,7 +297,7 @@ pub fn SdkServer::send_notification(
   method_name : String,
   params : @nostd.Any,
 ) -> Unit {
-  let notification = @js.identity(
+  let notification = @nostd.identity(
     @mbtconv.from_map({
       "method": method_name |> @nostd.any,
       "params": @nostd.any(params),
@@ -313,7 +313,7 @@ pub fn SdkServer::log(
   level : String,
   message : String,
 ) -> Unit {
-  let params = @js.identity(
+  let params = @nostd.identity(
     @mbtconv.from_map({
       "level": level |> @nostd.any,
       "logger": "server" |> @nostd.any,

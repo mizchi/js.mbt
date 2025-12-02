@@ -10,8 +10,8 @@ pub enum RequestId {
 ///|
 pub fn RequestId::as_any(self : RequestId) -> @nostd.Any {
   match self {
-    String(s) => @js.identity(s)
-    Number(n) => @js.identity(n)
+    String(s) => @nostd.identity(s)
+    Number(n) => @nostd.identity(n)
   }
 }
 
@@ -19,10 +19,10 @@ pub fn RequestId::as_any(self : RequestId) -> @nostd.Any {
 pub fn RequestId::from_js(js : @nostd.Any) -> RequestId? {
   let ty = @js.typeof_(js)
   if ty == "string" {
-    let s : String = @js.identity(js)
+    let s : String = @nostd.identity(js)
     Some(String(s))
   } else if ty == "number" {
-    let n : Int = @js.identity(js)
+    let n : Int = @nostd.identity(js)
     Some(Number(n))
   } else {
     None
@@ -50,12 +50,12 @@ pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @nostd.Any {
 
 ///|
 pub fn JsonRpcRequest::from_js(js : @nostd.Any) -> JsonRpcRequest? {
-  let obj : @js.Object = @js.identity(js)
+  let obj : @js.Object = @nostd.identity(js)
   let jsonrpc : String? =
-    @nostd.any(obj)._get("jsonrpc") |> @js.identity_option()
+    @nostd.any(obj)._get("jsonrpc") |> @nostd.identity_option()
   let id_js = @nostd.any(obj)._get("id")
   let method_name : String? =
-    @nostd.any(obj)._get("method") |> @js.identity_option()
+    @nostd.any(obj)._get("method") |> @nostd.identity_option()
   match (jsonrpc, method_name) {
     (Some(jrpc), Some(m)) =>
       match RequestId::from_js(id_js) {
@@ -64,7 +64,7 @@ pub fn JsonRpcRequest::from_js(js : @nostd.Any) -> JsonRpcRequest? {
             jsonrpc: jrpc,
             id,
             method_name: m,
-            params: @nostd.any(obj)._get("params") |> @js.identity_option(),
+            params: @nostd.any(obj)._get("params") |> @nostd.identity_option(),
           })
         None => None
       }
@@ -82,7 +82,7 @@ pub struct JsonRpcResponse {
 
 ///|
 pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @nostd.Any {
-  @js.identity(
+  @nostd.identity(
     @mbtconv.from_map({
       "jsonrpc": @nostd.any(self.jsonrpc),
       "id": @nostd.any(self.id.as_any()),
@@ -117,7 +117,7 @@ pub struct JsonRpcErrorResponse {
 
 ///|
 pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @nostd.Any {
-  @js.identity(
+  @nostd.identity(
     @mbtconv.from_map({
       "jsonrpc": @nostd.any(self.jsonrpc),
       "id": @nostd.any(self.id.as_any()),

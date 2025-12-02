@@ -46,7 +46,7 @@ pub(all) struct EmbedResult {
 ///|
 pub fn EmbedResult::from_any(value : @nostd.Any) -> EmbedResult {
   let embedding_raw = value._get("embedding")
-  let embedding : Array[Double] = @js.identity(embedding_raw)
+  let embedding : Array[Double] = @nostd.identity(embedding_raw)
   {
     embedding,
     usage: EmbeddingUsage::from_any(value._get("usage")),
@@ -72,7 +72,7 @@ pub(all) struct EmbedManyResult {
 ///|
 pub fn EmbedManyResult::from_any(value : @nostd.Any) -> EmbedManyResult {
   let embeddings_raw = value._get("embeddings")
-  let embeddings : Array[Array[Double]] = @js.identity(embeddings_raw)
+  let embeddings : Array[Array[Double]] = @nostd.identity(embeddings_raw)
   {
     embeddings,
     usage: EmbeddingUsage::from_any(value._get("usage")),
@@ -114,7 +114,7 @@ pub async fn embed(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embed")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   EmbedResult::from_any(result)
 }
@@ -155,7 +155,7 @@ pub async fn embedMany(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embedMany")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   EmbedManyResult::from_any(result)
 }

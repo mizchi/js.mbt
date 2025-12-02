@@ -7,7 +7,7 @@
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(@js.identity(@nostd.any(content)._get("length")) > 0, content="true")
+  inspect(@nostd.identity(@nostd.any(content)._get("length")) > 0, content="true")
 }
 
 ///|

@@ -128,7 +128,7 @@ test "useRef with Some" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
-      Some(@js.identity(@nostd.Object::new())),
+      Some(@nostd.identity(@nostd.Object::new())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }
@@ -215,10 +215,10 @@ test "ReactRef::set_current" {
     let (msg, set_msg) = useState("initial")
     let r : ReactRef[@nostd.Any] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => {
-      r.set_current(Some(@js.identity("custom value")))
+      r.set_current(Some(@nostd.identity("custom value")))
       match r.get_current() {
         Some(v) => {
-          let s : String = @js.identity(v)
+          let s : String = @nostd.identity(v)
           set_msg(s)
         }
         None => ()

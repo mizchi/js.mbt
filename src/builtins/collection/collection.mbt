@@ -16,7 +16,7 @@ pub fn[K, V] JsMap::to_any(self : JsMap[K, V]) -> @nostd.Any = "%identity"
 ///|
 /// JS: new Map()
 pub fn[K, V] JsMap::new() -> JsMap[K, V] {
-  ffi_new_map() |> @js.identity
+  ffi_new_map() |> @nostd.identity
 }
 
 ///|
@@ -122,7 +122,7 @@ pub fn[T] JsSet::to_any(self : JsSet[T]) -> @nostd.Any = "%identity"
 ///|
 /// JS: new Set()
 pub fn[T] JsSet::new() -> JsSet[T] {
-  ffi_new_set() |> @js.identity
+  ffi_new_set() |> @nostd.identity
 }
 
 ///|

@@ -113,16 +113,16 @@ fn find_moon_mod_from(dir : String) -> MoonMod? {
     return Some({
       path: moon_mod_path,
       root_dir: dir,
-      name: parsed._get("name") |> @js.identity,
-      version: parsed._get("version") |> @js.identity,
+      name: parsed._get("name") |> @nostd.identity,
+      version: parsed._get("version") |> @nostd.identity,
       source,
-      description: parsed._get("description") |> @js.identity,
-      license: parsed._get("license") |> @js.identity,
-      readme: parsed._get("readme") |> @js.identity,
-      repository: parsed._get("repository") |> @js.identity,
+      description: parsed._get("description") |> @nostd.identity,
+      license: parsed._get("license") |> @nostd.identity,
+      readme: parsed._get("readme") |> @nostd.identity,
+      repository: parsed._get("repository") |> @nostd.identity,
       keywords,
-      preferred_target: parsed._get("preferred-target") |> @js.identity,
-      warn_list: parsed._get("warn-list") |> @js.identity,
+      preferred_target: parsed._get("preferred-target") |> @nostd.identity,
+      warn_list: parsed._get("warn-list") |> @nostd.identity,
       raw: parsed,
     })
   }
@@ -171,10 +171,10 @@ fn find_moon_pkg_from(dir : String) -> MoonPkg? {
       is_main,
       test_import_all,
       supported_targets,
-      bin_name: parsed._get("bin-name") |> @js.identity,
-      bin_target: parsed._get("bin-target") |> @js.identity,
-      implement: parsed._get("implement") |> @js.identity,
-      warn_list: parsed._get("warn-list") |> @js.identity,
+      bin_name: parsed._get("bin-name") |> @nostd.identity,
+      bin_target: parsed._get("bin-target") |> @nostd.identity,
+      implement: parsed._get("implement") |> @nostd.identity,
+      warn_list: parsed._get("warn-list") |> @nostd.identity,
       native_stub,
       overrides,
       raw: parsed,
@@ -195,7 +195,7 @@ fn get_string_array(obj : @nostd.Any, key : String) -> Array[String] {
   if @js.is_nullish(value) || not(@js.is_array(value)) {
     return []
   }
-  value |> @js.identity
+  value |> @nostd.identity
 }
 
 ///|

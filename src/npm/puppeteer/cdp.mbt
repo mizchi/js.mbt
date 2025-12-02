@@ -21,7 +21,7 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
   let promise : @js.Promise[CDPSession] = self
     .to_any()
     ._call("createCDPSession", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -33,7 +33,7 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
 /// See: https://pptr.dev/api/puppeteer.cdpsession.detach
 pub async fn CDPSession::detach(self : CDPSession) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("detach", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -57,7 +57,7 @@ pub async fn CDPSession::send(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("send", [@nostd.any(method_), @nostd.any(params)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -71,7 +71,7 @@ pub async fn CDPSession::send_simple(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("send", [@nostd.any(method_)])
-    |> @js.identity
+    |> @nostd.identity
   let _ = promise.wait()
 
 }

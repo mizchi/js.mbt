@@ -61,7 +61,7 @@ pub fn GenerateObjectResult::from_any(
     @js.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @js.identity(warnings_raw)
+    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
@@ -80,7 +80,7 @@ pub fn GenerateObjectResult::from_any(
 ///|
 /// Get the generated object as typed value
 pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
-  @js.identity(self.object)
+  @nostd.identity(self.object)
 }
 
 // ============================================================
@@ -160,7 +160,7 @@ pub async fn generateObject(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
 }
@@ -215,7 +215,7 @@ pub async fn generateObjectWithZod(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
 }

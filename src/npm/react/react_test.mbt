@@ -22,7 +22,7 @@ test "React createElement" {
     "button",
     props={
       "className": @nostd.any("my-button"),
-      "onClick": @js.identity(@js.from_fn0(fn() { @js.log("Button clicked") })),
+      "onClick": @nostd.identity(@js.from_fn0(fn() { @js.log("Button clicked") })),
     },
     [],
   )
@@ -480,7 +480,7 @@ test "error_boundary structure with throwing component" {
   // Note: SSR with renderToString doesn't support ErrorBoundary
   // ErrorBoundary only works on client-side rendering
   // Here we just verify the element structure is valid
-  // let type_of : String = @js.typeof_(el |> @js.identity)
+  // let type_of : String = @js.typeof_(el |> @nostd.identity)
   // assert_eq(type_of, "object") // React element is an object
 }
 
@@ -614,7 +614,7 @@ test "component: children argument becomes props.children in React" {
   init_react()
   // Component that accesses props.children via FFI and renders them
   let wrapper : @react.Component[Unit] = fn(props) {
-    let props_any : @nostd.Any = @js.identity(props)
+    let props_any : @nostd.Any = @nostd.identity(props)
     let children = get_props_children(props_any)
     // Render children directly - React handles this
     @react.createElement("div", [

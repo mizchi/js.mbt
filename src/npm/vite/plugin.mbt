@@ -111,5 +111,5 @@ pub fn define_plugin(
   if closeBundle is Some(v) {
     plugin["closeBundle"] = @nostd.any(@js.from_fn0(v))
   }
-  plugin |> @js.identity
+  plugin |> @nostd.identity
 }

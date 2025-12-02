@@ -67,7 +67,7 @@ pub fn gzip(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_gzip(buffer, options.as_any(), cb)
 }
 
@@ -89,7 +89,7 @@ pub fn gunzip(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_gunzip(buffer, options.as_any(), cb)
 }
 
@@ -111,7 +111,7 @@ pub fn deflate(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_deflate(buffer, options.as_any(), cb)
 }
 
@@ -133,7 +133,7 @@ pub fn inflate(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_inflate(buffer, options.as_any(), cb)
 }
 
@@ -155,7 +155,7 @@ pub fn brotli_compress(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_brotli_compress(buffer, options.as_any(), cb)
 }
 
@@ -177,7 +177,7 @@ pub fn brotli_decompress(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_brotli_decompress(buffer, options.as_any(), cb)
 }
 
@@ -199,7 +199,7 @@ pub fn unzip(
   options : ZlibOptions,
   callback : (@nostd.Any?, @nostd.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_unzip(buffer, options.as_any(), cb)
 }
 

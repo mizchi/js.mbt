@@ -95,7 +95,7 @@ async fn run() -> Unit {
   server.set_prompts_get_handler(async fn(name, args) {
     if name == "greeting-template" {
       let person_name : String = args._get("name")
-        |> @js.identity_option()
+        |> @nostd.identity_option()
         |> Option::unwrap_or("World")
       {
         description: Some("A friendly greeting"),

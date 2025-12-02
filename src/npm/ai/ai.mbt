@@ -118,7 +118,7 @@ pub async fn generateText(
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateText")
     .call_self([opts])
-    |> @js.identity
+    |> @nostd.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
 }
@@ -187,7 +187,7 @@ pub fn streamText(
     opts.set("activeTools", at |> @js.from_array)
   }
   let result = ai_module()._get("streamText").call_self([opts])
-  @js.identity(result)
+  @nostd.identity(result)
 }
 
 ///|
@@ -202,7 +202,7 @@ pub fn StreamTextResultHandle::fullStreamRaw(
   // TODO: unsafe cast as string to access key
   let key = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = iterable._call(key, [])
-  @js.identity(iter)
+  @nostd.identity(iter)
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn StreamTextResultHandle::fullStream(
   // TODO: unsafe cast as string to access key
   let key = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = iterable._call(key, [])
-  { raw: @js.identity(iter) }
+  { raw: @nostd.identity(iter) }
 }
 
 ///|
@@ -249,7 +249,7 @@ pub fn StreamTextResultHandle::textStream(
   // TODO: unsafe cast as string to access key
   let key = @js.Symbol::asyncIterator() |> @nostd.identity
   let iter = iterable._call(key, [])
-  @js.identity(iter)
+  @nostd.identity(iter)
 }
 
 ///|
@@ -257,7 +257,7 @@ pub fn StreamTextResultHandle::textStream(
 pub async fn StreamTextResultHandle::text(
   self : StreamTextResultHandle,
 ) -> String {
-  let promise : @js.Promise[String] = @js.identity(self.as_any()._get("text"))
+  let promise : @js.Promise[String] = @nostd.identity(self.as_any()._get("text"))
   promise.wait()
 }
 
@@ -267,7 +267,7 @@ pub async fn StreamTextResultHandle::text(
 pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {
-  let promise : @js.Promise[@nostd.Any] = @js.identity(
+  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
     self.as_any()._get("finishReason"),
   )
   let result = promise.wait()
@@ -279,7 +279,7 @@ pub async fn StreamTextResultHandle::finishReason(
 pub async fn StreamTextResultHandle::usage(
   self : StreamTextResultHandle,
 ) -> LanguageModelUsage {
-  let promise : @js.Promise[@nostd.Any] = @js.identity(
+  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
     self.as_any()._get("usage"),
   )
   let result = promise.wait()
@@ -291,11 +291,11 @@ pub async fn StreamTextResultHandle::usage(
 pub async fn StreamTextResultHandle::steps(
   self : StreamTextResultHandle,
 ) -> Array[StepResult] {
-  let promise : @js.Promise[@nostd.Any] = @js.identity(
+  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
     self.as_any()._get("steps"),
   )
   let result = promise.wait()
-  let arr : Array[@nostd.Any] = @js.identity(result)
+  let arr : Array[@nostd.Any] = @nostd.identity(result)
   arr.map(StepResult::from_any)
 }
 

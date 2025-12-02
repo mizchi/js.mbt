@@ -22,8 +22,8 @@ pub fn DataView::new(
   byte_offset? : Int = 0,
   byte_length? : Int,
 ) -> DataView {
-  @js.identity(
-    ffi_new_dataview(buffer.to_any() |> @js.identity, byte_offset, byte_length),
+  @nostd.identity(
+    ffi_new_dataview(buffer.to_any() |> @nostd.identity, byte_offset, byte_length),
   )
 }
 

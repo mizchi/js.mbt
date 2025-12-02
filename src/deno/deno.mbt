@@ -382,13 +382,13 @@ pub fn Deno::systemMemoryInfo(self : Deno) -> @nostd.Any {
 ///|
 /// Get user ID (Unix only)
 pub fn Deno::uid(self : Deno) -> Int? {
-  self.as_any()._call("uid", []).cast() |> @js.identity_option
+  self.as_any()._call("uid", []).cast() |> @nostd.identity_option
 }
 
 ///|
 /// Get group ID (Unix only)
 pub fn Deno::gid(self : Deno) -> Int? {
-  self.as_any()._call("gid", []).cast() |> @js.identity_option
+  self.as_any()._call("gid", []).cast() |> @nostd.identity_option
 }
 
 ///| Network APIs
@@ -671,7 +671,7 @@ pub fn CommandOutput::stderr(self : CommandOutput) -> @typedarray.Uint8Array {
 ///|
 /// Get signal that terminated the process (if any)
 pub fn CommandOutput::signal(self : CommandOutput) -> String? {
-  self.as_any()["signal"].cast() |> @js.identity_option
+  self.as_any()["signal"].cast() |> @nostd.identity_option
 }
 
 ///|
@@ -749,7 +749,7 @@ pub fn CommandStatus::success(self : CommandStatus) -> Bool {
 ///|
 /// Get signal that terminated the process (if any)
 pub fn CommandStatus::signal(self : CommandStatus) -> String? {
-  self.as_any()["signal"].cast() |> @js.identity_option
+  self.as_any()["signal"].cast() |> @nostd.identity_option
 }
 
 ///|

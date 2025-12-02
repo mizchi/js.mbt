@@ -130,7 +130,7 @@ pub fn Auth::api(self : Auth) -> AuthApi {
 ///|
 /// Auth handler for HTTP frameworks
 pub fn Auth::handler(self : Auth) -> @nostd.Any {
-  self.to_any()["handler"] |> @js.identity
+  self.to_any()["handler"] |> @nostd.identity
 }
 
 ///|
@@ -216,7 +216,7 @@ pub fn betterAuth(
   if secret is Some(s) {
     config["secret"] = @nostd.any(s)
   }
-  ffi_better_auth(config |> @js.identity) |> @nostd.identity
+  ffi_better_auth(config |> @nostd.identity) |> @nostd.identity
 }
 
 ///|
@@ -257,7 +257,7 @@ pub fn AuthResponse::hasError(self : AuthResponse) -> Bool {
 ///|
 /// Get error from response if present
 pub fn AuthResponse::error(self : AuthResponse) -> @nostd.Any {
-  self.to_any()["error"] |> @js.identity
+  self.to_any()["error"] |> @nostd.identity
 }
 
 ///|
@@ -294,8 +294,8 @@ pub async fn AuthApi::signUpEmail(
   let req_obj = @nostd.Object::new()
   req_obj["body"] = body
   let promise = ffi_call_auth_api_with_catch(
-    self.to_any()["signUpEmail"] |> @js.identity,
-    req_obj |> @js.identity,
+    self.to_any()["signUpEmail"] |> @nostd.identity,
+    req_obj |> @nostd.identity,
   )
   promise.wait()
 }
@@ -325,8 +325,8 @@ pub async fn AuthApi::signInEmail(
     req_obj["headers"] = @nostd.any(h)
   }
   let promise = ffi_call_auth_api_with_catch(
-    self.to_any()["signInEmail"] |> @js.identity,
-    req_obj |> @js.identity,
+    self.to_any()["signInEmail"] |> @nostd.identity,
+    req_obj |> @nostd.identity,
   )
   promise.wait()
 }
@@ -348,7 +348,7 @@ pub async fn AuthApi::signInSocial(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()["signInSocial"]
     ._invoke([req_obj])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -386,7 +386,7 @@ pub async fn AuthApi::getSession(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()["getSession"]
     ._invoke([req_obj])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) || @nostd.is_nullish(result["user"]) {
     None
@@ -403,7 +403,7 @@ pub async fn AuthApi::signOut(self : AuthApi, headers : @nostd.Any) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()["signOut"]
     ._invoke([req_obj])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 

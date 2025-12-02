@@ -101,7 +101,7 @@ test "WASI can run hello-wasi.wasm" {
   // Instantiate WASM module with WASI imports
   let import_obj = wasi.getImportObject()
   let wasm_module = @webassembly.WebAssemblyModule::from_buffer(
-    @js.identity(wasm_bytes),
+    @nostd.identity(wasm_bytes),
   )
   let instance = @webassembly.WebAssemblyInstance::from_module(
     wasm_module,

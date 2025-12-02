@@ -139,7 +139,7 @@ test "Reflect.get with receiver" {
 test "Reflect operations on frozen object" {
   let obj = @nostd.Object::new()
   obj._set("frozen", @nostd.any(true))
-  @js.Object::freeze(obj |> @js.identity) |> ignore
+  @js.Object::freeze(obj |> @nostd.identity) |> ignore
 
   // Cannot add new properties to frozen object
   let set_result = @reflect.set(

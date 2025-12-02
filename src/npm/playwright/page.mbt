@@ -35,7 +35,7 @@ pub async fn Page::goto(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("goto", [@nostd.any(url), options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -61,7 +61,7 @@ pub async fn Page::reload(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("reload", [options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -87,7 +87,7 @@ pub async fn Page::goBack(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("goBack", [options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -113,7 +113,7 @@ pub async fn Page::goForward(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("goForward", [options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -134,7 +134,7 @@ pub fn Page::url(self : Page) -> String {
 /// Get page title
 pub async fn Page::title(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("title", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -142,7 +142,7 @@ pub async fn Page::title(self : Page) -> String {
 /// Get page content (HTML)
 pub async fn Page::content(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("content", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -164,7 +164,7 @@ pub async fn Page::setContent(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setContent", [@nostd.any(html), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -309,7 +309,7 @@ pub async fn Page::click(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("click", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -331,7 +331,7 @@ pub async fn Page::dblclick(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("dblclick", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -358,7 +358,7 @@ pub async fn Page::fill(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("fill", [@nostd.any(selector), @nostd.any(value), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -385,7 +385,7 @@ pub async fn Page::type_(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("type", [@nostd.any(selector), @nostd.any(text), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -412,7 +412,7 @@ pub async fn Page::press(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("press", [@nostd.any(selector), @nostd.any(key), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -438,7 +438,7 @@ pub async fn Page::check(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("check", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -464,7 +464,7 @@ pub async fn Page::uncheck(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("uncheck", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -491,7 +491,7 @@ pub async fn Page::selectOption(
   let promise : @js.Promise[Array[String]] = self
     .to_any()
     ._call("selectOption", [@nostd.any(selector), @nostd.any(values), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -528,7 +528,7 @@ pub async fn Page::hover(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("hover", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -546,7 +546,7 @@ pub async fn Page::focus(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("focus", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -574,7 +574,7 @@ pub async fn Page::waitForSelector(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("waitForSelector", [@nostd.any(selector), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -592,8 +592,8 @@ pub async fn Page::waitForLoadState(
   let promise : @js.Promise[Unit] = match state {
     Some(s) =>
       self.to_any()._call("waitForLoadState", [@nostd.any(s), options])
-      |> @js.identity
-    None => self.to_any()._call("waitForLoadState", [options]) |> @js.identity
+      |> @nostd.identity
+    None => self.to_any()._call("waitForLoadState", [options]) |> @nostd.identity
   }
   promise.wait()
 }
@@ -619,7 +619,7 @@ pub async fn Page::waitForNavigation(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("waitForNavigation", [options])
-    |> @js.identity
+    |> @nostd.identity
   let result : @nostd.Any = promise.wait() |> @nostd.any
   if @nostd.is_nullish(result) {
     None
@@ -646,7 +646,7 @@ pub async fn Page::waitForURL(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("waitForURL", [@nostd.any(url), options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -656,7 +656,7 @@ pub async fn Page::waitForTimeout(self : Page, timeout : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("waitForTimeout", [@nostd.any(timeout)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -681,12 +681,12 @@ pub async fn Page::waitForFunction(
       self
       .to_any()
       ._call("waitForFunction", [@nostd.any(pageFunction), @nostd.any(a), options])
-      |> @js.identity
+      |> @nostd.identity
     None =>
       self
       .to_any()
       ._call("waitForFunction", [@nostd.any(pageFunction), options])
-      |> @js.identity
+      |> @nostd.identity
   }
   promise.wait()
 }
@@ -705,9 +705,9 @@ pub async fn Page::evaluate(
       self
       .to_any()
       ._call("evaluate", [@nostd.any(pageFunction), @nostd.any(a)])
-      |> @js.identity
+      |> @nostd.identity
     None =>
-      self.to_any()._call("evaluate", [@nostd.any(pageFunction)]) |> @js.identity
+      self.to_any()._call("evaluate", [@nostd.any(pageFunction)]) |> @nostd.identity
   }
   promise.wait()
 }
@@ -724,10 +724,10 @@ pub async fn Page::evaluateHandle(
       self
       .to_any()
       ._call("evaluateHandle", [@nostd.any(pageFunction), @nostd.any(a)])
-      |> @js.identity
+      |> @nostd.identity
     None =>
       self.to_any()._call("evaluateHandle", [@nostd.any(pageFunction)])
-      |> @js.identity
+      |> @nostd.identity
   }
   promise.wait()
 }
@@ -775,7 +775,7 @@ pub async fn Page::screenshot(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("screenshot", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -840,7 +840,7 @@ pub async fn Page::pdf(
     options["preferCSSPageSize"] = @nostd.any(v)
   }
   let promise : @js.Promise[@nostd.Any] = self.to_any()._call("pdf", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -854,7 +854,7 @@ pub async fn Page::close(self : Page, runBeforeUnload? : Bool) -> Unit {
     options["runBeforeUnload"] = @nostd.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -866,7 +866,7 @@ pub fn Page::close_with_error_callback(
   on_error : (Error) -> Unit,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @js.identity
+    |> @nostd.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -884,7 +884,7 @@ pub fn Page::isClosed(self : Page) -> Bool {
 /// Bring page to front
 pub async fn Page::bringToFront(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("bringToFront", [])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -901,7 +901,7 @@ pub async fn Page::setViewportSize(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setViewportSize", [viewport])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -924,7 +924,7 @@ pub async fn Page::setExtraHTTPHeaders(self : Page, headers : @nostd.Any) -> Uni
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setExtraHTTPHeaders", [@nostd.any(headers)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -953,7 +953,7 @@ pub async fn Page::addScriptTag(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("addScriptTag", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -978,7 +978,7 @@ pub async fn Page::addStyleTag(
   let promise : @js.Promise[@nostd.Any] = self
     .to_any()
     ._call("addStyleTag", [options])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 
@@ -992,7 +992,7 @@ pub async fn Page::exposeFunction(
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("exposeFunction", [@nostd.any(name), @nostd.any(callback)])
-    |> @js.identity
+    |> @nostd.identity
   promise.wait()
 }
 

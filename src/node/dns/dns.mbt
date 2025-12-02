@@ -18,9 +18,9 @@ pub fn lookup(
   all? : Bool,
   order? : String,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   if family is None && all is None && order is None {
-    ffi_lookup(hostname, @nostd.Object::new() |> @js.identity, cb)
+    ffi_lookup(hostname, @nostd.Object::new() |> @nostd.identity, cb)
   } else {
     let opts = @nostd.Object::new()
     if family is Some(f) {
@@ -32,7 +32,7 @@ pub fn lookup(
     if order is Some(o) {
       opts["order"] = @nostd.any(o)
     }
-    ffi_lookup(hostname, opts |> @js.identity, cb)
+    ffi_lookup(hostname, opts |> @nostd.identity, cb)
   }
 }
 
@@ -54,7 +54,7 @@ pub fn resolve(
   rrtype : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve(hostname, rrtype, cb)
 }
 
@@ -71,7 +71,7 @@ pub fn resolve4(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve4(hostname, cb)
 }
 
@@ -88,7 +88,7 @@ pub fn resolve6(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve6(hostname, cb)
 }
 
@@ -105,7 +105,7 @@ pub fn resolve_mx(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve_mx(hostname, cb)
 }
 
@@ -122,7 +122,7 @@ pub fn resolve_txt(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve_txt(hostname, cb)
 }
 
@@ -139,7 +139,7 @@ pub fn resolve_srv(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve_srv(hostname, cb)
 }
 
@@ -156,7 +156,7 @@ pub fn resolve_ns(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve_ns(hostname, cb)
 }
 
@@ -173,7 +173,7 @@ pub fn resolve_cname(
   hostname : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_resolve_cname(hostname, cb)
 }
 
@@ -190,7 +190,7 @@ pub fn reverse(
   ip : String,
   callback : (@js.Object?, @js.JsArray) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @js.identity(callback)
+  let cb : @nostd.Any = @nostd.identity(callback)
   ffi_reverse(ip, cb)
 }
 
