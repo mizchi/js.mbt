@@ -13,10 +13,6 @@
 ///  Note: These must remain as impl JsImpl because we cannot define methods on foreign types
 
 ///|
-/// Conversion functions
-pub using @nostd {from_fn0, from_fn1, from_fn2, from_fn3}
-
-///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T] from_array(v : Array[T]) -> @nostd.Any {
   identity(v)

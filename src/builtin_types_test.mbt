@@ -451,22 +451,6 @@ test "Object::to_string" {
   assert_true(str.contains("30"))
 }
 
-///| JsArray::to_string tests
-
-///|
-test "JsArray::to_string" {
-  let arr : JsArray = @nostd.identity(JsArray::new())
-  arr.push(@nostd.any(1))
-  arr.push(@nostd.any(2))
-  arr.push(@nostd.any(3))
-  let str = arr.to_string()
-  assert_true(str.contains("1"))
-  assert_true(str.contains("2"))
-  assert_true(str.contains("3"))
-}
-
-///| Symbol::asyncIterator tests
-
 ///|
 test "Symbol::asyncIterator" {
   let async_iter_sym = Symbol::asyncIterator()

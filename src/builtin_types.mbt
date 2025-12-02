@@ -212,12 +212,6 @@ pub fn JsArray::new() -> Any {
 }
 
 ///|
-/// JS: array.push(item)
-pub fn JsArray::push(self : JsArray, item : @nostd.Any) -> Unit {
-  self.as_builtin_array().push(item |> identity)
-}
-
-///|
 /// cast to builtin Array
 pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
   self |> identity
