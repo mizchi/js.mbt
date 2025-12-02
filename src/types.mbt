@@ -25,12 +25,6 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
   self |> identity
 }
 
-///| JSON - Serialization
-
-///| Symbol - Used for special properties
-
-///| JsString - String utilities
-
 ///|
 #external
 pub type JsString

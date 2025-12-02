@@ -31,3 +31,17 @@ test "JsIterator::drop and take combined" {
   inspect(result[0], content="2")
   inspect(result[4], content="6")
 }
+
+///|
+test "ThrowError Show trait" {
+  let result = try? throwable(fn() {
+    @core.global_this()._call("nonexistentMethod", [])
+  })
+  match result {
+    Err(throw_err) => {
+      let str = throw_err.to_string()
+      assert_true(str.length() > 0)
+    }
+    Ok(_) => fail("Expected error")
+  }
+}

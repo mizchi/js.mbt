@@ -31,3 +31,15 @@ test "JsIterator::drop and take combined" {
   inspect(result[0], content="2")
   inspect(result[4], content="6")
 }
+
+///|
+test "JsIterator::from converts iterable to iterator" {
+  // Create an array - arrays are iterable in JavaScript
+  let arr = @core.any([1, 2, 3])
+
+  // Use Iterator.from to convert iterable to iterator
+  let js_iter : JsIterator[@core.Any] = JsIterator::from(arr)
+
+  // Verify it's created (basic type check)
+  assert_true(@core.is_object(js_iter.as_any()))
+}

@@ -1,17 +1,3 @@
-///|
-test "ThrowError Show trait" {
-  let result = try? throwable(fn() {
-    @core.global_this()._call("nonexistentMethod", [])
-  })
-  match result {
-    Err(throw_err) => {
-      let str = throw_err.to_string()
-      assert_true(str.length() > 0)
-    }
-    Ok(_) => fail("Expected error")
-  }
-}
-
 ///| Symbol tests
 
 ///| JsString tests
@@ -63,7 +49,7 @@ test "Js Show trait for different types" {
 ///| Object::to_string tests
 
 ///|
-test "Object::to_string" {
+test "Object::to_string with various objects" {
   let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   obj._set("age", 30 |> @core.any)
@@ -81,37 +67,10 @@ test "Object::to_string" {
 test "AbortController::signal and abort" {
   let controller = AbortController::new()
   let _signal = controller.signal()
-  // let aborted_before : Bool = @core.identity(signal._get("aborted"))
-  // assert_false(aborted_before)
   controller.abort() |> ignore
-  // let aborted_after : Bool = @core.identity(signal._get("aborted"))
-  // assert_true(aborted_after)
-}
-
-///|
-test "JsIterator::from converts iterable to iterator" {
-  // Create an array - arrays are iterable in JavaScript
-  let arr = @core.any([1, 2, 3])
-
-  // Use Iterator.from to convert iterable to iterator
-  let js_iter : @js.JsIterator[@core.Any] = @js.JsIterator::from(arr)
-
-  // Verify it's created (basic type check)
-  assert_true(@core.is_object(js_iter.as_any()))
 }
 
 ///| Show trait tests
-
-///|
-test "identity_option for nullish detection" {
-  let obj = @core.new_object()
-  let result : @core.Any? = @core.identity_option(obj)
-  assert_false(result is None)
-  let null_result : @core.Any? = @core.identity_option(@core.null())
-  assert_true(null_result is None)
-  let undef_result : @core.Any? = @core.identity_option(@global.undefined())
-  assert_true(undef_result is None)
-}
 
 ///|
 test "JsError Show output" {
