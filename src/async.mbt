@@ -9,32 +9,6 @@ pub async fn[T, E : Error] suspend(
 pub fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 
 ///|
-/// Run a cancellable promise with automatic AbortController management
-///
-/// This is a convenient helper from moonbitlang/async/js_async that:
-/// - Creates a fresh AbortController
-/// - Passes its signal to your function
-/// - Waits for the promise to resolve
-/// - Activates the abort signal if the operation is cancelled
-///
-/// Example:
-/// ```moonbit no-check
-/// async fn fetch_data() -> String {
-///   run_promise(
-///     // Your promise that supports AbortSignal
-///     abort_signal => fetch_with_abort(url, abort_signal),
-///   )
-/// }
-/// ```
-pub async fn[X] run_promise2(f : (AbortSignal) -> Promise[X]) -> X {
-  @js_async.run_promise((signal : @js_async.AbortSignal) => {
-    let converted_signal : AbortSignal = identity(signal)
-    let promise : Promise[X] = f(converted_signal)
-    identity(promise)
-  })
-}
-
-///|
 /// Moonbit Async Function to JS Promise Function
 pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {

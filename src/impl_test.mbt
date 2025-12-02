@@ -70,7 +70,7 @@ test "type checking" {
 
   // Test is_some and is_none
   assert_false(@nostd.any(42) |> @js.is_nullish())
-  assert_true(undefined() |> @js.is_nullish())
+  assert_true(@nostd.undefined() |> @js.is_nullish())
   assert_false(@nostd.any(42) |> @js.is_nullish())
   assert_true(@nostd.undefined() |> @js.is_nullish())
   assert_true(@nostd.null() |> @js.is_nullish())
@@ -82,7 +82,7 @@ test "Js typeof_" {
   assert_eq(@js.typeof_(@nostd.any(3.14)), "number")
   assert_eq(@js.typeof_(@nostd.any("hello")), "string")
   assert_eq(@js.typeof_(@nostd.any(true)), "boolean")
-  assert_eq(@js.typeof_(undefined()), "undefined")
+  assert_eq(@js.typeof_(@nostd.undefined()), "undefined")
   assert_eq(@js.typeof_(Object::new()), "object")
   assert_eq(@js.typeof_(JsArray::new()), "object")
   assert_eq(@js.typeof_(@nostd.null()), "object") // JavaScript quirk

@@ -23,10 +23,6 @@ extern "js" fn ffi_is_object(value : @nostd.Any) -> Bool =
   #| (value) => typeof value === "object" && value !== null
 
 ///|
-extern "js" fn ffi_is_nan(value : @nostd.Any) -> Bool =
-  #| (value) => Number.isNaN(value)
-
-///|
 extern "js" fn ffi_is_null(value : @nostd.Any) -> Bool =
   #| (value) => value === null
 
@@ -65,10 +61,6 @@ extern "js" fn ffi_set(
   #| (obj, key, value) => { obj[key] = value }
 
 ///|
-extern "js" fn ffi_delete(obj : @nostd.Any, key : String) -> Unit =
-  #| (obj, key) => { delete obj[key]; }
-
-///|
 extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
   #| (obj, key) => obj.hasOwnProperty(key)
 
@@ -85,14 +77,6 @@ extern "js" fn ffi_is_prototype_of(
   target : @nostd.Any,
 ) -> Bool =
   #| (obj, target) => obj.isPrototypeOf(target)
-
-///|
-extern "js" fn ffi_object_is(a : @nostd.Any, b : @nostd.Any) -> Bool =
-  #| (a, b) => Object.is(a, b)
-
-///|
-extern "js" fn ffi_object_keys(obj : Any) -> Array[String] =
-  #| (obj) => Object.keys(obj)
 
 ///|
 extern "js" fn ffi_object_entries(obj : @nostd.Any) -> Array[Any] =
@@ -117,25 +101,8 @@ extern "js" fn ffi_call1(obj : @nostd.Any, key : String, arg1 : Any) -> Any =
   #| (obj, key, arg1) => obj[key](arg1)
 
 ///|
-extern "js" fn ffi_call2(
-  obj : @nostd.Any,
-  key : String,
-  arg1 : Any,
-  arg2 : Any,
-) -> Any =
-  #| (obj, key, arg1, arg2) => obj[key](arg1, arg2)
-
-///|
-extern "js" fn ffi_call_self(func : @nostd.Any, args : Array[Any]) -> Any =
-  #| (func, args) => func(...args)
-
-///|
 extern "js" fn ffi_call_self0(func : @nostd.Any) -> Any =
   #| (func) => func()
-
-///|
-extern "js" fn ffi_new(cls : Any, args : Array[Any]) -> Any =
-  #| (cls, args) => new cls(...args)
 
 ///| Array Operations
 
@@ -208,14 +175,6 @@ extern "js" fn ffi_symbol(name : String) -> Symbol =
 ///| Global Functions
 
 ///|
-extern "js" fn ffi_global_this() -> Any =
-  #| () => globalThis
-
-///|
-extern "js" fn ffi_undefined() -> Any =
-  #| () => undefined
-
-///|
 extern "js" fn ffi_null() -> Any =
   #| () => null
 
@@ -224,34 +183,6 @@ extern "js" fn ffi_console_log(values : Array[Any]) -> Unit =
   #| (values) => console.log(...values)
 
 ///| String and Encoding
-
-///|
-extern "js" fn ffi_to_string(value : @nostd.Any) -> String =
-  #| (value) => value == null ? String(null) : value.toString()
-
-///|
-extern "js" fn ffi_atob(encoded_data : String) -> String =
-  #| (encoded_data) => atob(encoded_data)
-
-///|
-extern "js" fn ffi_btoa(data : String) -> String =
-  #| (data) => btoa(data)
-
-///|
-extern "js" fn ffi_encode_uri(uri : String) -> String =
-  #| (uri) => encodeURI(uri)
-
-///|
-extern "js" fn ffi_decode_uri(encoded_uri : String) -> String =
-  #| (encoded_uri) => decodeURI(encoded_uri)
-
-///|
-extern "js" fn ffi_encode_uri_component(str : String) -> String =
-  #| (str) => encodeURIComponent(str)
-
-///|
-extern "js" fn ffi_decode_uri_component(encoded_str : String) -> String =
-  #| (encoded_str) => decodeURIComponent(encoded_str)
 
 ///| JSON
 
@@ -272,43 +203,3 @@ extern "js" fn ffi_json_parse(
   #|
 
 ///| Timers
-
-///|
-extern "js" fn ffi_set_interval(
-  callback : () -> Unit noraise,
-  duration : Int,
-) -> JsTimer =
-  #| (callback, duration) => setInterval(callback, duration)
-
-///|
-extern "js" fn ffi_set_timeout(
-  callback : () -> Unit noraise,
-  duration : Int,
-) -> JsTimer =
-  #| (callback, duration) => setTimeout(callback, duration)
-
-///|
-extern "js" fn ffi_clear_timeout(timer : JsTimer) -> Unit =
-  #| (timer) => clearTimeout(timer)
-
-///|
-extern "js" fn ffi_queue_microtask(callback : () -> Unit noraise) -> Unit =
-  #| (callback) => queueMicrotask(callback)
-
-///|
-pub extern "js" fn structuredClone(value : @nostd.Any) -> @nostd.Any =
-  #| (value) => structuredClone(value)
-
-///| Number Parsing and Validation
-
-///|
-extern "js" fn ffi_parse_int(string : String, radix : Int) -> Any =
-  #| (string, radix) => parseInt(string, radix)
-
-///|
-extern "js" fn ffi_parse_float(string : String) -> Any =
-  #| (string) => parseFloat(string)
-
-///|
-extern "js" fn ffi_is_finite(value : Double) -> Bool =
-  #| (value) => isFinite(value)

@@ -9,6 +9,6 @@
 
 ///|
 /// JS: undefined (internal use)
-pub fn undefined() -> @nostd.Any {
-  ffi_undefined()
-}
+// pub fn undefined() -> @nostd.Any {
+//   ffi_undefined()
+// }

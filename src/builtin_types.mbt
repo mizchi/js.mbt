@@ -164,7 +164,11 @@ pub fn Object::isExtensible(self : Self) -> Bool {
 
 ///|
 pub fn Object::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_any() |> identity, undefined(), undefined())
+  ffi_json_stringify(
+    self.to_any() |> identity,
+    @nostd.undefined(),
+    @nostd.undefined(),
+  )
 }
 
 ///| Array - Second most frequently used builtin type
@@ -186,7 +190,11 @@ pub fn JsArray::_get(self : JsArray, key : String) -> @nostd.Any {
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
-  ffi_json_stringify(self.to_any() |> identity, undefined(), undefined())
+  ffi_json_stringify(
+    self.to_any() |> identity,
+    @nostd.undefined(),
+    @nostd.undefined(),
+  )
 }
 
 ///|
@@ -383,6 +391,7 @@ pub impl Show for ThrowError with to_string(self) {
 ///
 /// ```moonbit no-check
 /// let js_error = globalThis()._get("TypeError")
+///
 /// let throw_error = ThrowError::from(js_error)
 /// // Returns ThrowError::TypeError(...)
 /// ```
@@ -426,7 +435,7 @@ pub type JSON
 /// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
   v : @nostd.Any,
-  replacer? : Any = undefined(),
+  replacer? : Any = @nostd.undefined(),
   space? : Int = 2,
 ) -> String {
   ffi_json_stringify(v |> identity, replacer, space |> any)
@@ -609,8 +618,8 @@ pub fn[T] AsyncIterator::to_any(self : AsyncIterator[T]) -> @nostd.Any = "%ident
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[Any] = self.to_any()._call("next", []) |> identity
-  let v : Any = v.wait()
+  let v : Promise[@nostd.Any] = self.to_any()._call("next", []) |> identity
+  let v : @nostd.Any = v.wait()
   if (@nostd.any(v)["done"] |> identity) {
     None
   } else {

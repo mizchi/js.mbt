@@ -339,7 +339,7 @@ test "identity_option" {
   assert_eq(some_int, Some(42))
 
   // None cases
-  let none_str : String? = undefined() |> @js.identity_option()
+  let none_str : String? = @nostd.undefined() |> @js.identity_option()
   assert_eq(none_str, None)
   let none_int : Int? = @nostd.null() |> @js.identity_option()
   assert_eq(none_int, None)
@@ -396,7 +396,7 @@ test "Conditional property setting with Option" {
   assert_true(@js.is_undefined(obj._get("key2")))
 
   // Set with undefined value - check before setting
-  match Some(undefined()) {
+  match Some(@nostd.undefined()) {
     Some(val) if not(@js.is_undefined(val)) => obj.set("key3", val)
     _ => ()
   }
