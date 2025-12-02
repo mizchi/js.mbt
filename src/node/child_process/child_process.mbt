@@ -309,7 +309,7 @@ pub fn spawnSync(
   timeout? : Int,
   input? : String,
   stdio? : String,
-) -> SpawnSyncResult raise {
+) -> SpawnSyncResult raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
@@ -344,7 +344,7 @@ pub fn execSync(
   input? : String,
   encoding? : String,
   stdio? : String,
-) -> String raise {
+) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
@@ -374,7 +374,7 @@ pub fn execFileSync(
   maxBuffer? : Int,
   input? : String,
   encoding? : String,
-) -> String raise {
+) -> String raise @js.ThrowError {
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
