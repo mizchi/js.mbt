@@ -35,7 +35,7 @@ fn[T] common_node(
     props._set("tabIndex", tab_index |> @core.any)
   }
   if style is Some(style) {
-    let style_obj = @core.Object::new()
+    let style_obj = @core.new_object()
     for k, v in style {
       style_obj._set(k, v |> @core.any)
     }
@@ -125,7 +125,7 @@ pub fn div(
     "div",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -182,7 +182,7 @@ pub fn pre(
     "pre",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     tab_index~,
@@ -239,7 +239,7 @@ pub fn blockquote(
     "blockquote",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -295,7 +295,7 @@ pub fn span(
     "span",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -351,7 +351,7 @@ pub fn nav(
     "nav",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -407,7 +407,7 @@ pub fn p(
     "p",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -466,8 +466,8 @@ pub fn textarea(
   on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if rows is Some(r) {
     custom_props._set("rows", r |> @core.any)
@@ -545,8 +545,8 @@ pub fn input(
   on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if name is Some(n) {
     custom_props._set("name", n |> @core.any)
@@ -620,7 +620,7 @@ pub fn main_(
     "main",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -677,7 +677,7 @@ pub fn header(
     "header",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -734,7 +734,7 @@ pub fn footer(
     "footer",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -791,7 +791,7 @@ pub fn ul(
     "ul",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -848,7 +848,7 @@ pub fn ol(
     "ol",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -904,7 +904,7 @@ pub fn article(
     "article",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -960,7 +960,7 @@ pub fn aside(
     "aside",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1016,7 +1016,7 @@ pub fn section(
     "section",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1078,8 +1078,8 @@ pub fn form(
   on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if disabled is Some(d) {
     custom_props._set("disabled", d |> @core.any)
@@ -1159,8 +1159,8 @@ pub fn select(
   on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if multiple is Some(m) {
     custom_props._set("multiple", m |> @core.any)
@@ -1228,8 +1228,8 @@ pub fn option(
   on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("value", value |> @core.any)
   if selected is Some(s) {
@@ -1291,8 +1291,8 @@ pub fn label(
   on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("htmlFor", htmlFor |> @core.any)
   common_node(
@@ -1353,7 +1353,7 @@ pub fn li(
     "li",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1410,7 +1410,7 @@ pub fn code(
     "code",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1467,7 +1467,7 @@ pub fn details(
     "details",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1524,7 +1524,7 @@ pub fn summary(
     "summary",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -1584,8 +1584,8 @@ pub fn a(
   on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("href", href |> @core.any)
   if download is Some(d) {
@@ -1657,8 +1657,8 @@ pub fn iframe(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
   if width is Some(d) {
@@ -1747,8 +1747,8 @@ pub fn img(
   on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
   if alt is Some(d) {
@@ -1837,8 +1837,8 @@ pub fn video(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if controls is Some(c) {
     custom_props._set("controls", c |> @core.any)
@@ -1901,8 +1901,8 @@ pub fn source(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   custom_props._set("src", src |> @core.any)
   if type_ is Some(t) {
@@ -1965,7 +1965,7 @@ pub fn hr(
     "hr",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2022,7 +2022,7 @@ pub fn h1(
     "h1",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2079,7 +2079,7 @@ pub fn h2(
     "h2",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2136,7 +2136,7 @@ pub fn h3(
     "h3",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2193,7 +2193,7 @@ pub fn h4(
     "h4",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2250,7 +2250,7 @@ pub fn h5(
     "h5",
     match props {
       Some(p) => p
-      None => @core.Object::new()
+      None => @core.new_object()
     },
     id~,
     class~,
@@ -2302,8 +2302,8 @@ pub fn button(
   on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@core.Object::new(), p)
-    None => @core.Object::new()
+    Some(p) => @js.Object::assign(@core.new_object(), p)
+    None => @core.new_object()
   }
   if type_ is Some(t) {
     custom_props._set("type", t |> @core.any)

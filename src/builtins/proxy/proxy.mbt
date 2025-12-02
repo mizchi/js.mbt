@@ -25,7 +25,7 @@ fn proxy_class() -> @core.Any {
 ///
 /// Example with get trap:
 /// ```moonbit no-check
-/// let target = @core.Object::new()
+/// let target = @core.new_object()
 ///
 /// let _proxy = Proxy::new(@core.any(target), get=fn(_target, _prop, _receiver) {
 ///   @core.any("value")

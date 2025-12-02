@@ -3,7 +3,7 @@
 
 ///|
 test "create json response" {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["message"] = @core.any("hello")
   let response = @msw.jsonResponse(body)
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
@@ -11,7 +11,7 @@ test "create json response" {
 
 ///|
 test "create json response with status" {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["error"] = @core.any("not found")
   let response = @msw.jsonResponse(body, status=404)
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
@@ -50,7 +50,7 @@ test "create error response" {
 ///|
 test "create http get handler" {
   let handler = @msw.httpGet("/api/users", fn(_info) {
-    @msw.jsonResponse(@core.Object::new())
+    @msw.jsonResponse(@core.new_object())
   })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
@@ -58,7 +58,7 @@ test "create http get handler" {
 ///|
 test "create http post handler" {
   let handler = @msw.httpPost("/api/users", fn(_info) {
-    @msw.jsonResponse(@core.Object::new(), status=201)
+    @msw.jsonResponse(@core.new_object(), status=201)
   })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
@@ -66,7 +66,7 @@ test "create http post handler" {
 ///|
 test "create http put handler" {
   let handler = @msw.httpPut("/api/users/:id", fn(_info) {
-    @msw.jsonResponse(@core.Object::new())
+    @msw.jsonResponse(@core.new_object())
   })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
@@ -74,7 +74,7 @@ test "create http put handler" {
 ///|
 test "create http patch handler" {
   let handler = @msw.httpPatch("/api/users/:id", fn(_info) {
-    @msw.jsonResponse(@core.Object::new())
+    @msw.jsonResponse(@core.new_object())
   })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
@@ -104,7 +104,7 @@ test "create http head handler" {
 ///|
 test "create http all handler" {
   let handler = @msw.httpAll("/api/*", fn(_info) {
-    @msw.jsonResponse(@core.Object::new())
+    @msw.jsonResponse(@core.new_object())
   })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
@@ -118,7 +118,7 @@ test "setup server empty" {
 
 ///|
 test "setup server with handlers" {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["ok"] = @core.any(true)
   let handler = @msw.httpGet("/test", fn(_info) { @msw.jsonResponse(body) })
   let server = @msw.setupServer([handler])
@@ -178,7 +178,7 @@ test "server reset handlers with new" {
 
 ///|
 test "mockGet convenience" {
-  let data = @core.Object::new()
+  let data = @core.new_object()
   data["users"] = @core.any([1])
   let handler = @msw.mockGet("/api/users", data)
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
@@ -186,7 +186,7 @@ test "mockGet convenience" {
 
 ///|
 test "mockPost convenience" {
-  let data = @core.Object::new()
+  let data = @core.new_object()
   data["id"] = @core.any(1)
   let handler = @msw.mockPost("/api/users", data)
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
@@ -200,7 +200,7 @@ test "mockError convenience" {
 
 ///|
 test "handler with resolver accessing info" {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["ok"] = @core.any(true)
   let handler = @msw.httpGet("/api/items/:id", fn(info) {
     let _url = info.url()

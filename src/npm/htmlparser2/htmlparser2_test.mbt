@@ -106,7 +106,7 @@ test "get outer html" {
 ///|
 test "streaming parser" {
   let tags : Array[String] = []
-  let handlers = @core.Object::new()
+  let handlers = @core.new_object()
   handlers["onopentag"] = @core.from_fn1(fn(name : String) { tags.push(name) })
   let parser = @htmlparser2.createParser(handlers)
   parser.write("<div>")

@@ -138,7 +138,7 @@ test "volume reset" {
 
 ///|
 test "memfsFromJSON" {
-  let files = @core.Object::new()
+  let files = @core.new_object()
   files["/hello.txt"] = @core.any("Hello!")
   files["/world.txt"] = @core.any("World!")
   let (_, fs) = @memfs.memfsFromJSON(files)

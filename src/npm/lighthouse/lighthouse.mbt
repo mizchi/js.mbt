@@ -322,7 +322,7 @@ pub fn LighthouseFlags::new(
 
 ///|
 pub fn LighthouseFlags::to_any(self : LighthouseFlags) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.logLevel is Some(v) {
     obj["logLevel"] = @core.any(v)
   }
@@ -446,17 +446,17 @@ pub async fn run_with_port(
 ///|
 /// Desktop configuration preset
 pub fn desktop_config() -> @core.Any {
-  let config = @core.Object::new()
-  let settings = @core.Object::new()
+  let config = @core.new_object()
+  let settings = @core.new_object()
   settings["formFactor"] = @core.any("desktop")
   settings["throttlingMethod"] = @core.any("simulate")
-  let screen = @core.Object::new()
+  let screen = @core.new_object()
   screen["mobile"] = @core.any(false)
   screen["width"] = @core.any(1350)
   screen["height"] = @core.any(940)
   screen["deviceScaleFactor"] = @core.any(1)
   settings["screenEmulation"] = screen
-  let throttling = @core.Object::new()
+  let throttling = @core.new_object()
   throttling["rttMs"] = @core.any(40)
   throttling["throughputKbps"] = @core.any(10240)
   throttling["cpuSlowdownMultiplier"] = @core.any(1)
@@ -468,11 +468,11 @@ pub fn desktop_config() -> @core.Any {
 ///|
 /// Mobile configuration preset (default Lighthouse behavior)
 pub fn mobile_config() -> @core.Any {
-  let config = @core.Object::new()
-  let settings = @core.Object::new()
+  let config = @core.new_object()
+  let settings = @core.new_object()
   settings["formFactor"] = @core.any("mobile")
   settings["throttlingMethod"] = @core.any("simulate")
-  let screen = @core.Object::new()
+  let screen = @core.new_object()
   screen["mobile"] = @core.any(true)
   screen["width"] = @core.any(412)
   screen["height"] = @core.any(823)

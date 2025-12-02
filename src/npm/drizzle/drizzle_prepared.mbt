@@ -254,7 +254,7 @@ pub fn QueryBuilder::onConflictDoUpdate(
   target : Array[Column],
   set_values : @core.Any,
 ) -> QueryBuilder {
-  let config = @core.Object::new()
+  let config = @core.new_object()
   config._set("target", @core.any(target.map(fn(c) { c.as_any() })))
   config._set("set", set_values)
   ffi_on_conflict_do_update(self, config)

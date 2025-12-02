@@ -226,7 +226,7 @@ pub fn Ink::text(
   wrap? : TextWrap,
 ) -> @react.Element {
   let text_component = self.as_any()["Text"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if color is Some(c) {
     props["color"] = @core.any(c)
   }
@@ -312,7 +312,7 @@ pub fn Ink::box_(
   row_gap? : Int,
 ) -> @react.Element {
   let box_component = self.as_any()["Box"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   // Dimensions
   if width is Some(w) {
     props["width"] = @core.any(w)
@@ -450,7 +450,7 @@ pub fn Ink::box_(
 /// Newline component - renders a newline character
 pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
   let newline_component = self.as_any()["Newline"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if count is Some(c) {
     props["count"] = @core.any(c)
   }
@@ -461,7 +461,7 @@ pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
 /// Spacer component - fills available space (flex-grow: 1)
 pub fn Ink::spacer(self : Ink) -> @react.Element {
   let spacer_component = self.as_any()["Spacer"]
-  ffi_create_element(spacer_component, @core.Object::new(), @core.undefined()).cast()
+  ffi_create_element(spacer_component, @core.new_object(), @core.undefined()).cast()
 }
 
 ///|
@@ -472,7 +472,7 @@ pub fn Ink::static_(
   items? : Array[@core.Any],
 ) -> @react.Element {
   let static_component = self.as_any()["Static"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if items is Some(i) {
     props["items"] = @core.any(i)
   }
@@ -488,7 +488,7 @@ pub fn Ink::transform(
   transform_fn : (String) -> String,
 ) -> @react.Element {
   let transform_component = self.as_any()["Transform"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
   props["transform"] = wrapped_fn
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
@@ -561,7 +561,7 @@ pub fn Ink::render(
   onRender? : () -> Unit,
 ) -> InkInstance {
   let render_fn = self.as_any()["render"]
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if stdout is Some(s) {
     obj["stdout"] = s
   }

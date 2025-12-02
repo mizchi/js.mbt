@@ -67,7 +67,7 @@ pub fn JwtPayload::default() -> JwtPayload {
 
 ///|
 fn payload_to_js(payload : JwtPayload) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if payload.sub is Some(v) {
     obj["sub"] = @core.any(v)
   }

@@ -8,7 +8,7 @@ extern "js" fn console_log(v : @core.Any) -> Unit =
 ///|
 /// Convert MoonBit Map[String, Any] to JS Object
 pub fn from_map(map : Map[String, @core.Any]) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   for k, v in map {
     obj[k] = v
   }
@@ -32,7 +32,7 @@ pub fn from_json(json : Json) -> @core.Any {
       @core.any(js_arr)
     }
     Object(map) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       for k, v in map {
         obj[k] = from_json(v)
       }
@@ -60,7 +60,7 @@ pub fn[T] from_set(set : @hashset.HashSet[T]) -> @core.Any {
 ///|
 /// Convert @immut/hashmap.HashMap to JS Object
 pub fn[V] from_immut_map(map : @immut/hashmap.HashMap[String, V]) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   map.each(fn(k, v) { obj[k] = @core.any(v) })
   obj
 }

@@ -9,7 +9,7 @@ test "McpServer::new creates server with correct info" {
 ///|
 test "JsonRpcRequest as_any" {
   // Test using from_js and as_any roundtrip instead of direct construction
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("jsonrpc", "2.0" |> @core.any)
   obj._set("id", "test-123" |> @core.any)
   obj._set("method", "test/method" |> @core.any)

@@ -22,7 +22,7 @@ pub fn to_json_schema_with_options(
   unrepresentable? : String,
   override_? : @core.Any,
 ) -> @core.Any {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match name {
     Some(v) => opts._set("name", v |> @core.any)
     None => ()

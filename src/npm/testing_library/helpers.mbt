@@ -27,7 +27,7 @@ pub fn build_matcher_options(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
 ) -> @core.Any? {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let has = set_opt(obj, "exact", exact) ||
     set_opt(obj, "trim", trim) ||
     set_opt(obj, "collapseWhitespace", collapse_whitespace)
@@ -42,7 +42,7 @@ pub fn build_selector_matcher_options(
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
 ) -> @core.Any? {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let has = set_opt(obj, "exact", exact) ||
     set_opt(obj, "trim", trim) ||
     set_opt(obj, "collapseWhitespace", collapse_whitespace) ||
@@ -62,7 +62,7 @@ pub fn build_role_options(
   level? : Int? = None,
   description? : String? = None,
 ) -> @core.Any? {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let has = set_opt(obj, "name", name) ||
     set_opt(obj, "hidden", hidden) ||
     set_opt(obj, "selected", selected) ||

@@ -19,7 +19,7 @@ fn build_cors_options(
   credentials? : Bool,
   exposeHeaders? : Array[String],
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if origin is Some(v) {
     obj["origin"] = @core.any(v)
   }

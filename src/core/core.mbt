@@ -11,41 +11,53 @@ pub impl Eq for Any with equal(self, other) -> Bool {
 }
 
 ///|
-#external
-pub type Object
+/// Check if value is null or undefined
+pub extern "js" fn equal(a : Any, b : Any) -> Bool =
+  #|(a, b) => a === b
 
-///|
-pub extern "js" fn Object::new() -> Any =
+pub extern "js" fn new_object() -> Any =
   #| () => ({})
 
-///|
-/// JS: Object.keys(obj)
-pub extern "js" fn Object::keys(obj : Any) -> Array[String] =
+pub extern "js" fn object_keys(obj : Any) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
-///|
-/// JS: Object.values(obj)
-pub extern "js" fn Object::values(obj : Any) -> Array[Any] =
+pub extern "js" fn object_values(obj : Any) -> Array[Any] =
   #| (obj) => Object.values(obj)
+
+pub extern "js" fn new_array() -> Any =
+  #| () => []
+
+// ///|
+// #external
+// pub type Object
+
+// ///|
+// pub extern "js" fn new_object() -> Any =
+//   #| () => ({})
+
+// ///|
+// /// JS: Object.keys(obj)
+// pub extern "js" fn Object::keys(obj : Any) -> Array[String] =
+//   #| (obj) => Object.keys(obj)
+
+// ///|
+// /// JS: Object.values(obj)
+// pub extern "js" fn Object::values(obj : Any) -> Array[Any] =
+//   #| (obj) => Object.values(obj)
 
 ///|
 /// JS: Object.entries(obj) - returns array of [key, value] pairs
-pub extern "js" fn Object::entries(obj : Any) -> Array[Any] =
-  #| (obj) => Object.entries(obj)
+// pub extern "js" fn Object::entries(obj : Any) -> Array[Any] =
+//   #| (obj) => Object.entries(obj)
 
 ///|
 /// JS: Object.assign(target, ...sources)
-pub extern "js" fn Object::assign(target : Any, source : Any) -> Any =
+pub extern "js" fn object_assign(target : Any, source : Any) -> Any =
   #| (target, source) => Object.assign(target, source)
 
 ///|
-/// JS: Object.freeze(obj)
-pub extern "js" fn Object::freeze(obj : Any) -> Any =
-  #| (obj) => Object.freeze(obj)
-
-///|
 /// JS: Object.hasOwn(obj, key) or obj.hasOwnProperty(key)
-pub extern "js" fn Object::has_own(obj : Any, key : String) -> Bool =
+pub extern "js" fn object_has_own(obj : Any, key : String) -> Bool =
   #| (obj, key) => Object.hasOwn(obj, key)
 
 ///| JSON functions
@@ -66,31 +78,6 @@ pub extern "js" fn json_parse(text : String) -> Any =
   #| (text) => JSON.parse(text)
 
 ///| Console functions
-
-///|
-/// JS: console.log(...args)
-pub extern "js" fn console_log(value : Any) -> Unit =
-  #| (value) => console.log(value)
-
-///|
-/// JS: console.error(...args)
-pub extern "js" fn console_error(value : Any) -> Unit =
-  #| (value) => console.error(value)
-
-///|
-/// JS: console.warn(...args)
-pub extern "js" fn console_warn(value : Any) -> Unit =
-  #| (value) => console.warn(value)
-
-///|
-/// JS: console.info(...args)
-pub extern "js" fn console_info(value : Any) -> Unit =
-  #| (value) => console.info(value)
-
-///|
-/// JS: console.debug(...args)
-pub extern "js" fn console_debug(value : Any) -> Unit =
-  #| (value) => console.debug(value)
 
 ///| Zero-cost type conversions using %identity
 /// These are compile-time only and produce no runtime code
@@ -116,8 +103,6 @@ pub extern "js" fn as_any(opt : Any?) -> Any =
 /// Usage: from_entries([("key", nullable(maybe_value))])
 pub fn[T] nullable(opt : T?) -> Any = "%identity"
 
-///| JsValue methods
-
 ///|
 /// Set property: obj["key"] = value
 /// Enables syntax: obj["key"] = val
@@ -134,23 +119,6 @@ pub extern "js" fn Any::_call(
 ) -> Any =
   #| (obj, key, args) => obj[key](...args)
 
-// ///|
-// /// Convenience method call: obj.call1("method", arg)
-// pub fn Any::call1(self : Any, key : String, arg1 : Any) -> Any {
-//   self._call(key, [arg1])
-// }
-
-// ///|
-// /// Convenience method call: obj.call0("method")
-// pub fn Any::call0(self : Any, key : String) -> Any {
-//   self._call(key, [])
-// }
-
-// ///|
-// /// Convenience method call: obj.call2("method", a, b)
-// pub fn Any::call2(self : Any, key : String, arg1 : Any, arg2 : Any) -> Any {
-//   self._call(key, [arg1, arg2])
-// }
 
 ///|
 /// Call function: func._invoke([arg1, arg2])
@@ -184,35 +152,6 @@ pub extern "js" fn undefined() -> Any =
 pub extern "js" fn null() -> Any =
   #| () => null
 
-///|
-/// Check if value is null or undefined
-pub extern "js" fn is_nullish(v : Any) -> Bool =
-  #|(v) => v == null
-
-///|
-/// Check if value is null
-pub extern "js" fn is_null(v : Any) -> Bool =
-  #|(v) => v === null
-
-///|
-/// Check if value is null
-pub extern "js" fn is_undefined(v : Any) -> Bool =
-  #|(v) => v === undefined
-
-///|
-/// Check if value is null or undefined
-pub extern "js" fn equal(a : Any, b : Any) -> Bool =
-  #|(a, b) => a === b
-
-///|
-/// Check if value is an array
-pub extern "js" fn is_array(v : Any) -> Bool =
-  #|(v) => Array.isArray(v)
-
-///|
-/// JS: typeof value
-pub extern "js" fn type_of(value : Any) -> String =
-  #|(value) => typeof value
 
 ///|
 /// JS: new cls(...args)
@@ -279,14 +218,6 @@ pub fn[T] identity_option(v : Any) -> T? {
 }
 
 ///|
-#external
-pub type JsArray
-
-///|
-pub extern "js" fn JsArray::new() -> Any =
-  #| () => []
-
-///|
 /// Convert an Option to Any, mapping None to null and Some(v) to v.
 ///
 /// This is the inverse of `identity_option`. Use this when you need to pass
@@ -306,3 +237,6 @@ pub fn[A] from_option(opt : A?) -> Any {
     None => null()
   }
 }
+
+pub extern "js" fn log(message : Any) -> Unit =
+  #| (message) => { console.log(message); }

@@ -81,7 +81,7 @@ pub(all) struct DurableObjectIdOptions {
 pub fn DurableObjectIdOptions::to_js(
   self : DurableObjectIdOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.jurisdiction is Some(v) {
     obj["jurisdiction"] = @core.any(v)
   }
@@ -508,7 +508,7 @@ pub(all) struct DurableObjectGetOptions {
 pub fn DurableObjectGetOptions::to_js(
   self : DurableObjectGetOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.allowConcurrency is Some(v) {
     obj["allowConcurrency"] = @core.any(v)
   }
@@ -530,7 +530,7 @@ pub(all) struct DurableObjectPutOptions {
 pub fn DurableObjectPutOptions::to_js(
   self : DurableObjectPutOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.allowConcurrency is Some(v) {
     obj["allowConcurrency"] = @core.any(v)
   }
@@ -560,7 +560,7 @@ pub(all) struct DurableObjectListOptions {
 pub fn DurableObjectListOptions::to_js(
   self : DurableObjectListOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.start is Some(v) {
     obj["start"] = @core.any(v)
   }
@@ -598,7 +598,7 @@ pub(all) struct DurableObjectGetAlarmOptions {
 pub fn DurableObjectGetAlarmOptions::to_js(
   self : DurableObjectGetAlarmOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.allowConcurrency is Some(v) {
     obj["allowConcurrency"] = @core.any(v)
   }
@@ -616,7 +616,7 @@ pub(all) struct DurableObjectSetAlarmOptions {
 pub fn DurableObjectSetAlarmOptions::to_js(
   self : DurableObjectSetAlarmOptions,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.allowConcurrency is Some(v) {
     obj["allowConcurrency"] = @core.any(v)
   }

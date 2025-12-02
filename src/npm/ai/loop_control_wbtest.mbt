@@ -258,7 +258,7 @@ test "StopCondition as_any creates JS function" {
   // Verify it's a function
   assert_false(@core.is_undefined(js_fn))
   // Call it with a mock context
-  let ctx = @core.Object::new()
+  let ctx = @core.new_object()
   ctx._set("stepNumber", 2 |> @core.any)
   let empty_arr : Array[@core.Any] = []
   ctx._set("messages", empty_arr |> @core.any)

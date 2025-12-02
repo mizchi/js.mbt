@@ -29,7 +29,7 @@ pub fn drizzleLibsql(connection_url : String) -> DrizzleDB {
 /// Create a Drizzle instance for SQLite with libsql client
 pub fn drizzleLibsqlClient(client : @core.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module()._get("drizzle")
-  let config = @core.Object::new()
+  let config = @core.new_object()
   config._set("client", client)
   @core.any(drizzle_fn)._invoke([@core.any(config)]).cast()
 }
@@ -67,7 +67,7 @@ pub fn sqliteTableFromMap(
   name : String,
   columns : Map[String, Column],
 ) -> Table {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   columns.each(fn(key, col) { obj._set(key, col.as_any()) })
   sqliteTable(name, obj)
 }
@@ -107,7 +107,7 @@ pub fn sqliteInt(name? : String) -> Column {
 #alias(sqlite_integer)
 pub fn sqliteInteger(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("integer")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if mode is Some(m) {
     opts._set("mode", m |> @core.any)
   }
@@ -122,7 +122,7 @@ pub fn sqliteInteger(name? : String, mode? : String) -> Column {
 #alias(sqlite_text)
 pub fn sqliteText(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("text")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if mode is Some(m) {
     opts._set("mode", m |> @core.any)
   }
@@ -158,7 +158,7 @@ pub fn sqliteReal(name? : String) -> Column {
 #alias(sqlite_blob)
 pub fn sqliteBlob(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("blob")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if mode is Some(m) {
     opts._set("mode", m |> @core.any)
   }
@@ -195,7 +195,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 /// Set primary key with auto increment for SQLite
 #alias(primary_key_auto_increment)
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("autoIncrement", true |> @core.any)
   self.call1("primaryKey", opts) |> @core.identity
 }

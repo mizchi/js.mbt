@@ -84,7 +84,7 @@ pub fn ignore_module(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore {
   if ignorecase is None && allowRelativePaths is None {
     return ffi_ignore()
   }
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if ignorecase is Some(v) {
     options["ignorecase"] = @core.any(v)
   }

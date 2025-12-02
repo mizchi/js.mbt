@@ -25,7 +25,7 @@ test "History::state can be accessed" {
 #skip("history not available in JSDOM")
 test "History::pushState and replaceState work" {
   let h = history()
-  let state = @core.Object::new()
+  let state = @core.new_object()
   h.pushState(state, "")
   h.replaceState(state, "")
   assert_true(true)

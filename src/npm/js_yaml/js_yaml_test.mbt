@@ -31,7 +31,7 @@ test "yaml load nested object" {
 
 ///|
 test "yaml dump simple object" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = @core.any("Charlie")
   obj["age"] = @core.any(35)
   let yaml_str = @js_yaml.dump(obj)
@@ -49,7 +49,7 @@ test "yaml loadObject convenience" {
 
 ///|
 test "yaml dumpObject convenience" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["foo"] = @core.any("bar")
   let yaml_str = @js_yaml.dump(obj)
   inspect(yaml_str.contains("foo: bar"), content="true")
@@ -82,7 +82,7 @@ test "yaml loadAll multi-document" {
 
 ///|
 test "yaml dump with options" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["a"] = @core.any(1)
   obj["b"] = @core.any(2)
   let yaml_str = @js_yaml.dump(obj, indent=4, sortKeys=true)

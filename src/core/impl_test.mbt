@@ -40,20 +40,20 @@ test "JsImpl::to_string" {
   assert_eq(@core.any("hello").to_string(), "hello")
   assert_true(@core.is_undefined(@core.undefined()))
   assert_true(@core.is_null(@core.null()))
-  assert_eq(@core.Object::new().to_string(), "[object Object]")
-  // assert_eq(@core.JsArray::new().to_string(), "[object Object]")
+  assert_eq(@core.new_object().to_string(), "[object Object]")
+  // assert_eq(@core.new_array().to_string(), "[object Object]")
   @core.any([1, 2, 3]).to_string() |> assert_eq("1,2,3")
 }
 
 ///|
 test "type checking" {
   // Test is_array
-  let arr = JsArray::new()
+  let arr = new_array()
   assert_true(@core.is_array(arr))
   assert_false(@core.is_array(42 |> @core.any))
 
   // Test is_object
-  let obj = Object::new()
+  let obj = new_object()
   assert_true(@core.is_object(obj))
   assert_false(@core.is_object(42 |> @core.any))
   assert_false(@core.is_object(@core.null()))
@@ -83,14 +83,14 @@ test "Js typeof_" {
   assert_eq(@core.typeof_(@core.any("hello")), "string")
   assert_eq(@core.typeof_(@core.any(true)), "boolean")
   assert_eq(@core.typeof_(@core.undefined()), "undefined")
-  assert_eq(@core.typeof_(Object::new()), "object")
-  assert_eq(@core.typeof_(JsArray::new()), "object")
+  assert_eq(@core.typeof_(@core.new_object()), "object")
+  assert_eq(@core.typeof_(@core.new_array()), "object")
   assert_eq(@core.typeof_(@core.null()), "object") // JavaScript quirk
 }
 
 ///|
 test "JsImpl get/set" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   obj._set("age", 30 |> @core.any)
   obj._set("active", true |> @core.any)
@@ -99,7 +99,7 @@ test "JsImpl get/set" {
   assert_eq(@core.identity(obj._get("active")), true)
 
   // Test nested objects
-  let nested = @core.Object::new()
+  let nested = @core.new_object()
   nested._set("inner", "value" |> @core.any)
   obj._set("nested", nested)
   assert_eq(@core.identity(obj._get("nested")._get("inner")), "value")
@@ -107,15 +107,15 @@ test "JsImpl get/set" {
 
 ///|
 test "JsImpl::delete and hasOwnProperty" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("key1", "value1" |> @core.any)
   obj._set("key2", "value2" |> @core.any)
-  assert_true(@core.Object::has_own(obj, "key1"))
-  assert_true(@core.Object::has_own(obj, "key2"))
-  assert_false(@core.Object::has_own(obj, "key3"))
+  assert_true(@core.object_has_own(obj, "key1"))
+  assert_true(@core.object_has_own(obj, "key2"))
+  assert_false(@core.object_has_own(obj, "key3"))
   // obj._delete("key1")
-  // assert_false(@core.Object::has_own(obj, "key1"))
-  // assert_true(@core.Object::has_own(obj, "key2"))
+  // assert_false(@core.object_has_own(obj, "key1"))
+  // assert_true(@core.object_has_own(obj, "key2"))
 }
 
 ///|
@@ -149,11 +149,11 @@ test "Js with arrays" {
 
 ///|
 test "Js with nested structures" {
-  let root = @core.Object::new()
-  let user = @core.Object::new()
+  let root = @core.new_object()
+  let user = @core.new_object()
   user._set("name", "Alice" |> @core.any)
   user._set("age", 30 |> @core.any)
-  let address = @core.Object::new()
+  let address = @core.new_object()
   address._set("city", "Tokyo" |> @core.any)
   address._set("country", "Japan" |> @core.any)
   user._set("address", address)
@@ -180,20 +180,20 @@ test "Val Show trait" {
   assert_eq(@core.any(true).to_string(), "true")
   assert_eq(@core.any(false).to_string(), "false")
   assert_eq(@core.null().to_string(), "null")
-  assert_eq(Object::new().to_string(), "[object Object]")
-  assert_eq(JsArray::new().to_string(), "")
+  assert_eq(new_object().to_string(), "[object Object]")
+  assert_eq(new_array().to_string(), "")
 }
 
 ///|
 test "Val with mixed types in object" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("string", "text" |> @core.any)
   obj._set("number", 42 |> @core.any)
   obj._set("float", 3.14 |> @core.any)
   obj._set("boolean", true |> @core.any)
   obj._set("null", @core.null())
   obj._set("array", @core.any([1, 2, 3]))
-  obj._set("object", @core.Object::new())
+  obj._set("object", @core.new_object())
   assert_eq(@core.typeof_(obj._get("string")), "string")
   assert_eq(@core.typeof_(obj._get("number")), "number")
   assert_eq(@core.typeof_(obj._get("float")), "number")

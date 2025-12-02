@@ -34,7 +34,7 @@ pub fn config(
   override_existing? : Bool,
   quiet? : Bool,
 ) -> DotenvConfigOutput {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match path {
     Some(v) => opts["path"] = @core.any(v)
     None => ()
@@ -75,7 +75,7 @@ pub fn config(
 /// Load .env file with multiple paths
 #alias(config_paths)
 pub fn configPaths(paths : Array[String]) -> DotenvConfigOutput {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts["path"] = @core.any(paths)
   let result = dotenv()._call("config", [opts])
   let parsed_raw = result["parsed"]
@@ -103,7 +103,7 @@ pub fn parse(src : String) -> DotenvParseOutput {
 /// Parse with options
 #alias(parse_with_options)
 pub fn parseWithOptions(src : String, debug? : Bool) -> DotenvParseOutput {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match debug {
     Some(v) => opts["debug"] = @core.any(v)
     None => ()
@@ -118,7 +118,7 @@ pub fn populate(
   source : @core.Any,
   override_existing? : Bool,
 ) -> Unit {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match override_existing {
     Some(v) => opts["override"] = @core.any(v)
     None => ()

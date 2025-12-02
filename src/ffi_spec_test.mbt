@@ -233,7 +233,7 @@ test "Optional nested struct with undefined" {
 
 ///|
 test "Generic Container[Int]" {
-  let js_obj = @core.Object::new()
+  let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
   let container : Container[Int] = js_obj |> identity
   inspect(container.value, content="42")
@@ -241,7 +241,7 @@ test "Generic Container[Int]" {
 
 ///|
 test "Generic Container[String]" {
-  let js_obj = @core.Object::new()
+  let js_obj = @core.new_object()
   js_obj._set("value", "test" |> @core.any)
   let container : Container[String] = js_obj |> identity
   inspect(container.value, content="test")
@@ -249,7 +249,7 @@ test "Generic Container[String]" {
 
 ///|
 test "Generic Container[Int?] with value" {
-  let js_obj = @core.Object::new()
+  let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
   let container : Container[Int?] = js_obj |> identity
   inspect(container.value, content="Some(42)")
@@ -267,8 +267,8 @@ test "Generic Container[Int?] with null" {
 
 ///|
 test "Generic Container[SimpleStruct]" {
-  let js_obj = @core.Object::new()
-  let simple_obj = @core.Object::new()
+  let js_obj = @core.new_object()
+  let simple_obj = @core.new_object()
   simple_obj._set("name", "Bob" |> @core.any)
   simple_obj._set("age", 25 |> @core.any)
   js_obj._set("value", simple_obj)

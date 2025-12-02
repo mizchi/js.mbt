@@ -371,7 +371,7 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
 pub fn Tool::as_any(self : Tool) -> @core.Any {
   let ai_module = @node.require("ai")
   let json_schema_fn = ai_module._get("jsonSchema")
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("description", self.description |> @core.any)
   // Wrap with jsonSchema() helper from AI SDK
   let wrapped_schema = json_schema_fn._invoke([self.input_schema])
@@ -406,7 +406,7 @@ pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
 ///|
 /// Convert Tools to JS object format
 pub fn Tools::as_any(self : Tools) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   for name, tool in self.tools {
     obj._set(name, tool.as_any())
   }
@@ -433,7 +433,7 @@ pub fn ToolChoice::as_any(self : ToolChoice) -> @core.Any {
     Required => "required" |> @js.any
     None_ => "none" |> @js.any
     Tool(name) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("type", "tool" |> @core.any)
       obj._set("toolName", name |> @core.any)
       obj

@@ -18,7 +18,7 @@ pub fn createElement(
 ) -> Element {
   let tag = @core.any(tag)
   let children = @core.any(children.map(_.to_react_node()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if props is Some(props) {
     for k, v in props {
       val[k] = v
@@ -31,7 +31,7 @@ pub fn createElement(
     val["key"] = @core.any(key)
   }
   if style is Some(style) {
-    let style_obj = @core.Object::new()
+    let style_obj = @core.new_object()
     for k, v in style {
       style_obj[k] = @core.any(v)
     }

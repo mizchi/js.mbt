@@ -10,7 +10,7 @@
 //   ffi_is_object(identity(v))
 // }
 
-// @js.Object::new()
+// @js.new_object()
 
 ///|
 /// JS: v instanceof cls

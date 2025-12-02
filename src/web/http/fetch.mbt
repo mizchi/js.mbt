@@ -28,7 +28,7 @@ pub async fn fetch(
   referrerPolicy? : String,
   signal? : @js.AbortSignal,
 ) -> Response {
-  let header_obj = @core.Object::new()
+  let header_obj = @core.new_object()
   for k, v in headers {
     header_obj._set(k, @core.any(v))
   }

@@ -65,14 +65,14 @@ pub fn jsx(
 ) -> JSXNode {
   let tag = @core.any(tag)
   let children_arr = @core.any(children.map(_.toHonoNode()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if props is Some(props) {
     for k, v in props {
       val[k] = v
     }
   }
   if style is Some(style) {
-    let style_obj = @core.Object::new()
+    let style_obj = @core.new_object()
     for k, v in style {
       style_obj[k] = @core.any(v)
     }
@@ -116,7 +116,7 @@ pub fn[T] jsx_component(
   let val : @core.Any = @core.any(props)
   if key is Some(k) {
     if @core.is_nullish(val) {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj["key"] = @core.any(k)
       obj["children"] = children_any
       return ffi_jsx(tag, obj, children_any)
@@ -131,7 +131,7 @@ pub fn[T] jsx_component(
 /// Fragment - groups elements without extra DOM nodes
 pub fn fragment(children : Array[&HonoNode], key? : String) -> JSXNode {
   let children_arr = @core.any(children.map(_.toHonoNode()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if key is Some(k) {
     val["key"] = @core.any(k)
   }
@@ -226,7 +226,7 @@ pub fn[T] context_provider(
   value~ : T,
 ) -> JSXNode {
   let children_any = @core.any(children.map(_.toHonoNode()))
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["value"] = @core.any(value)
   props["children"] = children_any
   ffi_jsx(ffi_get_provider(ctx.as_any()), props, children_any)

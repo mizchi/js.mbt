@@ -231,7 +231,7 @@ pub async fn PageAssertions::toHaveTitle(
   title : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -249,7 +249,7 @@ pub async fn PageAssertions::toHaveURL(
   url : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -268,7 +268,7 @@ pub async fn LocatorAssertions::toBeVisible(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -285,7 +285,7 @@ pub async fn LocatorAssertions::toBeHidden(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -300,7 +300,7 @@ pub async fn LocatorAssertions::toBeEnabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -317,7 +317,7 @@ pub async fn LocatorAssertions::toBeDisabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -335,7 +335,7 @@ pub async fn LocatorAssertions::toBeChecked(
   checked? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if checked is Some(v) {
     options["checked"] = @core.any(v)
   }
@@ -357,7 +357,7 @@ pub async fn LocatorAssertions::toHaveText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if ignoreCase is Some(v) {
     options["ignoreCase"] = @core.any(v)
   }
@@ -379,7 +379,7 @@ pub async fn LocatorAssertions::toContainText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if ignoreCase is Some(v) {
     options["ignoreCase"] = @core.any(v)
   }
@@ -400,7 +400,7 @@ pub async fn LocatorAssertions::toHaveValue(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -419,7 +419,7 @@ pub async fn LocatorAssertions::toHaveAttribute(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -437,7 +437,7 @@ pub async fn LocatorAssertions::toHaveClass(
   class_ : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -455,7 +455,7 @@ pub async fn LocatorAssertions::toHaveCount(
   count : Int,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -472,7 +472,7 @@ pub async fn LocatorAssertions::toBeFocused(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -567,7 +567,7 @@ pub async fn TestInfo::attach(
   body? : String,
   contentType? : String,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if path is Some(v) {
     options["path"] = @core.any(v)
   }

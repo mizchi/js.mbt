@@ -54,7 +54,7 @@ test "Js Show trait for different types" {
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 
   // Objects
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("key", "value" |> @core.any)
   let obj_str = JSON::stringify(obj)
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
@@ -64,7 +64,7 @@ test "Js Show trait for different types" {
 
 ///|
 test "Object::to_string" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   obj._set("age", 30 |> @core.any)
   let obj_typed = @core.identity(obj)

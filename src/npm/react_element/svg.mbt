@@ -33,11 +33,11 @@ pub fn svg(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("width", width |> @core.any)
   attrs._set("height", height |> @core.any)
@@ -102,11 +102,11 @@ pub fn circle(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("cx", cx |> @core.any)
   attrs._set("cy", cy |> @core.any)
@@ -184,11 +184,11 @@ pub fn ellipse(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("cx", cx |> @core.any)
   attrs._set("cy", cy |> @core.any)
@@ -267,11 +267,11 @@ pub fn rect(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("x", x |> @core.any)
   attrs._set("y", y |> @core.any)
@@ -350,11 +350,11 @@ pub fn line(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("x1", x1 |> @core.any)
   attrs._set("y1", y1 |> @core.any)
@@ -430,11 +430,11 @@ pub fn path(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("d", d |> @core.any)
   if stroke is Some(stroke) {
@@ -504,11 +504,11 @@ pub fn use_(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("href", href |> @core.any)
   common_node(
@@ -571,12 +571,12 @@ pub fn polygon(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @core.Object::keys(p).length() > 0 {
-        @core.Object::assign(@core.Object::new(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("points", points |> @core.identity)
   if stroke is Some(stroke) {
@@ -648,12 +648,12 @@ pub fn polyline(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @core.Object::keys(p).length() > 0 {
-        @core.Object::assign(@core.Object::new(), p)
+      if @core.object_keys(p).length() > 0 {
+        @core.object_assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("points", points |> @core.identity)
   if stroke is Some(stroke) {
@@ -726,11 +726,11 @@ pub fn g(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   if stroke is Some(stroke) {
     attrs._set("stroke", stroke |> @core.any)
@@ -797,11 +797,11 @@ pub fn defs(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   common_node(
     "defs",
@@ -871,11 +871,11 @@ pub fn text(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("x", x |> @core.any)
   attrs._set("y", y |> @core.any)
@@ -961,11 +961,11 @@ pub fn image(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@core.Object::new(), p)
+        @js.Object::assign(@core.new_object(), p)
       } else {
         p
       }
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   attrs._set("x", x |> @core.any)
   attrs._set("y", y |> @core.any)

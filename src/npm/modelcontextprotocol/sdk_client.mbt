@@ -48,7 +48,7 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   )
   // Create client instance with empty capabilities
   let opts = @core.identity(
-    @mbtconv.from_map({ "capabilities": @core.any(@core.Object::new()) }),
+    @mbtconv.from_map({ "capabilities": @core.any(@core.new_object()) }),
   )
   ffi_construct_client(client_class, [client_info, opts]) |> @core.identity
 }
@@ -296,7 +296,7 @@ pub async fn SdkClient::get_prompt(
   name : String,
   arguments : @core.Any?,
 ) -> GetPromptResult {
-  let params = @core.Object::new()
+  let params = @core.new_object()
   params._set("name", name |> @core.any)
   if arguments is Some(args) {
     params._set("arguments", args)
@@ -333,7 +333,7 @@ pub fn StdioClientTransport::new(
 ) -> StdioClientTransport {
   let stdio_mod = require_stdio_client_transport()
   let transport_class = stdio_mod._get("StdioClientTransport")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("command", command |> @core.any)
   opts._set("args", args |> @core.any)
   if env is Some(e) {

@@ -122,7 +122,7 @@ pub async fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Unit {
-  let keys_js = @core.JsArray::new()
+  let keys_js = @core.new_array()
   let mut i = 0
   while i < keys.length() {
     @core.any(keys_js)._call("push", [@core.any(keys[i])]) |> ignore
@@ -425,7 +425,7 @@ pub async fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
 ) -> R2Object {
-  let parts_js = @core.JsArray::new()
+  let parts_js = @core.new_array()
   let mut i = 0
   while i < parts.length() {
     @core.any(parts_js)._call("push", [@core.any(parts[i].as_any())]) |> ignore

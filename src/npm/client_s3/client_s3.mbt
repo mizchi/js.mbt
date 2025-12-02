@@ -21,14 +21,14 @@ pub fn S3Client::new(
   secretAccessKey? : String,
   forcePathStyle? : Bool = false,
 ) -> S3Client {
-  let config = @core.Object::new()
+  let config = @core.new_object()
   config["region"] = region |> @core.any
   if endpoint is Some(ep) {
     config["endpoint"] = ep |> @core.any
   }
   config["forcePathStyle"] = forcePathStyle |> @core.any
   if accessKeyId is Some(ak) && secretAccessKey is Some(sk) {
-    let creds = @core.Object::new()
+    let creds = @core.new_object()
     creds["accessKeyId"] = ak |> @core.any
     creds["secretAccessKey"] = sk |> @core.any
     config["credentials"] = creds |> @core.any
@@ -52,7 +52,7 @@ pub async fn put_object(
   body : String,
   contentType? : String,
 ) -> PutObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
   input["Body"] = body |> @core.any
@@ -87,7 +87,7 @@ pub async fn put_object_bytes(
   body : Bytes,
   contentType? : String,
 ) -> PutObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
   input["Body"] = @typedarray.bytes_to_uint8array(body) |> @core.any
@@ -105,7 +105,7 @@ pub async fn get_object(
   bucket : String,
   key : String,
 ) -> GetObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
   let result = ffi_get_object(client |> @core.identity, input).wait()
@@ -158,7 +158,7 @@ pub async fn delete_object(
   bucket : String,
   key : String,
 ) -> DeleteObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
   let result = ffi_delete_object(client |> @core.identity, input).wait()
@@ -187,7 +187,7 @@ pub async fn head_object(
   bucket : String,
   key : String,
 ) -> HeadObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
   let result = ffi_head_object(client |> @core.identity, input).wait()
@@ -224,7 +224,7 @@ pub async fn list_objects_v2(
   maxKeys? : Int,
   continuationToken? : String,
 ) -> ListObjectsV2Output {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   if prefix is Some(p) {
     input["Prefix"] = p |> @core.any
@@ -281,7 +281,7 @@ extern "js" fn ffi_list_objects_v2(
 ///|
 /// CreateBucket - create a new bucket
 pub async fn create_bucket(client : S3Client, bucket : String) -> Unit {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   ffi_create_bucket(client |> @core.identity, input).wait() |> ignore
 }
@@ -299,7 +299,7 @@ extern "js" fn ffi_create_bucket(
 ///|
 /// DeleteBucket - delete a bucket
 pub async fn delete_bucket(client : S3Client, bucket : String) -> Unit {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   ffi_delete_bucket(client |> @core.identity, input).wait() |> ignore
 }
@@ -350,7 +350,7 @@ pub async fn copy_object(
   destBucket : String,
   destKey : String,
 ) -> CopyObjectOutput {
-  let input = @core.Object::new()
+  let input = @core.new_object()
   input["CopySource"] = (sourceBucket + "/" + sourceKey) |> @core.any
   input["Bucket"] = destBucket |> @core.any
   input["Key"] = destKey |> @core.any

@@ -98,7 +98,7 @@ pub async fn embed(
   /// Custom headers
   headers? : @core.Any,
 ) -> EmbedResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
   opts._set("value", value |> @core.any)
@@ -136,7 +136,7 @@ pub async fn embedMany(
   /// Custom headers
   headers? : @core.Any,
 ) -> EmbedManyResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
   opts._set("values", values |> @core.any)

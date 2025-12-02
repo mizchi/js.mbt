@@ -191,7 +191,7 @@ pub async fn ServiceWorkerContainer::register(
     type_ is Some(_) ||
     update_via_cache is Some(_)
   if has_options {
-    let options = @core.Object::new()
+    let options = @core.new_object()
     let o = @core.any(options)
     match scope {
       Some(s) => o._set("scope", @core.any(s))

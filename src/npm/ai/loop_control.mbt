@@ -150,7 +150,7 @@ pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
 ///|
 /// Convert PrepareStepResult to JS options object
 pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.model is Some(m) {
     obj._set("model", m.as_any())
   }

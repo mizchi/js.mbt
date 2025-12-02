@@ -16,9 +16,9 @@ pub(all) struct MockGenerateResult {
 
 ///|
 pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("finishReason", self.finish_reason |> @core.any)
-  let usage_obj = @core.Object::new()
+  let usage_obj = @core.new_object()
   usage_obj._set("inputTokens", self.usage.input_tokens |> @core.any)
   usage_obj._set("outputTokens", self.usage.output_tokens |> @core.any)
   usage_obj._set("totalTokens", self.usage.total_tokens |> @core.any)
@@ -48,13 +48,13 @@ pub(all) enum MockContentPart {
 pub fn MockContentPart::as_any(self : MockContentPart) -> @core.Any {
   match self {
     Text(text) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("type", "text" |> @core.any)
       obj._set("text", text |> @core.any)
       obj
     }
     ToolCall(tool_call_id~, tool_name~, args~) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("type", "tool-call" |> @core.any)
       obj._set("toolCallId", tool_call_id |> @core.any)
       obj._set("toolName", tool_name |> @core.any)
@@ -73,7 +73,7 @@ pub(all) struct MockStreamResult {
 
 ///|
 pub fn MockStreamResult::as_any(self : MockStreamResult) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("stream", self.stream)
   obj
 }
@@ -118,7 +118,7 @@ pub(all) enum MockStreamHandler {
 pub fn mock_language_model(options : MockLanguageModelOptions) -> @core.Any {
   let test_module = require_test()
   let mock_class = test_module._get("MockLanguageModelV3")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if options.provider is Some(p) {
     opts._set("provider", p |> @core.any)
   }
@@ -180,7 +180,7 @@ pub fn mock_model_with_stream(chunks : Array[@core.Any]) -> @core.Any {
 ///|
 /// Create text delta chunk for streaming
 pub fn text_delta_chunk(text : String) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text-delta" |> @core.any)
   obj._set("textDelta", text |> @core.any)
   obj
@@ -189,10 +189,10 @@ pub fn text_delta_chunk(text : String) -> @core.Any {
 ///|
 /// Create finish chunk for streaming
 pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "finish" |> @core.any)
   obj._set("finishReason", finish_reason |> @core.any)
-  let usage_obj = @core.Object::new()
+  let usage_obj = @core.new_object()
   usage_obj._set("inputTokens", usage.input_tokens |> @core.any)
   usage_obj._set("outputTokens", usage.output_tokens |> @core.any)
   usage_obj._set("totalTokens", usage.total_tokens |> @core.any)
@@ -207,7 +207,7 @@ pub fn tool_call_chunk(
   tool_name : String,
   args : @core.Any,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-call" |> @core.any)
   obj._set("toolCallId", tool_call_id |> @core.any)
   obj._set("toolName", tool_name |> @core.any)

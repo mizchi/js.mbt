@@ -56,7 +56,7 @@ pub fn WASI::new(
 ) -> WASI {
   let env_obj = match env {
     Some(env) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       env.each(fn(key, value) { obj._set(key, value |> @core.any) })
       Some(obj)
     }
@@ -64,7 +64,7 @@ pub fn WASI::new(
   }
   let preopens_obj = match preopens {
     Some(preopens) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       preopens.each(fn(key, value) { obj._set(key, value |> @core.any) })
       Some(obj)
     }

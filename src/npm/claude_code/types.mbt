@@ -379,11 +379,11 @@ pub(all) struct McpServerStdio {
 
 ///|
 pub fn McpServerStdio::as_any(self : McpServerStdio) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "stdio" |> @core.any)
   obj._set("command", self.command |> @core.any)
   obj._set("args", self.args |> @core.any)
-  let env_obj = @core.Object::new()
+  let env_obj = @core.new_object()
   for k, v in self.env {
     env_obj._set(k, v |> @core.any)
   }
@@ -400,10 +400,10 @@ pub(all) struct McpServerSse {
 
 ///|
 pub fn McpServerSse::as_any(self : McpServerSse) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "sse" |> @core.any)
   obj._set("url", self.url |> @core.any)
-  let headers_obj = @core.Object::new()
+  let headers_obj = @core.new_object()
   for k, v in self.headers {
     headers_obj._set(k, v |> @core.any)
   }
@@ -443,7 +443,7 @@ pub(all) struct AgentDefinition {
 
 ///|
 pub fn AgentDefinition::as_any(self : AgentDefinition) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("description", self.description |> @core.any)
   if self.allowed_tools is Some(tools) {
     obj._set("allowedTools", tools |> @core.any)
@@ -512,7 +512,7 @@ pub fn QueryOptions::new() -> QueryOptions {
 
 ///|
 pub fn QueryOptions::as_any(self : QueryOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.model is Some(m) {
     obj._set("model", m.to_string() |> @core.any)
   }
@@ -538,14 +538,14 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @core.Any {
     obj._set("disallowedTools", tools |> @core.any)
   }
   if self.mcp_servers is Some(servers) {
-    let servers_obj = @core.Object::new()
+    let servers_obj = @core.new_object()
     for name, config in servers {
       servers_obj._set(name, config.as_any())
     }
     obj._set("mcpServers", servers_obj)
   }
   if self.agents is Some(agents) {
-    let agents_obj = @core.Object::new()
+    let agents_obj = @core.new_object()
     for name, agent in agents {
       agents_obj._set(name, agent.as_any())
     }

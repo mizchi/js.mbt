@@ -28,7 +28,7 @@ test "FinishReason to_string" {
 
 ///|
 test "LanguageModelUsage from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("inputTokens", 10 |> @core.any)
   obj._set("outputTokens", 20 |> @core.any)
   obj._set("totalTokens", 30 |> @core.any)
@@ -42,7 +42,7 @@ test "LanguageModelUsage from_any" {
 
 ///|
 test "LanguageModelUsage from_any without cached" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("inputTokens", 10 |> @core.any)
   obj._set("outputTokens", 20 |> @core.any)
   obj._set("totalTokens", 30 |> @core.any)
@@ -61,7 +61,7 @@ test "ProviderMetadata from_any with undefined" {
 
 ///|
 test "ProviderMetadata from_any with value" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("key", "value" |> @core.any)
   let result = ProviderMetadata::from_any(obj)
   guard result is Some(meta)
@@ -70,7 +70,7 @@ test "ProviderMetadata from_any with value" {
 
 ///|
 test "CallWarning from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "test-warning" |> @core.any)
   obj._set("message", "Test message" |> @core.any)
   let warning = CallWarning::from_any(obj)
@@ -81,7 +81,7 @@ test "CallWarning from_any" {
 
 ///|
 test "CallWarning from_any without message" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "test-warning" |> @core.any)
   let warning = CallWarning::from_any(obj)
   assert_eq(warning.type_, "test-warning")
@@ -97,7 +97,7 @@ test "SourceType from_string" {
 
 ///|
 test "Source from_any url" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "source" |> @core.any)
   obj._set("sourceType", "url" |> @core.any)
   obj._set("id", "src-1" |> @core.any)
@@ -113,7 +113,7 @@ test "Source from_any url" {
 
 ///|
 test "Source from_any document" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "source" |> @core.any)
   obj._set("sourceType", "document" |> @core.any)
   obj._set("id", "doc-1" |> @core.any)
@@ -127,10 +127,10 @@ test "Source from_any document" {
 
 ///|
 test "ToolCall from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "get_weather" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("city", "Tokyo" |> @core.any)
   obj._set("input", input_obj)
   let tool_call = ToolCall::from_any(obj)
@@ -142,10 +142,10 @@ test "ToolCall from_any" {
 
 ///|
 test "ToolResult from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "get_weather" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("city", "Tokyo" |> @core.any)
   obj._set("input", input_obj)
   obj._set("output", "Sunny, 25°C" |> @core.any)
@@ -158,7 +158,7 @@ test "ToolResult from_any" {
 
 ///|
 test "TextStreamPart from_any text-start" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text-start" |> @core.any)
   obj._set("id", "text-1" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -170,7 +170,7 @@ test "TextStreamPart from_any text-start" {
 
 ///|
 test "TextStreamPart from_any text-delta" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text-delta" |> @core.any)
   obj._set("id", "text-1" |> @core.any)
   obj._set("text", "Hello" |> @core.any)
@@ -184,7 +184,7 @@ test "TextStreamPart from_any text-delta" {
 
 ///|
 test "TextStreamPart from_any reasoning-delta" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "reasoning-delta" |> @core.any)
   obj._set("id", "reason-1" |> @core.any)
   obj._set("text", "Thinking..." |> @core.any)
@@ -199,7 +199,7 @@ test "TextStreamPart from_any reasoning-delta" {
 
 ///|
 test "TextStreamPart from_any tool-input-start" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-input-start" |> @core.any)
   obj._set("id", "tool-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
@@ -212,7 +212,7 @@ test "TextStreamPart from_any tool-input-start" {
 
 ///|
 test "TextStreamPart from_any start" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "start" |> @core.any)
   let part = TextStreamPart::from_any(obj)
   guard part is Start
@@ -221,10 +221,10 @@ test "TextStreamPart from_any start" {
 
 ///|
 test "TextStreamPart from_any finish" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "finish" |> @core.any)
   obj._set("finishReason", "stop" |> @core.any)
-  let usage_obj = @core.Object::new()
+  let usage_obj = @core.new_object()
   usage_obj._set("promptTokens", 100 |> @core.any)
   usage_obj._set("completionTokens", 50 |> @core.any)
   usage_obj._set("totalTokens", 150 |> @core.any)
@@ -237,7 +237,7 @@ test "TextStreamPart from_any finish" {
 
 ///|
 test "TextStreamPart from_any error" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "error" |> @core.any)
   obj._set("error", "Something went wrong" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -248,7 +248,7 @@ test "TextStreamPart from_any error" {
 
 ///|
 test "TextStreamPart from_any abort" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "abort" |> @core.any)
   let part = TextStreamPart::from_any(obj)
   guard part is Abort
@@ -257,7 +257,7 @@ test "TextStreamPart from_any abort" {
 
 ///|
 test "TextStreamPart from_any unknown" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "custom-type" |> @core.any)
   let part = TextStreamPart::from_any(obj)
   guard part is Unknown(type_~, ..)
@@ -266,10 +266,10 @@ test "TextStreamPart from_any unknown" {
 
 ///|
 test "ToolOutputDenied from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "get_weather" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("city", "Tokyo" |> @core.any)
   obj._set("input", input_obj)
   let denied = ToolOutputDenied::from_any(obj)
@@ -281,10 +281,10 @@ test "ToolOutputDenied from_any" {
 
 ///|
 test "ToolApprovalRequest from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("toolCallId", "call-2" |> @core.any)
   obj._set("toolName", "delete_file" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("path", "/tmp/test.txt" |> @core.any)
   obj._set("input", input_obj)
   let request = ToolApprovalRequest::from_any(obj)
@@ -296,11 +296,11 @@ test "ToolApprovalRequest from_any" {
 
 ///|
 test "TextStreamPart from_any tool-output-denied" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-output-denied" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "get_weather" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("city", "Tokyo" |> @core.any)
   obj._set("input", input_obj)
   let part = TextStreamPart::from_any(obj)
@@ -313,11 +313,11 @@ test "TextStreamPart from_any tool-output-denied" {
 
 ///|
 test "TextStreamPart from_any tool-approval-request" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-approval-request" |> @core.any)
   obj._set("toolCallId", "call-2" |> @core.any)
   obj._set("toolName", "delete_file" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("path", "/tmp/test.txt" |> @core.any)
   obj._set("input", input_obj)
   let part = TextStreamPart::from_any(obj)
@@ -330,13 +330,13 @@ test "TextStreamPart from_any tool-approval-request" {
 
 ///|
 test "TextStreamPart from_any finish-step" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "finish-step" |> @core.any)
-  let response_obj = @core.Object::new()
+  let response_obj = @core.new_object()
   response_obj._set("id", "resp-1" |> @core.any)
   response_obj._set("modelId", "gpt-4" |> @core.any)
   obj._set("response", response_obj)
-  let usage_obj = @core.Object::new()
+  let usage_obj = @core.new_object()
   usage_obj._set("promptTokens", 10 |> @core.any)
   usage_obj._set("completionTokens", 20 |> @core.any)
   usage_obj._set("totalTokens", 30 |> @core.any)
@@ -354,7 +354,7 @@ test "TextStreamPart from_any finish-step" {
 
 ///|
 test "TextStreamPart get_text returns None for non-text-delta" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "start" |> @core.any)
   let part = TextStreamPart::from_any(obj)
   guard part.get_text() is None
@@ -362,7 +362,7 @@ test "TextStreamPart get_text returns None for non-text-delta" {
 
 ///|
 test "TextStreamPart get_reasoning_text returns None for non-reasoning" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text-delta" |> @core.any)
   obj._set("id", "text-1" |> @core.any)
   obj._set("text", "Hello" |> @core.any)
@@ -372,7 +372,7 @@ test "TextStreamPart get_reasoning_text returns None for non-reasoning" {
 
 ///|
 test "TextStreamPart from_any text-end" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text-end" |> @core.any)
   obj._set("id", "text-1" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -384,7 +384,7 @@ test "TextStreamPart from_any text-end" {
 
 ///|
 test "TextStreamPart from_any reasoning-start" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "reasoning-start" |> @core.any)
   obj._set("id", "reason-1" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -396,7 +396,7 @@ test "TextStreamPart from_any reasoning-start" {
 
 ///|
 test "TextStreamPart from_any reasoning-end" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "reasoning-end" |> @core.any)
   obj._set("id", "reason-1" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -408,7 +408,7 @@ test "TextStreamPart from_any reasoning-end" {
 
 ///|
 test "TextStreamPart from_any tool-input-end" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-input-end" |> @core.any)
   obj._set("id", "tool-1" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -420,7 +420,7 @@ test "TextStreamPart from_any tool-input-end" {
 
 ///|
 test "TextStreamPart from_any tool-input-delta" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-input-delta" |> @core.any)
   obj._set("id", "tool-1" |> @core.any)
   obj._set("delta", "{\"query\":" |> @core.any)
@@ -434,11 +434,11 @@ test "TextStreamPart from_any tool-input-delta" {
 
 ///|
 test "TextStreamPart from_any tool-call" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-call" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("query", "weather" |> @core.any)
   obj._set("input", input_obj)
   let part = TextStreamPart::from_any(obj)
@@ -451,11 +451,11 @@ test "TextStreamPart from_any tool-call" {
 
 ///|
 test "TextStreamPart from_any tool-result" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-result" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("query", "weather" |> @core.any)
   obj._set("input", input_obj)
   obj._set("output", "Sunny" |> @core.any)
@@ -469,11 +469,11 @@ test "TextStreamPart from_any tool-result" {
 
 ///|
 test "TextStreamPart from_any tool-error" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-error" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let args_obj = @core.Object::new()
+  let args_obj = @core.new_object()
   args_obj._set("query", "weather" |> @core.any)
   obj._set("args", args_obj)
   obj._set("error", "Network error" |> @core.any)
@@ -487,7 +487,7 @@ test "TextStreamPart from_any tool-error" {
 
 ///|
 test "TextStreamPart from_any raw" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "raw" |> @core.any)
   obj._set("rawValue", "raw data" |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -499,12 +499,12 @@ test "TextStreamPart from_any raw" {
 
 ///|
 test "TextStreamPart from_any start-step" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "start-step" |> @core.any)
-  let request_obj = @core.Object::new()
+  let request_obj = @core.new_object()
   request_obj._set("id", "req-1" |> @core.any)
   obj._set("request", request_obj)
-  let warning_obj = @core.Object::new()
+  let warning_obj = @core.new_object()
   warning_obj._set("type", "test-warning" |> @core.any)
   obj._set("warnings", [warning_obj] |> @core.any)
   let part = TextStreamPart::from_any(obj)
@@ -516,7 +516,7 @@ test "TextStreamPart from_any start-step" {
 
 ///|
 test "TextStreamPart from_any source" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "source" |> @core.any)
   obj._set("sourceType", "url" |> @core.any)
   obj._set("id", "src-1" |> @core.any)
@@ -530,9 +530,9 @@ test "TextStreamPart from_any source" {
 
 ///|
 test "TextStreamPart from_any file" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "file" |> @core.any)
-  let file_obj = @core.Object::new()
+  let file_obj = @core.new_object()
   file_obj._set("name", "image.png" |> @core.any)
   file_obj._set("mediaType", "image/png" |> @core.any)
   file_obj._set("data", "base64data" |> @core.any)
@@ -546,10 +546,10 @@ test "TextStreamPart from_any file" {
 
 ///|
 test "ToolError from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let args_obj = @core.Object::new()
+  let args_obj = @core.new_object()
   args_obj._set("query", "weather" |> @core.any)
   obj._set("args", args_obj)
   obj._set("error", "Network error" |> @core.any)
@@ -562,7 +562,7 @@ test "ToolError from_any" {
 
 ///|
 test "GeneratedFile from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "output.png" |> @core.any)
   obj._set("mediaType", "image/png" |> @core.any)
   obj._set("data", "base64encodeddata" |> @core.any)
@@ -575,7 +575,7 @@ test "GeneratedFile from_any" {
 
 ///|
 test "GeneratedFile from_any without optional fields" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("data", "base64encodeddata" |> @core.any)
   let file = GeneratedFile::from_any(obj)
   guard file.name is None
@@ -584,7 +584,7 @@ test "GeneratedFile from_any without optional fields" {
 
 ///|
 test "ReasoningOutput from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("text", "Let me think about this..." |> @core.any)
   let output = ReasoningOutput::from_any(obj)
   assert_eq(output.text, "Let me think about this...")
@@ -592,7 +592,7 @@ test "ReasoningOutput from_any" {
 
 ///|
 test "ContentPart from_any text" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "text" |> @core.any)
   obj._set("text", "Hello world" |> @core.any)
   let part = ContentPart::from_any(obj)
@@ -602,7 +602,7 @@ test "ContentPart from_any text" {
 
 ///|
 test "ContentPart from_any reasoning" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "reasoning" |> @core.any)
   obj._set("text", "Thinking..." |> @core.any)
   let part = ContentPart::from_any(obj)
@@ -612,7 +612,7 @@ test "ContentPart from_any reasoning" {
 
 ///|
 test "ContentPart from_any source" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "source" |> @core.any)
   obj._set("sourceType", "url" |> @core.any)
   obj._set("id", "src-1" |> @core.any)
@@ -625,9 +625,9 @@ test "ContentPart from_any source" {
 
 ///|
 test "ContentPart from_any file" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "file" |> @core.any)
-  let file_obj = @core.Object::new()
+  let file_obj = @core.new_object()
   file_obj._set("name", "doc.pdf" |> @core.any)
   file_obj._set("data", "data" |> @core.any)
   obj._set("file", file_obj)
@@ -639,11 +639,11 @@ test "ContentPart from_any file" {
 
 ///|
 test "ContentPart from_any tool-call" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-call" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   input_obj._set("q", "test" |> @core.any)
   obj._set("input", input_obj)
   let part = ContentPart::from_any(obj)
@@ -653,11 +653,11 @@ test "ContentPart from_any tool-call" {
 
 ///|
 test "ContentPart from_any tool-result" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-result" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let input_obj = @core.Object::new()
+  let input_obj = @core.new_object()
   obj._set("input", input_obj)
   obj._set("output", "result" |> @core.any)
   let part = ContentPart::from_any(obj)
@@ -667,11 +667,11 @@ test "ContentPart from_any tool-result" {
 
 ///|
 test "ContentPart from_any tool-error" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-error" |> @core.any)
   obj._set("toolCallId", "call-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)
-  let args_obj = @core.Object::new()
+  let args_obj = @core.new_object()
   obj._set("args", args_obj)
   obj._set("error", "Error message" |> @core.any)
   let part = ContentPart::from_any(obj)
@@ -681,7 +681,7 @@ test "ContentPart from_any tool-error" {
 
 ///|
 test "ContentPart from_any unknown type" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "unknown-type" |> @core.any)
   let part = ContentPart::from_any(obj)
   // Unknown types fall through to TextPart with empty text
@@ -691,7 +691,7 @@ test "ContentPart from_any unknown type" {
 
 ///|
 test "LanguageModelResponseMetadata from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("id", "resp-123" |> @core.any)
   obj._set("modelId", "gpt-4" |> @core.any)
   obj._set("timestamp", "2024-01-01T00:00:00Z" |> @core.any)
@@ -705,7 +705,7 @@ test "LanguageModelResponseMetadata from_any" {
 
 ///|
 test "LanguageModelResponseMetadata from_any without optional" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let meta = LanguageModelResponseMetadata::from_any(obj)
   guard meta.id is None
   guard meta.model_id is None
@@ -763,7 +763,7 @@ test "ToolChoice as_any tool" {
 
 ///|
 test "ProviderMetadata as_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("key", "value" |> @core.any)
   let meta : ProviderMetadata = { raw: obj }
   let any = meta.as_any()
@@ -773,7 +773,7 @@ test "ProviderMetadata as_any" {
 
 ///|
 test "LanguageModelRequestMetadata from_any" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("requestId", "req-1" |> @core.any)
   let meta = LanguageModelRequestMetadata::from_any(obj)
   // Just verify it can be created
@@ -783,7 +783,7 @@ test "LanguageModelRequestMetadata from_any" {
 
 ///|
 test "ToolInputStart with all optional fields" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("type", "tool-input-start" |> @core.any)
   obj._set("id", "tool-1" |> @core.any)
   obj._set("toolName", "search" |> @core.any)

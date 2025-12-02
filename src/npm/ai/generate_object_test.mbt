@@ -48,7 +48,7 @@ test "generate object result get_object" {
       ]).cast(),
     ),
     ("warnings", @core.any(empty_warnings)),
-    ("response", @core.Object::new()),
+    ("response", @core.new_object()),
   ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any

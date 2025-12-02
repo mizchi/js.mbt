@@ -100,7 +100,7 @@ test "uptime returns positive number" {
 ///|
 test "userinfo returns object" {
   let info = @os.userInfo()
-  assert_true(@core.type_of(info.to_any()) == "object")
+  assert_true(@core.typeof_(info.to_any()) == "object")
 }
 
 ///|

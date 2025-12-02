@@ -75,7 +75,7 @@ fn watch_impl(
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if persistent is Some(v) {
     options["persistent"] = @core.any(v)
   }

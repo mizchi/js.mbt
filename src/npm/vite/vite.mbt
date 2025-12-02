@@ -283,7 +283,7 @@ pub async fn createServer(
   server? : @core.Any,
   plugins? : @core.Any,
 ) -> ViteDevServer {
-  let cfg = @core.Object::new()
+  let cfg = @core.new_object()
   if root is Some(v) {
     cfg["root"] = @core.any(v)
   }

@@ -15,7 +15,7 @@ fn build_cookie_options(
   prefix? : String,
   partitioned? : Bool,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if domain is Some(v) {
     obj["domain"] = @core.any(v)
   }
@@ -93,7 +93,7 @@ pub fn[Env, ExecutionContext] get_all_cookies(
 ) -> Map[String, String] {
   let obj = ffi_get_all_cookies(c.as_any())
   let result : Map[String, String] = {}
-  let keys : Array[String] = @core.Object::keys(obj)
+  let keys : Array[String] = @core.object_keys(obj)
   for i = 0; i < keys.length(); i = i + 1 {
     let key = keys[i]
     let value = obj[key]

@@ -17,7 +17,7 @@ pub fn[T] component(
   // Handle key: if props is undefined/null (e.g. Unit), create a new object
   if key is Some(key) {
     if @core.is_nullish(val) {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj["key"] = @core.any(key)
       return ffi_create_element(tag, obj, children).cast()
     }
@@ -39,7 +39,7 @@ pub fn strict_mode(children : Array[&ReactNode]) -> Element {
 pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
   let tag = @core.any(get_fragment())
   let children = @core.any(children.map(_.to_react_node()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if key is Some(key) {
     val["key"] = @core.any(key)
   }
@@ -51,7 +51,7 @@ pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
 pub fn suspense(children : Array[&ReactNode], fallback~ : Element) -> Element {
   let tag = get_suspense()
   let children = @core.any(children.map(_.to_react_node()))
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["fallback"] = fallback.as_any()
   ffi_create_element(tag, props, children).cast()
 }
@@ -65,7 +65,7 @@ pub fn[T] provider(
   value~ : T,
 ) -> Element {
   let children = @core.any(children.map(_.to_react_node()))
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["value"] = @core.any(value)
   ffi_create_element(tag.as_any(), props, children).cast()
 }

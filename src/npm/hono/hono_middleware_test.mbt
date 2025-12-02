@@ -15,7 +15,7 @@ test "jwt_decode parses token structure" {
 
 ///|
 async test "jwt_sign and verify roundtrip" {
-  let payload = @core.Object::new()
+  let payload = @core.new_object()
   payload["sub"] = @core.any("user123")
   payload["role"] = @core.any("admin")
   let secret = "test-secret-key"

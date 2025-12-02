@@ -270,7 +270,7 @@ pub async fn Esbuild::build(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if entry_points.length() > 0 {
     opts._set("entryPoints", entry_points |> @core.any)
   }
@@ -293,7 +293,7 @@ pub async fn Esbuild::build(
     opts._set("external", external |> @core.any)
   }
   if definitions.length() > 0 {
-    let defs = @core.Object::new()
+    let defs = @core.new_object()
     for pair in definitions {
       let (key, value) = pair
       defs._set(key, value |> @core.any)
@@ -318,7 +318,7 @@ pub async fn Esbuild::transform(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("loader", loader.to_string() |> @core.any)
   opts._set("minify", minify |> @core.any)
   opts._set("format", format.to_string() |> @core.any)
@@ -350,7 +350,7 @@ pub fn Esbuild::build_sync(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if entry_points.length() > 0 {
     opts._set("entryPoints", entry_points |> @core.any)
   }
@@ -373,7 +373,7 @@ pub fn Esbuild::build_sync(
     opts._set("external", external |> @core.any)
   }
   if definitions.length() > 0 {
-    let defs = @core.Object::new()
+    let defs = @core.new_object()
     for pair in definitions {
       let (key, value) = pair
       defs._set(key, value |> @core.any)
@@ -394,7 +394,7 @@ pub fn Esbuild::transform_sync(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("loader", loader.to_string() |> @core.any)
   opts._set("minify", minify |> @core.any)
   opts._set("format", format.to_string() |> @core.any)

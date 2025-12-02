@@ -13,7 +13,7 @@ pub fn AuthClient::to_any(self : AuthClient) -> @core.Any = "%identity"
 ///|
 /// Create a new auth client
 pub fn createAuthClient(base_url~ : String) -> AuthClient {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["baseURL"] = @core.any(base_url)
   ffi_create_auth_client(obj |> @core.identity) |> @core.identity
 }
@@ -49,7 +49,7 @@ pub async fn SignUpClient::email(
   image? : String,
   callback_url? : String,
 ) -> AuthResponse {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = @core.any(name)
   obj["email"] = @core.any(email)
   obj["password"] = @core.any(password)
@@ -87,7 +87,7 @@ pub async fn SignInClient::email(
   remember_me? : Bool,
   callback_url? : String,
 ) -> AuthResponse {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["email"] = @core.any(email)
   obj["password"] = @core.any(password)
   if remember_me is Some(rm) {
@@ -109,7 +109,7 @@ pub async fn SignInClient::social(
   provider~ : String,
   callback_url? : String,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["provider"] = @core.any(provider)
   if callback_url is Some(url) {
     obj["callbackURL"] = @core.any(url)

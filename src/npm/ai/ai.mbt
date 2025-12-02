@@ -80,7 +80,7 @@ pub async fn generateText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> GenerateTextResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
     opts._set("messages", msgs.map(_.as_any()) |> @core.any)
@@ -151,7 +151,7 @@ pub fn streamText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> StreamTextResultHandle {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
     opts._set("messages", msgs.map(_.as_any()) |> @core.any)

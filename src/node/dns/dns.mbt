@@ -20,9 +20,9 @@ pub fn lookup(
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   if family is None && all is None && order is None {
-    ffi_lookup(hostname, @core.Object::new() |> @core.identity, cb)
+    ffi_lookup(hostname, @core.new_object() |> @core.identity, cb)
   } else {
-    let opts = @core.Object::new()
+    let opts = @core.new_object()
     if family is Some(f) {
       opts["family"] = @core.any(f)
     }

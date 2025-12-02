@@ -65,7 +65,7 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if open is Some(v) {
     opts["open"] = @core.any(v)
   }
@@ -113,7 +113,7 @@ pub fn[T, U] DatabaseSync::aggregate(
   inverse? : (T, U) -> T,
   result? : (T) -> @core.Any,
 ) -> Unit {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if deterministic is Some(v) {
     opts["deterministic"] = @core.any(v)
   }
@@ -151,7 +151,7 @@ pub fn DatabaseSync::function(
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if deterministic is Some(v) {
     opts["deterministic"] = @core.any(v)
   }
@@ -253,7 +253,7 @@ pub fn DatabaseSync::createSession(
   table? : String,
   db? : String,
 ) -> Session {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if table is Some(v) {
     opts["table"] = @core.any(v)
   }
@@ -284,7 +284,7 @@ pub fn DatabaseSync::applyChangeset(
   filter? : (@core.Any) -> Bool,
   onConflict? : (@core.Any?, @core.Any) -> Bool,
 ) -> Bool {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if filter is Some(f) {
     opts["filter"] = @core.from_fn1(f)
   }
@@ -306,7 +306,7 @@ pub fn StatementSync::get_(
 ) -> @core.Any? {
   let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     for key, value in params {
       obj[key] = value
     }
@@ -341,7 +341,7 @@ pub fn StatementSync::run(
 ) -> StatementResultingChanges {
   let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     for key, value in params {
       obj[key] = value
     }
@@ -363,7 +363,7 @@ pub fn StatementSync::all(
 ) -> Array[@core.Any] {
   let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     for key, value in params {
       obj[key] = value
     }
@@ -385,7 +385,7 @@ pub fn StatementSync::iterate(
 ) -> @js.JsIterator[@core.Any] {
   let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     for key, value in params {
       obj[key] = value
     }
@@ -513,7 +513,7 @@ pub fn backup(
   target? : String,
   progress? : (BackupProgress) -> Unit,
 ) -> Unit {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if rate is Some(v) {
     opts["rate"] = @core.any(v)
   }

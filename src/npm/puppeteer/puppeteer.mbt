@@ -42,7 +42,7 @@ pub async fn launch(
   handleSIGINT? : Bool,
   handleSIGTERM? : Bool,
 ) -> Browser {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if headless is Some(v) {
     options["headless"] = @core.any(v)
   }

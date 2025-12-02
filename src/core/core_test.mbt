@@ -238,16 +238,16 @@ test "assert_throws_with - partial match" {
 extern "js" fn throw_custom_error() -> Any =
   #| () => { throw new Error("Custom error message"); }
 
-// type_of, instance_of, new tests
+// typeof_, instance_of, new tests
 
 ///|
-test "type_of" {
-  assert_eq(type_of(any(42)), "number")
-  assert_eq(type_of(any("hello")), "string")
-  assert_eq(type_of(any(true)), "boolean")
-  assert_eq(type_of(undefined()), "undefined")
-  assert_eq(type_of(null()), "object") // JS quirk
-  assert_eq(type_of(Object::new()), "object")
+test "typeof_" {
+  assert_eq(typeof_(any(42)), "number")
+  assert_eq(typeof_(any("hello")), "string")
+  assert_eq(typeof_(any(true)), "boolean")
+  assert_eq(typeof_(undefined()), "undefined")
+  assert_eq(typeof_(null()), "object") // JS quirk
+  assert_eq(typeof_(new_object()), "object")
 }
 
 ///|

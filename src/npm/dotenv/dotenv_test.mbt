@@ -65,7 +65,7 @@ test "getEnv and setEnv" {
 ///|
 test "processEnv returns object" {
   let env = processEnv()
-  @core.type_of(env) |> assert_eq("object")
+  @core.typeof_(env) |> assert_eq("object")
 }
 
 ///|
@@ -93,8 +93,8 @@ test "parse multiline" {
 
 ///|
 test "populate target object" {
-  let target = @core.Object::new()
-  let source = @core.Object::new()
+  let target = @core.new_object()
+  let source = @core.new_object()
   source["MY_KEY"] = @core.any("my_value")
   populate(target, source)
   let v : String = target["MY_KEY"].cast()

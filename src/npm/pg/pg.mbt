@@ -59,7 +59,7 @@ pub fn Client::new(
   connection_timeout_millis? : Int,
   application_name? : String,
 ) -> Client {
-  let config = @core.Object::new()
+  let config = @core.new_object()
   if connection_string is Some(v) {
     config["connectionString"] = @core.any(v)
   }
@@ -176,7 +176,7 @@ pub fn Pool::new(
   max_lifetime_seconds? : Int,
   allow_exit_on_idle? : Bool,
 ) -> Pool {
-  let config = @core.Object::new()
+  let config = @core.new_object()
   if connection_string is Some(v) {
     config["connectionString"] = @core.any(v)
   }

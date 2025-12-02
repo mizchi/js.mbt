@@ -25,15 +25,15 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         200,
       )
     } else if pathname == "/api/hello" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["message"] = "Hello from MoonBit Worker!" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/echo" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["url"] = url_str |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/fetch" {
@@ -44,48 +44,48 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       ) catch {
         e => {
           log("Error: " + e.to_string())
-          let data = @core.Object::new()
+          let data = @core.new_object()
           data["error"] = "Failed to fetch" |> @core.any
-          let options = @core.Object::new()
+          let options = @core.new_object()
           options["status"] = 500 |> @core.any
           return Response::json_(data, options~)
         }
       }
       res
     } else if pathname == "/api/json" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["status"] = "ok" |> @core.any
-      let inner_data = @core.Object::new()
+      let inner_data = @core.new_object()
       inner_data["foo"] = "bar" |> @core.any
       inner_data["num"] = 42 |> @core.any
       data["data"] = inner_data
       data["timestamp"] = 1234567890 |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/redirect" {
       Response::redirect("/", status=302)
     } else if pathname == "/api/headers" {
-      let headers = @core.Object::new()
+      let headers = @core.new_object()
       headers["Content-Type"] = "application/json" |> @core.any
       headers["x-custom-header"] = "MoonBit-Worker" |> @core.any
       headers["x-powered-by"] = "Cloudflare" |> @core.any
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["message"] = "Check the headers" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       options["headers"] = headers
       Response::json_(data, options~)
     } else if pathname == "/api/status/404" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["error"] = "Not Found" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 404 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/status/500" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["error"] = "Internal Server Error" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 500 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/text" {
@@ -101,34 +101,34 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         Some(m) => m
         None => "Hello"
       }
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["greeting"] = (message + ", " + name + "!") |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/time" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["timestamp"] = 1234567890 |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/user-agent" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["userAgent"] = "unknown" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/method" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["method"] = "unknown" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/health" {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["status"] = "healthy" |> @core.any
       data["service"] = "moonbit-worker" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 200 |> @core.any
       Response::json_(data, options~)
     } else if pathname == "/api/math/add" {
@@ -137,24 +137,24 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
       let b_str = params.get("b")
       match (a_str, b_str) {
         (Some(a), Some(b)) => {
-          let data = @core.Object::new()
+          let data = @core.new_object()
           data["result"] = (a + "+" + b) |> @core.any
-          let options = @core.Object::new()
+          let options = @core.new_object()
           options["status"] = 200 |> @core.any
           Response::json_(data, options~)
         }
         _ => {
-          let data = @core.Object::new()
+          let data = @core.new_object()
           data["error"] = "Missing parameters a or b" |> @core.any
-          let options = @core.Object::new()
+          let options = @core.new_object()
           options["status"] = 400 |> @core.any
           Response::json_(data, options~)
         }
       }
     } else {
-      let data = @core.Object::new()
+      let data = @core.new_object()
       data["error"] = "Route not found" |> @core.any
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["status"] = 404 |> @core.any
       Response::json_(data, options~)
     }

@@ -114,7 +114,7 @@ pub fn simpleGit(
     trimmed is None {
     return ffi_simple_git_with_path(dir)
   }
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if base_dir is Some(v) {
     options["baseDir"] = @core.any(v)
   }
@@ -249,7 +249,7 @@ pub async fn SimpleGit::commit(
         @core.any(empty)
       }
     }
-    let opts = @core.Object::new()
+    let opts = @core.new_object()
     if author is Some(a) {
       opts["--author"] = @core.any(a)
     }
@@ -519,7 +519,7 @@ pub async fn SimpleGit::log(
   if max_count is None && from is None && to is None && file is None {
     ffi_log(self).wait()
   } else {
-    let options = @core.Object::new()
+    let options = @core.new_object()
     if max_count is Some(n) {
       options["maxCount"] = @core.any(n)
     }

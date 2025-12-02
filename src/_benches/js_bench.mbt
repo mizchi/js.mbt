@@ -53,14 +53,14 @@ test "bench: _call with array" (b : @bench.T) {
 ///|
 /// Benchmark: Object creation
 test "bench: Object::new()" (b : @bench.T) {
-  b.bench(fn() { b.keep(@core.Object::new()) })
+  b.bench(fn() { b.keep(@core.new_object()) })
 }
 
 ///|
 /// Benchmark: Object set operation
 test "bench: Object set (single property)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     @core.any(obj)._set("value", @core.any(42))
     b.keep(obj)
   })
@@ -70,7 +70,7 @@ test "bench: Object set (single property)" (b : @bench.T) {
 /// Benchmark: Object set multiple properties
 test "bench: Object set (5 properties)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     let o = @core.any(obj)
     o._set("a", @core.any(1))
     o._set("b", @core.any(2))
@@ -84,7 +84,7 @@ test "bench: Object set (5 properties)" (b : @bench.T) {
 ///|
 /// Benchmark: Object get operation
 test "bench: Object get" (b : @bench.T) {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   @core.any(obj)._set("value", @core.any(42))
   b.bench(fn() { b.keep(@core.any(obj)["value"]) })
 }
@@ -119,7 +119,7 @@ test "bench: is_array check" (b : @bench.T) {
 ///|
 /// Benchmark: Object::keys operation
 test "bench: Object::keys" (b : @bench.T) {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let o = @core.any(obj)
   o._set("a", @core.any(1))
   o._set("b", @core.any(2))

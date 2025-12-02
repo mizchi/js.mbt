@@ -112,7 +112,7 @@ pub fn Ink::useInput(
   })
   match options {
     Some(opts) => {
-      let opts_obj = @core.Object::new()
+      let opts_obj = @core.new_object()
       if opts.is_active is Some(active) {
         opts_obj["isActive"] = @core.any(active)
       }
@@ -156,7 +156,7 @@ pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
   let use_focus = self.as_any()["useFocus"]
   let result = match options {
     Some(opts) => {
-      let opts_obj = @core.Object::new()
+      let opts_obj = @core.new_object()
       if opts.auto_focus is Some(af) {
         opts_obj["autoFocus"] = @core.any(af)
       }

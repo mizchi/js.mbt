@@ -64,7 +64,7 @@ pub fn MinimatchOptions::default() -> MinimatchOptions {
 ///|
 /// Convert options to JS object
 fn options_to_js(options : MinimatchOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if options.debug {
     obj["debug"] = @core.any(true)
   }
@@ -299,7 +299,7 @@ pub fn Minimatch::has_magic(self : Minimatch) -> Bool {
 /// Get the generated RegExp (may be false if pattern is invalid)
 pub fn Minimatch::regexp(self : Minimatch) -> @core.Any? {
   let result = self.0["regexp"]
-  if @core.is_nullish(result) || @core.type_of(result) == "boolean" {
+  if @core.is_nullish(result) || @core.typeof_(result) == "boolean" {
     None
   } else {
     Some(result)

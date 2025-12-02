@@ -25,7 +25,7 @@ pub fn ZlibOptions::new() -> ZlibOptions {
 ///|
 /// Convert ZlibOptions to JavaScript object
 pub fn ZlibOptions::as_any(self : ZlibOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   match self.level {
     Some(v) => obj._set("level", v |> @core.any)
     None => ()

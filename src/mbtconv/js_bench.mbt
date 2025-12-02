@@ -72,14 +72,14 @@ test "bench: _call with Array[Int] (map overhead)" (b : @bench.T) {
 ///|
 /// Benchmark: Object creation
 test "bench: Object::new()" (b : @bench.T) {
-  b.bench(fn() { b.keep(@core.Object::new()) })
+  b.bench(fn() { b.keep(@core.new_object()) })
 }
 
 ///|
 /// Benchmark: Object set operation
 test "bench: Object set (single property)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "value", @core.any(42))
     b.keep(obj)
   })
@@ -89,7 +89,7 @@ test "bench: Object set (single property)" (b : @bench.T) {
 /// Benchmark: Object set multiple properties
 test "bench: Object set (5 properties)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "a", @core.any(1))
     ffi_set(obj, "b", @core.any(2))
     ffi_set(obj, "c", @core.any(3))
@@ -102,7 +102,7 @@ test "bench: Object set (5 properties)" (b : @bench.T) {
 ///|
 /// Benchmark: Object get operation
 test "bench: Object get" (b : @bench.T) {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   ffi_set(obj, "value", @core.any(42))
   b.bench(fn() { b.keep(ffi_get(obj, "value")) })
 }
@@ -152,7 +152,7 @@ test "bench: @mbtconv.from_map (5 entries)" (b : @bench.T) {
 /// Benchmark: Object creation comparison - Object::new() with FFI set
 test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "a", @core.any(1))
     ffi_set(obj, "b", @core.any(2))
     ffi_set(obj, "c", @core.any(3))
@@ -218,23 +218,23 @@ test "bench: is_array check" (b : @bench.T) {
 ///|
 /// Benchmark: Object::keys operation
 test "bench: Object::keys" (b : @bench.T) {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   ffi_set(obj, "a", @core.any(1))
   ffi_set(obj, "b", @core.any(2))
   ffi_set(obj, "c", @core.any(3))
   ffi_set(obj, "d", @core.any(4))
   ffi_set(obj, "e", @core.any(5))
-  b.bench(fn() { b.keep(@core.Object::keys(@core.any(obj))) })
+  b.bench(fn() { b.keep(@core.object_keys(@core.any(obj))) })
 }
 
 ///|
 /// Benchmark: Complex nested object creation (realistic workload)
 test "bench: create nested object (realistic)" (b : @bench.T) {
   b.bench(fn() {
-    let user = @core.Object::new()
+    let user = @core.new_object()
     ffi_set(user, "name", @core.any("Alice"))
     ffi_set(user, "age", @core.any(30))
-    let address = @core.Object::new()
+    let address = @core.new_object()
     ffi_set(address, "city", @core.any("Tokyo"))
     ffi_set(address, "zip", @core.any("100-0001"))
     ffi_set(user, "address", address)
@@ -286,7 +286,7 @@ test "bench: @mbtconv.from_map (simple 3 props)" (b : @bench.T) {
 /// Benchmark: Object::new() - simple object with 3 properties
 test "bench: Object::new (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "name", @core.any("Alice"))
     ffi_set(obj, "age", @core.any(30))
     ffi_set(obj, "active", @core.any(true))
@@ -333,14 +333,14 @@ test "bench: @mbtconv.from_map (nested)" (b : @bench.T) {
 /// Benchmark: Object::new() - nested object
 test "bench: Object::new (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let address = @core.Object::new()
+    let address = @core.new_object()
     ffi_set(address, "city", @core.any("Tokyo"))
     ffi_set(address, "zip", @core.any("100-0001"))
-    let user = @core.Object::new()
+    let user = @core.new_object()
     ffi_set(user, "name", @core.any("Alice"))
     ffi_set(user, "age", @core.any(30))
     ffi_set(user, "address", address)
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "user", user)
     ffi_set(obj, "active", @core.any(true))
     b.keep(obj)
@@ -375,7 +375,7 @@ test "bench: @mbtconv.from_map (with array)" (b : @bench.T) {
 /// Benchmark: Object::new() - object with array
 test "bench: Object::new (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "name", @core.any("Alice"))
     ffi_set(obj, "tags", @core.any(["developer", "moonbit", "javascript"]))
     b.keep(obj)
@@ -426,7 +426,7 @@ test "bench: @mbtconv.from_map (10 props)" (b : @bench.T) {
 /// Benchmark: Object::new() - large flat object (10 properties)
 test "bench: Object::new (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     ffi_set(obj, "a", @core.any(1))
     ffi_set(obj, "b", @core.any(2))
     ffi_set(obj, "c", @core.any(3))

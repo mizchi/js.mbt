@@ -41,7 +41,7 @@ pub fn MinifyOptions::default() -> MinifyOptions {
 
 ///|
 fn build_options(options : MinifyOptions) -> @core.Any {
-  let js_options = @core.Object::new()
+  let js_options = @core.new_object()
   js_options["compress"] = @core.any(options.compress)
   js_options["mangle"] = @core.any(options.mangle)
   if options.sourceMap {
@@ -51,12 +51,12 @@ fn build_options(options : MinifyOptions) -> @core.Any {
     js_options["toplevel"] = @core.any(true)
   }
   if options.keep_fnames {
-    let mangle_opts = @core.Object::new()
+    let mangle_opts = @core.new_object()
     mangle_opts["keep_fnames"] = @core.any(true)
     js_options["mangle"] = mangle_opts
   }
   if options.keep_classnames {
-    let mangle_opts = @core.Object::new()
+    let mangle_opts = @core.new_object()
     mangle_opts["keep_classnames"] = @core.any(true)
     js_options["mangle"] = mangle_opts
   }

@@ -66,7 +66,7 @@ test "from_json converts Json to JS value" {
 
 ///|
 test "to_json converts JS value to Json" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = @core.any("Bob")
   obj["age"] = @core.any(25)
   let json = to_json(obj)

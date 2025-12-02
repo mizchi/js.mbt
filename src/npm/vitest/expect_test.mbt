@@ -8,10 +8,10 @@ test "expect toBe basic" {
 ///|
 test "expect toEqual" {
   @vitest.setup_standalone()
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["a"] = @core.any(1)
   obj["b"] = @core.any(2)
-  let expected = @core.Object::new()
+  let expected = @core.new_object()
   expected["a"] = @core.any(1)
   expected["b"] = @core.any(2)
   @vitest.expect(obj).toEqual(expected)
@@ -82,7 +82,7 @@ test "expect not_ negation" {
 ///|
 test "expect toHaveProperty" {
   @vitest.setup_standalone()
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = @core.any("Alice")
   obj["age"] = @core.any(30)
   @vitest.expect(obj).toHaveProperty("name")

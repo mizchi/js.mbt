@@ -11,14 +11,14 @@ test "proxy function" {
 
 ///|
 test "transfer array buffer" {
-  let buffer = @core.Object::new()
+  let buffer = @core.new_object()
   let result = @comlink.transferArrayBuffer(@core.any(buffer))
   inspect(result |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "transfer with transferables" {
-  let data = @core.Object::new()
+  let data = @core.new_object()
   let result = @comlink.transfer(@core.any(data), [])
   inspect(result |> @core.is_nullish |> not, content="true")
 }

@@ -79,7 +79,7 @@ pub fn error_boundary(
 ) -> Element {
   let tag = get_error_boundary_class()
   let children_js = @core.any(children.map(_.to_react_node()))
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["fallback"] = @core.any(fallback.unwrap_or(default_fallback))
   if on_error is Some(f) {
     props["on_error"] = @core.any(f)

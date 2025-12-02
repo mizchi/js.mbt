@@ -43,15 +43,15 @@ pub fn SdkServer::new(
   let sdk = require_mcp_server()
   let server_class = sdk._get("Server")
   // Build capabilities object
-  let capabilities = @core.Object::new()
+  let capabilities = @core.new_object()
   if tools {
-    capabilities._set("tools", @core.Object::new())
+    capabilities._set("tools", @core.new_object())
   }
   if resources {
-    capabilities._set("resources", @core.Object::new())
+    capabilities._set("resources", @core.new_object())
   }
   if prompts {
-    capabilities._set("prompts", @core.Object::new())
+    capabilities._set("prompts", @core.new_object())
   }
   // Build server info
   let server_info = @core.identity(

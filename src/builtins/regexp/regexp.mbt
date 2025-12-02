@@ -314,7 +314,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @core.Object::keys(v["groups"])
+    let keys = @core.object_keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
     }
@@ -365,7 +365,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @core.Object::keys(v["groups"])
+    let keys = @core.object_keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
     }
@@ -407,7 +407,7 @@ pub fn RegExp::matchAll(
       None
     } else {
       let g : Map[String, String] = {}
-      let keys = @core.Object::keys(item["groups"])
+      let keys = @core.object_keys(item["groups"])
       for k in keys {
         g[k] = item["groups"][k].cast()
       }

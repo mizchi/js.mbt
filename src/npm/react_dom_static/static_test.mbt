@@ -60,7 +60,7 @@ test "build_options with all parameters" {
   init_react()
   let static_ = get_react_dom_static()
   // Create options object similar to what build_options would create
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("bootstrapScriptContent", "console.log('bootstrap')" |> @core.any)
   opts._set("bootstrapScripts", @core.any(["/main.js"]))
   opts._set("identifierPrefix", "test-" |> @core.any)

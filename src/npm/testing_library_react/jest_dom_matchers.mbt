@@ -49,7 +49,7 @@ pub fn setup_matchers() -> Unit {
     @node.require("@testing-library/jest-dom/matchers"),
   )
   // Create matcher context with minimal utils (no colors)
-  let utils = @core.Object::new()
+  let utils = @core.new_object()
   // matcherHint function
   let matcher_hint : (String, String, String) -> String = fn(
     matcher_name,
@@ -82,7 +82,7 @@ pub fn setup_matchers() -> Unit {
   utils._set("BOLD_WEIGHT", @js.from_fn1(identity))
   utils._set("DIM_COLOR", @js.from_fn1(identity))
   // Create context
-  let ctx = @core.Object::new()
+  let ctx = @core.new_object()
   ctx._set("isNot", false |> @core.any)
   ctx._set("utils", utils)
   // equals function for some matchers (using Object.is)

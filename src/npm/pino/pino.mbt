@@ -73,7 +73,7 @@ pub fn pino(
   timestamp? : Bool = true,
 ) -> Logger {
   let mod = pino_module()
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts["level"] = @core.any(level.to_string())
   if name != "" {
     opts["name"] = @core.any(name)

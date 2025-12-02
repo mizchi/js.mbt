@@ -245,7 +245,7 @@ pub fn add(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @core.Object::new()
+  let duration = @core.new_object()
   match years {
     Some(v) => duration._set("years", v |> @core.any)
     None => ()
@@ -289,7 +289,7 @@ pub fn sub(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @core.Object::new()
+  let duration = @core.new_object()
   match years {
     Some(v) => duration._set("years", v |> @core.any)
     None => ()

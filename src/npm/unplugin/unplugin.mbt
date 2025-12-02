@@ -226,7 +226,7 @@ pub fn UnpluginOptions::new(
 
 ///|
 pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = @core.any(self.name)
   if self.enforce is Some(v) {
     obj["enforce"] = @core.any(v)
@@ -240,7 +240,7 @@ pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @core.Any {
   // Transform with optional filter
   if self.transform is Some(handler) {
     if self.transformFilter is Some(filter) {
-      let hook = @core.Object::new()
+      let hook = @core.new_object()
       hook["filter"] = filter.to_any()
       hook["handler"] = @core.any(@js.from_fn2(handler))
       obj["transform"] = hook
@@ -251,7 +251,7 @@ pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @core.Any {
   // Load with optional filter
   if self.load is Some(handler) {
     if self.loadFilter is Some(filter) {
-      let hook = @core.Object::new()
+      let hook = @core.new_object()
       hook["filter"] = filter.to_any()
       hook["handler"] = @core.any(@js.from_fn1(handler))
       obj["load"] = hook
@@ -434,7 +434,7 @@ pub fn transform_result_with_map(
   code : String,
   map : @core.Any,
 ) -> TransformResult {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["code"] = @core.any(code)
   obj["map"] = @core.any(map)
   obj |> @core.identity
@@ -445,7 +445,7 @@ pub fn transform_result_with_map(
 ///|
 /// Create a resolve result that marks module as external
 pub fn resolve_external(id : String) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["id"] = @core.any(id)
   obj["external"] = @core.any(true)
   obj |> @core.identity
@@ -454,7 +454,7 @@ pub fn resolve_external(id : String) -> @core.Any {
 ///|
 /// Create a resolve result with custom id
 pub fn resolve_id(id : String) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["id"] = @core.any(id)
   obj |> @core.identity
 }

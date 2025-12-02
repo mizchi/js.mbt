@@ -194,7 +194,7 @@ fn app(props : AppProps) -> @react.Element {
             id="my-textarea",
             on_change~,
             props={
-              let obj = @core.Object::new()
+              let obj = @core.new_object()
               obj["rows"] = 4 |> @core.identity
               obj["cols"] = 40 |> @core.identity
               obj

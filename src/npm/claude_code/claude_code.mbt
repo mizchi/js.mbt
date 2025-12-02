@@ -42,7 +42,7 @@ pub async fn SDKMessageIterator::next(self : SDKMessageIterator) -> SDKMessage? 
 /// Query Claude Code SDK
 /// Returns an async iterator of SDKMessage
 pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("prompt", prompt |> @core.any)
   if options is Some(o) {
     let options_any = o.as_any()
@@ -69,7 +69,7 @@ pub fn queryStream(
   prompt~ : @core.Any,
   options? : QueryOptions,
 ) -> SDKMessageIterator {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
@@ -111,7 +111,7 @@ pub fn queryWithAbort(
   prompt~ : String,
   options? : QueryOptions,
 ) -> (SDKMessageIterator, AbortHandle) {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("prompt", prompt |> @core.any)
   let abort_controller = @js.AbortController::new()
   let signal : @core.Any = @core.identity(abort_controller.signal())

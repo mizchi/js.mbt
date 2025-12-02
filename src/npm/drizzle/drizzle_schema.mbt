@@ -77,7 +77,7 @@ pub fn PgIndexBuilder::usingMethod(
 #alias(pg_primary_key)
 pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @core.Any {
   let fn_ = drizzle_pg_core()._get("primaryKey")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts._set("name", n |> @core.any)
@@ -90,7 +90,7 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @core.Any {
 #alias(sqlite_primary_key)
 pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @core.Any {
   let fn_ = drizzle_sqlite_core()._get("primaryKey")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts._set("name", n |> @core.any)
@@ -157,7 +157,7 @@ pub fn pgForeignKey(
   name? : String,
 ) -> @core.Any {
   let fn_ = drizzle_pg_core()._get("foreignKey")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",
@@ -178,7 +178,7 @@ pub fn sqliteForeignKey(
   name? : String,
 ) -> @core.Any {
   let fn_ = drizzle_sqlite_core()._get("foreignKey")
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",

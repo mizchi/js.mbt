@@ -8,7 +8,7 @@ pub fn init_preact_api(
 ) -> Unit {
   if @core.is_nullish(@global.global_this()._get(global_key)) {
     // Merge preact and hooks into a single API object
-    let api = @core.Object::new()
+    let api = @core.new_object()
     // Copy preact exports
     for key in @js.Object::keys(preact) {
       api._set(key, preact._get(key))

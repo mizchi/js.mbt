@@ -5,7 +5,7 @@
 
 ///|
 test "Object creation and basic operations" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   obj._set("age", 30 |> @core.any)
   assert_eq(@core.identity(obj._get("name")), "Alice")
@@ -17,13 +17,13 @@ test "Object creation and basic operations" {
 
 ///|
 test "Object::create" {
-  let obj = @object.Object::create(@core.Object::new())
+  let obj = @object.Object::create(@core.new_object())
   assert_true(@core.is_object(obj))
 }
 
 ///|
 test "Object::keys, values, entries" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   obj._set("age", 30 |> @core.any)
   obj._set("city", "Tokyo" |> @core.any)
@@ -36,7 +36,7 @@ test "Object::keys, values, entries" {
   assert_true(keys.contains("city"))
 
   // Test values
-  let obj2 = @core.Object::new()
+  let obj2 = @core.new_object()
   obj2._set("a", 1 |> @core.any)
   obj2._set("b", 2 |> @core.any)
   obj2._set("c", 3 |> @core.any)
@@ -68,10 +68,10 @@ test "Object::keys, values, entries" {
 
 ///|
 test "Object::assign" {
-  let target = @core.Object::new()
+  let target = @core.new_object()
   target._set("a", 1 |> @core.any)
   target._set("b", 2 |> @core.any)
-  let source = @core.Object::new()
+  let source = @core.new_object()
   source._set("b", 3 |> @core.any)
   source._set("c", 4 |> @core.any)
   let result = Object::assign(target, source)
@@ -82,8 +82,8 @@ test "Object::assign" {
 
 ///|
 test "Object::is_ comparison" {
-  let obj1 = @core.Object::new()
-  let obj2 = @core.Object::new()
+  let obj1 = @core.new_object()
+  let obj2 = @core.new_object()
   assert_true(Object::is_(obj1, obj1))
   assert_false(Object::is_(obj1, obj2))
 
@@ -97,7 +97,7 @@ test "Object::is_ comparison" {
 ///|
 test "Object freeze, seal, preventExtensions" {
   // Test freeze
-  let frozen = @core.Object::new()
+  let frozen = @core.new_object()
   frozen._set("a", 1 |> @core.any)
   assert_false(Object::isFrozen(frozen))
   Object::freeze(frozen) |> ignore
@@ -106,7 +106,7 @@ test "Object freeze, seal, preventExtensions" {
   assert_eq(@core.identity(frozen._get("a")), 1)
 
   // Test seal
-  let sealed_obj = @core.Object::new()
+  let sealed_obj = @core.new_object()
   sealed_obj._set("b", 2 |> @core.any)
   assert_false(Object::isSealed(sealed_obj))
   Object::seal(sealed_obj) |> ignore
@@ -115,7 +115,7 @@ test "Object freeze, seal, preventExtensions" {
   assert_eq(@core.identity(sealed_obj._get("b")), 2)
 
   // Test preventExtensions
-  let non_ext = @core.Object::new()
+  let non_ext = @core.new_object()
   non_ext._set("c", 3 |> @core.any)
   assert_true(Object::isExtensible_static(non_ext))
   Object::preventExtensions(non_ext) |> ignore
@@ -133,7 +133,7 @@ test "Object freeze, seal, preventExtensions" {
 
 ///|
 test "Object::propertyIsEnumerable" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("enumerable", "value" |> @core.any)
   let obj_typed : Object = @core.identity(obj)
   assert_true(obj_typed.propertyIsEnumerable("enumerable"))
@@ -142,7 +142,7 @@ test "Object::propertyIsEnumerable" {
 
 ///|
 test "Object::isPrototypeOf" {
-  let parent = @core.Object::new()
+  let parent = @core.new_object()
   let parent_typed : Object = @core.identity(parent)
   let child = Object::create(parent)
   assert_true(parent_typed.isPrototypeOf(child))
@@ -152,7 +152,7 @@ test "Object::isPrototypeOf" {
 
 ///|
 test "Object::isExtensible instance method" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("prop", "value" |> @core.any)
   let obj_typed : Object = @core.identity(obj)
   assert_true(obj_typed.isExtensible())
@@ -162,7 +162,7 @@ test "Object::isExtensible instance method" {
 
 ///|
 test "Object with empty strings" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("empty", "" |> @core.any)
   assert_eq(@core.identity(obj._get("empty")), "")
   let obj_typed : Object = @core.identity(obj)
@@ -173,7 +173,7 @@ test "Object with empty strings" {
 
 ///|
 test "JsArray creation and type checking" {
-  let arr = @core.JsArray::new()
+  let arr = @core.new_array()
   assert_true(@core.is_array(arr))
   assert_true(@core.is_object(arr))
 
@@ -254,7 +254,7 @@ test "identity_option with Show types" {
 
 ///|
 test "identity_option for nullish detection" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let result : @js.Object? = @core.identity_option(obj)
   assert_false(result is None)
   let null_result : @js.Object? = @core.identity_option(@core.null())
@@ -265,7 +265,7 @@ test "identity_option for nullish detection" {
 
 ///|
 test "Conditional property setting with Option" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
 
   // Set with Some value
   match Some("value1") {
@@ -298,7 +298,7 @@ test "instanceof_" {
   let arr = @core.any([1, 2, 3])
   let array_class = @global.global_this()._get("Array")
   assert_true(@core.instanceof_(arr, array_class))
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let object_class = @global.global_this()._get("Object")
   assert_true(@core.instanceof_(obj, object_class))
 }
@@ -332,7 +332,7 @@ test "ThrowError Show output" {
 
 ///|
 test "Object::defineProperty with value" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   Object::defineProperty(obj, "name", value="Alice" |> @js.any, writable=true)
   |> ignore
   assert_eq(@core.identity(obj._get("name")), "Alice")
@@ -343,7 +343,7 @@ test "Object::defineProperty with value" {
 
 ///|
 test "Object::defineProperty with non-writable" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   Object::defineProperty(
     obj,
     "id",
@@ -361,7 +361,7 @@ test "Object::defineProperty with non-writable" {
 
 ///|
 test "Object::defineProperty with getter/setter" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let storage : Ref[Int] = { val: 0 }
   Object::defineProperty(
     obj,
@@ -382,7 +382,7 @@ test "Object::defineProperty with getter/setter" {
 
 ///|
 test "Object::getOwnPropertyDescriptor" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "Alice" |> @core.any)
   let desc = Object::getOwnPropertyDescriptor(obj, "name")
   assert_true(desc is Some(_))
@@ -395,14 +395,14 @@ test "Object::getOwnPropertyDescriptor" {
 
 ///|
 test "Object::getOwnPropertyDescriptor returns None for non-existent" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let desc = Object::getOwnPropertyDescriptor(obj, "nonexistent")
   assert_true(desc is None)
 }
 
 ///|
 test "Object::getOwnPropertyNames" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("a", 1 |> @core.any)
   obj._set("b", 2 |> @core.any)
   Object::defineProperty(obj, "c", value=3 |> @js.any, enumerable=false)
@@ -416,7 +416,7 @@ test "Object::getOwnPropertyNames" {
 
 ///|
 test "Object::getOwnPropertySymbols" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let sym = @symbol.symbol("mySymbol") |> @core.identity
   obj._set(sym, "symbol value" |> @core.any)
   let symbols = Object::getOwnPropertySymbols(obj)
@@ -425,13 +425,13 @@ test "Object::getOwnPropertySymbols" {
 
 ///|
 test "Object::defineProperties" {
-  let obj = @core.Object::new()
-  let props = @core.Object::new()
-  let x_desc = @core.Object::new()
+  let obj = @core.new_object()
+  let props = @core.new_object()
+  let x_desc = @core.new_object()
   x_desc._set("value", 10 |> @core.any)
   x_desc._set("writable", true |> @core.any)
   props._set("x", x_desc |> @core.any)
-  let y_desc = @core.Object::new()
+  let y_desc = @core.new_object()
   y_desc._set("value", 20 |> @core.any)
   y_desc._set("writable", true |> @core.any)
   props._set("y", y_desc |> @core.any)
@@ -461,13 +461,13 @@ test "Object::groupBy basic" {
 
 ///|
 test "Object::groupBy with objects" {
-  let inventory = @core.Object::new()
+  let inventory = @core.new_object()
   inventory._set("name", "apple" |> @core.any)
   inventory._set("type", "fruit" |> @core.any)
-  let inventory2 = @core.Object::new()
+  let inventory2 = @core.new_object()
   inventory2._set("name", "beef" |> @core.any)
   inventory2._set("type", "meat" |> @core.any)
-  let inventory3 = @core.Object::new()
+  let inventory3 = @core.new_object()
   inventory3._set("name", "banana" |> @core.any)
   inventory3._set("type", "fruit" |> @core.any)
   let items = [inventory, inventory2, inventory3]

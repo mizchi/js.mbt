@@ -129,7 +129,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
         _ => return kv_json_response("{\"error\":\"Failed to list keys\"}", 500)
       }
       let keys = result.keys
-      let keys_json = @core.JsArray::new()
+      let keys_json = @core.new_array()
       let mut i = 0
       while i < keys.length() {
         let key = keys[i]
@@ -137,7 +137,7 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
         keys_json._call("push", [@core.any(name)]) |> ignore
         i = i + 1
       }
-      let response_json = @core.Object::new()
+      let response_json = @core.new_object()
       response_json["keys"] = keys_json |> @core.any
       response_json["count"] = keys.length() |> @core.any
 

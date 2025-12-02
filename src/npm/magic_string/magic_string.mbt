@@ -285,7 +285,7 @@ pub fn MagicString::new(
   offset? : Int,
 ) -> MagicString {
   if filename is Some(_) || offset is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if filename is Some(f) {
       obj["filename"] = @core.any(f)
     }
@@ -332,7 +332,7 @@ pub fn MagicString::update(
   overwrite? : Bool,
 ) -> MagicString {
   if store_name is Some(_) || overwrite is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if store_name is Some(s) {
       obj["storeName"] = @core.any(s)
     }
@@ -356,7 +356,7 @@ pub fn MagicString::overwrite(
   content_only? : Bool,
 ) -> MagicString {
   if store_name is Some(_) || content_only is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if store_name is Some(s) {
       obj["storeName"] = @core.any(s)
     }
@@ -522,7 +522,7 @@ pub fn MagicString::generate_map(
     source is Some(_) ||
     include_content is Some(_) ||
     hires is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if file is Some(f) {
       obj["file"] = @core.any(f)
     }
@@ -554,7 +554,7 @@ pub fn MagicString::generate_decoded_map(
     source is Some(_) ||
     include_content is Some(_) ||
     hires is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if file is Some(f) {
       obj["file"] = @core.any(f)
     }
@@ -703,7 +703,7 @@ pub fn Bundle::add_source_with_filename(
   filename : String,
   content : MagicString,
 ) -> Bundle {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["filename"] = @core.any(filename)
   obj["content"] = content.as_any()
   ffi_bundle_add_source(self, obj)
@@ -742,7 +742,7 @@ pub fn Bundle::generate_map(
   hires? : Bool,
 ) -> SourceMap {
   if file is Some(_) || include_content is Some(_) || hires is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if file is Some(f) {
       obj["file"] = @core.any(f)
     }

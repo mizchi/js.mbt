@@ -138,7 +138,7 @@ pub fn request(
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
   let cb : @core.Any = @core.identity(callback)
-  let obj = headers.unwrap_or(@core.Object::new())
+  let obj = headers.unwrap_or(@core.new_object())
   obj._set("url", url |> @core.any)
   if method_ is Some(v) {
     obj._set("method", v |> @core.any)

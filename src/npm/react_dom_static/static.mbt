@@ -57,7 +57,7 @@ fn build_options(
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
 ) -> @core.Any {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if bootstrap_script_content is Some(v) {
     opts._set("bootstrapScriptContent", v |> @core.any)
   }

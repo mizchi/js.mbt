@@ -69,7 +69,7 @@ pub async fn StorageArea::set_item(
   key : String,
   value : @core.Any,
 ) -> Unit {
-  let items = @core.Object::new()
+  let items = @core.new_object()
   items[key] = @core.any(value)
   self.set(items |> @core.identity)
 }

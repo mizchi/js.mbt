@@ -144,15 +144,15 @@ pub struct ServerCapabilities {
 
 ///|
 pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @core.Any {
-  let capabilities = @core.Object::new()
+  let capabilities = @core.new_object()
   if self.tools {
-    capabilities._set("tools", @core.Object::new())
+    capabilities._set("tools", @core.new_object())
   }
   if self.resources {
-    capabilities._set("resources", @core.Object::new())
+    capabilities._set("resources", @core.new_object())
   }
   if self.prompts {
-    capabilities._set("prompts", @core.Object::new())
+    capabilities._set("prompts", @core.new_object())
   }
   @core.identity(
     @core.from_entries([("capabilities", @core.any(capabilities))]),

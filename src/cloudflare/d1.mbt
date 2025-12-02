@@ -29,7 +29,7 @@ pub async fn D1Database::batch(
   self : Self,
   statements : Array[D1PreparedStatement],
 ) -> Array[D1Result] {
-  let stmts_js = @core.JsArray::new()
+  let stmts_js = @core.new_array()
   let mut i = 0
   while i < statements.length() {
     @core.any(stmts_js)._call("push", [@core.any(statements[i])]) |> ignore
@@ -70,7 +70,7 @@ pub fn D1PreparedStatement::bind(
   let bind_fn = stmt_js["bind"]
 
   // Convert MoonBit array to JavaScript array
-  let params_js = @core.JsArray::new()
+  let params_js = @core.new_array()
   let mut i = 0
   while i < params.length() {
     @core.any(params_js)._call("push", [@core.any(params[i])]) |> ignore

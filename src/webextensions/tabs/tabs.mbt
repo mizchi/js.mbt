@@ -72,7 +72,7 @@ pub fn QueryOptions::default() -> QueryOptions {
 
 ///|
 fn QueryOptions::to_any(self : QueryOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.active is Some(v) {
     obj["active"] = @core.any(v)
   }
@@ -171,7 +171,7 @@ pub fn CreateOptions::default() -> CreateOptions {
 
 ///|
 fn CreateOptions::to_any(self : CreateOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.url is Some(v) {
     obj["url"] = @core.any(v)
   }
@@ -224,7 +224,7 @@ pub fn UpdateOptions::default() -> UpdateOptions {
 
 ///|
 fn UpdateOptions::to_any(self : UpdateOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.url is Some(v) {
     obj["url"] = @core.any(v)
   }
@@ -282,7 +282,7 @@ pub async fn remove_tab(tab_id : Int) -> Unit {
 ///|
 /// Reload a tab
 pub async fn reload(tab_id : Int, bypass_cache? : Bool = false) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if bypass_cache {
     options["bypassCache"] = @core.any(true)
   }

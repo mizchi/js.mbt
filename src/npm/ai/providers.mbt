@@ -22,7 +22,7 @@ pub fn OpenAIOptions::default() -> OpenAIOptions {
 ///|
 /// Convert OpenAI options to JS object
 pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.api_key is Some(key) {
     obj._set("apiKey", key |> @core.any)
   }
@@ -96,7 +96,7 @@ pub fn AnthropicOptions::default() -> AnthropicOptions {
 ///|
 /// Convert Anthropic options to JS object
 pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.api_key is Some(key) {
     obj._set("apiKey", key |> @core.any)
   }
@@ -175,7 +175,7 @@ pub fn GoogleOptions::default() -> GoogleOptions {
 ///|
 /// Convert Google options to JS object
 pub fn GoogleOptions::as_any(self : GoogleOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if self.api_key is Some(key) {
     obj._set("apiKey", key |> @core.any)
   }

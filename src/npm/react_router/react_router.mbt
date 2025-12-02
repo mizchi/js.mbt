@@ -73,13 +73,13 @@ pub(all) enum Route {
 pub fn Route::as_any(self : Route) -> @core.Any {
   match self {
     Route::Component(path~, component~) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("path", path |> @core.any)
       obj._set("Component", component |> @js.any)
       obj
     }
     Route::Element(path~, element~) => {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("path", path |> @core.any)
       obj._set("element", element |> @js.any)
       obj
@@ -118,7 +118,7 @@ pub fn create_memory_router(
     ._get("__ReactRouterApi")
     ._get("createMemoryRouter")
     .cast()
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match options {
     Some(o) => {
       match o.initial_entries {
@@ -227,7 +227,7 @@ pub(all) struct NavigateOptions {
 
 ///|
 pub fn NavigateOptions::as_any(self : NavigateOptions) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   match self.replace {
     Some(r) => obj._set("replace", r |> @core.any)
     None => ()
@@ -363,7 +363,7 @@ pub fn nav_link(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props._set("to", to |> @core.any)
   match (class_name, active_class_name) {
     (Some(base), Some(active)) =>
@@ -406,7 +406,7 @@ pub fn nav_link_render(
   render~ : (NavLinkRenderProps) -> @react.Element,
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props._set("to", to |> @core.any)
   props._set("children", @js.from_fn1(render))
   let empty : Array[@core.Any] = []
@@ -444,7 +444,7 @@ pub struct NavigateProps {
 
 ///|
 pub fn NavigateProps::as_any(self : NavigateProps) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("to", self.to |> @core.any)
   match self.replace {
     Some(r) => obj._set("replace", r |> @core.any)

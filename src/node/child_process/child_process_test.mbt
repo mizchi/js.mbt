@@ -340,8 +340,8 @@ async test "Node Child Process: ChildProcess has stdout and stderr streams" {
   defer proc.kill() |> ignore
   let stdout = proc.stdout()
   let stderr = proc.stderr()
-  assert_true(@core.type_of(stdout.as_any()) == "object")
-  assert_true(@core.type_of(stderr.as_any()) == "object")
+  assert_true(@core.typeof_(stdout.as_any()) == "object")
+  assert_true(@core.typeof_(stderr.as_any()) == "object")
 }
 
 ///|
@@ -397,7 +397,7 @@ async test "Node Child Process: ChildProcess stdin is available" {
   let proc = @child_process.spawn("cat")
   defer proc.kill() |> ignore
   let stdin = proc.stdin()
-  assert_true(@core.type_of(stdin.as_any()) == "object")
+  assert_true(@core.typeof_(stdin.as_any()) == "object")
 }
 
 ///|

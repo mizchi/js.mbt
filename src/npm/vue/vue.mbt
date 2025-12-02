@@ -50,7 +50,7 @@ pub fn h(
 ) -> VNode {
   let tag = @core.any(tag)
   let children = children.map(_.to_vue_node()) |> @core.any
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if props is Some(props) {
     for k, v in props {
       val._set(k, v)
@@ -63,7 +63,7 @@ pub fn h(
     val._set("key", key |> @core.any)
   }
   if style is Some(style) {
-    let style_obj = @core.Object::new()
+    let style_obj = @core.new_object()
     for k, v in style {
       style_obj._set(k, v |> @core.any)
     }
@@ -86,7 +86,7 @@ pub fn[T] component(
   let val : @core.Any = props |> @core.identity
   if key is Some(key) {
     if @core.is_nullish(val) {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj._set("key", key |> @core.any)
       return ffi_h(tag, obj, children) |> @core.identity
     }
@@ -100,7 +100,7 @@ pub fn[T] component(
 pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   let tag = get_fragment()
   let children = children.map(_.to_vue_node()) |> @core.any
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if key is Some(key) {
     val._set("key", key |> @core.any)
   }
@@ -118,7 +118,7 @@ pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
 pub fn createApp(rootComponent : @core.Any, props? : @core.Any) -> @core.Any {
   let p = match props {
     Some(p) => p
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   ffi_create_app(rootComponent, p)
 }
@@ -151,7 +151,7 @@ pub fn[T] computed(getter : () -> T) -> Ref[T] {
 ///|
 /// Vue.computed with getter and setter
 pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   options._set("get", get |> @js.any)
   options._set("set", set |> @js.any)
   @core.identity(ffi_computed(options))

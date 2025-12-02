@@ -1,7 +1,7 @@
 ///|
 /// Convert Array of (key, value) tuples to JS Object
 pub fn from_tuple_array(entries : Array[(String, @core.Any)]) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   for entry in entries {
     let (k, v) = entry
     obj[k] = v

@@ -131,7 +131,7 @@ pub fn MockTracker::module_(
   defaultExport? : @core.Any,
   namedExports? : @core.Any,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if defaultExport is Some(exp) {
     options._set("defaultExport", exp)
   }

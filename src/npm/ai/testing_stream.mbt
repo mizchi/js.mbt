@@ -17,7 +17,7 @@ pub(all) struct SimulateStreamOptions {
 /// Uses the AI SDK's simulateReadableStream under the hood.
 pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @core.Any {
   let test_module = require_test()
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("chunks", options.chunks |> @core.any)
   if options.initial_delay_ms is Some(delay) {
     opts._set("initialDelayInMs", delay |> @core.any)

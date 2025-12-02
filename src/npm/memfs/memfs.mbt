@@ -158,7 +158,7 @@ pub fn MemFS::mkdirSync(
   recursive? : Bool = false,
 ) -> Unit {
   if recursive {
-    let opts = @core.Object::new()
+    let opts = @core.new_object()
     opts["recursive"] = @core.any(true)
     self.as_any()._call("mkdirSync", [@core.any(path), opts]) |> ignore
   } else {
@@ -174,7 +174,7 @@ pub fn MemFS::rmdirSync(
   recursive? : Bool = false,
 ) -> Unit {
   if recursive {
-    let opts = @core.Object::new()
+    let opts = @core.new_object()
     opts["recursive"] = @core.any(true)
     self.as_any()._call("rmdirSync", [@core.any(path), opts]) |> ignore
   } else {
@@ -286,7 +286,7 @@ pub async fn MemFS::mkdir(
 ) -> Unit {
   let promises = self.as_any()["promises"]
   if recursive {
-    let opts = @core.Object::new()
+    let opts = @core.new_object()
     opts["recursive"] = @core.any(true)
     let promise : @core.Promise[Unit] = promises
       ._call("mkdir", [@core.any(path), opts])

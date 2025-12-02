@@ -139,7 +139,7 @@ test "serialize and deserialize string" {
 ///|
 /// Test serialize and deserialize object
 test "serialize and deserialize object" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", "test" |> @core.any)
   obj._set("value", 123 |> @core.any)
   let serialized = serialize(obj)

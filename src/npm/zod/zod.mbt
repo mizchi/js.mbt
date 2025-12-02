@@ -118,7 +118,7 @@ pub fn never() -> ZodSchema {
 ///|
 /// Create an object schema from a Map
 pub fn object(shape : Map[String, ZodSchema]) -> ZodSchema {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   shape.each(fn(key, value) { obj[key] = value.as_any() })
   zod()._call("object", [obj]).cast()
 }
@@ -321,7 +321,7 @@ pub fn ZodSchema::refine(
 ) -> Self {
   match message {
     Some(msg) => {
-      let opts = @core.Object::new()
+      let opts = @core.new_object()
       opts["message"] = @core.any(msg)
       self.as_any()._call("refine", [@core.from_fn1(predicate), opts]).cast()
     }
@@ -337,7 +337,7 @@ pub fn ZodSchema::refine_with_path(
   message : String,
   path : Array[String],
 ) -> Self {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts["message"] = @core.any(message)
   opts["path"] = path |> @core.identity
   self.as_any()._call("refine", [@core.from_fn1(predicate), opts]).cast()

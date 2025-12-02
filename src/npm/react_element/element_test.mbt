@@ -212,7 +212,7 @@ test "svg element with path" {
 ///|
 test "custom props with @js.Object" {
   let render_to_string = get_render_to_string()
-  let custom_props = @core.Object::new()
+  let custom_props = @core.new_object()
   custom_props._set("data-testid", "my-div" |> @core.any)
   custom_props._set("aria-label", "Main content" |> @core.any)
   let element = div(props=custom_props, ["Content"])
@@ -294,7 +294,7 @@ test "textarea with rows, columns, and spellcheck" {
 ///|
 test "input with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @core.Object::new()
+  let custom_props = @core.new_object()
   custom_props._set("data-custom", "value" |> @core.any)
   let element = input(props=custom_props, type_="text")
   let html = render_to_string(element)
@@ -309,7 +309,7 @@ test "input with custom props" {
 ///|
 test "textarea with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @core.Object::new()
+  let custom_props = @core.new_object()
   custom_props._set("data-test", "textarea" |> @core.any)
   let element = textarea(props=custom_props, [])
   let html = render_to_string(element)
@@ -346,7 +346,7 @@ test "uncovered HTML elements" {
 ///|
 test "p element with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @core.Object::new()
+  let custom_props = @core.new_object()
   custom_props._set("data-paragraph", "test" |> @core.any)
   let element = p(props=custom_props, ["Paragraph with props"])
   let html = render_to_string(element)
@@ -361,7 +361,7 @@ test "p element with custom props" {
 ///|
 test "ul with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @core.Object::new()
+  let custom_props = @core.new_object()
   custom_props._set("data-list", "custom" |> @core.any)
   let element = ul(props=custom_props, [li(["Item"])])
   let html = render_to_string(element)

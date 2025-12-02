@@ -21,10 +21,10 @@ test "notEqual checks inequality" {
 
 ///|
 test "deepEqual checks deep equality" {
-  let obj1 = @core.Object::new()
+  let obj1 = @core.new_object()
   obj1["a"] = @core.any(1)
   obj1["b"] = @core.any(2)
-  let obj2 = @core.Object::new()
+  let obj2 = @core.new_object()
   obj2["a"] = @core.any(1)
   obj2["b"] = @core.any(2)
   deepEqual(obj1, obj2)
@@ -32,10 +32,10 @@ test "deepEqual checks deep equality" {
 
 ///|
 test "notDeepEqual checks deep inequality" {
-  let obj1 = @core.Object::new()
+  let obj1 = @core.new_object()
   obj1["a"] = @core.any(1)
   obj1["b"] = @core.any(2)
-  let obj2 = @core.Object::new()
+  let obj2 = @core.new_object()
   obj2["a"] = @core.any(1)
   obj2["b"] = @core.any(3)
   notDeepEqual(obj1, obj2)

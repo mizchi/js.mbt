@@ -17,7 +17,7 @@ test "mock.fn creates spy function" {
 ///|
 test "mock.method mocks object method" {
   let m = mock()
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method to return different value
@@ -63,7 +63,7 @@ test "mock.fn with both original and implementation" {
 ///|
 test "mock.method without implementation" {
   let m = mock()
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method without implementation (spy on original)

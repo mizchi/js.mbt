@@ -10,7 +10,7 @@ pub fn[T] watch(
   immediate? : Bool,
   deep? : Bool,
 ) -> WatchStopHandle {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if immediate is Some(v) {
     options._set("immediate", v |> @core.any)
   }
@@ -25,7 +25,7 @@ pub fn[T] watch(
 ///|
 /// Vue.watchEffect - Watch with automatic dependency tracking
 pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if flush is Some(v) {
     options._set("flush", v |> @core.any)
   }

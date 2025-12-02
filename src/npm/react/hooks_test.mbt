@@ -126,7 +126,7 @@ test "useRef with Some" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
-      Some(@core.identity(@core.Object::new())),
+      Some(@core.identity(@core.new_object())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }

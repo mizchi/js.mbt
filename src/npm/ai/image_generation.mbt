@@ -117,7 +117,7 @@ pub async fn generateImage(
   /// Custom headers
   headers? : @core.Any,
 ) -> GenerateImageResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
   opts._set("prompt", prompt |> @core.any)

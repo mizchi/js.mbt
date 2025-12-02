@@ -139,7 +139,7 @@ pub fn load(
   if filename is None && schema is None && json is None {
     return ffi_load(str)
   }
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if filename is Some(v) {
     options["filename"] = @core.any(v)
   }
@@ -163,7 +163,7 @@ pub fn loadAll(
   if filename is None && schema is None && json is None {
     return ffi_load_all(str).cast()
   }
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if filename is Some(v) {
     options["filename"] = @core.any(v)
   }
@@ -209,7 +209,7 @@ pub fn dump(
     schema is None {
     return ffi_dump(obj)
   }
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if indent is Some(v) {
     options["indent"] = @core.any(v)
   }

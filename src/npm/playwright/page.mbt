@@ -22,7 +22,7 @@ pub async fn Page::goto(
   waitUntil? : String,
   referer? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -51,7 +51,7 @@ pub async fn Page::reload(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -77,7 +77,7 @@ pub async fn Page::goBack(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -103,7 +103,7 @@ pub async fn Page::goForward(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -154,7 +154,7 @@ pub async fn Page::setContent(
   timeout? : Int,
   waitUntil? : String,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -184,7 +184,7 @@ pub fn Page::getByRole(
   name? : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if name is Some(v) {
     options["name"] = @core.any(v)
   }
@@ -197,7 +197,7 @@ pub fn Page::getByRole(
 ///|
 /// Get locator by text
 pub fn Page::getByText(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -207,7 +207,7 @@ pub fn Page::getByText(self : Page, text : String, exact? : Bool) -> Locator {
 ///|
 /// Get locator by label
 pub fn Page::getByLabel(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -222,7 +222,7 @@ pub fn Page::getByPlaceholder(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -233,7 +233,7 @@ pub fn Page::getByPlaceholder(
 ///|
 /// Get locator by alt text
 pub fn Page::getByAltText(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -244,7 +244,7 @@ pub fn Page::getByAltText(self : Page, text : String, exact? : Bool) -> Locator 
 ///|
 /// Get locator by title
 pub fn Page::getByTitle(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -275,7 +275,7 @@ pub async fn Page::click(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if button is Some(v) {
     options["button"] = @core.any(v)
   }
@@ -295,7 +295,7 @@ pub async fn Page::click(
     options["noWaitAfter"] = @core.any(v)
   }
   if position is Some((x, y)) {
-    let pos = @core.Object::new()
+    let pos = @core.new_object()
     pos["x"] = @core.any(x)
     pos["y"] = @core.any(y)
     options["position"] = pos
@@ -321,7 +321,7 @@ pub async fn Page::dblclick(
   timeout? : Int,
   force? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -345,7 +345,7 @@ pub async fn Page::fill(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -372,7 +372,7 @@ pub async fn Page::type_(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if delay is Some(v) {
     options["delay"] = @core.any(v)
   }
@@ -399,7 +399,7 @@ pub async fn Page::press(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if delay is Some(v) {
     options["delay"] = @core.any(v)
   }
@@ -425,7 +425,7 @@ pub async fn Page::check(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -451,7 +451,7 @@ pub async fn Page::uncheck(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -478,7 +478,7 @@ pub async fn Page::selectOption(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Array[String] {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -506,7 +506,7 @@ pub async fn Page::hover(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -514,7 +514,7 @@ pub async fn Page::hover(
     options["modifiers"] = @core.any(@core.any(v))
   }
   if position is Some((x, y)) {
-    let pos = @core.Object::new()
+    let pos = @core.new_object()
     pos["x"] = @core.any(x)
     pos["y"] = @core.any(y)
     options["position"] = pos
@@ -539,7 +539,7 @@ pub async fn Page::focus(
   selector : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -561,7 +561,7 @@ pub async fn Page::waitForSelector(
   timeout? : Int,
   strict? : Bool,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if state is Some(v) {
     options["state"] = @core.any(v)
   }
@@ -585,7 +585,7 @@ pub async fn Page::waitForLoadState(
   state? : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -606,7 +606,7 @@ pub async fn Page::waitForNavigation(
   url? : String,
   waitUntil? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -636,7 +636,7 @@ pub async fn Page::waitForURL(
   timeout? : Int,
   waitUntil? : String,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -669,7 +669,7 @@ pub async fn Page::waitForFunction(
   polling? : Int,
   timeout? : Int,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if polling is Some(v) {
     options["polling"] = @core.any(v)
   }
@@ -744,7 +744,7 @@ pub async fn Page::screenshot(
   timeout? : Int,
   scale? : String,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if path is Some(v) {
     options["path"] = @core.any(v)
   }
@@ -796,7 +796,7 @@ pub async fn Page::pdf(
   margin? : @core.Any,
   preferCSSPageSize? : Bool,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if path is Some(v) {
     options["path"] = @core.any(v)
   }
@@ -846,7 +846,7 @@ pub async fn Page::pdf(
 ///|
 /// Close page
 pub async fn Page::close(self : Page, runBeforeUnload? : Bool) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if runBeforeUnload is Some(v) {
     options["runBeforeUnload"] = @core.any(v)
   }
@@ -892,7 +892,7 @@ pub async fn Page::setViewportSize(
   width : Int,
   height : Int,
 ) -> Unit {
-  let viewport = @core.Object::new()
+  let viewport = @core.new_object()
   viewport["width"] = @core.any(width)
   viewport["height"] = @core.any(height)
   let promise : @js.Promise[Unit] = self
@@ -937,7 +937,7 @@ pub async fn Page::addScriptTag(
   content? : String,
   type_? : String,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if url is Some(v) {
     options["url"] = @core.any(v)
   }
@@ -965,7 +965,7 @@ pub async fn Page::addStyleTag(
   path? : String,
   content? : String,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if url is Some(v) {
     options["url"] = @core.any(v)
   }

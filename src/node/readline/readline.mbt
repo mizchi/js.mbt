@@ -38,7 +38,7 @@ pub fn createInterface(
   escape_code_timeout? : Int,
   tab_size? : Int,
 ) -> Interface {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("input", input |> @core.any)
   if output is Some(o) {
     obj._set("output", o |> @core.any)

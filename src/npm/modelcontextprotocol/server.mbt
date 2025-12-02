@@ -171,7 +171,7 @@ fn McpServer::handle_tools_call(
   }
   let arguments : @core.Any = @core.identity_option(
     @core.any(p)._get("arguments"),
-  ).unwrap_or(@core.Object::new())
+  ).unwrap_or(@core.new_object())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
       "content": @core.any(@core.any(content.map(fn(c) { @core.any(c) }))),
@@ -264,7 +264,7 @@ fn McpServer::handle_prompts_get(
   }
   let arguments : @core.Any = @core.identity_option(
     @core.any(p)._get("arguments"),
-  ).unwrap_or(@core.Object::new())
+  ).unwrap_or(@core.new_object())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
       "messages": @core.any(@core.any(content.map(fn(c) { c.as_any() }))),

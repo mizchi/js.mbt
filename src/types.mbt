@@ -35,7 +35,7 @@ pub fn Object::to_any(self : Object) -> @core.Any = "%identity"
 /// Returns Any directly - use from_map() for creating objects with initial properties
 /// Example: `let obj = @js.from_map({ "key": @core.any(value) })` for typed object creation
 pub fn Object::new() -> @core.Any {
-  @core.Object::new()
+  @core.new_object()
 }
 
 ///|

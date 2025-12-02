@@ -118,7 +118,7 @@ pub async fn generateObject(
   /// Abort signal
   abort_signal? : @core.Any,
 ) -> GenerateObjectResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
   let json_schema_fn = ai_module()._get("jsonSchema")
@@ -188,7 +188,7 @@ pub async fn generateObjectWithZod(
   /// Temperature for randomness
   temperature? : Double,
 ) -> GenerateObjectResult {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   opts._set("model", model.as_any())
   opts._set("schema", zod_schema)
   if schema_name is Some(n) {

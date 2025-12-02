@@ -113,7 +113,7 @@ pub fn stripTypeScriptTypes(
     (None, None, None) =>
       mod._call("stripTypeScriptTypes", [@core.any(code)]).cast()
     _ => {
-      let opts = @core.Object::new()
+      let opts = @core.new_object()
       if mode is Some(m) {
         opts["mode"] = @core.any(m)
       }

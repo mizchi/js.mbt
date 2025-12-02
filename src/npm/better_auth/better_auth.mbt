@@ -148,7 +148,7 @@ pub(all) struct EmailPassword {
 
 ///|
 pub impl Provider for EmailPassword with apply(self, config) {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["enabled"] = @core.any(self.enabled)
   config._set("emailAndPassword", obj)
 }
@@ -163,7 +163,7 @@ pub(all) struct GitHub {
 ///|
 pub impl Provider for GitHub with apply(self, config) {
   let sp = get_or_create_social_providers(config)
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["clientId"] = @core.any(self.client_id)
   obj["clientSecret"] = @core.any(self.client_secret)
   sp._set("github", obj)
@@ -179,7 +179,7 @@ pub(all) struct Google {
 ///|
 pub impl Provider for Google with apply(self, config) {
   let sp = get_or_create_social_providers(config)
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["clientId"] = @core.any(self.client_id)
   obj["clientSecret"] = @core.any(self.client_secret)
   sp._set("google", obj)
@@ -189,7 +189,7 @@ pub impl Provider for Google with apply(self, config) {
 fn get_or_create_social_providers(config : @core.Any) -> @core.Any {
   let existing = config["socialProviders"]
   if @core.is_nullish(existing) {
-    let sp = @core.Object::new()
+    let sp = @core.new_object()
     config._set("socialProviders", sp)
     sp
   } else {
@@ -205,7 +205,7 @@ pub fn betterAuth(
   base_url? : String,
   secret? : String,
 ) -> Auth {
-  let config = @core.Object::new()
+  let config = @core.new_object()
   config["database"] = @core.any(database)
   for provider in providers {
     provider.apply(config)
@@ -281,7 +281,7 @@ pub async fn AuthApi::signUpEmail(
   image? : String,
   callback_url? : String,
 ) -> AuthResponse {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["name"] = @core.any(name)
   body["email"] = @core.any(email)
   body["password"] = @core.any(password)
@@ -291,7 +291,7 @@ pub async fn AuthApi::signUpEmail(
   if callback_url is Some(url) {
     body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @core.Object::new()
+  let req_obj = @core.new_object()
   req_obj["body"] = body
   let promise = ffi_call_auth_api_with_catch(
     self.to_any()["signUpEmail"] |> @core.identity,
@@ -310,7 +310,7 @@ pub async fn AuthApi::signInEmail(
   callback_url? : String,
   headers? : @core.Any,
 ) -> AuthResponse {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["email"] = @core.any(email)
   body["password"] = @core.any(password)
   if remember_me is Some(rm) {
@@ -319,7 +319,7 @@ pub async fn AuthApi::signInEmail(
   if callback_url is Some(url) {
     body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @core.Object::new()
+  let req_obj = @core.new_object()
   req_obj["body"] = body
   if headers is Some(h) {
     req_obj["headers"] = @core.any(h)
@@ -338,12 +338,12 @@ pub async fn AuthApi::signInSocial(
   provider~ : String,
   callback_url? : String,
 ) -> @core.Any {
-  let body = @core.Object::new()
+  let body = @core.new_object()
   body["provider"] = @core.any(provider)
   if callback_url is Some(url) {
     body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @core.Object::new()
+  let req_obj = @core.new_object()
   req_obj["body"] = body
   let promise : @js.Promise[@core.Any] = self.to_any()["signInSocial"]._invoke([
       req_obj,
@@ -380,7 +380,7 @@ pub async fn AuthApi::getSession(
   self : AuthApi,
   headers : @core.Any,
 ) -> SessionResponse? {
-  let req_obj = @core.Object::new()
+  let req_obj = @core.new_object()
   req_obj["headers"] = @core.any(headers)
   let promise : @js.Promise[@core.Any] = self.to_any()["getSession"]._invoke([
       req_obj,
@@ -397,7 +397,7 @@ pub async fn AuthApi::getSession(
 ///|
 /// Sign out
 pub async fn AuthApi::signOut(self : AuthApi, headers : @core.Any) -> Unit {
-  let req_obj = @core.Object::new()
+  let req_obj = @core.new_object()
   req_obj["headers"] = @core.any(headers)
   let promise : @js.Promise[Unit] = self.to_any()["signOut"]._invoke([req_obj])
     |> @core.identity

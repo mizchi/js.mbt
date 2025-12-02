@@ -310,7 +310,7 @@ test "configure function exists" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
-  let config = @core.Object::new()
+  let config = @core.new_object()
   let config_any : @core.Any = config.cast()
   configure(config_any)
 }
@@ -603,7 +603,7 @@ fn child_component(_props : ChildProps) -> @react.Element {
   let ref_val : @react.ReactRef[@dom.HTMLDivElement] = @react.use_ref(None)
   @react.use_imperative_handle(
     ref_val,
-    fn() -> @dom.HTMLDivElement { @core.Object::new() |> @core.identity },
+    fn() -> @dom.HTMLDivElement { @core.new_object() |> @core.identity },
     [],
   )
   @react_element.div(["Child"], ref_=ref_val)

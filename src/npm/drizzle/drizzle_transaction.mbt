@@ -104,7 +104,7 @@ pub async fn DrizzleDB::pgTransaction(
   access_mode? : PgAccessMode,
   deferrable? : Bool,
 ) -> @core.Any {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if isolation_level is Some(il) {
     opts._set("isolationLevel", il.to_string() |> @core.any)
   }

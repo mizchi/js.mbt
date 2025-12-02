@@ -91,7 +91,7 @@ test "number int positive" {
 ///|
 test "object schema" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number() })
-  let data = @core.Object::new()
+  let data = @core.new_object()
   data["name"] = @core.any("Alice")
   data["age"] = @core.any(30)
   assert_true(schema.safeParse(data) is Ok(_))
@@ -100,7 +100,7 @@ test "object schema" {
 ///|
 test "object schema invalid" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number() })
-  let data = @core.Object::new()
+  let data = @core.new_object()
   data["name"] = @core.any(123)
   data["age"] = @core.any("not a number")
   assert_true(schema.safeParse(data) is Err(_))
@@ -370,7 +370,7 @@ test "intersection schema" {
   let schema1 = @zod.object({ "name": @zod.string() })
   let schema2 = @zod.object({ "age": @zod.number() })
   let schema = @zod.intersection(schema1, schema2)
-  let valid = @core.Object::new()
+  let valid = @core.new_object()
   valid["name"] = @core.any("Alice")
   valid["age"] = @core.any(30)
   assert_true(schema.safeParse(valid) is Ok(_))
@@ -382,10 +382,10 @@ test "intersection schema" {
 ///|
 test "object extend" {
   let base_schema = @zod.object({ "name": @zod.string() })
-  let ext_shape = @core.Object::new()
+  let ext_shape = @core.new_object()
   ext_shape["age"] = @zod.number().as_any()
   let extended = base_schema.extend(ext_shape)
-  let data = @core.Object::new()
+  let data = @core.new_object()
   data["name"] = @core.any("Alice")
   data["age"] = @core.any(30)
   assert_true(extended.safeParse(data) is Ok(_))
@@ -407,7 +407,7 @@ test "object extend" {
 //   // Omit email
 //   let omit_keys = @zod.from_json({ "email": true })
 //   let omitted = schema.omit(omit_keys)
-//   let omit_data = @core.Object::new()
+//   let omit_data = @core.new_object()
 //   omit_data["name"] = @core.any("Alice")
 //   omit_data["age"] = @core.any(30)
 //   assert_true(omitted.safeParse(omit_data) is Ok(_))
@@ -418,7 +418,7 @@ test "object partial and required" {
   let schema = @zod.object({ "name": @zod.string(), "age": @zod.number() })
   // Partial - all optional
   let partial_schema = schema.partial()
-  let empty = @core.Object::new()
+  let empty = @core.new_object()
   assert_true(partial_schema.safeParse(empty) is Ok(_))
   // Required - all required
   let required_schema = partial_schema.required_()

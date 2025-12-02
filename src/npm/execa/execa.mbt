@@ -224,7 +224,7 @@ pub fn options(
   stripFinalNewline? : Bool,
   windowsHide? : Bool,
 ) -> @core.Any {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   if cwd is Some(v) {
     opts["cwd"] = @core.any(v)
   }
@@ -438,7 +438,7 @@ fn build_options(
     timeout is Some(_) ||
     env is Some(_) ||
     shell is Some(_) {
-    let obj = @core.Object::new()
+    let obj = @core.new_object()
     if cwd is Some(v) {
       obj["cwd"] = @core.any(v)
     }
@@ -640,7 +640,7 @@ pub fn subprocess(
   options? : @core.Any,
 ) -> Subprocess {
   let js_args : @core.Any = args.map(fn(s) { @core.any(s) }) |> @core.identity
-  let opts = options.unwrap_or(@core.Object::new())
+  let opts = options.unwrap_or(@core.new_object())
   ffi_execa_subprocess(file, js_args, opts)
 }
 

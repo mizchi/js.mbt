@@ -21,7 +21,7 @@ pub fn Locator::filter(
   hasText? : String,
   hasNotText? : String,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if has is Some(v) {
     options["has"] = v.to_any()
   }
@@ -69,7 +69,7 @@ pub fn Locator::getByRole(
   name? : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if name is Some(v) {
     options["name"] = @core.any(v)
   }
@@ -86,7 +86,7 @@ pub fn Locator::getByText(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -100,7 +100,7 @@ pub fn Locator::getByLabel(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -115,7 +115,7 @@ pub fn Locator::getByPlaceholder(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if exact is Some(v) {
     options["exact"] = @core.any(v)
   }
@@ -145,7 +145,7 @@ pub async fn Locator::click(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if button is Some(v) {
     options["button"] = @core.any(v)
   }
@@ -165,7 +165,7 @@ pub async fn Locator::click(
     options["noWaitAfter"] = @core.any(v)
   }
   if position is Some((x, y)) {
-    let pos = @core.Object::new()
+    let pos = @core.new_object()
     pos["x"] = @core.any(x)
     pos["y"] = @core.any(y)
     options["position"] = pos
@@ -188,7 +188,7 @@ pub async fn Locator::dblclick(
   timeout? : Int,
   force? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -209,7 +209,7 @@ pub async fn Locator::fill(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -234,7 +234,7 @@ pub async fn Locator::clear(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -258,7 +258,7 @@ pub async fn Locator::type_(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if delay is Some(v) {
     options["delay"] = @core.any(v)
   }
@@ -284,7 +284,7 @@ pub async fn Locator::press(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if delay is Some(v) {
     options["delay"] = @core.any(v)
   }
@@ -309,7 +309,7 @@ pub async fn Locator::check(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -332,7 +332,7 @@ pub async fn Locator::uncheck(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -356,7 +356,7 @@ pub async fn Locator::setChecked(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -382,7 +382,7 @@ pub async fn Locator::selectOption(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Array[String] {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -409,7 +409,7 @@ pub async fn Locator::hover(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if force is Some(v) {
     options["force"] = @core.any(v)
   }
@@ -417,7 +417,7 @@ pub async fn Locator::hover(
     options["modifiers"] = @core.any(@core.any(v))
   }
   if position is Some((x, y)) {
-    let pos = @core.Object::new()
+    let pos = @core.new_object()
     pos["x"] = @core.any(x)
     pos["y"] = @core.any(y)
     options["position"] = pos
@@ -436,7 +436,7 @@ pub async fn Locator::hover(
 ///|
 /// Focus element
 pub async fn Locator::focus(self : Locator, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -448,7 +448,7 @@ pub async fn Locator::focus(self : Locator, timeout? : Int) -> Unit {
 ///|
 /// Blur element
 pub async fn Locator::blur(self : Locator, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -463,7 +463,7 @@ pub async fn Locator::scrollIntoViewIfNeeded(
   self : Locator,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -479,7 +479,7 @@ pub async fn Locator::scrollIntoViewIfNeeded(
 ///|
 /// Get inner text
 pub async fn Locator::innerText(self : Locator, timeout? : Int) -> String {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -493,7 +493,7 @@ pub async fn Locator::innerText(self : Locator, timeout? : Int) -> String {
 ///|
 /// Get inner HTML
 pub async fn Locator::innerHTML(self : Locator, timeout? : Int) -> String {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -507,7 +507,7 @@ pub async fn Locator::innerHTML(self : Locator, timeout? : Int) -> String {
 ///|
 /// Get text content
 pub async fn Locator::textContent(self : Locator, timeout? : Int) -> String? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -550,7 +550,7 @@ pub async fn Locator::getAttribute(
   name : String,
   timeout? : Int,
 ) -> String? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -569,7 +569,7 @@ pub async fn Locator::getAttribute(
 ///|
 /// Get input value
 pub async fn Locator::inputValue(self : Locator, timeout? : Int) -> String {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -583,7 +583,7 @@ pub async fn Locator::inputValue(self : Locator, timeout? : Int) -> String {
 ///|
 /// Check if element is visible
 pub async fn Locator::isVisible(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -595,7 +595,7 @@ pub async fn Locator::isVisible(self : Locator, timeout? : Int) -> Bool {
 ///|
 /// Check if element is hidden
 pub async fn Locator::isHidden(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -607,7 +607,7 @@ pub async fn Locator::isHidden(self : Locator, timeout? : Int) -> Bool {
 ///|
 /// Check if element is enabled
 pub async fn Locator::isEnabled(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -619,7 +619,7 @@ pub async fn Locator::isEnabled(self : Locator, timeout? : Int) -> Bool {
 ///|
 /// Check if element is disabled
 pub async fn Locator::isDisabled(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -631,7 +631,7 @@ pub async fn Locator::isDisabled(self : Locator, timeout? : Int) -> Bool {
 ///|
 /// Check if element is editable
 pub async fn Locator::isEditable(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -643,7 +643,7 @@ pub async fn Locator::isEditable(self : Locator, timeout? : Int) -> Bool {
 ///|
 /// Check if checkbox is checked
 pub async fn Locator::isChecked(self : Locator, timeout? : Int) -> Bool {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -663,7 +663,7 @@ pub async fn Locator::count(self : Locator) -> Int {
 ///|
 /// Get bounding box
 pub async fn Locator::boundingBox(self : Locator, timeout? : Int) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }
@@ -683,7 +683,7 @@ pub async fn Locator::waitFor(
   state? : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if state is Some(v) {
     options["state"] = @core.any(v)
   }
@@ -708,7 +708,7 @@ pub async fn Locator::screenshot(
   timeout? : Int,
   scale? : String,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if path is Some(v) {
     options["path"] = @core.any(v)
   }
@@ -744,7 +744,7 @@ pub async fn Locator::evaluate(
   arg? : @core.Any,
   timeout? : Int,
 ) -> @core.Any {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }

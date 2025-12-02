@@ -466,7 +466,7 @@ pub fn SetupServer::listen(
 ) -> Unit {
   match onUnhandledRequest {
     Some(mode) => {
-      let options = @core.Object::new()
+      let options = @core.new_object()
       options["onUnhandledRequest"] = @core.any(mode)
       ffi_server_listen_with_options(self, options)
     }
@@ -543,10 +543,10 @@ pub async fn SetupWorker::start(
     quiet is Some(_) ||
     onUnhandledRequest is Some(_)
   if has_options {
-    let options = @core.Object::new()
+    let options = @core.new_object()
     match serviceWorkerUrl {
       Some(url) => {
-        let sw = @core.Object::new()
+        let sw = @core.new_object()
         sw["url"] = @core.any(url)
         options["serviceWorker"] = sw
       }
@@ -700,7 +700,7 @@ pub fn mockError(
   message : String,
 ) -> RequestHandler {
   httpGet(path, fn(_info) {
-    let body = @core.Object::new()
+    let body = @core.new_object()
     body["error"] = @core.any(message)
     jsonResponse(body, status~)
   })

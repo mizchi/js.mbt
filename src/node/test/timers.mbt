@@ -23,7 +23,7 @@ pub fn MockTimers::enable(
   apis? : Array[String],
   now? : Int,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if apis is Some(apis) {
     options._set("apis", @core.any(apis))
   }

@@ -74,7 +74,7 @@ pub async fn PGlite::createWithOptions(
   username? : String,
   database? : String,
 ) -> PGlite {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match debug {
     Some(v) => opts._set("debug", v |> @core.any)
     None => ()

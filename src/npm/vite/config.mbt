@@ -59,7 +59,7 @@ pub fn defineConfig(
   envDir? : String,
   envPrefix? : String,
 ) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   if root is Some(v) {
     obj["root"] = @core.any(v)
   }

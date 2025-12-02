@@ -94,7 +94,7 @@ pub async fn BrowserType::launch(
   slowMo? : Int,
   timeout? : Int,
 ) -> Browser {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if headless is Some(v) {
     options["headless"] = @core.any(v)
   }
@@ -147,7 +147,7 @@ pub async fn BrowserType::launchPersistentContext(
   slowMo? : Int,
   timeout? : Int,
 ) -> BrowserContext {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if headless is Some(v) {
     options["headless"] = @core.any(v)
   }
@@ -224,9 +224,9 @@ pub async fn Browser::newContext(
   isMobile? : Bool,
   hasTouch? : Bool,
 ) -> BrowserContext {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if viewport is Some((width, height)) {
-    let vp = @core.Object::new()
+    let vp = @core.new_object()
     vp["width"] = @core.any(width)
     vp["height"] = @core.any(height)
     options["viewport"] = vp
@@ -241,7 +241,7 @@ pub async fn Browser::newContext(
     options["timezoneId"] = @core.any(v)
   }
   if geolocation is Some((latitude, longitude)) {
-    let geo = @core.Object::new()
+    let geo = @core.new_object()
     geo["latitude"] = @core.any(latitude)
     geo["longitude"] = @core.any(longitude)
     options["geolocation"] = geo
@@ -306,9 +306,9 @@ pub async fn Browser::newPage(
   isMobile? : Bool,
   hasTouch? : Bool,
 ) -> Page {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if viewport is Some((width, height)) {
-    let vp = @core.Object::new()
+    let vp = @core.new_object()
     vp["width"] = @core.any(width)
     vp["height"] = @core.any(height)
     options["viewport"] = vp
@@ -471,7 +471,7 @@ pub async fn BrowserContext::grantPermissions(
   permissions : Array[String],
   origin? : String,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if origin is Some(v) {
     options["origin"] = @core.any(v)
   }
@@ -498,7 +498,7 @@ pub async fn BrowserContext::setGeolocation(
   longitude : Double,
   accuracy? : Double,
 ) -> Unit {
-  let geo = @core.Object::new()
+  let geo = @core.new_object()
   geo["latitude"] = @core.any(latitude)
   geo["longitude"] = @core.any(longitude)
   if accuracy is Some(v) {

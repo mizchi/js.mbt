@@ -108,7 +108,7 @@ pub fn SourceMapConsumer::originalPositionFor(
   line : Int,
   column : Int,
 ) -> OriginalPosition {
-  let pos = @core.Object::new()
+  let pos = @core.new_object()
   pos["line"] = @core.any(line)
   pos["column"] = @core.any(column)
   let result = self.as_any()._call("originalPositionFor", [pos])
@@ -199,7 +199,7 @@ pub fn SourceMapGenerator::new(
   file? : String,
   sourceRoot? : String,
 ) -> SourceMapGenerator {
-  let js_opts = @core.Object::new()
+  let js_opts = @core.new_object()
   match file {
     Some(f) => js_opts["file"] = @core.any(f)
     None => ()
@@ -227,14 +227,14 @@ pub fn SourceMapGenerator::addMapping(
   source? : String,
   name? : String,
 ) -> Unit {
-  let mapping = @core.Object::new()
-  let gen = @core.Object::new()
+  let mapping = @core.new_object()
+  let gen = @core.new_object()
   gen["line"] = @core.any(generated.line)
   gen["column"] = @core.any(generated.column)
   mapping["generated"] = gen
   match original {
     Some(orig) => {
-      let orig_obj = @core.Object::new()
+      let orig_obj = @core.new_object()
       orig_obj["line"] = @core.any(orig.line)
       orig_obj["column"] = @core.any(orig.column)
       mapping["original"] = orig_obj

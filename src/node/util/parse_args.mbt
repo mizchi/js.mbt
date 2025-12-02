@@ -46,9 +46,9 @@ pub fn parseArgs(
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
   let opts_obj : @core.Any = if options.is_empty() {
-    @core.any(@core.Object::new())
+    @core.any(@core.new_object())
   } else {
-    let o : @core.Any = @core.any(@core.Object::new())
+    let o : @core.Any = @core.any(@core.new_object())
     for opt in options {
       o[opt.key()] = opt.as_any()
     }
@@ -62,7 +62,7 @@ pub fn parseArgs(
   // result["tokens"] = tokens
   let r : @core.Any = util().as_any()["parseArgs"]._invoke([result])
   let values : Map[String, @core.Any] = {}
-  let result_keys : Array[String] = @core.Object::keys(r["values"])
+  let result_keys : Array[String] = @core.object_keys(r["values"])
   for k in result_keys {
     values[k] = r["values"][k].cast()
   }

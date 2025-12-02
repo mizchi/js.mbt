@@ -46,7 +46,7 @@ pub fn Ajv::new(
   use_defaults? : Bool,
   remove_additional? : Bool,
 ) -> Ajv {
-  let opts = @core.Object::new()
+  let opts = @core.new_object()
   match all_errors {
     Some(v) => opts["allErrors"] = @core.any(v)
     None => ()
@@ -181,7 +181,7 @@ pub fn ValidateFunction::errors_array(
 ///|
 /// Helper to create a JSON schema object
 pub fn schema() -> @core.Any {
-  @core.Object::new()
+  @core.new_object()
 }
 
 ///|

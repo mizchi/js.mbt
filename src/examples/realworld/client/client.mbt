@@ -13,7 +13,7 @@ pub fn ApiClient::as_any(self : ApiClient) -> @core.Any = "%identity"
 ///|
 /// Create a new API client
 pub fn create_api_client(base_url : String) -> ApiClient {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["baseUrl"] = base_url |> @core.any
   obj.cast()
 }

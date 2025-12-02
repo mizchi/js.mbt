@@ -697,7 +697,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         c.json(todos |> @core.any)
       }
       None => {
-        let obj = @core.Object::new()
+        let obj = @core.new_object()
         obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }
@@ -713,19 +713,19 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
           Ok(data) => {
             let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
-            let obj = @core.Object::new()
+            let obj = @core.new_object()
             obj["success"] = true |> @core.any
             c.json(obj)
           }
           Err(_) => {
-            let obj = @core.Object::new()
+            let obj = @core.new_object()
             obj["error"] = "Invalid data" |> @core.any
             c.json(obj, status=400)
           }
         }
       }
       None => {
-        let obj = @core.Object::new()
+        let obj = @core.new_object()
         obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }
@@ -738,18 +738,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         match c.req.param("id") {
           Some(id) => {
             delete_todo(db, u.id(), @strconv.parse_int(id))
-            let obj = @core.Object::new()
+            let obj = @core.new_object()
             obj["success"] = true |> @core.any
             c.json(obj)
           }
           None => {
-            let obj = @core.Object::new()
+            let obj = @core.new_object()
             obj["error"] = "Invalid id" |> @core.any
             c.json(obj, status=400)
           }
         }
       None => {
-        let obj = @core.Object::new()
+        let obj = @core.new_object()
         obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }

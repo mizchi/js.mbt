@@ -43,7 +43,7 @@ pub fn InkUI::text_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["TextInput"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if placeholder is Some(p) {
     props["placeholder"] = @core.any(p)
   }
@@ -74,7 +74,7 @@ pub fn InkUI::email_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["EmailInput"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if placeholder is Some(p) {
     props["placeholder"] = @core.any(p)
   }
@@ -107,7 +107,7 @@ pub fn InkUI::password_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["PasswordInput"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if placeholder is Some(p) {
     props["placeholder"] = @core.any(p)
   }
@@ -135,7 +135,7 @@ pub fn InkUI::confirm_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["ConfirmInput"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if on_confirm is Some(f) {
     props["onConfirm"] = ffi_wrap_unit_callback(f)
   }
@@ -161,7 +161,7 @@ pub(all) struct SelectOption {
 
 ///|
 fn SelectOption::as_any(self : SelectOption) -> @core.Any {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["label"] = @core.any(self.label)
   obj["value"] = @core.any(self.value)
   obj
@@ -178,7 +178,7 @@ pub fn InkUI::select(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["Select"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let opts_arr = @core.any(options.map(fn(o) { o.as_any() }))
   props["options"] = opts_arr
   if on_change is Some(f) {
@@ -207,7 +207,7 @@ pub fn InkUI::multi_select(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["MultiSelect"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let opts_arr = @core.any(options.map(fn(o) { o.as_any() }))
   props["options"] = opts_arr
   if on_change is Some(f) {
@@ -233,7 +233,7 @@ pub fn InkUI::multi_select(
 /// Spinner component - Loading indicator
 pub fn InkUI::spinner(self : InkUI, label? : String) -> @react.Element {
   let component = self.as_any()["Spinner"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if label is Some(l) {
     props["label"] = @core.any(l)
   }
@@ -244,7 +244,7 @@ pub fn InkUI::spinner(self : InkUI, label? : String) -> @react.Element {
 /// ProgressBar component - Progress indicator (0-100)
 pub fn InkUI::progress_bar(self : InkUI, value : Int) -> @react.Element {
   let component = self.as_any()["ProgressBar"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["value"] = @core.any(value)
   ffi_create_element(component, props, @core.undefined()).cast()
 }
@@ -284,7 +284,7 @@ pub fn InkUI::badge(
   color? : BadgeColor,
 ) -> @react.Element {
   let component = self.as_any()["Badge"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   if color is Some(c) {
     props["color"] = @core.any(c.to_string())
   }
@@ -319,7 +319,7 @@ pub fn InkUI::status_message(
   variant : StatusVariant,
 ) -> @react.Element {
   let component = self.as_any()["StatusMessage"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["variant"] = @core.any(variant.to_string())
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
@@ -334,7 +334,7 @@ pub fn InkUI::alert(
   title? : String,
 ) -> @react.Element {
   let component = self.as_any()["Alert"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["variant"] = @core.any(variant.to_string())
   if title is Some(t) {
     props["title"] = @core.any(t)
@@ -354,7 +354,7 @@ pub fn InkUI::unordered_list(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["UnorderedList"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
@@ -366,7 +366,7 @@ pub fn InkUI::unordered_list_item(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["UnorderedList"]["Item"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
@@ -378,7 +378,7 @@ pub fn InkUI::ordered_list(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["OrderedList"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
@@ -390,7 +390,7 @@ pub fn InkUI::ordered_list_item(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["OrderedList"]["Item"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
@@ -421,7 +421,7 @@ pub fn InkUI::theme_provider(
   theme : Theme,
 ) -> @react.Element {
   let component = self.as_any()["ThemeProvider"]
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["theme"] = theme.as_any()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()

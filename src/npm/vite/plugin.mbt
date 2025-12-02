@@ -64,7 +64,7 @@ pub fn define_plugin(
   buildEnd? : BuildEndHook,
   closeBundle? : () -> Unit,
 ) -> Plugin {
-  let plugin = @core.Object::new()
+  let plugin = @core.new_object()
   plugin["name"] = @core.any(name)
   if enforce is Some(v) {
     plugin["enforce"] = @core.any(v)

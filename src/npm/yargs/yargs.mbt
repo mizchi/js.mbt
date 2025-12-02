@@ -69,7 +69,7 @@ pub fn Yargs::option(
   choices? : Array[String],
   array? : Bool,
 ) -> Yargs {
-  let opt = @core.Object::new()
+  let opt = @core.new_object()
   if alias_ is Some(v) {
     opt["alias"] = @core.any(v)
   }
@@ -104,7 +104,7 @@ pub fn Yargs::positional(
   default? : @core.Any,
   choices? : Array[String],
 ) -> Yargs {
-  let opt = @core.Object::new()
+  let opt = @core.new_object()
   if type_ is Some(v) {
     opt["type"] = @core.any(v)
   }

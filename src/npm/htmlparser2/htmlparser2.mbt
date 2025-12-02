@@ -227,7 +227,7 @@ pub fn parseDocumentWithOptions(
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Document {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if xmlMode is Some(v) {
     options["xmlMode"] = @core.any(v)
   }
@@ -258,7 +258,7 @@ pub fn createParserWithOptions(
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Parser {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if xmlMode is Some(v) {
     options["xmlMode"] = @core.any(v)
   }

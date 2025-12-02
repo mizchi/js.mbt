@@ -283,7 +283,7 @@ pub fn test_(
   timeout? : Int,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if skip is Some(true) {
     options._set("skip", @core.any(true))
   }
@@ -314,7 +314,7 @@ pub fn it(
   timeout? : Int,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if skip is Some(s) {
     options._set("skip", @core.any(s))
   }
@@ -345,7 +345,7 @@ pub fn describe(
   timeout? : Int,
   f : async (SuiteContext) -> Unit,
 ) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if skip is Some(true) {
     options._set("skip", @core.any(true))
   }
@@ -371,7 +371,7 @@ pub fn describe(
 ///|
 /// before(fn) - Run once before suite tests
 pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
@@ -382,7 +382,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// after(fn) - Run once after suite completion
 pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
@@ -393,7 +393,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// beforeEach(fn) - Run before each test
 pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
@@ -404,7 +404,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
 ///|
 /// afterEach(fn) - Run after each test
 pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }

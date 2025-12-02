@@ -66,7 +66,7 @@ pub fn h(
 ) -> VNode {
   let tag = @core.any(tag)
   let children = @core.any(children.map(_.to_preact_node()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if props is Some(props) {
     for k, v in props {
       val[k] = v
@@ -79,7 +79,7 @@ pub fn h(
     val["key"] = @core.any(key)
   }
   if style is Some(style) {
-    let style_obj = @core.Object::new()
+    let style_obj = @core.new_object()
     for k, v in style {
       style_obj[k] = @core.any(v)
     }
@@ -102,7 +102,7 @@ pub fn[T] component(
   let val : @core.Any = @core.any(props)
   if key is Some(key) {
     if @core.is_nullish(val) {
-      let obj = @core.Object::new()
+      let obj = @core.new_object()
       obj["key"] = @core.any(key)
       return ffi_h(tag, obj, children).cast()
     }
@@ -116,7 +116,7 @@ pub fn[T] component(
 pub fn fragment(children : Array[&PreactNode], key? : String) -> VNode {
   let tag = get_fragment()
   let children = @core.any(children.map(_.to_preact_node()))
-  let val = @core.Object::new()
+  let val = @core.new_object()
   if key is Some(key) {
     val["key"] = @core.any(key)
   }
@@ -156,7 +156,7 @@ pub fn[T] createRef() -> Ref[T] {
 pub fn cloneElement(element : VNode, props? : @core.Any) -> VNode {
   let props = match props {
     Some(p) => p
-    None => @core.Object::new()
+    None => @core.new_object()
   }
   ffi_clone_element(element.as_any(), props).cast()
 }
@@ -176,7 +176,7 @@ pub fn[T] provider(
   value~ : T,
 ) -> VNode {
   let children = @core.any(children.map(_.to_preact_node()))
-  let props = @core.Object::new()
+  let props = @core.new_object()
   props["value"] = @core.any(value)
   ffi_h(ctx.as_any(), props, children).cast()
 }

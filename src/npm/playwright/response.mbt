@@ -251,7 +251,7 @@ pub async fn Frame::goto(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if timeout is Some(v) {
     options["timeout"] = @core.any(v)
   }

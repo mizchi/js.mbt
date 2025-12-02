@@ -514,7 +514,7 @@ fn main {
       #|  self.postMessage({ sum: a + b, product: a * b });
       #|};
     let worker = create_inline_worker(worker_code)
-    let msg = @core.Object::new()
+    let msg = @core.new_object()
     msg._set("a", 3 |> @core.any)
     msg._set("b", 4 |> @core.any)
     let result = worker_round_trip(worker, @core.any(msg))

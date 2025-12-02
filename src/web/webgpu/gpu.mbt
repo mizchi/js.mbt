@@ -38,7 +38,7 @@ pub async fn GPU::requestAdapter(
   power_preference? : String,
   force_fallback_adapter? : Bool,
 ) -> GPUAdapter? {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   match power_preference {
     Some(p) => options._set("powerPreference", @core.any(p))
     None => ()
@@ -117,7 +117,7 @@ pub async fn GPUAdapter::requestDevice(
   required_features? : Array[String],
   required_limits? : @core.Any,
 ) -> GPUDevice? {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
     None => ()
@@ -209,7 +209,7 @@ pub fn GPUDevice::createBuffer(
   label? : String,
   mapped_at_creation? : Bool,
 ) -> GPUBuffer {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   descriptor._set("size", @core.any(size))
   descriptor._set("usage", @core.any(usage))
   match label {
@@ -237,7 +237,7 @@ pub fn GPUDevice::createTexture(
   dimension? : String,
   view_formats? : Array[String],
 ) -> GPUTexture {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   descriptor._set("size", @core.any(size))
   descriptor._set("format", @core.any(format))
   descriptor._set("usage", @core.any(usage))
@@ -275,7 +275,7 @@ pub fn GPUDevice::createShaderModule(
   code : String,
   label? : String,
 ) -> GPUShaderModule {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   descriptor._set("code", @core.any(code))
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
@@ -301,7 +301,7 @@ pub fn GPUDevice::createSampler(
   compare? : String,
   max_anisotropy? : Int,
 ) -> GPUSampler {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
     None => ()
@@ -356,7 +356,7 @@ pub fn GPUDevice::createCommandEncoder(
   self : GPUDevice,
   label? : String,
 ) -> GPUCommandEncoder {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
     None => ()
@@ -371,7 +371,7 @@ pub fn GPUDevice::createBindGroupLayout(
   entries : @core.Any,
   label? : String,
 ) -> GPUBindGroupLayout {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   descriptor._set("entries", entries)
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
@@ -388,7 +388,7 @@ pub fn GPUDevice::createBindGroup(
   entries : @core.Any,
   label? : String,
 ) -> GPUBindGroup {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   descriptor._set("layout", @core.any(layout))
   descriptor._set("entries", entries)
   match label {
@@ -405,7 +405,7 @@ pub fn GPUDevice::createPipelineLayout(
   bind_group_layouts : Array[GPUBindGroupLayout],
   label? : String,
 ) -> GPUPipelineLayout {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   let arr = @core.any(bind_group_layouts)
   descriptor._set("bindGroupLayouts", @core.any(arr))
   match label {
@@ -667,7 +667,7 @@ pub fn GPUTexture::createView(
   array_layer_count? : Int,
   label? : String,
 ) -> GPUTextureView {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match format {
     Some(f) => descriptor._set("format", @core.any(f))
     None => ()
@@ -855,7 +855,7 @@ pub fn GPUCommandEncoder::beginComputePass(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUComputePassEncoder {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
     None => ()
@@ -960,7 +960,7 @@ pub fn GPUCommandEncoder::finish(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUCommandBuffer {
-  let descriptor = @core.Object::new()
+  let descriptor = @core.new_object()
   match label {
     Some(l) => descriptor._set("label", @core.any(l))
     None => ()
@@ -1715,7 +1715,7 @@ pub fn GPUExtent3D::new(
   height? : Int,
   depth_or_array_layers? : Int,
 ) -> GPUExtent3D {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("width", @core.any(width))
   match height {
     Some(h) => obj._set("height", @core.any(h))

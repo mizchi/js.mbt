@@ -46,7 +46,7 @@ pub fn renderWithProps(
   props : @core.Any,
 ) -> RenderResult {
   let vtl = testing_library()
-  let options = @core.Object::new()
+  let options = @core.new_object()
   options._set("props", @core.identity(props))
   vtl
   .as_any()
