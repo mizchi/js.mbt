@@ -14,14 +14,6 @@ extern "js" fn ffi_is_array(value : @core.Any) -> Bool =
 extern "js" fn ffi_get(obj : @core.Any, key : String) -> @core.Any =
   #| (obj, key) => obj[key]
 
-///|
-extern "js" fn ffi_get_dyn(obj : @core.Any, key : @core.Any) -> @core.Any =
-  #| (obj, key) => obj[key]
-
-///|
-extern "js" fn ffi_has_own_property(obj : @core.Any, key : String) -> Bool =
-  #| (obj, key) => obj.hasOwnProperty(key)
-
 ///| Function Calls
 
 ///|
@@ -31,8 +23,8 @@ extern "js" fn ffi_call_self0(func : @core.Any) -> Any =
 ///| Array Operations
 
 ///|
-extern "js" fn ffi_array_from(value : @core.Any) -> Array[Any] =
-  #| (value) => Array.from(value)
+// extern "js" fn ffi_array_from(value : @core.Any) -> Array[Any] =
+//   #| (value) => Array.from(value)
 
 ///| Error Handling
 

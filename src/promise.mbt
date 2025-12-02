@@ -20,7 +20,7 @@ pub fn[A] Promise::new(
   f : async ((A) -> Unit, (Error) -> Unit) -> Unit,
 ) -> Promise[A] {
   ffi_new_promise(fn(resolve, reject) {
-    run_async(fn() {
+    @core.run_async(fn() {
       f(a => a |> identity |> resolve, e => e |> identity |> reject) catch {
         e => e |> identity |> reject
       }
@@ -39,7 +39,7 @@ pub fn[A] Promise::new(
 /// ```
 pub fn[A] Promise::from_async(f : async () -> A) -> Promise[A] noraise {
   let { promise, resolve, reject } = Promise::withResolvers()
-  run_async(fn() {
+  @core.run_async(fn() {
     try f() |> resolve catch {
       e => reject(e)
     }
@@ -93,7 +93,7 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// JS: await promise
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::wait(self : Self[T]) -> T {
-  suspend((ok, err) => self
+  @core.suspend((ok, err) => self
     .to_any()
     ._call("then", [@core.any(from_fn1(ok))])
     ._call("catch", [@core.any(from_fn1(err))])
@@ -199,4 +199,87 @@ pub fn[T] PromiseResolvers::resolve(self : Self[T], value : T) -> Unit {
 /// JS: resolvers.reject(error)
 pub fn[T] PromiseResolvers::reject(self : Self[T], error : Error) -> Unit {
   (self.reject)(error)
+}
+
+///|
+pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
+  () => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    @core.run_async(async fn() noraise {
+      try f() |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
+}
+
+///|
+/// Moonbit Async Function to JS Promise Function
+pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
+  a => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    @core.run_async(async fn() noraise {
+      try f(a) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
+}
+
+///|
+/// Moonbit Async Function to JS Promise Function
+pub fn[A, B, R] promisify2(
+  f : async (A, B) -> R,
+) -> (A, B) -> Promise[R] noraise {
+  (a, b) => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    @core.run_async(async fn() noraise {
+      try f(a, b) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
+}
+
+///|
+/// Moonbit Async Function to JS Promise Function
+pub fn[A, B, C, R] promisify3(
+  f : async (A, B, C) -> R,
+) -> (A, B, C) -> Promise[R] noraise {
+  (a, b, c) => {
+    let { promise, resolve, reject } = Promise::withResolvers()
+    @core.run_async(async fn() noraise {
+      try f(a, b, c) |> resolve catch {
+        e => reject(e)
+      }
+    })
+    promise
+  }
+}
+
+///|
+/// Sleep for given milliseconds
+extern "js" fn ffi_sleep(ms : Int) -> Promise[Unit] =
+  #| (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+///|
+pub async fn sleep(ms : Int) -> Unit noraise {
+  ffi_sleep(ms).wait() catch {
+    _ => panic()
+  }
+}
+
+///|
+/// Async dispose (Symbol.asyncDispose)
+/// Usage: defer value |> dispose_async
+pub async fn dispose_async(value : @core.Any) -> Unit {
+  let dispose_fn : @core.Any = ffi_get(
+    value,
+    @symbol.Symbol::asyncDispose() |> identity,
+  )
+  let promise : Promise[Unit] = ffi_call_self0(dispose_fn) |> identity
+  promise.wait()
 }

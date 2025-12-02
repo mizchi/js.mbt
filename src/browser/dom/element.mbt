@@ -101,7 +101,7 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
     .as_any()
     ._call("getElementsByTagName", [@core.any(tag_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @core.identity(v) })
+  @core.array_from(arr).map(fn(v) { @core.identity(v) })
 }
 
 ///|
@@ -112,7 +112,7 @@ impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element]
     .as_any()
     ._call("getElementsByClassName", [@core.any(class_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @core.identity(v) })
+  @core.array_from(arr).map(fn(v) { @core.identity(v) })
 }
 
 ///|
@@ -132,5 +132,5 @@ impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
     .as_any()
     ._call("querySelectorAll", [@core.any(selector)])
     .cast()
-  @js.array_from(arr).map(@core.identity(_))
+  @core.array_from(arr).map(@core.identity(_))
 }

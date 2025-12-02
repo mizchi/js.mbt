@@ -15,15 +15,19 @@ pub impl Eq for Any with equal(self, other) -> Bool {
 pub extern "js" fn equal(a : Any, b : Any) -> Bool =
   #|(a, b) => a === b
 
+///|
 pub extern "js" fn new_object() -> Any =
   #| () => ({})
 
+///|
 pub extern "js" fn object_keys(obj : Any) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
+///|
 pub extern "js" fn object_values(obj : Any) -> Array[Any] =
   #| (obj) => Object.values(obj)
 
+///|
 pub extern "js" fn new_array() -> Any =
   #| () => []
 
@@ -119,7 +123,6 @@ pub extern "js" fn Any::_call(
 ) -> Any =
   #| (obj, key, args) => obj[key](...args)
 
-
 ///|
 /// Call function: func._invoke([arg1, arg2])
 pub extern "js" fn Any::_invoke(self : Any, args : Array[Any]) -> Any =
@@ -151,7 +154,6 @@ pub extern "js" fn undefined() -> Any =
 ///|
 pub extern "js" fn null() -> Any =
   #| () => null
-
 
 ///|
 /// JS: new cls(...args)
@@ -218,6 +220,25 @@ pub fn[T] identity_option(v : Any) -> T? {
 }
 
 ///|
+/// Array.from(v)
+pub extern "js" fn array_from(v : Any) -> Array[Any] =
+  #| (v) => Array.from(v)
+
+///|
+pub extern "js" fn instanceof_(v : Any, cls : Any) -> Bool =
+  #|(v, cls) => v instanceof cls
+
+///|
+/// JS: typeof v
+pub extern "js" fn typeof_(v : Any) -> String =
+  #|(v) => typeof v
+
+///|
+/// JS: new cls(...args)
+// pub extern "js" fn new_(cls : Any, args : Array[Any]) -> Any =
+//   #|(cls, args) => new cls(...args)
+
+///|
 /// Convert an Option to Any, mapping None to null and Some(v) to v.
 ///
 /// This is the inverse of `identity_option`. Use this when you need to pass
@@ -238,5 +259,6 @@ pub fn[A] from_option(opt : A?) -> Any {
   }
 }
 
+///|
 pub extern "js" fn log(message : Any) -> Unit =
   #| (message) => { console.log(message); }

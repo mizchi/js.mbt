@@ -38,12 +38,6 @@ pub fn JsArray::to_string(self : Self) -> String {
 }
 
 ///|
-/// JS: Array.from(items)
-pub fn[T] JsArray::from(items : Array[T]) -> @core.Any {
-  ffi_array_from(items |> identity) |> identity
-}
-
-///|
 /// cast to builtin Array
 pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
   self |> identity
@@ -53,12 +47,6 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 /// JS: Array.isArray(v)
 pub fn JsArray::isArray(v : @core.Any) -> Bool {
   ffi_is_array(v |> identity)
-}
-
-///|
-/// Array.from(v)
-pub fn array_from(v : Any) -> Array[Any] {
-  ffi_array_from(v)
 }
 
 ///| Error - Error handling

@@ -15,6 +15,9 @@ pub using @core {
   from_fn1,
   from_fn2,
   from_fn3,
+  new,
+  run_async,
+  suspend,
 }
 
 ///|

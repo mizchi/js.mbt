@@ -15,13 +15,13 @@ pub fn DataTransfer::as_any(self : DataTransfer) -> @core.Any = "%identity"
 ///|
 /// Returns an array of files being dragged
 pub fn DataTransfer::get_files(self : Self) -> Array[@core.Any] {
-  @js.array_from(self.files).map(fn(v) { v })
+  @core.array_from(self.files).map(fn(v) { v })
 }
 
 ///|
 /// Returns an array of formats used in the drag operation
 pub fn DataTransfer::get_types(self : Self) -> Array[String] {
-  @js.array_from(self.types).map(fn(v) { @core.identity(v) })
+  @core.array_from(self.types).map(fn(v) { @core.identity(v) })
 }
 
 ///|

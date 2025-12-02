@@ -59,7 +59,7 @@ impl NodeImpl with parentNode(self) -> Node? {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
   let arr : @core.Any = self.as_any()._get("childNodes").cast()
-  @js.array_from(arr).map(v => @core.identity(v))
+  @core.array_from(arr).map(v => @core.identity(v))
 }
 
 ///|

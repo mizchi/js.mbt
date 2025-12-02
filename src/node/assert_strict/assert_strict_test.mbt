@@ -37,8 +37,8 @@ test "strictEqual - same as equal in strict mode" {
 
 ///|
 test "deepStrictEqual - recursive strict equality" {
-  let arr1 = @js.JsArray::from([1, 2, 3])
-  let arr2 = @js.JsArray::from([1, 2, 3])
+  let arr1 = [1, 2, 3]
+  let arr2 = [1, 2, 3]
   deepStrictEqual(@core.any(arr1), @core.any(arr2))
 }
 

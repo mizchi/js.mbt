@@ -97,7 +97,7 @@ pub fn ShadowRoot::elementsFromPoint(
     .as_any()
     ._call("elementsFromPoint", [@core.any(x), @core.any(y)])
     .cast()
-  @js.array_from(arr).map(_.cast())
+  @core.array_from(arr).map(_.cast())
 }
 
 ///|

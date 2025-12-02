@@ -51,7 +51,7 @@ pub fn Worker::new(
     "execArgv": execArgv.map(fn(x) { @core.identity(@core.any(x)) }),
     "resourceLimits": resourceLimits.map(fn(x) { @core.identity(x) }),
   }).cast()
-  @core.identity(@core.new_(worker_class, [@core.any(filename), js_opts]))
+  @core.identity(@core.new(worker_class, [@core.any(filename), js_opts]))
 }
 
 ///|

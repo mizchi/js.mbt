@@ -231,5 +231,3 @@ test "global isNaN" {
   assert_false(@global.is_nan(@core.any(42)))
   assert_false(@global.is_nan(@core.any(3.14)))
 }
-
-///| String Encoding (Base64)

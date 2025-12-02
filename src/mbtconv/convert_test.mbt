@@ -1,208 +1,161 @@
-// ///|
-// test "JsError Show implementation" {
-//   let err = JsError::new("Test error")
-//   let shown = err.to_string()
-//   assert_true(shown.contains("Test error"))
-// }
+///|
+priv struct Point {
+  x : Int
+  y : Int
+} derive(Show)
+
+///|
+fn Point::x2(self : Self) -> Int {
+  self.x * 2
+}
+
+// =============================================================================
+// Test Helper FFI Functions
+// =============================================================================
+// This FFI function creates a JavaScript object with x/y properties for testing
+// the identity cast from JS objects to MoonBit structs.
+// =============================================================================
+
+///|
+/// [Test Helper] Creates a plain JS object with x and y properties.
+/// Used to test @core.identity casting JS objects to MoonBit structs.
+extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @core.Any =
+  #|(x, y) => ({ x: x, y: y })
+
+///|
+test "from builtin struct" {
+  let p = Point::{ x: 10, y: 20 }
+  let v : @core.Any = @core.any(p)
+  assert_eq(@core.identity(v._get("x")), 10)
+  assert_eq(@core.identity(v._get("y")), 20)
+  inspect(p, content="{x: 10, y: 20}")
+}
+
+///|
+test "identity to struct" {
+  let v : @core.Any = test_ffi_point_new(5, 15)
+  let p : Point = @core.identity(v)
+  assert_eq(p.x, 5)
+  assert_eq(p.y, 15)
+  assert_eq(p.x2(), 10)
+  inspect(p, content="{x: 5, y: 15}")
+}
+
+///|
+test "from_fn2 converts 2-arg function to Js" {
+  let add = fn(a : Int, b : Int) -> Int { a + b }
+  let js_add : @core.Any = @core.from_fn2(add)
+  assert_eq(@core.typeof_(js_add), "function")
+  let result = js_add._invoke([@core.any(5), @core.any(3)])
+  assert_eq(@core.identity(result), 8)
+}
+
+///| Global Objects
 
 // ///|
-// test "JsError creation and properties" {
-//   let error = JsError::new("Test error")
-//   assert_eq(error.message, "Test error")
-//   assert_true(JsError::isError(error.to_any()))
-//   let error_val : @core.Any = @core.identity(error)
-//   assert_true(@core.is_object(error_val))
-//   assert_eq(@core.identity(error_val._get("message")), "Test error")
-// }
-
-// ///|
-// test "JsError with cause" {
-//   let cause_error = JsError::new("Cause error")
-//   let error_with_cause = JsError::new("Main error", cause=cause_error)
-//   let error_with_cause_val : @core.Any = @core.identity(error_with_cause)
-//   assert_eq(@core.identity(error_with_cause_val._get("message")), "Main error")
-// }
-
-// ///|
-// test "JsError Show trait" {
-//   let err = JsError::new("error message")
-//   inspect(err, content="error message")
-//   let str = err.message
-//   assert_eq(str, "error message")
-// }
-
-// ///|
-// test "ThrowError from call_throwable" {
-//   let v = try? @js.throwable(fn() {
-//     @core.global_this()._call("nonexistentMethod", [])
-//   })
-//   match v {
-//     Err(ThrowError::Error(e)) | Err(ThrowError::TypeError(e)) =>
-//       assert_true(JsError::isError(e.to_any()))
-//     Err(_) => fail("Expected Error or TypeError")
-//     Ok(_) => fail("Expected error to be thrown")
-//   }
-// }
-
-// ///|
-// test "JsError Show implementation" {
-//   let error = JsError::new("Test error message")
-//   let str = error.to_string()
-//   inspect(str, content="Test error message")
-//   // Test that output() uses to_string()
-//   inspect(error, content="Test error message")
-// }
-
-// ///|
-// test "JsError with cause" {
-//   let cause = JsError::new("Root cause")
-//   let error = JsError::new("Main error", cause~)
-//   let str = error.to_string()
-//   inspect(str, content="Main error")
-// }
-
-// ///|
-// test "ThrowError Show through throwable" {
-//   // Test Error variant
-//   let mut error_str = ""
-//   throwable(fn() {
-//     let err = JsError::new("Show test error")
-//     throw_(err.to_any())
-//   }) catch {
-//     e => error_str = e.to_string()
-//   }
-//   inspect(error_str, content="Show test error")
-// }
-
-// ///|
-// test "ThrowError::from with TypeError" {
+// test "globalThis" {
 //   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testTypeError = new TypeError('Type error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testTypeError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::TypeError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
+//   assert_true(@core.is_object(global))
+//   assert_false(@core.is_null(global))
+// }
+
+// ///| URI Encoding
+
+// ///|
+// test "encode_uri and decode_uri" {
+//   // Encode complete URI
+//   let uri = @global.encode_uri("https://example.com/path?name=John Doe")
+//   assert_eq(uri, "https://example.com/path?name=John%20Doe")
+
+//   // Decode URI
+//   let decoded = @global.decode_uri("https://example.com/path?name=John%20Doe")
+//   assert_eq(decoded, "https://example.com/path?name=John Doe")
+
+//   // Round trip
+//   let original_uri = "https://example.com/path with spaces?query=value"
+//   let encoded_uri = @global.encode_uri(original_uri)
+//   let decoded_uri = @global.decode_uri(encoded_uri)
+//   assert_eq(decoded_uri, original_uri)
 // }
 
 // ///|
-// test "ThrowError::from with RangeError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testRangeError = new RangeError('Range error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testRangeError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::RangeError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
+// test "encode_uri_component and decode_uri_component" {
+//   // Encode URI component
+//   let encoded = @global.encode_uri_component("Hello World & Friends")
+//   assert_eq(encoded, "Hello%20World%20%26%20Friends")
+
+//   // Decode URI component
+//   let decoded = @global.decode_uri_component("Hello%20World%20%26%20Friends")
+//   assert_eq(decoded, "Hello World & Friends")
+
+//   // Special characters
+//   let special = @global.encode_uri_component("key=value&foo=bar")
+//   assert_eq(special, "key%3Dvalue%26foo%3Dbar")
+//   let decoded_special = @global.decode_uri_component("key%3Dvalue%26foo%3Dbar")
+//   assert_eq(decoded_special, "key=value&foo=bar")
+
+//   // Round trip with various characters
+//   let original = "Test: @#$%^&*()+={}[]|\\:;\"'<>,.?/"
+//   let encoded_component = @global.encode_uri_component(original)
+//   let decoded_component = @global.decode_uri_component(encoded_component)
+//   assert_eq(decoded_component, original)
 // }
 
-// ///|
-// test "ThrowError::from with ReferenceError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testRefError = new ReferenceError('Ref error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testRefError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::ReferenceError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///| JSON
 
-// ///|
-// test "ThrowError::from with SyntaxError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testSyntaxError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::SyntaxError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "from_fn0 converts 0-arg function to Js" {
+  let greet = fn() -> String { "Hello" }
+  let js_greet : @core.Any = @core.from_fn0(greet)
+  assert_eq(@core.typeof_(js_greet), "function")
+  let result = js_greet._invoke([])
+  assert_eq(@core.identity(result), "Hello")
+}
 
-// ///|
-// test "ThrowError::from with URIError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testURIError = new URIError('URI error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testURIError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::URIError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "from_fn1 converts 1-arg function to Js" {
+  let double = fn(x : Int) -> Int { x * 2 }
+  let js_double : @core.Any = @core.from_fn1(double)
+  assert_eq(@core.typeof_(js_double), "function")
+  let result = js_double._invoke([@core.any(5)])
+  assert_eq(@core.identity(result), 10)
+}
 
-// ///|
-// test "ThrowError::from with EvalError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testEvalError = new EvalError('Eval error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testEvalError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::EvalError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "from_fn3 converts 3-arg function to Js" {
+  let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
+  let js_add3 : @core.Any = @core.from_fn3(add3)
+  assert_eq(@core.typeof_(js_add3), "function")
+  let result = js_add3._invoke([@core.any(1), @core.any(2), @core.any(3)])
+  assert_eq(@core.identity(result), 6)
+}
 
-// ///|
-// test "ThrowError::from with AggregateError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testAggError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::AggregateError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "JsImpl for Option types" {
+  let some_val : Int? = Some(42)
+  let none_val : Int? = None
+  let js_some : @core.Any = @core.any(some_val)
+  let js_none : @core.Any = @core.any(none_val)
+  assert_eq(@core.identity(js_some), 42)
+  assert_true(@core.is_undefined(js_none))
+}
 
-// ///|
-// test "ThrowError::from with generic Error" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testGenericError = new Error('Generic error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testGenericError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::Error(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///| ThrowError Tests - JavaScript Built-in Error Types
 
-// ///|
-// test "ThrowError::from with non-error value" {
-//   let value = @core.any("plain string value")
-//   let throw_error = ThrowError::from(value)
-//   match throw_error {
-//     ThrowError::Value(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+/// Test TypeError is caught correctly
+test "throwable catches TypeError" {
+  let mut caught_type_error = false
+  @js.throwable(fn() {
+    let null_val = @core.null()
+    // Calling a method on null will throw TypeError
+    null_val._call("toString", []) |> ignore
+  }) catch {
+    _ => caught_type_error = true
+    // _ => assert_true(false) // Should not catch other error types
+  }
+  assert_true(caught_type_error)
+}
 
 // ///|
 // /// Test RangeError is caught correctly
@@ -419,4 +372,21 @@
 //   // Check ThrowError::from
 //   let throw_err = ThrowError::from(suppressed_err)
 //   inspect(throw_err, content="Suppressed error message")
+// }
+
+// ///|
+// test "from_entries and to_string" {
+//   let obj : @core.Any = @core.from_entries([
+//     ("name", @core.any("Alice")),
+//     ("age", @core.any(30)),
+//   ]).cast()
+//   inspect(
+//     JSON::stringify(obj),
+//     content=(
+//       #|{
+//       #|  "name": "Alice",
+//       #|  "age": 30
+//       #|}
+//     ),
+//   )
 // }

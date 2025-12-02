@@ -89,7 +89,7 @@ pub fn Document::getElementsByClassName(
     .as_any()
     ._call("getElementsByClassName", [@core.any(class_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { v |> @core.identity })
+  @core.array_from(arr).map(fn(v) { v |> @core.identity })
 }
 
 ///|
@@ -106,7 +106,7 @@ pub fn Document::getElementsByTagName(
     .as_any()
     ._call("getElementsByTagName", [@core.any(tagName)])
     .cast()
-  @js.array_from(arr).map(_.cast())
+  @core.array_from(arr).map(_.cast())
 }
 
 ///|
@@ -290,5 +290,5 @@ pub fn Document::elementsFromPoint(
     .as_any()
     ._call("elementsFromPoint", [@core.any(x), @core.any(y)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @core.identity(v) })
+  @core.array_from(arr).map(fn(v) { @core.identity(v) })
 }
