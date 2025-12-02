@@ -11,7 +11,7 @@ pub(all) enum MessageContent {
 pub fn MessageContent::as_any(self : MessageContent) -> @nostd.Any {
   match self {
     Text(text) => text |> @js.any
-    Parts(parts) => parts |> @js.from_array
+    Parts(parts) => parts |> @nostd.any
   }
 }
 
@@ -83,7 +83,7 @@ pub async fn generateText(
   let opts = @nostd.Object::new()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
   }
   if prompt is Some(p) {
     opts._set("prompt", p |> @nostd.any)
@@ -113,7 +113,7 @@ pub async fn generateText(
     opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts._set("activeTools", at |> @js.from_array)
+    opts._set("activeTools", at |> @nostd.any)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateText")
@@ -154,7 +154,7 @@ pub fn streamText(
   let opts = @nostd.Object::new()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
   }
   if prompt is Some(p) {
     opts._set("prompt", p |> @nostd.any)
@@ -184,7 +184,7 @@ pub fn streamText(
     opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts._set("activeTools", at |> @js.from_array)
+    opts._set("activeTools", at |> @nostd.any)
   }
   let result = ai_module()._get("streamText").call_self([opts])
   @nostd.identity(result)

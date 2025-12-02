@@ -11,7 +11,7 @@ test "embedding usage from_any" {
 test "embed result from_any" {
   let embedding_arr : Array[Double] = [0.1, 0.2, 0.3, 0.4, 0.5]
   let raw = @nostd.from_entries([
-    ("embedding", embedding_arr |> @js.from_array |> @nostd.any),
+    ("embedding", embedding_arr |> @nostd.any |> @nostd.any),
     ("usage", @nostd.from_entries([("tokens", 50 |> @nostd.any)]).cast()),
   ]).cast()
   let result = @ai.EmbedResult::from_any(raw)
@@ -23,9 +23,9 @@ test "embed result from_any" {
 test "embed many result from_any" {
   let emb1 : Array[Double] = [0.1, 0.2, 0.3]
   let emb2 : Array[Double] = [0.4, 0.5, 0.6]
-  let embeddings_arr = [emb1 |> @js.from_array, emb2 |> @js.from_array]
+  let embeddings_arr = [emb1 |> @nostd.any, emb2 |> @nostd.any]
   let raw = @nostd.from_entries([
-    ("embeddings", embeddings_arr |> @js.from_array |> @nostd.any),
+    ("embeddings", embeddings_arr |> @nostd.any |> @nostd.any),
     ("usage", @nostd.from_entries([("tokens", 100 |> @nostd.any)]).cast()),
   ]).cast()
   let result = @ai.EmbedManyResult::from_any(raw)

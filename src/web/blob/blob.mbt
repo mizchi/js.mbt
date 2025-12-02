@@ -26,7 +26,7 @@ extern "js" fn ffi_new_blob(
 ///|
 /// Create a new Blob
 pub fn Blob::new(data : Array[@nostd.Any], content_type? : String) -> Blob {
-  let js_data = @js.from_array(data)
+  let js_data = @nostd.any(data)
   ffi_new_blob(
     @nostd.any(js_data),
     @mbtconv.from_option_map({

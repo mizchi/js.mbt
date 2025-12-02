@@ -204,7 +204,7 @@ pub fn JsString::fromCharCode(values : Array[Int]) -> String {
   let from_char_code = string_class.to_any()["fromCharCode"]
   from_char_code._call("apply", [
     string_class.to_any(),
-    @nostd.any(from_array(values)),
+    @nostd.any(@nostd.any(values)),
   ])
   |> identity
 }
@@ -216,7 +216,7 @@ pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
   let from_code_point = string_class.to_any()["fromCodePoint"]
   from_code_point._call("apply", [
     string_class.to_any(),
-    @nostd.any(from_array(values)),
+    @nostd.any(@nostd.any(values)),
   ])
   |> identity
 }

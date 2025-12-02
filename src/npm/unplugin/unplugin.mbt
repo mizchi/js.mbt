@@ -80,8 +80,8 @@ pub(all) struct StringFilter {
 ///|
 pub fn StringFilter::to_any(self : StringFilter) -> @nostd.Any {
   @mbtconv.from_option_map({
-    "include": self.includes.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
-    "exclude": self.excludes.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "include": self.includes.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
+    "exclude": self.excludes.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
   })
 }
 

@@ -131,7 +131,9 @@ fn McpServer::handle_initialize(
     "serverInfo": @nostd.any(self.info.as_any()),
     "capabilities": @nostd.any(capabilities.as_any()),
   })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+  )
 }
 
 ///|
@@ -144,8 +146,10 @@ fn McpServer::handle_tools_list(
     let (tool, _) = value
     tools.push(tool.as_any())
   })
-  let result = @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools)) })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
+  let result = @mbtconv.from_map({ "tools": @nostd.any(@nostd.any(tools)) })
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+  )
 }
 
 ///|
@@ -165,12 +169,12 @@ fn McpServer::handle_tools_call(
       Err(self.method_not_found_error(id, "Tool not found: " + tool_name)),
     )
   }
-  let arguments : @nostd.Any = @nostd.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
-    @nostd.Object::new(),
-  )
+  let arguments : @nostd.Any = @nostd.identity_option(
+    @nostd.any(p)._get("arguments"),
+  ).unwrap_or(@nostd.Object::new())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
-      "content": @nostd.any(@js.from_array(content.map(fn(c) { @nostd.any(c) }))),
+      "content": @nostd.any(@nostd.any(content.map(fn(c) { @nostd.any(c) }))),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
@@ -189,9 +193,11 @@ fn McpServer::handle_resources_list(
     resources.push(resource.as_any())
   })
   let result = @mbtconv.from_map({
-    "resources": @nostd.any(@js.from_array(resources)),
+    "resources": @nostd.any(@nostd.any(resources)),
   })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+  )
 }
 
 ///|
@@ -215,7 +221,7 @@ fn McpServer::handle_resources_read(
   }
   handler(resource_uri).then(fn(content) {
     let result = @mbtconv.from_map({
-      "contents": @nostd.any(@js.from_array(content.map(fn(c) { c.as_any() }))),
+      "contents": @nostd.any(@nostd.any(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
@@ -233,10 +239,10 @@ fn McpServer::handle_prompts_list(
     let (prompt, _) = value
     prompts.push(prompt.as_any())
   })
-  let result = @mbtconv.from_map({
-    "prompts": @nostd.any(@js.from_array(prompts)),
-  })
-  @js.Promise::resolve(Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }))
+  let result = @mbtconv.from_map({ "prompts": @nostd.any(@nostd.any(prompts)) })
+  @js.Promise::resolve(
+    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+  )
 }
 
 ///|
@@ -256,12 +262,12 @@ fn McpServer::handle_prompts_get(
       Err(self.method_not_found_error(id, "Prompt not found: " + prompt_name)),
     )
   }
-  let arguments : @nostd.Any = @nostd.identity_option(@nostd.any(p)._get("arguments")).unwrap_or(
-    @nostd.Object::new(),
-  )
+  let arguments : @nostd.Any = @nostd.identity_option(
+    @nostd.any(p)._get("arguments"),
+  ).unwrap_or(@nostd.Object::new())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
-      "messages": @nostd.any(@js.from_array(content.map(fn(c) { c.as_any() }))),
+      "messages": @nostd.any(@nostd.any(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),

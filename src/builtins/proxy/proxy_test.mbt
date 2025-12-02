@@ -42,7 +42,7 @@ test "Proxy::revocable creates revocable proxy" {
 
 ///|
 test "Proxy with target array" {
-  let target = @js.from_array([1, 2, 3])
+  let target = @nostd.any([1, 2, 3])
   let proxy = Proxy::new(@nostd.any(target))
 
   // Transparent proxy works with arrays
@@ -201,7 +201,7 @@ test "Proxy with ownKeys trap" {
     ownKeys=fn(_target) {
       ownkeys_called = true
       // Return custom keys
-      @nostd.any(@js.from_array(["x", "y", "z"]))
+      @nostd.any(@nostd.any(["x", "y", "z"]))
     },
     getOwnPropertyDescriptor=fn(_target, _prop) {
       // Need to return valid descriptor for Object.keys() to work

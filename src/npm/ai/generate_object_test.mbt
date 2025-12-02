@@ -22,7 +22,7 @@ test "generate object result from_any" {
         ("totalTokens", @nostd.any(30)),
       ]).cast(),
     ),
-    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
+    ("warnings", @nostd.any(empty_warnings) |> @nostd.any),
     ("response", @nostd.from_entries([("id", "resp-123" |> @nostd.any)]).cast()),
   ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
@@ -76,7 +76,7 @@ async test "generateObject with mock" {
     ),
     (
       "required",
-      @js.from_array(["name" |> @js.any, "age" |> @js.any]) |> @nostd.any,
+      @nostd.any(["name" |> @js.any, "age" |> @js.any]) |> @nostd.any,
     ),
   ]).cast()
   let result = @ai.generateObject(

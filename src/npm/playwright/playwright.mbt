@@ -99,7 +99,7 @@ pub async fn BrowserType::launch(
     options["headless"] = @nostd.any(v)
   }
   if args is Some(v) {
-    options["args"] = @nostd.any(@js.from_array(v))
+    options["args"] = @nostd.any(@nostd.any(v))
   }
   if channel is Some(v) {
     options["channel"] = @nostd.any(v)
@@ -131,9 +131,7 @@ pub async fn BrowserType::launch(
   if timeout is Some(v) {
     options["timeout"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Browser] = self
-    .to_any()
-    ._call("launch", [options])
+  let promise : @js.Promise[Browser] = self.to_any()._call("launch", [options])
     |> @nostd.identity
   promise.wait()
 }
@@ -154,7 +152,7 @@ pub async fn BrowserType::launchPersistentContext(
     options["headless"] = @nostd.any(v)
   }
   if args is Some(v) {
-    options["args"] = @nostd.any(@js.from_array(v))
+    options["args"] = @nostd.any(@nostd.any(v))
   }
   if channel is Some(v) {
     options["channel"] = @nostd.any(v)
@@ -249,7 +247,7 @@ pub async fn Browser::newContext(
     options["geolocation"] = geo
   }
   if permissions is Some(v) {
-    options["permissions"] = @nostd.any(@js.from_array(v))
+    options["permissions"] = @nostd.any(@nostd.any(v))
   }
   if colorScheme is Some(v) {
     options["colorScheme"] = @nostd.any(v)
@@ -348,9 +346,7 @@ pub async fn Browser::newPage(
   if hasTouch is Some(v) {
     options["hasTouch"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Page] = self
-    .to_any()
-    ._call("newPage", [options])
+  let promise : @js.Promise[Page] = self.to_any()._call("newPage", [options])
     |> @nostd.identity
   promise.wait()
 }
@@ -461,7 +457,7 @@ pub async fn BrowserContext::cookies(
 ) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = match urls {
     Some(u) =>
-      self.to_any()._call("cookies", [@nostd.any(@js.from_array(u))])
+      self.to_any()._call("cookies", [@nostd.any(@nostd.any(u))])
       |> @nostd.identity
     None => self.to_any()._call("cookies", []) |> @nostd.identity
   }
@@ -481,7 +477,7 @@ pub async fn BrowserContext::grantPermissions(
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("grantPermissions", [@nostd.any(@js.from_array(permissions)), options])
+    ._call("grantPermissions", [@nostd.any(@nostd.any(permissions)), options])
     |> @nostd.identity
   promise.wait()
 }
@@ -508,9 +504,7 @@ pub async fn BrowserContext::setGeolocation(
   if accuracy is Some(v) {
     geo["accuracy"] = @nostd.any(v)
   }
-  let promise : @js.Promise[Unit] = self
-    .to_any()
-    ._call("setGeolocation", [geo])
+  let promise : @js.Promise[Unit] = self.to_any()._call("setGeolocation", [geo])
     |> @nostd.identity
   promise.wait()
 }

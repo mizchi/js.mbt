@@ -696,7 +696,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     match user {
       Some(u) => {
         let todos = get_todos(db, u.id())
-        c.json(todos |> @js.from_array)
+        c.json(todos |> @nostd.any)
       }
       None => {
         let obj = @nostd.Object::new()

@@ -133,15 +133,21 @@ pub fn exposeToWorker(obj : @nostd.Any, worker : @worker.Worker) -> Unit {
 
 ///|
 /// Expose an object to a MessagePort
-pub fn exposeToMessagePort(obj : @nostd.Any, port : @message.MessagePort) -> Unit {
+pub fn exposeToMessagePort(
+  obj : @nostd.Any,
+  port : @message.MessagePort,
+) -> Unit {
   ffi_expose(obj, port.as_any().cast())
 }
 
 ///|
 /// Mark a value to be transferred (not copied) to the other thread
 /// Use for ArrayBuffer, MessagePort, etc.
-pub fn transfer(value : @nostd.Any, transferables : Array[@nostd.Any]) -> @nostd.Any {
-  ffi_transfer(value, @js.from_array(transferables))
+pub fn transfer(
+  value : @nostd.Any,
+  transferables : Array[@nostd.Any],
+) -> @nostd.Any {
+  ffi_transfer(value, @nostd.any(transferables))
 }
 
 ///|
@@ -219,7 +225,7 @@ pub fn Remote::callMethod(
   name : String,
   args : Array[@nostd.Any],
 ) -> @js.Promise[@nostd.Any] {
-  ffi_remote_call(self, name, @js.from_array(args))
+  ffi_remote_call(self, name, @nostd.any(args))
 }
 
 ///|
@@ -286,5 +292,5 @@ pub fn proxyFunction(f : (@nostd.Any) -> @nostd.Any) -> ProxyMarked {
 ///|
 /// Transfer an ArrayBuffer
 pub fn transferArrayBuffer(buffer : @nostd.Any) -> @nostd.Any {
-  ffi_transfer(buffer, @js.from_array([buffer]))
+  ffi_transfer(buffer, @nostd.any([buffer]))
 }

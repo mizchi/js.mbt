@@ -191,7 +191,8 @@ pub fn Page::getByRole(
   if exact is Some(v) {
     options["exact"] = @nostd.any(v)
   }
-  self.to_any()._call("getByRole", [@nostd.any(role), options]) |> @nostd.identity
+  self.to_any()._call("getByRole", [@nostd.any(role), options])
+  |> @nostd.identity
 }
 
 ///|
@@ -201,7 +202,8 @@ pub fn Page::getByText(self : Page, text : String, exact? : Bool) -> Locator {
   if exact is Some(v) {
     options["exact"] = @nostd.any(v)
   }
-  self.to_any()._call("getByText", [@nostd.any(text), options]) |> @nostd.identity
+  self.to_any()._call("getByText", [@nostd.any(text), options])
+  |> @nostd.identity
 }
 
 ///|
@@ -289,7 +291,7 @@ pub async fn Page::click(
     options["force"] = @nostd.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@js.from_array(v))
+    options["modifiers"] = @nostd.any(@nostd.any(v))
   }
   if noWaitAfter is Some(v) {
     options["noWaitAfter"] = @nostd.any(v)
@@ -511,7 +513,7 @@ pub async fn Page::hover(
     options["force"] = @nostd.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@js.from_array(v))
+    options["modifiers"] = @nostd.any(@nostd.any(v))
   }
   if position is Some((x, y)) {
     let pos = @nostd.Object::new()
@@ -593,7 +595,8 @@ pub async fn Page::waitForLoadState(
     Some(s) =>
       self.to_any()._call("waitForLoadState", [@nostd.any(s), options])
       |> @nostd.identity
-    None => self.to_any()._call("waitForLoadState", [options]) |> @nostd.identity
+    None =>
+      self.to_any()._call("waitForLoadState", [options]) |> @nostd.identity
   }
   promise.wait()
 }
@@ -680,7 +683,11 @@ pub async fn Page::waitForFunction(
     Some(a) =>
       self
       .to_any()
-      ._call("waitForFunction", [@nostd.any(pageFunction), @nostd.any(a), options])
+      ._call("waitForFunction", [
+        @nostd.any(pageFunction),
+        @nostd.any(a),
+        options,
+      ])
       |> @nostd.identity
     None =>
       self
@@ -702,12 +709,11 @@ pub async fn Page::evaluate(
 ) -> @nostd.Any {
   let promise : @js.Promise[@nostd.Any] = match arg {
     Some(a) =>
-      self
-      .to_any()
-      ._call("evaluate", [@nostd.any(pageFunction), @nostd.any(a)])
+      self.to_any()._call("evaluate", [@nostd.any(pageFunction), @nostd.any(a)])
       |> @nostd.identity
     None =>
-      self.to_any()._call("evaluate", [@nostd.any(pageFunction)]) |> @nostd.identity
+      self.to_any()._call("evaluate", [@nostd.any(pageFunction)])
+      |> @nostd.identity
   }
   promise.wait()
 }
@@ -920,7 +926,10 @@ pub fn Page::viewportSize(self : Page) -> (Int, Int)? {
 
 ///|
 /// Set extra HTTP headers
-pub async fn Page::setExtraHTTPHeaders(self : Page, headers : @nostd.Any) -> Unit {
+pub async fn Page::setExtraHTTPHeaders(
+  self : Page,
+  headers : @nostd.Any,
+) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setExtraHTTPHeaders", [@nostd.any(headers)])

@@ -86,7 +86,7 @@ pub fn SdkServer::set_tools_list_handler(
     let tools = handler()
     let tools_arr : Array[@nostd.Any] = tools.map(fn(t) { t.as_any() })
     @nostd.identity(
-      @mbtconv.from_map({ "tools": @nostd.any(@js.from_array(tools_arr)) }),
+      @mbtconv.from_map({ "tools": @nostd.any(@nostd.any(tools_arr)) }),
     )
   }
   ffi_set_handler(self |> @nostd.any, schema, wrapped)
@@ -117,9 +117,7 @@ pub fn SdkServer::set_tools_call_handler(
       let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @nostd.identity(
-          @mbtconv.from_map({
-            "content": @nostd.any(@js.from_array(content_arr)),
-          }),
+          @mbtconv.from_map({ "content": @nostd.any(@nostd.any(content_arr)) }),
         ),
       )
     })
@@ -147,9 +145,7 @@ pub fn SdkServer::set_resources_list_handler(
     let resources = handler()
     let resources_arr : Array[@nostd.Any] = resources.map(fn(r) { r.as_any() })
     @nostd.identity(
-      @mbtconv.from_map({
-        "resources": @nostd.any(@js.from_array(resources_arr)),
-      }),
+      @mbtconv.from_map({ "resources": @nostd.any(@nostd.any(resources_arr)) }),
     )
   }
   ffi_set_handler(self |> @nostd.any, schema, wrapped)
@@ -171,9 +167,7 @@ pub fn SdkServer::set_resources_read_handler(
       let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @nostd.identity(
-          @mbtconv.from_map({
-            "contents": @nostd.any(@js.from_array(content_arr)),
-          }),
+          @mbtconv.from_map({ "contents": @nostd.any(@nostd.any(content_arr)) }),
         ),
       )
     })
@@ -193,7 +187,7 @@ pub fn SdkServer::set_prompts_list_handler(
     let prompts = handler()
     let prompts_arr : Array[@nostd.Any] = prompts.map(fn(p) { p.as_any() })
     @nostd.identity(
-      @mbtconv.from_map({ "prompts": @nostd.any(@js.from_array(prompts_arr)) }),
+      @mbtconv.from_map({ "prompts": @nostd.any(@nostd.any(prompts_arr)) }),
     )
   }
   ffi_set_handler(self |> @nostd.any, schema, wrapped)
@@ -248,7 +242,7 @@ pub fn PromptResult::as_any(self : PromptResult) -> @nostd.Any {
   let messages_arr : Array[@nostd.Any] = self.messages.map(fn(m) { m.as_any() })
   @mbtconv.from_option_map({
     "description": self.description.map(fn(d) { d |> @nostd.any }),
-    "messages": Some(@nostd.identity(@js.from_array(messages_arr))),
+    "messages": Some(@nostd.identity(@nostd.any(messages_arr))),
   }).cast()
 }
 

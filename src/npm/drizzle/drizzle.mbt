@@ -74,7 +74,7 @@ pub fn Row::as_any(self : Row) -> @nostd.Any {
 ///|
 /// Create an array of rows for batch insert
 pub fn rows(items : Array[Row]) -> @nostd.Any {
-  @js.from_array(items.map(fn(r) { r.obj }))
+  @nostd.any(items.map(fn(r) { r.obj }))
 }
 
 // Internal helpers for other files in this package

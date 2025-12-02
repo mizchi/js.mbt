@@ -134,7 +134,7 @@ pub async fn generateObject(
     opts._set("output", o.to_string() |> @nostd.any)
   }
   if enum_values is Some(vals) {
-    opts._set("enum", vals |> @js.from_array)
+    opts._set("enum", vals |> @nostd.any)
   }
   if prompt is Some(p) {
     opts._set("prompt", p |> @nostd.any)
@@ -143,7 +143,7 @@ pub async fn generateObject(
     opts._set("system", s |> @nostd.any)
   }
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
   }
   if max_tokens is Some(t) {
     opts._set("maxTokens", t |> @nostd.any)
@@ -204,7 +204,7 @@ pub async fn generateObjectWithZod(
     opts._set("system", s |> @nostd.any)
   }
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
   }
   if max_tokens is Some(t) {
     opts._set("maxTokens", t |> @nostd.any)

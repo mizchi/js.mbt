@@ -155,10 +155,10 @@ pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @nostd.Any {
     obj._set("model", m.as_any())
   }
   if self.active_tools is Some(tools) {
-    obj._set("activeTools", tools |> @js.from_array)
+    obj._set("activeTools", tools |> @nostd.any)
   }
   if self.messages is Some(msgs) {
-    obj._set("messages", msgs |> @js.from_array)
+    obj._set("messages", msgs |> @nostd.any)
   }
   if self.system is Some(s) {
     obj._set("system", s |> @nostd.any)

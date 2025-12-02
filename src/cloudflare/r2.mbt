@@ -160,7 +160,7 @@ pub async fn R2Bucket::list(
     self.as_any()._call("list", []).cast()
   } else {
     let include_js : @nostd.Any? = match include_ {
-      Some(inc) => Some(@nostd.any(@js.from_array(inc)))
+      Some(inc) => Some(@nostd.any(@nostd.any(inc)))
       None => None
     }
     let opts = @mbtconv.from_option_map({

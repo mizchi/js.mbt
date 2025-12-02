@@ -39,7 +39,7 @@ pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @nostd.Any {
 ///|
 /// Helper function to convert Array[String] to JavaScript array
 fn array_to_js_array(arr : Array[String]) -> @nostd.Any {
-  @js.from_array(arr)
+  @nostd.any(arr)
 }
 
 ///|

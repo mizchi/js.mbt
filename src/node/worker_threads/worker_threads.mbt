@@ -48,7 +48,7 @@ pub fn Worker::new(
     "stdin": stdin.map(fn(x) { @nostd.any(x) }),
     "stdout": stdout.map(fn(x) { @nostd.any(x) }),
     "stderr": stderr.map(fn(x) { @nostd.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "execArgv": execArgv.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "resourceLimits": resourceLimits.map(fn(x) { @nostd.identity(x) }),
   }).cast()
   @nostd.identity(@nostd.new_(worker_class, [@nostd.any(filename), js_opts]))
@@ -64,7 +64,7 @@ pub fn Worker::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any().call2("postMessage", value, @js.from_array(list)) |> ignore
+      self.as_any().call2("postMessage", value, @nostd.any(list)) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -121,7 +121,7 @@ pub fn MessagePort::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any().call2("postMessage", value, @js.from_array(list)) |> ignore
+      self.as_any().call2("postMessage", value, @nostd.any(list)) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }

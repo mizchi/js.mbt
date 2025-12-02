@@ -71,7 +71,7 @@ test "Js Show trait for different types" {
   assert_eq(bool_val.to_string(), "true")
 
   // Arrays
-  let arr = @js.from_array([1, 2])
+  let arr = @nostd.any([1, 2])
   let arr_str = JSON::stringify(arr)
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 

@@ -29,7 +29,7 @@ pub fn createInterface(
     "output": output.map(fn(x) { @nostd.identity(x.as_any()) }),
     "completer": completer.map(fn(x) { @nostd.identity(@js.from_fn1(x)) }),
     "terminator": terminator.map(fn(x) { @nostd.any(x) }),
-    "history": history.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "history": history.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "removeHistoryDuplicates": removeHistoryDuplicates.map(fn(x) {
       @nostd.any(x)
     }),

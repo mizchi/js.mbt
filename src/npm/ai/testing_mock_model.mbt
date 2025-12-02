@@ -24,8 +24,8 @@ pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @nostd.Any {
   usage_obj._set("totalTokens", self.usage.total_tokens |> @nostd.any)
   obj._set("usage", usage_obj)
   let content_arr = self.content.map(MockContentPart::as_any)
-  obj._set("content", content_arr |> @js.from_array)
-  obj._set("warnings", self.warnings |> @js.from_array)
+  obj._set("content", content_arr |> @nostd.any)
+  obj._set("warnings", self.warnings |> @nostd.any)
   obj
 }
 
@@ -129,10 +129,7 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @nostd.Any {
   match options.do_generate {
     Some(Result(r)) => opts._set("doGenerate", r.as_any())
     Some(Results(rs)) =>
-      opts._set(
-        "doGenerate",
-        rs.map(MockGenerateResult::as_any) |> @js.from_array,
-      )
+      opts._set("doGenerate", rs.map(MockGenerateResult::as_any) |> @nostd.any)
     Some(Fn(f)) => opts._set("doGenerate", f)
     None => ()
   }
@@ -140,7 +137,7 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @nostd.Any {
   match options.do_stream {
     Some(Result(r)) => opts._set("doStream", r.as_any())
     Some(Results(rs)) =>
-      opts._set("doStream", rs.map(MockStreamResult::as_any) |> @js.from_array)
+      opts._set("doStream", rs.map(MockStreamResult::as_any) |> @nostd.any)
     Some(Fn(f)) => opts._set("doStream", f)
     None => ()
   }

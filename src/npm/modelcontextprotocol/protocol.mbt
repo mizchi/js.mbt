@@ -130,7 +130,7 @@ pub fn Prompt::as_any(self : Prompt) -> @nostd.Any {
   @mbtconv.from_option_map({
     "name": Some(@nostd.any(self.name)),
     "description": self.description.map(fn(d) { @nostd.any(d) }),
-    "arguments": Some(@nostd.identity(@js.from_array(args))),
+    "arguments": Some(@nostd.identity(@nostd.any(args))),
   }).cast()
 }
 

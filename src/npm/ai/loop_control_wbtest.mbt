@@ -261,8 +261,8 @@ test "StopCondition as_any creates JS function" {
   let ctx = @nostd.Object::new()
   ctx._set("stepNumber", 2 |> @nostd.any)
   let empty_arr : Array[@nostd.Any] = []
-  ctx._set("messages", empty_arr |> @js.from_array)
-  ctx._set("toolCalls", empty_arr |> @js.from_array)
+  ctx._set("messages", empty_arr |> @nostd.any)
+  ctx._set("toolCalls", empty_arr |> @nostd.any)
   ctx._set("finishReason", "stop" |> @nostd.any)
   let result1 : Bool = js_fn.call_self([ctx]).cast()
   assert_eq(result1, false)

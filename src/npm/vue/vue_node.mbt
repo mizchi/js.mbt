@@ -31,7 +31,7 @@ pub impl VueNode for Bool with to_vue_node(self) {
 
 ///|
 pub impl[T : VueNode] VueNode for Array[T] with to_vue_node(self) {
-  @js.from_array(self.map(_.to_vue_node()))
+  @nostd.any(self.map(_.to_vue_node()))
 }
 
 ///|

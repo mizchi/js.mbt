@@ -124,7 +124,7 @@ pub async fn GPUAdapter::requestDevice(
   }
   match required_features {
     Some(features) => {
-      let arr = @js.from_array(features)
+      let arr = @nostd.any(features)
       descriptor._set("requiredFeatures", @nostd.any(arr))
     }
     None => ()
@@ -259,7 +259,7 @@ pub fn GPUDevice::createTexture(
   }
   match view_formats {
     Some(vf) => {
-      let arr = @js.from_array(vf)
+      let arr = @nostd.any(vf)
       descriptor._set("viewFormats", @nostd.any(arr))
     }
     None => ()
@@ -406,7 +406,7 @@ pub fn GPUDevice::createPipelineLayout(
   label? : String,
 ) -> GPUPipelineLayout {
   let descriptor = @nostd.Object::new()
-  let arr = @js.from_array(bind_group_layouts)
+  let arr = @nostd.any(bind_group_layouts)
   descriptor._set("bindGroupLayouts", @nostd.any(arr))
   match label {
     Some(l) => descriptor._set("label", @nostd.any(l))
@@ -749,7 +749,7 @@ pub fn GPUQueue::submit(
   self : GPUQueue,
   command_buffers : Array[GPUCommandBuffer],
 ) -> Unit {
-  let arr = @js.from_array(command_buffers)
+  let arr = @nostd.any(command_buffers)
   self.as_any()._call("submit", [@nostd.any(arr)]) |> ignore
 }
 
@@ -1754,5 +1754,5 @@ pub fn GPUExtent3D::new(
 ///|
 /// Create GPUExtent3D from an array [width, height?, depthOrArrayLayers?]
 pub fn GPUExtent3D::from_array(arr : Array[Int]) -> GPUExtent3D {
-  @js.from_array(arr).cast()
+  @nostd.any(arr).cast()
 }

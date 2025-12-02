@@ -47,7 +47,7 @@ pub async fn launch(
     options["headless"] = @nostd.any(v)
   }
   if args is Some(v) {
-    options["args"] = @nostd.any(@js.from_array(v))
+    options["args"] = @nostd.any(@nostd.any(v))
   }
   if executablePath is Some(v) {
     options["executablePath"] = @nostd.any(v)

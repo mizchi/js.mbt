@@ -49,7 +49,7 @@ pub fn h(
   key? : String,
 ) -> VNode {
   let tag = @nostd.any(tag)
-  let children = children.map(_.to_vue_node()) |> @js.from_array
+  let children = children.map(_.to_vue_node()) |> @nostd.any
   let val = @nostd.Object::new()
   if props is Some(props) {
     for k, v in props {
@@ -82,7 +82,7 @@ pub fn[T] component(
   key? : String,
 ) -> VNode {
   let tag = @nostd.identity(tag)
-  let children = children.map(_.to_vue_node()) |> @js.from_array
+  let children = children.map(_.to_vue_node()) |> @nostd.any
   let val : @nostd.Any = props |> @nostd.identity
   if key is Some(key) {
     if @nostd.is_nullish(val) {
@@ -99,7 +99,7 @@ pub fn[T] component(
 /// Vue.Fragment
 pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   let tag = get_fragment()
-  let children = children.map(_.to_vue_node()) |> @js.from_array
+  let children = children.map(_.to_vue_node()) |> @nostd.any
   let val = @nostd.Object::new()
   if key is Some(key) {
     val._set("key", key |> @nostd.any)

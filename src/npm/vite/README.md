@@ -78,7 +78,7 @@ let my_plugin = @vite.define_plugin(
 
 // Use in config
 let config = @vite.defineConfig(
-  plugins?=Some(@js.from_array([my_plugin]))
+  plugins?=Some(@nostd.any([my_plugin]))
 )
 ```
 
@@ -120,7 +120,7 @@ let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
   mode?=Some("development"),
-  plugins?=Some(@js.from_array([])),
+  plugins?=Some(@nostd.any([])),
   server?=Some(@js.from_map({
     "port": @nostd.any(5173),
     "host": @nostd.any("0.0.0.0"),

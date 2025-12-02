@@ -335,7 +335,7 @@ pub fn StdioClientTransport::new(
   let transport_class = stdio_mod._get("StdioClientTransport")
   let opts = @nostd.Object::new()
   opts._set("command", command |> @nostd.any)
-  opts._set("args", args |> @js.from_array)
+  opts._set("args", args |> @nostd.any)
   if env is Some(e) {
     opts._set("env", e)
   }

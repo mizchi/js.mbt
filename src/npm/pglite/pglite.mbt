@@ -119,7 +119,7 @@ pub async fn PGlite::query(
   if params.length() == 0 {
     ffi_query_no_params(self, sql).wait()
   } else {
-    ffi_query(self, sql, @js.from_array(params)).wait()
+    ffi_query(self, sql, @nostd.any(params)).wait()
   }
 }
 
@@ -199,7 +199,7 @@ pub async fn Transaction::query(
   if params.length() == 0 {
     ffi_tx_query_no_params(self, sql).wait()
   } else {
-    ffi_tx_query(self, sql, @js.from_array(params)).wait()
+    ffi_tx_query(self, sql, @nostd.any(params)).wait()
   }
 }
 

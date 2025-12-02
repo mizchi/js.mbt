@@ -290,7 +290,7 @@ pub fn compileFunction(
   })
   match params {
     Some(p) => {
-      let params_js = @js.from_array(p.map(fn(s) { s }))
+      let params_js = @nostd.any(p.map(fn(s) { s }))
       @nostd.any(vm)
       ._call("compileFunction", [
         @nostd.any(code),

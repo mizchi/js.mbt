@@ -186,7 +186,7 @@ test "JsArray creation and type checking" {
 ///|
 test "JsIterator::from converts iterable to iterator" {
   // Create an array - arrays are iterable in JavaScript
-  let arr = @js.from_array([1, 2, 3])
+  let arr = @nostd.any([1, 2, 3])
 
   // Use Iterator.from to convert iterable to iterator
   let js_iter : @js.JsIterator[@nostd.Any] = @js.JsIterator::from(arr)
@@ -295,7 +295,7 @@ test "Conditional property setting with Option" {
 
 ///|
 test "instanceof_" {
-  let arr = @js.from_array([1, 2, 3])
+  let arr = @nostd.any([1, 2, 3])
   let array_class = @global.global_this()._get("Array")
   assert_true(@nostd.instanceof_(arr, array_class))
   let obj = @nostd.Object::new()

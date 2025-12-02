@@ -139,7 +139,7 @@ pub async fn embedMany(
   let opts = @nostd.Object::new()
   let model_any : @nostd.Any = model.as_any().cast()
   opts._set("model", model_any)
-  opts._set("values", values |> @js.from_array)
+  opts._set("values", values |> @nostd.any)
   if max_parallel_calls is Some(c) {
     opts._set("maxParallelCalls", c |> @nostd.any)
   }

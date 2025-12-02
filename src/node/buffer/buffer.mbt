@@ -50,7 +50,7 @@ pub fn Buffer::from_string(
 /// Create a Buffer from an array of bytes
 pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
   let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
-  ctor._call("from", [@nostd.any(@js.from_array(arr))]).cast()
+  ctor._call("from", [@nostd.any(@nostd.any(arr))]).cast()
 }
 
 ///|
@@ -132,7 +132,7 @@ pub fn Buffer::compare(buf1 : Buffer, buf2 : Buffer) -> Int {
 /// Concatenate an array of buffers
 pub fn Buffer::concat(list : Array[Buffer], total_length? : Int) -> Buffer {
   let ctor : @nostd.Any = buffer_constructor() |> @nostd.any
-  let list_js = @js.from_array(list)
+  let list_js = @nostd.any(list)
   match total_length {
     Some(len) =>
       ctor._call("concat", [@nostd.any(list_js), @nostd.any(len)]).cast()
@@ -304,8 +304,11 @@ pub fn Buffer::compare_with(
   source_end? : Int,
 ) -> Int {
   let buf_js = self.as_any()
-  // Build args as @nostd.Any array for @js.from_array compatibility
-  let args : Array[@nostd.Any] = [target.as_any().cast(), @nostd.any(target_start)]
+  // Build args as @nostd.Any array for @nostd.any compatibility
+  let args : Array[@nostd.Any] = [
+    target.as_any().cast(),
+    @nostd.any(target_start),
+  ]
   if target_end is Some(te) {
     args.push(@nostd.any(te))
   }
@@ -315,9 +318,7 @@ pub fn Buffer::compare_with(
   }
   let compare_fn = buf_js["compare"]
   let apply = compare_fn["apply"]
-  apply
-  ._call("call", [compare_fn, buf_js, @nostd.any(@js.from_array(args))])
-  .cast()
+  apply._call("call", [compare_fn, buf_js, @nostd.any(@nostd.any(args))]).cast()
 }
 
 ///|

@@ -67,7 +67,7 @@ pub fn PgIndexBuilder::usingMethod(
   index_method : String,
   columns : Array[@nostd.Any],
 ) -> PgIndexBuilder {
-  ffi_pg_index_using(self, index_method, @js.from_array(columns))
+  ffi_pg_index_using(self, index_method, @nostd.any(columns))
 }
 
 // ============ Composite Primary Key ============
@@ -78,7 +78,7 @@ pub fn PgIndexBuilder::usingMethod(
 pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
   let fn_ = drizzle_pg_core()._get("primaryKey")
   let opts = @nostd.Object::new()
-  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts._set("name", n |> @nostd.any)
   }
@@ -91,7 +91,7 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
 pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
   let fn_ = drizzle_sqlite_core()._get("primaryKey")
   let opts = @nostd.Object::new()
-  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
     opts._set("name", n |> @nostd.any)
   }
@@ -158,10 +158,10 @@ pub fn pgForeignKey(
 ) -> @nostd.Any {
   let fn_ = drizzle_pg_core()._get("foreignKey")
   let opts = @nostd.Object::new()
-  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",
-    @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
+    @nostd.any(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
     opts._set("name", n |> @nostd.any)
@@ -179,10 +179,10 @@ pub fn sqliteForeignKey(
 ) -> @nostd.Any {
   let fn_ = drizzle_sqlite_core()._get("foreignKey")
   let opts = @nostd.Object::new()
-  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",
-    @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
+    @nostd.any(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
     opts._set("name", n |> @nostd.any)

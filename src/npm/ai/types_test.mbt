@@ -506,7 +506,7 @@ test "TextStreamPart from_any start-step" {
   obj._set("request", request_obj)
   let warning_obj = @nostd.Object::new()
   warning_obj._set("type", "test-warning" |> @nostd.any)
-  obj._set("warnings", [warning_obj] |> @js.from_array)
+  obj._set("warnings", [warning_obj] |> @nostd.any)
   let part = TextStreamPart::from_any(obj)
   guard part is StartStep(request~, warnings~)
   ignore(request)

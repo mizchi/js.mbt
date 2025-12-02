@@ -351,7 +351,7 @@ pub fn Window::postMessage(
       ._call("postMessage", [
         @nostd.any(message),
         @nostd.any(target_origin),
-        @nostd.any(@js.from_array(t)),
+        @nostd.any(@nostd.any(t)),
       ])
       |> ignore
     None =>

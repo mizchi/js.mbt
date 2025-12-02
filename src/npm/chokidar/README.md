@@ -41,7 +41,7 @@ let _ = watcher.on("unlink", @js.from_fn1(fn(path) {
 ```moonbit
 // Watch multiple files or directories
 let watcher = @chokidar.watch(
-  @js.from_array([@nostd.Any("src"), @nostd.Any("tests")]),
+  @nostd.any([@nostd.Any("src"), @nostd.Any("tests")]),
   persistent?=Some(true)
 )
 ```
@@ -299,7 +299,7 @@ let _ = watcher.on("ready", @js.from_fn0(fn() {
 fn main {
   // Create watcher with options
   let watcher = @chokidar.watch(
-    @js.from_array([@nostd.Any("src"), @nostd.Any("lib")]),
+    @nostd.any([@nostd.Any("src"), @nostd.Any("lib")]),
     ignored?=Some(@nostd.Any("/(^|[\/\\])\\../")),
     persistent?=Some(true),
     ignoreInitial?=Some(true),

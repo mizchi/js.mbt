@@ -67,7 +67,7 @@ pub fn glob(
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(@nostd.identity(arr |> @js.from_array))
+    (Some(arr), _) => Some(@nostd.identity(arr |> @nostd.any))
     (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
     (None, None) => None
   }
@@ -115,7 +115,7 @@ pub fn glob_with_filetype(
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(@nostd.identity(arr |> @js.from_array))
+    (Some(arr), _) => Some(@nostd.identity(arr |> @nostd.any))
     (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
     (None, None) => None
   }

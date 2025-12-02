@@ -21,7 +21,7 @@ test "generate image result from_any" {
   let raw = @nostd.from_entries([
     ("image", image_raw_nostd),
     ("images", [image_raw_nostd] |> @nostd.any),
-    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
+    ("warnings", @nostd.any(empty_warnings) |> @nostd.any),
   ]).cast()
   let result = @ai.GenerateImageResult::from_any(raw)
   assert_eq(result.image.base64, "base64data")
@@ -43,7 +43,7 @@ test "generate image result multiple images" {
   let raw = @nostd.from_entries([
     ("image", image1_nostd),
     ("images", [image1_nostd, image2_nostd] |> @nostd.any),
-    ("warnings", @js.from_array(empty_warnings) |> @nostd.any),
+    ("warnings", @nostd.any(empty_warnings) |> @nostd.any),
   ]).cast()
   let result = @ai.GenerateImageResult::from_any(raw)
   assert_eq(result.images.length(), 2)

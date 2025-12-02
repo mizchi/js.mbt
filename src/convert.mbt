@@ -13,12 +13,6 @@
 ///  Note: These must remain as impl JsImpl because we cannot define methods on foreign types
 
 ///|
-/// Cast a MoonBit Array to a JavaScript array.
-pub fn[T] from_array(v : Array[T]) -> @nostd.Any {
-  identity(v)
-}
-
-///|
 extern "js" fn ffi_wrap_sync(
   f : Any,
   ok : (Any) -> Result[Any, Any],

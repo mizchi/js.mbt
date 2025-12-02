@@ -192,7 +192,7 @@ pub async fn Page::select(
   selector : String,
   values : Array[String],
 ) -> Array[String] {
-  let js_values = @js.from_array(values)
+  let js_values = @nostd.any(values)
   let promise : @js.Promise[Array[String]] = self
     .to_any()
     ._call("select", [@nostd.any(selector), @nostd.any(js_values)])
@@ -273,7 +273,7 @@ pub async fn Page::cookies(self : Page) -> Array[@nostd.Any] {
 /// Page: Set cookies
 /// JS: page.setCookie(...cookies)
 pub async fn Page::setCookie(self : Page, cookies : Array[@nostd.Any]) -> Unit {
-  let js_cookies = @js.from_array(cookies)
+  let js_cookies = @nostd.any(cookies)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setCookie", [@nostd.any(js_cookies)])
@@ -288,7 +288,7 @@ pub async fn Page::deleteCookie(
   self : Page,
   cookies : Array[@nostd.Any],
 ) -> Unit {
-  let js_cookies = @js.from_array(cookies)
+  let js_cookies = @nostd.any(cookies)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("deleteCookie", [@nostd.any(js_cookies)])

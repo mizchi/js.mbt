@@ -46,7 +46,7 @@ test "bench: _call with two Ints" (b : @bench.T) {
 test "bench: _call with array" (b : @bench.T) {
   let obj = @nostd.any(get_test_obj())
   let sum_fn = obj["sum"]
-  let arr = @js.from_array([1, 2, 3, 4, 5])
+  let arr = @nostd.any([1, 2, 3, 4, 5])
   b.bench(fn() { b.keep(sum_fn._invoke([@nostd.any(arr)])) })
 }
 
@@ -93,7 +93,7 @@ test "bench: Object get" (b : @bench.T) {
 /// Benchmark: Array creation with from_array
 test "bench: from_array (5 Ints)" (b : @bench.T) {
   let arr = [1, 2, 3, 4, 5]
-  b.bench(fn() { b.keep(@js.from_array(arr)) })
+  b.bench(fn() { b.keep(@nostd.any(arr)) })
 }
 
 ///|
@@ -112,7 +112,7 @@ test "bench: typeof_ check" (b : @bench.T) {
 ///|
 /// Benchmark: is_array check
 test "bench: is_array check" (b : @bench.T) {
-  let arr = @js.from_array([1, 2, 3])
+  let arr = @nostd.any([1, 2, 3])
   b.bench(fn() { b.keep(@js.is_array(arr)) })
 }
 

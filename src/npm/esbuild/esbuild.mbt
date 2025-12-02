@@ -272,7 +272,7 @@ pub async fn Esbuild::build(
 ) -> BuildResult {
   let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
-    opts._set("entryPoints", entry_points |> @js.from_array)
+    opts._set("entryPoints", entry_points |> @nostd.any)
   }
   if outdir != "" {
     opts._set("outdir", outdir |> @nostd.any)
@@ -290,7 +290,7 @@ pub async fn Esbuild::build(
   opts._set("sourcemap", sourcemap |> @nostd.any)
   opts._set("write", write |> @nostd.any)
   if external.length() > 0 {
-    opts._set("external", external |> @js.from_array)
+    opts._set("external", external |> @nostd.any)
   }
   if definitions.length() > 0 {
     let defs = @nostd.Object::new()
@@ -352,7 +352,7 @@ pub fn Esbuild::build_sync(
 ) -> BuildResult {
   let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
-    opts._set("entryPoints", entry_points |> @js.from_array)
+    opts._set("entryPoints", entry_points |> @nostd.any)
   }
   if outdir != "" {
     opts._set("outdir", outdir |> @nostd.any)
@@ -370,7 +370,7 @@ pub fn Esbuild::build_sync(
   opts._set("sourcemap", sourcemap |> @nostd.any)
   opts._set("write", write |> @nostd.any)
   if external.length() > 0 {
-    opts._set("external", external |> @js.from_array)
+    opts._set("external", external |> @nostd.any)
   }
   if definitions.length() > 0 {
     let defs = @nostd.Object::new()

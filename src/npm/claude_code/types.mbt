@@ -382,7 +382,7 @@ pub fn McpServerStdio::as_any(self : McpServerStdio) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj._set("type", "stdio" |> @nostd.any)
   obj._set("command", self.command |> @nostd.any)
-  obj._set("args", self.args |> @js.from_array)
+  obj._set("args", self.args |> @nostd.any)
   let env_obj = @nostd.Object::new()
   for k, v in self.env {
     env_obj._set(k, v |> @nostd.any)
@@ -446,10 +446,10 @@ pub fn AgentDefinition::as_any(self : AgentDefinition) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj._set("description", self.description |> @nostd.any)
   if self.allowed_tools is Some(tools) {
-    obj._set("allowedTools", tools |> @js.from_array)
+    obj._set("allowedTools", tools |> @nostd.any)
   }
   if self.disallowed_tools is Some(tools) {
-    obj._set("disallowedTools", tools |> @js.from_array)
+    obj._set("disallowedTools", tools |> @nostd.any)
   }
   if self.system_prompt is Some(prompt) {
     obj._set("systemPrompt", prompt |> @nostd.any)
@@ -532,10 +532,10 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
     obj._set("maxThinkingTokens", mtt |> @nostd.any)
   }
   if self.allowed_tools is Some(tools) {
-    obj._set("allowedTools", tools |> @js.from_array)
+    obj._set("allowedTools", tools |> @nostd.any)
   }
   if self.disallowed_tools is Some(tools) {
-    obj._set("disallowedTools", tools |> @js.from_array)
+    obj._set("disallowedTools", tools |> @nostd.any)
   }
   if self.mcp_servers is Some(servers) {
     let servers_obj = @nostd.Object::new()
@@ -554,7 +554,7 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
   if self.setting_sources is Some(sources) {
     obj._set(
       "settingSources",
-      sources.map(fn(s) { s.to_string() |> @js.any }) |> @js.from_array,
+      sources.map(fn(s) { s.to_string() |> @js.any }) |> @nostd.any,
     )
   }
   if self.include_partial_messages is Some(ipm) {

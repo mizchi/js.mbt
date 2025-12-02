@@ -805,7 +805,7 @@ pub async fn LspClient::code_action(
       "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]),
       "range": @nostd.any(range.to_json()),
       "context": @mbtconv.from_map({
-        "diagnostics": @nostd.any(@js.from_array(([] : Array[@nostd.Any]))),
+        "diagnostics": @nostd.any(@nostd.any(([] : Array[@nostd.Any]))),
       }),
     }).cast()
     self.send_request("textDocument/codeAction", params, fn(response) {

@@ -122,7 +122,7 @@ pub fn create_memory_router(
   match options {
     Some(o) => {
       match o.initial_entries {
-        Some(entries) => opts._set("initialEntries", @js.from_array(entries))
+        Some(entries) => opts._set("initialEntries", @nostd.any(entries))
         None => ()
       }
       match o.initial_index {
@@ -397,7 +397,7 @@ pub fn nav_link(
   let children_js : @nostd.Any = children_arr.map(fn(c) -> @nostd.Any {
       c.cast()
     })
-    |> @js.from_array
+    |> @nostd.any
   props._set("children", children_js)
   let empty : Array[@nostd.Any] = []
   ffi_create_element(nav_link_component, props, @nostd.any(empty))
@@ -431,7 +431,7 @@ extern "js" fn get_outlet() -> @nostd.Any =
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
   let empty : Array[@nostd.Any] = []
-  ffi_create_element(outlet_component, @nostd.null(), @js.from_array(empty))
+  ffi_create_element(outlet_component, @nostd.null(), @nostd.any(empty))
 }
 
 // =============================================================================

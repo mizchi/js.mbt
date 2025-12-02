@@ -62,10 +62,10 @@ fn build_options(
     opts._set("bootstrapScriptContent", v |> @nostd.any)
   }
   if bootstrap_scripts is Some(v) {
-    opts._set("bootstrapScripts", @js.from_array(v))
+    opts._set("bootstrapScripts", @nostd.any(v))
   }
   if bootstrap_modules is Some(v) {
-    opts._set("bootstrapModules", @js.from_array(v))
+    opts._set("bootstrapModules", @nostd.any(v))
   }
   if identifier_prefix is Some(v) {
     opts._set("identifierPrefix", v |> @nostd.any)

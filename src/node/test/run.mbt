@@ -39,35 +39,33 @@ pub fn run(
   coverageExcludeGlobs? : Array[String],
 ) -> @stream.Stream {
   let obj = @mbtconv.from_option_map({
-    "files": files.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "files": files.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "cwd": cwd.map(fn(x) { @nostd.any(x) }),
     "forceExit": forceExit.map(fn(x) { @nostd.any(x) }),
     "only": only.map(fn(x) { @nostd.any(x) }),
     "inspectPort": inspectPort.map(fn(x) { @nostd.any(x) }),
     "concurrency": concurrency.map(fn(x) { @nostd.any(x) }),
-    "globPatterns": globPatterns.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
-    }),
+    "globPatterns": globPatterns.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "isolation": isolation.map(fn(x) { @nostd.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
-    "argv": argv.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
+    "execArgv": execArgv.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
+    "argv": argv.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
     "coverage": coverage.map(fn(x) { @nostd.any(x) }),
     "lineCoverage": lineCoverage.map(fn(x) { @nostd.any(x) }),
     "functionCoverage": functionCoverage.map(fn(x) { @nostd.any(x) }),
     "branchCoverage": branchCoverage.map(fn(x) { @nostd.any(x) }),
     "coverageIncludeGlobs": coverageIncludeGlobs.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
+      @nostd.identity(@nostd.any(x))
     }),
     "coverageExcludeGlobs": coverageExcludeGlobs.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
+      @nostd.identity(@nostd.any(x))
     }),
     "watch": watch.map(fn(x) { @nostd.any(x) }),
     "signal": signal.map(fn(x) { @nostd.identity(x) }),
     "testNamePatterns": testNamePatterns.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
+      @nostd.identity(@nostd.any(x))
     }),
     "testSkipPatterns": testSkipPatterns.map(fn(x) {
-      @nostd.identity(@js.from_array(x))
+      @nostd.identity(@nostd.any(x))
     }),
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "shard": shard.map(fn(x) { @nostd.identity(x.as_any()) }),

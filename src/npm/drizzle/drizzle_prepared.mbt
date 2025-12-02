@@ -106,7 +106,7 @@ pub fn sqlAdd(left : @nostd.Any, right : @nostd.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
-    @nostd.any(@js.from_array(["", " + ", ""])),
+    @nostd.any(@nostd.any(["", " + ", ""])),
     @nostd.any(left),
     @nostd.any(right),
   ])
@@ -120,7 +120,7 @@ pub fn sqlSub(left : @nostd.Any, right : @nostd.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
-    @nostd.any(@js.from_array(["", " - ", ""])),
+    @nostd.any(@nostd.any(["", " - ", ""])),
     @nostd.any(left),
     @nostd.any(right),
   ])
@@ -134,7 +134,7 @@ pub fn sqlMul(left : @nostd.Any, right : @nostd.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
-    @nostd.any(@js.from_array(["", " * ", ""])),
+    @nostd.any(@nostd.any(["", " * ", ""])),
     @nostd.any(left),
     @nostd.any(right),
   ])
@@ -148,7 +148,7 @@ pub fn sqlDiv(left : @nostd.Any, right : @nostd.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   @nostd.any(sql_fn)
   ._invoke([
-    @nostd.any(@js.from_array(["", " / ", ""])),
+    @nostd.any(@nostd.any(["", " / ", ""])),
     @nostd.any(left),
     @nostd.any(right),
   ])
@@ -179,7 +179,7 @@ pub fn QueryBuilder::groupBy(
   self : QueryBuilder,
   columns : Array[Column],
 ) -> QueryBuilder {
-  ffi_group_by(self, @js.from_array(columns.map(fn(c) { c.as_any() })))
+  ffi_group_by(self, @nostd.any(columns.map(fn(c) { c.as_any() })))
 }
 
 ///|
@@ -255,7 +255,7 @@ pub fn QueryBuilder::onConflictDoUpdate(
   set_values : @nostd.Any,
 ) -> QueryBuilder {
   let config = @nostd.Object::new()
-  config._set("target", @js.from_array(target.map(fn(c) { c.as_any() })))
+  config._set("target", @nostd.any(target.map(fn(c) { c.as_any() })))
   config._set("set", set_values)
   ffi_on_conflict_do_update(self, config)
 }
