@@ -24,14 +24,14 @@ test "from_option_map skips None values" {
   let email : @nostd.Any = obj._get("email").cast()
   inspect(name, content="Bob")
   inspect(age, content="25")
-  inspect(@js.is_undefined(email), content="true")
+  inspect(@nostd.is_undefined(email), content="true")
 }
 
 ///|
 test "from_option_map_or_undefined returns undefined when all None" {
   let map : Map[String, @nostd.Any?] = { "a": None, "b": None }
   let result : @nostd.Any = from_option_map_or_undefined(map).cast()
-  inspect(@js.is_undefined(result), content="true")
+  inspect(@nostd.is_undefined(result), content="true")
 }
 
 ///|
@@ -101,7 +101,7 @@ test "from_option converts Option to Any" {
   let none_result : @nostd.Any = from_option(none_val).cast()
   let n : Int = some_result.cast()
   inspect(n, content="42")
-  inspect(@js.is_null(none_result), content="true")
+  inspect(@nostd.is_null(none_result), content="true")
 }
 
 ///|

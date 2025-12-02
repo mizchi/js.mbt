@@ -30,6 +30,7 @@ test "step_count_is should stop at max steps" {
   assert_true(f(ctx4))
 }
 
+///|
 fn make_tool_call(name : String, id : String) -> @nostd.Any {
   @nostd.from_entries([
     ("toolName", @nostd.any(name)),
@@ -240,12 +241,12 @@ test "PrepareStepResult::with_messages should set messages" {
 test "PrepareStepResult::as_any with empty" {
   let result = @ai.PrepareStepResult::empty()
   let js_obj = result.as_any()
-  assert_true(@js.is_undefined(js_obj._get("model")))
-  assert_true(@js.is_undefined(js_obj._get("activeTools")))
-  assert_true(@js.is_undefined(js_obj._get("messages")))
-  assert_true(@js.is_undefined(js_obj._get("system")))
-  assert_true(@js.is_undefined(js_obj._get("maxTokens")))
-  assert_true(@js.is_undefined(js_obj._get("temperature")))
+  assert_true(@nostd.is_undefined(js_obj._get("model")))
+  assert_true(@nostd.is_undefined(js_obj._get("activeTools")))
+  assert_true(@nostd.is_undefined(js_obj._get("messages")))
+  assert_true(@nostd.is_undefined(js_obj._get("system")))
+  assert_true(@nostd.is_undefined(js_obj._get("maxTokens")))
+  assert_true(@nostd.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
@@ -287,6 +288,6 @@ test "StopCondition::as_any creates JS function" {
   let condition = @ai.step_count_is(5)
   let js_fn = condition.as_any()
   // The result should be a function
-  assert_false(@js.is_undefined(js_fn))
-  assert_false(@js.is_null(js_fn))
+  assert_false(@nostd.is_undefined(js_fn))
+  assert_false(@nostd.is_null(js_fn))
 }

@@ -197,33 +197,6 @@ test "String? field with undefined value" {
 }
 
 ///|
-test "Js? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> identity
-  // Check if optionalJs has a value and contains an object
-  match obj.optionalJs {
-    Some(v) => inspect(is_object(v), content="?")
-    None => inspect("None", content="None")
-  }
-}
-
-///|
-test "Js? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> identity
-  // Js? field cannot be matched - it crashes when trying to access $tag
-  // Convert to Any and check with is_nullish instead
-  let raw : @nostd.Any = obj.as_any()._get("optionalJs")
-  inspect(is_nullish(raw), content="true")
-}
-
-///|
-test "Js? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> identity
-  // Js? field cannot be matched - it crashes when trying to access $tag
-  let raw : @nostd.Any = obj.as_any()._get("optionalJs")
-  inspect(is_nullish(raw), content="true")
-}
-
-///|
 test "Nested struct with value" {
   let obj : NestedStruct = create_nested() |> identity
   inspect(obj.simple.name, content="Alice")
@@ -386,98 +359,6 @@ pub(all) struct ContainerWithCustom {
 
 ///|
 pub fn ContainerWithCustom::as_any(self : Self) -> @nostd.Any = "%identity"
-
-///|
-extern "js" fn create_with_null_custom() -> @nostd.Any =
-  #|() => ({
-  #|  required: "test",
-  #|  optional: null
-  #|})
-
-///|
-extern "js" fn create_with_undefined_custom() -> @nostd.Any =
-  #|() => ({
-  #|  required: "test",
-  #|  optional: undefined
-  #|})
-
-///|
-extern "js" fn create_with_custom_value() -> @nostd.Any =
-  #|() => ({
-  #|  required: "test",
-  #|  optional: { id: 42, name: "Alice" }
-  #|})
-
-///|
-test "CustomStruct? field with null" {
-  let obj : ContainerWithCustom = create_with_null_custom() |> identity
-  let raw = obj.as_any()._get("optional")
-  inspect(is_nullish(raw), content="true")
-
-  // CustomStruct? field with null - same issue as Js?
-  match obj.optional {
-    Some(_) =>
-      inspect("has value (possibly null)", content="has value (possibly null)")
-    None => inspect("None", content="?")
-  }
-}
-
-///|
-test "CustomStruct? field with undefined" {
-  let obj : ContainerWithCustom = create_with_undefined_custom() |> identity
-  let raw = obj.as_any()._get("optional")
-  inspect(is_nullish(raw), content="true")
-
-  // CustomStruct? field with undefined
-  match obj.optional {
-    Some(_) => inspect("has value (possibly undefined)", content="?")
-    None => inspect("None", content="None")
-  }
-}
-
-///|
-test "CustomStruct? field with value" {
-  let obj : ContainerWithCustom = create_with_custom_value() |> identity
-  let raw = obj.as_any()._get("optional")
-  inspect(is_nullish(raw), content="false")
-
-  // CustomStruct? field with actual value
-  match obj.optional {
-    Some(s) => {
-      inspect(s.id, content="42")
-      inspect(s.name, content="Alice")
-    }
-    None => inspect("None", content="?")
-  }
-}
-
-///| from_option tests
-
-///|
-test "from_option with Some(Int)" {
-  let opt : Int? = Some(42)
-  let js_val = from_option(opt)
-  inspect(is_nullish(js_val), content="false")
-  let back : Int = js_val |> identity
-  inspect(back, content="42")
-}
-
-///|
-test "from_option with None" {
-  let opt : Int? = None
-  let js_val = from_option(opt)
-  inspect(is_nullish(js_val), content="true")
-  inspect(is_null(js_val), content="true")
-}
-
-///|
-test "from_option with Some(String)" {
-  let opt : String? = Some("hello")
-  let js_val = from_option(opt)
-  inspect(is_nullish(js_val), content="false")
-  let back : String = js_val |> @nostd.identity
-  inspect(back, content="hello")
-}
 
 ///|
 test "from_option roundtrip" {

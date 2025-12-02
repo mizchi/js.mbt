@@ -109,7 +109,7 @@ test "from_array" {
 test "from_fn2 converts 2-arg function to Js" {
   let add = fn(a : Int, b : Int) -> Int { a + b }
   let js_add : @nostd.Any = @nostd.from_fn2(add)
-  assert_eq(@js.typeof_(js_add), "function")
+  assert_eq(@nostd.typeof_(js_add), "function")
   let result = js_add._invoke([@nostd.any(5), @nostd.any(3)])
   assert_eq(@nostd.identity(result), 8)
 }
@@ -119,8 +119,8 @@ test "from_fn2 converts 2-arg function to Js" {
 ///|
 test "globalThis" {
   let global = @global.global_this()
-  assert_true(@js.is_object(global))
-  assert_false(@js.is_null(global))
+  assert_true(@nostd.is_object(global))
+  assert_false(@nostd.is_null(global))
 }
 
 ///| Type Checking
@@ -232,7 +232,7 @@ test "JSON::stringify" {
 test "from_fn0 converts 0-arg function to Js" {
   let greet = fn() -> String { "Hello" }
   let js_greet : @nostd.Any = @nostd.from_fn0(greet)
-  assert_eq(@js.typeof_(js_greet), "function")
+  assert_eq(@nostd.typeof_(js_greet), "function")
   let result = js_greet._invoke([])
   assert_eq(@nostd.identity(result), "Hello")
 }
@@ -241,7 +241,7 @@ test "from_fn0 converts 0-arg function to Js" {
 test "from_fn1 converts 1-arg function to Js" {
   let double = fn(x : Int) -> Int { x * 2 }
   let js_double : @nostd.Any = @nostd.from_fn1(double)
-  assert_eq(@js.typeof_(js_double), "function")
+  assert_eq(@nostd.typeof_(js_double), "function")
   let result = js_double._invoke([@nostd.any(5)])
   assert_eq(@nostd.identity(result), 10)
 }
@@ -250,7 +250,7 @@ test "from_fn1 converts 1-arg function to Js" {
 test "from_fn3 converts 3-arg function to Js" {
   let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
   let js_add3 : @nostd.Any = @nostd.from_fn3(add3)
-  assert_eq(@js.typeof_(js_add3), "function")
+  assert_eq(@nostd.typeof_(js_add3), "function")
   let result = js_add3._invoke([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
   assert_eq(@nostd.identity(result), 6)
 }
@@ -282,7 +282,7 @@ test "JsImpl for Option types" {
   let js_some : @nostd.Any = @nostd.any(some_val)
   let js_none : @nostd.Any = @nostd.any(none_val)
   assert_eq(@nostd.identity(js_some), 42)
-  assert_true(is_undefined(js_none))
+  assert_true(@nostd.is_undefined(js_none))
 }
 
 ///| ThrowError Tests - JavaScript Built-in Error Types

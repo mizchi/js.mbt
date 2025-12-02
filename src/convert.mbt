@@ -106,28 +106,6 @@ pub fn[T] is_array(v : T) -> Bool {
 //   ffi_is_object(identity(v))
 // }
 
-pub fn is_object(v : @nostd.Any) -> Bool {
-  ffi_is_object(identity(v))
-}
-
-///|
-/// JS: v === null
-pub fn[T] is_null(v : T) -> Bool {
-  ffi_is_null(identity(v))
-}
-
-///|
-/// JS: v === undefined
-pub fn[T] is_undefined(v : T) -> Bool {
-  ffi_is_undefined(identity(v))
-}
-
-///|
-/// JS: v == undefined
-pub fn[T] is_nullish(v : T) -> Bool {
-  ffi_is_nullish(identity(v))
-}
-
 ///|
 pub fn[T] is_builtin_trait(v : T) -> Bool {
   let v = @nostd.any(v)

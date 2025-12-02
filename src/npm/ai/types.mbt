@@ -9,7 +9,7 @@ pub(all) struct ProviderMetadata {
 
 ///|
 pub fn ProviderMetadata::from_any(value : @nostd.Any) -> ProviderMetadata? {
-  if @js.is_undefined(value) || @js.is_null(value) {
+  if @nostd.is_undefined(value) || @nostd.is_null(value) {
     None
   } else {
     Some({ raw: value })
@@ -38,7 +38,7 @@ pub fn LanguageModelUsage::from_any(value : @nostd.Any) -> LanguageModelUsage {
     input_tokens: value._get("inputTokens").cast(),
     output_tokens: value._get("outputTokens").cast(),
     total_tokens: value._get("totalTokens").cast(),
-    cached_input_tokens: if @js.is_undefined(cached) {
+    cached_input_tokens: if @nostd.is_undefined(cached) {
       0
     } else {
       cached.cast()
@@ -98,7 +98,7 @@ pub fn CallWarning::from_any(value : @nostd.Any) -> CallWarning {
     type_: value._get("type").cast(),
     message: {
       let m = value._get("message")
-      if @js.is_undefined(m) {
+      if @nostd.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -151,13 +151,13 @@ pub(all) enum Source {
 ///|
 pub fn Source::from_any(value : @nostd.Any) -> Source {
   let source_type = value._get("sourceType")
-  if @js.is_undefined(source_type) || source_type.cast() == "url" {
+  if @nostd.is_undefined(source_type) || source_type.cast() == "url" {
     UrlSource({
       id: value._get("id").cast(),
       url: value._get("url").cast(),
       title: {
         let t = value._get("title")
-        if @js.is_undefined(t) {
+        if @nostd.is_undefined(t) {
           None
         } else {
           Some(t.cast())
@@ -172,7 +172,7 @@ pub fn Source::from_any(value : @nostd.Any) -> Source {
       id: value._get("id").cast(),
       title: {
         let t = value._get("title")
-        if @js.is_undefined(t) {
+        if @nostd.is_undefined(t) {
           None
         } else {
           Some(t.cast())
@@ -199,7 +199,7 @@ pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
   {
     name: {
       let n = value._get("name")
-      if @js.is_undefined(n) {
+      if @nostd.is_undefined(n) {
         None
       } else {
         Some(n.cast())
@@ -207,7 +207,7 @@ pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
     },
     media_type: {
       let m = value._get("mediaType")
-      if @js.is_undefined(m) {
+      if @nostd.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -472,7 +472,7 @@ pub fn LanguageModelResponseMetadata::from_any(
   {
     id: {
       let i = value._get("id")
-      if @js.is_undefined(i) {
+      if @nostd.is_undefined(i) {
         None
       } else {
         Some(i.cast())
@@ -480,7 +480,7 @@ pub fn LanguageModelResponseMetadata::from_any(
     },
     model_id: {
       let m = value._get("modelId")
-      if @js.is_undefined(m) {
+      if @nostd.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -488,7 +488,7 @@ pub fn LanguageModelResponseMetadata::from_any(
     },
     timestamp: {
       let t = value._get("timestamp")
-      if @js.is_undefined(t) {
+      if @nostd.is_undefined(t) {
         None
       } else {
         Some(t)
@@ -622,7 +622,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         ),
         provider_executed={
           let p = value._get("providerExecuted")
-          if @js.is_undefined(p) {
+          if @nostd.is_undefined(p) {
             None
           } else {
             Some(p.cast())
@@ -630,7 +630,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         },
         dynamic={
           let d = value._get("dynamic")
-          if @js.is_undefined(d) {
+          if @nostd.is_undefined(d) {
             None
           } else {
             Some(d.cast())
@@ -638,7 +638,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         },
         title={
           let t = value._get("title")
-          if @js.is_undefined(t) {
+          if @nostd.is_undefined(t) {
             None
           } else {
             Some(t.cast())
@@ -673,7 +673,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
       )
     "start-step" => {
       let warnings_raw = value._get("warnings")
-      let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) {
+      let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) {
         []
       } else {
         let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
@@ -921,8 +921,8 @@ pub(all) struct GenerateTextResult {
 pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   // Parse content array
   let content_raw = value._get("content")
-  let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
-    @js.is_null(content_raw) {
+  let content : Array[ContentPart] = if @nostd.is_undefined(content_raw) ||
+    @nostd.is_null(content_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
@@ -930,8 +930,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse reasoning array
   let reasoning_raw = value._get("reasoning")
-  let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
-    @js.is_null(reasoning_raw) {
+  let reasoning : Array[ReasoningOutput] = if @nostd.is_undefined(reasoning_raw) ||
+    @nostd.is_null(reasoning_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
@@ -939,8 +939,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse files array
   let files_raw = value._get("files")
-  let files : Array[GeneratedFile] = if @js.is_undefined(files_raw) ||
-    @js.is_null(files_raw) {
+  let files : Array[GeneratedFile] = if @nostd.is_undefined(files_raw) ||
+    @nostd.is_null(files_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(files_raw)
@@ -948,8 +948,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse sources array
   let sources_raw = value._get("sources")
-  let sources : Array[Source] = if @js.is_undefined(sources_raw) ||
-    @js.is_null(sources_raw) {
+  let sources : Array[Source] = if @nostd.is_undefined(sources_raw) ||
+    @nostd.is_null(sources_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(sources_raw)
@@ -957,8 +957,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse tool_calls array
   let tool_calls_raw = value._get("toolCalls")
-  let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
-    @js.is_null(tool_calls_raw) {
+  let tool_calls : Array[ToolCall] = if @nostd.is_undefined(tool_calls_raw) ||
+    @nostd.is_null(tool_calls_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
@@ -966,8 +966,10 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse tool_results array
   let tool_results_raw = value._get("toolResults")
-  let tool_results : Array[ToolResult] = if @js.is_undefined(tool_results_raw) ||
-    @js.is_null(tool_results_raw) {
+  let tool_results : Array[ToolResult] = if @nostd.is_undefined(
+      tool_results_raw,
+    ) ||
+    @nostd.is_null(tool_results_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(tool_results_raw)
@@ -975,8 +977,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
-    @js.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
+    @nostd.is_null(warnings_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
@@ -984,8 +986,8 @@ pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
   }
   // Parse reasoning_text
   let reasoning_text_raw = value._get("reasoningText")
-  let reasoning_text : String? = if @js.is_undefined(reasoning_text_raw) ||
-    @js.is_null(reasoning_text_raw) {
+  let reasoning_text : String? = if @nostd.is_undefined(reasoning_text_raw) ||
+    @nostd.is_null(reasoning_text_raw) {
     None
   } else {
     Some(reasoning_text_raw.cast())
@@ -1034,8 +1036,8 @@ pub(all) struct StepResult {
 pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
   // Parse content array
   let content_raw = value._get("content")
-  let content : Array[ContentPart] = if @js.is_undefined(content_raw) ||
-    @js.is_null(content_raw) {
+  let content : Array[ContentPart] = if @nostd.is_undefined(content_raw) ||
+    @nostd.is_null(content_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
@@ -1043,8 +1045,8 @@ pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
   }
   // Parse reasoning array
   let reasoning_raw = value._get("reasoning")
-  let reasoning : Array[ReasoningOutput] = if @js.is_undefined(reasoning_raw) ||
-    @js.is_null(reasoning_raw) {
+  let reasoning : Array[ReasoningOutput] = if @nostd.is_undefined(reasoning_raw) ||
+    @nostd.is_null(reasoning_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
@@ -1052,8 +1054,8 @@ pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
-    @js.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
+    @nostd.is_null(warnings_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)

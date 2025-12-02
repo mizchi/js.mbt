@@ -82,21 +82,21 @@ test "write_heap_snapshot with custom filename" {
 /// Test get_heap_snapshot returns stream
 test "get_heap_snapshot returns stream" {
   let stream = @v8.getHeapSnapshot()
-  inspect(@js.typeof_(stream) == "object", content="true")
+  inspect(@nostd.typeof_(stream) == "object", content="true")
 }
 
 ///|
 /// Test get_heap_snapshot with options
 test "get_heap_snapshot with expose_internals" {
   let stream = @v8.getHeapSnapshot(expose_internals=true)
-  inspect(@js.typeof_(stream) == "object", content="true")
+  inspect(@nostd.typeof_(stream) == "object", content="true")
 }
 
 ///|
 /// Test get_heap_snapshot with expose_numeric_values
 test "get_heap_snapshot with expose_numeric_values" {
   let stream = @v8.getHeapSnapshot(expose_numeric_values=true)
-  inspect(@js.typeof_(stream) == "object", content="true")
+  inspect(@nostd.typeof_(stream) == "object", content="true")
 }
 
 ///|
@@ -106,7 +106,7 @@ test "get_heap_snapshot with both options" {
     expose_internals=true,
     expose_numeric_values=true,
   )
-  inspect(@js.typeof_(stream) == "object", content="true")
+  inspect(@nostd.typeof_(stream) == "object", content="true")
 }
 
 ///|

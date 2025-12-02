@@ -116,7 +116,7 @@ pub fn BuildResult::as_any(self : BuildResult) -> @nostd.Any = "%identity"
 /// Get output files from build result
 pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
   let files_arr = self.as_any()._get("outputFiles")
-  if @js.is_undefined(files_arr) || @js.is_null(files_arr) {
+  if @nostd.is_undefined(files_arr) || @nostd.is_null(files_arr) {
     return []
   }
   let len : Int = @nostd.identity(files_arr._get("length"))
@@ -131,7 +131,7 @@ pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
 /// Get errors from build result
 pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
   let errors_arr = self.as_any()._get("errors")
-  if @js.is_undefined(errors_arr) || @js.is_null(errors_arr) {
+  if @nostd.is_undefined(errors_arr) || @nostd.is_null(errors_arr) {
     return []
   }
   let len : Int = @nostd.identity(errors_arr._get("length"))
@@ -146,7 +146,7 @@ pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
 /// Get warnings from build result
 pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
   let warnings_arr = self.as_any()._get("warnings")
-  if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
+  if @nostd.is_undefined(warnings_arr) || @nostd.is_null(warnings_arr) {
     return []
   }
   let len : Int = @nostd.identity(warnings_arr._get("length"))
@@ -227,7 +227,7 @@ pub fn TransformResult::code(self : TransformResult) -> String {
 /// Get the source map
 pub fn TransformResult::map(self : TransformResult) -> String {
   let m = self.as_any()._get("map")
-  if @js.is_undefined(m) || @js.is_null(m) {
+  if @nostd.is_undefined(m) || @nostd.is_null(m) {
     ""
   } else {
     @nostd.identity(m)
@@ -238,7 +238,7 @@ pub fn TransformResult::map(self : TransformResult) -> String {
 /// Get warnings from transform result
 pub fn TransformResult::warnings(self : TransformResult) -> Array[Message] {
   let warnings_arr = self.as_any()._get("warnings")
-  if @js.is_undefined(warnings_arr) || @js.is_null(warnings_arr) {
+  if @nostd.is_undefined(warnings_arr) || @nostd.is_null(warnings_arr) {
     return []
   }
   let len : Int = @nostd.identity(warnings_arr._get("length"))

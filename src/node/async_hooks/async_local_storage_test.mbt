@@ -2,7 +2,7 @@
 /// Test AsyncLocalStorage::new creates an instance
 test "AsyncLocalStorage::new creates an instance" {
   let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
-  inspect(@js.typeof_(als.as_any()), content="object")
+  inspect(@nostd.typeof_(als.as_any()), content="object")
 }
 
 ///|
@@ -67,7 +67,7 @@ test "AsyncLocalStorage::disable can be called" {
   let store = 42
   als.enterWith(store)
   als.disable()
-  inspect(@js.typeof_(als.as_any().cast()), content="object")
+  inspect(@nostd.typeof_(als.as_any().cast()), content="object")
 }
 
 ///|

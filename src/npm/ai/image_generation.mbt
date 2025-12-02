@@ -60,8 +60,8 @@ pub(all) struct GenerateImageResult {
 pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult {
   // Parse images array
   let images_raw = value._get("images")
-  let images : Array[GeneratedImage] = if @js.is_undefined(images_raw) ||
-    @js.is_null(images_raw) {
+  let images : Array[GeneratedImage] = if @nostd.is_undefined(images_raw) ||
+    @nostd.is_null(images_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(images_raw)
@@ -69,8 +69,8 @@ pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult 
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
-    @js.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
+    @nostd.is_null(warnings_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)

@@ -12,7 +12,7 @@ pub(all) struct Hover {
 pub fn Hover::from_json(json : @nostd.Any) -> Hover {
   let contents = json._get("contents")
   let range_json = json._get("range")
-  let range = if @js.is_nullish(range_json) {
+  let range = if @nostd.is_nullish(range_json) {
     None
   } else {
     Some(Range::from_json(range_json))
@@ -61,29 +61,29 @@ pub fn CompletionItem::from_json(json : @nostd.Any) -> CompletionItem {
   let insert_format_json = json._get("insertTextFormat")
   {
     label: json._get("label").cast(),
-    kind: if @js.is_nullish(kind_json) {
+    kind: if @nostd.is_nullish(kind_json) {
       None
     } else {
       Some(kind_json.cast())
     },
-    detail: if @js.is_nullish(detail_json) {
+    detail: if @nostd.is_nullish(detail_json) {
       None
     } else {
       Some(detail_json.cast())
     },
-    documentation: if @js.is_nullish(doc_json) {
+    documentation: if @nostd.is_nullish(doc_json) {
       None
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
     } else {
       Some(doc_json._get("value").cast())
     },
-    insert_text: if @js.is_nullish(insert_text_json) {
+    insert_text: if @nostd.is_nullish(insert_text_json) {
       None
     } else {
       Some(insert_text_json.cast())
     },
-    insert_text_format: if @js.is_nullish(insert_format_json) {
+    insert_text_format: if @nostd.is_nullish(insert_format_json) {
       None
     } else {
       Some(insert_format_json.cast())
@@ -139,12 +139,12 @@ pub fn SignatureHelp::from_json(json : @nostd.Any) -> SignatureHelp {
   let active_param = json._get("activeParameter")
   {
     signatures,
-    active_signature: if @js.is_nullish(active_sig) {
+    active_signature: if @nostd.is_nullish(active_sig) {
       None
     } else {
       Some(active_sig.cast())
     },
-    active_parameter: if @js.is_nullish(active_param) {
+    active_parameter: if @nostd.is_nullish(active_param) {
       None
     } else {
       Some(active_param.cast())
@@ -167,7 +167,7 @@ pub fn SignatureInformation::from_json(
   let doc_json = json._get("documentation")
   let params_json = json._get("parameters")
   let parameters : Array[ParameterInformation] = []
-  if not(@js.is_nullish(params_json)) {
+  if not(@nostd.is_nullish(params_json)) {
     let len : Int = params_json._get("length").cast()
     for i in 0..<len {
       parameters.push(
@@ -177,7 +177,7 @@ pub fn SignatureInformation::from_json(
   }
   {
     label: json._get("label").cast(),
-    documentation: if @js.is_nullish(doc_json) {
+    documentation: if @nostd.is_nullish(doc_json) {
       None
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
@@ -208,7 +208,7 @@ pub fn ParameterInformation::from_json(
       // label can be [start, end] tuple
       ""
     },
-    documentation: if @js.is_nullish(doc_json) {
+    documentation: if @nostd.is_nullish(doc_json) {
       None
     } else if ffi_typeof(doc_json) == "string" {
       Some(doc_json.cast())
@@ -234,7 +234,7 @@ pub fn DocumentSymbol::from_json(json : @nostd.Any) -> DocumentSymbol {
   let detail_json = json._get("detail")
   let children_json = json._get("children")
   let children : Array[DocumentSymbol] = []
-  if not(@js.is_nullish(children_json)) {
+  if not(@nostd.is_nullish(children_json)) {
     let len : Int = children_json._get("length").cast()
     for i in 0..<len {
       children.push(DocumentSymbol::from_json(children_json._get_by_index(i)))
@@ -242,7 +242,7 @@ pub fn DocumentSymbol::from_json(json : @nostd.Any) -> DocumentSymbol {
   }
   {
     name: json._get("name").cast(),
-    detail: if @js.is_nullish(detail_json) {
+    detail: if @nostd.is_nullish(detail_json) {
       None
     } else {
       Some(detail_json.cast())
@@ -270,7 +270,7 @@ pub fn SymbolInformation::from_json(json : @nostd.Any) -> SymbolInformation {
     name: json._get("name").cast(),
     kind: json._get("kind").cast(),
     location: Location::from_json(json._get("location")),
-    container_name: if @js.is_nullish(container_json) {
+    container_name: if @nostd.is_nullish(container_json) {
       None
     } else {
       Some(container_json.cast())
@@ -295,7 +295,7 @@ pub fn CodeAction::from_json(json : @nostd.Any) -> CodeAction {
   let edit_json = json._get("edit")
   let diag_json = json._get("diagnostics")
   let diagnostics : Array[@nostd.Any] = []
-  if not(@js.is_nullish(diag_json)) {
+  if not(@nostd.is_nullish(diag_json)) {
     let len : Int = diag_json._get("length").cast()
     for i in 0..<len {
       diagnostics.push(diag_json._get_by_index(i))
@@ -303,18 +303,18 @@ pub fn CodeAction::from_json(json : @nostd.Any) -> CodeAction {
   }
   {
     title: json._get("title").cast(),
-    kind: if @js.is_nullish(kind_json) {
+    kind: if @nostd.is_nullish(kind_json) {
       None
     } else {
       Some(kind_json.cast())
     },
     diagnostics,
-    is_preferred: if @js.is_nullish(pref_json) {
+    is_preferred: if @nostd.is_nullish(pref_json) {
       None
     } else {
       Some(pref_json.cast())
     },
-    edit: if @js.is_nullish(edit_json) {
+    edit: if @nostd.is_nullish(edit_json) {
       None
     } else {
       Some(WorkspaceEdit::from_json(edit_json))
@@ -339,7 +339,7 @@ pub fn CallHierarchyItem::from_json(json : @nostd.Any) -> CallHierarchyItem {
   {
     name: json._get("name").cast(),
     kind: json._get("kind").cast(),
-    detail: if @js.is_nullish(detail_json) {
+    detail: if @nostd.is_nullish(detail_json) {
       None
     } else {
       Some(detail_json.cast())
@@ -423,17 +423,17 @@ pub fn InlayHint::from_json(json : @nostd.Any) -> InlayHint {
       }
       parts.join("")
     },
-    kind: if @js.is_nullish(kind_json) {
+    kind: if @nostd.is_nullish(kind_json) {
       None
     } else {
       Some(kind_json.cast())
     },
-    padding_left: if @js.is_nullish(pl_json) {
+    padding_left: if @nostd.is_nullish(pl_json) {
       None
     } else {
       Some(pl_json.cast())
     },
-    padding_right: if @js.is_nullish(pr_json) {
+    padding_right: if @nostd.is_nullish(pr_json) {
       None
     } else {
       Some(pr_json.cast())

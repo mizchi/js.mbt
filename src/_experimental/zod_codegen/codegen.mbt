@@ -68,7 +68,7 @@ fn handle_object_type(
 ) -> String {
   guard ctx is Some(context) else { return "@nostd.Any" }
   let props = schema.properties()
-  guard not(@js.is_undefined(props)) else { return "@nostd.Any" }
+  guard not(@nostd.is_undefined(props)) else { return "@nostd.Any" }
   // Build type name from path: Root_field1_field2
   let type_name = build_type_name(root_name, context.current_path)
   let path = context.current_path.copy()
@@ -163,7 +163,7 @@ fn generate_struct_ctx(
   code = code + ctx.struct_prefix + "struct " + ctx.type_prefix + name + " {\n"
   // Get properties
   let props = schema.properties()
-  if not(@js.is_undefined(props)) {
+  if not(@nostd.is_undefined(props)) {
     let required = schema.required()
     let keys : Array[String] = @js.Object::keys(props) |> @nostd.identity
     for key in keys {
@@ -289,7 +289,7 @@ pub fn generate_all_types(
   let types : Array[GeneratedType] = []
   // Generate definitions first
   let defs = schema.definitions()
-  if not(@js.is_undefined(defs)) && not(@js.is_null(defs)) {
+  if not(@nostd.is_undefined(defs)) && not(@nostd.is_null(defs)) {
     let keys : Array[String] = @js.Object::keys(defs) |> @nostd.identity
     for key in keys {
       let def_schema = JsonSchema::from_any(defs._get(key))

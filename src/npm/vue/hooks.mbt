@@ -148,7 +148,7 @@ pub fn nextTickCallback(callback : () -> Unit) -> Unit {
 #alias(get_current_instance)
 pub fn getCurrentInstance() -> @nostd.Any? {
   let inst = ffi_get_current_instance()
-  if @js.is_nullish(inst) {
+  if @nostd.is_nullish(inst) {
     None
   } else {
     Some(inst)

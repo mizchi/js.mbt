@@ -108,7 +108,7 @@ pub fn ToolResultBlock::from_any(value : @nostd.Any) -> ToolResultBlock {
   {
     tool_use_id: value._get("tool_use_id").cast(),
     content: value._get("content").cast(),
-    is_error: if @js.is_undefined(is_error_raw) {
+    is_error: if @nostd.is_undefined(is_error_raw) {
       false
     } else {
       is_error_raw.cast()
@@ -165,12 +165,12 @@ pub fn TokenUsage::from_any(value : @nostd.Any) -> TokenUsage {
   {
     input_tokens: value._get("input_tokens").cast(),
     output_tokens: value._get("output_tokens").cast(),
-    cache_read_input_tokens: if @js.is_undefined(cache_read) {
+    cache_read_input_tokens: if @nostd.is_undefined(cache_read) {
       0
     } else {
       cache_read.cast()
     },
-    cache_creation_input_tokens: if @js.is_undefined(cache_creation) {
+    cache_creation_input_tokens: if @nostd.is_undefined(cache_creation) {
       0
     } else {
       cache_creation.cast()
@@ -221,8 +221,8 @@ pub(all) struct SDKAssistantMessage {
 ///|
 pub fn SDKAssistantMessage::from_any(value : @nostd.Any) -> SDKAssistantMessage {
   let content_raw = value._get("content")
-  let content : Array[ContentBlock] = if @js.is_undefined(content_raw) ||
-    @js.is_null(content_raw) {
+  let content : Array[ContentBlock] = if @nostd.is_undefined(content_raw) ||
+    @nostd.is_null(content_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
@@ -258,14 +258,15 @@ pub(all) struct SDKResultMessage {
 ///|
 pub fn SDKResultMessage::from_any(value : @nostd.Any) -> SDKResultMessage {
   let cost_raw = value._get("cost")
-  let cost : CostInfo? = if @js.is_undefined(cost_raw) || @js.is_null(cost_raw) {
+  let cost : CostInfo? = if @nostd.is_undefined(cost_raw) ||
+    @nostd.is_null(cost_raw) {
     None
   } else {
     Some(CostInfo::from_any(cost_raw))
   }
   let denials_raw = value._get("permissionDenials")
-  let denials : Array[PermissionDenial] = if @js.is_undefined(denials_raw) ||
-    @js.is_null(denials_raw) {
+  let denials : Array[PermissionDenial] = if @nostd.is_undefined(denials_raw) ||
+    @nostd.is_null(denials_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(denials_raw)
@@ -294,23 +295,23 @@ pub(all) struct SDKSystemMessage {
 ///|
 pub fn SDKSystemMessage::from_any(value : @nostd.Any) -> SDKSystemMessage {
   let tools_raw = value._get("tools")
-  let tools : Array[String] = if @js.is_undefined(tools_raw) ||
-    @js.is_null(tools_raw) {
+  let tools : Array[String] = if @nostd.is_undefined(tools_raw) ||
+    @nostd.is_null(tools_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(tools_raw)
     arr.map(fn(v) { v.cast() })
   }
   let mcp_raw = value._get("mcpServers")
-  let mcp_servers : Array[String] = if @js.is_undefined(mcp_raw) ||
-    @js.is_null(mcp_raw) {
+  let mcp_servers : Array[String] = if @nostd.is_undefined(mcp_raw) ||
+    @nostd.is_null(mcp_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(mcp_raw)
     arr.map(fn(v) { v.cast() })
   }
   let perm_raw = value._get("permissionMode")
-  let perm_mode = if @js.is_undefined(perm_raw) {
+  let perm_mode = if @nostd.is_undefined(perm_raw) {
     PermissionMode::Default
   } else {
     PermissionMode::from_string(perm_raw.cast())
@@ -334,8 +335,8 @@ pub(all) struct SDKPartialMessage {
 ///|
 pub fn SDKPartialMessage::from_any(value : @nostd.Any) -> SDKPartialMessage {
   let content_raw = value._get("content")
-  let content : Array[ContentBlock] = if @js.is_undefined(content_raw) ||
-    @js.is_null(content_raw) {
+  let content : Array[ContentBlock] = if @nostd.is_undefined(content_raw) ||
+    @nostd.is_null(content_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(content_raw)

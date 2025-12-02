@@ -170,7 +170,7 @@ async test "IndexedDB: delete removes item" {
 
   // Verify deletion
   let result = request_to_promise(store.get(@nostd.any(1))).wait()
-  assert_true(@js.is_undefined(result))
+  assert_true(@nostd.is_undefined(result))
   db.close()
   @indexeddb.deleteDatabase("test-delete-db") |> ignore
 }
@@ -526,7 +526,7 @@ async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" 
   let cursor_result = request_to_promise(cursor_request).wait()
 
   // Type-safe cursor access
-  if not(@js.is_nullish(cursor_result)) {
+  if not(@nostd.is_nullish(cursor_result)) {
     let cursor : @indexeddb.IDBCursorWithValue[Order] = cursor_result
       |> @nostd.identity
 

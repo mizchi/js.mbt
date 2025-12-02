@@ -44,7 +44,7 @@ pub fn[K, V] JsMap::set(self : JsMap[K, V], key : K, value : V) -> JsMap[K, V] {
 /// JS: map._get(key)
 pub fn[K, V] JsMap::get(self : JsMap[K, V], key : K) -> V? {
   let result = self.to_any()._call("get", [@nostd.any(key)])
-  if @js.is_undefined(result.cast()) {
+  if @nostd.is_undefined(result.cast()) {
     None
   } else {
     Some(result.cast())

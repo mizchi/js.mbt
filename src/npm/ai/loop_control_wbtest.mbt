@@ -238,7 +238,7 @@ test "PrepareStepResult as_any creates JS object" {
   let js_obj = result.as_any()
   // Check activeTools is set
   let active_tools = js_obj._get("activeTools")
-  assert_false(@js.is_undefined(active_tools))
+  assert_false(@nostd.is_undefined(active_tools))
   // Check system is set
   let system : String = js_obj._get("system").cast()
   assert_eq(system, "You are helpful")
@@ -246,9 +246,9 @@ test "PrepareStepResult as_any creates JS object" {
   let max_tokens : Int = js_obj._get("maxTokens").cast()
   assert_eq(max_tokens, 100)
   // Check model is not set
-  assert_true(@js.is_undefined(js_obj._get("model")))
+  assert_true(@nostd.is_undefined(js_obj._get("model")))
   // Check temperature is not set
-  assert_true(@js.is_undefined(js_obj._get("temperature")))
+  assert_true(@nostd.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
@@ -256,7 +256,7 @@ test "StopCondition as_any creates JS function" {
   let cond = step_count_is(3)
   let js_fn = cond.as_any()
   // Verify it's a function
-  assert_false(@js.is_undefined(js_fn))
+  assert_false(@nostd.is_undefined(js_fn))
   // Call it with a mock context
   let ctx = @nostd.Object::new()
   ctx.set("stepNumber", 2)

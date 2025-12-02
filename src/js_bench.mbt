@@ -215,7 +215,7 @@ test "bench: from_option_map (3 Some, 2 None)" (b : @bench.T) {
 /// Benchmark: typeof_ operation
 test "bench: typeof_ check" (b : @bench.T) {
   let val = any(42)
-  b.bench(fn() { b.keep(typeof_(val)) })
+  b.bench(fn() { b.keep(@nostd.typeof_(val)) })
 }
 
 ///|
@@ -274,7 +274,11 @@ test "bench: chained method calls" (b : @bench.T) {
 /// Benchmark: from_json - simple object with 3 properties
 test "bench: from_json (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({ "name": "Alice", "age": 30, "active": true })
+    let result = @mbtconv.from_json({
+      "name": "Alice",
+      "age": 30,
+      "active": true,
+    })
     b.keep(result)
   })
 }

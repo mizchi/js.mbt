@@ -34,7 +34,7 @@ test "PromptResult::as_any with description" {
 test "PromptResult::as_any without description" {
   let result : PromptResult = { description: None, messages: [] }
   let js_obj = result.as_any()
-  assert_true(@js.is_undefined(js_obj._get("description")))
+  assert_true(@nostd.is_undefined(js_obj._get("description")))
 }
 
 // ============================================================

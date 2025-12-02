@@ -136,7 +136,7 @@ async test "Node HTTP: HTTP server handles simple request" {
 ///|
 async test "Node HTTP: status_codes returns status code map" {
   let codes = @http.status_codes()
-  inspect(@js.typeof_(codes), content="object")
+  inspect(@nostd.typeof_(codes), content="object")
 
   // Check some common status codes
   let code200 : String = @nostd.identity(codes._get("200"))
@@ -150,5 +150,5 @@ async test "Node HTTP: status_codes returns status code map" {
 ///|
 async test "Node HTTP: globalAgent exists" {
   let agent = @http.globalAgent()
-  inspect(@js.typeof_(agent), content="object")
+  inspect(@nostd.typeof_(agent), content="object")
 }

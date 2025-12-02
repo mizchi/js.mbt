@@ -5,8 +5,8 @@ test "simulate_stream creates readable stream" {
   let chunks = ["a", "b", "c"].map(fn(s) { s |> @js.any })
   let stream = simulate_stream(chunks)
   // Check that stream is a ReadableStream
-  assert_false(@js.is_undefined(stream))
-  assert_false(@js.is_null(stream))
+  assert_false(@nostd.is_undefined(stream))
+  assert_false(@nostd.is_null(stream))
 }
 
 ///|
@@ -17,7 +17,7 @@ test "SimulateStreamOptions to readable stream" {
     chunk_delay_ms: None,
   }
   let stream = simulate_readable_stream(options)
-  assert_false(@js.is_undefined(stream))
+  assert_false(@nostd.is_undefined(stream))
 }
 
 ///|

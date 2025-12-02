@@ -180,8 +180,8 @@ pub fn StopCondition::as_any(self : StopCondition) -> @nostd.Any {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
     let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
     let tool_calls_raw = ctx_raw._get("toolCalls")
-    let tool_calls : Array[ToolCall] = if @js.is_undefined(tool_calls_raw) ||
-      @js.is_null(tool_calls_raw) {
+    let tool_calls : Array[ToolCall] = if @nostd.is_undefined(tool_calls_raw) ||
+      @nostd.is_null(tool_calls_raw) {
       []
     } else {
       let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
@@ -210,8 +210,8 @@ pub fn PrepareStep::as_any(self : PrepareStep) -> @nostd.Any {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
     let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
     let steps_raw = ctx_raw._get("steps")
-    let steps : Array[StepResult] = if @js.is_undefined(steps_raw) ||
-      @js.is_null(steps_raw) {
+    let steps : Array[StepResult] = if @nostd.is_undefined(steps_raw) ||
+      @nostd.is_null(steps_raw) {
       []
     } else {
       let arr : Array[@nostd.Any] = @nostd.identity(steps_raw)

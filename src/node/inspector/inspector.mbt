@@ -105,7 +105,7 @@ extern "js" fn ffi_close() -> Unit =
 ///|
 pub fn url() -> String? {
   let result : @nostd.Any = ffi_url()
-  let is_undef : Bool = @nostd.identity(@js.typeof_(result) == "undefined")
+  let is_undef : Bool = @nostd.identity(@nostd.typeof_(result) == "undefined")
   if is_undef {
     None
   } else {

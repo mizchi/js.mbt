@@ -18,7 +18,7 @@ test "Proxy::new with no traps (transparent proxy)" {
 test "Proxy::new creates proxy object" {
   let target = @nostd.Object::new()
   let proxy = Proxy::new(@nostd.any(target))
-  assert_true(@js.is_object(proxy.as_any().cast()))
+  assert_true(@nostd.is_object(proxy.as_any().cast()))
 }
 
 ///|
@@ -108,7 +108,7 @@ test "Proxy with has trap" {
   })
 
   // Note: MoonBit doesn't have direct 'in' operator, so we test indirectly
-  assert_true(@js.is_object(proxy.as_any().cast()))
+  assert_true(@nostd.is_object(proxy.as_any().cast()))
 }
 
 ///|
@@ -147,7 +147,7 @@ test "Proxy with deleteProperty trap" {
   inspect(delete_called, content="true")
   // Verify the property was actually deleted
   let x_value = target._get("x")
-  inspect(@js.is_undefined(x_value), content="true")
+  inspect(@nostd.is_undefined(x_value), content="true")
 }
 
 ///|

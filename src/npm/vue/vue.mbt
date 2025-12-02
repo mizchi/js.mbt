@@ -85,7 +85,7 @@ pub fn[T] component(
   let children = children.map(_.to_vue_node()) |> @js.from_array
   let val : @nostd.Any = props |> @nostd.identity
   if key is Some(key) {
-    if @js.is_nullish(val) {
+    if @nostd.is_nullish(val) {
       let obj = @nostd.Object::new()
       obj.set("key", key)
       return ffi_h(tag, obj, children) |> @nostd.identity

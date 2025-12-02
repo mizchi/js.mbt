@@ -240,7 +240,7 @@ test "promisify0 creates a Promise" {
   let promise = promise_fn()
   // Verify that a Promise was created by checking if it's a JS object
   let js_val : @nostd.Any = @nostd.identity(promise)
-  inspect(typeof_(js_val), content="object")
+  inspect(@nostd.typeof_(js_val), content="object")
 }
 
 ///|
@@ -253,7 +253,7 @@ test "promisify1 creates a Promise" {
   let promise_fn = @js.promisify1(test_fn1)
   let promise = promise_fn(21)
   let js_val : @nostd.Any = @nostd.identity(promise)
-  inspect(typeof_(js_val), content="object")
+  inspect(@nostd.typeof_(js_val), content="object")
 }
 
 ///|
@@ -266,7 +266,7 @@ test "promisify2 creates a Promise" {
   let promise_fn = @js.promisify2(test_fn2)
   let promise = promise_fn(10, 32)
   let js_val : @nostd.Any = @nostd.identity(promise)
-  inspect(typeof_(js_val), content="object")
+  inspect(@nostd.typeof_(js_val), content="object")
 }
 
 ///|
@@ -279,5 +279,5 @@ test "promisify3 creates a Promise" {
   let promise_fn = @js.promisify3(test_fn3)
   let promise = promise_fn(10, 20, 12)
   let js_val : @nostd.Any = @nostd.identity(promise)
-  inspect(typeof_(js_val), content="object")
+  inspect(@nostd.typeof_(js_val), content="object")
 }

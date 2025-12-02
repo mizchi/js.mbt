@@ -23,7 +23,7 @@ extern "js" fn ffi_navigator_gpu() -> @nostd.Any =
 /// Get the GPU object (returns None if WebGPU is not supported)
 pub fn gpu() -> GPU? {
   let g = ffi_navigator_gpu()
-  if @js.is_undefined(g) {
+  if @nostd.is_undefined(g) {
     None
   } else {
     Some(g.cast())
@@ -52,7 +52,7 @@ pub async fn GPU::requestAdapter(
     ._call("requestAdapter", [options])
     .cast()
   let result = promise.wait()
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -138,7 +138,7 @@ pub async fn GPUAdapter::requestDevice(
     ._call("requestDevice", [descriptor])
     .cast()
   let result = promise.wait()
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -448,7 +448,7 @@ pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
     ._call("popErrorScope", [])
     .cast()
   let result = promise.wait()
-  if @js.is_nullish(result) {
+  if @nostd.is_nullish(result) {
     None
   } else {
     Some(result.cast())

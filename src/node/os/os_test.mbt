@@ -136,7 +136,7 @@ test "devNull returns device path" {
 ///|
 test "network_interfaces returns object" {
   let interfaces = @os.networkInterfaces()
-  assert_true(@js.typeof_(interfaces) == "object")
+  assert_true(@nostd.typeof_(interfaces) == "object")
 }
 
 ///|

@@ -40,6 +40,7 @@ pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
+
 ///|
 /// Socket is a Duplex stream
 pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
@@ -163,6 +164,7 @@ pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
+
 ///|
 /// Listen on a port and host
 pub fn Server::listen(
@@ -175,10 +177,13 @@ pub fn Server::listen(
   // Register callback as 'listening' event listener if provided
   match callback {
     Some(cb) =>
-      self.as_any()._call("once", [
+      self
+      .as_any()
+      ._call("once", [
         @nostd.any("listening"),
         @nostd.any(@js.from_fn1(fn(_ : @nostd.Any) { cb() })),
-      ]) |> ignore
+      ])
+      |> ignore
     None => ()
   }
 
@@ -190,9 +195,11 @@ pub fn Server::listen(
       ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h)) |> @nostd.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h))
+      |> @nostd.identity
     (None, Some(b)) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b)) |> @nostd.identity
+      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b))
+      |> @nostd.identity
     (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
@@ -208,7 +215,7 @@ pub fn Server::close(self : Server) -> Server {
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> AddressInfo? {
   let result = self.as_any().call0("address")
-  if @js.is_null(result) {
+  if @nostd.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -240,8 +247,7 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
     Some(h) =>
-      net_module()
-      .call2("createConnection", @nostd.any(port), @nostd.any(h))
+      net_module().call2("createConnection", @nostd.any(port), @nostd.any(h))
       |> @nostd.identity
     None => net_module()._call("createConnection", [@nostd.any(port)]).cast()
   }

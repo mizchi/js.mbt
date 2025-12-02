@@ -23,7 +23,7 @@ extern "js" fn ffi_create_element(
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @js.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
+  if @nostd.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @global.global_this().set("__ReactRouterApi", v)
   }
@@ -170,7 +170,7 @@ pub fn Params::as_any(self : Params) -> @nostd.Any = "%identity"
 /// Get a parameter value by name
 pub fn Params::get(self : Self, name : String) -> String? {
   let val = self.as_any()._get(name)
-  if @js.is_undefined(val) || @js.is_null(val) {
+  if @nostd.is_undefined(val) || @nostd.is_null(val) {
     None
   } else {
     Some(val.cast())
@@ -327,7 +327,7 @@ pub fn useMatch(pattern : String) -> Match? {
     ._get("useMatch")
     .cast()
   let result = hook(pattern)
-  if @js.is_null(result) {
+  if @nostd.is_null(result) {
     None
   } else {
     Some(result.cast())

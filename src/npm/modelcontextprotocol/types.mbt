@@ -17,7 +17,7 @@ pub fn RequestId::as_any(self : RequestId) -> @nostd.Any {
 
 ///|
 pub fn RequestId::from_js(js : @nostd.Any) -> RequestId? {
-  let ty = @js.typeof_(js)
+  let ty = @nostd.typeof_(js)
   if ty == "string" {
     let s : String = @nostd.identity(js)
     Some(String(s))
@@ -51,11 +51,11 @@ pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @nostd.Any {
 ///|
 pub fn JsonRpcRequest::from_js(js : @nostd.Any) -> JsonRpcRequest? {
   let obj : @js.Object = @nostd.identity(js)
-  let jsonrpc : String? =
-    @nostd.any(obj)._get("jsonrpc") |> @nostd.identity_option()
+  let jsonrpc : String? = @nostd.any(obj)._get("jsonrpc")
+    |> @nostd.identity_option()
   let id_js = @nostd.any(obj)._get("id")
-  let method_name : String? =
-    @nostd.any(obj)._get("method") |> @nostd.identity_option()
+  let method_name : String? = @nostd.any(obj)._get("method")
+    |> @nostd.identity_option()
   match (jsonrpc, method_name) {
     (Some(jrpc), Some(m)) =>
       match RequestId::from_js(id_js) {

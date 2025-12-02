@@ -31,7 +31,7 @@ test "runInNewContext with context" {
 /// Test createContext
 test "createContext creates context" {
   let context = createContext()
-  inspect(context |> @js.typeof_, content="object")
+  inspect(context |> @nostd.typeof_, content="object")
 }
 
 ///|
@@ -39,7 +39,7 @@ test "createContext creates context" {
 test "createContext with initial object" {
   let obj = @nostd.from_entries([("foo", @nostd.any("bar"))]).cast()
   let context = createContext(contextObject=obj)
-  inspect(context |> @js.typeof_, content="object")
+  inspect(context |> @nostd.typeof_, content="object")
 }
 
 ///|
@@ -72,7 +72,7 @@ test "runInContext basic execution" {
 /// Test Script class creation
 test "Script creation" {
   let script = Script::new("1 + 1")
-  inspect(script |> @js.typeof_, content="object")
+  inspect(script |> @nostd.any |> @nostd.typeof_, content="object")
 }
 
 ///|
@@ -129,7 +129,7 @@ test "Script reuse" {
 /// Test compileFunction
 test "compileFunction basic" {
   let func = compileFunction("return a + b;", params=["a", "b"])
-  inspect(func |> @js.typeof_, content="function")
+  inspect(func |> @nostd.typeof_, content="function")
 }
 
 ///|

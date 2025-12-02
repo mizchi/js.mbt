@@ -13,30 +13,30 @@ test "proxy function" {
 test "transfer array buffer" {
   let buffer = @nostd.Object::new()
   let result = @comlink.transferArrayBuffer(@nostd.any(buffer))
-  inspect(result |> @js.is_nullish |> not, content="true")
+  inspect(result |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
 test "transfer with transferables" {
   let data = @nostd.Object::new()
   let result = @comlink.transfer(@nostd.any(data), [])
-  inspect(result |> @js.is_nullish |> not, content="true")
+  inspect(result |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
 test "get symbols" {
   let create_ep = @comlink.createEndpointSymbol()
-  inspect(create_ep |> @js.is_nullish |> not, content="true")
+  inspect(create_ep |> @nostd.is_nullish |> not, content="true")
   let release = @comlink.releaseProxySymbol()
-  inspect(release |> @js.is_nullish |> not, content="true")
+  inspect(release |> @nostd.is_nullish |> not, content="true")
   let marker = @comlink.proxyMarkerSymbol()
-  inspect(marker |> @js.is_nullish |> not, content="true")
+  inspect(marker |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|
 test "get transfer handlers" {
   let handlers = @comlink.transferHandlers()
-  inspect(handlers |> @js.is_nullish |> not, content="true")
+  inspect(handlers |> @nostd.is_nullish |> not, content="true")
 }
 
 ///|

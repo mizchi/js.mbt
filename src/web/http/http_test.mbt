@@ -142,7 +142,7 @@ async test "Response: arrayBuffer method" {
   let buffer = buffer_promise.wait()
 
   // Verify we got an ArrayBuffer
-  let buffer_type = @js.typeof_(buffer)
+  let buffer_type = @nostd.typeof_(buffer)
   assert_eq(buffer_type, "object")
 
   // Get byte length
@@ -158,7 +158,7 @@ async test "Response: blob method" {
   let blob = blob_promise.wait()
 
   // Verify we got a Blob
-  let blob_type = @js.typeof_(blob)
+  let blob_type = @nostd.typeof_(blob)
   assert_eq(blob_type, "object")
 
   // Get blob size

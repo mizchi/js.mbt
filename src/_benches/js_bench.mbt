@@ -106,7 +106,7 @@ test "bench: any conversion" (b : @bench.T) {
 /// Benchmark: typeof_ operation
 test "bench: typeof_ check" (b : @bench.T) {
   let val = @nostd.any(42)
-  b.bench(fn() { b.keep(@js.typeof_(val)) })
+  b.bench(fn() { b.keep(@nostd.typeof_(val)) })
 }
 
 ///|

@@ -5,7 +5,7 @@ pub fn init_react_api(
   val : @nostd.Any,
   global_key? : String = "__ReactApi",
 ) -> Unit {
-  if @js.is_nullish(@global.global_this()._get(global_key)) {
+  if @nostd.is_nullish(@global.global_this()._get(global_key)) {
     @global.global_this().set(global_key, val)
   }
 }
@@ -24,7 +24,7 @@ extern "js" fn import_react() -> @js.Promise[@nostd.Any] =
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @js.is_nullish(@global.global_this()._get("__ReactApi")) {
+  if @nostd.is_nullish(@global.global_this()._get("__ReactApi")) {
     let react : @nostd.Any = import_react().wait()
     @global.global_this().set("__ReactApi", react)
   }

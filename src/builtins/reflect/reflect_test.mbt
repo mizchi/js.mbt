@@ -61,7 +61,7 @@ test "Reflect.isExtensible and preventExtensions" {
 test "Reflect.getPrototypeOf" {
   let obj = @nostd.Object::new()
   let proto = getPrototypeOf(obj)
-  assert_true(@js.is_object(proto.cast()))
+  assert_true(@nostd.is_object(proto.cast()))
 }
 
 ///|
@@ -91,7 +91,7 @@ test "Reflect.construct" {
   let g : @nostd.Any = @global.global_this() |> @nostd.any
   let array_constructor = g["Array"]
   let arr = construct(array_constructor, [@nostd.any(3)], None)
-  assert_true(@js.is_array(arr.cast()))
+  assert_true(@nostd.is_array(arr.cast()))
 }
 
 ///|
@@ -99,7 +99,7 @@ test "Reflect.getOwnPropertyDescriptor" {
   let obj = @nostd.Object::new()
   obj._set("prop", @nostd.any("value"))
   let descriptor = getOwnPropertyDescriptor(obj, @nostd.any("prop"))
-  assert_true(@js.is_object(descriptor.cast()))
+  assert_true(@nostd.is_object(descriptor.cast()))
   let value = descriptor["value"]
   assert_eq(@nostd.identity(value), "value")
 }

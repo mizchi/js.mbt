@@ -3,7 +3,7 @@
 ///|
 test "global_this" {
   let global = global_this()
-  assert_false(@js.is_null(global))
+  assert_false(@nostd.is_null(global))
 }
 
 ///| Type Checking
@@ -143,4 +143,81 @@ test "set_interval and clear_interval" {
 test "queue_microtask - can be called" {
   // Just verify the function can be called without error
   queue_microtask(fn() { () })
+}
+
+///|
+test "parseInt - parse decimal integers" {
+  assert_eq(@global.parse_int("42"), Some(42))
+  assert_eq(@global.parse_int("0"), Some(0))
+  assert_eq(@global.parse_int("-123"), Some(-123))
+  assert_eq(@global.parse_int("  456  "), Some(456)) // Leading/trailing whitespace
+}
+
+///|
+test "parseInt - parse with different radix" {
+  assert_eq(@global.parse_int("ff", radix=16), Some(255))
+  assert_eq(@global.parse_int("FF", radix=16), Some(255))
+  assert_eq(@global.parse_int("101", radix=2), Some(5))
+  assert_eq(@global.parse_int("77", radix=8), Some(63))
+  assert_eq(@global.parse_int("z", radix=36), Some(35))
+}
+
+///|
+test "parseInt - return None for invalid input" {
+  assert_eq(@global.parse_int("hello"), None)
+  assert_eq(@global.parse_int(""), None)
+  assert_eq(@global.parse_int("abc", radix=10), None)
+}
+
+///|
+test "parseInt - partial parsing" {
+  // JavaScript parseInt parses as much as it can
+  assert_eq(@global.parse_int("123abc"), Some(123))
+  assert_eq(@global.parse_int("42.5"), Some(42))
+}
+
+///|
+test "parseFloat - parse floating point numbers" {
+  assert_eq(@global.parse_float("3.14"), Some(3.14))
+  assert_eq(@global.parse_float("0.5"), Some(0.5))
+  assert_eq(@global.parse_float("-2.5"), Some(-2.5))
+  assert_eq(@global.parse_float("123"), Some(123.0))
+}
+
+///|
+test "parseFloat - parse scientific notation" {
+  assert_eq(@global.parse_float("1.5e2"), Some(150.0))
+  assert_eq(@global.parse_float("1e-3"), Some(0.001))
+}
+
+///|
+test "parseFloat - return None for invalid input" {
+  assert_eq(@global.parse_float("hello"), None)
+  assert_eq(@global.parse_float(""), None)
+}
+
+///|
+test "parseFloat - partial parsing" {
+  assert_eq(@global.parse_float("3.14abc"), Some(3.14))
+}
+
+///|
+test "isFinite - check finite numbers" {
+  assert_eq(@global.is_finite(42.0), true)
+  assert_eq(@global.is_finite(0.0), true)
+  assert_eq(@global.is_finite(-123.456), true)
+}
+
+///|
+test "isFinite - check infinite values" {
+  let inf = 1.0 / 0.0
+  let neg_inf = -1.0 / 0.0
+  assert_eq(@global.is_finite(inf), false)
+  assert_eq(@global.is_finite(neg_inf), false)
+}
+
+///|
+test "isFinite - check NaN" {
+  let nan_val = 0.0 / 0.0
+  assert_eq(@global.is_finite(nan_val), false)
 }

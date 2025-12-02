@@ -192,7 +192,7 @@ fn find_moon_pkg_from(dir : String) -> MoonPkg? {
 /// Safely extract string array from JSON, returns empty array if not present
 fn get_string_array(obj : @nostd.Any, key : String) -> Array[String] {
   let value = obj._get(key)
-  if @js.is_nullish(value) || not(@js.is_array(value)) {
+  if @nostd.is_nullish(value) || not(@js.is_array(value)) {
     return []
   }
   value |> @nostd.identity

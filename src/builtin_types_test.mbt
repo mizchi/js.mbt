@@ -18,7 +18,7 @@ test "Object creation and basic operations" {
 ///|
 test "Object::create" {
   let obj = Object::create(@nostd.Object::new())
-  assert_true(@js.is_object(obj))
+  assert_true(@nostd.is_object(obj))
 }
 
 ///|
@@ -174,11 +174,11 @@ test "Object with empty strings" {
 ///|
 test "JsArray creation and type checking" {
   let arr = JsArray::new()
-  assert_true(@js.is_array(arr))
-  assert_true(@js.is_object(arr))
+  assert_true(@nostd.is_array(arr))
+  assert_true(@nostd.is_object(arr))
 
   // Native array is also js array
-  assert_true(@js.is_array([1] |> @js.from_array))
+  assert_true(@nostd.is_array([1] |> @nostd.any))
 }
 
 ///| Iterator tests
@@ -192,7 +192,7 @@ test "JsIterator::from converts iterable to iterator" {
   let js_iter : JsIterator[@nostd.Any] = JsIterator::from(arr)
 
   // Verify it's created (basic type check)
-  assert_true(@js.is_object(js_iter.as_any()))
+  assert_true(@nostd.is_object(js_iter.as_any()))
 }
 
 ///| Function tests
@@ -221,7 +221,7 @@ test "JsError creation and properties" {
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error.to_any()))
   let error_val : @nostd.Any = @nostd.identity(error)
-  assert_true(@js.is_object(error_val))
+  assert_true(@nostd.is_object(error_val))
   assert_eq(@nostd.identity(error_val._get("message")), "Test error")
 }
 
@@ -276,20 +276,20 @@ test "Symbol creation and well-known symbols" {
   let iter_sym = Symbol::iterator()
   let dispose_sym = Symbol::dispose()
   let async_dispose_sym = Symbol::asyncDispose()
-  assert_eq(@js.typeof_(any(sym)), "symbol")
-  assert_eq(@js.typeof_(any(iter_sym)), "symbol")
-  assert_eq(@js.typeof_(any(dispose_sym)), "symbol")
-  assert_eq(@js.typeof_(any(async_dispose_sym)), "symbol")
+  assert_eq(@nostd.typeof_(any(sym)), "symbol")
+  assert_eq(@nostd.typeof_(any(iter_sym)), "symbol")
+  assert_eq(@nostd.typeof_(any(dispose_sym)), "symbol")
+  assert_eq(@nostd.typeof_(any(async_dispose_sym)), "symbol")
 }
 
 ///|
 test "Symbol::for_ global registry" {
   let sym1 = Symbol::for_("mySymbol")
   let sym2 = Symbol::for_("mySymbol")
-  assert_eq(@js.typeof_(sym1), "symbol")
-  assert_eq(@js.typeof_(sym2), "symbol")
+  assert_eq(@nostd.typeof_(sym1 |> @nostd.any), "symbol")
+  assert_eq(@nostd.typeof_(sym2 |> @nostd.any), "symbol")
   let sym3 = Symbol::for_("differentSymbol")
-  assert_eq(@js.typeof_(sym3), "symbol")
+  assert_eq(@nostd.typeof_(sym3 |> @nostd.any), "symbol")
 }
 
 ///| JsString tests
@@ -393,14 +393,14 @@ test "Conditional property setting with Option" {
     Some(val) => obj.set("key2", val)
     None => ()
   }
-  assert_true(@js.is_undefined(obj._get("key2")))
+  assert_true(@nostd.is_undefined(obj._get("key2")))
 
   // Set with undefined value - check before setting
   match Some(@nostd.undefined()) {
-    Some(val) if not(@js.is_undefined(val)) => obj.set("key3", val)
+    Some(val) if not(@nostd.is_undefined(val)) => obj.set("key3", val)
     _ => ()
   }
-  assert_true(@js.is_undefined(obj._get("key3")))
+  assert_true(@nostd.is_undefined(obj._get("key3")))
 }
 
 ///|
@@ -454,7 +454,7 @@ test "Object::to_string" {
 ///|
 test "Symbol::asyncIterator" {
   let async_iter_sym = Symbol::asyncIterator()
-  assert_eq(@js.typeof_(async_iter_sym), "symbol")
+  assert_eq(@nostd.typeof_(async_iter_sym |> @nostd.any), "symbol")
 }
 
 ///| AbortController tests

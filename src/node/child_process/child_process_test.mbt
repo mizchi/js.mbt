@@ -138,9 +138,9 @@ test "spawnSync handles non-existent command with error" {
   let result = spawnSync("/nonexistent/command", stdio="pipe")
   // Error is a Js object (not nullish) when command is not found
   let error : @nostd.Any = result.error().cast()
-  inspect(@js.is_nullish(error), content="false")
+  inspect(@nostd.is_nullish(error), content="false")
   // Verify it's an error object
-  assert_true(@js.is_object(error))
+  assert_true(@nostd.is_object(error))
 }
 
 ///|
@@ -149,7 +149,7 @@ test "spawnSync handles command not found" {
   let result = spawnSync("/nonexistent/command", stdio="pipe")
   let error : @nostd.Any = result.error().cast()
   // Error field exists as a Js object
-  assert_true(@js.is_object(error))
+  assert_true(@nostd.is_object(error))
 }
 
 ///|
@@ -420,7 +420,9 @@ async test "Node Child Process: ChildProcess signalCode returns signal" {
 test "Node Child Process: Nullish to_option converts null to None" {
   // Test that Nullish type works correctly
   // Create a nullish value using undefined
-  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(@global.undefined())
+  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(
+    @global.undefined(),
+  )
   let opt = nullish_val.to_option()
   inspect(opt, content="None")
 }

@@ -57,8 +57,8 @@ pub fn GenerateObjectResult::from_any(
 ) -> GenerateObjectResult {
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @js.is_undefined(warnings_raw) ||
-    @js.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
+    @nostd.is_null(warnings_raw) {
     []
   } else {
     let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)

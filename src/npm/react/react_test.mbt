@@ -22,7 +22,9 @@ test "React createElement" {
     "button",
     props={
       "className": @nostd.any("my-button"),
-      "onClick": @nostd.identity(@js.from_fn0(fn() { @js.log("Button clicked") })),
+      "onClick": @nostd.identity(
+        @js.from_fn0(fn() { @js.log("Button clicked") }),
+      ),
     },
     [],
   )
@@ -480,7 +482,7 @@ test "error_boundary structure with throwing component" {
   // Note: SSR with renderToString doesn't support ErrorBoundary
   // ErrorBoundary only works on client-side rendering
   // Here we just verify the element structure is valid
-  // let type_of : String = @js.typeof_(el |> @nostd.identity)
+  // let type_of : String = @nostd.typeof_(el |> @nostd.identity)
   // assert_eq(type_of, "object") // React element is an object
 }
 
