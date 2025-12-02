@@ -327,7 +327,7 @@ pub fn Object::getOwnPropertyNames(obj : @nostd.Any) -> Array[String] {
 /// JS: Object.getOwnPropertySymbols(obj)
 /// Returns an array of all own symbol properties
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols
-pub fn Object::getOwnPropertySymbols(obj : @nostd.Any) -> Array[@js.Symbol] {
+pub fn Object::getOwnPropertySymbols(obj : @nostd.Any) -> Array[@symbol.Symbol] {
   @nostd.any(object_class())._call("getOwnPropertySymbols", [obj])
   |> @nostd.identity
 }

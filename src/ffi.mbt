@@ -11,10 +11,6 @@ extern "js" fn ffi_is_array(value : @nostd.Any) -> Bool =
 ///| Object Operations
 
 ///|
-extern "js" fn ffi_new_object() -> @nostd.Any =
-  #| () => ({})
-
-///|
 extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
   #| (obj, key) => obj[key]
 
@@ -27,10 +23,6 @@ extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
   #| (obj, key) => obj.hasOwnProperty(key)
 
 ///| Function Calls
-
-///|
-extern "js" fn ffi_call1(obj : @nostd.Any, key : String, arg1 : Any) -> Any =
-  #| (obj, key, arg1) => obj[key](arg1)
 
 ///|
 extern "js" fn ffi_call_self0(func : @nostd.Any) -> Any =
@@ -86,10 +78,6 @@ extern "js" fn ffi_promise_with_resolvers() -> Any =
   #| () => Promise.withResolvers()
 
 ///| Symbols
-
-///|
-extern "js" fn ffi_symbol(name : String) -> Symbol =
-  #| (name) => Symbol(name)
 
 ///| Global Functions
 

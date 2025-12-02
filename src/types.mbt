@@ -35,7 +35,7 @@ pub fn Object::to_any(self : Object) -> @nostd.Any = "%identity"
 /// Returns Any directly - use from_map() for creating objects with initial properties
 /// Example: `let obj = @js.from_map({ "key": @nostd.any(value) })` for typed object creation
 pub fn Object::new() -> @nostd.Any {
-  ffi_new_object()
+  @nostd.Object::new()
 }
 
 ///|
@@ -128,60 +128,6 @@ pub fn JSON::parse(s : String, reviver? : Any? = None) -> Any raise ThrowError {
 }
 
 ///| Symbol - Used for special properties
-
-///|
-/// JavaScript Symbol
-#external
-pub type Symbol
-
-///|
-pub fn Symbol::to_any(self : Symbol) -> @nostd.Any = "%identity"
-
-///|
-extern "js" fn symbol_class() -> Any =
-  #| () => Symbol
-
-///|
-/// JS: Symbol(name)
-pub fn symbol(name : String) -> Symbol {
-  ffi_symbol(name)
-}
-
-///|
-/// JS: Symbol.for(name)
-pub fn Symbol::for_(name : String) -> Symbol {
-  ffi_call1(symbol_class(), "for", any(name)) |> identity
-}
-
-///|
-/// JS: Symbol.iterator
-pub fn Symbol::iterator() -> Symbol {
-  ffi_get(symbol_class(), "iterator") |> identity
-}
-
-///|
-/// JS: Symbol.asyncIterator
-pub fn Symbol::asyncIterator() -> Symbol {
-  ffi_get(symbol_class(), "asyncIterator") |> identity
-}
-
-///|
-/// JS: Symbol.dispose
-pub fn Symbol::dispose() -> Symbol {
-  ffi_get(symbol_class(), "dispose") |> identity
-}
-
-///|
-/// JS: Symbol.asyncDispose
-pub fn Symbol::asyncDispose() -> Symbol {
-  ffi_get(symbol_class(), "asyncDispose") |> identity
-}
-
-///|
-/// JS: Symbol.asyncDispose
-pub fn Symbol::toStringTag() -> Symbol {
-  ffi_get(symbol_class(), "toStringTag") |> identity
-}
 
 ///| JsString - String utilities
 

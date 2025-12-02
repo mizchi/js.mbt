@@ -113,7 +113,7 @@ test "bench: typeof_ check" (b : @bench.T) {
 /// Benchmark: is_array check
 test "bench: is_array check" (b : @bench.T) {
   let arr = @nostd.any([1, 2, 3])
-  b.bench(fn() { b.keep(@js.is_array(arr)) })
+  b.bench(fn() { b.keep(@nostd.is_array(arr)) })
 }
 
 ///|

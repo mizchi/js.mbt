@@ -61,9 +61,9 @@ test "require_test loads ai/test module" {
 ///|
 test "mock_values_js works with JS values" {
   let mock_fn = mock_values_js(["first" |> @js.any, "second" |> @js.any])
-  let first : String = mock_fn.call_self([]).cast()
-  let second : String = mock_fn.call_self([]).cast()
-  let third : String = mock_fn.call_self([]).cast() // Should return last
+  let first : String = mock_fn._invoke([]).cast()
+  let second : String = mock_fn._invoke([]).cast()
+  let third : String = mock_fn._invoke([]).cast() // Should return last
   assert_eq(first, "first")
   assert_eq(second, "second")
   assert_eq(third, "second")

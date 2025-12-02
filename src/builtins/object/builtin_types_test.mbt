@@ -417,7 +417,7 @@ test "Object::getOwnPropertyNames" {
 ///|
 test "Object::getOwnPropertySymbols" {
   let obj = @nostd.Object::new()
-  let sym = @js.symbol("mySymbol").to_any().cast()
+  let sym = @symbol.symbol("mySymbol") |> @nostd.identity
   obj._set(sym, "symbol value" |> @nostd.any)
   let symbols = Object::getOwnPropertySymbols(obj)
   assert_eq(symbols.length(), 1)

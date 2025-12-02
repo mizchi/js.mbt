@@ -5,10 +5,6 @@ pub(all) struct JsError {
 }
 
 ///|
-// pub extern "js" fn JsError::new(args : Array[@nostd.Any]) -> JsError =
-//   #| (args) => new Error(...args)
-
-///|
 pub extern "js" fn JsError::isError(value : @nostd.Any) -> Bool =
   #| (value) => Error.isError(value)
 

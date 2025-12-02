@@ -270,7 +270,7 @@ pub fn Window::requestAnimationFrame(
 ) -> Int {
   self
   .as_any()
-  ._call("requestAnimationFrame", [@nostd.any(@js.unsafe_any(callback))])
+  ._call("requestAnimationFrame", [@nostd.any(@js.any(callback))])
   .cast()
 }
 

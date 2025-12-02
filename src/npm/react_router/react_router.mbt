@@ -75,13 +75,13 @@ pub fn Route::as_any(self : Route) -> @nostd.Any {
     Route::Component(path~, component~) => {
       let obj = @nostd.Object::new()
       obj._set("path", path |> @nostd.any)
-      obj._set("Component", component |> @js.unsafe_any)
+      obj._set("Component", component |> @js.any)
       obj
     }
     Route::Element(path~, element~) => {
       let obj = @nostd.Object::new()
       obj._set("path", path |> @nostd.any)
-      obj._set("element", element |> @js.unsafe_any)
+      obj._set("element", element |> @js.any)
       obj
     }
   }
@@ -264,17 +264,17 @@ pub fn NavigateFunction::to(
   relative? : String,
 ) -> Unit {
   if replace is None && state is None && relative is None {
-    (self.0)(path |> @js.unsafe_any, None)
+    (self.0)(path |> @js.any, None)
   } else {
     let options = NavigateOptions::{ replace, state, relative }
-    (self.0)(path |> @js.unsafe_any, Some(options.as_any()))
+    (self.0)(path |> @js.any, Some(options.as_any()))
   }
 }
 
 ///|
 /// Navigate back/forward in history by delta
 pub fn NavigateFunction::go(self : NavigateFunction, delta : Int) -> Unit {
-  (self.0)(delta |> @js.unsafe_any, None)
+  (self.0)(delta |> @js.any, None)
 }
 
 ///|

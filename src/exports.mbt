@@ -4,8 +4,18 @@
 pub using @js_async {type AbortController, type AbortSignal}
 
 ///|
-pub using @nostd {type Any, type Nullable, type Nullish}
+pub using @nostd {
+  type Any,
+  type Nullable,
+  type Nullish,
+  identity,
+  any,
+  typeof_,
+  from_fn0,
+  from_fn1,
+  from_fn2,
+  from_fn3,
+}
 
 ///|
-/// Conversion functions
-pub using @nostd {from_fn0, from_fn1, from_fn2, from_fn3}
+pub using @symbol {type Symbol, symbol}

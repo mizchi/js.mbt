@@ -145,15 +145,15 @@ pub fn[T] reactive(obj : T) -> T {
 ///|
 /// Vue.computed - Create a computed property
 pub fn[T] computed(getter : () -> T) -> Ref[T] {
-  @nostd.identity(ffi_computed(getter |> @js.unsafe_any))
+  @nostd.identity(ffi_computed(getter |> @js.any))
 }
 
 ///|
 /// Vue.computed with getter and setter
 pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
   let options = @nostd.Object::new()
-  options._set("get", get |> @js.unsafe_any)
-  options._set("set", set |> @js.unsafe_any)
+  options._set("get", get |> @js.any)
+  options._set("set", set |> @js.any)
   @nostd.identity(ffi_computed(options))
 }
 

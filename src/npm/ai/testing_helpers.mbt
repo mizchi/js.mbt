@@ -96,16 +96,14 @@ pub fn mock_values_js(values : Array[@nostd.Any]) -> @nostd.Any {
 /// Convert array to async iterable (JS)
 pub fn convert_array_to_async_iterable(arr : Array[@nostd.Any]) -> @nostd.Any {
   let test_module = require_test()
-  test_module._get("convertArrayToAsyncIterable").call_self([arr |> @nostd.any])
+  test_module._get("convertArrayToAsyncIterable")._invoke([arr |> @nostd.any])
 }
 
 ///|
 /// Convert array to readable stream (JS)
 pub fn convert_array_to_readable_stream(arr : Array[@nostd.Any]) -> @nostd.Any {
   let test_module = require_test()
-  test_module
-  ._get("convertArrayToReadableStream")
-  .call_self([arr |> @nostd.any])
+  test_module._get("convertArrayToReadableStream")._invoke([arr |> @nostd.any])
 }
 
 ///|

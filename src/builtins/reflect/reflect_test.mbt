@@ -166,7 +166,7 @@ test "Reflect operations on frozen object" {
 test "Reflect.ownKeys includes symbols" {
   let obj = @nostd.Object::new()
   obj._set("stringKey", @nostd.any(1))
-  let sym = @js.symbol("test")
+  let sym = @symbol.symbol("test")
   // Use Reflect.set to set symbol key (since _set only takes String keys)
   @reflect.set(obj, @nostd.any(sym), @nostd.any(2), None) |> ignore
   let keys = ownKeys(obj)

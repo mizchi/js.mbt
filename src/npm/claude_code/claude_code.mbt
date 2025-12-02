@@ -53,7 +53,7 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
       opts._set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts])
+  let result = claude_code_module()._get("query")._invoke([opts])
 
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity

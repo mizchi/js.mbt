@@ -14,28 +14,6 @@ test "ThrowError Show trait" {
 
 ///| Symbol tests
 
-///|
-test "Symbol creation and well-known symbols" {
-  let sym = symbol("test")
-  let iter_sym = Symbol::iterator()
-  let dispose_sym = Symbol::dispose()
-  let async_dispose_sym = Symbol::asyncDispose()
-  assert_eq(@nostd.typeof_(any(sym)), "symbol")
-  assert_eq(@nostd.typeof_(any(iter_sym)), "symbol")
-  assert_eq(@nostd.typeof_(any(dispose_sym)), "symbol")
-  assert_eq(@nostd.typeof_(any(async_dispose_sym)), "symbol")
-}
-
-///|
-test "Symbol::for_ global registry" {
-  let sym1 = Symbol::for_("mySymbol")
-  let sym2 = Symbol::for_("mySymbol")
-  assert_eq(@nostd.typeof_(sym1 |> @nostd.any), "symbol")
-  assert_eq(@nostd.typeof_(sym2 |> @nostd.any), "symbol")
-  let sym3 = Symbol::for_("differentSymbol")
-  assert_eq(@nostd.typeof_(sym3 |> @nostd.any), "symbol")
-}
-
 ///| JsString tests
 
 ///|
@@ -95,12 +73,6 @@ test "Object::to_string" {
   assert_true(str.contains("Alice"))
   assert_true(str.contains("age"))
   assert_true(str.contains("30"))
-}
-
-///|
-test "Symbol::asyncIterator" {
-  let async_iter_sym = Symbol::asyncIterator()
-  assert_eq(@nostd.typeof_(async_iter_sym |> @nostd.any), "symbol")
 }
 
 ///| AbortController tests

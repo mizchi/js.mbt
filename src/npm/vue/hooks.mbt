@@ -18,7 +18,7 @@ pub fn[T] watch(
     options._set("deep", v |> @nostd.any)
   }
   @nostd.identity(
-    ffi_watch(source |> @nostd.identity, callback |> @js.unsafe_any, options),
+    ffi_watch(source |> @nostd.identity, callback |> @js.any, options),
   )
 }
 
@@ -29,19 +29,19 @@ pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
   if flush is Some(v) {
     options._set("flush", v |> @nostd.any)
   }
-  @nostd.identity(ffi_watch_effect(effect |> @js.unsafe_any, options))
+  @nostd.identity(ffi_watch_effect(effect |> @js.any, options))
 }
 
 ///|
 /// Vue.watchPostEffect - watchEffect with flush: 'post'
 pub fn watchPostEffect(effect : () -> Unit) -> WatchStopHandle {
-  @nostd.identity(ffi_watch_post_effect(effect |> @js.unsafe_any))
+  @nostd.identity(ffi_watch_post_effect(effect |> @js.any))
 }
 
 ///|
 /// Vue.watchSyncEffect - watchEffect with flush: 'sync'
 pub fn watchSyncEffect(effect : () -> Unit) -> WatchStopHandle {
-  @nostd.identity(ffi_watch_sync_effect(effect |> @js.unsafe_any))
+  @nostd.identity(ffi_watch_sync_effect(effect |> @js.any))
 }
 
 ///|
@@ -106,7 +106,7 @@ pub fn onDeactivated(callback : () -> Unit) -> Unit {
 pub fn onErrorCaptured(
   callback : (@nostd.Any, @nostd.Any, String) -> Bool?,
 ) -> Unit {
-  ffi_on_error_captured(callback |> @js.unsafe_any)
+  ffi_on_error_captured(callback |> @js.any)
 }
 
 ///|
@@ -139,7 +139,7 @@ pub async fn nextTick() -> Unit {
 /// Vue.nextTick with callback
 #alias(next_tick_with_callback)
 pub fn nextTickCallback(callback : () -> Unit) -> Unit {
-  let _ = ffi_next_tick(callback |> @js.unsafe_any)
+  let _ = ffi_next_tick(callback |> @js.any)
 
 }
 

@@ -80,7 +80,7 @@ fn build_options(
     opts._set("progressiveChunkSize", v |> @nostd.any)
   }
   if signal is Some(v) {
-    opts._set("signal", @js.unsafe_any(v))
+    opts._set("signal", @js.any(v))
   }
   opts
 }
