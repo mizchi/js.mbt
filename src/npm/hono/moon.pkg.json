@@ -5,7 +5,7 @@
     "mizchi/js/mbtconv",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
-    "mizchi/js/builtins/typedarray",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/node",
     "mizchi/js/npm/better_auth"
   ],

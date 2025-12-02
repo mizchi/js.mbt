@@ -208,8 +208,8 @@ pub async fn Request::text(self : Request) -> String {
 }
 
 ///|
-pub async fn Request::arraybuffer(self : Request) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self
+pub async fn Request::arraybuffer(self : Request) -> @arraybuffer.ArrayBuffer {
+  let promise : @js.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("arrayBuffer", [])
     .cast()
@@ -223,8 +223,8 @@ pub async fn Request::blob(self : Request) -> @blob.Blob {
 }
 
 ///|
-pub async fn Request::bytes(self : Request) -> @typedarray.Uint8Array {
-  let promise : @js.Promise[@typedarray.Uint8Array] = self
+pub async fn Request::bytes(self : Request) -> @arraybuffer.Uint8Array {
+  let promise : @js.Promise[@arraybuffer.Uint8Array] = self
     .as_any()
     ._call("bytes", [])
     .cast()

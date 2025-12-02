@@ -15,7 +15,7 @@ pub fn uint8array_to_bytes(Uint8Array) -> Bytes
 
 // Types and methods
 pub(all) struct BigInt64Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -24,7 +24,7 @@ pub fn BigInt64Array::as_any(Self) -> @core.Any
 pub fn BigInt64Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct BigUint64Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -33,7 +33,7 @@ pub fn BigUint64Array::as_any(Self) -> @core.Any
 pub fn BigUint64Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct DataView {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
 }
@@ -54,7 +54,7 @@ pub fn DataView::get_uint16(Self, Int, little_endian? : Bool) -> Int
 pub fn DataView::get_uint32(Self, Int, little_endian? : Bool) -> Int
 #alias(getUint8)
 pub fn DataView::get_uint8(Self, Int) -> Int
-pub fn DataView::new(@js.ArrayBuffer, byte_offset? : Int, byte_length? : Int) -> Self
+pub fn DataView::new(@arraybuffer.ArrayBuffer, byte_offset? : Int, byte_length? : Int) -> Self
 #alias(setFloat32)
 pub fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
 #alias(setFloat64)
@@ -73,7 +73,7 @@ pub fn DataView::set_uint32(Self, Int, Int, little_endian? : Bool) -> Unit
 pub fn DataView::set_uint8(Self, Int, Int) -> Unit
 
 pub(all) struct Float32Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -82,7 +82,7 @@ pub fn Float32Array::as_any(Self) -> @core.Any
 pub fn Float32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Float64Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -91,7 +91,7 @@ pub fn Float64Array::as_any(Self) -> @core.Any
 pub fn Float64Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int16Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -99,7 +99,7 @@ pub(all) struct Int16Array {
 pub fn Int16Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int32Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -108,7 +108,7 @@ pub fn Int32Array::as_any(Self) -> @core.Any
 pub fn Int32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int8Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
@@ -140,17 +140,17 @@ pub fn TypedArray::subarray(Self, begin? : Int, end? : Int) -> Self
 pub fn TypedArray::toString(Self) -> String
 
 pub(all) struct Uint16Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
 }
 pub fn Uint16Array::as_any(Self) -> @core.Any
 pub fn Uint16Array::as_typed_array(Self) -> TypedArray
-pub fn Uint16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Uint16Array::from_array_buffer(@arraybuffer.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 
 pub(all) struct Uint32Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
@@ -158,7 +158,7 @@ pub(all) struct Uint32Array {
 pub fn Uint32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Uint8Array {
-  buffer : @js.ArrayBuffer
+  buffer : @arraybuffer.ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -166,7 +166,7 @@ pub(all) struct Uint8Array {
 pub fn Uint8Array::as_any(Self) -> @core.Any
 pub fn Uint8Array::as_typed_array(Self) -> TypedArray
 pub fn Uint8Array::from_array(Array[Int]) -> Self
-pub fn Uint8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Uint8Array::from_array_buffer(@arraybuffer.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 pub fn Uint8Array::from_bytes(Bytes) -> Self
 pub fn Uint8Array::from_size(Int) -> Self
 pub fn Uint8Array::to_bytes(Self) -> Bytes
@@ -174,4 +174,3 @@ pub fn Uint8Array::to_bytes(Self) -> Bytes
 // Type aliases
 
 // Traits
-

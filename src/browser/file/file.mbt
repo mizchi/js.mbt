@@ -56,8 +56,8 @@ pub fn File::as_blob(self : Self) -> @blob.Blob {
 ///|
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(array_buffer)
-pub async fn File::arrayBuffer(self : Self) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self
+pub async fn File::arrayBuffer(self : Self) -> @arraybuffer.ArrayBuffer {
+  let promise : @js.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("arrayBuffer", [])
     .cast()

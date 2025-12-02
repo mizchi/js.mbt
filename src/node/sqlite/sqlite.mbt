@@ -280,7 +280,7 @@ pub fn DatabaseSync::prepare(
 #alias(apply_changeset)
 pub fn DatabaseSync::applyChangeset(
   self : DatabaseSync,
-  changeset : @typedarray.Uint8Array,
+  changeset : @arraybuffer.Uint8Array,
   filter? : (@core.Any) -> Bool,
   onConflict? : (@core.Any?, @core.Any) -> Bool,
 ) -> Bool {
@@ -460,12 +460,12 @@ pub(all) struct StatementResultingChanges {
 pub type Session
 
 ///|
-pub fn Session::changeset(self : Session) -> @typedarray.Uint8Array {
+pub fn Session::changeset(self : Session) -> @arraybuffer.Uint8Array {
   @core.any(self)._call("changeset", []).cast()
 }
 
 ///|
-pub fn Session::patchset(self : Session) -> @typedarray.Uint8Array {
+pub fn Session::patchset(self : Session) -> @arraybuffer.Uint8Array {
   @core.any(self)._call("patchset", []).cast()
 }
 

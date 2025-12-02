@@ -16,7 +16,7 @@ pub(all) struct Blob {
   size : Int
 }
 #alias(array_buffer)
-pub async fn Blob::arrayBuffer(Self) -> @js.ArrayBuffer
+pub async fn Blob::arrayBuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn Blob::as_any(Self) -> @core.Any
 #alias(content_type)
 pub fn Blob::contentType(Self) -> String
@@ -28,4 +28,3 @@ pub async fn Blob::text(Self) -> String
 // Type aliases
 
 // Traits
-

@@ -8,7 +8,7 @@
     "mizchi/js/mbtconv",
     "mizchi/js/web/event",
     "mizchi/js/node/buffer",
-    "mizchi/js/builtins/typedarray",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/web/blob"
   ]
 }

@@ -506,7 +506,7 @@ pub(all) struct TextMetrics {
 pub(all) struct ImageData {
   width : Int
   height : Int
-  data : @typedarray.Uint8Array
+  data : @arraybuffer.Uint8Array
 }
 
 ///|
@@ -531,7 +531,7 @@ pub fn ImageData::new(width : Int, height : Int) -> ImageData {
 
 ///|
 pub fn ImageData::from_data(
-  data : @typedarray.Uint8Array,
+  data : @arraybuffer.Uint8Array,
   width : Int,
   height : Int,
 ) -> ImageData {

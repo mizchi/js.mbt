@@ -33,7 +33,7 @@ pub fn WebSocket::as_any(Self) -> @core.Any
 pub fn WebSocket::as_event_target(Self) -> @event.EventTarget
 pub fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
 pub fn WebSocket::new(String, protocols? : Array[String]) -> Self
-pub fn WebSocket::send_arraybuffer(Self, @js.ArrayBuffer) -> Unit
+pub fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
 pub fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
 pub fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
 pub fn WebSocket::send_string(Self, String) -> Unit
@@ -57,4 +57,3 @@ pub impl Show for WebSocketReadyState
 // Type aliases
 
 // Traits
-

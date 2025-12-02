@@ -1,7 +1,7 @@
 // ArrayBuffer - Frequently used binary data buffer
 //
 // For TypedArray (Uint8Array, Int32Array, etc.) and DataView,
-// see src/builtins/typedarray/
+// see src/builtins/arraybuffer/
 
 ///| ArrayBuffer
 
@@ -30,7 +30,7 @@ pub fn ArrayBuffer::new(
   byte_length : Int,
   max_byte_length? : Int,
 ) -> ArrayBuffer {
-  identity(ffi_new_array_buffer(byte_length, max_byte_length))
+  @core.identity(ffi_new_array_buffer(byte_length, max_byte_length))
 }
 
 ///|

@@ -34,7 +34,7 @@ pub(all) struct Request {
   url : String
   credentials : String
 }
-pub async fn Request::arraybuffer(Self) -> @js.ArrayBuffer
+pub async fn Request::arraybuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn Request::as_any(Self) -> @core.Any
 pub async fn Request::blob(Self) -> @blob.Blob
 pub async fn Request::bytes(Self) -> @typedarray.Uint8Array
@@ -89,4 +89,3 @@ pub fn Response::type_(Self) -> String
 // Type aliases
 
 // Traits
-

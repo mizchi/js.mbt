@@ -62,7 +62,7 @@ pub fn Deserializer::readUint32(Self) -> Int
 #alias(read_value)
 pub fn Deserializer::readValue(Self) -> @core.Any
 #alias(transferArrayBuffer)
-pub fn Deserializer::transfer_array_buffer(Self, Int, @js.ArrayBuffer) -> Unit
+pub fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
 
 #external
 pub type HeapCodeStatistics
@@ -104,7 +104,7 @@ pub fn Serializer::new() -> Self
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(Self) -> @buffer.Buffer
 #alias(transfer_array_buffer)
-pub fn Serializer::transferArrayBuffer(Self, Int, @js.ArrayBuffer) -> Unit
+pub fn Serializer::transferArrayBuffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
 #alias(write_header)
 pub fn Serializer::writeHeader(Self) -> Unit
 #alias(write_value)
@@ -119,4 +119,3 @@ pub fn Serializer::write_uint32(Self, Int) -> Unit
 // Type aliases
 
 // Traits
-

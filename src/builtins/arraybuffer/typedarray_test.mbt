@@ -15,7 +15,7 @@ test "Uint8Array::from_array - create from array" {
 
 ///|
 test "Uint8Array::from_array_buffer - basic" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer).as_typed_array()
   assert_eq(arr.length(), 16)
   assert_eq(arr.byteLength(), 16)
@@ -24,7 +24,7 @@ test "Uint8Array::from_array_buffer - basic" {
 
 ///|
 test "Uint8Array::from_array_buffer - with offset" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4).as_typed_array()
   assert_eq(arr.length(), 12)
   assert_eq(arr.byteOffset(), 4)
@@ -32,7 +32,7 @@ test "Uint8Array::from_array_buffer - with offset" {
 
 ///|
 test "Uint8Array::from_array_buffer - with offset and length" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let arr = Uint8Array::from_array_buffer(buffer, byte_offset=4, length=8).as_typed_array()
   assert_eq(arr.length(), 8)
   assert_eq(arr.byteOffset(), 4)

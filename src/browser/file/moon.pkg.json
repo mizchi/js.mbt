@@ -7,6 +7,6 @@
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/web/blob",
-    "mizchi/js/builtins/typedarray"
+    "mizchi/js/builtins/arraybuffer"
   ]
 }

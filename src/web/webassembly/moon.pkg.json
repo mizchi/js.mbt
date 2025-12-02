@@ -4,7 +4,7 @@
   ],
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/typedarray",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/builtins/global"

@@ -193,7 +193,7 @@ fn decompress_request(compressed_stream : @streams.ReadableStream) -> @streams.R
 
 ```moonbit
 // Password hashing (server-side authentication)
-fn hash_password(password : String) -> @js.Promise[@js.ArrayBuffer] {
+fn hash_password(password : String) -> @js.Promise[@arraybuffer.ArrayBuffer] {
   let crypto = @crypto.get_crypto()
   let subtle = crypto.subtle
   let encoder = @js.TextEncoder::new()
@@ -220,7 +220,7 @@ fn sign_jwt(payload : String, secret : String) -> @js.Promise[String] {
 }
 
 // Encrypt sensitive data (database encryption)
-fn encrypt_data(data : String) -> @js.Promise[@js.ArrayBuffer] {
+fn encrypt_data(data : String) -> @js.Promise[@arraybuffer.ArrayBuffer] {
   let crypto = @crypto.get_crypto()
   let subtle = crypto.subtle
   

@@ -120,7 +120,7 @@ test "Blob stream returns ReadableStream" {
 ///|
 /// Test Blob with binary data
 test "Blob handles binary data" {
-  let uint8 = @typedarray.Uint8Array::from_size(3).as_typed_array()
+  let uint8 = @arraybuffer.Uint8Array::from_size(3).as_typed_array()
   uint8.set_at(0, 72) // 'H'
   uint8.set_at(1, 105) // 'i'
   uint8.set_at(2, 33) // '!'

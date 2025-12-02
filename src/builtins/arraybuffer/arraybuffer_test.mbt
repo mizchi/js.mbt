@@ -2,15 +2,15 @@
 
 ///|
 test "ArrayBuffer creation and properties" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   assert_eq(buffer.byteLength, 16)
-  let zero_buffer = @js.ArrayBuffer::new(0)
+  let zero_buffer = @arraybuffer.ArrayBuffer::new(0)
   assert_eq(zero_buffer.byteLength, 0)
 }
 
 ///|
 test "ArrayBuffer with maxByteLength" {
-  let buffer = @js.ArrayBuffer::new(8, max_byte_length=16)
+  let buffer = @arraybuffer.ArrayBuffer::new(8, max_byte_length=16)
   assert_eq(buffer.byteLength, 8)
   assert_eq(buffer.maxByteLength, 16)
   assert_true(buffer.resizable)
@@ -20,13 +20,13 @@ test "ArrayBuffer with maxByteLength" {
   assert_eq(buffer.byteLength, 12)
 
   // Non-resizable buffer
-  let fixed_buffer = @js.ArrayBuffer::new(8)
+  let fixed_buffer = @arraybuffer.ArrayBuffer::new(8)
   assert_false(fixed_buffer.resizable)
 }
 
 ///|
 test "@core.ArrayBuffer::slice operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)
@@ -46,15 +46,15 @@ test "@core.ArrayBuffer::slice operations" {
 }
 
 ///|
-test "@js.ArrayBuffer::is_view" {
-  let buffer = @js.ArrayBuffer::new(16)
+test "@arraybuffer.ArrayBuffer::is_view" {
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
 
   // Plain buffer is not a view
-  assert_false(@js.ArrayBuffer::isView(buffer |> @core.any))
+  assert_false(@arraybuffer.ArrayBuffer::isView(buffer |> @core.any))
 
-  // Note: Testing with actual views requires typedarray package
+  // Note: Testing with actual views requires arraybuffer package
   // which would create circular dependency.
-  // The is_view implementation is tested in typedarray tests.
+  // The is_view implementation is tested in arraybuffer tests.
 }
 
 ///| SharedArrayBuffer tests
@@ -66,7 +66,7 @@ test "SharedArrayBuffer creation and properties" {
 }
 
 ///|
-test "Shared@js.ArrayBuffer::slice operations" {
+test "Shared@arraybuffer.ArrayBuffer::slice operations" {
   let buffer = SharedArrayBuffer::new(16)
 
   // Basic slice

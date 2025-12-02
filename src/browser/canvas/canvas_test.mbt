@@ -418,7 +418,7 @@ test "ImageData data property returns Uint8Array" {
 
 ///|
 test "ImageData from_data creates ImageData from Uint8Array" {
-  let data = @typedarray.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
+  let data = @arraybuffer.Uint8Array::from_size(40) // 10 * 1 * 4 (RGBA)
   let image_data : ImageData = @core.identity(
     test_ffi_create_image_data_with_data(
       data.as_any(),

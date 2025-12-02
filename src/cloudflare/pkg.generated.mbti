@@ -276,7 +276,7 @@ pub async fn R2MultipartUpload::upload_part(Self, Int, @core.Any) -> R2UploadedP
 
 #external
 pub type R2Object
-pub async fn R2Object::array_buffer(Self) -> @js.ArrayBuffer
+pub async fn R2Object::array_buffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn R2Object::as_any(Self) -> @core.Any
 pub async fn R2Object::blob(Self) -> @blob.Blob
 pub fn R2Object::body(Self) -> @streams.ReadableStream
@@ -316,4 +316,3 @@ pub fn R2UploadedPart::as_any(Self) -> @core.Any
 pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]
 
 // Traits
-

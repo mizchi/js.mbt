@@ -1,6 +1,6 @@
 ///|
 pub(all) struct Uint8Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -40,7 +40,7 @@ extern "js" fn ffi_uint8array_from_buffer(
 
 ///|
 pub fn Uint8Array::from_array_buffer(
-  buffer : @js.ArrayBuffer,
+  buffer : ArrayBuffer,
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Uint8Array {
@@ -57,7 +57,7 @@ pub fn Uint8Array::from_array_buffer(
 
 ///|
 pub(all) struct Uint16Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
@@ -73,7 +73,7 @@ pub fn Uint16Array::as_typed_array(self : Uint16Array) -> TypedArray = "%identit
 
 ///|
 pub fn Uint16Array::from_array_buffer(
-  buffer : @js.ArrayBuffer,
+  buffer : ArrayBuffer,
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Uint16Array {
@@ -98,7 +98,7 @@ extern "js" fn ffi_uint16array_from_buffer(
 
 ///|
 pub(all) struct Uint32Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
@@ -114,7 +114,7 @@ pub extern "js" fn Uint32Array::as_typed_array(
 
 ///|
 pub(all) struct Int8Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : UInt
   byteOffset : UInt
   length : UInt
@@ -128,7 +128,7 @@ pub fn Int8Array::as_any(self : Int8Array) -> @core.Any = "%identity"
 
 ///|
 pub(all) struct Int16Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -139,7 +139,7 @@ pub fn Int16Array::as_typed_array(self : Int16Array) -> TypedArray = "%identity"
 
 ///|
 pub(all) struct Int32Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -155,7 +155,7 @@ pub fn Int32Array::as_any(self : Int32Array) -> @core.Any = "%identity"
 
 ///|
 pub(all) struct Float32Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -169,7 +169,7 @@ pub fn Float32Array::as_any(self : Float32Array) -> @core.Any = "%identity"
 
 ///|
 pub(all) struct Float64Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -183,7 +183,7 @@ pub fn Float64Array::as_any(self : Float64Array) -> @core.Any = "%identity"
 
 ///|
 pub(all) struct BigInt64Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int
@@ -197,7 +197,7 @@ pub fn BigInt64Array::as_any(self : BigInt64Array) -> @core.Any = "%identity"
 
 ///|
 pub(all) struct BigUint64Array {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
   length : Int

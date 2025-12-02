@@ -46,7 +46,7 @@ async test "Response: read body stream chunk by chunk" {
         done = @core.identity(data._get("done"))
         if not(done) {
           // Decode Uint8Array to string using TextDecoder from @encoding
-          let value : @typedarray.Uint8Array = data._get("value").cast()
+          let value : @arraybuffer.Uint8Array = data._get("value").cast()
           let decoder = @encoding.TextDecoder::new()
           let text = decoder.decode(value)
           chunks.push(text)

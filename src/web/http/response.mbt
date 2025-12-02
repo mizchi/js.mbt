@@ -151,11 +151,11 @@ pub async fn Response::formData(self : Self) -> FormData {
 ///|
 extern "js" fn ffi_response_bytes(
   response : Response,
-) -> @js.Promise[@typedarray.Uint8Array] =
+) -> @js.Promise[@arraybuffer.Uint8Array] =
   #| (v) => v.bytes()
 
 ///|
-pub async fn Response::bytes(self : Self) -> @typedarray.Uint8Array {
+pub async fn Response::bytes(self : Self) -> @arraybuffer.Uint8Array {
   ffi_response_bytes(self).wait()
 }
 

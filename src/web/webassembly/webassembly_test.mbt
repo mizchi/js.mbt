@@ -8,7 +8,7 @@ test "WebAssembly module from bytes" {
   let wasm_path = @path.join([cwd, "fixtures/add.wasm"])
   let buffer = @fs.read_file_sync(wasm_path)
   // Buffer is a Uint8Array, so we can cast it directly
-  let bytes : @typedarray.Uint8Array = buffer.as_any().cast()
+  let bytes : @arraybuffer.Uint8Array = buffer.as_any().cast()
 
   // Validate the bytes
   let is_valid = validate(bytes)
@@ -42,7 +42,7 @@ test "WebAssembly Memory" {
 
   // Get the buffer
   let buffer = memory.buffer()
-  let view = @typedarray.Uint8Array::from_array_buffer(buffer).as_typed_array()
+  let view = @arraybuffer.Uint8Array::from_array_buffer(buffer).as_typed_array()
 
   // Write some data
   view.set_at(0, 42)

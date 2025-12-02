@@ -18,7 +18,7 @@ pub(all) struct File {
   size : Int
 }
 #alias(array_buffer)
-pub async fn File::arrayBuffer(Self) -> @js.ArrayBuffer
+pub async fn File::arrayBuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn File::as_any(Self) -> @core.Any
 pub fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
@@ -48,4 +48,3 @@ pub fn FileReader::set_onloadend(Self, (@core.Any) -> Unit) -> Unit
 // Type aliases
 
 // Traits
-

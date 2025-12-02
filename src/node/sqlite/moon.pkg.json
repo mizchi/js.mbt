@@ -5,6 +5,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/builtins/typedarray"
+    "mizchi/js/builtins/arraybuffer"
   ]
 }

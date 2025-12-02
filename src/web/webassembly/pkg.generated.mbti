@@ -52,14 +52,14 @@ pub fn WebAssemblyInstance::from_module(WebAssemblyModule, @core.Any?) -> Self
 #external
 pub type WebAssemblyMemory
 pub fn WebAssemblyMemory::as_any(Self) -> @core.Any
-pub fn WebAssemblyMemory::buffer(Self) -> @js.ArrayBuffer
+pub fn WebAssemblyMemory::buffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn WebAssemblyMemory::grow(Self, Int) -> Int
 pub fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
 
 #external
 pub type WebAssemblyModule
 pub fn WebAssemblyModule::as_any(Self) -> @core.Any
-pub fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
+pub fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
 pub fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
 
 #external
@@ -73,4 +73,3 @@ pub fn WebAssemblyTable::set(Self, Int, @core.Any) -> Unit
 // Type aliases
 
 // Traits
-

@@ -379,7 +379,7 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
     if done {
       break
     }
-    let value : @typedarray.Uint8Array = result._get("value").cast()
+    let value : @arraybuffer.Uint8Array = result._get("value").cast()
     let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }
@@ -409,7 +409,7 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
     if done {
       break
     }
-    let value : @typedarray.Uint8Array = result._get("value").cast()
+    let value : @arraybuffer.Uint8Array = result._get("value").cast()
     let chunk = decoder.decode(value)
     html_parts.push(chunk)
   }

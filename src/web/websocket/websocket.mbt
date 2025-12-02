@@ -100,7 +100,10 @@ pub fn WebSocket::send_buffer(self : Self, data : @buffer.Buffer) -> Unit {
 ///|
 /// Send ArrayBuffer
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_arraybuffer(self : Self, data : @js.ArrayBuffer) -> Unit {
+pub fn WebSocket::send_arraybuffer(
+  self : Self,
+  data : @arraybuffer.ArrayBuffer,
+) -> Unit {
   self.as_any()._call("send", [@core.any(data)]) |> ignore
 }
 

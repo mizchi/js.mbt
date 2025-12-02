@@ -1,7 +1,7 @@
 ///|
 test "Crypto::getRandomValues fills Uint8Array" {
   let crypto = Crypto::get()
-  let array = @typedarray.Uint8Array::from_size(16)
+  let array = @arraybuffer.Uint8Array::from_size(16)
   let result = crypto.getRandomValues(array)
 
   // Verify it returns the same array
@@ -24,7 +24,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
 /// TODO
 // test "Crypto::getRandomValuesU32 fills Uint32Array" {
 //   let crypto = Crypto::get()
-//   let array = @typedarray.Uint32Array::from_size(4)
+//   let array = @arraybuffer.Uint32Array::from_size(4)
 //   let result = crypto.getRandomValuesU32(array)
 //   assert_eq(result.length, 4)
 
@@ -91,7 +91,9 @@ test "Crypto::get returns Crypto instance" {
 ///|
 /// [Test Helper] Converts ArrayBuffer to hex string for verification.
 /// Useful for comparing digest/hash outputs.
-extern "js" fn test_ffi_array_buffer_to_hex(buffer : @js.ArrayBuffer) -> String =
+extern "js" fn test_ffi_array_buffer_to_hex(
+  buffer : @arraybuffer.ArrayBuffer,
+) -> String =
   #|(buffer) => Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('')
 
 ///|
@@ -200,7 +202,7 @@ async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
   let encrypted = subtle.encrypt(enc_algorithm, key, plaintext)
   let decrypted = subtle.decrypt(enc_algorithm, key, @core.any(encrypted))
   // Convert ArrayBuffer to Uint8Array for TextDecoder
-  let decrypted_bytes = @typedarray.Uint8Array::from_array_buffer(decrypted)
+  let decrypted_bytes = @arraybuffer.Uint8Array::from_array_buffer(decrypted)
   let result = @encoding.TextDecoder::new().decode(decrypted_bytes)
   assert_eq(result, "Secret message")
 }

@@ -56,7 +56,7 @@ pub fn Buffer::from_array(arr : Array[Int]) -> Buffer {
 ///|
 /// Create a Buffer from an ArrayBuffer
 pub fn Buffer::from_arraybuffer(
-  ab : @js.ArrayBuffer,
+  ab : @arraybuffer.ArrayBuffer,
   byte_offset? : Int = 0,
   length? : Int,
 ) -> Buffer {
@@ -380,7 +380,7 @@ pub fn Buffer::lastIndexOf(
 
 ///|
 /// Get the underlying ArrayBuffer
-pub fn Buffer::buffer(self : Self) -> @js.ArrayBuffer {
+pub fn Buffer::buffer(self : Self) -> @arraybuffer.ArrayBuffer {
   self.as_any()["buffer"].cast()
 }
 

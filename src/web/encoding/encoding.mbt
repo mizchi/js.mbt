@@ -22,7 +22,7 @@ pub fn TextEncoder::new() -> TextEncoder {
 pub fn TextEncoder::encode(
   self : TextEncoder,
   input : String,
-) -> @typedarray.Uint8Array {
+) -> @arraybuffer.Uint8Array {
   self.as_any()._call("encode", [@core.any(input)]).cast()
 }
 
@@ -40,7 +40,7 @@ pub fn TextDecoder::new() -> TextDecoder {
 ///|
 pub fn TextDecoder::decode(
   self : TextDecoder,
-  input : @typedarray.Uint8Array,
+  input : @arraybuffer.Uint8Array,
 ) -> String {
   self.as_any()._call("decode", [@core.any(input)]).cast()
 }

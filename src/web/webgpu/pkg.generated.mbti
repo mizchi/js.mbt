@@ -80,7 +80,7 @@ pub(all) struct GPUBuffer {
 }
 pub fn GPUBuffer::as_any(Self) -> @core.Any
 pub fn GPUBuffer::destroy(Self) -> Unit
-pub fn GPUBuffer::getMappedRange(Self, offset? : Int, size? : Int) -> @js.ArrayBuffer
+pub fn GPUBuffer::getMappedRange(Self, offset? : Int, size? : Int) -> @arraybuffer.ArrayBuffer
 pub fn GPUBuffer::label(Self) -> String
 pub async fn GPUBuffer::mapAsync(Self, Int, offset? : Int, size? : Int) -> Unit
 pub fn GPUBuffer::mapState(Self) -> String
@@ -255,4 +255,3 @@ pub fn GPUTextureView::label(Self) -> String
 // Type aliases
 
 // Traits
-

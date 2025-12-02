@@ -554,7 +554,7 @@ pub fn GPUBuffer::getMappedRange(
   self : GPUBuffer,
   offset? : Int,
   size? : Int,
-) -> @js.ArrayBuffer {
+) -> @arraybuffer.ArrayBuffer {
   match (offset, size) {
     (None, None) => self.as_any()._call("getMappedRange", []).cast()
     (Some(o), None) =>

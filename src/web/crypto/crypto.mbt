@@ -34,8 +34,8 @@ pub async fn SubtleCrypto::encrypt(
   algorithm : @core.Any,
   key : @core.Any,
   data : @core.Any,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("encrypt", [algorithm, key, data])
     .cast()
@@ -48,8 +48,8 @@ pub async fn SubtleCrypto::decrypt(
   algorithm : @core.Any,
   key : @core.Any,
   data : @core.Any,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("decrypt", [algorithm, key, data])
     .cast()
@@ -63,8 +63,8 @@ pub async fn SubtleCrypto::sign(
   algorithm : @core.Any,
   key : @core.Any,
   data : @core.Any,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("sign", [algorithm, key, data])
     .cast()
@@ -92,8 +92,8 @@ pub async fn SubtleCrypto::digest(
   self : Self,
   algorithm : String,
   data : @core.Any,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("digest", [@core.any(algorithm), data])
     .cast()
@@ -151,8 +151,8 @@ pub async fn SubtleCrypto::deriveBits(
   algorithm : @core.Any,
   base_key : @core.Any,
   length : Int,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("deriveBits", [algorithm, base_key, @core.any(length)])
     .cast()
@@ -206,8 +206,8 @@ pub async fn SubtleCrypto::wrapKey(
   key : @core.Any,
   wrapping_key : @core.Any,
   wrap_algorithm : @core.Any,
-) -> @js.ArrayBuffer {
-  let promise : @core.Promise[@js.ArrayBuffer] = self
+) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("wrapKey", [@core.any(format), key, wrapping_key, wrap_algorithm])
     .cast()
@@ -256,8 +256,8 @@ pub fn Crypto::as_any(self : Crypto) -> @core.Any = "%identity"
 /// Fills the passed Uint8Array with cryptographically secure random values.
 pub fn Crypto::getRandomValues(
   self : Self,
-  array : @typedarray.Uint8Array,
-) -> @typedarray.Uint8Array {
+  array : @arraybuffer.Uint8Array,
+) -> @arraybuffer.Uint8Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -266,8 +266,8 @@ pub fn Crypto::getRandomValues(
 /// Fills the passed Uint16Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesU16(
   self : Self,
-  array : @typedarray.Uint16Array,
-) -> @typedarray.Uint16Array {
+  array : @arraybuffer.Uint16Array,
+) -> @arraybuffer.Uint16Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -276,8 +276,8 @@ pub fn Crypto::getRandomValuesU16(
 /// Fills the passed Uint32Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesU32(
   self : Self,
-  array : @typedarray.Uint32Array,
-) -> @typedarray.Uint32Array {
+  array : @arraybuffer.Uint32Array,
+) -> @arraybuffer.Uint32Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -286,8 +286,8 @@ pub fn Crypto::getRandomValuesU32(
 /// Fills the passed Int8Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI8(
   self : Self,
-  array : @typedarray.Int8Array,
-) -> @typedarray.Int8Array {
+  array : @arraybuffer.Int8Array,
+) -> @arraybuffer.Int8Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -296,8 +296,8 @@ pub fn Crypto::getRandomValuesI8(
 /// Fills the passed Int16Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI16(
   self : Self,
-  array : @typedarray.Int16Array,
-) -> @typedarray.Int16Array {
+  array : @arraybuffer.Int16Array,
+) -> @arraybuffer.Int16Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -306,8 +306,8 @@ pub fn Crypto::getRandomValuesI16(
 /// Fills the passed Int32Array with cryptographically secure random values.
 pub fn Crypto::getRandomValuesI32(
   self : Self,
-  array : @typedarray.Int32Array,
-) -> @typedarray.Int32Array {
+  array : @arraybuffer.Int32Array,
+) -> @arraybuffer.Int32Array {
   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
@@ -316,8 +316,8 @@ pub fn Crypto::getRandomValuesI32(
 /// Fills the passed Uint8ClampedArray with cryptographically secure random values.
 // pub fn Crypto::getRandomValuesClamped(
 //   self : Self,
-//   array : @typedarray.Uint8ClampedArray,
-// ) -> @typedarray.Uint8ClampedArray {
+//   array : @arraybuffer.Uint8ClampedArray,
+// ) -> @arraybuffer.Uint8ClampedArray {
 //   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 // }
 

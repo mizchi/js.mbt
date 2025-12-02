@@ -90,7 +90,7 @@ pub async fn put_object_bytes(
   let input = @core.new_object()
   input["Bucket"] = bucket |> @core.any
   input["Key"] = key |> @core.any
-  input["Body"] = @typedarray.bytes_to_uint8array(body) |> @core.any
+  input["Body"] = @arraybuffer.bytes_to_uint8array(body) |> @core.any
   if contentType is Some(ct) {
     input["ContentType"] = ct |> @core.any
   }

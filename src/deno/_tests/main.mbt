@@ -4,7 +4,7 @@
 
 ///|
 /// Decode Uint8Array to string using @encoding.TextDecoder
-fn decode_uint8array(arr : @typedarray.Uint8Array) -> String {
+fn decode_uint8array(arr : @arraybuffer.Uint8Array) -> String {
   @encoding.TextDecoder::new().decode(arr)
 }
 
@@ -282,7 +282,7 @@ fn main {
 
     // Read back using file handle
     let read_file = d.open(test_file, read=true)
-    let buffer = @typedarray.Uint8Array::from_size(100)
+    let buffer = @arraybuffer.Uint8Array::from_size(100)
     let read_bytes = read_file.read(buffer.as_any())
     assert_true(read_bytes > 0)
     read_file.close()

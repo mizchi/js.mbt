@@ -116,7 +116,7 @@ pub fn MyType::as_any(self : MyType) -> @core.Any = "%identity"
 - [ ] `src/builtins/typedarray` - bigint の `@js.JsImpl` 依存を解消後に移行
 - [ ] `src/builtins/collection` - `@js.JsIterator` 依存
 - [ ] `src/builtins/weak` - `K : @js.JsImpl` trait 制約使用
-- [ ] `src/web/blob` - `@js.Promise`, `@js.ArrayBuffer`, `Array[&@js.JsImpl]` 依存
+- [ ] `src/web/blob` - `@js.Promise`, `@arraybuffer.ArrayBuffer`, `Array[&@js.JsImpl]` 依存
 - [ ] `src/browser/canvas` - nostd import 追加と `drawImage` 等の引数ラップ未完
 - [ ] `src/node/` パッケージ群 - `&@js.JsImpl` trait 参照使用 (worker_threads など)
 - [ ] `src/npm/modelcontextprotocol` - HashMap/get 置換や nostd ラップの残
@@ -135,7 +135,7 @@ pub fn MyType::as_any(self : MyType) -> @core.Any = "%identity"
 - `&@js.JsImpl` - trait 参照引数
 - `@js.Promise[T]` - Promise 型
 - `@js.JsIterator[T]` - Iterator 型
-- `@js.ArrayBuffer` - ArrayBuffer 型
+- `@arraybuffer.ArrayBuffer` - ArrayBuffer 型
 
 ### Future Plan
 

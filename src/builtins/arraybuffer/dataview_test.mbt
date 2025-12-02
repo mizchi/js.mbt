@@ -1,6 +1,6 @@
 ///|
 test "DataView::new - basic creation" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   assert_eq(view.byteLength, 16)
   assert_eq(view.byteOffset, 0)
@@ -8,7 +8,7 @@ test "DataView::new - basic creation" {
 
 ///|
 test "DataView::new - with byte offset" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer, byte_offset=4)
   assert_eq(view.byteLength, 12)
   assert_eq(view.byteOffset, 4)
@@ -16,7 +16,7 @@ test "DataView::new - with byte offset" {
 
 ///|
 test "DataView::new - with byte offset and length" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer, byte_offset=4, byte_length=8)
   assert_eq(view.byteLength, 8)
   assert_eq(view.byteOffset, 4)
@@ -24,7 +24,7 @@ test "DataView::new - with byte offset and length" {
 
 ///|
 test "DataView::buffer - get underlying buffer" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   let retrieved = view.buffer
   assert_eq(retrieved.byteLength, 16)
@@ -32,7 +32,7 @@ test "DataView::buffer - get underlying buffer" {
 
 ///|
 test "DataView - Int8 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_int8(0, 42)
   view.set_int8(1, -42)
@@ -42,7 +42,7 @@ test "DataView - Int8 operations" {
 
 ///|
 test "DataView - Uint8 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_uint8(0, 255)
   view.set_uint8(1, 0)
@@ -52,7 +52,7 @@ test "DataView - Uint8 operations" {
 
 ///|
 test "DataView - Int16 operations little endian" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_int16(0, 32767, little_endian=true)
   view.set_int16(2, -32768, little_endian=true)
@@ -62,7 +62,7 @@ test "DataView - Int16 operations little endian" {
 
 ///|
 test "DataView - Int16 operations big endian" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_int16(0, 12345, little_endian=false)
   assert_eq(view.get_int16(0, little_endian=false), 12345)
@@ -70,7 +70,7 @@ test "DataView - Int16 operations big endian" {
 
 ///|
 test "DataView - Uint16 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_uint16(0, 65535, little_endian=true)
   assert_eq(view.get_uint16(0, little_endian=true), 65535)
@@ -78,7 +78,7 @@ test "DataView - Uint16 operations" {
 
 ///|
 test "DataView - Int32 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_int32(0, 2147483647, little_endian=true)
   view.set_int32(4, -2147483648, little_endian=true)
@@ -88,7 +88,7 @@ test "DataView - Int32 operations" {
 
 ///|
 test "DataView - Uint32 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   let val : Int = 100000000
   view.set_uint32(0, val, little_endian=true)
@@ -97,7 +97,7 @@ test "DataView - Uint32 operations" {
 
 ///|
 test "DataView - Float32 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_float32(0, 3.14, little_endian=true)
   let result = view.get_float32(0, little_endian=true)
@@ -106,7 +106,7 @@ test "DataView - Float32 operations" {
 
 ///|
 test "DataView - Float64 operations" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_float64(0, 3.141592653589793, little_endian=true)
   let result = view.get_float64(0, little_endian=true)
@@ -115,7 +115,7 @@ test "DataView - Float64 operations" {
 
 ///|
 test "DataView - mixed data types" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_uint8(0, 255)
   view.set_int16(1, -1000, little_endian=true)
@@ -130,7 +130,7 @@ test "DataView - mixed data types" {
 
 ///|
 test "DataView - endianness difference" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   view.set_uint16(0, 256, little_endian=true)
   let little = view.get_uint16(0, little_endian=true)
@@ -140,8 +140,8 @@ test "DataView - endianness difference" {
 }
 
 ///|
-test "@js.SharedArrayBuffer::slice - without end parameter" {
-  let buffer = @js.SharedArrayBuffer::new(16)
+test "@arraybuffer.SharedArrayBuffer::slice - without end parameter" {
+  let buffer = @arraybuffer.SharedArrayBuffer::new(16)
   let sliced = buffer.slice(begin=8)
   assert_eq(sliced.byteLength, 8)
 }
@@ -170,7 +170,7 @@ test "Uint8Array::last_index_of - with from_index parameter" {
 
 ///|
 test "Uint16Array::byte_offset - basic test" {
-  let buffer = @js.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer::new(16)
   let arr = Uint16Array::from_array_buffer(buffer, byte_offset=4)
   assert_eq(arr.byteOffset, 4)
 }

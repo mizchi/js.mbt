@@ -38,7 +38,7 @@ pub fn WebAssemblyMemory::as_any(self : WebAssemblyMemory) -> @core.Any = "%iden
 
 ///|
 /// Get the buffer from WebAssembly memory
-pub fn WebAssemblyMemory::buffer(self : Self) -> @js.ArrayBuffer {
+pub fn WebAssemblyMemory::buffer(self : Self) -> @arraybuffer.ArrayBuffer {
   self.as_any()["buffer"].cast()
 }
 
@@ -186,7 +186,7 @@ extern "js" fn ffi_new_module(bytes : @core.Any) -> WebAssemblyModule =
 ///|
 /// Compile a WebAssembly module from bytes
 pub fn WebAssemblyModule::from_bytes(
-  bytes : @typedarray.Uint8Array,
+  bytes : @arraybuffer.Uint8Array,
 ) -> WebAssemblyModule {
   ffi_new_module(@core.any(bytes))
 }
@@ -194,7 +194,7 @@ pub fn WebAssemblyModule::from_bytes(
 ///|
 /// Compile a WebAssembly module from ArrayBuffer
 pub fn WebAssemblyModule::from_buffer(
-  buffer : @js.ArrayBuffer,
+  buffer : @arraybuffer.ArrayBuffer,
 ) -> WebAssemblyModule {
   ffi_new_module(@core.any(buffer))
 }
@@ -229,7 +229,7 @@ extern "js" fn ffi_instantiate(
 ///|
 /// Compile and instantiate a WebAssembly module from bytes
 pub fn instantiate_bytes(
-  bytes : @typedarray.Uint8Array,
+  bytes : @arraybuffer.Uint8Array,
   import_object : @core.Any?,
 ) -> (WebAssemblyModule, WebAssemblyInstance) {
   let imports = match import_object {
@@ -261,7 +261,7 @@ extern "js" fn ffi_validate(bytes : @core.Any) -> Bool =
 
 ///|
 /// Validate WebAssembly bytes
-pub fn validate(bytes : @typedarray.Uint8Array) -> Bool {
+pub fn validate(bytes : @arraybuffer.Uint8Array) -> Bool {
   ffi_validate(bytes.as_any())
 }
 
@@ -271,6 +271,6 @@ extern "js" fn ffi_compile(bytes : @core.Any) -> @core.Any =
 
 ///|
 /// Compile a WebAssembly module (async)
-pub fn compile(bytes : @typedarray.Uint8Array) -> @core.Any {
+pub fn compile(bytes : @arraybuffer.Uint8Array) -> @core.Any {
   ffi_compile(bytes.as_any())
 }

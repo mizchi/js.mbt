@@ -1,6 +1,6 @@
 ///|
 pub(all) struct DataView {
-  buffer : @js.ArrayBuffer
+  buffer : ArrayBuffer
   byteLength : Int
   byteOffset : Int
 }
@@ -18,7 +18,7 @@ extern "js" fn ffi_new_dataview(
 
 ///|
 pub fn DataView::new(
-  buffer : @js.ArrayBuffer,
+  buffer : ArrayBuffer,
   byte_offset? : Int = 0,
   byte_length? : Int,
 ) -> DataView {

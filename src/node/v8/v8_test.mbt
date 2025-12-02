@@ -186,7 +186,7 @@ test "Serializer write_double" {
 test "Serializer transfer_array_buffer" {
   let serializer = Serializer::new()
   serializer.write_header()
-  let ab = @js.ArrayBuffer::new(16)
+  let ab = @arraybuffer.ArrayBuffer::new(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
   inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
@@ -228,11 +228,11 @@ test "Deserializer get_wire_format_version" {
 ///|
 /// Test Deserializer transfer_array_buffer
 test "Deserializer transfer_array_buffer" {
-  let ab = @js.ArrayBuffer::new(16)
+  let ab = @arraybuffer.ArrayBuffer::new(16)
   let serialized = serialize(ab |> @core.any)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
-  let new_ab = @js.ArrayBuffer::new(16)
+  let new_ab = @arraybuffer.ArrayBuffer::new(16)
   deserializer.transfer_array_buffer(1, new_ab)
   inspect(true, content="true")
 }

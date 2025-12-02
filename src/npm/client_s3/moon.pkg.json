@@ -2,7 +2,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/node",
-    "mizchi/js/builtins/typedarray",
+    "mizchi/js/builtins/arraybuffer",
     "mizchi/js/core"
   ],
   "test-import": [

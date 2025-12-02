@@ -39,27 +39,26 @@ pub fn CryptoKeyPair::as_any(Self) -> @core.Any
 #external
 pub type SubtleCrypto
 pub fn SubtleCrypto::as_any(Self) -> @core.Any
-pub async fn SubtleCrypto::decrypt(Self, @core.Any, @core.Any, @core.Any) -> @js.ArrayBuffer
+pub async fn SubtleCrypto::decrypt(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
 #alias(derive_bits)
-pub async fn SubtleCrypto::deriveBits(Self, @core.Any, @core.Any, Int) -> @js.ArrayBuffer
+pub async fn SubtleCrypto::deriveBits(Self, @core.Any, @core.Any, Int) -> @arraybuffer.ArrayBuffer
 #alias(derive_key)
 pub async fn SubtleCrypto::deriveKey(Self, @core.Any, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
-pub async fn SubtleCrypto::digest(Self, String, @core.Any) -> @js.ArrayBuffer
-pub async fn SubtleCrypto::encrypt(Self, @core.Any, @core.Any, @core.Any) -> @js.ArrayBuffer
+pub async fn SubtleCrypto::digest(Self, String, @core.Any) -> @arraybuffer.ArrayBuffer
+pub async fn SubtleCrypto::encrypt(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
 #alias(export_key)
 pub async fn SubtleCrypto::exportKey(Self, String, @core.Any) -> @core.Any
 #alias(generate_key)
 pub async fn SubtleCrypto::generateKey(Self, @core.Any, Bool, Array[String]) -> @core.Any
 #alias(import_key)
 pub async fn SubtleCrypto::importKey(Self, String, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
-pub async fn SubtleCrypto::sign(Self, @core.Any, @core.Any, @core.Any) -> @js.ArrayBuffer
+pub async fn SubtleCrypto::sign(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
 #alias(unwrap_key)
 pub async fn SubtleCrypto::unwrapKey(Self, String, @core.Any, @core.Any, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
 pub async fn SubtleCrypto::verify(Self, @core.Any, @core.Any, @core.Any, @core.Any) -> Bool
 #alias(wrap_key)
-pub async fn SubtleCrypto::wrapKey(Self, String, @core.Any, @core.Any, @core.Any) -> @js.ArrayBuffer
+pub async fn SubtleCrypto::wrapKey(Self, String, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
 
 // Type aliases
 
 // Traits
-

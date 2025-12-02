@@ -17,7 +17,7 @@ pub fn Buffer::alloc(Int, fill? : @core.Any, encoding? : String) -> Self
 #alias(alloc_unsafe)
 pub fn Buffer::allocUnsafe(Int) -> Self
 pub fn Buffer::as_any(Self) -> @core.Any
-pub fn Buffer::buffer(Self) -> @js.ArrayBuffer
+pub fn Buffer::buffer(Self) -> @arraybuffer.ArrayBuffer
 #alias(byte_length)
 pub fn Buffer::byteLength(String, encoding? : String) -> Int
 #alias(byte_offset)
@@ -29,7 +29,7 @@ pub fn Buffer::copy(Self, Self, target_start? : Int, source_start? : Int, source
 pub fn Buffer::equals(Self, Self) -> Bool
 pub fn Buffer::fill(Self, @core.Any, offset? : Int, end? : Int, encoding? : String) -> Self
 pub fn Buffer::from_array(Array[Int]) -> Self
-pub fn Buffer::from_arraybuffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Buffer::from_arraybuffer(@arraybuffer.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 pub fn Buffer::from_buffer(Self) -> Self
 pub fn Buffer::from_string(String, encoding? : String) -> Self
 pub fn Buffer::includes(Self, @core.Any, byte_offset? : Int, encoding? : String) -> Bool
@@ -59,4 +59,3 @@ pub fn BufferJSON::type_(Self) -> String
 // Type aliases
 
 // Traits
-

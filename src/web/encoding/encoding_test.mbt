@@ -63,7 +63,7 @@ test "TextDecoder::new - create decoder" {
 ///|
 test "TextDecoder::decode - basic ASCII text" {
   let decoder = TextDecoder::new()
-  let arr = @typedarray.Uint8Array::from_array([104, 101, 108, 108, 111])
+  let arr = @arraybuffer.Uint8Array::from_array([104, 101, 108, 108, 111])
   let result = decoder.decode(arr)
   assert_eq(result, "hello")
 }
@@ -71,7 +71,7 @@ test "TextDecoder::decode - basic ASCII text" {
 ///|
 test "TextDecoder::decode - empty array" {
   let decoder = TextDecoder::new()
-  let arr = @typedarray.Uint8Array::from_size(0)
+  let arr = @arraybuffer.Uint8Array::from_size(0)
   let result = decoder.decode(arr)
   assert_eq(result, "")
 }
@@ -80,7 +80,7 @@ test "TextDecoder::decode - empty array" {
 test "TextDecoder::decode - UTF-8 characters" {
   let decoder = TextDecoder::new()
   // UTF-8 encoding of "世" (0xE4 0xB8 0x96)
-  let arr = @typedarray.Uint8Array::from_array([228, 184, 150])
+  let arr = @arraybuffer.Uint8Array::from_array([228, 184, 150])
   let result = decoder.decode(arr)
   assert_eq(result, "世")
 }
@@ -155,7 +155,7 @@ test "TextEncoder::encode - numbers as text" {
 ///|
 test "TextDecoder::decode - numbers from bytes" {
   let decoder = TextDecoder::new()
-  let arr = @typedarray.Uint8Array::from_array([
+  let arr = @arraybuffer.Uint8Array::from_array([
     48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
   ])
   let result = decoder.decode(arr)
@@ -176,8 +176,8 @@ test "TextEncoder - multiple encode calls" {
 ///|
 test "TextDecoder - multiple decode calls" {
   let decoder = TextDecoder::new()
-  let arr1 = @typedarray.Uint8Array::from_array([70, 105, 114, 115, 116])
-  let arr2 = @typedarray.Uint8Array::from_array([83, 101, 99, 111, 110, 100])
+  let arr1 = @arraybuffer.Uint8Array::from_array([70, 105, 114, 115, 116])
+  let arr2 = @arraybuffer.Uint8Array::from_array([83, 101, 99, 111, 110, 100])
   let result1 = decoder.decode(arr1)
   let result2 = decoder.decode(arr2)
   assert_eq(result1, "First")

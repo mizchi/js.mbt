@@ -278,7 +278,7 @@ pub fn Serializer::releaseBuffer(self : Self) -> @buffer.Buffer {
 pub fn Serializer::transferArrayBuffer(
   self : Self,
   id : Int,
-  array_buffer : @js.ArrayBuffer,
+  array_buffer : @arraybuffer.ArrayBuffer,
 ) -> Unit {
   self
   .as_any()
@@ -350,7 +350,7 @@ pub fn Deserializer::readValue(self : Self) -> @core.Any {
 pub fn Deserializer::transfer_array_buffer(
   self : Self,
   id : Int,
-  array_buffer : @js.ArrayBuffer,
+  array_buffer : @arraybuffer.ArrayBuffer,
 ) -> Unit {
   self
   .as_any()

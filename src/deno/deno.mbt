@@ -149,8 +149,8 @@ pub async fn Deno::writeTextFile(
 pub async fn Deno::readFile(
   self : Deno,
   path : String,
-) -> @typedarray.Uint8Array {
-  let promise : @js.Promise[@typedarray.Uint8Array] = self
+) -> @arraybuffer.Uint8Array {
+  let promise : @js.Promise[@arraybuffer.Uint8Array] = self
     .as_any()
     ._call("readFile", [@core.any(path)])
     .cast()
@@ -658,13 +658,13 @@ pub fn CommandOutput::success(self : CommandOutput) -> Bool {
 
 ///|
 /// Get stdout as Uint8Array
-pub fn CommandOutput::stdout(self : CommandOutput) -> @typedarray.Uint8Array {
+pub fn CommandOutput::stdout(self : CommandOutput) -> @arraybuffer.Uint8Array {
   self.as_any()["stdout"].cast()
 }
 
 ///|
 /// Get stderr as Uint8Array
-pub fn CommandOutput::stderr(self : CommandOutput) -> @typedarray.Uint8Array {
+pub fn CommandOutput::stderr(self : CommandOutput) -> @arraybuffer.Uint8Array {
   self.as_any()["stderr"].cast()
 }
 

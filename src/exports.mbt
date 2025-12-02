@@ -22,3 +22,11 @@ pub using @object {type Object}
 
 ///|
 pub using @symbol {type Symbol, symbol}
+
+///|
+pub using @arraybuffer {
+  type ArrayBuffer,
+  type TypedArray,
+  type DataView,
+  type SharedArrayBuffer,
+}
