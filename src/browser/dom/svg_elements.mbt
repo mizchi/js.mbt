@@ -5,7 +5,7 @@
 pub type SVGElement
 
 ///|
-pub fn SVGElement::as_any(self : SVGElement) -> @nostd.Any = "%identity"
+pub fn SVGElement::as_any(self : SVGElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGElement::as_event_target(self : SVGElement) -> @event.EventTarget = "%identity"
@@ -31,18 +31,18 @@ pub fn SVGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("getAttribute", [@nostd.any(name)])
+    ._call("getAttribute", [@core.any(name)])
     .cast()
-  v |> @nostd.identity_option()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -52,7 +52,7 @@ pub fn SVGElement::getAttribute(self : Self, name : String) -> String? {
 pub type SVGSVGElement
 
 ///|
-pub fn SVGSVGElement::as_any(self : SVGSVGElement) -> @nostd.Any = "%identity"
+pub fn SVGSVGElement::as_any(self : SVGSVGElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGSVGElement::as_event_target(
@@ -95,18 +95,18 @@ pub fn SVGSVGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
 ///|
 /// Gets an attribute from the SVG element
 pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("getAttribute", [@nostd.any(name)])
+    ._call("getAttribute", [@core.any(name)])
     .cast()
-  v |> @nostd.identity_option
+  v |> @core.identity_option
 }
 
 ///|
@@ -116,7 +116,7 @@ pub fn SVGSVGElement::getAttribute(self : Self, name : String) -> String? {
 pub type SVGCircleElement
 
 ///|
-pub fn SVGCircleElement::as_any(self : SVGCircleElement) -> @nostd.Any = "%identity"
+pub fn SVGCircleElement::as_any(self : SVGCircleElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGCircleElement::as_event_target(
@@ -165,7 +165,7 @@ pub fn SVGCircleElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -176,7 +176,7 @@ pub fn SVGCircleElement::setAttribute(
 pub type SVGRectElement
 
 ///|
-pub fn SVGRectElement::as_any(self : SVGRectElement) -> @nostd.Any = "%identity"
+pub fn SVGRectElement::as_any(self : SVGRectElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGRectElement::as_event_target(
@@ -231,7 +231,7 @@ pub fn SVGRectElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -242,7 +242,7 @@ pub fn SVGRectElement::setAttribute(
 pub type SVGEllipseElement
 
 ///|
-pub fn SVGEllipseElement::as_any(self : SVGEllipseElement) -> @nostd.Any = "%identity"
+pub fn SVGEllipseElement::as_any(self : SVGEllipseElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGEllipseElement::as_event_target(
@@ -299,7 +299,7 @@ pub fn SVGEllipseElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -310,7 +310,7 @@ pub fn SVGEllipseElement::setAttribute(
 pub type SVGLineElement
 
 ///|
-pub fn SVGLineElement::as_any(self : SVGLineElement) -> @nostd.Any = "%identity"
+pub fn SVGLineElement::as_any(self : SVGLineElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGLineElement::as_event_target(
@@ -365,7 +365,7 @@ pub fn SVGLineElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -376,7 +376,7 @@ pub fn SVGLineElement::setAttribute(
 pub type SVGPolygonElement
 
 ///|
-pub fn SVGPolygonElement::as_any(self : SVGPolygonElement) -> @nostd.Any = "%identity"
+pub fn SVGPolygonElement::as_any(self : SVGPolygonElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGPolygonElement::as_event_target(
@@ -409,7 +409,7 @@ pub fn SVGPolygonElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -420,7 +420,7 @@ pub fn SVGPolygonElement::setAttribute(
 pub type SVGPolylineElement
 
 ///|
-pub fn SVGPolylineElement::as_any(self : SVGPolylineElement) -> @nostd.Any = "%identity"
+pub fn SVGPolylineElement::as_any(self : SVGPolylineElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGPolylineElement::as_event_target(
@@ -453,7 +453,7 @@ pub fn SVGPolylineElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -464,7 +464,7 @@ pub fn SVGPolylineElement::setAttribute(
 pub type SVGPathElement
 
 ///|
-pub fn SVGPathElement::as_any(self : SVGPathElement) -> @nostd.Any = "%identity"
+pub fn SVGPathElement::as_any(self : SVGPathElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGPathElement::as_event_target(
@@ -508,7 +508,7 @@ pub fn SVGPathElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -519,7 +519,7 @@ pub fn SVGPathElement::setAttribute(
 pub type SVGTextElement
 
 ///|
-pub fn SVGTextElement::as_any(self : SVGTextElement) -> @nostd.Any = "%identity"
+pub fn SVGTextElement::as_any(self : SVGTextElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGTextElement::as_event_target(
@@ -550,7 +550,7 @@ pub fn SVGTextElement::x(self : Self) -> Double {
   .as_any()
   ._get("x")
   ._get("baseVal")
-  ._call("at", [@nostd.any(0)])
+  ._call("at", [@core.any(0)])
   ._get("value")
   .cast()
 }
@@ -562,7 +562,7 @@ pub fn SVGTextElement::y(self : Self) -> Double {
   .as_any()
   ._get("y")
   ._get("baseVal")
-  ._call("at", [@nostd.any(0)])
+  ._call("at", [@core.any(0)])
   ._get("value")
   .cast()
 }
@@ -574,7 +574,7 @@ pub fn SVGTextElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -585,7 +585,7 @@ pub fn SVGTextElement::setAttribute(
 pub type SVGImageElement
 
 ///|
-pub fn SVGImageElement::as_any(self : SVGImageElement) -> @nostd.Any = "%identity"
+pub fn SVGImageElement::as_any(self : SVGImageElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGImageElement::as_event_target(
@@ -646,7 +646,7 @@ pub fn SVGImageElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
@@ -657,7 +657,7 @@ pub fn SVGImageElement::setAttribute(
 pub type SVGGElement
 
 ///|
-pub fn SVGGElement::as_any(self : SVGGElement) -> @nostd.Any = "%identity"
+pub fn SVGGElement::as_any(self : SVGGElement) -> @core.Any = "%identity"
 
 ///|
 pub fn SVGGElement::as_event_target(self : SVGGElement) -> @event.EventTarget = "%identity"
@@ -686,6 +686,6 @@ pub fn SVGGElement::setAttribute(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setAttribute", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }

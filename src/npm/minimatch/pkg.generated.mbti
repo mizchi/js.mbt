@@ -2,53 +2,53 @@
 package "mizchi/js/npm/minimatch"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn escape(String) -> String
+pub fn escape(String) -> String
 
-fn escape_with_options(String, MinimatchOptions) -> String
+pub fn escape_with_options(String, MinimatchOptions) -> String
 
-fn filter(String) -> (@nostd.Any) -> Bool
+pub fn filter(String) -> (@core.Any) -> Bool
 
-fn filter_with_options(String, MinimatchOptions) -> (@nostd.Any) -> Bool
+pub fn filter_with_options(String, MinimatchOptions) -> (@core.Any) -> Bool
 
-fn has_magic(String) -> Bool
+pub fn has_magic(String) -> Bool
 
-fn has_magic_with_options(String, MinimatchOptions) -> Bool
+pub fn has_magic_with_options(String, MinimatchOptions) -> Bool
 
-fn make_re(String) -> @nostd.Any?
+pub fn make_re(String) -> @core.Any?
 
-fn make_re_with_options(String, MinimatchOptions) -> @nostd.Any?
+pub fn make_re_with_options(String, MinimatchOptions) -> @core.Any?
 
-fn match_list(Array[String], String) -> Array[String]
+pub fn match_list(Array[String], String) -> Array[String]
 
-fn match_list_with_options(Array[String], String, MinimatchOptions) -> Array[String]
+pub fn match_list_with_options(Array[String], String, MinimatchOptions) -> Array[String]
 
-fn minimatch(String, String) -> Bool
+pub fn minimatch(String, String) -> Bool
 
-fn minimatch_with_options(String, String, MinimatchOptions) -> Bool
+pub fn minimatch_with_options(String, String, MinimatchOptions) -> Bool
 
-fn unescape(String) -> String
+pub fn unescape(String) -> String
 
-fn unescape_with_options(String, MinimatchOptions) -> String
+pub fn unescape_with_options(String, MinimatchOptions) -> String
 
 // Errors
 
 // Types and methods
-pub struct Minimatch(@nostd.Any)
-fn Minimatch::comment(Self) -> Bool
-fn Minimatch::empty(Self) -> Bool
-fn Minimatch::has_magic(Self) -> Bool
+pub struct Minimatch(@core.Any)
+pub fn Minimatch::comment(Self) -> Bool
+pub fn Minimatch::empty(Self) -> Bool
+pub fn Minimatch::has_magic(Self) -> Bool
 #deprecated
-fn Minimatch::inner(Self) -> @nostd.Any
-fn Minimatch::match_(Self, String) -> Bool
-fn Minimatch::negate(Self) -> Bool
-fn Minimatch::new(String) -> Self
-fn Minimatch::new_with_options(String, MinimatchOptions) -> Self
-fn Minimatch::pattern(Self) -> String
-fn Minimatch::regexp(Self) -> @nostd.Any?
+pub fn Minimatch::inner(Self) -> @core.Any
+pub fn Minimatch::match_(Self, String) -> Bool
+pub fn Minimatch::negate(Self) -> Bool
+pub fn Minimatch::new(String) -> Self
+pub fn Minimatch::new_with_options(String, MinimatchOptions) -> Self
+pub fn Minimatch::pattern(Self) -> String
+pub fn Minimatch::regexp(Self) -> @core.Any?
 
 pub(all) struct MinimatchOptions {
   debug : Bool
@@ -65,7 +65,7 @@ pub(all) struct MinimatchOptions {
   windows_paths_no_escape : Bool
   nocase : Bool
 }
-fn MinimatchOptions::default() -> Self
+pub fn MinimatchOptions::default() -> Self
 
 // Type aliases
 

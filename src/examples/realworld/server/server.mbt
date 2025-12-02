@@ -172,7 +172,7 @@ pub fn create_auth(db : @sqlite.DatabaseSync) -> @better_auth.Auth {
 }
 
 ///|
-extern "js" fn ffi_sqlite_adapter(db : @sqlite.DatabaseSync) -> @nostd.Any =
+extern "js" fn ffi_sqlite_adapter(db : @sqlite.DatabaseSync) -> @core.Any =
   #|(db) => db
 
 // ============ Middleware ============
@@ -192,7 +192,7 @@ async fn get_session_user(
       let stmt = db.prepare(
         "SELECT s.userId, u.id, u.name, u.email, u.emailVerified, u.image FROM session s JOIN user u ON s.userId = u.id WHERE s.token = ?",
       )
-      let results = stmt.all(anonymous_parameters=[token |> @nostd.any])
+      let results = stmt.all(anonymous_parameters=[token |> @core.any])
       if results.length() > 0 {
         Some(results[0].cast())
       } else {
@@ -203,7 +203,7 @@ async fn get_session_user(
 }
 
 ///|
-extern "js" fn ffi_get_request_headers(c : Ctx) -> @nostd.Any =
+extern "js" fn ffi_get_request_headers(c : Ctx) -> @core.Any =
   #|(c) => c.req.raw.headers
 
 // ============ Layout ============
@@ -222,7 +222,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
     [
       h("head", [
         h("title", [props.title]),
-        h("meta", [], props={ "charset": @nostd.any("UTF-8") }),
+        h("meta", [], props={ "charset": @core.any("UTF-8") }),
         style_component(),
       ]),
       h(
@@ -238,7 +238,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                   h(
                     "a",
                     ["Home"],
-                    props={ "href": @nostd.any("/") },
+                    props={ "href": @core.any("/") },
                     class=nav_link_style,
                   ),
                   match props.user {
@@ -248,7 +248,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                         h(
                           "a",
                           [" | Logout"],
-                          props={ "href": @nostd.any("/auth/logout") },
+                          props={ "href": @core.any("/auth/logout") },
                           class=nav_link_style,
                         ),
                       ])
@@ -257,13 +257,13 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                         h(
                           "a",
                           ["Login"],
-                          props={ "href": @nostd.any("/auth/login") },
+                          props={ "href": @core.any("/auth/login") },
                           class=nav_link_style,
                         ),
                         h(
                           "a",
                           ["Register"],
-                          props={ "href": @nostd.any("/auth/register") },
+                          props={ "href": @core.any("/auth/register") },
                           class=nav_link_style,
                         ),
                       ])
@@ -315,23 +315,23 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                       "input",
                       [],
                       props={
-                        "type": @nostd.any("text"),
-                        "name": @nostd.any("title"),
-                        "placeholder": @nostd.any("Add a new TODO..."),
-                        "required": @nostd.any(true),
+                        "type": @core.any("text"),
+                        "name": @core.any("title"),
+                        "placeholder": @core.any("Add a new TODO..."),
+                        "required": @core.any(true),
                       },
                       class=input_style,
                     ),
                     h(
                       "button",
                       ["Add"],
-                      props={ "type": @nostd.any("submit") },
+                      props={ "type": @core.any("submit") },
                       class=button_style,
                     ),
                   ],
                   props={
-                    "method": @nostd.any("POST"),
-                    "action": @nostd.any("/todos"),
+                    "method": @core.any("POST"),
+                    "action": @core.any("/todos"),
                   },
                 ),
               ],
@@ -347,13 +347,13 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                   "div",
                   [
                     h("input", [], props={
-                      "type": @nostd.any("checkbox"),
-                      "checked": @nostd.any(completed == 1),
-                      "onchange": @nostd.any("this.form.submit()"),
-                      "form": @nostd.any("toggle-" + id.to_string()),
+                      "type": @core.any("checkbox"),
+                      "checked": @core.any(completed == 1),
+                      "onchange": @core.any("this.form.submit()"),
+                      "form": @core.any("toggle-" + id.to_string()),
                     }),
                     h("span", [title], props={
-                      "style": @nostd.any(
+                      "style": @core.any(
                         if completed == 1 {
                           "text-decoration: line-through; color: #888;"
                         } else {
@@ -365,9 +365,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                       "form",
                       [
                         h("input", [], props={
-                          "type": @nostd.any("hidden"),
-                          "name": @nostd.any("completed"),
-                          "value": @nostd.any(
+                          "type": @core.any("hidden"),
+                          "name": @core.any("completed"),
+                          "value": @core.any(
                             if completed == 1 {
                               "false"
                             } else {
@@ -377,12 +377,12 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                         }),
                       ],
                       props={
-                        "id": @nostd.any("toggle-" + id.to_string()),
-                        "method": @nostd.any("POST"),
-                        "action": @nostd.any(
+                        "id": @core.any("toggle-" + id.to_string()),
+                        "method": @core.any("POST"),
+                        "action": @core.any(
                           "/todos/" + id.to_string() + "/toggle",
                         ),
-                        "style": @nostd.any("display: none;"),
+                        "style": @core.any("display: none;"),
                       },
                     ),
                     h(
@@ -391,16 +391,16 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                         h(
                           "button",
                           ["Delete"],
-                          props={ "type": @nostd.any("submit") },
+                          props={ "type": @core.any("submit") },
                           class=button_danger_style,
                         ),
                       ],
                       props={
-                        "method": @nostd.any("POST"),
-                        "action": @nostd.any(
+                        "method": @core.any("POST"),
+                        "action": @core.any(
                           "/todos/" + id.to_string() + "/delete",
                         ),
-                        "style": @nostd.any("margin-left: auto;"),
+                        "style": @core.any("margin-left: auto;"),
                       },
                     ),
                   ],
@@ -422,7 +422,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
-        let body : @nostd.Any = ffi_parse_body(c).wait() |> @nostd.identity()
+        let body : @core.Any = ffi_parse_body(c).wait() |> @core.identity()
         let schema = create_todo_schema()
         match schema.safeParse(body) {
           Ok(data) => {
@@ -494,9 +494,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @nostd.any("email"),
-                      "name": @nostd.any("email"),
-                      "required": @nostd.any(true),
+                      "type": @core.any("email"),
+                      "name": @core.any("email"),
+                      "required": @core.any(true),
                     },
                     class=input_style,
                   ),
@@ -507,9 +507,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @nostd.any("password"),
-                      "name": @nostd.any("password"),
-                      "required": @nostd.any(true),
+                      "type": @core.any("password"),
+                      "name": @core.any("password"),
+                      "required": @core.any(true),
                     },
                     class=input_style,
                   ),
@@ -517,20 +517,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                 h(
                   "button",
                   ["Login"],
-                  props={ "type": @nostd.any("submit") },
+                  props={ "type": @core.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @nostd.any("POST"),
-                "action": @nostd.any("/auth/login"),
+                "method": @core.any("POST"),
+                "action": @core.any("/auth/login"),
               },
             ),
             h("p", [
               "Don't have an account? ",
-              h("a", ["Register"], props={
-                "href": @nostd.any("/auth/register"),
-              }),
+              h("a", ["Register"], props={ "href": @core.any("/auth/register") }),
             ]),
           ],
           class=card_style,
@@ -566,7 +564,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
             [
               h("h1", ["Login Failed"]),
               h("p", [error_msg]),
-              h("a", ["Try again"], props={ "href": @nostd.any("/auth/login") }),
+              h("a", ["Try again"], props={ "href": @core.any("/auth/login") }),
             ],
             class=card_style,
           ),
@@ -597,9 +595,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @nostd.any("text"),
-                      "name": @nostd.any("name"),
-                      "required": @nostd.any(true),
+                      "type": @core.any("text"),
+                      "name": @core.any("name"),
+                      "required": @core.any(true),
                     },
                     class=input_style,
                   ),
@@ -610,9 +608,9 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @nostd.any("email"),
-                      "name": @nostd.any("email"),
-                      "required": @nostd.any(true),
+                      "type": @core.any("email"),
+                      "name": @core.any("email"),
+                      "required": @core.any(true),
                     },
                     class=input_style,
                   ),
@@ -623,10 +621,10 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                     "input",
                     [],
                     props={
-                      "type": @nostd.any("password"),
-                      "name": @nostd.any("password"),
-                      "required": @nostd.any(true),
-                      "minlength": @nostd.any(8),
+                      "type": @core.any("password"),
+                      "name": @core.any("password"),
+                      "required": @core.any(true),
+                      "minlength": @core.any(8),
                     },
                     class=input_style,
                   ),
@@ -634,18 +632,18 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
                 h(
                   "button",
                   ["Register"],
-                  props={ "type": @nostd.any("submit") },
+                  props={ "type": @core.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @nostd.any("POST"),
-                "action": @nostd.any("/auth/register"),
+                "method": @core.any("POST"),
+                "action": @core.any("/auth/register"),
               },
             ),
             h("p", [
               "Already have an account? ",
-              h("a", ["Login"], props={ "href": @nostd.any("/auth/login") }),
+              h("a", ["Login"], props={ "href": @core.any("/auth/login") }),
             ]),
           ],
           class=card_style,
@@ -674,7 +672,7 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
               h("h1", ["Registration Failed"]),
               h("p", [error_msg]),
               h("a", ["Try again"], props={
-                "href": @nostd.any("/auth/register"),
+                "href": @core.any("/auth/register"),
               }),
             ],
             class=card_style,
@@ -696,11 +694,11 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     match user {
       Some(u) => {
         let todos = get_todos(db, u.id())
-        c.json(todos |> @nostd.any)
+        c.json(todos |> @core.any)
       }
       None => {
-        let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized" |> @nostd.any
+        let obj = @core.Object::new()
+        obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }
     }
@@ -709,26 +707,26 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
     let user = get_session_user(db, c)
     match user {
       Some(u) => {
-        let body : @nostd.Any = c.req.json() |> @nostd.identity()
+        let body : @core.Any = c.req.json() |> @core.identity()
         let schema = create_todo_schema()
         match schema.safeParse(body) {
           Ok(data) => {
             let title : String = data["title"].cast()
             create_todo(db, u.id(), title)
-            let obj = @nostd.Object::new()
-            obj["success"] = true |> @nostd.any
+            let obj = @core.Object::new()
+            obj["success"] = true |> @core.any
             c.json(obj)
           }
           Err(_) => {
-            let obj = @nostd.Object::new()
-            obj["error"] = "Invalid data" |> @nostd.any
+            let obj = @core.Object::new()
+            obj["error"] = "Invalid data" |> @core.any
             c.json(obj, status=400)
           }
         }
       }
       None => {
-        let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized" |> @nostd.any
+        let obj = @core.Object::new()
+        obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }
     }
@@ -740,19 +738,19 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
         match c.req.param("id") {
           Some(id) => {
             delete_todo(db, u.id(), @strconv.parse_int(id))
-            let obj = @nostd.Object::new()
-            obj["success"] = true |> @nostd.any
+            let obj = @core.Object::new()
+            obj["success"] = true |> @core.any
             c.json(obj)
           }
           None => {
-            let obj = @nostd.Object::new()
-            obj["error"] = "Invalid id" |> @nostd.any
+            let obj = @core.Object::new()
+            obj["error"] = "Invalid id" |> @core.any
             c.json(obj, status=400)
           }
         }
       None => {
-        let obj = @nostd.Object::new()
-        obj["error"] = "Unauthorized" |> @nostd.any
+        let obj = @core.Object::new()
+        obj["error"] = "Unauthorized" |> @core.any
         c.json(obj, status=401)
       }
     }
@@ -764,11 +762,11 @@ pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
 // ============ DB Operations ============
 
 ///|
-fn get_todos(db : @sqlite.DatabaseSync, user_id : String) -> Array[@nostd.Any] {
+fn get_todos(db : @sqlite.DatabaseSync, user_id : String) -> Array[@core.Any] {
   let stmt = db.prepare(
     "SELECT * FROM todos WHERE user_id = ? ORDER BY created_at DESC",
   )
-  stmt.all(anonymous_parameters=[user_id |> @nostd.any]).map(fn(x) { x.cast() })
+  stmt.all(anonymous_parameters=[user_id |> @core.any]).map(fn(x) { x.cast() })
 }
 
 ///|
@@ -778,7 +776,7 @@ fn create_todo(
   title : String,
 ) -> Unit {
   let stmt = db.prepare("INSERT INTO todos (user_id, title) VALUES (?, ?)")
-  stmt.run(anonymous_parameters=[user_id |> @nostd.any, title |> @nostd.any])
+  stmt.run(anonymous_parameters=[user_id |> @core.any, title |> @core.any])
   |> ignore
 }
 
@@ -794,12 +792,12 @@ fn toggle_todo(
   )
   stmt.run(anonymous_parameters=[
     if completed {
-      1 |> @nostd.any
+      1 |> @core.any
     } else {
-      0 |> @nostd.any
+      0 |> @core.any
     },
-    id |> @nostd.any,
-    user_id |> @nostd.any,
+    id |> @core.any,
+    user_id |> @core.any,
   ])
   |> ignore
 }
@@ -807,23 +805,23 @@ fn toggle_todo(
 ///|
 fn delete_todo(db : @sqlite.DatabaseSync, user_id : String, id : Int) -> Unit {
   let stmt = db.prepare("DELETE FROM todos WHERE id = ? AND user_id = ?")
-  stmt.run(anonymous_parameters=[id |> @nostd.any, user_id |> @nostd.any])
+  stmt.run(anonymous_parameters=[id |> @core.any, user_id |> @core.any])
   |> ignore
 }
 
 // ============ FFI ============
 
 ///|
-extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@core.Any] =
   #|(c) => c.req.parseBody()
 
 ///|
 pub fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @nostd.identity, port)
+  ffi_serve(app |> @core.identity, port)
 }
 
 ///|
-extern "js" fn ffi_serve(app : @nostd.Any, port : Int) -> Unit =
+extern "js" fn ffi_serve(app : @core.Any, port : Int) -> Unit =
   #|(app, port) => {
   #|  const { serve } = require('@hono/node-server');
   #|  serve({ fetch: app.fetch, port });

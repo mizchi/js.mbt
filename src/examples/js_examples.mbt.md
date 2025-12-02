@@ -5,18 +5,20 @@ Common usage patterns for the `mizchi/js` library.
 ## Object Operations
 
 ```moonbit
-
 ///|
 test "basic object operations" {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   obj.set("name", "MoonBit")
   obj.set("version", 1)
-  inspect(@js.JSON::stringify(obj), content=(
-    #|{
-    #|  "name": "MoonBit",
-    #|  "version": 1
-    #|}
-  ))
+  inspect(
+    @js.JSON::stringify(obj),
+    content=(
+      #|{
+      #|  "name": "MoonBit",
+      #|  "version": 1
+      #|}
+    ),
+  )
 
   // Property access with different key types
   obj.set(0, "first") // Int key
@@ -34,24 +36,26 @@ test "basic object operations" {
 ## Arrays
 
 ```moonbit
-
 ///|
 test "array operations" {
-  let arr = @nostd.any([1, 2, 3])
-  arr._call("push", [4 |> @nostd.any]) |> ignore
-  inspect(@js.JSON::stringify(arr), content=(
-    #|[
-    #|  1,
-    #|  2,
-    #|  3,
-    #|  4
-    #|]
-  ))
+  let arr = @core.any([1, 2, 3])
+  arr._call("push", [4 |> @core.any]) |> ignore
+  inspect(
+    @js.JSON::stringify(arr),
+    content=(
+      #|[
+      #|  1,
+      #|  2,
+      #|  3,
+      #|  4
+      #|]
+    ),
+  )
 
   // Higher-order methods
   let filtered = arr.call1(
     "filter",
-    @js.from_fn1(fn(x : @nostd.Any) -> Bool {
+    @js.from_fn1(fn(x : @core.Any) -> Bool {
       let n : Int = @js.identity(x)
       n > 2
     }),
@@ -63,12 +67,11 @@ test "array operations" {
 ## Type Conversion
 
 ```moonbit
-
 ///|
 test "type conversion" {
   // MoonBit -> JS
-  let num_js = @nostd.any(42)
-  let str_js = @nostd.any("hello")
+  let num_js = @core.any(42)
+  let str_js = @core.any("hello")
 
   // JS -> MoonBit
   let num : Int = @js.identity(num_js)
@@ -77,7 +80,7 @@ test "type conversion" {
   assert_eq(str, "hello")
 
   // Optional values
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   obj.set("exists", "value")
   let exists : String? = @js.identity_option(obj._get("exists"))
   let missing : String? = @js.identity_option(obj._get("missing"))
@@ -89,11 +92,10 @@ test "type conversion" {
 ## Type Checking
 
 ```moonbit
-
 ///|
 test "type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   let undef = @js.undefined()
   assert_eq(@js.is_array(arr), true)
   assert_eq(@js.is_object(obj), true)
@@ -105,18 +107,17 @@ test "type checking" {
 ## Method Calls
 
 ```moonbit
-
 ///|
 test "method calls" {
-  let obj = @nostd.Object::new()
-  obj["name"] = "test" |> @nostd.any
+  let obj = @core.Object::new()
+  obj["name"] = "test" |> @core.any
 
   // Specific arities (optimized)
   inspect(obj.call0("toString"), content="[object Object]")
-  inspect(obj.call1("hasOwnProperty", "name" |> @nostd.any), content="true")
+  inspect(obj.call1("hasOwnProperty", "name" |> @core.any), content="true")
 
   // Variable arguments
-  let result = obj._call("hasOwnProperty", ["name" |> @nostd.any])
+  let result = obj._call("hasOwnProperty", ["name" |> @core.any])
   assert_eq(@js.identity(result), true)
 }
 ```
@@ -124,17 +125,16 @@ test "method calls" {
 ## Function Conversion
 
 ```moonbit
-
 ///|
 test "function conversion" {
   // MoonBit function -> JS function
   let fn1 = @js.from_fn1(fn(x : Int) -> Int { x * 2 })
-  let result : Int = @js.identity(fn1._invoke([10 |> @nostd.any]))
+  let result : Int = @js.identity(fn1._invoke([10 |> @core.any]))
   assert_eq(result, 20)
 
   // Calling JS functions
-  let parseInt = @nostd.global_this()._get("parseInt")
-  let parsed : Int = @js.identity(parseInt._invoke(["123" |> @nostd.any]))
+  let parseInt = @core.global_this()._get("parseInt")
+  let parsed : Int = @js.identity(parseInt._invoke(["123" |> @core.any]))
   assert_eq(parsed, 123)
 }
 ```
@@ -142,29 +142,30 @@ test "function conversion" {
 ## Constructors
 
 ```moonbit
-
 ///|
 test "constructors" {
-  let array_ctor = @nostd.global_this()._get("Array")
-  let arr = @nostd.new(array_ctor, [@nostd.any(3)])
-  inspect(@js.JSON::stringify(arr), content=(
-    #|[
-    #|  null,
-    #|  null,
-    #|  null
-    #|]
-  ))
+  let array_ctor = @core.global_this()._get("Array")
+  let arr = @core.new(array_ctor, [@core.any(3)])
+  inspect(
+    @js.JSON::stringify(arr),
+    content=(
+      #|[
+      #|  null,
+      #|  null,
+      #|  null
+      #|]
+    ),
+  )
 }
 ```
 
 ## JSON
 
 ```moonbit
-
 ///|
 test "json" {
-  let obj = @nostd.Object::new()
-  obj["name"] = "Moonbit" |> @nostd.any
+  let obj = @core.Object::new()
+  obj["name"] = "Moonbit" |> @core.any
   let json_str = @js.JSON::stringify(obj)
   assert_eq(json_str.contains("name"), true)
   let parsed = @js.JSON::parse(json_str) catch { _ => @js.undefined() }
@@ -175,7 +176,6 @@ test "json" {
 ## Async / Promise
 
 ```moonbit
-
 ///|
 async fn fetch_example() -> Unit {
   // Async functions return values directly (no .wait() needed by caller)
@@ -216,7 +216,6 @@ async fn sleep_example() -> Unit {
 ## Global Functions
 
 ```moonbit
-
 ///|
 test "global functions" {
   // URI encoding
@@ -234,7 +233,6 @@ test "global functions" {
 ## BigInt
 
 ```moonbit
-
 ///|
 test "bigint" {
   let a = @bigint.JsBigInt::from_int(42)

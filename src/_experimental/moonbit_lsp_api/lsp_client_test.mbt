@@ -26,9 +26,9 @@ test "Position::to_json creates correct JSON" {
 
 ///|
 test "Position::from_json parses JSON correctly" {
-  let json = @nostd.from_entries([
-    ("line", @nostd.any(20)),
-    ("character", @nostd.any(15)),
+  let json = @core.from_entries([
+    ("line", @core.any(20)),
+    ("character", @core.any(15)),
   ]).cast()
   let pos = Position::from_json(json)
   inspect(pos.line, content="20")
@@ -52,23 +52,23 @@ test "Range::to_json creates correct JSON" {
 
 ///|
 test "Location::from_json parses correctly" {
-  let json = @nostd.from_entries([
-    ("uri", @nostd.any("file:///test.mbt")),
+  let json = @core.from_entries([
+    ("uri", @core.any("file:///test.mbt")),
     (
       "range",
-      @nostd.from_entries([
+      @core.from_entries([
         (
           "start",
-          @nostd.from_entries([
-            ("line", @nostd.any(10)),
-            ("character", @nostd.any(5)),
+          @core.from_entries([
+            ("line", @core.any(10)),
+            ("character", @core.any(5)),
           ]).cast(),
         ),
         (
           "end",
-          @nostd.from_entries([
-            ("line", @nostd.any(10)),
-            ("character", @nostd.any(15)),
+          @core.from_entries([
+            ("line", @core.any(10)),
+            ("character", @core.any(15)),
           ]).cast(),
         ),
       ]).cast(),
@@ -82,27 +82,27 @@ test "Location::from_json parses correctly" {
 
 ///|
 test "TextEdit::from_json parses correctly" {
-  let json = @nostd.from_entries([
+  let json = @core.from_entries([
     (
       "range",
-      @nostd.from_entries([
+      @core.from_entries([
         (
           "start",
-          @nostd.from_entries([
-            ("line", @nostd.any(5)),
-            ("character", @nostd.any(0)),
+          @core.from_entries([
+            ("line", @core.any(5)),
+            ("character", @core.any(0)),
           ]).cast(),
         ),
         (
           "end",
-          @nostd.from_entries([
-            ("line", @nostd.any(5)),
-            ("character", @nostd.any(10)),
+          @core.from_entries([
+            ("line", @core.any(5)),
+            ("character", @core.any(10)),
           ]).cast(),
         ),
       ]).cast(),
     ),
-    ("newText", @nostd.any("new_text")),
+    ("newText", @core.any("new_text")),
   ]).cast()
   let edit = TextEdit::from_json(json)
   inspect(edit.new_text, content="new_text")

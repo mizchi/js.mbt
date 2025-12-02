@@ -1,4 +1,12 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/mbtconv", "mizchi/js/builtins/typedarray", "mizchi/js/builtins/global"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/mbtconv",
+    "mizchi/js/builtins/typedarray",
+    "mizchi/js/builtins/global"
+  ]
 }

@@ -10,7 +10,7 @@ pub(all) struct Context[Env, ExecutionContext] {
 ///|
 pub fn[Env, ExecutionContext] Context::as_any(
   self : Context[Env, ExecutionContext],
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// Get execution context (c.executionCtx)
@@ -34,10 +34,7 @@ pub fn[Env, ExecutionContext, T] Context::json(
     Some(s) => s
     None => 200
   }
-  self
-  .as_any()
-  ._call("json", [@nostd.any(data), @nostd.any(status_code)])
-  .cast()
+  self.as_any()._call("json", [@core.any(data), @core.any(status_code)]).cast()
 }
 
 ///|
@@ -52,10 +49,7 @@ pub fn[Env, ExecutionContext] Context::text(
     Some(s) => s
     None => 200
   }
-  self
-  .as_any()
-  ._call("text", [@nostd.any(text), @nostd.any(status_code)])
-  .cast()
+  self.as_any()._call("text", [@core.any(text), @core.any(status_code)]).cast()
 }
 
 ///|
@@ -70,10 +64,7 @@ pub fn[Env, ExecutionContext] Context::html(
     Some(s) => s
     None => 200
   }
-  self
-  .as_any()
-  ._call("html", [@nostd.any(html), @nostd.any(status_code)])
-  .cast()
+  self.as_any()._call("html", [@core.any(html), @core.any(status_code)]).cast()
 }
 
 ///|
@@ -90,7 +81,7 @@ pub fn[Env, ExecutionContext] Context::redirect(
   }
   self
   .as_any()
-  ._call("redirect", [@nostd.any(url), @nostd.any(status_code)])
+  ._call("redirect", [@core.any(url), @core.any(status_code)])
   .cast()
 }
 
@@ -112,7 +103,7 @@ pub fn[Env, ExecutionContext] Context::header(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("header", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("header", [@core.any(name), @core.any(value)]) |> ignore
 }
 
 ///|
@@ -122,7 +113,7 @@ pub fn[Env, ExecutionContext] Context::status(
   self : Context[Env, ExecutionContext],
   code : Int,
 ) -> Unit {
-  self.as_any()._call("status", [@nostd.any(code)]) |> ignore
+  self.as_any()._call("status", [@core.any(code)]) |> ignore
 }
 
 ///|
@@ -131,9 +122,9 @@ pub fn[Env, ExecutionContext] Context::status(
 pub fn[Env, ExecutionContext] Context::set(
   self : Context[Env, ExecutionContext],
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Unit {
-  self.as_any()._call("set", [@nostd.any(key), value]) |> ignore
+  self.as_any()._call("set", [@core.any(key), value]) |> ignore
 }
 
 ///|
@@ -142,8 +133,8 @@ pub fn[Env, ExecutionContext] Context::set(
 pub fn[Env, ExecutionContext] Context::getValue(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @nostd.Any {
-  self.as_any()._call("get", [@nostd.any(key)])
+) -> @core.Any {
+  self.as_any()._call("get", [@core.any(key)])
 }
 
 ///|
@@ -161,7 +152,7 @@ pub fn[Env, ExecutionContext] Context::res(
 pub fn[Env, ExecutionContext] Context::var_(
   self : Context[Env, ExecutionContext],
   key : String,
-) -> @nostd.Any {
+) -> @core.Any {
   self.as_any()["var"][key]
 }
 
@@ -172,14 +163,14 @@ pub fn[Env, ExecutionContext] Context::body(
   self : Context[Env, ExecutionContext],
   body : String,
   status? : Int,
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> @http.Response {
   match (status, headers) {
     (Some(s), Some(h)) =>
-      self.as_any()._call("body", [@nostd.any(body), @nostd.any(s), h]).cast()
+      self.as_any()._call("body", [@core.any(body), @core.any(s), h]).cast()
     (Some(s), None) =>
-      self.as_any()._call("body", [@nostd.any(body), @nostd.any(s)]).cast()
-    _ => self.as_any()._call("body", [@nostd.any(body)]).cast()
+      self.as_any()._call("body", [@core.any(body), @core.any(s)]).cast()
+    _ => self.as_any()._call("body", [@core.any(body)]).cast()
   }
 }
 
@@ -191,7 +182,7 @@ pub fn[Env, ExecutionContext] Context::setRenderer(
   self : Context[Env, ExecutionContext],
   renderer : (String) -> @http.Response,
 ) -> Unit {
-  self.as_any()._call("setRenderer", [@nostd.any(renderer)]) |> ignore
+  self.as_any()._call("setRenderer", [@core.any(renderer)]) |> ignore
 }
 
 ///|
@@ -201,5 +192,5 @@ pub fn[Env, ExecutionContext] Context::render(
   self : Context[Env, ExecutionContext],
   content : String,
 ) -> @http.Response {
-  self.as_any()._call("render", [@nostd.any(content)]).cast()
+  self.as_any()._call("render", [@core.any(content)]).cast()
 }

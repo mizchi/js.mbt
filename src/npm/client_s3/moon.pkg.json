@@ -3,7 +3,9 @@
     "mizchi/js",
     "mizchi/js/node",
     "mizchi/js/builtins/typedarray",
-    "mizchi/js/nostd"
+    "mizchi/js/core"
   ],
-  "test-import": ["moonbitlang/async"]
+  "test-import": [
+    "moonbitlang/async"
+  ]
 }

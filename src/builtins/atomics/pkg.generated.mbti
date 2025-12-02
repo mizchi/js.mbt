@@ -2,33 +2,33 @@
 package "mizchi/js/builtins/atomics"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn add(@nostd.Any, Int, Int) -> Int
+pub fn add(@core.Any, Int, Int) -> Int
 
-fn and_(@nostd.Any, Int, Int) -> Int
+pub fn and_(@core.Any, Int, Int) -> Int
 
-fn compareExchange(@nostd.Any, Int, Int, Int) -> Int
+pub fn compareExchange(@core.Any, Int, Int, Int) -> Int
 
-fn exchange(@nostd.Any, Int, Int) -> Int
+pub fn exchange(@core.Any, Int, Int) -> Int
 
-fn isLockFree(Int) -> Bool
+pub fn isLockFree(Int) -> Bool
 
-fn load(@nostd.Any, Int) -> Int
+pub fn load(@core.Any, Int) -> Int
 
-fn notify(@nostd.Any, Int, count? : Int) -> Int
+pub fn notify(@core.Any, Int, count? : Int) -> Int
 
-fn or_(@nostd.Any, Int, Int) -> Int
+pub fn or_(@core.Any, Int, Int) -> Int
 
-fn store(@nostd.Any, Int, Int) -> Int
+pub fn store(@core.Any, Int, Int) -> Int
 
-fn sub(@nostd.Any, Int, Int) -> Int
+pub fn sub(@core.Any, Int, Int) -> Int
 
-fn wait(@nostd.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
+pub fn wait(@core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
 
-fn xor(@nostd.Any, Int, Int) -> Int
+pub fn xor(@core.Any, Int, Int) -> Int
 
 // Errors
 
@@ -38,8 +38,8 @@ pub enum AtomicsWaitResult {
   NotEqual
   TimedOut
 }
-impl Eq for AtomicsWaitResult
-impl Show for AtomicsWaitResult
+pub impl Eq for AtomicsWaitResult
+pub impl Show for AtomicsWaitResult
 
 // Type aliases
 

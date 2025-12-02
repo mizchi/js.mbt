@@ -2,42 +2,42 @@
 package "mizchi/js/node/path"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn basename(String, suffix? : String) -> String
+pub fn basename(String, suffix? : String) -> String
 
-fn delimiter() -> String
+pub fn delimiter() -> String
 
-fn dirname(String) -> String
+pub fn dirname(String) -> String
 
-fn extname(String) -> String
+pub fn extname(String) -> String
 
-fn format(ParsedPath) -> String
+pub fn format(ParsedPath) -> String
 
 #alias(is_absolute)
-fn isAbsolute(String) -> Bool
+pub fn isAbsolute(String) -> Bool
 
-fn join(Array[String]) -> String
+pub fn join(Array[String]) -> String
 
-fn join2(String, String) -> String
+pub fn join2(String, String) -> String
 
 #alias(matches_glob)
-fn matchesGlob(String, String) -> Bool
+pub fn matchesGlob(String, String) -> Bool
 
-fn normalize(String) -> String
+pub fn normalize(String) -> String
 
-fn parse(String) -> ParsedPath
+pub fn parse(String) -> ParsedPath
 
-fn relative(String, String) -> String
+pub fn relative(String, String) -> String
 
-fn resolve(Array[String]) -> String
+pub fn resolve(Array[String]) -> String
 
-fn sep() -> String
+pub fn sep() -> String
 
 #alias(to_namespaced_path)
-fn toNamespacedPath(String) -> String
+pub fn toNamespacedPath(String) -> String
 
 // Errors
 
@@ -49,7 +49,7 @@ pub(all) struct ParsedPath {
   ext : String
   name : String
 }
-fn ParsedPath::as_any(Self) -> @nostd.Any
+pub fn ParsedPath::to_any(Self) -> @core.Any
 
 // Type aliases
 

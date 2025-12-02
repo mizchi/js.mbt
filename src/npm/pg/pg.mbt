@@ -7,7 +7,7 @@
 pub type Client
 
 ///|
-pub extern "js" fn Client::as_any(self : Client) -> @nostd.Any =
+pub extern "js" fn Client::as_any(self : Client) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -16,7 +16,7 @@ pub extern "js" fn Client::as_any(self : Client) -> @nostd.Any =
 pub type Pool
 
 ///|
-pub extern "js" fn Pool::as_any(self : Pool) -> @nostd.Any =
+pub extern "js" fn Pool::as_any(self : Pool) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -25,7 +25,7 @@ pub extern "js" fn Pool::as_any(self : Pool) -> @nostd.Any =
 pub type PoolClient
 
 ///|
-pub extern "js" fn PoolClient::as_any(self : PoolClient) -> @nostd.Any =
+pub extern "js" fn PoolClient::as_any(self : PoolClient) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -34,13 +34,13 @@ pub extern "js" fn PoolClient::as_any(self : PoolClient) -> @nostd.Any =
 pub type QueryResult
 
 ///|
-pub extern "js" fn QueryResult::as_any(self : QueryResult) -> @nostd.Any =
+pub extern "js" fn QueryResult::as_any(self : QueryResult) -> @core.Any =
   #| (x) => x
 
 // ============ Client ============
 
 ///|
-extern "js" fn ffi_new_client(config : @nostd.Any) -> Client =
+extern "js" fn ffi_new_client(config : @core.Any) -> Client =
   #| (config) => new (require("pg").Client)(config)
 
 ///|
@@ -53,51 +53,51 @@ pub fn Client::new(
   host? : String,
   port? : Int,
   database? : String,
-  ssl? : @nostd.Any,
+  ssl? : @core.Any,
   statement_timeout? : Int,
   query_timeout? : Int,
   connection_timeout_millis? : Int,
   application_name? : String,
 ) -> Client {
-  let config = @nostd.Object::new()
+  let config = @core.Object::new()
   if connection_string is Some(v) {
-    config["connectionString"] = @nostd.any(v)
+    config["connectionString"] = @core.any(v)
   }
   if user is Some(v) {
-    config["user"] = @nostd.any(v)
+    config["user"] = @core.any(v)
   }
   if password is Some(v) {
-    config["password"] = @nostd.any(v)
+    config["password"] = @core.any(v)
   }
   if host is Some(v) {
-    config["host"] = @nostd.any(v)
+    config["host"] = @core.any(v)
   }
   if port is Some(v) {
-    config["port"] = @nostd.any(v)
+    config["port"] = @core.any(v)
   }
   if database is Some(v) {
-    config["database"] = @nostd.any(v)
+    config["database"] = @core.any(v)
   }
   if ssl is Some(v) {
     config["ssl"] = v
   }
   if statement_timeout is Some(v) {
-    config["statement_timeout"] = @nostd.any(v)
+    config["statement_timeout"] = @core.any(v)
   }
   if query_timeout is Some(v) {
-    config["query_timeout"] = @nostd.any(v)
+    config["query_timeout"] = @core.any(v)
   }
   if connection_timeout_millis is Some(v) {
-    config["connectionTimeoutMillis"] = @nostd.any(v)
+    config["connectionTimeoutMillis"] = @core.any(v)
   }
   if application_name is Some(v) {
-    config["application_name"] = @nostd.any(v)
+    config["application_name"] = @core.any(v)
   }
   ffi_new_client(config)
 }
 
 ///|
-extern "js" fn ffi_client_connect(client : Client) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_client_connect(client : Client) -> @core.Promise[Unit] =
   #| (client) => client.connect()
 
 ///|
@@ -110,15 +110,15 @@ pub async fn Client::connect(self : Client) -> Unit {
 extern "js" fn ffi_client_query(
   client : Client,
   sql : String,
-  params : Array[@nostd.Any],
-) -> @nostd.Promise[QueryResult] =
+  params : Array[@core.Any],
+) -> @core.Promise[QueryResult] =
   #| (client, sql, params) => client.query(sql, params)
 
 ///|
 extern "js" fn ffi_client_query_no_params(
   client : Client,
   sql : String,
-) -> @nostd.Promise[QueryResult] =
+) -> @core.Promise[QueryResult] =
   #| (client, sql) => client.query(sql)
 
 ///|
@@ -126,7 +126,7 @@ extern "js" fn ffi_client_query_no_params(
 pub async fn Client::query(
   self : Client,
   sql : String,
-  params? : Array[@nostd.Any] = [],
+  params? : Array[@core.Any] = [],
 ) -> QueryResult {
   if params.length() == 0 {
     ffi_client_query_no_params(self, sql).wait()
@@ -136,7 +136,7 @@ pub async fn Client::query(
 }
 
 ///|
-extern "js" fn ffi_client_end(client : Client) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_client_end(client : Client) -> @core.Promise[Unit] =
   #| (client) => client.end()
 
 ///|
@@ -148,14 +148,14 @@ pub async fn Client::end(self : Client) -> Unit {
 ///|
 /// Close the client connection (sync, returns promise for defer)
 #alias(end_sync)
-pub fn Client::endSync(self : Client) -> @nostd.Promise[Unit] {
+pub fn Client::endSync(self : Client) -> @core.Promise[Unit] {
   ffi_client_end(self)
 }
 
 // ============ Pool ============
 
 ///|
-extern "js" fn ffi_new_pool(config : @nostd.Any) -> Pool =
+extern "js" fn ffi_new_pool(config : @core.Any) -> Pool =
   #| (config) => new (require("pg").Pool)(config)
 
 ///|
@@ -168,7 +168,7 @@ pub fn Pool::new(
   host? : String,
   port? : Int,
   database? : String,
-  ssl? : @nostd.Any,
+  ssl? : @core.Any,
   max? : Int,
   min? : Int,
   idle_timeout_millis? : Int,
@@ -176,45 +176,45 @@ pub fn Pool::new(
   max_lifetime_seconds? : Int,
   allow_exit_on_idle? : Bool,
 ) -> Pool {
-  let config = @nostd.Object::new()
+  let config = @core.Object::new()
   if connection_string is Some(v) {
-    config["connectionString"] = @nostd.any(v)
+    config["connectionString"] = @core.any(v)
   }
   if user is Some(v) {
-    config["user"] = @nostd.any(v)
+    config["user"] = @core.any(v)
   }
   if password is Some(v) {
-    config["password"] = @nostd.any(v)
+    config["password"] = @core.any(v)
   }
   if host is Some(v) {
-    config["host"] = @nostd.any(v)
+    config["host"] = @core.any(v)
   }
   if port is Some(v) {
-    config["port"] = @nostd.any(v)
+    config["port"] = @core.any(v)
   }
   if database is Some(v) {
-    config["database"] = @nostd.any(v)
+    config["database"] = @core.any(v)
   }
   if ssl is Some(v) {
     config["ssl"] = v
   }
   if max is Some(v) {
-    config["max"] = @nostd.any(v)
+    config["max"] = @core.any(v)
   }
   if min is Some(v) {
-    config["min"] = @nostd.any(v)
+    config["min"] = @core.any(v)
   }
   if idle_timeout_millis is Some(v) {
-    config["idleTimeoutMillis"] = @nostd.any(v)
+    config["idleTimeoutMillis"] = @core.any(v)
   }
   if connection_timeout_millis is Some(v) {
-    config["connectionTimeoutMillis"] = @nostd.any(v)
+    config["connectionTimeoutMillis"] = @core.any(v)
   }
   if max_lifetime_seconds is Some(v) {
-    config["maxLifetimeSeconds"] = @nostd.any(v)
+    config["maxLifetimeSeconds"] = @core.any(v)
   }
   if allow_exit_on_idle is Some(v) {
-    config["allowExitOnIdle"] = @nostd.any(v)
+    config["allowExitOnIdle"] = @core.any(v)
   }
   ffi_new_pool(config)
 }
@@ -223,15 +223,15 @@ pub fn Pool::new(
 extern "js" fn ffi_pool_query(
   pool : Pool,
   sql : String,
-  params : Array[@nostd.Any],
-) -> @nostd.Promise[QueryResult] =
+  params : Array[@core.Any],
+) -> @core.Promise[QueryResult] =
   #| (pool, sql, params) => pool.query(sql, params)
 
 ///|
 extern "js" fn ffi_pool_query_no_params(
   pool : Pool,
   sql : String,
-) -> @nostd.Promise[QueryResult] =
+) -> @core.Promise[QueryResult] =
   #| (pool, sql) => pool.query(sql)
 
 ///|
@@ -239,7 +239,7 @@ extern "js" fn ffi_pool_query_no_params(
 pub async fn Pool::query(
   self : Pool,
   sql : String,
-  params? : Array[@nostd.Any] = [],
+  params? : Array[@core.Any] = [],
 ) -> QueryResult {
   if params.length() == 0 {
     ffi_pool_query_no_params(self, sql).wait()
@@ -249,7 +249,7 @@ pub async fn Pool::query(
 }
 
 ///|
-extern "js" fn ffi_pool_connect(pool : Pool) -> @nostd.Promise[PoolClient] =
+extern "js" fn ffi_pool_connect(pool : Pool) -> @core.Promise[PoolClient] =
   #| (pool) => pool.connect()
 
 ///|
@@ -259,7 +259,7 @@ pub async fn Pool::connect(self : Pool) -> PoolClient {
 }
 
 ///|
-extern "js" fn ffi_pool_end(pool : Pool) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_pool_end(pool : Pool) -> @core.Promise[Unit] =
   #| (pool) => pool.end()
 
 ///|
@@ -271,7 +271,7 @@ pub async fn Pool::end(self : Pool) -> Unit {
 ///|
 /// Close all clients in the pool (sync, returns promise for defer)
 #alias(end_sync)
-pub fn Pool::endSync(self : Pool) -> @nostd.Promise[Unit] {
+pub fn Pool::endSync(self : Pool) -> @core.Promise[Unit] {
   ffi_pool_end(self)
 }
 
@@ -314,15 +314,15 @@ pub fn Pool::waitingCount(self : Pool) -> Int {
 extern "js" fn ffi_pool_client_query(
   client : PoolClient,
   sql : String,
-  params : Array[@nostd.Any],
-) -> @nostd.Promise[QueryResult] =
+  params : Array[@core.Any],
+) -> @core.Promise[QueryResult] =
   #| (client, sql, params) => client.query(sql, params)
 
 ///|
 extern "js" fn ffi_pool_client_query_no_params(
   client : PoolClient,
   sql : String,
-) -> @nostd.Promise[QueryResult] =
+) -> @core.Promise[QueryResult] =
   #| (client, sql) => client.query(sql)
 
 ///|
@@ -330,7 +330,7 @@ extern "js" fn ffi_pool_client_query_no_params(
 pub async fn PoolClient::query(
   self : PoolClient,
   sql : String,
-  params? : Array[@nostd.Any] = [],
+  params? : Array[@core.Any] = [],
 ) -> QueryResult {
   if params.length() == 0 {
     ffi_pool_client_query_no_params(self, sql).wait()
@@ -356,12 +356,12 @@ pub fn PoolClient::release(self : PoolClient, destroy? : Bool = false) -> Unit {
 // ============ QueryResult ============
 
 ///|
-extern "js" fn ffi_query_result_rows(result : QueryResult) -> @nostd.Any =
+extern "js" fn ffi_query_result_rows(result : QueryResult) -> @core.Any =
   #| (result) => result.rows
 
 ///|
 /// Get rows from query result
-pub fn QueryResult::rows(self : QueryResult) -> @nostd.Any {
+pub fn QueryResult::rows(self : QueryResult) -> @core.Any {
   ffi_query_result_rows(self)
 }
 
@@ -383,12 +383,12 @@ pub fn QueryResult::rowCount(self : QueryResult) -> Int {
 }
 
 ///|
-extern "js" fn ffi_query_result_fields(result : QueryResult) -> @nostd.Any =
+extern "js" fn ffi_query_result_fields(result : QueryResult) -> @core.Any =
   #| (result) => result.fields
 
 ///|
 /// Get field descriptions
-pub fn QueryResult::fields(self : QueryResult) -> @nostd.Any {
+pub fn QueryResult::fields(self : QueryResult) -> @core.Any {
   ffi_query_result_fields(self)
 }
 

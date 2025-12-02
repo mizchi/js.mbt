@@ -9,7 +9,7 @@
 pub type ShadowRoot
 
 ///|
-pub fn ShadowRoot::as_any(self : ShadowRoot) -> @nostd.Any = "%identity"
+pub fn ShadowRoot::as_any(self : ShadowRoot) -> @core.Any = "%identity"
 
 ///|
 pub fn ShadowRoot::as_event_target(self : ShadowRoot) -> @event.EventTarget = "%identity"
@@ -57,15 +57,15 @@ pub fn ShadowRoot::innerHTML(self : Self) -> String {
 ///|
 /// Sets the inner HTML of the shadow root
 pub fn ShadowRoot::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_any()._set("innerHTML", @nostd.any(html)) |> ignore
+  self.as_any()._set("innerHTML", @core.any(html)) |> ignore
 }
 
 ///|
 /// Returns the active element within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/activeElement
 pub fn ShadowRoot::activeElement(self : Self) -> Element? {
-  let v : @nostd.Any = self.as_any()._get("activeElement").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("activeElement").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -76,11 +76,11 @@ pub fn ShadowRoot::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
+    ._call("elementFromPoint", [@core.any(x), @core.any(y)])
     .cast()
-  v |> @nostd.identity_option()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -93,9 +93,9 @@ pub fn ShadowRoot::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  let arr : @nostd.Any = self
+  let arr : @core.Any = self
     .as_any()
-    ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
+    ._call("elementsFromPoint", [@core.any(x), @core.any(y)])
     .cast()
   @js.array_from(arr).map(_.cast())
 }
@@ -126,17 +126,17 @@ pub fn HTMLElement::attachShadow(
   init : ShadowRootInit,
 ) -> ShadowRoot {
   let options = @mbtconv.from_map({
-    "mode": @nostd.any(init.mode),
-    "delegatesFocus": @nostd.any(init.delegatesFocus),
-    "slotAssignment": @nostd.any(init.slotAssignment),
+    "mode": @core.any(init.mode),
+    "delegatesFocus": @core.any(init.delegatesFocus),
+    "slotAssignment": @core.any(init.slotAssignment),
   })
-  self.as_any()._call("attachShadow", [@nostd.any(options)]).cast()
+  self.as_any()._call("attachShadow", [@core.any(options)]).cast()
 }
 
 ///|
 /// Returns the shadow root of the element if it exists
 /// https://developer.mozilla.org/en-US/docs/Web/API/Element/shadowRoot
 pub fn HTMLElement::shadowRoot(self : Self) -> ShadowRoot? {
-  let v : @nostd.Any = self.as_any()._get("shadowRoot").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("shadowRoot").cast()
+  v |> @core.identity_option()
 }

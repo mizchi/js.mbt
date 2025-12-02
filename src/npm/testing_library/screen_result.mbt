@@ -5,5 +5,5 @@ pub type ScreenResult
 
 ///|
 pub fn ScreenResult::as_element(self : ScreenResult) -> @dom.HTMLElement {
-  @nostd.identity(self)
+  @core.identity(self)
 }

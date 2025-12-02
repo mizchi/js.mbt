@@ -1,13 +1,13 @@
 ///|
 test "jsx creates element" {
   let node = @hono.jsx("div", ["Hello"])
-  @nostd.typeof_(node.as_any()) |> assert_eq("object")
+  @core.typeof_(node.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "jsx with props" {
   let node = @hono.jsx("div", ["Hello"], class="container", id="main")
-  @nostd.typeof_(node.as_any()) |> assert_eq("object")
+  @core.typeof_(node.as_any()) |> assert_eq("object")
 }
 
 ///|
@@ -16,20 +16,20 @@ test "jsx with style" {
     "color": "red",
     "fontSize": "16px",
   })
-  @nostd.typeof_(node.as_any()) |> assert_eq("object")
+  @core.typeof_(node.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "jsx nested elements" {
   let inner = @hono.jsx("span", ["Inner"])
   let outer = @hono.jsx("div", [inner])
-  @nostd.typeof_(outer.as_any()) |> assert_eq("object")
+  @core.typeof_(outer.as_any()) |> assert_eq("object")
 }
 
 ///|
 test "fragment creates element" {
   let node = @hono.fragment(["Hello", "World"])
-  @nostd.typeof_(node.as_any()) |> assert_eq("object")
+  @core.typeof_(node.as_any()) |> assert_eq("object")
 }
 
 ///|
@@ -52,7 +52,7 @@ test "renderToString with props" {
   let node = @hono.jsx("div", ["Content"], class="container", id="main")
   let html = @hono.render_to_string(node)
   // Note: attribute order may vary
-  @nostd.typeof_(html |> @nostd.any) |> assert_eq("string")
+  @core.typeof_(html |> @core.any) |> assert_eq("string")
   assert_true(html.contains("class=\"container\""))
   assert_true(html.contains("id=\"main\""))
 }
@@ -67,13 +67,13 @@ test "renderToString fragment" {
 ///|
 test "raw inserts unescaped html" {
   let node = @hono.raw("<b>Bold</b>")
-  @nostd.typeof_(node |> @nostd.any) |> assert_eq("object")
+  @core.typeof_(node |> @core.any) |> assert_eq("object")
 }
 
 ///|
 test "html creates escaped string" {
   let escaped = @hono.html("<div>Hello</div>")
-  @nostd.typeof_(escaped |> @nostd.any) |> assert_eq("object")
+  @core.typeof_(escaped |> @core.any) |> assert_eq("object")
 }
 
 ///|
@@ -108,12 +108,12 @@ test "memo wraps component" {
 test "createContext creates context" {
   let ctx : @hono.HonoContext[String] = @hono.create_context(Some("default"))
   // createContext returns a function in Hono
-  @nostd.typeof_(ctx |> @nostd.any) |> assert_eq("function")
+  @core.typeof_(ctx |> @core.any) |> assert_eq("function")
 }
 
 ///|
 async test "Context::htmlJsx renders JSX response" {
-  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  let app : @hono.Hono[@core.Any, @core.Any] = @hono.Hono::new()
   app.get("/jsx", fn(c) {
     let node = @hono.jsx("h1", ["Hello from JSX!"])
     c.html_jsx(node)
@@ -121,12 +121,12 @@ async test "Context::htmlJsx renders JSX response" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("jsx")
-  @nostd.typeof_(endpoint |> @nostd.any) |> assert_eq("function")
+  @core.typeof_(endpoint |> @core.any) |> assert_eq("function")
 }
 
 ///|
 async test "Context::htmlJsx with complex JSX" {
-  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  let app : @hono.Hono[@core.Any, @core.Any] = @hono.Hono::new()
   app.get("/page", fn(c) {
     let content = @hono.jsx("html", [
       @hono.jsx("head", [@hono.jsx("title", ["My Page"])]),
@@ -140,12 +140,12 @@ async test "Context::htmlJsx with complex JSX" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("page")
-  @nostd.typeof_(endpoint |> @nostd.any) |> assert_eq("function")
+  @core.typeof_(endpoint |> @core.any) |> assert_eq("function")
 }
 
 ///|
 async test "Context::htmlJsx with status code" {
-  let app : @hono.Hono[@nostd.Any, @nostd.Any] = @hono.Hono::new()
+  let app : @hono.Hono[@core.Any, @core.Any] = @hono.Hono::new()
   app.get("/not-found", fn(c) {
     let node = @hono.jsx("h1", ["Page Not Found"])
     c.html_jsx(node, status=404)
@@ -153,5 +153,5 @@ async test "Context::htmlJsx with status code" {
   |> ignore
   let client = @hono.test_client(app)
   let endpoint = client.path("not-found")
-  @nostd.typeof_(endpoint |> @nostd.any) |> assert_eq("function")
+  @core.typeof_(endpoint |> @core.any) |> assert_eq("function")
 }

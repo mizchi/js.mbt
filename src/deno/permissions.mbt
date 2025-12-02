@@ -7,7 +7,7 @@
 pub type PermissionStatus
 
 ///|
-pub fn PermissionStatus::as_any(self : PermissionStatus) -> @nostd.Any = "%identity"
+pub fn PermissionStatus::as_any(self : PermissionStatus) -> @core.Any = "%identity"
 
 ///|
 /// Get permission state ("granted", "denied", "prompt")
@@ -23,7 +23,7 @@ pub fn PermissionStatus::is_granted(self : PermissionStatus) -> Bool {
 
 ///|
 /// Get permissions object
-pub fn Deno::permissions(self : Deno) -> @nostd.Any {
+pub fn Deno::permissions(self : Deno) -> @core.Any {
   self.as_any()["permissions"].cast()
 }
 
@@ -34,10 +34,10 @@ pub async fn Deno::permissions_query(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "name": Some(@nostd.any(name)),
-    "path": path.map(fn(x) { @nostd.any(x) }),
+  let perms : @core.Any = self.permissions().cast()
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "name": Some(@core.any(name)),
+    "path": path.map(fn(x) { @core.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("query", [opts])
@@ -52,10 +52,10 @@ pub async fn Deno::permissions_request(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "name": Some(@nostd.any(name)),
-    "path": path.map(fn(x) { @nostd.any(x) }),
+  let perms : @core.Any = self.permissions().cast()
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "name": Some(@core.any(name)),
+    "path": path.map(fn(x) { @core.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("request", [opts])
@@ -70,10 +70,10 @@ pub async fn Deno::permissions_revoke(
   name : String,
   path? : String,
 ) -> PermissionStatus {
-  let perms : @nostd.Any = self.permissions().cast()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "name": Some(@nostd.any(name)),
-    "path": path.map(fn(x) { @nostd.any(x) }),
+  let perms : @core.Any = self.permissions().cast()
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "name": Some(@core.any(name)),
+    "path": path.map(fn(x) { @core.any(x) }),
   }).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("revoke", [opts])

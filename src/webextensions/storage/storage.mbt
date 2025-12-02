@@ -8,23 +8,23 @@
 pub type StorageArea
 
 ///|
-pub fn StorageArea::as_any(self : StorageArea) -> @nostd.Any = "%identity"
+pub fn StorageArea::as_any(self : StorageArea) -> @core.Any = "%identity"
 
 ///|
 /// Get items from storage
 /// keys: string | string[] | object with defaults | null (get all)
 pub async fn StorageArea::get(
   self : StorageArea,
-  keys : @nostd.Any,
-) -> @nostd.Any {
-  ffi_storage_get(self |> @nostd.identity, keys).wait()
+  keys : @core.Any,
+) -> @core.Any {
+  ffi_storage_get(self |> @core.identity, keys).wait()
 }
 
 ///|
 extern "js" fn ffi_storage_get(
-  storage : @nostd.Any,
-  keys : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  storage : @core.Any,
+  keys : @core.Any,
+) -> @js.Promise[@core.Any] =
   #|async (storage, keys) => storage._get(keys)
 
 ///|
@@ -32,33 +32,33 @@ extern "js" fn ffi_storage_get(
 pub async fn StorageArea::get_item(
   self : StorageArea,
   key : String,
-) -> @nostd.Any {
-  let result : @nostd.Any = self.as_any()._get(key) |> @nostd.any
-  result[key] |> @nostd.identity
+) -> @core.Any {
+  let result : @core.Any = self.as_any()._get(key) |> @core.any
+  result[key] |> @core.identity
 }
 
 ///|
 /// Get all items from storage
-pub async fn StorageArea::get_all(self : StorageArea) -> @nostd.Any {
-  ffi_storage_get_all(self |> @nostd.identity).wait()
+pub async fn StorageArea::get_all(self : StorageArea) -> @core.Any {
+  ffi_storage_get_all(self |> @core.identity).wait()
 }
 
 ///|
 extern "js" fn ffi_storage_get_all(
-  storage : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  storage : @core.Any,
+) -> @js.Promise[@core.Any] =
   #|async (storage) => storage._get(null)
 
 ///|
 /// Set items in storage
-pub async fn StorageArea::set(self : StorageArea, items : @nostd.Any) -> Unit {
-  ffi_storage_set(self |> @nostd.identity, items).wait()
+pub async fn StorageArea::set(self : StorageArea, items : @core.Any) -> Unit {
+  ffi_storage_set(self |> @core.identity, items).wait()
 }
 
 ///|
 extern "js" fn ffi_storage_set(
-  storage : @nostd.Any,
-  items : @nostd.Any,
+  storage : @core.Any,
+  items : @core.Any,
 ) -> @js.Promise[Unit] =
   #|async (storage, items) => storage.set(items)
 
@@ -67,88 +67,88 @@ extern "js" fn ffi_storage_set(
 pub async fn StorageArea::set_item(
   self : StorageArea,
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Unit {
-  let items = @nostd.Object::new()
-  items[key] = @nostd.any(value)
-  self.set(items |> @nostd.identity)
+  let items = @core.Object::new()
+  items[key] = @core.any(value)
+  self.set(items |> @core.identity)
 }
 
 ///|
 /// Remove items from storage
-pub async fn StorageArea::remove(self : StorageArea, keys : @nostd.Any) -> Unit {
-  ffi_storage_remove(self |> @nostd.identity, keys).wait()
+pub async fn StorageArea::remove(self : StorageArea, keys : @core.Any) -> Unit {
+  ffi_storage_remove(self |> @core.identity, keys).wait()
 }
 
 ///|
 extern "js" fn ffi_storage_remove(
-  storage : @nostd.Any,
-  keys : @nostd.Any,
+  storage : @core.Any,
+  keys : @core.Any,
 ) -> @js.Promise[Unit] =
   #|async (storage, keys) => storage.remove(keys)
 
 ///|
 /// Remove single item
 pub async fn StorageArea::remove_item(self : StorageArea, key : String) -> Unit {
-  self.remove(key |> @nostd.any)
+  self.remove(key |> @core.any)
 }
 
 ///|
 /// Clear all items from storage
 pub async fn StorageArea::clear(self : StorageArea) -> Unit {
-  ffi_storage_clear(self |> @nostd.identity).wait()
+  ffi_storage_clear(self |> @core.identity).wait()
 }
 
 ///|
-extern "js" fn ffi_storage_clear(storage : @nostd.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_storage_clear(storage : @core.Any) -> @js.Promise[Unit] =
   #|async (storage) => storage.clear()
 
 ///|
 /// Get storage.local area
 pub fn local_storage() -> StorageArea {
-  let b : @nostd.Any = @webextensions.browser() |> @nostd.any
-  b["storage"]["local"] |> @nostd.identity
+  let b : @core.Any = @webextensions.browser() |> @core.any
+  b["storage"]["local"] |> @core.identity
 }
 
 ///|
 /// Get storage.sync area
 pub fn sync_storage() -> StorageArea {
-  let b : @nostd.Any = @webextensions.browser() |> @nostd.any
-  b["storage"]["sync"] |> @nostd.identity
+  let b : @core.Any = @webextensions.browser() |> @core.any
+  b["storage"]["sync"] |> @core.identity
 }
 
 ///|
 /// Get storage.session area (Manifest V3)
 pub fn session_storage() -> StorageArea {
-  let b : @nostd.Any = @webextensions.browser() |> @nostd.any
-  b["storage"]["session"] |> @nostd.identity
+  let b : @core.Any = @webextensions.browser() |> @core.any
+  b["storage"]["session"] |> @core.identity
 }
 
 ///|
 /// Storage change info
 pub struct StorageChange {
-  old_value : @nostd.Any
-  new_value : @nostd.Any
+  old_value : @core.Any
+  new_value : @core.Any
 }
 
 ///|
 /// Parse storage change from JS object
-pub fn StorageChange::from_any(obj : @nostd.Any) -> StorageChange {
-  let o : @nostd.Any = obj |> @nostd.any
+pub fn StorageChange::from_any(obj : @core.Any) -> StorageChange {
+  let o : @core.Any = obj |> @core.any
   {
-    old_value: o["oldValue"] |> @nostd.identity,
-    new_value: o["newValue"] |> @nostd.identity,
+    old_value: o["oldValue"] |> @core.identity,
+    new_value: o["newValue"] |> @core.identity,
   }
 }
 
 ///|
 /// Add listener for storage changes
-pub fn on_changed(callback : (@nostd.Any, String) -> Unit) -> Unit {
+pub fn on_changed(callback : (@core.Any, String) -> Unit) -> Unit {
   ffi_on_changed(callback)
 }
 
 ///|
-extern "js" fn ffi_on_changed(callback : (@nostd.Any, String) -> Unit) -> Unit =
+extern "js" fn ffi_on_changed(callback : (@core.Any, String) -> Unit) -> Unit =
   #|(callback) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  b.storage.onChanged.addListener((changes, areaName) => {

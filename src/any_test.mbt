@@ -2,23 +2,23 @@
 /// Tests for the @js.Nullable[T] type which handles explicit null values in FFI
 
 ///|
-extern "js" fn create_null() -> @nostd.Any =
+extern "js" fn create_null() -> @core.Any =
   #|() => null
 
 ///|
-extern "js" fn create_value(v : Int) -> @nostd.Any =
+extern "js" fn create_value(v : Int) -> @core.Any =
   #|(v) => v
 
 ///|
-extern "js" fn create_undefined() -> @nostd.Any =
+extern "js" fn create_undefined() -> @core.Any =
   #|() => undefined
 
 ///|
-extern "js" fn create_object_with_null_field() -> @nostd.Any =
+extern "js" fn create_object_with_null_field() -> @core.Any =
   #|() => ({ value: null })
 
 ///|
-extern "js" fn create_object_with_value_field(v : Int) -> @nostd.Any =
+extern "js" fn create_object_with_value_field(v : Int) -> @core.Any =
   #|(v) => ({ value: v })
 
 ///|
@@ -83,7 +83,7 @@ test "@js.Nullable[String] - null value" {
 
 ///|
 test "@js.Nullable[String] - actual value" {
-  let js_str : @nostd.Any = @nostd.identity("hello")
+  let js_str : @core.Any = @core.identity("hello")
   let nullable : @js.Nullable[String] = js_str |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -100,7 +100,7 @@ test "@js.Nullable[Bool] - null value" {
 
 ///|
 test "@js.Nullable[Bool] - false value is not null" {
-  let js_false : @nostd.Any = @nostd.identity(false)
+  let js_false : @core.Any = @core.identity(false)
   let nullable : @js.Nullable[Bool] = js_false |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -111,7 +111,7 @@ test "@js.Nullable[Bool] - false value is not null" {
 
 ///|
 test "@js.Nullable[Bool] - true value" {
-  let js_true : @nostd.Any = @nostd.identity(true)
+  let js_true : @core.Any = @core.identity(true)
   let nullable : @js.Nullable[Bool] = js_true |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -128,7 +128,7 @@ test "@js.Nullable[Double] - null value" {
 
 ///|
 test "@js.Nullable[Double] - zero is not null" {
-  let js_zero : @nostd.Any = @nostd.identity(0.0)
+  let js_zero : @core.Any = @core.identity(0.0)
   let nullable : @js.Nullable[Double] = js_zero |> identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
@@ -139,7 +139,7 @@ test "@js.Nullable[Double] - zero is not null" {
 
 ///|
 test "@js.Nullable[Double] - actual value" {
-  let js_val : @nostd.Any = @nostd.identity(3.14)
+  let js_val : @core.Any = @core.identity(3.14)
   let nullable : @js.Nullable[Double] = js_val |> identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 3.14)
@@ -188,7 +188,7 @@ extern "js" fn create_multi_nullable(
   str_null : Bool,
   int_null : Bool,
   bool_null : Bool,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(str_null, int_null, bool_null) => ({
   #|  str_field: str_null ? null : "test",
   #|  int_field: int_null ? null : 123,
@@ -284,7 +284,7 @@ test "@js.Nullish[String]::to_option() - undefined returns None" {
 
 ///|
 test "@js.Nullish[String]::to_option() - actual value returns Some" {
-  let js_str : @nostd.Any = @nostd.identity("hello")
+  let js_str : @core.Any = @core.identity("hello")
   let nullish : @js.Nullish[String] = js_str |> identity
   match nullish.to_option() {
     Some(s) => assert_eq(s, "hello")

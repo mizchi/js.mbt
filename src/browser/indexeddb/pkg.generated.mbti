@@ -2,143 +2,142 @@
 package "mizchi/js/browser/indexeddb"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-fn cmp(@nostd.Any, @nostd.Any) -> Int
+pub fn cmp(@core.Any, @core.Any) -> Int
 
-fn deleteDatabase(String) -> IDBOpenDBRequest
+pub fn deleteDatabase(String) -> IDBOpenDBRequest
 
-fn indexedDB() -> @nostd.Any
+pub fn indexedDB() -> @core.Any
 
-fn open(String, version? : Int) -> IDBOpenDBRequest
+pub fn open(String, version? : Int) -> IDBOpenDBRequest
 
 // Errors
 
 // Types and methods
 pub(all) struct IDBCursor[T] {
-  key : @nostd.Any
-  primaryKey : @nostd.Any
+  key : @core.Any
+  primaryKey : @core.Any
   direction : String
-  source : @nostd.Any
+  source : @core.Any
 }
-fn[T] IDBCursor::advance(Self[T], Int) -> Unit
-fn[T] IDBCursor::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBCursor::continue_(Self[T], key? : @nostd.Any) -> Unit
-fn[T] IDBCursor::delete_current(Self[T]) -> IDBRequest[@nostd.Any]
-fn[T] IDBCursor::update(Self[T], T) -> IDBRequest[@nostd.Any]
+pub fn[T] IDBCursor::advance(Self[T], Int) -> Unit
+pub fn[T] IDBCursor::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBCursor::continue_(Self[T], key? : @core.Any) -> Unit
+pub fn[T] IDBCursor::delete_current(Self[T]) -> IDBRequest[@core.Any]
+pub fn[T] IDBCursor::update(Self[T], T) -> IDBRequest[@core.Any]
 
 pub(all) struct IDBCursorWithValue[T] {
-  key : @nostd.Any
-  primaryKey : @nostd.Any
+  key : @core.Any
+  primaryKey : @core.Any
   direction : String
-  source : @nostd.Any
+  source : @core.Any
   value : T
 }
-fn[T] IDBCursorWithValue::advance(Self[T], Int) -> Unit
-fn[T] IDBCursorWithValue::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBCursorWithValue::continue_(Self[T], key? : @nostd.Any) -> Unit
-fn[T] IDBCursorWithValue::delete_current(Self[T]) -> IDBRequest[@nostd.Any]
-fn[T] IDBCursorWithValue::update(Self[T], T) -> IDBRequest[@nostd.Any]
+pub fn[T] IDBCursorWithValue::advance(Self[T], Int) -> Unit
+pub fn[T] IDBCursorWithValue::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBCursorWithValue::continue_(Self[T], key? : @core.Any) -> Unit
+pub fn[T] IDBCursorWithValue::delete_current(Self[T]) -> IDBRequest[@core.Any]
+pub fn[T] IDBCursorWithValue::update(Self[T], T) -> IDBRequest[@core.Any]
 
 pub(all) struct IDBDatabase {
   name : String
   version : Int
-  objectStoreNames : @nostd.Any
+  objectStoreNames : @core.Any
 }
-fn IDBDatabase::as_any(Self) -> @nostd.Any
-fn IDBDatabase::close(Self) -> Unit
-fn IDBDatabase::createObjectStore(Self, String, keyPath? : String, autoIncrement? : Bool) -> IDBObjectStore[@nostd.Any]
-fn IDBDatabase::deleteObjectStore(Self, String) -> Unit
-fn IDBDatabase::transaction(Self, Array[String], mode? : String) -> IDBTransaction[@nostd.Any]
+pub fn IDBDatabase::as_any(Self) -> @core.Any
+pub fn IDBDatabase::close(Self) -> Unit
+pub fn IDBDatabase::createObjectStore(Self, String, keyPath? : String, autoIncrement? : Bool) -> IDBObjectStore[@core.Any]
+pub fn IDBDatabase::deleteObjectStore(Self, String) -> Unit
+pub fn IDBDatabase::transaction(Self, Array[String], mode? : String) -> IDBTransaction[@core.Any]
 
 pub(all) struct IDBIndex[T] {
   name : String
   objectStore : IDBObjectStore[T]
-  keyPath : @nostd.Any
+  keyPath : @core.Any
   multiEntry : Bool
   unique : Bool
 }
-fn[T] IDBIndex::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBIndex::count(Self[T], query? : @nostd.Any) -> IDBRequest[@nostd.Any]
-fn[T] IDBIndex::get(Self[T], @nostd.Any) -> IDBRequest[T]
-fn[T] IDBIndex::getAll(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@nostd.Any]
-fn[T] IDBIndex::getAllKeys(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@nostd.Any]
-fn[T] IDBIndex::openCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@nostd.Any]
-fn[T] IDBIndex::openKeyCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@nostd.Any]
+pub fn[T] IDBIndex::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBIndex::count(Self[T], query? : @core.Any) -> IDBRequest[@core.Any]
+pub fn[T] IDBIndex::get(Self[T], @core.Any) -> IDBRequest[T]
+pub fn[T] IDBIndex::getAll(Self[T], query? : @core.Any, count? : Int) -> IDBRequest[@core.Any]
+pub fn[T] IDBIndex::getAllKeys(Self[T], query? : @core.Any, count? : Int) -> IDBRequest[@core.Any]
+pub fn[T] IDBIndex::openCursor(Self[T], query? : @core.Any, direction? : String) -> IDBRequest[@core.Any]
+pub fn[T] IDBIndex::openKeyCursor(Self[T], query? : @core.Any, direction? : String) -> IDBRequest[@core.Any]
 
 pub(all) struct IDBKeyRange {
-  lower : @nostd.Any
-  upper : @nostd.Any
+  lower : @core.Any
+  upper : @core.Any
   lowerOpen : Bool
   upperOpen : Bool
 }
-fn IDBKeyRange::as_any(Self) -> @nostd.Any
-fn IDBKeyRange::bound(@nostd.Any, @nostd.Any, lowerOpen? : Bool, upperOpen? : Bool) -> Self
-fn IDBKeyRange::includes(Self, @nostd.Any) -> Bool
-fn IDBKeyRange::lowerBound(@nostd.Any, open? : Bool) -> Self
-fn IDBKeyRange::only(@nostd.Any) -> Self
-fn IDBKeyRange::upperBound(@nostd.Any, open? : Bool) -> Self
+pub fn IDBKeyRange::as_any(Self) -> @core.Any
+pub fn IDBKeyRange::bound(@core.Any, @core.Any, lowerOpen? : Bool, upperOpen? : Bool) -> Self
+pub fn IDBKeyRange::includes(Self, @core.Any) -> Bool
+pub fn IDBKeyRange::lowerBound(@core.Any, open? : Bool) -> Self
+pub fn IDBKeyRange::only(@core.Any) -> Self
+pub fn IDBKeyRange::upperBound(@core.Any, open? : Bool) -> Self
 
 pub(all) struct IDBObjectStore[T] {
   name : String
-  keyPath : @nostd.Any
+  keyPath : @core.Any
   autoIncrement : Bool
-  indexNames : @nostd.Any
+  indexNames : @core.Any
   transaction : IDBTransaction[T]
 }
-fn[T] IDBObjectStore::add(Self[T], T, key? : @nostd.Any) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBObjectStore::clear(Self[T]) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::count(Self[T], query? : @nostd.Any) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::createIndex(Self[T], String, String, unique? : Bool, multiEntry? : Bool) -> IDBIndex[T]
-fn[T] IDBObjectStore::delete(Self[T], @nostd.Any) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::deleteIndex(Self[T], String) -> Unit
-fn[T] IDBObjectStore::get(Self[T], @nostd.Any) -> IDBRequest[T]
-fn[T] IDBObjectStore::getAll(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::getAllKeys(Self[T], query? : @nostd.Any, count? : Int) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::index(Self[T], String) -> IDBIndex[T]
-fn[T] IDBObjectStore::openCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::openKeyCursor(Self[T], query? : @nostd.Any, direction? : String) -> IDBRequest[@nostd.Any]
-fn[T] IDBObjectStore::put(Self[T], T, key? : @nostd.Any) -> IDBRequest[@nostd.Any]
+pub fn[T] IDBObjectStore::add(Self[T], T, key? : @core.Any) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBObjectStore::clear(Self[T]) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::count(Self[T], query? : @core.Any) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::createIndex(Self[T], String, String, unique? : Bool, multiEntry? : Bool) -> IDBIndex[T]
+pub fn[T] IDBObjectStore::delete(Self[T], @core.Any) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::deleteIndex(Self[T], String) -> Unit
+pub fn[T] IDBObjectStore::get(Self[T], @core.Any) -> IDBRequest[T]
+pub fn[T] IDBObjectStore::getAll(Self[T], query? : @core.Any, count? : Int) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::getAllKeys(Self[T], query? : @core.Any, count? : Int) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::index(Self[T], String) -> IDBIndex[T]
+pub fn[T] IDBObjectStore::openCursor(Self[T], query? : @core.Any, direction? : String) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::openKeyCursor(Self[T], query? : @core.Any, direction? : String) -> IDBRequest[@core.Any]
+pub fn[T] IDBObjectStore::put(Self[T], T, key? : @core.Any) -> IDBRequest[@core.Any]
 
 pub(all) struct IDBOpenDBRequest {
-  result : @nostd.Any
-  error : @js.Nullable[@nostd.Any]
-  source : @nostd.Any
+  result : @core.Any
+  error : @core.Nullable[@core.Any]
+  source : @core.Any
   readyState : String
 }
-fn IDBOpenDBRequest::as_any(Self) -> @nostd.Any
-fn IDBOpenDBRequest::as_event_target(Self) -> @event.EventTarget
-impl @event.EventTargetImpl for IDBOpenDBRequest
+pub fn IDBOpenDBRequest::as_any(Self) -> @core.Any
+pub fn IDBOpenDBRequest::as_event_target(Self) -> @event.EventTarget
+pub impl @event.EventTargetImpl for IDBOpenDBRequest
 
 pub(all) struct IDBRequest[T] {
   result : T
-  error : @js.Nullable[@nostd.Any]
-  source : @nostd.Any
+  error : @core.Nullable[@core.Any]
+  source : @core.Any
   readyState : String
 }
-fn[T] IDBRequest::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBRequest::as_event_target(Self[T]) -> @event.EventTarget
-fn[T] IDBRequest::is_done(Self[T]) -> Bool
-fn[T] IDBRequest::is_pending(Self[T]) -> Bool
-fn[T, U] IDBRequest::source_as_cursor(Self[T]) -> IDBCursor[U]
-fn[T] IDBRequest::source_as_index(Self[T]) -> IDBIndex[@nostd.Any]
-fn[T] IDBRequest::source_as_object_store(Self[T]) -> IDBObjectStore[@nostd.Any]
-impl[T] @event.EventTargetImpl for IDBRequest[T]
+pub fn[T] IDBRequest::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBRequest::as_event_target(Self[T]) -> @event.EventTarget
+pub fn[T] IDBRequest::is_done(Self[T]) -> Bool
+pub fn[T] IDBRequest::is_pending(Self[T]) -> Bool
+pub fn[T, U] IDBRequest::source_as_cursor(Self[T]) -> IDBCursor[U]
+pub fn[T] IDBRequest::source_as_index(Self[T]) -> IDBIndex[@core.Any]
+pub fn[T] IDBRequest::source_as_object_store(Self[T]) -> IDBObjectStore[@core.Any]
+pub impl[T] @event.EventTargetImpl for IDBRequest[T]
 
 pub(all) struct IDBTransaction[T] {
   db : IDBDatabase
   mode : String
-  objectStoreNames : @nostd.Any
+  objectStoreNames : @core.Any
 }
-fn[T] IDBTransaction::abort(Self[T]) -> Unit
-fn[T] IDBTransaction::as_any(Self[T]) -> @nostd.Any
-fn[T] IDBTransaction::commit(Self[T]) -> Unit
-fn[T] IDBTransaction::objectStore(Self[T], String) -> IDBObjectStore[T]
+pub fn[T] IDBTransaction::abort(Self[T]) -> Unit
+pub fn[T] IDBTransaction::as_any(Self[T]) -> @core.Any
+pub fn[T] IDBTransaction::commit(Self[T]) -> Unit
+pub fn[T] IDBTransaction::objectStore(Self[T], String) -> IDBObjectStore[T]
 
 // Type aliases
 

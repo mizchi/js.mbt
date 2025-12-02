@@ -2,8 +2,7 @@
 package "mizchi/js/node/wasi"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/webassembly"
 )
 
@@ -14,17 +13,18 @@ import(
 // Types and methods
 #external
 pub type WASI
-fn WASI::as_any(Self) -> @nostd.Any
-fn WASI::getImportObject(Self) -> @nostd.Any
-fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
-fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
-fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
-fn WASI::wasiImport(Self) -> @nostd.Any
+pub fn WASI::as_any(Self) -> @core.Any
+pub fn WASI::getImportObject(Self) -> @core.Any
+pub fn WASI::initialize(Self, @webassembly.WebAssemblyInstance) -> Unit
+pub fn WASI::new(String, args? : Array[String], env? : Map[String, String], preopens? : Map[String, String], returnOnExit? : Bool, stdin? : Int, stdout? : Int, stderr? : Int) -> Self
+pub fn WASI::start(Self, @webassembly.WebAssemblyInstance) -> Unit
+pub fn WASI::wasiImport(Self) -> @core.Any
 
 #external
 pub type WasiModule
-fn WasiModule::as_any(Self) -> @nostd.Any
+pub fn WasiModule::as_any(Self) -> @core.Any
 
 // Type aliases
 
 // Traits
+

@@ -24,7 +24,7 @@ pub(all) struct OriginalPosition {
 }
 
 ///|
-fn OriginalPosition::from_any(obj : @nostd.Any) -> OriginalPosition {
+fn OriginalPosition::from_any(obj : @core.Any) -> OriginalPosition {
   {
     source: obj["source"].cast(),
     line: obj["line"].cast(),
@@ -67,7 +67,7 @@ pub type SourceMapConsumer
 ///|
 pub extern "js" fn SourceMapConsumer::as_any(
   self : SourceMapConsumer,
-) -> @nostd.Any =
+) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -77,7 +77,7 @@ pub async fn SourceMapConsumer::from_json(json : String) -> SourceMapConsumer {
 }
 
 ///|
-extern "js" fn ffi_create_consumer(json : String) -> @nostd.Promise[@nostd.Any] =
+extern "js" fn ffi_create_consumer(json : String) -> @core.Promise[@core.Any] =
   #|async (json) => {
   #|  const { SourceMapConsumer } = await import('source-map');
   #|  const rawMap = JSON.parse(json);
@@ -87,15 +87,15 @@ extern "js" fn ffi_create_consumer(json : String) -> @nostd.Promise[@nostd.Any] 
 ///|
 /// Create a SourceMapConsumer from a raw source map object
 pub async fn SourceMapConsumer::from_raw(
-  raw_map : @nostd.Any,
+  raw_map : @core.Any,
 ) -> SourceMapConsumer {
   ffi_create_consumer_raw(raw_map).wait().cast()
 }
 
 ///|
 extern "js" fn ffi_create_consumer_raw(
-  raw_map : @nostd.Any,
-) -> @nostd.Promise[@nostd.Any] =
+  raw_map : @core.Any,
+) -> @core.Promise[@core.Any] =
   #|async (rawMap) => {
   #|  const { SourceMapConsumer } = await import('source-map');
   #|  return new SourceMapConsumer(rawMap);
@@ -108,9 +108,9 @@ pub fn SourceMapConsumer::originalPositionFor(
   line : Int,
   column : Int,
 ) -> OriginalPosition {
-  let pos = @nostd.Object::new()
-  pos["line"] = @nostd.any(line)
-  pos["column"] = @nostd.any(column)
+  let pos = @core.Object::new()
+  pos["line"] = @core.any(line)
+  pos["column"] = @core.any(column)
   let result = self.as_any()._call("originalPositionFor", [pos])
   OriginalPosition::from_any(result)
 }
@@ -127,7 +127,7 @@ pub fn SourceMapConsumer::sourceContentFor(
   self : SourceMapConsumer,
   source : String,
 ) -> String? {
-  self.as_any()._call("sourceContentFor", [@nostd.any(source)]).cast()
+  self.as_any()._call("sourceContentFor", [@core.any(source)]).cast()
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn SourceMapConsumer::eachMapping(
 
 ///|
 extern "js" fn ffi_each_mapping(
-  consumer : @nostd.Any,
+  consumer : @core.Any,
   callback : (Int, Int, Int, Int, String?, String?) -> Unit,
 ) -> Unit =
   #|(consumer, callback) => {
@@ -190,7 +190,7 @@ pub type SourceMapGenerator
 ///|
 pub extern "js" fn SourceMapGenerator::as_any(
   self : SourceMapGenerator,
-) -> @nostd.Any =
+) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -199,20 +199,20 @@ pub fn SourceMapGenerator::new(
   file? : String,
   sourceRoot? : String,
 ) -> SourceMapGenerator {
-  let js_opts = @nostd.Object::new()
+  let js_opts = @core.Object::new()
   match file {
-    Some(f) => js_opts["file"] = @nostd.any(f)
+    Some(f) => js_opts["file"] = @core.any(f)
     None => ()
   }
   match sourceRoot {
-    Some(sr) => js_opts["sourceRoot"] = @nostd.any(sr)
+    Some(sr) => js_opts["sourceRoot"] = @core.any(sr)
     None => ()
   }
   ffi_create_generator(js_opts).cast()
 }
 
 ///|
-extern "js" fn ffi_create_generator(options : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_create_generator(options : @core.Any) -> @core.Any =
   #|(options) => {
   #|  const { SourceMapGenerator } = require('source-map');
   #|  return new SourceMapGenerator(options);
@@ -227,26 +227,26 @@ pub fn SourceMapGenerator::addMapping(
   source? : String,
   name? : String,
 ) -> Unit {
-  let mapping = @nostd.Object::new()
-  let gen = @nostd.Object::new()
-  gen["line"] = @nostd.any(generated.line)
-  gen["column"] = @nostd.any(generated.column)
+  let mapping = @core.Object::new()
+  let gen = @core.Object::new()
+  gen["line"] = @core.any(generated.line)
+  gen["column"] = @core.any(generated.column)
   mapping["generated"] = gen
   match original {
     Some(orig) => {
-      let orig_obj = @nostd.Object::new()
-      orig_obj["line"] = @nostd.any(orig.line)
-      orig_obj["column"] = @nostd.any(orig.column)
+      let orig_obj = @core.Object::new()
+      orig_obj["line"] = @core.any(orig.line)
+      orig_obj["column"] = @core.any(orig.column)
       mapping["original"] = orig_obj
     }
     None => ()
   }
   match source {
-    Some(s) => mapping["source"] = @nostd.any(s)
+    Some(s) => mapping["source"] = @core.any(s)
     None => ()
   }
   match name {
-    Some(n) => mapping["name"] = @nostd.any(n)
+    Some(n) => mapping["name"] = @core.any(n)
     None => ()
   }
   self.as_any()._call("addMapping", [mapping]) |> ignore
@@ -261,7 +261,7 @@ pub fn SourceMapGenerator::setSourceContent(
 ) -> Unit {
   self
   .as_any()
-  ._call("setSourceContent", [@nostd.any(source), @nostd.any(content)])
+  ._call("setSourceContent", [@core.any(source), @core.any(content)])
   |> ignore
 }
 
@@ -273,6 +273,6 @@ pub fn SourceMapGenerator::toJSON(self : SourceMapGenerator) -> String {
 
 ///|
 /// Generate the source map as an object
-pub fn SourceMapGenerator::toObject(self : SourceMapGenerator) -> @nostd.Any {
+pub fn SourceMapGenerator::toObject(self : SourceMapGenerator) -> @core.Any {
   self.as_any()._call("toJSON", [])
 }

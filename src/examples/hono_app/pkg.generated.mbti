@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-fn create_app() -> @hono.Hono[Unit, Unit]
+pub fn create_app() -> @hono.Hono[Unit, Unit]
 
 // Errors
 

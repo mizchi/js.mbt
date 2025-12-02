@@ -2,34 +2,34 @@
 package "mizchi/js/npm/ignore"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn ignore(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore
+pub fn ignore_module(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore
 
-fn isPathValid(String) -> Bool
+pub fn isPathValid(String) -> Bool
 
 // Errors
 
 // Types and methods
 #external
 pub type Ignore
-fn Ignore::add(Self, String) -> Self
-fn Ignore::addFromContent(Self, String) -> Self
-fn Ignore::addPatterns(Self, Array[String]) -> Self
-fn Ignore::as_any(Self) -> @nostd.Any
-fn Ignore::createFilter(Self) -> @nostd.Any
-fn Ignore::filter(Self, Array[String]) -> Array[String]
-fn Ignore::ignores(Self, String) -> Bool
-fn Ignore::testPath(Self, String) -> TestResult
+pub fn Ignore::add(Self, String) -> Self
+pub fn Ignore::addFromContent(Self, String) -> Self
+pub fn Ignore::addPatterns(Self, Array[String]) -> Self
+pub fn Ignore::as_any(Self) -> @core.Any
+pub fn Ignore::createFilter(Self) -> @core.Any
+pub fn Ignore::filter(Self, Array[String]) -> Array[String]
+pub fn Ignore::ignores(Self, String) -> Bool
+pub fn Ignore::testPath(Self, String) -> TestResult
 
 #external
 pub type TestResult
-fn TestResult::as_any(Self) -> @nostd.Any
-fn TestResult::ignored(Self) -> Bool
-fn TestResult::rule(Self) -> @nostd.Any
-fn TestResult::unignored(Self) -> Bool
+pub fn TestResult::as_any(Self) -> @core.Any
+pub fn TestResult::ignored(Self) -> Bool
+pub fn TestResult::rule(Self) -> @core.Any
+pub fn TestResult::unignored(Self) -> Bool
 
 // Type aliases
 

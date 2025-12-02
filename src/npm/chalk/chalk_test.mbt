@@ -64,43 +64,43 @@ test "chainable instance" {
   let c = instance()
   let styled = c.red().bold()
   // styled is a ChalkInstance, can be used to style text
-  @nostd.type_of(styled.as_any()) |> assert_eq("function")
+  @core.type_of(styled.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "chainable colors" {
   let c = instance().blue().bold()
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "chainable with background" {
   let c = instance().bgYellow().black()
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "rgb color" {
   let c = rgb(255, 136, 0)
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "hex color" {
   let c = hex("#FF8800")
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "bgRgb" {
   let c = bgRgb(100, 50, 200)
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|
 test "bgHex" {
   let c = bgHex("#112233")
-  @nostd.type_of(c.as_any()) |> assert_eq("function")
+  @core.type_of(c.as_any()) |> assert_eq("function")
 }
 
 ///|

@@ -3,215 +3,109 @@ package "mizchi/js/builtins/typedarray"
 
 import(
   "mizchi/js"
-  "mizchi/js/builtins/bigint"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn bytes_to_uint8array(Bytes) -> Uint8Array
+pub fn bytes_to_uint8array(Bytes) -> Uint8Array
 
-fn uint8array_to_bytes(Uint8Array) -> Bytes
+pub fn uint8array_to_bytes(Uint8Array) -> Bytes
 
 // Errors
 
 // Types and methods
-#external
-pub type BigInt64Array
-fn BigInt64Array::as_any(Self) -> @nostd.Any
-#alias(byte_length)
-fn BigInt64Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn BigInt64Array::byteOffset(Self) -> UInt
-#alias(copy_within)
-fn BigInt64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn BigInt64Array::fill(Self, @bigint.JsBigInt, start? : Int, end? : Int) -> Self
-fn BigInt64Array::from_array(Array[@bigint.JsBigInt]) -> Self
-fn BigInt64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn BigInt64Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn BigInt64Array::get_at(Self, UInt) -> @bigint.JsBigInt
-fn BigInt64Array::includes(Self, @bigint.JsBigInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn BigInt64Array::indexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn BigInt64Array::lastIndexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
-fn BigInt64Array::set(Self, Array[@bigint.JsBigInt], offset? : UInt) -> Unit
-#alias("_[_]=_")
-fn BigInt64Array::set_at(Self, UInt, @bigint.JsBigInt) -> Unit
-#alias(to_string)
-fn BigInt64Array::toString(Self) -> String
-impl TypedArrayImpl for BigInt64Array
+pub(all) struct BigInt64Array {
+  buffer : @js.ArrayBuffer
+  byteLength : Int
+  byteOffset : Int
+  length : Int
+}
+pub fn BigInt64Array::as_any(Self) -> @core.Any
+pub fn BigInt64Array::as_typed_array(Self) -> TypedArray
 
-#external
-pub type BigUint64Array
-fn BigUint64Array::as_any(Self) -> @nostd.Any
-#alias(byte_length)
-fn BigUint64Array::byteLength(Self) -> UInt
-#alias(byte_offset)
-fn BigUint64Array::byteOffset(Self) -> UInt
-#alias(copy_within)
-fn BigUint64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn BigUint64Array::fill(Self, @bigint.JsBigInt, start? : Int, end? : Int) -> Self
-fn BigUint64Array::from_array(Array[@bigint.JsBigInt]) -> Self
-fn BigUint64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn BigUint64Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn BigUint64Array::get_at(Self, UInt) -> @bigint.JsBigInt
-fn BigUint64Array::includes(Self, @bigint.JsBigInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn BigUint64Array::indexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn BigUint64Array::lastIndexOf(Self, @bigint.JsBigInt, from_index? : Int) -> Int
-fn BigUint64Array::set(Self, Array[@bigint.JsBigInt], offset? : UInt) -> Unit
-#alias("_[_]=_")
-fn BigUint64Array::set_at(Self, UInt, @bigint.JsBigInt) -> Unit
-#alias(to_string)
-fn BigUint64Array::toString(Self) -> String
-impl TypedArrayImpl for BigUint64Array
+pub(all) struct BigUint64Array {
+  buffer : @js.ArrayBuffer
+  byteLength : Int
+  byteOffset : Int
+  length : Int
+}
+pub fn BigUint64Array::as_any(Self) -> @core.Any
+pub fn BigUint64Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct DataView {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
+  byteLength : Int
+  byteOffset : Int
 }
-fn DataView::as_any(Self) -> @nostd.Any
+pub fn DataView::as_any(Self) -> @core.Any
 #alias(getFloat32)
-fn DataView::get_float32(Self, UInt, little_endian? : Bool) -> Double
+pub fn DataView::get_float32(Self, Int, little_endian? : Bool) -> Double
 #alias(getFloat64)
-fn DataView::get_float64(Self, UInt, little_endian? : Bool) -> Double
+pub fn DataView::get_float64(Self, Int, little_endian? : Bool) -> Double
 #alias(getInt16)
-fn DataView::get_int16(Self, UInt, little_endian? : Bool) -> Int
+pub fn DataView::get_int16(Self, Int, little_endian? : Bool) -> Int
 #alias(getInt32)
-fn DataView::get_int32(Self, UInt, little_endian? : Bool) -> Int
+pub fn DataView::get_int32(Self, Int, little_endian? : Bool) -> Int
 #alias(getInt8)
-fn DataView::get_int8(Self, UInt) -> Int
+pub fn DataView::get_int8(Self, Int) -> Int
 #alias(getUint16)
-fn DataView::get_uint16(Self, UInt, little_endian? : Bool) -> UInt
+pub fn DataView::get_uint16(Self, Int, little_endian? : Bool) -> Int
 #alias(getUint32)
-fn DataView::get_uint32(Self, UInt, little_endian? : Bool) -> UInt
+pub fn DataView::get_uint32(Self, Int, little_endian? : Bool) -> Int
 #alias(getUint8)
-fn DataView::get_uint8(Self, UInt) -> UInt
-fn DataView::new(@js.ArrayBuffer, byte_offset? : UInt, byte_length? : UInt) -> Self
+pub fn DataView::get_uint8(Self, Int) -> Int
+pub fn DataView::new(@js.ArrayBuffer, byte_offset? : Int, byte_length? : Int) -> Self
 #alias(setFloat32)
-fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
+pub fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
 #alias(setFloat64)
-fn DataView::set_float64(Self, UInt, Double, little_endian? : Bool) -> Unit
+pub fn DataView::set_float64(Self, UInt, Double, little_endian? : Bool) -> Unit
 #alias(setInt16)
-fn DataView::set_int16(Self, UInt, Int, little_endian? : Bool) -> Unit
+pub fn DataView::set_int16(Self, Int, Int, little_endian? : Bool) -> Unit
 #alias(setInt32)
-fn DataView::set_int32(Self, UInt, Int, little_endian? : Bool) -> Unit
+pub fn DataView::set_int32(Self, UInt, Int, little_endian? : Bool) -> Unit
 #alias(setInt8)
-fn DataView::set_int8(Self, UInt, Int) -> Unit
+pub fn DataView::set_int8(Self, Int, Int) -> Unit
 #alias(setUint16)
-fn DataView::set_uint16(Self, UInt, UInt, little_endian? : Bool) -> Unit
+pub fn DataView::set_uint16(Self, Int, Int, little_endian? : Bool) -> Unit
 #alias(setUint32)
-fn DataView::set_uint32(Self, UInt, UInt, little_endian? : Bool) -> Unit
+pub fn DataView::set_uint32(Self, Int, Int, little_endian? : Bool) -> Unit
 #alias(setUint8)
-fn DataView::set_uint8(Self, UInt, UInt) -> Unit
+pub fn DataView::set_uint8(Self, Int, Int) -> Unit
 
 pub(all) struct Float32Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
-fn Float32Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Float32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Float32Array::fill(Self, Double, start? : Int, end? : Int) -> Self
-fn Float32Array::from_array(Array[Double]) -> Self
-fn Float32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Float32Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Float32Array::get_at(Self, UInt) -> Double
-fn Float32Array::includes(Self, Double, from_index? : Int) -> Bool
-#alias(index_of)
-fn Float32Array::indexOf(Self, Double, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Float32Array::lastIndexOf(Self, Double, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Float32Array::set_at(Self, UInt, Double) -> Unit
-#alias(to_string)
-fn Float32Array::toString(Self) -> String
-impl TypedArrayImpl for Float32Array
+pub fn Float32Array::as_any(Self) -> @core.Any
+pub fn Float32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Float64Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
-fn Float64Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Float64Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Float64Array::fill(Self, Double, start? : Int, end? : Int) -> Self
-fn Float64Array::from_array(Array[Double]) -> Self
-fn Float64Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Float64Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Float64Array::get_at(Self, UInt) -> Double
-fn Float64Array::includes(Self, Double, from_index? : Int) -> Bool
-#alias(index_of)
-fn Float64Array::indexOf(Self, Double, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Float64Array::lastIndexOf(Self, Double, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Float64Array::set_at(Self, UInt, Double) -> Unit
-#alias(to_string)
-fn Float64Array::toString(Self) -> String
-impl TypedArrayImpl for Float64Array
+pub fn Float64Array::as_any(Self) -> @core.Any
+pub fn Float64Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int16Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
-fn Int16Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Int16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Int16Array::fill(Self, Int, start? : Int, end? : Int) -> Self
-fn Int16Array::from_array(Array[Int]) -> Self
-fn Int16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Int16Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Int16Array::get_at(Self, UInt) -> Int
-fn Int16Array::includes(Self, Int, from_index? : Int) -> Bool
-#alias(index_of)
-fn Int16Array::indexOf(Self, Int, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Int16Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Int16Array::set_at(Self, UInt, Int) -> Unit
-#alias(to_string)
-fn Int16Array::toString(Self) -> String
-impl TypedArrayImpl for Int16Array
+pub fn Int16Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int32Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
-fn Int32Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Int32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Int32Array::fill(Self, Int, start? : Int, end? : Int) -> Self
-fn Int32Array::from_array(Array[Int]) -> Self
-fn Int32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Int32Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Int32Array::get_at(Self, UInt) -> Int
-fn Int32Array::includes(Self, Int, from_index? : Int) -> Bool
-#alias(index_of)
-fn Int32Array::indexOf(Self, Int, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Int32Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Int32Array::set_at(Self, UInt, Int) -> Unit
-#alias(to_string)
-fn Int32Array::toString(Self) -> String
-impl TypedArrayImpl for Int32Array
+pub fn Int32Array::as_any(Self) -> @core.Any
+pub fn Int32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Int8Array {
   buffer : @js.ArrayBuffer
@@ -219,25 +113,31 @@ pub(all) struct Int8Array {
   byteOffset : UInt
   length : UInt
 }
-fn Int8Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Int8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Int8Array::fill(Self, Int, start? : Int, end? : Int) -> Self
-fn Int8Array::from_array(Array[Int]) -> Self
-fn Int8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Int8Array::from_size(UInt) -> Self
+pub fn Int8Array::as_any(Self) -> @core.Any
+pub fn Int8Array::as_typed_array(Self) -> TypedArray
+
+#external
+pub type TypedArray
+pub fn TypedArray::as_any(Self) -> @core.Any
+pub fn TypedArray::byteLength(Self) -> Int
+pub fn TypedArray::byteOffset(Self) -> Int
+pub fn TypedArray::copyWithin(Self, Int, Int, end? : Int) -> Self
+pub fn TypedArray::fill(Self, UInt, start? : Int, end? : Int) -> Self
 #alias("_[_]")
-fn Int8Array::get_at(Self, UInt) -> Int
-fn Int8Array::includes(Self, Int, from_index? : Int) -> Bool
-#alias(index_of)
-fn Int8Array::indexOf(Self, Int, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Int8Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn TypedArray::get_at(Self, Int) -> Int
+pub fn TypedArray::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn TypedArray::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn TypedArray::join(Self, separator? : String) -> String
+pub fn TypedArray::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn TypedArray::length(Self) -> Int
+pub fn TypedArray::reverse(Self) -> Self
+pub fn TypedArray::set(Self, Array[UInt], offset? : Int) -> Unit
 #alias("_[_]=_")
-fn Int8Array::set_at(Self, UInt, Int) -> Unit
-#alias(to_string)
-fn Int8Array::toString(Self) -> String
-impl TypedArrayImpl for Int8Array
+pub fn TypedArray::set_at(Self, UInt, UInt) -> Unit
+pub fn TypedArray::slice(Self, start? : Int, end? : Int) -> Self
+pub fn TypedArray::sort(Self) -> Self
+pub fn TypedArray::subarray(Self, begin? : Int, end? : Int) -> Self
+pub fn TypedArray::toString(Self) -> String
 
 pub(all) struct Uint16Array {
   buffer : @js.ArrayBuffer
@@ -245,25 +145,9 @@ pub(all) struct Uint16Array {
   byteOffset : UInt
   length : UInt
 }
-fn Uint16Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Uint16Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Uint16Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
-fn Uint16Array::from_array(Array[UInt]) -> Self
-fn Uint16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Uint16Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Uint16Array::get_at(Self, UInt) -> UInt
-fn Uint16Array::includes(Self, UInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn Uint16Array::indexOf(Self, UInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Uint16Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Uint16Array::set_at(Self, UInt, UInt) -> Unit
-#alias(to_string)
-fn Uint16Array::toString(Self) -> String
-impl TypedArrayImpl for Uint16Array
+pub fn Uint16Array::as_any(Self) -> @core.Any
+pub fn Uint16Array::as_typed_array(Self) -> TypedArray
+pub fn Uint16Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 
 pub(all) struct Uint32Array {
   buffer : @js.ArrayBuffer
@@ -271,99 +155,23 @@ pub(all) struct Uint32Array {
   byteOffset : UInt
   length : UInt
 }
-fn Uint32Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Uint32Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Uint32Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
-fn Uint32Array::from_array(Array[UInt]) -> Self
-fn Uint32Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Uint32Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Uint32Array::get_at(Self, UInt) -> UInt
-fn Uint32Array::includes(Self, UInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn Uint32Array::indexOf(Self, UInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Uint32Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
-#alias("_[_]=_")
-fn Uint32Array::set_at(Self, UInt, UInt) -> Unit
-#alias(to_string)
-fn Uint32Array::toString(Self) -> String
-impl TypedArrayImpl for Uint32Array
+pub fn Uint32Array::as_typed_array(Self) -> TypedArray
 
 pub(all) struct Uint8Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
-fn Uint8Array::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Uint8Array::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Uint8Array::fill(Self, UInt, start? : Int, end? : Int) -> Self
-fn Uint8Array::from_array(Array[UInt]) -> Self
-fn Uint8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Uint8Array::from_bytes(Bytes) -> Self
-fn Uint8Array::from_size(UInt) -> Self
-#alias("_[_]")
-fn Uint8Array::get_at(Self, UInt) -> UInt
-fn Uint8Array::includes(Self, UInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn Uint8Array::indexOf(Self, UInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Uint8Array::lastIndexOf(Self, UInt, from_index? : Int) -> Int
-fn Uint8Array::set(Self, Array[UInt], offset? : UInt) -> Unit
-#alias("_[_]=_")
-fn Uint8Array::set_at(Self, UInt, UInt) -> Unit
-#alias(to_string)
-fn Uint8Array::toString(Self) -> String
-fn Uint8Array::to_bytes(Self) -> Bytes
-impl TypedArrayImpl for Uint8Array
-
-pub(all) struct Uint8ClampedArray {
-  buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
-}
-fn Uint8ClampedArray::as_any(Self) -> @nostd.Any
-#alias(copy_within)
-fn Uint8ClampedArray::copyWithin(Self, Int, Int, end? : Int) -> Self
-fn Uint8ClampedArray::fill(Self, UInt, start? : Int, end? : Int) -> Self
-fn Uint8ClampedArray::from_array(Array[UInt]) -> Self
-fn Uint8ClampedArray::from_array_buffer(@js.ArrayBuffer, byte_offset? : UInt, length? : UInt) -> Self
-fn Uint8ClampedArray::from_size(UInt) -> Self
-#alias("_[_]")
-fn Uint8ClampedArray::get_at(Self, UInt) -> UInt
-fn Uint8ClampedArray::includes(Self, UInt, from_index? : Int) -> Bool
-#alias(index_of)
-fn Uint8ClampedArray::indexOf(Self, UInt, from_index? : Int) -> Int
-#alias(last_index_of)
-fn Uint8ClampedArray::lastIndexOf(Self, UInt, from_index? : Int) -> Int
-fn Uint8ClampedArray::set(Self, Array[UInt], offset? : UInt) -> Unit
-#alias("_[_]=_")
-fn Uint8ClampedArray::set_at(Self, UInt, UInt) -> Unit
-#alias(to_string)
-fn Uint8ClampedArray::toString(Self) -> String
-impl TypedArrayImpl for Uint8ClampedArray
+pub fn Uint8Array::as_any(Self) -> @core.Any
+pub fn Uint8Array::as_typed_array(Self) -> TypedArray
+pub fn Uint8Array::from_array(Array[Int]) -> Self
+pub fn Uint8Array::from_array_buffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Uint8Array::from_bytes(Bytes) -> Self
+pub fn Uint8Array::from_size(Int) -> Self
+pub fn Uint8Array::to_bytes(Self) -> Bytes
 
 // Type aliases
 
 // Traits
-pub(open) trait TypedArrayImpl {
-  as_any(Self) -> @nostd.Any = _
-  length(Self) -> UInt = _
-  byteLength(Self) -> UInt = _
-  byteOffset(Self) -> UInt = _
-  slice(Self, start? : Int, end? : Int) -> Self = _
-  subarray(Self, begin? : Int, end? : Int) -> Self = _
-  copyWithin(Self, Int, Int, end? : Int) -> Self = _
-  reverse(Self) -> Self = _
-  sort(Self) -> Self = _
-  join(Self, separator? : String) -> String = _
-  toString(Self) -> String = _
-  _get(Self, String) -> @nostd.Any = _
-  _call(Self, String, Array[@nostd.Any]) -> @nostd.Any = _
-  call0(Self, String) -> @nostd.Any = _
-  call2(Self, String, @nostd.Any, @nostd.Any) -> @nostd.Any = _
-}
+

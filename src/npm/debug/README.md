@@ -20,8 +20,8 @@ fn main {
 
   // Log messages
   log.log("Server starting...")
-  log.log1("Listening on port %d", @nostd.any(3000))
-  log.log2("Request: %s %s", @nostd.any("GET"), @nostd.any("/api"))
+  log.log1("Listening on port %d", @core.any(3000))
+  log.log2("Request: %s %s", @core.any("GET"), @core.any("/api"))
 
   // Create extended loggers
   let dbLog = log.extend("db")

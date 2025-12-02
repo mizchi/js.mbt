@@ -14,7 +14,7 @@ pub(all) struct Location {
 }
 
 ///|
-pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
+pub fn Location::as_any(self : Location) -> @core.Any = "%identity"
 
 ///|
 /// Returns the global location object
@@ -25,14 +25,14 @@ pub extern "js" fn location() -> Location =
 /// Loads the resource at the URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/assign
 pub fn Location::assign(self : Location, url : String) -> Unit {
-  self.as_any()._call("assign", [@nostd.any(url)]) |> ignore
+  self.as_any()._call("assign", [@core.any(url)]) |> ignore
 }
 
 ///|
 /// Replaces the current resource with the one at the provided URL
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location/replace
 pub fn Location::replace(self : Location, url : String) -> Unit {
-  self.as_any()._call("replace", [@nostd.any(url)]) |> ignore
+  self.as_any()._call("replace", [@core.any(url)]) |> ignore
 }
 
 ///|

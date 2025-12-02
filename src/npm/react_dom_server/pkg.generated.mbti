@@ -8,10 +8,10 @@ import(
 
 // Values
 #alias(render_to_readable_stream)
-async fn renderToReadableStream(@react.Element) -> @streams.ReadableStream
+pub async fn renderToReadableStream(@react.Element) -> @streams.ReadableStream
 
 #alias(render_to_string)
-fn renderToString(@react.Element) -> String
+pub fn renderToString(@react.Element) -> String
 
 // Errors
 

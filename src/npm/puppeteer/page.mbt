@@ -4,7 +4,7 @@
 pub type Page
 
 ///|
-pub fn Page::to_any(self : Page) -> @nostd.Any = "%identity"
+pub fn Page::to_any(self : Page) -> @core.Any = "%identity"
 
 ///|
 /// ElementHandle type
@@ -12,7 +12,7 @@ pub fn Page::to_any(self : Page) -> @nostd.Any = "%identity"
 pub type ElementHandle
 
 ///|
-pub fn ElementHandle::to_any(self : ElementHandle) -> @nostd.Any = "%identity"
+pub fn ElementHandle::to_any(self : ElementHandle) -> @core.Any = "%identity"
 
 ///| Page methods (basic)
 
@@ -21,8 +21,8 @@ pub fn ElementHandle::to_any(self : ElementHandle) -> @nostd.Any = "%identity"
 pub async fn Page::goto(self : Page, url : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("goto", [@nostd.any(url)])
-    |> @nostd.identity
+    ._call("goto", [@core.any(url)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -30,16 +30,16 @@ pub async fn Page::goto(self : Page, url : String) -> Unit {
 /// Page: Get page content
 pub async fn Page::content(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("content", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Page: Take screenshot
 pub async fn Page::screenshot(self : Page, path : String) -> Unit {
-  let opts = @nostd.from_entries([("path", @nostd.any(path))])
+  let opts = @core.from_entries([("path", @core.any(path))])
   let promise : @js.Promise[Unit] = self.to_any()._call("screenshot", [opts])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -50,8 +50,8 @@ pub async fn Page::screenshot(self : Page, path : String) -> Unit {
 pub async fn Page::click(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("click", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("click", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -60,8 +60,8 @@ pub async fn Page::click(self : Page, selector : String) -> Unit {
 pub async fn Page::type_(self : Page, selector : String, text : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("type", [@nostd.any(selector), @nostd.any(text)])
-    |> @nostd.identity
+    ._call("type", [@core.any(selector), @core.any(text)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -74,8 +74,8 @@ pub async fn Page::waitForSelector(
 ) -> ElementHandle? {
   let promise : @js.Promise[ElementHandle?] = self
     .to_any()
-    ._call("waitForSelector", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("waitForSelector", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -88,8 +88,8 @@ pub async fn Page::query_selector(
 ) -> ElementHandle? {
   let promise : @js.Promise[ElementHandle?] = self
     .to_any()
-    ._call("$", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("$", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -102,18 +102,18 @@ pub async fn Page::query_selector_all(
 ) -> Array[ElementHandle] {
   let promise : @js.Promise[Array[ElementHandle]] = self
     .to_any()
-    ._call("$$", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("$$", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Page: Evaluate JavaScript in page context
-pub async fn Page::evaluate(self : Page, script : String) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+pub async fn Page::evaluate(self : Page, script : String) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("evaluate", [@nostd.any(script)])
-    |> @nostd.identity
+    ._call("evaluate", [@core.any(script)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -121,14 +121,14 @@ pub async fn Page::evaluate(self : Page, script : String) -> @nostd.Any {
 /// Page: Set viewport size
 /// JS: page.setViewport({ width, height })
 pub async fn Page::setViewport(self : Page, width : Int, height : Int) -> Unit {
-  let viewport = @nostd.from_entries([
-    ("width", @nostd.any(width)),
-    ("height", @nostd.any(height)),
+  let viewport = @core.from_entries([
+    ("width", @core.any(width)),
+    ("height", @core.any(height)),
   ])
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setViewport", [viewport])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -137,8 +137,8 @@ pub async fn Page::setViewport(self : Page, width : Int, height : Int) -> Unit {
 pub async fn Page::setUserAgent(self : Page, userAgent : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setUserAgent", [@nostd.any(userAgent)])
-    |> @nostd.identity
+    ._call("setUserAgent", [@core.any(userAgent)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -146,7 +146,7 @@ pub async fn Page::setUserAgent(self : Page, userAgent : String) -> Unit {
 /// Page: Reload page
 pub async fn Page::reload(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("reload", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -154,7 +154,7 @@ pub async fn Page::reload(self : Page) -> Unit {
 /// Page: Get page title
 pub async fn Page::title(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("title", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -169,8 +169,8 @@ pub fn Page::url(self : Page) -> String {
 pub async fn Page::focus(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("focus", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("focus", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -179,8 +179,8 @@ pub async fn Page::focus(self : Page, selector : String) -> Unit {
 pub async fn Page::hover(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("hover", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("hover", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -192,11 +192,11 @@ pub async fn Page::select(
   selector : String,
   values : Array[String],
 ) -> Array[String] {
-  let js_values = @nostd.any(values)
+  let js_values = @core.any(values)
   let promise : @js.Promise[Array[String]] = self
     .to_any()
-    ._call("select", [@nostd.any(selector), @nostd.any(js_values)])
-    |> @nostd.identity
+    ._call("select", [@core.any(selector), @core.any(js_values)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -205,8 +205,8 @@ pub async fn Page::select(
 pub async fn Page::tap(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("tap", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("tap", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -217,18 +217,18 @@ pub async fn Page::tap(self : Page, selector : String) -> Unit {
 /// JS: page.waitForNavigation()
 pub async fn Page::waitForNavigation(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("waitForNavigation", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Page: Wait for function to return truthy value
 /// JS: page.waitForFunction(pageFunction)
-pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("waitForFunction", [@nostd.any(fn_str)])
-    |> @nostd.identity
+    ._call("waitForFunction", [@core.any(fn_str)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -238,8 +238,8 @@ pub async fn Page::waitForFunction(self : Page, fn_str : String) -> @nostd.Any {
 pub async fn Page::waitForTimeout(self : Page, ms : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("waitForTimeout", [@nostd.any(ms)])
-    |> @nostd.identity
+    ._call("waitForTimeout", [@core.any(ms)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -261,23 +261,23 @@ pub(all) struct Cookie {
 ///|
 /// Page: Get cookies
 /// JS: page.cookies()
-pub async fn Page::cookies(self : Page) -> Array[@nostd.Any] {
-  let promise : @js.Promise[Array[@nostd.Any]] = self
+pub async fn Page::cookies(self : Page) -> Array[@core.Any] {
+  let promise : @js.Promise[Array[@core.Any]] = self
     .to_any()
     ._call("cookies", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Page: Set cookies
 /// JS: page.setCookie(...cookies)
-pub async fn Page::setCookie(self : Page, cookies : Array[@nostd.Any]) -> Unit {
-  let js_cookies = @nostd.any(cookies)
+pub async fn Page::setCookie(self : Page, cookies : Array[@core.Any]) -> Unit {
+  let js_cookies = @core.any(cookies)
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setCookie", [@nostd.any(js_cookies)])
-    |> @nostd.identity
+    ._call("setCookie", [@core.any(js_cookies)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -286,13 +286,13 @@ pub async fn Page::setCookie(self : Page, cookies : Array[@nostd.Any]) -> Unit {
 /// JS: page.deleteCookie(...cookies)
 pub async fn Page::deleteCookie(
   self : Page,
-  cookies : Array[@nostd.Any],
+  cookies : Array[@core.Any],
 ) -> Unit {
-  let js_cookies = @nostd.any(cookies)
+  let js_cookies = @core.any(cookies)
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("deleteCookie", [@nostd.any(js_cookies)])
-    |> @nostd.identity
+    ._call("deleteCookie", [@core.any(js_cookies)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -302,9 +302,9 @@ pub async fn Page::deleteCookie(
 /// Page: Generate PDF with options
 /// JS: page.pdf({ path })
 pub async fn Page::pdf(self : Page, path : String) -> Unit {
-  let opts = @nostd.from_entries([("path", @nostd.any(path))])
+  let opts = @core.from_entries([("path", @core.any(path))])
   let promise : @js.Promise[Unit] = self.to_any()._call("pdf", [opts])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -315,7 +315,7 @@ pub async fn Page::pdf(self : Page, path : String) -> Unit {
 /// JS: page.goBack()
 pub async fn Page::goBack(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("goBack", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -324,7 +324,7 @@ pub async fn Page::goBack(self : Page) -> Unit {
 /// JS: page.goForward()
 pub async fn Page::goForward(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("goForward", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -336,8 +336,8 @@ pub async fn Page::goForward(self : Page) -> Unit {
 pub async fn Page::setContent(self : Page, html : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setContent", [@nostd.any(html)])
-    |> @nostd.identity
+    ._call("setContent", [@core.any(html)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -347,7 +347,7 @@ pub async fn Page::setContent(self : Page, html : String) -> Unit {
 /// ElementHandle: Click element
 pub async fn ElementHandle::click(self : ElementHandle) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("click", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -356,8 +356,8 @@ pub async fn ElementHandle::click(self : ElementHandle) -> Unit {
 pub async fn ElementHandle::type_(self : ElementHandle, text : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("type", [@nostd.any(text)])
-    |> @nostd.identity
+    ._call("type", [@core.any(text)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -367,11 +367,11 @@ pub async fn ElementHandle::type_(self : ElementHandle, text : String) -> Unit {
 pub async fn ElementHandle::getProperty(
   self : ElementHandle,
   propertyName : String,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("getProperty", [@nostd.any(propertyName)])
-    |> @nostd.identity
+    ._call("getProperty", [@core.any(propertyName)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -384,8 +384,8 @@ pub async fn ElementHandle::query_selector(
 ) -> ElementHandle? {
   let promise : @js.Promise[ElementHandle?] = self
     .to_any()
-    ._call("$", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("$", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -398,8 +398,8 @@ pub async fn ElementHandle::query_selector_all(
 ) -> Array[ElementHandle] {
   let promise : @js.Promise[Array[ElementHandle]] = self
     .to_any()
-    ._call("$$", [@nostd.any(selector)])
-    |> @nostd.identity
+    ._call("$$", [@core.any(selector)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -407,7 +407,7 @@ pub async fn ElementHandle::query_selector_all(
 /// ElementHandle: Focus on element
 pub async fn ElementHandle::focus(self : ElementHandle) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("focus", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -415,6 +415,6 @@ pub async fn ElementHandle::focus(self : ElementHandle) -> Unit {
 /// ElementHandle: Hover over element
 pub async fn ElementHandle::hover(self : ElementHandle) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("hover", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }

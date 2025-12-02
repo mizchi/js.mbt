@@ -4,7 +4,7 @@ package "mizchi/js/cloudflare"
 import(
   "mizchi/js"
   "mizchi/js/builtins/date"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/http"
   "mizchi/js/web/streams"
@@ -17,35 +17,35 @@ import(
 // Types and methods
 #external
 pub type CloudflareContext
-fn CloudflareContext::as_any(Self) -> @nostd.Any
+pub fn CloudflareContext::as_any(Self) -> @core.Any
 #alias(pass_through_exception)
-fn CloudflareContext::passThroughOnException(Self) -> Unit
+pub fn CloudflareContext::passThroughOnException(Self) -> Unit
 #alias(wait_until)
-fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
+pub fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
 
 #external
 pub type CloudflareEnv
-fn CloudflareEnv::as_any(Self) -> @nostd.Any
+pub fn CloudflareEnv::as_any(Self) -> @core.Any
 
 pub(all) struct CloudflareRequest {
   cf : CloudflareContext
   url : String
 }
-fn CloudflareRequest::as_any(Self) -> @nostd.Any
+pub fn CloudflareRequest::as_any(Self) -> @core.Any
 
 #external
 pub type D1Database
-fn D1Database::as_any(Self) -> @nostd.Any
-async fn D1Database::batch(Self, Array[D1PreparedStatement]) -> Array[D1Result]
-async fn D1Database::dump(Self) -> @nostd.Any
-async fn D1Database::exec(Self, String) -> D1ExecResult
-fn D1Database::prepare(Self, String) -> D1PreparedStatement
+pub fn D1Database::as_any(Self) -> @core.Any
+pub async fn D1Database::batch(Self, Array[D1PreparedStatement]) -> Array[D1Result]
+pub async fn D1Database::dump(Self) -> @core.Any
+pub async fn D1Database::exec(Self, String) -> D1ExecResult
+pub fn D1Database::prepare(Self, String) -> D1PreparedStatement
 
 pub(all) struct D1ExecResult {
   count : Int
   duration : Double
 }
-fn D1ExecResult::as_any(Self) -> @nostd.Any
+pub fn D1ExecResult::as_any(Self) -> @core.Any
 
 pub(all) struct D1Meta {
   duration : Double?
@@ -56,53 +56,53 @@ pub(all) struct D1Meta {
   changes : Int?
   size_after : Int?
 }
-fn D1Meta::as_any(Self) -> @nostd.Any
+pub fn D1Meta::as_any(Self) -> @core.Any
 
 #external
 pub type D1PreparedStatement
-async fn D1PreparedStatement::all(Self) -> D1Result
-fn D1PreparedStatement::as_any(Self) -> @nostd.Any
-fn D1PreparedStatement::bind(Self, Array[@nostd.Any]) -> Self
-fn D1PreparedStatement::bind1(Self, @nostd.Any) -> Self
-fn D1PreparedStatement::bind2(Self, @nostd.Any, @nostd.Any) -> Self
-fn D1PreparedStatement::bind3(Self, @nostd.Any, @nostd.Any, @nostd.Any) -> Self
-async fn D1PreparedStatement::first(Self) -> @nostd.Any?
-async fn D1PreparedStatement::first_col(Self, String) -> @nostd.Any?
-async fn D1PreparedStatement::raw(Self, columnNames? : Bool) -> Array[@nostd.Any]
-async fn D1PreparedStatement::run(Self) -> D1Result
+pub async fn D1PreparedStatement::all(Self) -> D1Result
+pub fn D1PreparedStatement::as_any(Self) -> @core.Any
+pub fn D1PreparedStatement::bind(Self, Array[@core.Any]) -> Self
+pub fn D1PreparedStatement::bind1(Self, @core.Any) -> Self
+pub fn D1PreparedStatement::bind2(Self, @core.Any, @core.Any) -> Self
+pub fn D1PreparedStatement::bind3(Self, @core.Any, @core.Any, @core.Any) -> Self
+pub async fn D1PreparedStatement::first(Self) -> @core.Any?
+pub async fn D1PreparedStatement::first_col(Self, String) -> @core.Any?
+pub async fn D1PreparedStatement::raw(Self, columnNames? : Bool) -> Array[@core.Any]
+pub async fn D1PreparedStatement::run(Self) -> D1Result
 
 #alias(D1ResultSet)
 pub(all) struct D1Result {
-  results : Array[@nostd.Any]?
+  results : Array[@core.Any]?
   success : Bool
   meta : D1Meta?
   error : String?
 }
-fn D1Result::as_any(Self) -> @nostd.Any
-fn D1Result::get_results(Self) -> Array[@nostd.Any]
+pub fn D1Result::as_any(Self) -> @core.Any
+pub fn D1Result::get_results(Self) -> Array[@core.Any]
 
 pub(all) struct DurableObjectGetAlarmOptions {
   allowConcurrency : Bool?
 }
-fn DurableObjectGetAlarmOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectGetAlarmOptions::to_js(Self) -> @core.Any
 
 pub(all) struct DurableObjectGetOptions {
   allowConcurrency : Bool?
   noCache : Bool?
 }
-fn DurableObjectGetOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectGetOptions::to_js(Self) -> @core.Any
 
 pub(all) struct DurableObjectId {
   name : String?
 }
-fn DurableObjectId::as_any(Self) -> @nostd.Any
-fn DurableObjectId::equals(Self, Self) -> Bool
-fn DurableObjectId::to_string(Self) -> String
+pub fn DurableObjectId::as_any(Self) -> @core.Any
+pub fn DurableObjectId::equals(Self, Self) -> Bool
+pub fn DurableObjectId::to_string(Self) -> String
 
 pub(all) struct DurableObjectIdOptions {
   jurisdiction : String?
 }
-fn DurableObjectIdOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectIdOptions::to_js(Self) -> @core.Any
 
 pub(all) struct DurableObjectListOptions {
   start : String?
@@ -114,139 +114,139 @@ pub(all) struct DurableObjectListOptions {
   allowConcurrency : Bool?
   noCache : Bool?
 }
-fn DurableObjectListOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectListOptions::to_js(Self) -> @core.Any
 
 #external
 pub type DurableObjectNamespace
-fn DurableObjectNamespace::as_any(Self) -> @nostd.Any
-fn DurableObjectNamespace::get(Self, DurableObjectId) -> DurableObjectStub
-fn DurableObjectNamespace::get_by_id_string(Self, String) -> DurableObjectStub
-fn DurableObjectNamespace::get_by_name(Self, String) -> DurableObjectStub
-fn DurableObjectNamespace::id_from_name(Self, String) -> DurableObjectId
-fn DurableObjectNamespace::id_from_string(Self, String) -> DurableObjectId
-fn DurableObjectNamespace::new_unique_id(Self) -> DurableObjectId
-fn DurableObjectNamespace::new_unique_id_with_options(Self, DurableObjectIdOptions) -> DurableObjectId
+pub fn DurableObjectNamespace::as_any(Self) -> @core.Any
+pub fn DurableObjectNamespace::get(Self, DurableObjectId) -> DurableObjectStub
+pub fn DurableObjectNamespace::get_by_id_string(Self, String) -> DurableObjectStub
+pub fn DurableObjectNamespace::get_by_name(Self, String) -> DurableObjectStub
+pub fn DurableObjectNamespace::id_from_name(Self, String) -> DurableObjectId
+pub fn DurableObjectNamespace::id_from_string(Self, String) -> DurableObjectId
+pub fn DurableObjectNamespace::new_unique_id(Self) -> DurableObjectId
+pub fn DurableObjectNamespace::new_unique_id_with_options(Self, DurableObjectIdOptions) -> DurableObjectId
 
 pub(all) struct DurableObjectPutOptions {
   allowConcurrency : Bool?
   allowUnconfirmed : Bool?
   noCache : Bool?
 }
-fn DurableObjectPutOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectPutOptions::to_js(Self) -> @core.Any
 
 pub(all) struct DurableObjectSetAlarmOptions {
   allowConcurrency : Bool?
   allowUnconfirmed : Bool?
 }
-fn DurableObjectSetAlarmOptions::to_js(Self) -> @nostd.Any
+pub fn DurableObjectSetAlarmOptions::to_js(Self) -> @core.Any
 
 pub(all) struct DurableObjectState {
   id : DurableObjectId
   storage : DurableObjectStorage
 }
-fn DurableObjectState::as_any(Self) -> @nostd.Any
-async fn DurableObjectState::block_concurrency_while(Self, @nostd.Any) -> Unit
-fn DurableObjectState::wait_until(Self, @nostd.Any) -> Unit
+pub fn DurableObjectState::as_any(Self) -> @core.Any
+pub async fn DurableObjectState::block_concurrency_while(Self, @core.Any) -> Unit
+pub fn DurableObjectState::wait_until(Self, @core.Any) -> Unit
 
 #external
 pub type DurableObjectStorage
-fn DurableObjectStorage::as_any(Self) -> @nostd.Any
-async fn DurableObjectStorage::delete(Self, String) -> Bool
-async fn DurableObjectStorage::delete_alarm(Self) -> Unit
-async fn DurableObjectStorage::delete_alarm_with_options(Self, DurableObjectSetAlarmOptions) -> Unit
-async fn DurableObjectStorage::delete_all(Self) -> Unit
-async fn DurableObjectStorage::delete_all_with_options(Self, DurableObjectPutOptions) -> Unit
-async fn DurableObjectStorage::delete_multiple(Self, Array[String]) -> Int
-async fn DurableObjectStorage::delete_multiple_with_options(Self, Array[String], DurableObjectPutOptions) -> Int
-async fn DurableObjectStorage::delete_with_options(Self, String, DurableObjectPutOptions) -> Bool
-async fn DurableObjectStorage::get(Self, String) -> @nostd.Any?
-async fn DurableObjectStorage::get_alarm(Self) -> Int?
-async fn DurableObjectStorage::get_alarm_with_options(Self, DurableObjectGetAlarmOptions) -> Int?
-async fn DurableObjectStorage::get_multiple(Self, Array[String]) -> @nostd.Any
-async fn DurableObjectStorage::get_multiple_with_options(Self, Array[String], DurableObjectGetOptions) -> @nostd.Any
-async fn DurableObjectStorage::get_with_options(Self, String, DurableObjectGetOptions) -> @nostd.Any?
-async fn DurableObjectStorage::list(Self) -> @nostd.Any
-async fn DurableObjectStorage::list_with_options(Self, DurableObjectListOptions) -> @nostd.Any
-async fn DurableObjectStorage::put(Self, String, @nostd.Any) -> Unit
-async fn DurableObjectStorage::put_multiple(Self, @nostd.Any) -> Unit
-async fn DurableObjectStorage::put_multiple_with_options(Self, @nostd.Any, DurableObjectPutOptions) -> Unit
-async fn DurableObjectStorage::put_with_options(Self, String, @nostd.Any, DurableObjectPutOptions) -> Unit
-async fn DurableObjectStorage::set_alarm(Self, Int) -> Unit
-async fn DurableObjectStorage::set_alarm_with_options(Self, Int, DurableObjectSetAlarmOptions) -> Unit
-async fn DurableObjectStorage::sync(Self) -> Unit
-async fn DurableObjectStorage::transaction(Self, @nostd.Any) -> @nostd.Any
+pub fn DurableObjectStorage::as_any(Self) -> @core.Any
+pub async fn DurableObjectStorage::delete(Self, String) -> Bool
+pub async fn DurableObjectStorage::delete_alarm(Self) -> Unit
+pub async fn DurableObjectStorage::delete_alarm_with_options(Self, DurableObjectSetAlarmOptions) -> Unit
+pub async fn DurableObjectStorage::delete_all(Self) -> Unit
+pub async fn DurableObjectStorage::delete_all_with_options(Self, DurableObjectPutOptions) -> Unit
+pub async fn DurableObjectStorage::delete_multiple(Self, Array[String]) -> Int
+pub async fn DurableObjectStorage::delete_multiple_with_options(Self, Array[String], DurableObjectPutOptions) -> Int
+pub async fn DurableObjectStorage::delete_with_options(Self, String, DurableObjectPutOptions) -> Bool
+pub async fn DurableObjectStorage::get(Self, String) -> @core.Any?
+pub async fn DurableObjectStorage::get_alarm(Self) -> Int?
+pub async fn DurableObjectStorage::get_alarm_with_options(Self, DurableObjectGetAlarmOptions) -> Int?
+pub async fn DurableObjectStorage::get_multiple(Self, Array[String]) -> @core.Any
+pub async fn DurableObjectStorage::get_multiple_with_options(Self, Array[String], DurableObjectGetOptions) -> @core.Any
+pub async fn DurableObjectStorage::get_with_options(Self, String, DurableObjectGetOptions) -> @core.Any?
+pub async fn DurableObjectStorage::list(Self) -> @core.Any
+pub async fn DurableObjectStorage::list_with_options(Self, DurableObjectListOptions) -> @core.Any
+pub async fn DurableObjectStorage::put(Self, String, @core.Any) -> Unit
+pub async fn DurableObjectStorage::put_multiple(Self, @core.Any) -> Unit
+pub async fn DurableObjectStorage::put_multiple_with_options(Self, @core.Any, DurableObjectPutOptions) -> Unit
+pub async fn DurableObjectStorage::put_with_options(Self, String, @core.Any, DurableObjectPutOptions) -> Unit
+pub async fn DurableObjectStorage::set_alarm(Self, Int) -> Unit
+pub async fn DurableObjectStorage::set_alarm_with_options(Self, Int, DurableObjectSetAlarmOptions) -> Unit
+pub async fn DurableObjectStorage::sync(Self) -> Unit
+pub async fn DurableObjectStorage::transaction(Self, @core.Any) -> @core.Any
 
 pub(all) struct DurableObjectStub {
   id : DurableObjectId
   name : String?
 }
-fn DurableObjectStub::as_any(Self) -> @nostd.Any
-async fn DurableObjectStub::fetch(Self, @nostd.Any) -> @nostd.Any
-async fn DurableObjectStub::fetch_url(Self, String) -> @nostd.Any
-async fn DurableObjectStub::fetch_url_with_init(Self, String, @nostd.Any) -> @nostd.Any
-async fn DurableObjectStub::fetch_with_init(Self, @nostd.Any, @nostd.Any) -> @nostd.Any
+pub fn DurableObjectStub::as_any(Self) -> @core.Any
+pub async fn DurableObjectStub::fetch(Self, @core.Any) -> @core.Any
+pub async fn DurableObjectStub::fetch_url(Self, String) -> @core.Any
+pub async fn DurableObjectStub::fetch_url_with_init(Self, String, @core.Any) -> @core.Any
+pub async fn DurableObjectStub::fetch_with_init(Self, @core.Any, @core.Any) -> @core.Any
 
 #external
 pub type DurableObjectTransaction
-fn DurableObjectTransaction::as_any(Self) -> @nostd.Any
-async fn DurableObjectTransaction::delete(Self, String) -> Bool
-async fn DurableObjectTransaction::delete_alarm(Self) -> Unit
-async fn DurableObjectTransaction::delete_all(Self) -> Unit
-async fn DurableObjectTransaction::delete_multiple(Self, Array[String]) -> Int
-async fn DurableObjectTransaction::get(Self, String) -> @nostd.Any?
-async fn DurableObjectTransaction::get_alarm(Self) -> Int?
-async fn DurableObjectTransaction::get_multiple(Self, Array[String]) -> @nostd.Any
-async fn DurableObjectTransaction::list(Self) -> @nostd.Any
-async fn DurableObjectTransaction::list_with_options(Self, DurableObjectListOptions) -> @nostd.Any
-async fn DurableObjectTransaction::put(Self, String, @nostd.Any) -> Unit
-async fn DurableObjectTransaction::put_multiple(Self, @nostd.Any) -> Unit
-fn DurableObjectTransaction::rollback(Self) -> Unit
-async fn DurableObjectTransaction::set_alarm(Self, Int) -> Unit
+pub fn DurableObjectTransaction::as_any(Self) -> @core.Any
+pub async fn DurableObjectTransaction::delete(Self, String) -> Bool
+pub async fn DurableObjectTransaction::delete_alarm(Self) -> Unit
+pub async fn DurableObjectTransaction::delete_all(Self) -> Unit
+pub async fn DurableObjectTransaction::delete_multiple(Self, Array[String]) -> Int
+pub async fn DurableObjectTransaction::get(Self, String) -> @core.Any?
+pub async fn DurableObjectTransaction::get_alarm(Self) -> Int?
+pub async fn DurableObjectTransaction::get_multiple(Self, Array[String]) -> @core.Any
+pub async fn DurableObjectTransaction::list(Self) -> @core.Any
+pub async fn DurableObjectTransaction::list_with_options(Self, DurableObjectListOptions) -> @core.Any
+pub async fn DurableObjectTransaction::put(Self, String, @core.Any) -> Unit
+pub async fn DurableObjectTransaction::put_multiple(Self, @core.Any) -> Unit
+pub fn DurableObjectTransaction::rollback(Self) -> Unit
+pub async fn DurableObjectTransaction::set_alarm(Self, Int) -> Unit
 
 pub(all) struct KVKey {
   name : String
   expiration : Int?
-  metadata : @nostd.Any?
+  metadata : @core.Any?
 }
-fn KVKey::as_any(Self) -> @nostd.Any
+pub fn KVKey::as_any(Self) -> @core.Any
 
 pub(all) struct KVListResult {
   keys : Array[KVKey]
   list_complete : Bool
   cursor : String?
 }
-fn KVListResult::as_any(Self) -> @nostd.Any
+pub fn KVListResult::as_any(Self) -> @core.Any
 
 #external
 pub type KVNamespace
-fn KVNamespace::as_any(Self) -> @nostd.Any
-async fn KVNamespace::delete(Self, String) -> Unit
-async fn KVNamespace::get(Self, String, type_? : String, cacheTtl? : Int) -> String?
-async fn KVNamespace::get_array_buffer(Self, String) -> @nostd.Any?
-async fn KVNamespace::get_json(Self, String) -> @nostd.Any?
-async fn KVNamespace::get_stream(Self, String) -> @nostd.Any?
-async fn KVNamespace::get_with_metadata(Self, String, type_? : String, cacheTtl? : Int) -> KVValueWithMetadata
-async fn KVNamespace::list(Self, prefix? : String, limit? : Int, cursor? : String) -> KVListResult
-async fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @nostd.Any) -> Unit
-async fn KVNamespace::put_with_metadata(Self, String, String, @nostd.Any) -> Unit
+pub fn KVNamespace::as_any(Self) -> @core.Any
+pub async fn KVNamespace::delete(Self, String) -> Unit
+pub async fn KVNamespace::get(Self, String, type_? : String, cacheTtl? : Int) -> String?
+pub async fn KVNamespace::get_array_buffer(Self, String) -> @core.Any?
+pub async fn KVNamespace::get_json(Self, String) -> @core.Any?
+pub async fn KVNamespace::get_stream(Self, String) -> @core.Any?
+pub async fn KVNamespace::get_with_metadata(Self, String, type_? : String, cacheTtl? : Int) -> KVValueWithMetadata
+pub async fn KVNamespace::list(Self, prefix? : String, limit? : Int, cursor? : String) -> KVListResult
+pub async fn KVNamespace::put(Self, String, String, expiration? : Int, expirationTtl? : Int, metadata? : @core.Any) -> Unit
+pub async fn KVNamespace::put_with_metadata(Self, String, String, @core.Any) -> Unit
 
 pub(all) struct KVValueWithMetadata {
-  value : @nostd.Any?
-  metadata : @nostd.Any?
+  value : @core.Any?
+  metadata : @core.Any?
 }
-fn KVValueWithMetadata::as_any(Self) -> @nostd.Any
+pub fn KVValueWithMetadata::as_any(Self) -> @core.Any
 
 #external
 pub type R2Bucket
-fn R2Bucket::as_any(Self) -> @nostd.Any
-async fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @nostd.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2MultipartUpload
-async fn R2Bucket::delete(Self, String) -> Unit
-async fn R2Bucket::delete_multiple(Self, Array[String]) -> Unit
-async fn R2Bucket::get(Self, String, onlyIf? : R2Conditional, range? : R2Range) -> R2Object?
-async fn R2Bucket::head(Self, String) -> R2Object?
-async fn R2Bucket::list(Self, limit? : Int, prefix? : String, cursor? : String, delimiter? : String, startAfter? : String, include_? : Array[String]) -> R2Objects
-async fn R2Bucket::put(Self, String, @nostd.Any, httpMetadata? : R2HttpMetadata, customMetadata? : @nostd.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2Object
-fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
+pub fn R2Bucket::as_any(Self) -> @core.Any
+pub async fn R2Bucket::create_multipart_upload(Self, String, httpMetadata? : R2HttpMetadata, customMetadata? : @core.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2MultipartUpload
+pub async fn R2Bucket::delete(Self, String) -> Unit
+pub async fn R2Bucket::delete_multiple(Self, Array[String]) -> Unit
+pub async fn R2Bucket::get(Self, String, onlyIf? : R2Conditional, range? : R2Range) -> R2Object?
+pub async fn R2Bucket::head(Self, String) -> R2Object?
+pub async fn R2Bucket::list(Self, limit? : Int, prefix? : String, cursor? : String, delimiter? : String, startAfter? : String, include_? : Array[String]) -> R2Objects
+pub async fn R2Bucket::put(Self, String, @core.Any, httpMetadata? : R2HttpMetadata, customMetadata? : @core.Any, md5? : String, sha1? : String, sha256? : String, sha384? : String, sha512? : String) -> R2Object
+pub fn R2Bucket::resume_multipart_upload(Self, String, String) -> R2MultipartUpload
 
 pub(all) struct R2Conditional {
   etagMatches : String?
@@ -263,34 +263,34 @@ pub(all) struct R2HttpMetadata {
   cacheControl : String?
   cacheExpiry : @date.Date?
 }
-fn R2HttpMetadata::as_any(Self) -> @nostd.Any
+pub fn R2HttpMetadata::as_any(Self) -> @core.Any
 
 #external
 pub type R2MultipartUpload
-async fn R2MultipartUpload::abort(Self) -> Unit
-fn R2MultipartUpload::as_any(Self) -> @nostd.Any
-async fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> R2Object
-fn R2MultipartUpload::key(Self) -> String
-fn R2MultipartUpload::uploadId(Self) -> String
-async fn R2MultipartUpload::upload_part(Self, Int, @nostd.Any) -> R2UploadedPart
+pub async fn R2MultipartUpload::abort(Self) -> Unit
+pub fn R2MultipartUpload::as_any(Self) -> @core.Any
+pub async fn R2MultipartUpload::complete(Self, Array[R2UploadedPart]) -> R2Object
+pub fn R2MultipartUpload::key(Self) -> String
+pub fn R2MultipartUpload::uploadId(Self) -> String
+pub async fn R2MultipartUpload::upload_part(Self, Int, @core.Any) -> R2UploadedPart
 
 #external
 pub type R2Object
-async fn R2Object::array_buffer(Self) -> @js.ArrayBuffer
-fn R2Object::as_any(Self) -> @nostd.Any
-async fn R2Object::blob(Self) -> @blob.Blob
-fn R2Object::body(Self) -> @streams.ReadableStream
-fn R2Object::body_used(Self) -> Bool
-fn R2Object::custom_metadata(Self) -> @nostd.Any
-fn R2Object::etag(Self) -> String
-fn R2Object::http_metadata(Self) -> @nostd.Any
-async fn R2Object::json(Self) -> @nostd.Any
-fn R2Object::key(Self) -> String
-fn R2Object::size(Self) -> Int
-async fn R2Object::text(Self) -> String
-fn R2Object::uploaded(Self) -> @nostd.Any
-fn R2Object::version(Self) -> String
-fn R2Object::write_http_metadata(Self, @nostd.Any) -> Unit
+pub async fn R2Object::array_buffer(Self) -> @js.ArrayBuffer
+pub fn R2Object::as_any(Self) -> @core.Any
+pub async fn R2Object::blob(Self) -> @blob.Blob
+pub fn R2Object::body(Self) -> @streams.ReadableStream
+pub fn R2Object::body_used(Self) -> Bool
+pub fn R2Object::custom_metadata(Self) -> @core.Any
+pub fn R2Object::etag(Self) -> String
+pub fn R2Object::http_metadata(Self) -> @core.Any
+pub async fn R2Object::json(Self) -> @core.Any
+pub fn R2Object::key(Self) -> String
+pub fn R2Object::size(Self) -> Int
+pub async fn R2Object::text(Self) -> String
+pub fn R2Object::uploaded(Self) -> @core.Any
+pub fn R2Object::version(Self) -> String
+pub fn R2Object::write_http_metadata(Self, @core.Any) -> Unit
 
 pub(all) struct R2Objects {
   objects : Array[R2Object]
@@ -298,7 +298,7 @@ pub(all) struct R2Objects {
   cursor : String?
   delimitedPrefixes : Array[String]
 }
-fn R2Objects::as_any(Self) -> @nostd.Any
+pub fn R2Objects::as_any(Self) -> @core.Any
 
 pub(all) struct R2Range {
   offset : Int?
@@ -310,7 +310,7 @@ pub(all) struct R2UploadedPart {
   partNumber : Int
   etag : String
 }
-fn R2UploadedPart::as_any(Self) -> @nostd.Any
+pub fn R2UploadedPart::as_any(Self) -> @core.Any
 
 // Type aliases
 pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]

@@ -9,25 +9,25 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @nostd.Any?
-  build : @nostd.Any?
-  preview : @nostd.Any?
-  optimizeDeps : @nostd.Any?
-  plugins : @nostd.Any?
+  server : @core.Any?
+  build : @core.Any?
+  preview : @core.Any?
+  optimizeDeps : @core.Any?
+  plugins : @core.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @nostd.Any?
-  css : @nostd.Any?
-  json : @nostd.Any?
-  esbuild : @nostd.Any?
-  assetsInclude : @nostd.Any?
+  resolve : @core.Any?
+  css : @core.Any?
+  json : @core.Any?
+  esbuild : @core.Any?
+  assetsInclude : @core.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 
 ///|
 /// FFI: defineConfig
-extern "js" fn ffi_defineConfig(config : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_defineConfig(config : @core.Any) -> @core.Any =
   #| (config) => {
   #|   const vite = require('vite');
   #|   return vite.defineConfig(config);
@@ -37,85 +37,85 @@ extern "js" fn ffi_defineConfig(config : @nostd.Any) -> @nostd.Any =
 /// Define Vite configuration with type support
 /// JS: defineConfig(config)
 /// See: https://ja.vite.dev/config/#config-intellisense
-/// Returns a @nostd.Any object with defineConfig applied
+/// Returns a @core.Any object with defineConfig applied
 pub fn defineConfig(
   root? : String,
   base? : String,
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @nostd.Any,
-  build? : @nostd.Any,
-  preview? : @nostd.Any,
-  optimizeDeps? : @nostd.Any,
-  plugins? : @nostd.Any,
+  server? : @core.Any,
+  build? : @core.Any,
+  preview? : @core.Any,
+  optimizeDeps? : @core.Any,
+  plugins? : @core.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @nostd.Any,
-  css? : @nostd.Any,
-  json? : @nostd.Any,
-  esbuild? : @nostd.Any,
-  assetsInclude? : @nostd.Any,
+  resolve? : @core.Any,
+  css? : @core.Any,
+  json? : @core.Any,
+  esbuild? : @core.Any,
+  assetsInclude? : @core.Any,
   envDir? : String,
   envPrefix? : String,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if root is Some(v) {
-    obj["root"] = @nostd.any(v)
+    obj["root"] = @core.any(v)
   }
   if base is Some(v) {
-    obj["base"] = @nostd.any(v)
+    obj["base"] = @core.any(v)
   }
   if mode is Some(v) {
-    obj["mode"] = @nostd.any(v)
+    obj["mode"] = @core.any(v)
   }
   if logLevel is Some(v) {
-    obj["logLevel"] = @nostd.any(v)
+    obj["logLevel"] = @core.any(v)
   }
   if clearScreen is Some(v) {
-    obj["clearScreen"] = @nostd.any(v)
+    obj["clearScreen"] = @core.any(v)
   }
   if server is Some(v) {
-    obj["server"] = @nostd.any(v)
+    obj["server"] = @core.any(v)
   }
   if build is Some(v) {
-    obj["build"] = @nostd.any(v)
+    obj["build"] = @core.any(v)
   }
   if preview is Some(v) {
-    obj["preview"] = @nostd.any(v)
+    obj["preview"] = @core.any(v)
   }
   if optimizeDeps is Some(v) {
-    obj["optimizeDeps"] = @nostd.any(v)
+    obj["optimizeDeps"] = @core.any(v)
   }
   if plugins is Some(v) {
-    obj["plugins"] = @nostd.any(v)
+    obj["plugins"] = @core.any(v)
   }
   if publicDir is Some(v) {
-    obj["publicDir"] = @nostd.any(v)
+    obj["publicDir"] = @core.any(v)
   }
   if cacheDir is Some(v) {
-    obj["cacheDir"] = @nostd.any(v)
+    obj["cacheDir"] = @core.any(v)
   }
   if resolve is Some(v) {
-    obj["resolve"] = @nostd.any(v)
+    obj["resolve"] = @core.any(v)
   }
   if css is Some(v) {
-    obj["css"] = @nostd.any(v)
+    obj["css"] = @core.any(v)
   }
   if json is Some(v) {
-    obj["json"] = @nostd.any(v)
+    obj["json"] = @core.any(v)
   }
   if esbuild is Some(v) {
-    obj["esbuild"] = @nostd.any(v)
+    obj["esbuild"] = @core.any(v)
   }
   if assetsInclude is Some(v) {
-    obj["assetsInclude"] = @nostd.any(v)
+    obj["assetsInclude"] = @core.any(v)
   }
   if envDir is Some(v) {
-    obj["envDir"] = @nostd.any(v)
+    obj["envDir"] = @core.any(v)
   }
   if envPrefix is Some(v) {
-    obj["envPrefix"] = @nostd.any(v)
+    obj["envPrefix"] = @core.any(v)
   }
   ffi_defineConfig(obj)
 }

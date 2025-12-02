@@ -9,10 +9,10 @@
 pub type ChildProcess
 
 ///|
-pub fn ChildProcess::as_any(self : ChildProcess) -> @nostd.Any = "%identity"
+pub fn ChildProcess::as_any(self : ChildProcess) -> @core.Any = "%identity"
 
 ///|
-pub fn ChildProcess::to_any(self : ChildProcess) -> @nostd.Any = "%identity"
+pub fn ChildProcess::to_any(self : ChildProcess) -> @core.Any = "%identity"
 
 ///|
 pub fn ChildProcess::to_event_emitter(
@@ -20,7 +20,7 @@ pub fn ChildProcess::to_event_emitter(
 ) -> @events.EventEmitter = "%identity"
 
 ///|
-// pub impl @events.EventEmitterImpl for ChildProcess with to_any(self) -> @nostd.Any {
+// pub impl @events.EventEmitterImpl for ChildProcess with to_any(self) -> @core.Any {
 //   self.to_any()
 // }
 
@@ -73,15 +73,12 @@ pub fn ChildProcess::stderr(self : ChildProcess) -> @streams.ReadableStream {
 
 ///|
 /// Listen for stderr 'data' event with typed callback
-/// Callback receives: data (@nostd.Any) - typically Buffer or String
+/// Callback receives: data (@core.Any) - typically Buffer or String
 pub fn ChildProcess::on_stderr_data(
   self : ChildProcess,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
-  @nostd.any(self.stderr())._call("on", [
-    @nostd.any("data"),
-    @nostd.any(callback),
-  ])
+  @core.any(self.stderr())._call("on", [@core.any("data"), @core.any(callback)])
   |> ignore
 }
 
@@ -91,14 +88,14 @@ pub fn ChildProcess::on_stderr_data(
 /// Send a signal to the child process
 pub fn ChildProcess::kill(self : ChildProcess, signal? : String) -> Bool {
   match signal {
-    Some(sig) => self.as_any()._call("kill", [@nostd.any(sig)]).cast()
+    Some(sig) => self.as_any()._call("kill", [@core.any(sig)]).cast()
     None => self.as_any()._call("kill", []).cast()
   }
 }
 
 ///|
 /// Send a message to the child process (for IPC)
-pub fn ChildProcess::send(self : ChildProcess, message : @nostd.Any) -> Bool {
+pub fn ChildProcess::send(self : ChildProcess, message : @core.Any) -> Bool {
   self.as_any()._call("send", [message]).cast()
 }
 
@@ -122,7 +119,7 @@ pub fn ChildProcess::ref_(self : ChildProcess) -> Unit {
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_child_process() -> @nostd.Any =
+extern "js" fn ffi_require_child_process() -> @core.Any =
   #|() => require("node:child_process")
 
 ///|
@@ -132,23 +129,23 @@ pub fn spawn(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   shell? : Bool,
   timeout? : Int,
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "env": env,
-    "shell": shell.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "signal": signal.map(fn(x) { @nostd.any(x) }),
+    "shell": shell.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "signal": signal.map(fn(x) { @core.any(x) }),
   })
   match args {
     Some(a) =>
-      cp._call("spawn", [@nostd.any(command), @nostd.any(a), options]).cast()
-    None => cp._call("spawn", [@nostd.any(command), options]).cast()
+      cp._call("spawn", [@core.any(command), @core.any(a), options]).cast()
+    None => cp._call("spawn", [@core.any(command), options]).cast()
   }
 }
 
@@ -159,7 +156,7 @@ pub fn exec(
   command : String,
   callback : (@js.Nullish[@js.JsError], String, String) -> Unit,
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   shell? : String,
   timeout? : Int,
   max_buffer? : Int,
@@ -167,14 +164,14 @@ pub fn exec(
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "env": env,
-    "shell": shell.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "maxBuffer": max_buffer.map(fn(x) { @nostd.any(x) }),
-    "signal": signal.map(fn(x) { @nostd.any(x) }),
+    "shell": shell.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "maxBuffer": max_buffer.map(fn(x) { @core.any(x) }),
+    "signal": signal.map(fn(x) { @core.any(x) }),
   })
-  cp._call("exec", [@nostd.any(command), options, @nostd.any(callback)]).cast()
+  cp._call("exec", [@core.any(command), options, @core.any(callback)]).cast()
 }
 
 ///|
@@ -186,25 +183,25 @@ pub fn execFile(
   args : Array[String],
   callback : (@js.Nullish[@js.JsError], String, String) -> Unit,
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   timeout? : Int,
   max_buffer? : Int,
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "env": env,
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "maxBuffer": max_buffer.map(fn(x) { @nostd.any(x) }),
-    "signal": signal.map(fn(x) { @nostd.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "maxBuffer": max_buffer.map(fn(x) { @core.any(x) }),
+    "signal": signal.map(fn(x) { @core.any(x) }),
   })
   cp
   ._call("execFile", [
-    @nostd.any(file),
-    @nostd.any(args),
+    @core.any(file),
+    @core.any(args),
     options,
-    @nostd.any(callback),
+    @core.any(callback),
   ])
   .cast()
 }
@@ -216,23 +213,23 @@ pub fn fork(
   module_path : String,
   args? : Array[String],
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   silent? : Bool,
   timeout? : Int,
   signal? : @js.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let options = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "env": env,
-    "silent": silent.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "signal": signal.map(fn(x) { @nostd.any(x) }),
+    "silent": silent.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "signal": signal.map(fn(x) { @core.any(x) }),
   })
   match args {
     Some(a) =>
-      cp._call("fork", [@nostd.any(module_path), @nostd.any(a), options]).cast()
-    None => cp._call("fork", [@nostd.any(module_path), options]).cast()
+      cp._call("fork", [@core.any(module_path), @core.any(a), options]).cast()
+    None => cp._call("fork", [@core.any(module_path), options]).cast()
   }
 }
 
@@ -244,7 +241,7 @@ pub fn fork(
 pub type SpawnSyncResult
 
 ///|
-pub fn SpawnSyncResult::as_any(self : SpawnSyncResult) -> @nostd.Any = "%identity"
+pub fn SpawnSyncResult::as_any(self : SpawnSyncResult) -> @core.Any = "%identity"
 
 ///|
 /// Get pid
@@ -256,7 +253,7 @@ pub fn SpawnSyncResult::pid(self : SpawnSyncResult) -> Int {
 /// Get status
 pub fn SpawnSyncResult::status(self : SpawnSyncResult) -> Int? {
   let v = self.as_any()["status"]
-  if @nostd.is_nullish(v) {
+  if @core.is_nullish(v) {
     None
   } else {
     Some(v.cast())
@@ -267,7 +264,7 @@ pub fn SpawnSyncResult::status(self : SpawnSyncResult) -> Int? {
 /// Get signal
 pub fn SpawnSyncResult::signal(self : SpawnSyncResult) -> String? {
   let v = self.as_any()["signal"]
-  if @nostd.is_nullish(v) {
+  if @core.is_nullish(v) {
     None
   } else {
     Some(v.cast())
@@ -292,7 +289,7 @@ pub fn SpawnSyncResult::stderr(
 
 ///|
 /// Get error
-pub fn SpawnSyncResult::error(self : SpawnSyncResult) -> @nostd.Any {
+pub fn SpawnSyncResult::error(self : SpawnSyncResult) -> @core.Any {
   self.as_any()["error"]
 }
 
@@ -304,7 +301,7 @@ pub fn spawnSync(
   command : String,
   args? : Array[String],
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   shell? : Bool,
   timeout? : Int,
   input? : String,
@@ -313,19 +310,19 @@ pub fn spawnSync(
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
-      "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+      "cwd": cwd.map(fn(x) { @core.any(x) }),
       "env": env,
-      "shell": shell.map(fn(x) { @nostd.any(x) }),
-      "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-      "input": input.map(fn(x) { @nostd.any(x) }),
-      "stdio": stdio.map(fn(x) { @nostd.any(x) }),
+      "shell": shell.map(fn(x) { @core.any(x) }),
+      "timeout": timeout.map(fn(x) { @core.any(x) }),
+      "input": input.map(fn(x) { @core.any(x) }),
+      "stdio": stdio.map(fn(x) { @core.any(x) }),
     })
     match args {
       Some(a) =>
         cp
-        ._call("spawnSync", [@nostd.any(command), @nostd.any(a), options])
+        ._call("spawnSync", [@core.any(command), @core.any(a), options])
         .cast()
-      None => cp._call("spawnSync", [@nostd.any(command), options]).cast()
+      None => cp._call("spawnSync", [@core.any(command), options]).cast()
     }
   })
 }
@@ -337,7 +334,7 @@ pub fn spawnSync(
 pub fn execSync(
   command : String,
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   shell? : String,
   timeout? : Int,
   maxBuffer? : Int,
@@ -348,16 +345,16 @@ pub fn execSync(
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
-      "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+      "cwd": cwd.map(fn(x) { @core.any(x) }),
       "env": env,
-      "shell": shell.map(fn(x) { @nostd.any(x) }),
-      "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-      "maxBuffer": maxBuffer.map(fn(x) { @nostd.any(x) }),
-      "input": input.map(fn(x) { @nostd.any(x) }),
-      "encoding": Some(@nostd.any(encoding.unwrap_or("utf8"))),
-      "stdio": stdio.map(fn(x) { @nostd.any(x) }),
+      "shell": shell.map(fn(x) { @core.any(x) }),
+      "timeout": timeout.map(fn(x) { @core.any(x) }),
+      "maxBuffer": maxBuffer.map(fn(x) { @core.any(x) }),
+      "input": input.map(fn(x) { @core.any(x) }),
+      "encoding": Some(@core.any(encoding.unwrap_or("utf8"))),
+      "stdio": stdio.map(fn(x) { @core.any(x) }),
     })
-    cp._call("execSync", [@nostd.any(command), options]).cast()
+    cp._call("execSync", [@core.any(command), options]).cast()
   })
 }
 
@@ -369,7 +366,7 @@ pub fn execFileSync(
   file : String,
   args? : Array[String],
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   timeout? : Int,
   maxBuffer? : Int,
   input? : String,
@@ -378,19 +375,19 @@ pub fn execFileSync(
   @js.throwable(fn() {
     let cp = ffi_require_child_process()
     let options = @mbtconv.from_option_map({
-      "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+      "cwd": cwd.map(fn(x) { @core.any(x) }),
       "env": env,
-      "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-      "maxBuffer": maxBuffer.map(fn(x) { @nostd.any(x) }),
-      "input": input.map(fn(x) { @nostd.any(x) }),
-      "encoding": Some(@nostd.any(encoding.unwrap_or("utf8"))),
+      "timeout": timeout.map(fn(x) { @core.any(x) }),
+      "maxBuffer": maxBuffer.map(fn(x) { @core.any(x) }),
+      "input": input.map(fn(x) { @core.any(x) }),
+      "encoding": Some(@core.any(encoding.unwrap_or("utf8"))),
     })
     match args {
       Some(a) =>
         cp
-        ._call("execFileSync", [@nostd.any(file), @nostd.any(a), options])
+        ._call("execFileSync", [@core.any(file), @core.any(a), options])
         .cast()
-      None => cp._call("execFileSync", [@nostd.any(file), options]).cast()
+      None => cp._call("execFileSync", [@core.any(file), options]).cast()
     }
   })
 }

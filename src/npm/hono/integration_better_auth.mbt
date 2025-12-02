@@ -13,7 +13,7 @@ fn get_raw_request(req : HonoRequest) -> @http.Request {
 pub fn[Env, ExecutionContext] toHonoHandler(
   auth : @better_auth.Auth,
 ) -> Handler[Env, ExecutionContext] {
-  let handler : @nostd.Any = auth.handler().cast()
+  let handler : @core.Any = auth.handler().cast()
   async fn(ctx) {
     let req = get_raw_request(ctx.req)
     let response : @http.Response = ffi_call_handler(handler, req).wait()
@@ -23,9 +23,9 @@ pub fn[Env, ExecutionContext] toHonoHandler(
 
 ///|
 extern "js" fn ffi_call_handler(
-  handler : @nostd.Any,
+  handler : @core.Any,
   request : @http.Request,
-) -> @nostd.Promise[@http.Response] =
+) -> @core.Promise[@http.Response] =
   #|(handler, request) => handler(request)
 
 ///|

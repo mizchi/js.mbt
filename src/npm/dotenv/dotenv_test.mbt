@@ -65,7 +65,7 @@ test "getEnv and setEnv" {
 ///|
 test "processEnv returns object" {
   let env = processEnv()
-  @nostd.type_of(env) |> assert_eq("object")
+  @core.type_of(env) |> assert_eq("object")
 }
 
 ///|
@@ -93,9 +93,9 @@ test "parse multiline" {
 
 ///|
 test "populate target object" {
-  let target = @nostd.Object::new()
-  let source = @nostd.Object::new()
-  source["MY_KEY"] = @nostd.any("my_value")
+  let target = @core.Object::new()
+  let source = @core.Object::new()
+  source["MY_KEY"] = @core.any("my_value")
   populate(target, source)
   let v : String = target["MY_KEY"].cast()
   assert_eq(v, "my_value")

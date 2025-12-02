@@ -11,7 +11,7 @@
 pub type Esbuild
 
 ///|
-pub fn Esbuild::as_any(self : Esbuild) -> @nostd.Any = "%identity"
+pub fn Esbuild::as_any(self : Esbuild) -> @core.Any = "%identity"
 
 ///|
 /// Get the esbuild module
@@ -110,16 +110,16 @@ pub fn Loader::to_string(self : Loader) -> String {
 pub(all) type BuildResult
 
 ///|
-pub fn BuildResult::as_any(self : BuildResult) -> @nostd.Any = "%identity"
+pub fn BuildResult::as_any(self : BuildResult) -> @core.Any = "%identity"
 
 ///|
 /// Get output files from build result
 pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
   let files_arr = self.as_any()._get("outputFiles")
-  if @nostd.is_undefined(files_arr) || @nostd.is_null(files_arr) {
+  if @core.is_undefined(files_arr) || @core.is_null(files_arr) {
     return []
   }
-  let len : Int = @nostd.identity(files_arr._get("length"))
+  let len : Int = @core.identity(files_arr._get("length"))
   let result : Array[OutputFile] = []
   for i = 0; i < len; i = i + 1 {
     result.push(files_arr._get(i.to_string()).cast())
@@ -131,10 +131,10 @@ pub fn BuildResult::output_files(self : BuildResult) -> Array[OutputFile] {
 /// Get errors from build result
 pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
   let errors_arr = self.as_any()._get("errors")
-  if @nostd.is_undefined(errors_arr) || @nostd.is_null(errors_arr) {
+  if @core.is_undefined(errors_arr) || @core.is_null(errors_arr) {
     return []
   }
-  let len : Int = @nostd.identity(errors_arr._get("length"))
+  let len : Int = @core.identity(errors_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(errors_arr._get(i.to_string()).cast())
@@ -146,10 +146,10 @@ pub fn BuildResult::errors(self : BuildResult) -> Array[Message] {
 /// Get warnings from build result
 pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
   let warnings_arr = self.as_any()._get("warnings")
-  if @nostd.is_undefined(warnings_arr) || @nostd.is_null(warnings_arr) {
+  if @core.is_undefined(warnings_arr) || @core.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @nostd.identity(warnings_arr._get("length"))
+  let len : Int = @core.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(warnings_arr._get(i.to_string()).cast())
@@ -167,23 +167,23 @@ pub fn BuildResult::warnings(self : BuildResult) -> Array[Message] {
 pub(all) type OutputFile
 
 ///|
-pub fn OutputFile::as_any(self : OutputFile) -> @nostd.Any = "%identity"
+pub fn OutputFile::as_any(self : OutputFile) -> @core.Any = "%identity"
 
 ///|
 /// Get the file path
 pub fn OutputFile::path(self : OutputFile) -> String {
-  @nostd.identity(self.as_any()._get("path"))
+  @core.identity(self.as_any()._get("path"))
 }
 
 ///|
 /// Get the file contents as text
 pub fn OutputFile::text(self : OutputFile) -> String {
-  @nostd.identity(self.as_any()._get("text"))
+  @core.identity(self.as_any()._get("text"))
 }
 
 ///|
 /// Get the file contents as Uint8Array
-pub fn OutputFile::contents(self : OutputFile) -> @nostd.Any {
+pub fn OutputFile::contents(self : OutputFile) -> @core.Any {
   self.as_any()._get("contents")
 }
 
@@ -197,12 +197,12 @@ pub fn OutputFile::contents(self : OutputFile) -> @nostd.Any {
 pub(all) type Message
 
 ///|
-pub fn Message::as_any(self : Message) -> @nostd.Any = "%identity"
+pub fn Message::as_any(self : Message) -> @core.Any = "%identity"
 
 ///|
 /// Get the message text
 pub fn Message::text(self : Message) -> String {
-  @nostd.identity(self.as_any()._get("text"))
+  @core.identity(self.as_any()._get("text"))
 }
 
 // ============================================================
@@ -215,22 +215,22 @@ pub fn Message::text(self : Message) -> String {
 pub(all) type TransformResult
 
 ///|
-pub fn TransformResult::as_any(self : TransformResult) -> @nostd.Any = "%identity"
+pub fn TransformResult::as_any(self : TransformResult) -> @core.Any = "%identity"
 
 ///|
 /// Get the transformed code
 pub fn TransformResult::code(self : TransformResult) -> String {
-  @nostd.identity(self.as_any()._get("code"))
+  @core.identity(self.as_any()._get("code"))
 }
 
 ///|
 /// Get the source map
 pub fn TransformResult::map(self : TransformResult) -> String {
   let m = self.as_any()._get("map")
-  if @nostd.is_undefined(m) || @nostd.is_null(m) {
+  if @core.is_undefined(m) || @core.is_null(m) {
     ""
   } else {
-    @nostd.identity(m)
+    @core.identity(m)
   }
 }
 
@@ -238,10 +238,10 @@ pub fn TransformResult::map(self : TransformResult) -> String {
 /// Get warnings from transform result
 pub fn TransformResult::warnings(self : TransformResult) -> Array[Message] {
   let warnings_arr = self.as_any()._get("warnings")
-  if @nostd.is_undefined(warnings_arr) || @nostd.is_null(warnings_arr) {
+  if @core.is_undefined(warnings_arr) || @core.is_null(warnings_arr) {
     return []
   }
-  let len : Int = @nostd.identity(warnings_arr._get("length"))
+  let len : Int = @core.identity(warnings_arr._get("length"))
   let result : Array[Message] = []
   for i = 0; i < len; i = i + 1 {
     result.push(warnings_arr._get(i.to_string()).cast())
@@ -270,33 +270,33 @@ pub async fn Esbuild::build(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if entry_points.length() > 0 {
-    opts._set("entryPoints", entry_points |> @nostd.any)
+    opts._set("entryPoints", entry_points |> @core.any)
   }
   if outdir != "" {
-    opts._set("outdir", outdir |> @nostd.any)
+    opts._set("outdir", outdir |> @core.any)
   }
   if outfile != "" {
-    opts._set("outfile", outfile |> @nostd.any)
+    opts._set("outfile", outfile |> @core.any)
   }
-  opts._set("bundle", bundle |> @nostd.any)
-  opts._set("minify", minify |> @nostd.any)
-  opts._set("format", format.to_string() |> @nostd.any)
+  opts._set("bundle", bundle |> @core.any)
+  opts._set("minify", minify |> @core.any)
+  opts._set("format", format.to_string() |> @core.any)
   if target != "" {
-    opts._set("target", target |> @nostd.any)
+    opts._set("target", target |> @core.any)
   }
-  opts._set("platform", platform.to_string() |> @nostd.any)
-  opts._set("sourcemap", sourcemap |> @nostd.any)
-  opts._set("write", write |> @nostd.any)
+  opts._set("platform", platform.to_string() |> @core.any)
+  opts._set("sourcemap", sourcemap |> @core.any)
+  opts._set("write", write |> @core.any)
   if external.length() > 0 {
-    opts._set("external", external |> @nostd.any)
+    opts._set("external", external |> @core.any)
   }
   if definitions.length() > 0 {
-    let defs = @nostd.Object::new()
+    let defs = @core.Object::new()
     for pair in definitions {
       let (key, value) = pair
-      defs._set(key, value |> @nostd.any)
+      defs._set(key, value |> @core.any)
     }
     opts._set("define", defs)
   }
@@ -318,17 +318,17 @@ pub async fn Esbuild::transform(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @nostd.Object::new()
-  opts._set("loader", loader.to_string() |> @nostd.any)
-  opts._set("minify", minify |> @nostd.any)
-  opts._set("format", format.to_string() |> @nostd.any)
+  let opts = @core.Object::new()
+  opts._set("loader", loader.to_string() |> @core.any)
+  opts._set("minify", minify |> @core.any)
+  opts._set("format", format.to_string() |> @core.any)
   if target != "" {
-    opts._set("target", target |> @nostd.any)
+    opts._set("target", target |> @core.any)
   }
-  opts._set("sourcemap", sourcemap |> @nostd.any)
+  opts._set("sourcemap", sourcemap |> @core.any)
   let promise : @js.Promise[TransformResult] = self
     .as_any()
-    ._call("transform", [code |> @nostd.any, opts])
+    ._call("transform", [code |> @core.any, opts])
     .cast()
   promise.wait()
 }
@@ -350,33 +350,33 @@ pub fn Esbuild::build_sync(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if entry_points.length() > 0 {
-    opts._set("entryPoints", entry_points |> @nostd.any)
+    opts._set("entryPoints", entry_points |> @core.any)
   }
   if outdir != "" {
-    opts._set("outdir", outdir |> @nostd.any)
+    opts._set("outdir", outdir |> @core.any)
   }
   if outfile != "" {
-    opts._set("outfile", outfile |> @nostd.any)
+    opts._set("outfile", outfile |> @core.any)
   }
-  opts._set("bundle", bundle |> @nostd.any)
-  opts._set("minify", minify |> @nostd.any)
-  opts._set("format", format.to_string() |> @nostd.any)
+  opts._set("bundle", bundle |> @core.any)
+  opts._set("minify", minify |> @core.any)
+  opts._set("format", format.to_string() |> @core.any)
   if target != "" {
-    opts._set("target", target |> @nostd.any)
+    opts._set("target", target |> @core.any)
   }
-  opts._set("platform", platform.to_string() |> @nostd.any)
-  opts._set("sourcemap", sourcemap |> @nostd.any)
-  opts._set("write", write |> @nostd.any)
+  opts._set("platform", platform.to_string() |> @core.any)
+  opts._set("sourcemap", sourcemap |> @core.any)
+  opts._set("write", write |> @core.any)
   if external.length() > 0 {
-    opts._set("external", external |> @nostd.any)
+    opts._set("external", external |> @core.any)
   }
   if definitions.length() > 0 {
-    let defs = @nostd.Object::new()
+    let defs = @core.Object::new()
     for pair in definitions {
       let (key, value) = pair
-      defs._set(key, value |> @nostd.any)
+      defs._set(key, value |> @core.any)
     }
     opts._set("define", defs)
   }
@@ -394,13 +394,13 @@ pub fn Esbuild::transform_sync(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @nostd.Object::new()
-  opts._set("loader", loader.to_string() |> @nostd.any)
-  opts._set("minify", minify |> @nostd.any)
-  opts._set("format", format.to_string() |> @nostd.any)
+  let opts = @core.Object::new()
+  opts._set("loader", loader.to_string() |> @core.any)
+  opts._set("minify", minify |> @core.any)
+  opts._set("format", format.to_string() |> @core.any)
   if target != "" {
-    opts._set("target", target |> @nostd.any)
+    opts._set("target", target |> @core.any)
   }
-  opts._set("sourcemap", sourcemap |> @nostd.any)
-  self.as_any()._call("transformSync", [code |> @nostd.identity, opts]).cast()
+  opts._set("sourcemap", sourcemap |> @core.any)
+  self.as_any()._call("transformSync", [code |> @core.identity, opts]).cast()
 }

@@ -2,15 +2,14 @@
 package "mizchi/js/node/util"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn inspect(@nostd.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
+pub fn inspect(@core.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
 
 #alias(parse_args)
-fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
+pub fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
 
 // Errors
 
@@ -19,18 +18,18 @@ pub(all) enum ParseArgsOption {
   Boolean(key~ : String, short~ : String)
   String(key~ : String, short~ : String, multiple~ : Bool, default~ : String?)
 }
-fn ParseArgsOption::as_any(Self) -> @nostd.Any
-fn ParseArgsOption::key(Self) -> String
+pub fn ParseArgsOption::as_any(Self) -> @core.Any
+pub fn ParseArgsOption::key(Self) -> String
 
 pub(all) struct ParseArgsResult {
-  values : Map[String, @nostd.Any]
+  values : Map[String, @core.Any]
   positionals : Array[String]
-  tokens : Array[@nostd.Any]?
+  tokens : Array[@core.Any]?
 }
 
 #external
 pub type Util
-fn Util::as_any(Self) -> @nostd.Any
+pub fn Util::as_any(Self) -> @core.Any
 
 // Type aliases
 

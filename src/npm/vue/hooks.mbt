@@ -10,38 +10,38 @@ pub fn[T] watch(
   immediate? : Bool,
   deep? : Bool,
 ) -> WatchStopHandle {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if immediate is Some(v) {
-    options._set("immediate", v |> @nostd.any)
+    options._set("immediate", v |> @core.any)
   }
   if deep is Some(v) {
-    options._set("deep", v |> @nostd.any)
+    options._set("deep", v |> @core.any)
   }
-  @nostd.identity(
-    ffi_watch(source |> @nostd.identity, callback |> @js.any, options),
+  @core.identity(
+    ffi_watch(source |> @core.identity, callback |> @js.any, options),
   )
 }
 
 ///|
 /// Vue.watchEffect - Watch with automatic dependency tracking
 pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if flush is Some(v) {
-    options._set("flush", v |> @nostd.any)
+    options._set("flush", v |> @core.any)
   }
-  @nostd.identity(ffi_watch_effect(effect |> @js.any, options))
+  @core.identity(ffi_watch_effect(effect |> @js.any, options))
 }
 
 ///|
 /// Vue.watchPostEffect - watchEffect with flush: 'post'
 pub fn watchPostEffect(effect : () -> Unit) -> WatchStopHandle {
-  @nostd.identity(ffi_watch_post_effect(effect |> @js.any))
+  @core.identity(ffi_watch_post_effect(effect |> @js.any))
 }
 
 ///|
 /// Vue.watchSyncEffect - watchEffect with flush: 'sync'
 pub fn watchSyncEffect(effect : () -> Unit) -> WatchStopHandle {
-  @nostd.identity(ffi_watch_sync_effect(effect |> @js.any))
+  @core.identity(ffi_watch_sync_effect(effect |> @js.any))
 }
 
 ///|
@@ -104,7 +104,7 @@ pub fn onDeactivated(callback : () -> Unit) -> Unit {
 /// Vue.onErrorCaptured - Error handling hook
 #alias(on_error_captured)
 pub fn onErrorCaptured(
-  callback : (@nostd.Any, @nostd.Any, String) -> Bool?,
+  callback : (@core.Any, @core.Any, String) -> Bool?,
 ) -> Unit {
   ffi_on_error_captured(callback |> @js.any)
 }
@@ -112,24 +112,24 @@ pub fn onErrorCaptured(
 ///|
 /// Vue.provide - Provide value for injection
 pub fn[T] provide(key : String, value : T) -> Unit {
-  ffi_provide(@nostd.any(key), value |> @nostd.identity)
+  ffi_provide(@core.any(key), value |> @core.identity)
 }
 
 ///|
 /// Vue.inject - Inject provided value
 pub fn[T] inject(key : String, default_value? : T) -> T {
   let default_val = match default_value {
-    Some(v) => v |> @nostd.identity
+    Some(v) => v |> @core.identity
     None => @global.undefined()
   }
-  @nostd.identity(ffi_inject(@nostd.any(key), default_val))
+  @core.identity(ffi_inject(@core.any(key), default_val))
 }
 
 ///|
 /// Vue.nextTick - Execute callback after DOM update
 #alias(next_tick)
 pub async fn nextTick() -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.identity(
+  let promise : @js.Promise[Unit] = @core.identity(
     ffi_next_tick(@global.undefined()),
   )
   promise.wait()
@@ -146,9 +146,9 @@ pub fn nextTickCallback(callback : () -> Unit) -> Unit {
 ///|
 /// Vue.getCurrentInstance - Get current component instance
 #alias(get_current_instance)
-pub fn getCurrentInstance() -> @nostd.Any? {
+pub fn getCurrentInstance() -> @core.Any? {
   let inst = ffi_get_current_instance()
-  if @nostd.is_nullish(inst) {
+  if @core.is_nullish(inst) {
     None
   } else {
     Some(inst)
@@ -158,13 +158,13 @@ pub fn getCurrentInstance() -> @nostd.Any? {
 ///|
 /// Vue.useAttrs - Get current component's attrs
 #alias(use_attrs)
-pub fn useAttrs() -> @nostd.Any {
+pub fn useAttrs() -> @core.Any {
   ffi_use_attrs()
 }
 
 ///|
 /// Vue.useSlots - Get current component's slots
 #alias(use_slots)
-pub fn useSlots() -> @nostd.Any {
+pub fn useSlots() -> @core.Any {
   ffi_use_slots()
 }

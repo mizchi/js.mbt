@@ -18,7 +18,7 @@ pub fn plugin_example() -> Unit {
     }),
   )
   println("✓ Transform plugin created")
-  let plugin_any : @nostd.Any = transform_plugin |> @nostd.any
+  let plugin_any : @core.Any = transform_plugin |> @core.any
   let plugin_name = plugin_any["name"]
   println("Plugin name: \{plugin_name}")
 

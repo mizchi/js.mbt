@@ -3,7 +3,7 @@
 pub type HTMLDivElement
 
 ///|
-pub fn HTMLDivElement::as_any(self : HTMLDivElement) -> @nostd.Any = "%identity"
+pub fn HTMLDivElement::as_any(self : HTMLDivElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLDivElement::as_event_target(
@@ -30,12 +30,12 @@ pub fn HTMLDivElement::as_html_element(self : HTMLDivElement) -> HTMLElement = "
 ///|
 
 ///|
-pub impl ElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLDivElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -48,7 +48,7 @@ pub(all) struct HTMLCanvasElement {
 } derive(Show)
 
 ///|
-pub fn HTMLCanvasElement::as_any(self : HTMLCanvasElement) -> @nostd.Any = "%identity"
+pub fn HTMLCanvasElement::as_any(self : HTMLCanvasElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLCanvasElement::as_event_target(
@@ -77,12 +77,12 @@ pub fn HTMLCanvasElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -91,8 +91,8 @@ pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @nostd.Any {
 pub fn HTMLCanvasElement::getContext(
   self : Self,
   context_type : String,
-) -> @nostd.Any {
-  self.as_any()._call("getContext", [@nostd.any(context_type)]).cast()
+) -> @core.Any {
+  self.as_any()._call("getContext", [@core.any(context_type)]).cast()
 }
 
 ///|
@@ -103,8 +103,8 @@ pub fn HTMLCanvasElement::toDataURL(
 ) -> String {
   match (image_type, quality) {
     (Some(t), Some(q)) =>
-      self.as_any()._call("toDataURL", [@nostd.any(t), @nostd.any(q)]).cast()
-    (Some(t), None) => self.as_any()._call("toDataURL", [@nostd.any(t)]).cast()
+      self.as_any()._call("toDataURL", [@core.any(t), @core.any(q)]).cast()
+    (Some(t), None) => self.as_any()._call("toDataURL", [@core.any(t)]).cast()
     (None, _) => self.as_any()._call("toDataURL", []).cast()
   }
 }
@@ -117,8 +117,8 @@ pub async fn HTMLCanvasElement::toBlob(
 ) -> @blob.Blob {
   let promise : @js.Promise[@blob.Blob] = match (image_type, quality) {
     (Some(t), Some(q)) =>
-      self.as_any()._call("toBlob", [@nostd.any(t), @nostd.any(q)]).cast()
-    (Some(t), None) => self.as_any()._call("toBlob", [@nostd.any(t)]).cast()
+      self.as_any()._call("toBlob", [@core.any(t), @core.any(q)]).cast()
+    (Some(t), None) => self.as_any()._call("toBlob", [@core.any(t)]).cast()
     (None, _) => self.as_any()._call("toBlob", []).cast()
   }
   promise.wait()
@@ -129,7 +129,7 @@ pub async fn HTMLCanvasElement::toBlob(
 pub type HTMLBodyElement
 
 ///|
-pub fn HTMLBodyElement::as_any(self : HTMLBodyElement) -> @nostd.Any = "%identity"
+pub fn HTMLBodyElement::as_any(self : HTMLBodyElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLBodyElement::as_event_target(
@@ -156,12 +156,12 @@ pub fn HTMLBodyElement::as_html_element(self : HTMLBodyElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -170,7 +170,7 @@ pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @nostd.Any {
 pub type HTMLHeadElement
 
 ///|
-pub fn HTMLHeadElement::as_any(self : HTMLHeadElement) -> @nostd.Any = "%identity"
+pub fn HTMLHeadElement::as_any(self : HTMLHeadElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLHeadElement::as_event_target(
@@ -197,12 +197,12 @@ pub fn HTMLHeadElement::as_html_element(self : HTMLHeadElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -211,7 +211,7 @@ pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @nostd.Any {
 pub type HTMLHtmlElement
 
 ///|
-pub fn HTMLHtmlElement::as_any(self : HTMLHtmlElement) -> @nostd.Any = "%identity"
+pub fn HTMLHtmlElement::as_any(self : HTMLHtmlElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLHtmlElement::as_event_target(
@@ -238,12 +238,12 @@ pub fn HTMLHtmlElement::as_html_element(self : HTMLHtmlElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -252,7 +252,7 @@ pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @nostd.Any {
 pub type HTMLSpanElement
 
 ///|
-pub fn HTMLSpanElement::as_any(self : HTMLSpanElement) -> @nostd.Any = "%identity"
+pub fn HTMLSpanElement::as_any(self : HTMLSpanElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLSpanElement::as_event_target(
@@ -279,12 +279,12 @@ pub fn HTMLSpanElement::as_html_element(self : HTMLSpanElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -297,7 +297,7 @@ pub(all) struct HTMLAnchorElement {
 }
 
 ///|
-pub fn HTMLAnchorElement::as_any(self : HTMLAnchorElement) -> @nostd.Any = "%identity"
+pub fn HTMLAnchorElement::as_any(self : HTMLAnchorElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLAnchorElement::as_event_target(
@@ -326,12 +326,12 @@ pub fn HTMLAnchorElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -343,7 +343,7 @@ pub(all) struct HTMLButtonElement {
 }
 
 ///|
-pub fn HTMLButtonElement::as_any(self : HTMLButtonElement) -> @nostd.Any = "%identity"
+pub fn HTMLButtonElement::as_any(self : HTMLButtonElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLButtonElement::as_event_target(
@@ -372,12 +372,12 @@ pub fn HTMLButtonElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -391,7 +391,7 @@ pub(all) struct HTMLInputElement {
 }
 
 ///|
-pub fn HTMLInputElement::as_any(self : HTMLInputElement) -> @nostd.Any = "%identity"
+pub fn HTMLInputElement::as_any(self : HTMLInputElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLInputElement::as_event_target(
@@ -420,12 +420,12 @@ pub fn HTMLInputElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLInputElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -438,7 +438,7 @@ pub fn HTMLInputElement::type_(self : Self) -> String {
 ///|
 /// Sets the type of the input
 pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
-  self.as_any()._set("type", @nostd.any(input_type)) |> ignore
+  self.as_any()._set("type", @core.any(input_type)) |> ignore
 }
 
 ///|
@@ -454,7 +454,7 @@ pub(all) struct HTMLTextAreaElement {
 }
 
 ///|
-pub fn HTMLTextAreaElement::as_any(self : HTMLTextAreaElement) -> @nostd.Any = "%identity"
+pub fn HTMLTextAreaElement::as_any(self : HTMLTextAreaElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLTextAreaElement::as_event_target(
@@ -483,12 +483,12 @@ pub fn HTMLTextAreaElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -504,7 +504,7 @@ pub(all) struct HTMLIFrameElement {
 } derive(Show)
 
 ///|
-pub fn HTMLIFrameElement::as_any(self : HTMLIFrameElement) -> @nostd.Any = "%identity"
+pub fn HTMLIFrameElement::as_any(self : HTMLIFrameElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLIFrameElement::as_event_target(
@@ -533,12 +533,12 @@ pub fn HTMLIFrameElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -546,16 +546,16 @@ pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @nostd.Any {
 /// Returns the content window
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentWindow
 pub fn HTMLIFrameElement::contentWindow(self : Self) -> Window? {
-  let v : @nostd.Any = self.as_any()._get("contentWindow").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("contentWindow").cast()
+  v |> @core.identity_option
 }
 
 ///|
 /// Returns the content document
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement/contentDocument
 pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
-  let v : @nostd.Any = self.as_any()._get("contentDocument").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("contentDocument").cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -563,7 +563,7 @@ pub fn HTMLIFrameElement::contentDocument(self : Self) -> Document? {
 pub type HTMLFormElement
 
 ///|
-pub fn HTMLFormElement::as_any(self : HTMLFormElement) -> @nostd.Any = "%identity"
+pub fn HTMLFormElement::as_any(self : HTMLFormElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLFormElement::as_event_target(
@@ -590,12 +590,12 @@ pub fn HTMLFormElement::as_html_element(self : HTMLFormElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLFormElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -608,7 +608,7 @@ pub(all) struct HTMLSelectElement {
 }
 
 ///|
-pub fn HTMLSelectElement::as_any(self : HTMLSelectElement) -> @nostd.Any = "%identity"
+pub fn HTMLSelectElement::as_any(self : HTMLSelectElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLSelectElement::as_event_target(
@@ -637,12 +637,12 @@ pub fn HTMLSelectElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -655,7 +655,7 @@ pub(all) struct HTMLOptionElement {
 }
 
 ///|
-pub fn HTMLOptionElement::as_any(self : HTMLOptionElement) -> @nostd.Any = "%identity"
+pub fn HTMLOptionElement::as_any(self : HTMLOptionElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLOptionElement::as_event_target(
@@ -684,12 +684,12 @@ pub fn HTMLOptionElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -701,7 +701,7 @@ pub(all) struct HTMLLabelElement {
 }
 
 ///|
-pub fn HTMLLabelElement::as_any(self : HTMLLabelElement) -> @nostd.Any = "%identity"
+pub fn HTMLLabelElement::as_any(self : HTMLLabelElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLLabelElement::as_event_target(
@@ -730,12 +730,12 @@ pub fn HTMLLabelElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -748,7 +748,7 @@ pub(all) struct HTMLImageElement {
 }
 
 ///|
-pub fn HTMLImageElement::as_any(self : HTMLImageElement) -> @nostd.Any = "%identity"
+pub fn HTMLImageElement::as_any(self : HTMLImageElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLImageElement::as_event_target(
@@ -777,12 +777,12 @@ pub fn HTMLImageElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLImageElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -791,7 +791,7 @@ pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @nostd.Any {
 pub type HTMLParagraphElement
 
 ///|
-pub fn HTMLParagraphElement::as_any(self : HTMLParagraphElement) -> @nostd.Any = "%identity"
+pub fn HTMLParagraphElement::as_any(self : HTMLParagraphElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLParagraphElement::as_event_target(
@@ -820,12 +820,12 @@ pub fn HTMLParagraphElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -834,7 +834,7 @@ pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @nostd.An
 pub type HTMLHeadingElement
 
 ///|
-pub fn HTMLHeadingElement::as_any(self : HTMLHeadingElement) -> @nostd.Any = "%identity"
+pub fn HTMLHeadingElement::as_any(self : HTMLHeadingElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLHeadingElement::as_event_target(
@@ -863,12 +863,12 @@ pub fn HTMLHeadingElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -877,7 +877,7 @@ pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @nostd.Any 
 pub type HTMLUListElement
 
 ///|
-pub fn HTMLUListElement::as_any(self : HTMLUListElement) -> @nostd.Any = "%identity"
+pub fn HTMLUListElement::as_any(self : HTMLUListElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLUListElement::as_event_target(
@@ -906,12 +906,12 @@ pub fn HTMLUListElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLUListElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -920,7 +920,7 @@ pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @nostd.Any {
 pub type HTMLOListElement
 
 ///|
-pub fn HTMLOListElement::as_any(self : HTMLOListElement) -> @nostd.Any = "%identity"
+pub fn HTMLOListElement::as_any(self : HTMLOListElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLOListElement::as_event_target(
@@ -949,12 +949,12 @@ pub fn HTMLOListElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLOListElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -963,7 +963,7 @@ pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @nostd.Any {
 pub type HTMLLIElement
 
 ///|
-pub fn HTMLLIElement::as_any(self : HTMLLIElement) -> @nostd.Any = "%identity"
+pub fn HTMLLIElement::as_any(self : HTMLLIElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLLIElement::as_event_target(
@@ -990,11 +990,11 @@ pub fn HTMLLIElement::as_html_element(self : HTMLLIElement) -> HTMLElement = "%i
 ///|
 
 ///|
-pub impl ElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLLIElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @core.Any {
   self.as_any()
 }

@@ -1,7 +1,7 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     {
       "path": "mizchi/js/node/stream",
       "alias": "stream"

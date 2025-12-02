@@ -7,14 +7,14 @@
 pub type Server
 
 ///|
-pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for Server with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -25,27 +25,27 @@ pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
 pub type TLSSocket
 
 ///|
-pub fn TLSSocket::as_any(self : TLSSocket) -> @nostd.Any = "%identity"
+pub fn TLSSocket::as_any(self : TLSSocket) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn TLSSocket::as_event_target(self : TLSSocket) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 /// Helper function to convert Array[String] to JavaScript array
-fn array_to_js_array(arr : Array[String]) -> @nostd.Any {
-  @nostd.any(arr)
+fn array_to_js_array(arr : Array[String]) -> @core.Any {
+  @core.any(arr)
 }
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @nostd.Any,
-  secureConnectionListener : @nostd.Any,
+  options : @core.Any,
+  secureConnectionListener : @core.Any,
 ) -> Server =
   #| (options, secureConnectionListener) => {
   #|   const tls = require('tls');
@@ -65,18 +65,18 @@ pub fn create_server(
   requestCert? : Bool,
   alpn_protocols? : Array[String],
 ) -> Server {
-  let cb : @nostd.Any = @nostd.identity(secureConnectionListener)
+  let cb : @core.Any = @core.identity(secureConnectionListener)
   let alpn_js = alpn_protocols.map(fn(v) {
-    @nostd.identity(array_to_js_array(v))
+    @core.identity(array_to_js_array(v))
   })
   let opts = @mbtconv.from_option_map({
-    "key": key.map(fn(x) { @nostd.any(x) }),
-    "cert": cert.map(fn(x) { @nostd.any(x) }),
-    "ca": ca.map(fn(x) { @nostd.any(x) }),
-    "pfx": pfx.map(fn(x) { @nostd.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @nostd.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @nostd.any(x) }),
-    "requestCert": requestCert.map(fn(x) { @nostd.any(x) }),
+    "key": key.map(fn(x) { @core.any(x) }),
+    "cert": cert.map(fn(x) { @core.any(x) }),
+    "ca": ca.map(fn(x) { @core.any(x) }),
+    "pfx": pfx.map(fn(x) { @core.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @core.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @core.any(x) }),
+    "requestCert": requestCert.map(fn(x) { @core.any(x) }),
     "ALPNProtocols": alpn_js,
   }).cast()
   ffi_create_server(opts, cb)
@@ -85,21 +85,21 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
+  let cb : @core.Any = @core.identity(callback)
+  self.as_any()._call("listen", [@core.any(port), cb]) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   self.as_any()._call("close", [cb]) |> ignore
 }
 
 ///|
 extern "js" fn ffi_connect(
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> TLSSocket =
   #| (options, callback) => {
   #|   const tls = require('tls');
@@ -120,20 +120,20 @@ pub fn connect(
   alpn_protocols? : Array[String],
   session? : @js.Object,
 ) -> TLSSocket {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   let alpn_js = alpn_protocols.map(fn(v) {
-    @nostd.identity(array_to_js_array(v))
+    @core.identity(array_to_js_array(v))
   })
   let opts = @mbtconv.from_option_map({
-    "port": Some(@nostd.any(port)),
-    "host": Some(@nostd.any(host)),
-    "servername": servername.map(fn(x) { @nostd.any(x) }),
-    "key": key.map(fn(x) { @nostd.any(x) }),
-    "cert": cert.map(fn(x) { @nostd.any(x) }),
-    "ca": ca.map(fn(x) { @nostd.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @nostd.any(x) }),
+    "port": Some(@core.any(port)),
+    "host": Some(@core.any(host)),
+    "servername": servername.map(fn(x) { @core.any(x) }),
+    "key": key.map(fn(x) { @core.any(x) }),
+    "cert": cert.map(fn(x) { @core.any(x) }),
+    "ca": ca.map(fn(x) { @core.any(x) }),
+    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @core.any(x) }),
     "ALPNProtocols": alpn_js,
-    "session": session.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
+    "session": session.map(fn(x) { @core.identity(@core.any(x)) }),
   }).cast()
   ffi_connect(opts, cb)
 }
@@ -144,49 +144,49 @@ pub fn TLSSocket::get_peer_certificate(
   self : TLSSocket,
   detailed : Bool,
 ) -> @js.Object {
-  let val : @nostd.Any = self
+  let val : @core.Any = self
     .as_any()
-    ._call("getPeerCertificate", [@nostd.any(detailed)])
-  @nostd.identity(val)
+    ._call("getPeerCertificate", [@core.any(detailed)])
+  @core.identity(val)
 }
 
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
-  let val : @nostd.Any = self.as_any()._call("getCipher", [])
-  @nostd.identity(val)
+  let val : @core.Any = self.as_any()._call("getCipher", [])
+  @core.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
-  let val : @nostd.Any = self.as_any()._call("getProtocol", [])
-  @nostd.identity(val)
+  let val : @core.Any = self.as_any()._call("getProtocol", [])
+  @core.identity(val)
 }
 
 ///|
 /// Check if the connection is authorized
 pub fn TLSSocket::authorized(self : TLSSocket) -> Bool {
-  let val : @nostd.Any = self.as_any()._get("authorized")
-  @nostd.identity(val)
+  let val : @core.Any = self.as_any()._get("authorized")
+  @core.identity(val)
 }
 
 ///|
 /// Get the authorization error if not authorized
 pub fn TLSSocket::authorization_error(self : TLSSocket) -> String? {
-  let val : @nostd.Any = self.as_any()._get("authorizationError")
-  let is_null : Bool = @nostd.identity(@nostd.typeof_(val) == "undefined")
+  let val : @core.Any = self.as_any()._get("authorizationError")
+  let is_null : Bool = @core.identity(@core.typeof_(val) == "undefined")
   if is_null {
     None
   } else {
-    Some(@nostd.identity(val))
+    Some(@core.identity(val))
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn TLSSocket::write(self : TLSSocket, data : String) -> Unit {
-  self.as_any()._call("write", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("write", [@core.any(data)]) |> ignore
 }
 
 ///|
@@ -201,7 +201,7 @@ pub fn TLSSocket::on_secure_connect(
   self : TLSSocket,
   callback : () -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("secureConnect", fn(_e : @nostd.Any) { callback() })
+  self.addEventListener("secureConnect", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -211,8 +211,8 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("data", fn(e : @nostd.Any) {
-    callback(@nostd.identity(e))
+  self.addEventListener("data", fn(e : @core.Any) {
+    callback(@core.identity(e))
   })
   self
 }
@@ -220,7 +220,7 @@ pub fn TLSSocket::on_data(
 ///|
 /// Register 'end' event handler
 pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
-  self.addEventListener("end", fn(_e : @nostd.Any) { callback() })
+  self.addEventListener("end", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -230,8 +230,8 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("error", fn(e : @nostd.Any) {
-    callback(@nostd.identity(e))
+  self.addEventListener("error", fn(e : @core.Any) {
+    callback(@core.identity(e))
   })
   self
 }

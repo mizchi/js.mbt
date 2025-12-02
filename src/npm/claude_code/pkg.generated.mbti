@@ -3,35 +3,35 @@ package "mizchi/js/npm/claude_code"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
 #alias(collect_messages)
-async fn collectMessages(prompt~ : String, options? : QueryOptions) -> Array[SDKMessage]
+pub async fn collectMessages(prompt~ : String, options? : QueryOptions) -> Array[SDKMessage]
 
-fn get_result(Array[SDKMessage]) -> SDKResultMessage?
+pub fn get_result(Array[SDKMessage]) -> SDKResultMessage?
 
-fn get_text(Array[SDKMessage]) -> String
+pub fn get_text(Array[SDKMessage]) -> String
 
-fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator
+pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator
 
 #alias(query_stream)
-fn queryStream(prompt~ : @nostd.Any, options? : QueryOptions) -> SDKMessageIterator
+pub fn queryStream(prompt~ : @core.Any, options? : QueryOptions) -> SDKMessageIterator
 
 #alias(query_with_abort)
-fn queryWithAbort(prompt~ : String, options? : QueryOptions) -> (SDKMessageIterator, AbortHandle)
+pub fn queryWithAbort(prompt~ : String, options? : QueryOptions) -> (SDKMessageIterator, AbortHandle)
 
 #alias(simple_query)
-async fn simpleQuery(prompt~ : String, options? : QueryOptions) -> String
+pub async fn simpleQuery(prompt~ : String, options? : QueryOptions) -> String
 
 // Errors
 
 // Types and methods
 #external
 pub type AbortHandle
-fn AbortHandle::abort(Self) -> Unit
-fn AbortHandle::as_any(Self) -> @nostd.Any
+pub fn AbortHandle::abort(Self) -> Unit
+pub fn AbortHandle::as_any(Self) -> @core.Any
 
 pub(all) struct AgentDefinition {
   description : String
@@ -40,7 +40,7 @@ pub(all) struct AgentDefinition {
   system_prompt : String?
   model : ClaudeModel?
 }
-fn AgentDefinition::as_any(Self) -> @nostd.Any
+pub fn AgentDefinition::as_any(Self) -> @core.Any
 
 pub(all) enum ClaudeModel {
   Sonnet
@@ -48,49 +48,49 @@ pub(all) enum ClaudeModel {
   Haiku
   Custom(String)
 }
-fn ClaudeModel::to_string(Self) -> String
-impl Eq for ClaudeModel
-impl Show for ClaudeModel
+pub fn ClaudeModel::to_string(Self) -> String
+pub impl Eq for ClaudeModel
+pub impl Show for ClaudeModel
 
 pub(all) enum ContentBlock {
   Text(TextBlock)
   ToolUse(ToolUseBlock)
   ToolResult(ToolResultBlock)
-  Unknown(@nostd.Any)
+  Unknown(@core.Any)
 }
-fn ContentBlock::from_any(@nostd.Any) -> Self
+pub fn ContentBlock::from_any(@core.Any) -> Self
 
 pub(all) struct CostInfo {
   input_cost : Double
   output_cost : Double
   total_cost : Double
 }
-fn CostInfo::from_any(@nostd.Any) -> Self
+pub fn CostInfo::from_any(@core.Any) -> Self
 
 pub(all) enum McpServerConfig {
   Stdio(McpServerStdio)
   Sse(McpServerSse)
 }
-fn McpServerConfig::as_any(Self) -> @nostd.Any
+pub fn McpServerConfig::as_any(Self) -> @core.Any
 
 pub(all) struct McpServerSse {
   url : String
   headers : Map[String, String]
 }
-fn McpServerSse::as_any(Self) -> @nostd.Any
+pub fn McpServerSse::as_any(Self) -> @core.Any
 
 pub(all) struct McpServerStdio {
   command : String
   args : Array[String]
   env : Map[String, String]
 }
-fn McpServerStdio::as_any(Self) -> @nostd.Any
+pub fn McpServerStdio::as_any(Self) -> @core.Any
 
 pub(all) struct PermissionDenial {
   tool_name : String
   reason : String
 }
-fn PermissionDenial::from_any(@nostd.Any) -> Self
+pub fn PermissionDenial::from_any(@core.Any) -> Self
 
 pub(all) enum PermissionMode {
   Default
@@ -98,15 +98,15 @@ pub(all) enum PermissionMode {
   BypassPermissions
   Plan
 }
-fn PermissionMode::from_string(String) -> Self
-fn PermissionMode::to_string(Self) -> String
-impl Eq for PermissionMode
-impl Show for PermissionMode
+pub fn PermissionMode::from_string(String) -> Self
+pub fn PermissionMode::to_string(Self) -> String
+pub impl Eq for PermissionMode
+pub impl Show for PermissionMode
 
 #external
 pub type Query
-fn Query::as_any(Self) -> @nostd.Any
-fn Query::async_iterator(Self) -> @js.AsyncIterator[@nostd.Any]
+pub fn Query::as_any(Self) -> @core.Any
+pub fn Query::async_iterator(Self) -> @js.AsyncIterator[@core.Any]
 
 pub(all) struct QueryOptions {
   model : ClaudeModel?
@@ -123,15 +123,15 @@ pub(all) struct QueryOptions {
   include_partial_messages : Bool?
   resume_session : String?
 }
-fn QueryOptions::as_any(Self) -> @nostd.Any
-fn QueryOptions::new() -> Self
+pub fn QueryOptions::as_any(Self) -> @core.Any
+pub fn QueryOptions::new() -> Self
 
 pub(all) struct SDKAssistantMessage {
   role : String
   content : Array[ContentBlock]
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn SDKAssistantMessage::from_any(@nostd.Any) -> Self
+pub fn SDKAssistantMessage::from_any(@core.Any) -> Self
 
 pub(all) enum SDKMessage {
   Assistant(SDKAssistantMessage)
@@ -139,20 +139,20 @@ pub(all) enum SDKMessage {
   Result(SDKResultMessage)
   System(SDKSystemMessage)
   Partial(SDKPartialMessage)
-  Unknown(@nostd.Any)
+  Unknown(@core.Any)
 }
-fn SDKMessage::from_any(@nostd.Any) -> Self
+pub fn SDKMessage::from_any(@core.Any) -> Self
 
 pub(all) struct SDKMessageIterator {
-  raw : @js.AsyncIterator[@nostd.Any]
+  raw : @js.AsyncIterator[@core.Any]
 }
-async fn SDKMessageIterator::next(Self) -> SDKMessage?
+pub async fn SDKMessageIterator::next(Self) -> SDKMessage?
 
 pub(all) struct SDKPartialMessage {
   content : Array[ContentBlock]
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn SDKPartialMessage::from_any(@nostd.Any) -> Self
+pub fn SDKPartialMessage::from_any(@core.Any) -> Self
 
 pub(all) struct SDKResultMessage {
   success : Bool
@@ -160,40 +160,40 @@ pub(all) struct SDKResultMessage {
   usage : TokenUsage
   cost : CostInfo?
   permission_denials : Array[PermissionDenial]
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn SDKResultMessage::from_any(@nostd.Any) -> Self
+pub fn SDKResultMessage::from_any(@core.Any) -> Self
 
 pub(all) struct SDKSystemMessage {
   tools : Array[String]
   mcp_servers : Array[String]
   model : String
   permission_mode : PermissionMode
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn SDKSystemMessage::from_any(@nostd.Any) -> Self
+pub fn SDKSystemMessage::from_any(@core.Any) -> Self
 
 pub(all) struct SDKUserMessage {
   role : String
   content : String
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn SDKUserMessage::from_any(@nostd.Any) -> Self
+pub fn SDKUserMessage::from_any(@core.Any) -> Self
 
 pub(all) enum SettingSource {
   User
   Project
   Local
 }
-fn SettingSource::to_string(Self) -> String
-impl Eq for SettingSource
-impl Show for SettingSource
+pub fn SettingSource::to_string(Self) -> String
+pub impl Eq for SettingSource
+pub impl Show for SettingSource
 
 pub(all) struct TextBlock {
   text : String
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn TextBlock::from_any(@nostd.Any) -> Self
+pub fn TextBlock::from_any(@core.Any) -> Self
 
 pub(all) struct TokenUsage {
   input_tokens : Int
@@ -201,23 +201,23 @@ pub(all) struct TokenUsage {
   cache_read_input_tokens : Int
   cache_creation_input_tokens : Int
 }
-fn TokenUsage::from_any(@nostd.Any) -> Self
+pub fn TokenUsage::from_any(@core.Any) -> Self
 
 pub(all) struct ToolResultBlock {
   tool_use_id : String
   content : String
   is_error : Bool
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn ToolResultBlock::from_any(@nostd.Any) -> Self
+pub fn ToolResultBlock::from_any(@core.Any) -> Self
 
 pub(all) struct ToolUseBlock {
   id : String
   name : String
-  input : @nostd.Any
-  raw : @nostd.Any
+  input : @core.Any
+  raw : @core.Any
 }
-fn ToolUseBlock::from_any(@nostd.Any) -> Self
+pub fn ToolUseBlock::from_any(@core.Any) -> Self
 
 // Type aliases
 

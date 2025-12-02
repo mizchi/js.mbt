@@ -1,6 +1,6 @@
 ///|
 /// node:http module
-extern "js" fn http_module() -> @nostd.Any =
+extern "js" fn http_module() -> @core.Any =
   #| () => require("node:http")
 
 ///| IncomingMessage class
@@ -9,7 +9,7 @@ extern "js" fn http_module() -> @nostd.Any =
 pub(all) struct IncomingMessage {
   httpVersion : String
   url : String?
-  headers : @nostd.Any
+  headers : @core.Any
   rawHeaders : Array[String]
   statusCode : Int?
   statusMessage : String?
@@ -17,18 +17,18 @@ pub(all) struct IncomingMessage {
 }
 
 ///|
-pub fn IncomingMessage::as_any(self : IncomingMessage) -> @nostd.Any = "%identity"
+pub fn IncomingMessage::as_any(self : IncomingMessage) -> @core.Any = "%identity"
 
 ///|
 /// IncomingMessage is a Readable stream
 pub fn IncomingMessage::as_readable(self : IncomingMessage) -> @stream.Readable {
-  @nostd.identity(self)
+  @core.identity(self)
 }
 
 ///|
 /// Get HTTP method
 pub fn IncomingMessage::method_(self : IncomingMessage) -> String? {
-  self.as_any()._get("method") |> @nostd.identity_option
+  self.as_any()._get("method") |> @core.identity_option
 }
 
 ///|
@@ -42,9 +42,9 @@ pub fn IncomingMessage::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
       .cast()
-    None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
+    None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
 }
 
@@ -55,12 +55,12 @@ pub fn IncomingMessage::setTimeout(
 pub type ServerResponse
 
 ///|
-pub fn ServerResponse::as_any(self : ServerResponse) -> @nostd.Any = "%identity"
+pub fn ServerResponse::as_any(self : ServerResponse) -> @core.Any = "%identity"
 
 ///|
 /// ServerResponse is a Writable stream
 pub fn ServerResponse::as_writable(self : ServerResponse) -> @stream.Writable {
-  @nostd.identity(self)
+  @core.identity(self)
 }
 
 ///|
@@ -69,23 +69,23 @@ pub fn ServerResponse::writeHead(
   self : ServerResponse,
   statusCode : Int,
   statusMessage? : String,
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> ServerResponse {
   match (statusMessage, headers) {
     (Some(msg), Some(hdrs)) =>
       self
       .as_any()
-      ._call("writeHead", [@nostd.any(statusCode), @nostd.any(msg), hdrs])
+      ._call("writeHead", [@core.any(statusCode), @core.any(msg), hdrs])
       .cast()
     (Some(msg), None) =>
       self
       .as_any()
-      ._call("writeHead", [@nostd.any(statusCode), @nostd.any(msg)])
+      ._call("writeHead", [@core.any(statusCode), @core.any(msg)])
       .cast()
     (None, Some(hdrs)) =>
-      self.as_any()._call("writeHead", [@nostd.any(statusCode), hdrs]).cast()
+      self.as_any()._call("writeHead", [@core.any(statusCode), hdrs]).cast()
     (None, None) =>
-      self.as_any()._call("writeHead", [@nostd.any(statusCode)]).cast()
+      self.as_any()._call("writeHead", [@core.any(statusCode)]).cast()
   }
 }
 
@@ -98,8 +98,8 @@ pub fn ServerResponse::write(
 ) -> Bool {
   match encoding {
     Some(enc) =>
-      self.as_any()._call("write", [@nostd.any(chunk), @nostd.any(enc)]).cast()
-    None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
+      self.as_any()._call("write", [@core.any(chunk), @core.any(enc)]).cast()
+    None => self.as_any()._call("write", [@core.any(chunk)]).cast()
   }
 }
 
@@ -112,8 +112,8 @@ pub fn ServerResponse::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) =>
-      self.as_any()._call("end", [@nostd.any(d), @nostd.any(enc)]) |> ignore
-    (Some(d), None) => self.as_any()._call("end", [@nostd.any(d)]) |> ignore
+      self.as_any()._call("end", [@core.any(d), @core.any(enc)]) |> ignore
+    (Some(d), None) => self.as_any()._call("end", [@core.any(d)]) |> ignore
     (None, _) => self.as_any()._call("end", []) |> ignore
   }
 }
@@ -125,7 +125,7 @@ pub fn ServerResponse::setHeader(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setHeader", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setHeader", [@core.any(name), @core.any(value)])
   |> ignore
   |> ignore
 }
@@ -136,7 +136,7 @@ pub fn ServerResponse::getHeader(
   self : ServerResponse,
   name : String,
 ) -> String? {
-  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @nostd.identity_option
+  self.as_any()._call("getHeader", [@core.any(name)]) |> @core.identity_option
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn ServerResponse::removeHeader(
   self : ServerResponse,
   name : String,
 ) -> Unit {
-  self.as_any()._call("removeHeader", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("removeHeader", [@core.any(name)]) |> ignore
 }
 
 ///|
@@ -166,7 +166,7 @@ pub fn ServerResponse::set_statusCode(
   self : ServerResponse,
   code : Int,
 ) -> Unit {
-  self.as_any()._set("statusCode", @nostd.any(code))
+  self.as_any()._set("statusCode", @core.any(code))
 }
 
 ///|
@@ -181,7 +181,7 @@ pub fn ServerResponse::set_statusMessage(
   self : ServerResponse,
   message : String,
 ) -> Unit {
-  self.as_any()._set("statusMessage", @nostd.any(message))
+  self.as_any()._set("statusMessage", @core.any(message))
 }
 
 ///|
@@ -195,9 +195,9 @@ pub fn ServerResponse::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
-      |> @nostd.identity
-    None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
+      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
+      |> @core.identity
+    None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
 }
 
@@ -208,7 +208,7 @@ pub fn ServerResponse::setTimeout(
 pub type Server
 
 ///|
-pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 
 ///|
 /// Listen on a port and host
@@ -225,8 +225,8 @@ pub fn Server::listen(
       self
       .as_any()
       ._call("once", [
-        @nostd.any("listening"),
-        @nostd.any(@js.from_fn1(fn(_ : @nostd.Any) { cb() })),
+        @core.any("listening"),
+        @core.any(@js.from_fn1(fn(_ : @core.Any) { cb() })),
       ])
       |> ignore
     None => ()
@@ -237,13 +237,13 @@ pub fn Server::listen(
     (Some(h), Some(b)) =>
       self
       .as_any()
-      ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
+      ._call("listen", [@core.any(port), @core.any(h), @core.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(h)]).cast()
+      self.as_any()._call("listen", [@core.any(port), @core.any(h)]).cast()
     (None, Some(b)) =>
-      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(b)]).cast()
-    (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
+      self.as_any()._call("listen", [@core.any(port), @core.any(b)]).cast()
+    (None, None) => self.as_any()._call("listen", [@core.any(port)]).cast()
   }
 }
 
@@ -252,7 +252,7 @@ pub fn Server::listen(
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
     Some(cb) =>
-      self.as_any()._call("close", [@nostd.any(@js.from_fn0(cb))]).cast()
+      self.as_any()._call("close", [@core.any(@js.from_fn0(cb))]).cast()
     None => self.as_any()._call("close", []).cast()
   }
 }
@@ -262,7 +262,7 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> @net.AddressInfo? {
   let result = self.as_any()._call("address", [])
-  if @nostd.is_null(result) {
+  if @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -278,13 +278,13 @@ pub fn Server::listening(self : Server) -> Bool {
 ///|
 /// Get max headers count
 pub fn Server::maxHeadersCount(self : Server) -> Int? {
-  self.as_any()._get("maxHeadersCount") |> @nostd.identity_option
+  self.as_any()._get("maxHeadersCount") |> @core.identity_option
 }
 
 ///|
 /// Set max headers count
 pub fn Server::set_maxHeadersCount(self : Server, max : Int) -> Unit {
-  self.as_any()._set("maxHeadersCount", @nostd.any(max))
+  self.as_any()._set("maxHeadersCount", @core.any(max))
 }
 
 ///|
@@ -298,9 +298,9 @@ pub fn Server::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
       .cast()
-    None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
+    None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
 }
 
@@ -313,7 +313,7 @@ pub fn Server::timeout(self : Server) -> Int {
 ///|
 /// Set timeout value
 pub fn Server::set_timeout(self : Server, msecs : Int) -> Unit {
-  self.as_any()._set("timeout", @nostd.any(msecs))
+  self.as_any()._set("timeout", @core.any(msecs))
 }
 
 ///| ClientRequest class
@@ -323,12 +323,12 @@ pub fn Server::set_timeout(self : Server, msecs : Int) -> Unit {
 pub type ClientRequest
 
 ///|
-pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
+pub fn ClientRequest::as_any(self : ClientRequest) -> @core.Any = "%identity"
 
 ///|
 /// ClientRequest is a Writable stream
 pub fn ClientRequest::as_writable(self : ClientRequest) -> @stream.Writable {
-  @nostd.identity(self)
+  @core.identity(self)
 }
 
 ///|
@@ -340,8 +340,8 @@ pub fn ClientRequest::write(
 ) -> Bool {
   match encoding {
     Some(enc) =>
-      self.as_any()._call("write", [@nostd.any(chunk), @nostd.any(enc)]).cast()
-    None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
+      self.as_any()._call("write", [@core.any(chunk), @core.any(enc)]).cast()
+    None => self.as_any()._call("write", [@core.any(chunk)]).cast()
   }
 }
 
@@ -354,8 +354,8 @@ pub fn ClientRequest::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) =>
-      self.as_any()._call("end", [@nostd.any(d), @nostd.any(enc)]) |> ignore
-    (Some(d), None) => self.as_any()._call("end", [@nostd.any(d)]) |> ignore
+      self.as_any()._call("end", [@core.any(d), @core.any(enc)]) |> ignore
+    (Some(d), None) => self.as_any()._call("end", [@core.any(d)]) |> ignore
     (None, _) => self.as_any()._call("end", []).cast()
   }
 }
@@ -373,7 +373,7 @@ pub fn ClientRequest::setHeader(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setHeader", [@nostd.any(name), @nostd.any(value)])
+  self.as_any()._call("setHeader", [@core.any(name), @core.any(value)])
   |> ignore
   |> ignore
 }
@@ -381,13 +381,13 @@ pub fn ClientRequest::setHeader(
 ///|
 /// Get header
 pub fn ClientRequest::getHeader(self : ClientRequest, name : String) -> String? {
-  self.as_any()._call("getHeader", [@nostd.any(name)]) |> @nostd.identity_option
+  self.as_any()._call("getHeader", [@core.any(name)]) |> @core.identity_option
 }
 
 ///|
 /// Remove header
 pub fn ClientRequest::removeHeader(self : ClientRequest, name : String) -> Unit {
-  self.as_any()._call("removeHeader", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("removeHeader", [@core.any(name)]) |> ignore
 }
 
 ///|
@@ -401,9 +401,9 @@ pub fn ClientRequest::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
       .cast()
-    None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
+    None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
 }
 
@@ -417,7 +417,7 @@ pub fn createServer(
   match requestListener {
     Some(listener) =>
       http_module()
-      ._call("createServer", [@nostd.any(@js.from_fn2(listener))])
+      ._call("createServer", [@core.any(@js.from_fn2(listener))])
       .cast()
     None => http_module()._call("createServer", []).cast()
   }
@@ -427,24 +427,24 @@ pub fn createServer(
 /// Make HTTP request
 pub fn request(
   url : String,
-  options? : @nostd.Any,
+  options? : @core.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module()._call("request", [
-        @nostd.any(url),
+        @core.any(url),
         opts,
-        @nostd.any(@js.from_fn1(cb)),
+        @core.any(@js.from_fn1(cb)),
       ])
-      |> @nostd.identity
+      |> @core.identity
     (Some(opts), None) =>
-      http_module()._call("request", [@nostd.any(url), opts]).cast()
+      http_module()._call("request", [@core.any(url), opts]).cast()
     (None, Some(cb)) =>
       http_module()
-      ._call("request", [@nostd.any(url), @nostd.any(@js.from_fn1(cb))])
+      ._call("request", [@core.any(url), @core.any(@js.from_fn1(cb))])
       .cast()
-    (None, None) => http_module()._call("request", [@nostd.any(url)]).cast()
+    (None, None) => http_module()._call("request", [@core.any(url)]).cast()
   }
 }
 
@@ -452,32 +452,32 @@ pub fn request(
 /// Make HTTP GET request
 pub fn get(
   url : String,
-  options? : @nostd.Any,
+  options? : @core.Any,
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module()
-      ._call("get", [@nostd.any(url), opts, @nostd.any(@js.from_fn1(cb))])
+      ._call("get", [@core.any(url), opts, @core.any(@js.from_fn1(cb))])
       .cast()
     (Some(opts), None) =>
-      http_module()._call("get", [@nostd.any(url), opts]).cast()
+      http_module()._call("get", [@core.any(url), opts]).cast()
     (None, Some(cb)) =>
       http_module()
-      ._call("get", [@nostd.any(url), @nostd.any(@js.from_fn1(cb))])
+      ._call("get", [@core.any(url), @core.any(@js.from_fn1(cb))])
       .cast()
-    (None, None) => http_module()._call("get", [@nostd.any(url)]).cast()
+    (None, None) => http_module()._call("get", [@core.any(url)]).cast()
   }
 }
 
 ///|
 /// Global max sockets
-pub fn globalAgent() -> @nostd.Any {
+pub fn globalAgent() -> @core.Any {
   http_module()._get("globalAgent")
 }
 
 ///|
 /// HTTP status codes
-pub fn status_codes() -> @nostd.Any {
+pub fn status_codes() -> @core.Any {
   http_module()._get("STATUS_CODES")
 }

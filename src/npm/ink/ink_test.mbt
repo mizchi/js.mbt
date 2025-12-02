@@ -403,7 +403,7 @@ async test "static component" {
 async test "static component with items" {
   let ink = @ink.dynamic_import()
   let testing = @ink.dynamic_import_testing_library()
-  let items : Array[@nostd.Any] = ["item1", "item2"].map(fn(s) { @nostd.any(s) })
+  let items : Array[@core.Any] = ["item1", "item2"].map(fn(s) { @core.any(s) })
   let element = ink.static_([ink.text(["With items"])], items~)
   let result = testing.render(element)
   defer result.unmount()

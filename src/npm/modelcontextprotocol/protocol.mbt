@@ -49,13 +49,13 @@ pub fn Content::resource(uri : String) -> Content {
 }
 
 ///|
-pub fn Content::as_any(self : Content) -> @nostd.Any {
+pub fn Content::as_any(self : Content) -> @core.Any {
   @mbtconv.from_option_map({
-    "type": Some(@nostd.any(self.type_.to_string())),
-    "text": self.text.map(fn(t) { @nostd.any(t) }),
-    "data": self.data.map(fn(d) { @nostd.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @nostd.any(m) }),
-    "uri": self.uri.map(fn(u) { @nostd.any(u) }),
+    "type": Some(@core.any(self.type_.to_string())),
+    "text": self.text.map(fn(t) { @core.any(t) }),
+    "data": self.data.map(fn(d) { @core.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @core.any(m) }),
+    "uri": self.uri.map(fn(u) { @core.any(u) }),
   }).cast()
 }
 
@@ -64,16 +64,16 @@ pub fn Content::as_any(self : Content) -> @nostd.Any {
 pub(all) struct Tool {
   name : String
   description : String
-  input_schema : @nostd.Any
+  input_schema : @core.Any
 }
 
 ///|
-pub fn Tool::as_any(self : Tool) -> @nostd.Any {
-  @nostd.identity(
+pub fn Tool::as_any(self : Tool) -> @core.Any {
+  @core.identity(
     @mbtconv.from_map({
-      "name": @nostd.any(self.name),
-      "description": @nostd.any(self.description),
-      "inputSchema": @nostd.any(self.input_schema),
+      "name": @core.any(self.name),
+      "description": @core.any(self.description),
+      "inputSchema": @core.any(self.input_schema),
     }),
   )
 }
@@ -88,12 +88,12 @@ pub(all) struct Resource {
 } derive(Show)
 
 ///|
-pub fn Resource::as_any(self : Resource) -> @nostd.Any {
+pub fn Resource::as_any(self : Resource) -> @core.Any {
   @mbtconv.from_option_map({
-    "uri": Some(@nostd.any(self.uri)),
-    "name": Some(@nostd.any(self.name)),
-    "description": self.description.map(fn(d) { @nostd.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @nostd.any(m) }),
+    "uri": Some(@core.any(self.uri)),
+    "name": Some(@core.any(self.name)),
+    "description": self.description.map(fn(d) { @core.any(d) }),
+    "mimeType": self.mime_type.map(fn(m) { @core.any(m) }),
   }).cast()
 }
 
@@ -113,24 +113,24 @@ pub(all) struct PromptArgument {
 } derive(Show)
 
 ///|
-pub fn PromptArgument::as_any(self : PromptArgument) -> @nostd.Any {
+pub fn PromptArgument::as_any(self : PromptArgument) -> @core.Any {
   @mbtconv.from_option_map({
-    "name": Some(@nostd.any(self.name)),
-    "description": self.description.map(fn(d) { @nostd.any(d) }),
-    "required": Some(@nostd.any(self.required)),
+    "name": Some(@core.any(self.name)),
+    "description": self.description.map(fn(d) { @core.any(d) }),
+    "required": Some(@core.any(self.required)),
   }).cast()
 }
 
 ///|
-pub fn Prompt::as_any(self : Prompt) -> @nostd.Any {
-  let args : Array[@nostd.Any] = []
+pub fn Prompt::as_any(self : Prompt) -> @core.Any {
+  let args : Array[@core.Any] = []
   for i = 0; i < self.arguments.length(); i = i + 1 {
     args.push(self.arguments[i].as_any())
   }
   @mbtconv.from_option_map({
-    "name": Some(@nostd.any(self.name)),
-    "description": self.description.map(fn(d) { @nostd.any(d) }),
-    "arguments": Some(@nostd.identity(@nostd.any(args))),
+    "name": Some(@core.any(self.name)),
+    "description": self.description.map(fn(d) { @core.any(d) }),
+    "arguments": Some(@core.identity(@core.any(args))),
   }).cast()
 }
 
@@ -143,19 +143,19 @@ pub struct ServerCapabilities {
 } derive(Show)
 
 ///|
-pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @nostd.Any {
-  let capabilities = @nostd.Object::new()
+pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @core.Any {
+  let capabilities = @core.Object::new()
   if self.tools {
-    capabilities._set("tools", @nostd.Object::new())
+    capabilities._set("tools", @core.Object::new())
   }
   if self.resources {
-    capabilities._set("resources", @nostd.Object::new())
+    capabilities._set("resources", @core.Object::new())
   }
   if self.prompts {
-    capabilities._set("prompts", @nostd.Object::new())
+    capabilities._set("prompts", @core.Object::new())
   }
-  @nostd.identity(
-    @nostd.from_entries([("capabilities", @nostd.any(capabilities))]),
+  @core.identity(
+    @core.from_entries([("capabilities", @core.any(capabilities))]),
   )
 }
 
@@ -167,11 +167,11 @@ pub struct ServerInfo {
 } derive(Show)
 
 ///|
-pub fn ServerInfo::as_any(self : ServerInfo) -> @nostd.Any {
-  @nostd.identity(
+pub fn ServerInfo::as_any(self : ServerInfo) -> @core.Any {
+  @core.identity(
     @mbtconv.from_map({
-      "name": @nostd.any(self.name),
-      "version": @nostd.any(self.version),
+      "name": @core.any(self.name),
+      "version": @core.any(self.version),
     }),
   )
 }
@@ -184,11 +184,11 @@ pub struct ClientInfo {
 } derive(Show)
 
 ///|
-pub fn ClientInfo::from_js(js : @nostd.Any) -> ClientInfo? {
-  let obj : @js.Object = @nostd.identity(js)
-  let name : String? = @nostd.any(obj)._get("name") |> @nostd.identity_option()
-  let version : String? = @nostd.any(obj)._get("version")
-    |> @nostd.identity_option()
+pub fn ClientInfo::from_js(js : @core.Any) -> ClientInfo? {
+  let obj : @js.Object = @core.identity(js)
+  let name : String? = @core.any(obj)._get("name") |> @core.identity_option()
+  let version : String? = @core.any(obj)._get("version")
+    |> @core.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

@@ -3,7 +3,7 @@
 pub type ProcessEnv
 
 ///|
-pub fn ProcessEnv::as_any(self : ProcessEnv) -> @nostd.Any = "%identity"
+pub fn ProcessEnv::as_any(self : ProcessEnv) -> @core.Any = "%identity"
 
 ///|
 pub extern "js" fn ProcessEnv::get(e : ProcessEnv, key : String) -> String? =

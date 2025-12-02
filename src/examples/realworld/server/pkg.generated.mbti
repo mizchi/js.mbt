@@ -8,13 +8,13 @@ import(
 )
 
 // Values
-fn create_app(@sqlite.DatabaseSync, @better_auth.Auth) -> @hono.Hono[Unit, Unit]
+pub fn create_app(@sqlite.DatabaseSync, @better_auth.Auth) -> @hono.Hono[Unit, Unit]
 
-fn create_auth(@sqlite.DatabaseSync) -> @better_auth.Auth
+pub fn create_auth(@sqlite.DatabaseSync) -> @better_auth.Auth
 
-fn init_db() -> @sqlite.DatabaseSync
+pub fn init_db() -> @sqlite.DatabaseSync
 
-fn serve(@hono.Hono[Unit, Unit], Int) -> Unit
+pub fn serve(@hono.Hono[Unit, Unit], Int) -> Unit
 
 // Errors
 

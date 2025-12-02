@@ -2,7 +2,7 @@
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/npm/puppeteer"
   ]
 }

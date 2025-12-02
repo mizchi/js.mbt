@@ -2,67 +2,67 @@
 package "mizchi/js/npm/yargs"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn yargs() -> Yargs
+pub fn yargs() -> Yargs
 
-fn yargs_with_args(Array[String]) -> Yargs
+pub fn yargs_with_args(Array[String]) -> Yargs
 
 // Errors
 
 // Types and methods
 #external
 pub type Argv
-fn Argv::as_any(Self) -> @nostd.Any
-fn Argv::get_array(Self, String) -> Array[String]?
-fn Argv::get_bool(Self, String) -> Bool?
-fn Argv::get_int(Self, String) -> Int?
-fn Argv::get_string(Self, String) -> String?
-fn Argv::has(Self, String) -> Bool
-fn Argv::positionals(Self) -> Array[String]
-fn Argv::script_name(Self) -> String
+pub fn Argv::as_any(Self) -> @core.Any
+pub fn Argv::get_array(Self, String) -> Array[String]?
+pub fn Argv::get_bool(Self, String) -> Bool?
+pub fn Argv::get_int(Self, String) -> Int?
+pub fn Argv::get_string(Self, String) -> String?
+pub fn Argv::has(Self, String) -> Bool
+pub fn Argv::positionals(Self) -> Array[String]
+pub fn Argv::script_name(Self) -> String
 
 #external
 pub type Yargs
-fn Yargs::alias_(Self, String, String) -> Self
-fn Yargs::argv(Self) -> Argv
-fn Yargs::array(Self, String) -> Self
-fn Yargs::as_any(Self) -> @nostd.Any
-fn Yargs::boolean(Self, String) -> Self
-fn Yargs::choices(Self, String, Array[String]) -> Self
-fn Yargs::command(Self, String, String) -> Self
-fn Yargs::command_module(Self, @nostd.Any) -> Self
-fn Yargs::command_with_handler(Self, String, String, @nostd.Any, @nostd.Any) -> Self
-fn Yargs::count(Self, String) -> Self
-fn Yargs::default(Self, String, @nostd.Any) -> Self
-fn Yargs::demandCommand(Self, Int) -> Self
-fn Yargs::demandCommand_full(Self, Int, Int, minMsg? : String, maxMsg? : String) -> Self
-fn Yargs::demandOption(Self, String, message? : String) -> Self
-fn Yargs::describe(Self, String, String) -> Self
-fn Yargs::epilog(Self, String) -> Self
-fn Yargs::example(Self, String, String) -> Self
-fn Yargs::exitProcess(Self, Bool) -> Self
-fn Yargs::help(Self, option? : String, description? : String) -> Self
-fn Yargs::locale(Self, String) -> Self
-fn Yargs::number(Self, String) -> Self
-fn Yargs::option(Self, String, alias_? : String, type_? : String, description? : String, default? : @nostd.Any, demandOption? : Bool, choices? : Array[String], array? : Bool) -> Self
-fn Yargs::parse(Self) -> Argv
-async fn Yargs::parseAsync(Self) -> Argv
-async fn Yargs::parseAsync_args(Self, Array[String]) -> Argv
-fn Yargs::parse_args(Self, Array[String]) -> Argv
-fn Yargs::positional(Self, String, type_? : String, description? : String, default? : @nostd.Any, choices? : Array[String]) -> Self
-fn Yargs::scriptName(Self, String) -> Self
-fn Yargs::showHelp(Self) -> Unit
-fn Yargs::showVersion(Self) -> Unit
-fn Yargs::strict(Self, enabled? : Bool) -> Self
-fn Yargs::strictCommands(Self, enabled? : Bool) -> Self
-fn Yargs::strictOptions(Self, enabled? : Bool) -> Self
-fn Yargs::string(Self, String) -> Self
-fn Yargs::usage(Self, String) -> Self
-fn Yargs::version(Self, version? : String, option? : String, description? : String) -> Self
-fn Yargs::wrap(Self, Int) -> Self
+pub fn Yargs::alias_(Self, String, String) -> Self
+pub fn Yargs::argv(Self) -> Argv
+pub fn Yargs::array(Self, String) -> Self
+pub fn Yargs::as_any(Self) -> @core.Any
+pub fn Yargs::boolean(Self, String) -> Self
+pub fn Yargs::choices(Self, String, Array[String]) -> Self
+pub fn Yargs::command(Self, String, String) -> Self
+pub fn Yargs::command_module(Self, @core.Any) -> Self
+pub fn Yargs::command_with_handler(Self, String, String, @core.Any, @core.Any) -> Self
+pub fn Yargs::count(Self, String) -> Self
+pub fn Yargs::default(Self, String, @core.Any) -> Self
+pub fn Yargs::demandCommand(Self, Int) -> Self
+pub fn Yargs::demandCommand_full(Self, Int, Int, minMsg? : String, maxMsg? : String) -> Self
+pub fn Yargs::demandOption(Self, String, message? : String) -> Self
+pub fn Yargs::describe(Self, String, String) -> Self
+pub fn Yargs::epilog(Self, String) -> Self
+pub fn Yargs::example(Self, String, String) -> Self
+pub fn Yargs::exitProcess(Self, Bool) -> Self
+pub fn Yargs::help(Self, option? : String, description? : String) -> Self
+pub fn Yargs::locale(Self, String) -> Self
+pub fn Yargs::number(Self, String) -> Self
+pub fn Yargs::option(Self, String, alias_? : String, type_? : String, description? : String, default? : @core.Any, demandOption? : Bool, choices? : Array[String], array? : Bool) -> Self
+pub fn Yargs::parse(Self) -> Argv
+pub async fn Yargs::parseAsync(Self) -> Argv
+pub async fn Yargs::parseAsync_args(Self, Array[String]) -> Argv
+pub fn Yargs::parse_args(Self, Array[String]) -> Argv
+pub fn Yargs::positional(Self, String, type_? : String, description? : String, default? : @core.Any, choices? : Array[String]) -> Self
+pub fn Yargs::scriptName(Self, String) -> Self
+pub fn Yargs::showHelp(Self) -> Unit
+pub fn Yargs::showVersion(Self) -> Unit
+pub fn Yargs::strict(Self, enabled? : Bool) -> Self
+pub fn Yargs::strictCommands(Self, enabled? : Bool) -> Self
+pub fn Yargs::strictOptions(Self, enabled? : Bool) -> Self
+pub fn Yargs::string(Self, String) -> Self
+pub fn Yargs::usage(Self, String) -> Self
+pub fn Yargs::version(Self, version? : String, option? : String, description? : String) -> Self
+pub fn Yargs::wrap(Self, Int) -> Self
 
 // Type aliases
 

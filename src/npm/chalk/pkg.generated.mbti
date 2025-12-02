@@ -2,141 +2,141 @@
 package "mizchi/js/npm/chalk"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
 #alias(bg_black)
-fn bgBlack(String) -> String
+pub fn bgBlack(String) -> String
 
 #alias(bg_blue)
-fn bgBlue(String) -> String
+pub fn bgBlue(String) -> String
 
 #alias(bg_cyan)
-fn bgCyan(String) -> String
+pub fn bgCyan(String) -> String
 
 #alias(bg_green)
-fn bgGreen(String) -> String
+pub fn bgGreen(String) -> String
 
 #alias(bg_hex)
-fn bgHex(String) -> ChalkInstance
+pub fn bgHex(String) -> ChalkInstance
 
 #alias(bg_magenta)
-fn bgMagenta(String) -> String
+pub fn bgMagenta(String) -> String
 
 #alias(bg_red)
-fn bgRed(String) -> String
+pub fn bgRed(String) -> String
 
 #alias(bg_rgb)
-fn bgRgb(Int, Int, Int) -> ChalkInstance
+pub fn bgRgb(Int, Int, Int) -> ChalkInstance
 
 #alias(bg_white)
-fn bgWhite(String) -> String
+pub fn bgWhite(String) -> String
 
 #alias(bg_yellow)
-fn bgYellow(String) -> String
+pub fn bgYellow(String) -> String
 
-fn black(String) -> String
+pub fn black(String) -> String
 
-fn blue(String) -> String
+pub fn blue(String) -> String
 
 #alias(blue_bright)
-fn blueBright(String) -> String
+pub fn blueBright(String) -> String
 
-fn bold(String) -> String
+pub fn bold(String) -> String
 
-fn cyan(String) -> String
+pub fn cyan(String) -> String
 
 #alias(cyan_bright)
-fn cyanBright(String) -> String
+pub fn cyanBright(String) -> String
 
-fn dim(String) -> String
+pub fn dim(String) -> String
 
-fn gray(String) -> String
+pub fn gray(String) -> String
 
-fn green(String) -> String
+pub fn green(String) -> String
 
 #alias(green_bright)
-fn greenBright(String) -> String
+pub fn greenBright(String) -> String
 
-fn grey(String) -> String
+pub fn grey(String) -> String
 
-fn hex(String) -> ChalkInstance
+pub fn hex(String) -> ChalkInstance
 
-fn hidden(String) -> String
+pub fn hidden(String) -> String
 
-fn instance() -> ChalkInstance
+pub fn instance() -> ChalkInstance
 
-fn inverse(String) -> String
+pub fn inverse(String) -> String
 
-fn italic(String) -> String
+pub fn italic(String) -> String
 
-fn magenta(String) -> String
+pub fn magenta(String) -> String
 
 #alias(magenta_bright)
-fn magentaBright(String) -> String
+pub fn magentaBright(String) -> String
 
-fn red(String) -> String
+pub fn red(String) -> String
 
 #alias(red_bright)
-fn redBright(String) -> String
+pub fn redBright(String) -> String
 
-fn rgb(Int, Int, Int) -> ChalkInstance
+pub fn rgb(Int, Int, Int) -> ChalkInstance
 
-fn strikethrough(String) -> String
+pub fn strikethrough(String) -> String
 
-fn underline(String) -> String
+pub fn underline(String) -> String
 
-fn visible(String) -> String
+pub fn visible(String) -> String
 
-fn white(String) -> String
+pub fn white(String) -> String
 
 #alias(white_bright)
-fn whiteBright(String) -> String
+pub fn whiteBright(String) -> String
 
-fn yellow(String) -> String
+pub fn yellow(String) -> String
 
 #alias(yellow_bright)
-fn yellowBright(String) -> String
+pub fn yellowBright(String) -> String
 
 // Errors
 
 // Types and methods
 #external
 pub type ChalkInstance
-fn ChalkInstance::apply(Self, String) -> String
-fn ChalkInstance::as_any(Self) -> @nostd.Any
+pub fn ChalkInstance::apply(Self, String) -> String
+pub fn ChalkInstance::as_any(Self) -> @core.Any
 #alias(bg_black)
-fn ChalkInstance::bgBlack(Self) -> Self
+pub fn ChalkInstance::bgBlack(Self) -> Self
 #alias(bg_blue)
-fn ChalkInstance::bgBlue(Self) -> Self
+pub fn ChalkInstance::bgBlue(Self) -> Self
 #alias(bg_cyan)
-fn ChalkInstance::bgCyan(Self) -> Self
+pub fn ChalkInstance::bgCyan(Self) -> Self
 #alias(bg_green)
-fn ChalkInstance::bgGreen(Self) -> Self
+pub fn ChalkInstance::bgGreen(Self) -> Self
 #alias(bg_magenta)
-fn ChalkInstance::bgMagenta(Self) -> Self
+pub fn ChalkInstance::bgMagenta(Self) -> Self
 #alias(bg_red)
-fn ChalkInstance::bgRed(Self) -> Self
+pub fn ChalkInstance::bgRed(Self) -> Self
 #alias(bg_white)
-fn ChalkInstance::bgWhite(Self) -> Self
+pub fn ChalkInstance::bgWhite(Self) -> Self
 #alias(bg_yellow)
-fn ChalkInstance::bgYellow(Self) -> Self
-fn ChalkInstance::black(Self) -> Self
-fn ChalkInstance::blue(Self) -> Self
-fn ChalkInstance::bold(Self) -> Self
-fn ChalkInstance::cyan(Self) -> Self
-fn ChalkInstance::dim(Self) -> Self
-fn ChalkInstance::gray(Self) -> Self
-fn ChalkInstance::green(Self) -> Self
-fn ChalkInstance::inverse(Self) -> Self
-fn ChalkInstance::italic(Self) -> Self
-fn ChalkInstance::magenta(Self) -> Self
-fn ChalkInstance::red(Self) -> Self
-fn ChalkInstance::strikethrough(Self) -> Self
-fn ChalkInstance::underline(Self) -> Self
-fn ChalkInstance::white(Self) -> Self
-fn ChalkInstance::yellow(Self) -> Self
+pub fn ChalkInstance::bgYellow(Self) -> Self
+pub fn ChalkInstance::black(Self) -> Self
+pub fn ChalkInstance::blue(Self) -> Self
+pub fn ChalkInstance::bold(Self) -> Self
+pub fn ChalkInstance::cyan(Self) -> Self
+pub fn ChalkInstance::dim(Self) -> Self
+pub fn ChalkInstance::gray(Self) -> Self
+pub fn ChalkInstance::green(Self) -> Self
+pub fn ChalkInstance::inverse(Self) -> Self
+pub fn ChalkInstance::italic(Self) -> Self
+pub fn ChalkInstance::magenta(Self) -> Self
+pub fn ChalkInstance::red(Self) -> Self
+pub fn ChalkInstance::strikethrough(Self) -> Self
+pub fn ChalkInstance::underline(Self) -> Self
+pub fn ChalkInstance::white(Self) -> Self
+pub fn ChalkInstance::yellow(Self) -> Self
 
 // Type aliases
 

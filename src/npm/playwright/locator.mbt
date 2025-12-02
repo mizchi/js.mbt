@@ -8,7 +8,7 @@
 pub type Locator
 
 ///|
-pub fn Locator::to_any(self : Locator) -> @nostd.Any = "%identity"
+pub fn Locator::to_any(self : Locator) -> @core.Any = "%identity"
 
 ///| Filtering Methods
 
@@ -21,7 +21,7 @@ pub fn Locator::filter(
   hasText? : String,
   hasNotText? : String,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if has is Some(v) {
     options["has"] = v.to_any()
   }
@@ -29,36 +29,36 @@ pub fn Locator::filter(
     options["hasNot"] = v.to_any()
   }
   if hasText is Some(v) {
-    options["hasText"] = @nostd.any(v)
+    options["hasText"] = @core.any(v)
   }
   if hasNotText is Some(v) {
-    options["hasNotText"] = @nostd.any(v)
+    options["hasNotText"] = @core.any(v)
   }
-  self.to_any()._call("filter", [options]) |> @nostd.identity
+  self.to_any()._call("filter", [options]) |> @core.identity
 }
 
 ///|
 /// Get first element
 pub fn Locator::first(self : Locator) -> Locator {
-  self.to_any()._call("first", []) |> @nostd.identity
+  self.to_any()._call("first", []) |> @core.identity
 }
 
 ///|
 /// Get last element
 pub fn Locator::last(self : Locator) -> Locator {
-  self.to_any()._call("last", []) |> @nostd.identity
+  self.to_any()._call("last", []) |> @core.identity
 }
 
 ///|
 /// Get nth element (0-indexed)
 pub fn Locator::nth(self : Locator, index : Int) -> Locator {
-  self.to_any()._call("nth", [@nostd.any(index)]) |> @nostd.identity
+  self.to_any()._call("nth", [@core.any(index)]) |> @core.identity
 }
 
 ///|
 /// Get locator within this locator
 pub fn Locator::locator(self : Locator, selector : String) -> Locator {
-  self.to_any()._call("locator", [@nostd.any(selector)]) |> @nostd.identity
+  self.to_any()._call("locator", [@core.any(selector)]) |> @core.identity
 }
 
 ///|
@@ -69,15 +69,14 @@ pub fn Locator::getByRole(
   name? : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if name is Some(v) {
-    options["name"] = @nostd.any(v)
+    options["name"] = @core.any(v)
   }
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByRole", [@nostd.any(role), options])
-  |> @nostd.identity
+  self.to_any()._call("getByRole", [@core.any(role), options]) |> @core.identity
 }
 
 ///|
@@ -87,12 +86,11 @@ pub fn Locator::getByText(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByText", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByText", [@core.any(text), options]) |> @core.identity
 }
 
 ///|
@@ -102,12 +100,12 @@ pub fn Locator::getByLabel(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByLabel", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByLabel", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
@@ -117,18 +115,18 @@ pub fn Locator::getByPlaceholder(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByPlaceholder", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByPlaceholder", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
 /// Get by test ID within this locator
 pub fn Locator::getByTestId(self : Locator, testId : String) -> Locator {
-  self.to_any()._call("getByTestId", [@nostd.any(testId)]) |> @nostd.identity
+  self.to_any()._call("getByTestId", [@core.any(testId)]) |> @core.identity
 }
 
 ///| Action Methods
@@ -147,39 +145,39 @@ pub async fn Locator::click(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if button is Some(v) {
-    options["button"] = @nostd.any(v)
+    options["button"] = @core.any(v)
   }
   if clickCount is Some(v) {
-    options["clickCount"] = @nostd.any(v)
+    options["clickCount"] = @core.any(v)
   }
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@nostd.any(v))
+    options["modifiers"] = @core.any(@core.any(v))
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if position is Some((x, y)) {
-    let pos = @nostd.Object::new()
-    pos["x"] = @nostd.any(x)
-    pos["y"] = @nostd.any(y)
+    let pos = @core.Object::new()
+    pos["x"] = @core.any(x)
+    pos["y"] = @core.any(y)
     options["position"] = pos
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if trial is Some(v) {
-    options["trial"] = @nostd.any(v)
+    options["trial"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("click", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -190,15 +188,15 @@ pub async fn Locator::dblclick(
   timeout? : Int,
   force? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("dblclick", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -211,20 +209,20 @@ pub async fn Locator::fill(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("fill", [@nostd.any(value), options])
-    |> @nostd.identity
+    ._call("fill", [@core.any(value), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -236,18 +234,18 @@ pub async fn Locator::clear(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("clear", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -260,20 +258,20 @@ pub async fn Locator::type_(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("type", [@nostd.any(text), options])
-    |> @nostd.identity
+    ._call("type", [@core.any(text), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -286,20 +284,20 @@ pub async fn Locator::press(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("press", [@nostd.any(key), options])
-    |> @nostd.identity
+    ._call("press", [@core.any(key), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -311,18 +309,18 @@ pub async fn Locator::check(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("check", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -334,18 +332,18 @@ pub async fn Locator::uncheck(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("uncheck", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -358,20 +356,20 @@ pub async fn Locator::setChecked(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setChecked", [@nostd.any(checked), options])
-    |> @nostd.identity
+    ._call("setChecked", [@core.any(checked), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -379,25 +377,25 @@ pub async fn Locator::setChecked(
 /// Select option(s) in dropdown
 pub async fn Locator::selectOption(
   self : Locator,
-  values : @nostd.Any,
+  values : @core.Any,
   force? : Bool,
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Array[String] {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Array[String]] = self
     .to_any()
-    ._call("selectOption", [@nostd.any(values), options])
-    |> @nostd.identity
+    ._call("selectOption", [@core.any(values), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -411,51 +409,51 @@ pub async fn Locator::hover(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@nostd.any(v))
+    options["modifiers"] = @core.any(@core.any(v))
   }
   if position is Some((x, y)) {
-    let pos = @nostd.Object::new()
-    pos["x"] = @nostd.any(x)
-    pos["y"] = @nostd.any(y)
+    let pos = @core.Object::new()
+    pos["x"] = @core.any(x)
+    pos["y"] = @core.any(y)
     options["position"] = pos
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if trial is Some(v) {
-    options["trial"] = @nostd.any(v)
+    options["trial"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("hover", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Focus element
 pub async fn Locator::focus(self : Locator, timeout? : Int) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("focus", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Blur element
 pub async fn Locator::blur(self : Locator, timeout? : Int) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("blur", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -465,14 +463,14 @@ pub async fn Locator::scrollIntoViewIfNeeded(
   self : Locator,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("scrollIntoViewIfNeeded", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -481,44 +479,44 @@ pub async fn Locator::scrollIntoViewIfNeeded(
 ///|
 /// Get inner text
 pub async fn Locator::innerText(self : Locator, timeout? : Int) -> String {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[String] = self
     .to_any()
     ._call("innerText", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get inner HTML
 pub async fn Locator::innerHTML(self : Locator, timeout? : Int) -> String {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[String] = self
     .to_any()
     ._call("innerHTML", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get text content
 pub async fn Locator::textContent(self : Locator, timeout? : Int) -> String? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("textContent", [options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -531,7 +529,7 @@ pub async fn Locator::allTextContents(self : Locator) -> Array[String] {
   let promise : @js.Promise[Array[String]] = self
     .to_any()
     ._call("allTextContents", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -541,7 +539,7 @@ pub async fn Locator::allInnerTexts(self : Locator) -> Array[String] {
   let promise : @js.Promise[Array[String]] = self
     .to_any()
     ._call("allInnerTexts", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -552,16 +550,16 @@ pub async fn Locator::getAttribute(
   name : String,
   timeout? : Int,
 ) -> String? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("getAttribute", [@nostd.any(name), options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    ._call("getAttribute", [@core.any(name), options])
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -571,86 +569,86 @@ pub async fn Locator::getAttribute(
 ///|
 /// Get input value
 pub async fn Locator::inputValue(self : Locator, timeout? : Int) -> String {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[String] = self
     .to_any()
     ._call("inputValue", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if element is visible
 pub async fn Locator::isVisible(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isVisible", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if element is hidden
 pub async fn Locator::isHidden(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isHidden", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if element is enabled
 pub async fn Locator::isEnabled(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isEnabled", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if element is disabled
 pub async fn Locator::isDisabled(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isDisabled", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if element is editable
 pub async fn Locator::isEditable(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isEditable", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Check if checkbox is checked
 pub async fn Locator::isChecked(self : Locator, timeout? : Int) -> Bool {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Bool] = self.to_any()._call("isChecked", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -658,21 +656,21 @@ pub async fn Locator::isChecked(self : Locator, timeout? : Int) -> Bool {
 /// Get element count
 pub async fn Locator::count(self : Locator) -> Int {
   let promise : @js.Promise[Int] = self.to_any()._call("count", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get bounding box
-pub async fn Locator::boundingBox(self : Locator, timeout? : Int) -> @nostd.Any {
-  let options = @nostd.Object::new()
+pub async fn Locator::boundingBox(self : Locator, timeout? : Int) -> @core.Any {
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("boundingBox", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -685,15 +683,15 @@ pub async fn Locator::waitFor(
   state? : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if state is Some(v) {
-    options["state"] = @nostd.any(v)
+    options["state"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("waitFor", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -709,30 +707,30 @@ pub async fn Locator::screenshot(
   omitBackground? : Bool,
   timeout? : Int,
   scale? : String,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if type_ is Some(v) {
-    options["type"] = @nostd.any(v)
+    options["type"] = @core.any(v)
   }
   if quality is Some(v) {
-    options["quality"] = @nostd.any(v)
+    options["quality"] = @core.any(v)
   }
   if omitBackground is Some(v) {
-    options["omitBackground"] = @nostd.any(v)
+    options["omitBackground"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if scale is Some(v) {
-    options["scale"] = @nostd.any(v)
+    options["scale"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("screenshot", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -743,22 +741,22 @@ pub async fn Locator::screenshot(
 pub async fn Locator::evaluate(
   self : Locator,
   pageFunction : String,
-  arg? : @nostd.Any,
+  arg? : @core.Any,
   timeout? : Int,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = match arg {
+  let promise : @js.Promise[@core.Any] = match arg {
     Some(a) =>
       self
       .to_any()
-      ._call("evaluate", [@nostd.any(pageFunction), @nostd.any(a), options])
-      |> @nostd.identity
+      ._call("evaluate", [@core.any(pageFunction), @core.any(a), options])
+      |> @core.identity
     None =>
-      self.to_any()._call("evaluate", [@nostd.any(pageFunction), options])
-      |> @nostd.identity
+      self.to_any()._call("evaluate", [@core.any(pageFunction), options])
+      |> @core.identity
   }
   promise.wait()
 }
@@ -768,17 +766,17 @@ pub async fn Locator::evaluate(
 pub async fn Locator::evaluateAll(
   self : Locator,
   pageFunction : String,
-  arg? : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = match arg {
+  arg? : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = match arg {
     Some(a) =>
       self
       .to_any()
-      ._call("evaluateAll", [@nostd.any(pageFunction), @nostd.any(a)])
-      |> @nostd.identity
+      ._call("evaluateAll", [@core.any(pageFunction), @core.any(a)])
+      |> @core.identity
     None =>
-      self.to_any()._call("evaluateAll", [@nostd.any(pageFunction)])
-      |> @nostd.identity
+      self.to_any()._call("evaluateAll", [@core.any(pageFunction)])
+      |> @core.identity
   }
   promise.wait()
 }

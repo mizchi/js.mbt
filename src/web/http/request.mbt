@@ -1,12 +1,12 @@
 ///|
-extern "js" fn ffi_request_new(url : String) -> @nostd.Any =
+extern "js" fn ffi_request_new(url : String) -> @core.Any =
   #| (url) => new Request(url)
 
 ///|
 extern "js" fn ffi_request_new_with_init(
   url : String,
-  init : @nostd.Any,
-) -> @nostd.Any =
+  init : @core.Any,
+) -> @core.Any =
   #| (url, init) => new Request(url, init)
 
 ///|
@@ -15,7 +15,7 @@ extern "js" fn ffi_request_new_with_init(
 pub struct RequestInit {
   priv method_ : String?
   priv headers : Headers?
-  priv body : @nostd.Any?
+  priv body : @core.Any?
   priv mode : String?
   priv credentials : String?
   priv cache : String?
@@ -32,7 +32,7 @@ pub struct RequestInit {
 pub fn RequestInit::new(
   http_method? : String = "GET",
   headers? : Headers,
-  body? : @nostd.Any,
+  body? : @core.Any,
   mode? : String,
   credentials? : String,
   cache? : String,
@@ -62,21 +62,21 @@ pub fn RequestInit::new(
 }
 
 ///|
-pub fn RequestInit::as_any(self : RequestInit) -> @nostd.Any {
+pub fn RequestInit::as_any(self : RequestInit) -> @core.Any {
   @mbtconv.from_option_map({
-    "method": self.method_.map(fn(x) { @nostd.any(x) }),
-    "headers": self.headers.map(fn(x) { @nostd.identity(x.as_any()) }),
-    "body": self.body.map(fn(x) { @nostd.identity(x) }),
-    "mode": self.mode.map(fn(x) { @nostd.any(x) }),
-    "credentials": self.credentials.map(fn(x) { @nostd.any(x) }),
-    "cache": self.cache.map(fn(x) { @nostd.any(x) }),
-    "redirect": self.redirect.map(fn(x) { @nostd.any(x) }),
-    "referrer": self.referrer.map(fn(x) { @nostd.any(x) }),
-    "referrerPolicy": self.referrerPolicy.map(fn(x) { @nostd.any(x) }),
-    "integrity": self.integrity.map(fn(x) { @nostd.any(x) }),
-    "keepalive": self.keepalive.map(fn(x) { @nostd.any(x) }),
-    "signal": self.signal.map(fn(x) { @nostd.identity(x) }),
-    "priority": self.priority.map(fn(x) { @nostd.any(x) }),
+    "method": self.method_.map(fn(x) { @core.any(x) }),
+    "headers": self.headers.map(fn(x) { @core.identity(x.as_any()) }),
+    "body": self.body.map(fn(x) { @core.identity(x) }),
+    "mode": self.mode.map(fn(x) { @core.any(x) }),
+    "credentials": self.credentials.map(fn(x) { @core.any(x) }),
+    "cache": self.cache.map(fn(x) { @core.any(x) }),
+    "redirect": self.redirect.map(fn(x) { @core.any(x) }),
+    "referrer": self.referrer.map(fn(x) { @core.any(x) }),
+    "referrerPolicy": self.referrerPolicy.map(fn(x) { @core.any(x) }),
+    "integrity": self.integrity.map(fn(x) { @core.any(x) }),
+    "keepalive": self.keepalive.map(fn(x) { @core.any(x) }),
+    "signal": self.signal.map(fn(x) { @core.identity(x) }),
+    "priority": self.priority.map(fn(x) { @core.any(x) }),
   }).cast()
 }
 
@@ -94,7 +94,7 @@ pub fn RequestInit::get_headers(self : RequestInit) -> Headers? {
 
 ///|
 /// Get the body
-pub fn RequestInit::get_body(self : RequestInit) -> @nostd.Any? {
+pub fn RequestInit::get_body(self : RequestInit) -> @core.Any? {
   self.body
 }
 
@@ -167,20 +167,20 @@ pub(all) struct Request {
 }
 
 ///|
-pub fn Request::as_any(self : Request) -> @nostd.Any = "%identity"
+pub fn Request::as_any(self : Request) -> @core.Any = "%identity"
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
 pub fn Request::new(url : String) -> Request {
   let req = ffi_request_new(url)
-  @nostd.identity(req)
+  @core.identity(req)
 }
 
 ///|
 /// Create a new Request with init options
 pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
   let req = ffi_request_new_with_init(url, init.as_any())
-  @nostd.identity(req)
+  @core.identity(req)
 }
 
 ///|
@@ -196,8 +196,8 @@ pub fn Request::clone(self : Request) -> Request {
 }
 
 ///|
-pub async fn Request::json(self : Request) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("json", []).cast()
+pub async fn Request::json(self : Request) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 

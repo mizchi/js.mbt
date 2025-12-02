@@ -2,86 +2,85 @@
 package "mizchi/js/node/os"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn arch() -> String
+pub fn arch() -> String
 
 #alias(available_parallelism)
-fn availableParallelism() -> Int
+pub fn availableParallelism() -> Int
 
-fn cpus() -> Array[CpuInfo]
+pub fn cpus() -> Array[CpuInfo]
 
 #alias(dev_null)
-fn devNull() -> String
+pub fn devNull() -> String
 
-fn endianness() -> String
+pub fn endianness() -> String
 
-fn eol() -> String
+pub fn eol() -> String
 
-fn freemem() -> Double
+pub fn freemem() -> Double
 
 #alias(get_priority)
-fn getPriority(pid~ : Int?) -> Int
+pub fn getPriority(pid~ : Int?) -> Int
 
-fn homedir() -> String
+pub fn homedir() -> String
 
-fn hostname() -> String
+pub fn hostname() -> String
 
-fn loadavg() -> Array[Double]
+pub fn loadavg() -> Array[Double]
 
-fn machine() -> String
+pub fn machine() -> String
 
 #alias(network_interfaces)
-fn networkInterfaces() -> @nostd.Any
+pub fn networkInterfaces() -> @core.Any
 
-fn platform() -> String
+pub fn platform() -> String
 
-fn release() -> String
+pub fn release() -> String
 
 #alias(set_priority)
-fn setPriority(Int, pid~ : Int?) -> Unit
+pub fn setPriority(Int, pid~ : Int?) -> Unit
 
-fn tmpdir() -> String
+pub fn tmpdir() -> String
 
-fn totalmem() -> Double
+pub fn totalmem() -> Double
 
-fn type_() -> String
+pub fn type_() -> String
 
-fn uptime() -> Double
+pub fn uptime() -> Double
 
 #alias(userinfo)
-fn userInfo() -> UserInfo
+pub fn userInfo() -> UserInfo
 
 #alias(userinfo_with_encoding)
-fn userInfoWithEncoding(String) -> UserInfo
+pub fn userInfoWithEncoding(String) -> UserInfo
 
-fn version() -> String
+pub fn version() -> String
 
 // Errors
 
 // Types and methods
 #external
 pub type CpuInfo
-fn CpuInfo::as_any(Self) -> @nostd.Any
-fn CpuInfo::model(Self) -> String
-fn CpuInfo::speed(Self) -> Int
-fn CpuInfo::times_idle(Self) -> Int
-fn CpuInfo::times_irq(Self) -> Int
-fn CpuInfo::times_nice(Self) -> Int
-fn CpuInfo::times_sys(Self) -> Int
-fn CpuInfo::times_user(Self) -> Int
+pub fn CpuInfo::model(Self) -> String
+pub fn CpuInfo::speed(Self) -> Int
+pub fn CpuInfo::times_idle(Self) -> Int
+pub fn CpuInfo::times_irq(Self) -> Int
+pub fn CpuInfo::times_nice(Self) -> Int
+pub fn CpuInfo::times_sys(Self) -> Int
+pub fn CpuInfo::times_user(Self) -> Int
+pub fn CpuInfo::to_any(Self) -> @core.Any
 
 #external
 pub type UserInfo
-fn UserInfo::as_any(Self) -> @nostd.Any
-fn UserInfo::gid(Self) -> Int
-fn UserInfo::homedir(Self) -> String
-fn UserInfo::shell(Self) -> String?
-fn UserInfo::uid(Self) -> Int
-fn UserInfo::username(Self) -> String
+pub fn UserInfo::gid(Self) -> Int
+pub fn UserInfo::homedir(Self) -> String
+pub fn UserInfo::shell(Self) -> String?
+pub fn UserInfo::to_any(Self) -> @core.Any
+pub fn UserInfo::uid(Self) -> Int
+pub fn UserInfo::username(Self) -> String
 
 // Type aliases
 

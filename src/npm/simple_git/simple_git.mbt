@@ -12,7 +12,7 @@
 pub type SimpleGit
 
 ///|
-pub extern "js" fn SimpleGit::as_any(self : SimpleGit) -> @nostd.Any =
+pub extern "js" fn SimpleGit::as_any(self : SimpleGit) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -21,7 +21,7 @@ pub extern "js" fn SimpleGit::as_any(self : SimpleGit) -> @nostd.Any =
 pub type StatusResult
 
 ///|
-pub extern "js" fn StatusResult::as_any(self : StatusResult) -> @nostd.Any =
+pub extern "js" fn StatusResult::as_any(self : StatusResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -30,7 +30,7 @@ pub extern "js" fn StatusResult::as_any(self : StatusResult) -> @nostd.Any =
 pub type LogResult
 
 ///|
-pub extern "js" fn LogResult::as_any(self : LogResult) -> @nostd.Any =
+pub extern "js" fn LogResult::as_any(self : LogResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -39,7 +39,7 @@ pub extern "js" fn LogResult::as_any(self : LogResult) -> @nostd.Any =
 pub type BranchSummary
 
 ///|
-pub extern "js" fn BranchSummary::as_any(self : BranchSummary) -> @nostd.Any =
+pub extern "js" fn BranchSummary::as_any(self : BranchSummary) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -48,7 +48,7 @@ pub extern "js" fn BranchSummary::as_any(self : BranchSummary) -> @nostd.Any =
 pub type DiffResult
 
 ///|
-pub extern "js" fn DiffResult::as_any(self : DiffResult) -> @nostd.Any =
+pub extern "js" fn DiffResult::as_any(self : DiffResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -57,7 +57,7 @@ pub extern "js" fn DiffResult::as_any(self : DiffResult) -> @nostd.Any =
 pub type FetchResult
 
 ///|
-pub extern "js" fn FetchResult::as_any(self : FetchResult) -> @nostd.Any =
+pub extern "js" fn FetchResult::as_any(self : FetchResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -66,7 +66,7 @@ pub extern "js" fn FetchResult::as_any(self : FetchResult) -> @nostd.Any =
 pub type PullResult
 
 ///|
-pub extern "js" fn PullResult::as_any(self : PullResult) -> @nostd.Any =
+pub extern "js" fn PullResult::as_any(self : PullResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -75,7 +75,7 @@ pub extern "js" fn PullResult::as_any(self : PullResult) -> @nostd.Any =
 pub type CommitResult
 
 ///|
-pub extern "js" fn CommitResult::as_any(self : CommitResult) -> @nostd.Any =
+pub extern "js" fn CommitResult::as_any(self : CommitResult) -> @core.Any =
   #| (x) => x
 
 ///| Constructor FFI
@@ -89,7 +89,7 @@ extern "js" fn ffi_simple_git_with_path(base_dir : String) -> SimpleGit =
   #| (base_dir) => require('simple-git')(base_dir)
 
 ///|
-extern "js" fn ffi_simple_git_with_options(options : @nostd.Any) -> SimpleGit =
+extern "js" fn ffi_simple_git_with_options(options : @core.Any) -> SimpleGit =
   #| (options) => require('simple-git')(options)
 
 ///| Constructor
@@ -114,18 +114,18 @@ pub fn simpleGit(
     trimmed is None {
     return ffi_simple_git_with_path(dir)
   }
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if base_dir is Some(v) {
-    options["baseDir"] = @nostd.any(v)
+    options["baseDir"] = @core.any(v)
   }
   if binary is Some(v) {
-    options["binary"] = @nostd.any(v)
+    options["binary"] = @core.any(v)
   }
   if maxConcurrentProcesses is Some(v) {
-    options["maxConcurrentProcesses"] = @nostd.any(v)
+    options["maxConcurrentProcesses"] = @core.any(v)
   }
   if trimmed is Some(v) {
-    options["trimmed"] = @nostd.any(v)
+    options["trimmed"] = @core.any(v)
   }
   ffi_simple_git_with_options(options)
 }
@@ -133,7 +133,7 @@ pub fn simpleGit(
 ///| Init/Clone FFI
 
 ///|
-extern "js" fn ffi_init(git : SimpleGit, bare : Bool) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_init(git : SimpleGit, bare : Bool) -> @core.Promise[Unit] =
   #| (git, bare) => git.init(bare)
 
 ///|
@@ -141,7 +141,7 @@ extern "js" fn ffi_clone(
   git : SimpleGit,
   repo_path : String,
   local_path : String,
-) -> @nostd.Promise[String] =
+) -> @core.Promise[String] =
   #| (git, repo_path, local_path) => git.clone(repo_path, local_path)
 
 ///|
@@ -149,8 +149,8 @@ extern "js" fn ffi_clone_with_options(
   git : SimpleGit,
   repo_path : String,
   local_path : String,
-  options : @nostd.Any,
-) -> @nostd.Promise[String] =
+  options : @core.Any,
+) -> @core.Promise[String] =
   #| (git, repo_path, local_path, options) => git.clone(repo_path, local_path, options)
 
 ///| Init/Clone Methods
@@ -182,7 +182,7 @@ pub async fn SimpleGit::clone(
       options.push("--depth")
       options.push(d.to_string())
     }
-    ffi_clone_with_options(self, repo_path, local_path, @nostd.any(options)).wait()
+    ffi_clone_with_options(self, repo_path, local_path, @core.any(options)).wait()
   }
 }
 
@@ -191,24 +191,24 @@ pub async fn SimpleGit::clone(
 ///|
 extern "js" fn ffi_add(
   git : SimpleGit,
-  files : @nostd.Any,
-) -> @nostd.Promise[Unit] =
+  files : @core.Any,
+) -> @core.Promise[Unit] =
   #| (git, files) => git.add(files)
 
 ///|
 extern "js" fn ffi_commit(
   git : SimpleGit,
   message : String,
-  files : @nostd.Any,
-  options : @nostd.Any,
-) -> @nostd.Promise[CommitResult] =
+  files : @core.Any,
+  options : @core.Any,
+) -> @core.Promise[CommitResult] =
   #| (git, message, files, options) => git.commit(message, files, options)
 
 ///|
 extern "js" fn ffi_commit_simple(
   git : SimpleGit,
   message : String,
-) -> @nostd.Promise[CommitResult] =
+) -> @core.Promise[CommitResult] =
   #| (git, message) => git.commit(message)
 
 ///| Add/Commit Methods
@@ -216,19 +216,19 @@ extern "js" fn ffi_commit_simple(
 ///|
 /// Add files to staging area
 pub async fn SimpleGit::add(self : SimpleGit, files : Array[String]) -> Unit {
-  ffi_add(self, @nostd.any(files)).wait()
+  ffi_add(self, @core.any(files)).wait()
 }
 
 ///|
 /// Add single file to staging area
 pub async fn SimpleGit::addFile(self : SimpleGit, file : String) -> Unit {
-  ffi_add(self, @nostd.any(file)).wait()
+  ffi_add(self, @core.any(file)).wait()
 }
 
 ///|
 /// Add all files to staging area
 pub async fn SimpleGit::addAll(self : SimpleGit) -> Unit {
-  ffi_add(self, @nostd.any(".")).wait()
+  ffi_add(self, @core.any(".")).wait()
 }
 
 ///|
@@ -242,16 +242,16 @@ pub async fn SimpleGit::commit(
   if files is None && author is None {
     ffi_commit_simple(self, message).wait()
   } else {
-    let file_arr : @nostd.Any = match files {
-      Some(f) => @nostd.any(f)
+    let file_arr : @core.Any = match files {
+      Some(f) => @core.any(f)
       None => {
         let empty : Array[String] = []
-        @nostd.any(empty)
+        @core.any(empty)
       }
     }
-    let opts = @nostd.Object::new()
+    let opts = @core.Object::new()
     if author is Some(a) {
-      opts["--author"] = @nostd.any(a)
+      opts["--author"] = @core.any(a)
     }
     ffi_commit(self, message, file_arr, opts).wait()
   }
@@ -264,7 +264,7 @@ extern "js" fn ffi_push(
   git : SimpleGit,
   remote : String,
   branch : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, remote, branch) => git.push(remote, branch)
 
 ///|
@@ -272,12 +272,12 @@ extern "js" fn ffi_push_with_options(
   git : SimpleGit,
   remote : String,
   branch : String,
-  options : @nostd.Any,
-) -> @nostd.Promise[Unit] =
+  options : @core.Any,
+) -> @core.Promise[Unit] =
   #| (git, remote, branch, options) => git.push(remote, branch, options)
 
 ///|
-extern "js" fn ffi_push_default(git : SimpleGit) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_push_default(git : SimpleGit) -> @core.Promise[Unit] =
   #| (git) => git.push()
 
 ///|
@@ -285,11 +285,11 @@ extern "js" fn ffi_pull(
   git : SimpleGit,
   remote : String,
   branch : String,
-) -> @nostd.Promise[PullResult] =
+) -> @core.Promise[PullResult] =
   #| (git, remote, branch) => git.pull(remote, branch)
 
 ///|
-extern "js" fn ffi_pull_default(git : SimpleGit) -> @nostd.Promise[PullResult] =
+extern "js" fn ffi_pull_default(git : SimpleGit) -> @core.Promise[PullResult] =
   #| (git) => git.pull()
 
 ///|
@@ -297,13 +297,11 @@ extern "js" fn ffi_fetch(
   git : SimpleGit,
   remote : String,
   branch : String,
-) -> @nostd.Promise[FetchResult] =
+) -> @core.Promise[FetchResult] =
   #| (git, remote, branch) => git.fetch(remote, branch)
 
 ///|
-extern "js" fn ffi_fetch_default(
-  git : SimpleGit,
-) -> @nostd.Promise[FetchResult] =
+extern "js" fn ffi_fetch_default(git : SimpleGit) -> @core.Promise[FetchResult] =
   #| (git) => git.fetch()
 
 ///| Push/Pull/Fetch Methods
@@ -336,7 +334,7 @@ pub async fn SimpleGit::push(
     if tags == Some(true) {
       options.push("--tags")
     }
-    ffi_push_with_options(self, r, b, @nostd.any(options)).wait()
+    ffi_push_with_options(self, r, b, @core.any(options)).wait()
   }
 }
 
@@ -369,7 +367,7 @@ pub async fn SimpleGit::fetch(
 ///| Status FFI
 
 ///|
-extern "js" fn ffi_status(git : SimpleGit) -> @nostd.Promise[StatusResult] =
+extern "js" fn ffi_status(git : SimpleGit) -> @core.Promise[StatusResult] =
   #| (git) => git.status()
 
 ///| Status Methods
@@ -395,27 +393,27 @@ extern "js" fn ffi_status_is_clean(status : StatusResult) -> Bool =
   #| (status) => status.isClean()
 
 ///|
-extern "js" fn ffi_status_not_added(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_not_added(status : StatusResult) -> @core.Any =
   #| (status) => status.not_added
 
 ///|
-extern "js" fn ffi_status_modified(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_modified(status : StatusResult) -> @core.Any =
   #| (status) => status.modified
 
 ///|
-extern "js" fn ffi_status_staged(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_staged(status : StatusResult) -> @core.Any =
   #| (status) => status.staged
 
 ///|
-extern "js" fn ffi_status_deleted(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_deleted(status : StatusResult) -> @core.Any =
   #| (status) => status.deleted
 
 ///|
-extern "js" fn ffi_status_created(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_created(status : StatusResult) -> @core.Any =
   #| (status) => status.created
 
 ///|
-extern "js" fn ffi_status_conflicted(status : StatusResult) -> @nostd.Any =
+extern "js" fn ffi_status_conflicted(status : StatusResult) -> @core.Any =
   #| (status) => status.conflicted
 
 ///|
@@ -449,37 +447,37 @@ pub fn StatusResult::isClean(self : StatusResult) -> Bool {
 ///|
 /// Get untracked files
 pub fn StatusResult::notAdded(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_not_added(self))
+  @core.identity(ffi_status_not_added(self))
 }
 
 ///|
 /// Get modified files
 pub fn StatusResult::modified(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_modified(self))
+  @core.identity(ffi_status_modified(self))
 }
 
 ///|
 /// Get staged files
 pub fn StatusResult::staged(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_staged(self))
+  @core.identity(ffi_status_staged(self))
 }
 
 ///|
 /// Get deleted files
 pub fn StatusResult::deleted(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_deleted(self))
+  @core.identity(ffi_status_deleted(self))
 }
 
 ///|
 /// Get created files
 pub fn StatusResult::created(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_created(self))
+  @core.identity(ffi_status_created(self))
 }
 
 ///|
 /// Get conflicted files
 pub fn StatusResult::conflicted(self : StatusResult) -> Array[String] {
-  @nostd.identity(ffi_status_conflicted(self))
+  @core.identity(ffi_status_conflicted(self))
 }
 
 ///|
@@ -497,14 +495,14 @@ pub fn StatusResult::behind(self : StatusResult) -> Int {
 ///| Log FFI
 
 ///|
-extern "js" fn ffi_log(git : SimpleGit) -> @nostd.Promise[LogResult] =
+extern "js" fn ffi_log(git : SimpleGit) -> @core.Promise[LogResult] =
   #| (git) => git.log()
 
 ///|
 extern "js" fn ffi_log_with_options(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[LogResult] =
+  options : @core.Any,
+) -> @core.Promise[LogResult] =
   #| (git, options) => git.log(options)
 
 ///| Log Methods
@@ -521,18 +519,18 @@ pub async fn SimpleGit::log(
   if max_count is None && from is None && to is None && file is None {
     ffi_log(self).wait()
   } else {
-    let options = @nostd.Object::new()
+    let options = @core.Object::new()
     if max_count is Some(n) {
-      options["maxCount"] = @nostd.any(n)
+      options["maxCount"] = @core.any(n)
     }
     if from is Some(f) {
-      options["from"] = @nostd.any(f)
+      options["from"] = @core.any(f)
     }
     if to is Some(t) {
-      options["to"] = @nostd.any(t)
+      options["to"] = @core.any(t)
     }
     if file is Some(f) {
-      options["file"] = @nostd.any(f)
+      options["file"] = @core.any(f)
     }
     ffi_log_with_options(self, options).wait()
   }
@@ -541,11 +539,11 @@ pub async fn SimpleGit::log(
 ///| LogResult accessors
 
 ///|
-extern "js" fn ffi_log_all(log : LogResult) -> @nostd.Any =
+extern "js" fn ffi_log_all(log : LogResult) -> @core.Any =
   #| (log) => log.all
 
 ///|
-extern "js" fn ffi_log_latest(log : LogResult) -> @nostd.Any =
+extern "js" fn ffi_log_latest(log : LogResult) -> @core.Any =
   #| (log) => log.latest
 
 ///|
@@ -556,13 +554,13 @@ extern "js" fn ffi_log_total(log : LogResult) -> Int =
 
 ///|
 /// Get all commits
-pub fn LogResult::all(self : LogResult) -> @nostd.Any {
+pub fn LogResult::all(self : LogResult) -> @core.Any {
   ffi_log_all(self)
 }
 
 ///|
 /// Get latest commit
-pub fn LogResult::latest(self : LogResult) -> @nostd.Any {
+pub fn LogResult::latest(self : LogResult) -> @core.Any {
   ffi_log_latest(self)
 }
 
@@ -575,20 +573,20 @@ pub fn LogResult::total(self : LogResult) -> Int {
 ///| Branch FFI
 
 ///|
-extern "js" fn ffi_branch(git : SimpleGit) -> @nostd.Promise[BranchSummary] =
+extern "js" fn ffi_branch(git : SimpleGit) -> @core.Promise[BranchSummary] =
   #| (git) => git.branch()
 
 ///|
 extern "js" fn ffi_branch_local(
   git : SimpleGit,
-) -> @nostd.Promise[BranchSummary] =
+) -> @core.Promise[BranchSummary] =
   #| (git) => git.branchLocal()
 
 ///|
 extern "js" fn ffi_checkout(
   git : SimpleGit,
   branch : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, branch) => git.checkout(branch)
 
 ///|
@@ -596,14 +594,14 @@ extern "js" fn ffi_checkout_branch(
   git : SimpleGit,
   branch : String,
   start_point : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, branch, start_point) => git.checkoutBranch(branch, start_point)
 
 ///|
 extern "js" fn ffi_checkout_local_branch(
   git : SimpleGit,
   branch : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, branch) => git.checkoutLocalBranch(branch)
 
 ///|
@@ -611,7 +609,7 @@ extern "js" fn ffi_delete_local_branch(
   git : SimpleGit,
   branch : String,
   force : Bool,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, branch, force) => git.deleteLocalBranch(branch, force)
 
 ///| Branch Methods
@@ -670,11 +668,11 @@ extern "js" fn ffi_branch_current(branch : BranchSummary) -> String =
   #| (branch) => branch.current
 
 ///|
-extern "js" fn ffi_branch_all(branch : BranchSummary) -> @nostd.Any =
+extern "js" fn ffi_branch_all(branch : BranchSummary) -> @core.Any =
   #| (branch) => branch.all
 
 ///|
-extern "js" fn ffi_branch_branches(branch : BranchSummary) -> @nostd.Any =
+extern "js" fn ffi_branch_branches(branch : BranchSummary) -> @core.Any =
   #| (branch) => branch.branches
 
 ///| BranchSummary Methods
@@ -688,30 +686,30 @@ pub fn BranchSummary::current(self : BranchSummary) -> String {
 ///|
 /// Get all branch names
 pub fn BranchSummary::all(self : BranchSummary) -> Array[String] {
-  @nostd.identity(ffi_branch_all(self))
+  @core.identity(ffi_branch_all(self))
 }
 
 ///|
 /// Get branches object
-pub fn BranchSummary::branches(self : BranchSummary) -> @nostd.Any {
+pub fn BranchSummary::branches(self : BranchSummary) -> @core.Any {
   ffi_branch_branches(self)
 }
 
 ///| Diff FFI
 
 ///|
-extern "js" fn ffi_diff(git : SimpleGit) -> @nostd.Promise[String] =
+extern "js" fn ffi_diff(git : SimpleGit) -> @core.Promise[String] =
   #| (git) => git.diff()
 
 ///|
 extern "js" fn ffi_diff_with_options(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[String] =
+  options : @core.Any,
+) -> @core.Promise[String] =
   #| (git, options) => git.diff(options)
 
 ///|
-extern "js" fn ffi_diff_summary(git : SimpleGit) -> @nostd.Promise[DiffResult] =
+extern "js" fn ffi_diff_summary(git : SimpleGit) -> @core.Promise[DiffResult] =
   #| (git) => git.diffSummary()
 
 ///| Diff Methods
@@ -733,7 +731,7 @@ pub async fn SimpleGit::diff(
     if nameOnly == Some(true) {
       options.push("--name-only")
     }
-    ffi_diff_with_options(self, @nostd.any(options)).wait()
+    ffi_diff_with_options(self, @core.any(options)).wait()
   }
 }
 
@@ -746,7 +744,7 @@ pub async fn SimpleGit::diffSummary(self : SimpleGit) -> DiffResult {
 ///| DiffResult accessors
 
 ///|
-extern "js" fn ffi_diff_result_files(diff : DiffResult) -> @nostd.Any =
+extern "js" fn ffi_diff_result_files(diff : DiffResult) -> @core.Any =
   #| (diff) => diff.files
 
 ///|
@@ -765,7 +763,7 @@ extern "js" fn ffi_diff_result_changed(diff : DiffResult) -> Int =
 
 ///|
 /// Get changed files
-pub fn DiffResult::files(self : DiffResult) -> @nostd.Any {
+pub fn DiffResult::files(self : DiffResult) -> @core.Any {
   ffi_diff_result_files(self)
 }
 
@@ -790,17 +788,14 @@ pub fn DiffResult::changed(self : DiffResult) -> Int {
 ///| Merge/Rebase FFI
 
 ///|
-extern "js" fn ffi_merge(
-  git : SimpleGit,
-  from : String,
-) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_merge(git : SimpleGit, from : String) -> @core.Promise[Unit] =
   #| (git, from) => git.merge([from])
 
 ///|
 extern "js" fn ffi_rebase(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[Unit] =
+  options : @core.Any,
+) -> @core.Promise[Unit] =
   #| (git, options) => git.rebase(options)
 
 ///| Merge/Rebase Methods
@@ -814,21 +809,21 @@ pub async fn SimpleGit::merge(self : SimpleGit, from : String) -> Unit {
 ///|
 /// Rebase current branch
 pub async fn SimpleGit::rebase(self : SimpleGit, upstream : String) -> Unit {
-  ffi_rebase(self, @nostd.any([upstream])).wait()
+  ffi_rebase(self, @core.any([upstream])).wait()
 }
 
 ///| Stash FFI
 
 ///|
-extern "js" fn ffi_stash(git : SimpleGit) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_stash(git : SimpleGit) -> @core.Promise[Unit] =
   #| (git) => git.stash()
 
 ///|
-extern "js" fn ffi_stash_list(git : SimpleGit) -> @nostd.Promise[@nostd.Any] =
+extern "js" fn ffi_stash_list(git : SimpleGit) -> @core.Promise[@core.Any] =
   #| (git) => git.stashList()
 
 ///|
-extern "js" fn ffi_stash_pop(git : SimpleGit) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_stash_pop(git : SimpleGit) -> @core.Promise[Unit] =
   #| (git) => git.stash(['pop'])
 
 ///| Stash Methods
@@ -841,7 +836,7 @@ pub async fn SimpleGit::stash(self : SimpleGit) -> Unit {
 
 ///|
 /// List stashes
-pub async fn SimpleGit::stashList(self : SimpleGit) -> @nostd.Any {
+pub async fn SimpleGit::stashList(self : SimpleGit) -> @core.Any {
   ffi_stash_list(self).wait()
 }
 
@@ -854,14 +849,14 @@ pub async fn SimpleGit::stashPop(self : SimpleGit) -> Unit {
 ///| Tag FFI
 
 ///|
-extern "js" fn ffi_tags(git : SimpleGit) -> @nostd.Promise[@nostd.Any] =
+extern "js" fn ffi_tags(git : SimpleGit) -> @core.Promise[@core.Any] =
   #| (git) => git.tags()
 
 ///|
 extern "js" fn ffi_add_tag(
   git : SimpleGit,
   name : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, name) => git.addTag(name)
 
 ///|
@@ -869,14 +864,14 @@ extern "js" fn ffi_add_annotated_tag(
   git : SimpleGit,
   name : String,
   message : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, name, message) => git.addAnnotatedTag(name, message)
 
 ///| Tag Methods
 
 ///|
 /// List tags
-pub async fn SimpleGit::tags(self : SimpleGit) -> @nostd.Any {
+pub async fn SimpleGit::tags(self : SimpleGit) -> @core.Any {
   ffi_tags(self).wait()
 }
 
@@ -902,7 +897,7 @@ pub async fn SimpleGit::addAnnotatedTag(
 extern "js" fn ffi_get_remotes(
   git : SimpleGit,
   verbose : Bool,
-) -> @nostd.Promise[@nostd.Any] =
+) -> @core.Promise[@core.Any] =
   #| (git, verbose) => git.getRemotes(verbose)
 
 ///|
@@ -910,14 +905,14 @@ extern "js" fn ffi_add_remote(
   git : SimpleGit,
   name : String,
   url : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, name, url) => git.addRemote(name, url)
 
 ///|
 extern "js" fn ffi_remove_remote(
   git : SimpleGit,
   name : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, name) => git.removeRemote(name)
 
 ///| Remote Methods
@@ -927,7 +922,7 @@ extern "js" fn ffi_remove_remote(
 pub async fn SimpleGit::getRemotes(
   self : SimpleGit,
   verbose? : Bool = false,
-) -> @nostd.Any {
+) -> @core.Any {
   ffi_get_remotes(self, verbose).wait()
 }
 
@@ -952,8 +947,8 @@ pub async fn SimpleGit::removeRemote(self : SimpleGit, name : String) -> Unit {
 ///|
 extern "js" fn ffi_raw(
   git : SimpleGit,
-  commands : @nostd.Any,
-) -> @nostd.Promise[String] =
+  commands : @core.Any,
+) -> @core.Promise[String] =
   #| (git, commands) => git.raw(commands)
 
 ///| Raw Methods
@@ -964,7 +959,7 @@ pub async fn SimpleGit::raw(
   self : SimpleGit,
   commands : Array[String],
 ) -> String {
-  ffi_raw(self, @nostd.any(commands)).wait()
+  ffi_raw(self, @core.any(commands)).wait()
 }
 
 ///| CommitResult accessors
@@ -978,7 +973,7 @@ extern "js" fn ffi_commit_result_branch(result : CommitResult) -> String =
   #| (result) => result.branch
 
 ///|
-extern "js" fn ffi_commit_result_summary(result : CommitResult) -> @nostd.Any =
+extern "js" fn ffi_commit_result_summary(result : CommitResult) -> @core.Any =
   #| (result) => result.summary
 
 ///| CommitResult Methods
@@ -997,7 +992,7 @@ pub fn CommitResult::branch(self : CommitResult) -> String {
 
 ///|
 /// Get commit summary
-pub fn CommitResult::summary(self : CommitResult) -> @nostd.Any {
+pub fn CommitResult::summary(self : CommitResult) -> @core.Any {
   ffi_commit_result_summary(self)
 }
 
@@ -1006,8 +1001,8 @@ pub fn CommitResult::summary(self : CommitResult) -> @nostd.Any {
 ///|
 extern "js" fn ffi_checkout_with_options(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[Unit] =
+  options : @core.Any,
+) -> @core.Promise[Unit] =
   #| (git, options) => git.checkout(options)
 
 ///|
@@ -1023,16 +1018,13 @@ pub async fn SimpleGit::checkoutFile(
   }
   options.push("--")
   options.push(file)
-  ffi_checkout_with_options(self, @nostd.any(options)).wait()
+  ffi_checkout_with_options(self, @core.any(options)).wait()
 }
 
 ///| Reset FFI
 
 ///|
-extern "js" fn ffi_reset(
-  git : SimpleGit,
-  mode : String,
-) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_reset(git : SimpleGit, mode : String) -> @core.Promise[Unit] =
   #| (git, mode) => git.reset([mode])
 
 ///|
@@ -1040,7 +1032,7 @@ extern "js" fn ffi_reset_to(
   git : SimpleGit,
   mode : String,
   commit : String,
-) -> @nostd.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (git, mode, commit) => git.reset([mode, commit])
 
 ///| Reset Methods
@@ -1064,8 +1056,8 @@ pub async fn SimpleGit::reset(
 ///|
 extern "js" fn ffi_rev_parse(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[String] =
+  options : @core.Any,
+) -> @core.Promise[String] =
   #| (git, options) => git.revparse(options)
 
 ///| Rev-parse Methods
@@ -1073,7 +1065,7 @@ extern "js" fn ffi_rev_parse(
 ///|
 /// Get the SHA of a revision
 pub async fn SimpleGit::revparse(self : SimpleGit, revision : String) -> String {
-  ffi_rev_parse(self, @nostd.any([revision])).wait()
+  ffi_rev_parse(self, @core.any([revision])).wait()
 }
 
 ///|
@@ -1087,8 +1079,8 @@ pub async fn SimpleGit::getHeadSha(self : SimpleGit) -> String {
 ///|
 extern "js" fn ffi_show(
   git : SimpleGit,
-  options : @nostd.Any,
-) -> @nostd.Promise[String] =
+  options : @core.Any,
+) -> @core.Promise[String] =
   #| (git, options) => git.show(options)
 
 ///| Show Methods
@@ -1099,5 +1091,5 @@ pub async fn SimpleGit::show(
   self : SimpleGit,
   commit? : String = "HEAD",
 ) -> String {
-  ffi_show(self, @nostd.any([commit])).wait()
+  ffi_show(self, @core.any([commit])).wait()
 }

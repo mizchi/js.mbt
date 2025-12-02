@@ -8,12 +8,12 @@
 pub type JSXNode
 
 ///|
-pub fn JSXNode::as_any(self : JSXNode) -> @nostd.Any = "%identity"
+pub fn JSXNode::as_any(self : JSXNode) -> @core.Any = "%identity"
 
 ///|
 /// HonoNode trait for JSX children
 pub trait HonoNode {
-  toHonoNode(Self) -> @nostd.Any
+  toHonoNode(Self) -> @core.Any
 }
 
 ///|
@@ -23,27 +23,27 @@ pub impl HonoNode for JSXNode with toHonoNode(self) {
 
 ///|
 pub impl HonoNode for String with toHonoNode(self) {
-  @nostd.any(self)
+  @core.any(self)
 }
 
 ///|
 pub impl HonoNode for Int with toHonoNode(self) {
-  @nostd.any(self)
+  @core.any(self)
 }
 
 ///|
 pub impl HonoNode for Double with toHonoNode(self) {
-  @nostd.any(self)
+  @core.any(self)
 }
 
 ///|
 pub impl HonoNode for Bool with toHonoNode(self) {
-  @nostd.any(self)
+  @core.any(self)
 }
 
 ///|
 pub impl[T : HonoNode] HonoNode for Array[T] with toHonoNode(self) {
-  @nostd.any(self.map(HonoNode::toHonoNode))
+  @core.any(self.map(HonoNode::toHonoNode))
 }
 
 ///|
@@ -57,24 +57,24 @@ pub type FC[T] = (T) -> JSXNode
 pub fn jsx(
   tag : String,
   children : Array[&HonoNode],
-  props? : Map[String, @nostd.Any],
+  props? : Map[String, @core.Any],
   style? : Map[String, String],
   class? : &CssClassName,
   id? : String,
   key? : String,
 ) -> JSXNode {
-  let tag = @nostd.any(tag)
-  let children_arr = @nostd.any(children.map(_.toHonoNode()))
-  let val = @nostd.Object::new()
+  let tag = @core.any(tag)
+  let children_arr = @core.any(children.map(_.toHonoNode()))
+  let val = @core.Object::new()
   if props is Some(props) {
     for k, v in props {
       val[k] = v
     }
   }
   if style is Some(style) {
-    let style_obj = @nostd.Object::new()
+    let style_obj = @core.Object::new()
     for k, v in style {
-      style_obj[k] = @nostd.any(v)
+      style_obj[k] = @core.any(v)
     }
     val["style"] = style_obj
   }
@@ -82,19 +82,19 @@ pub fn jsx(
     val["class"] = c.value()
   }
   if id is Some(i) {
-    val["id"] = @nostd.any(i)
+    val["id"] = @core.any(i)
   }
   if key is Some(k) {
-    val["key"] = @nostd.any(k)
+    val["key"] = @core.any(k)
   }
   ffi_jsx(tag, val, children_arr)
 }
 
 ///|
 extern "js" fn ffi_jsx(
-  tag : @nostd.Any,
-  props : @nostd.Any,
-  children : @nostd.Any,
+  tag : @core.Any,
+  props : @core.Any,
+  children : @core.Any,
 ) -> JSXNode =
   #|(tag, props, children) => {
   #|  const { jsxs } = require('hono/jsx/jsx-runtime');
@@ -111,17 +111,17 @@ pub fn[T] jsx_component(
   children? : Array[&HonoNode] = [],
   key? : String,
 ) -> JSXNode {
-  let tag : @nostd.Any = @nostd.any(tag)
-  let children_any = @nostd.any(children.map(_.toHonoNode()))
-  let val : @nostd.Any = @nostd.any(props)
+  let tag : @core.Any = @core.any(tag)
+  let children_any = @core.any(children.map(_.toHonoNode()))
+  let val : @core.Any = @core.any(props)
   if key is Some(k) {
-    if @nostd.is_nullish(val) {
-      let obj = @nostd.Object::new()
-      obj["key"] = @nostd.any(k)
+    if @core.is_nullish(val) {
+      let obj = @core.Object::new()
+      obj["key"] = @core.any(k)
       obj["children"] = children_any
       return ffi_jsx(tag, obj, children_any)
     }
-    val["key"] = @nostd.any(k)
+    val["key"] = @core.any(k)
   }
   val["children"] = children_any
   ffi_jsx(tag, val, children_any)
@@ -130,16 +130,16 @@ pub fn[T] jsx_component(
 ///|
 /// Fragment - groups elements without extra DOM nodes
 pub fn fragment(children : Array[&HonoNode], key? : String) -> JSXNode {
-  let children_arr = @nostd.any(children.map(_.toHonoNode()))
-  let val = @nostd.Object::new()
+  let children_arr = @core.any(children.map(_.toHonoNode()))
+  let val = @core.Object::new()
   if key is Some(k) {
-    val["key"] = @nostd.any(k)
+    val["key"] = @core.any(k)
   }
   ffi_jsx(ffi_get_fragment(), val, children_arr)
 }
 
 ///|
-extern "js" fn ffi_get_fragment() -> @nostd.Any =
+extern "js" fn ffi_get_fragment() -> @core.Any =
   #|() => {
   #|  const { Fragment } = require('hono/jsx/jsx-runtime');
   #|  return Fragment;
@@ -152,7 +152,7 @@ pub fn render_to_string(node : JSXNode) -> String {
 }
 
 ///|
-extern "js" fn ffi_render_to_string(node : @nostd.Any) -> String =
+extern "js" fn ffi_render_to_string(node : @core.Any) -> String =
   #|(node) => {
   #|  if (typeof node === 'string') return node;
   #|  return node.toString();
@@ -160,12 +160,12 @@ extern "js" fn ffi_render_to_string(node : @nostd.Any) -> String =
 
 ///|
 /// Render JSX to ReadableStream (streaming)
-pub fn render_to_readable_stream(node : JSXNode) -> @nostd.Any {
+pub fn render_to_readable_stream(node : JSXNode) -> @core.Any {
   ffi_render_to_readable_stream(node.as_any())
 }
 
 ///|
-extern "js" fn ffi_render_to_readable_stream(node : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_render_to_readable_stream(node : @core.Any) -> @core.Any =
   #|(node) => {
   #|  const { renderToReadableStream } = require('hono/jsx/streaming');
   #|  return renderToReadableStream(node);
@@ -174,11 +174,11 @@ extern "js" fn ffi_render_to_readable_stream(node : @nostd.Any) -> @nostd.Any =
 ///|
 /// Memo - memoize a component
 pub fn[T] memo(component : FC[T]) -> FC[T] {
-  ffi_memo(@nostd.any(component)).cast()
+  ffi_memo(@core.any(component)).cast()
 }
 
 ///|
-extern "js" fn ffi_memo(component : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_memo(component : @core.Any) -> @core.Any =
   #|(component) => {
   #|  const { memo } = require('hono/jsx');
   #|  return memo(component);
@@ -190,16 +190,16 @@ extern "js" fn ffi_memo(component : @nostd.Any) -> @nostd.Any =
 pub type HonoContext[T]
 
 ///|
-pub fn[T] HonoContext::as_any(self : HonoContext[T]) -> @nostd.Any = "%identity"
+pub fn[T] HonoContext::as_any(self : HonoContext[T]) -> @core.Any = "%identity"
 
 ///|
 /// Create a context
 pub fn[T] create_context(defaultValue : T?) -> HonoContext[T] {
-  ffi_create_context(@nostd.any(defaultValue)).cast()
+  ffi_create_context(@core.any(defaultValue)).cast()
 }
 
 ///|
-extern "js" fn ffi_create_context(defaultValue : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_create_context(defaultValue : @core.Any) -> @core.Any =
   #|(defaultValue) => {
   #|  const { createContext } = require('hono/jsx');
   #|  return createContext(defaultValue);
@@ -212,7 +212,7 @@ pub fn[T] use_context(ctx : HonoContext[T]) -> T {
 }
 
 ///|
-extern "js" fn ffi_use_context(ctx : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_use_context(ctx : @core.Any) -> @core.Any =
   #|(ctx) => {
   #|  const { useContext } = require('hono/jsx');
   #|  return useContext(ctx);
@@ -225,15 +225,15 @@ pub fn[T] context_provider(
   children : Array[&HonoNode],
   value~ : T,
 ) -> JSXNode {
-  let children_any = @nostd.any(children.map(_.toHonoNode()))
-  let props = @nostd.Object::new()
-  props["value"] = @nostd.any(value)
+  let children_any = @core.any(children.map(_.toHonoNode()))
+  let props = @core.Object::new()
+  props["value"] = @core.any(value)
   props["children"] = children_any
   ffi_jsx(ffi_get_provider(ctx.as_any()), props, children_any)
 }
 
 ///|
-extern "js" fn ffi_get_provider(ctx : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_get_provider(ctx : @core.Any) -> @core.Any =
   #|(ctx) => ctx.Provider
 
 ///|
@@ -255,7 +255,7 @@ extern "js" fn ffi_raw(html : String) -> JSXNode =
 pub type HtmlEscapedString
 
 ///|
-pub fn HtmlEscapedString::as_any(self : HtmlEscapedString) -> @nostd.Any = "%identity"
+pub fn HtmlEscapedString::as_any(self : HtmlEscapedString) -> @core.Any = "%identity"
 
 ///|
 pub impl HonoNode for HtmlEscapedString with toHonoNode(self) {
@@ -289,7 +289,7 @@ pub fn[Env, ExecutionContext] Context::html_jsx(
   }
   self
   .as_any()
-  ._call("html", [@nostd.any(html_string), @nostd.any(status_code)])
+  ._call("html", [@core.any(html_string), @core.any(status_code)])
   .cast()
 }
 
@@ -310,10 +310,10 @@ pub async fn[Env, ExecutionContext] Context::stream_jsx(
 
 ///|
 extern "js" fn ffi_stream_response(
-  ctx : @nostd.Any,
-  stream : @nostd.Any,
+  ctx : @core.Any,
+  stream : @core.Any,
   status : Int,
-) -> @nostd.Promise[@http.Response] =
+) -> @core.Promise[@http.Response] =
   #|async (ctx, stream, status) => {
   #|  ctx.status(status);
   #|  ctx.header('Content-Type', 'text/html; charset=UTF-8');

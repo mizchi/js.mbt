@@ -7,7 +7,7 @@
 pub type Immediate
 
 ///|
-pub fn Immediate::as_any(self : Immediate) -> @nostd.Any = "%identity"
+pub fn Immediate::as_any(self : Immediate) -> @core.Any = "%identity"
 
 ///|
 /// JS: setImmediate(callback)

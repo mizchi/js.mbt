@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/weak"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -12,29 +12,29 @@ import(
 // Types and methods
 #external
 pub type FinalizationRegistry[T]
-fn[T] FinalizationRegistry::new((T) -> Unit) -> Self[T]
-fn[T, U] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @nostd.Any) -> Unit
-fn[T] FinalizationRegistry::unregister(Self[T], @nostd.Any) -> Bool
+pub fn[T] FinalizationRegistry::new((T) -> Unit) -> Self[T]
+pub fn[T, U] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @core.Any) -> Unit
+pub fn[T] FinalizationRegistry::unregister(Self[T], @core.Any) -> Bool
 
 #external
 pub type WeakMap[K, V]
-fn[K, V] WeakMap::delete(Self[K, V], K) -> Bool
-fn[K, V] WeakMap::get(Self[K, V], K) -> V?
-fn[K, V] WeakMap::has(Self[K, V], K) -> Bool
-fn[K, V] WeakMap::new() -> Self[K, V]
-fn[K, V] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
+pub fn[K, V] WeakMap::delete(Self[K, V], K) -> Bool
+pub fn[K, V] WeakMap::get(Self[K, V], K) -> V?
+pub fn[K, V] WeakMap::has(Self[K, V], K) -> Bool
+pub fn[K, V] WeakMap::new() -> Self[K, V]
+pub fn[K, V] WeakMap::set(Self[K, V], K, V) -> Self[K, V]
 
 #external
 pub type WeakRef[T]
-fn[T] WeakRef::deref(Self[T]) -> T?
-fn[T] WeakRef::new(T) -> Self[T]
+pub fn[T] WeakRef::deref(Self[T]) -> T?
+pub fn[T] WeakRef::new(T) -> Self[T]
 
 #external
 pub type WeakSet[T]
-fn[T] WeakSet::add(Self[T], T) -> Self[T]
-fn[T] WeakSet::delete(Self[T], T) -> Bool
-fn[T] WeakSet::has(Self[T], T) -> Bool
-fn[T] WeakSet::new() -> Self[T]
+pub fn[T] WeakSet::add(Self[T], T) -> Self[T]
+pub fn[T] WeakSet::delete(Self[T], T) -> Bool
+pub fn[T] WeakSet::has(Self[T], T) -> Bool
+pub fn[T] WeakSet::new() -> Self[T]
 
 // Type aliases
 

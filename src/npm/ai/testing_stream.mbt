@@ -5,7 +5,7 @@
 /// Options for simulateReadableStream
 pub(all) struct SimulateStreamOptions {
   /// Array of values to be emitted by the stream
-  chunks : Array[@nostd.Any]
+  chunks : Array[@core.Any]
   /// Delay in milliseconds before emitting the first value (default: 0)
   initial_delay_ms : Int?
   /// Delay in milliseconds between emitting each value (default: 0)
@@ -15,22 +15,22 @@ pub(all) struct SimulateStreamOptions {
 ///|
 /// Creates a ReadableStream that emits the provided values with optional delays.
 /// Uses the AI SDK's simulateReadableStream under the hood.
-pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @nostd.Any {
+pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @core.Any {
   let test_module = require_test()
-  let opts = @nostd.Object::new()
-  opts._set("chunks", options.chunks |> @nostd.any)
+  let opts = @core.Object::new()
+  opts._set("chunks", options.chunks |> @core.any)
   if options.initial_delay_ms is Some(delay) {
-    opts._set("initialDelayInMs", delay |> @nostd.any)
+    opts._set("initialDelayInMs", delay |> @core.any)
   }
   if options.chunk_delay_ms is Some(delay) {
-    opts._set("chunkDelayInMs", delay |> @nostd.any)
+    opts._set("chunkDelayInMs", delay |> @core.any)
   }
   test_module._get("simulateReadableStream")._invoke([opts])
 }
 
 ///|
 /// Simpler version that just takes chunks
-pub fn simulate_stream(chunks : Array[@nostd.Any]) -> @nostd.Any {
+pub fn simulate_stream(chunks : Array[@core.Any]) -> @core.Any {
   simulate_readable_stream({
     chunks,
     initial_delay_ms: None,
@@ -41,9 +41,9 @@ pub fn simulate_stream(chunks : Array[@nostd.Any]) -> @nostd.Any {
 ///|
 /// Simulate stream with delays
 pub fn simulate_stream_with_delay(
-  chunks : Array[@nostd.Any],
+  chunks : Array[@core.Any],
   chunk_delay_ms : Int,
-) -> @nostd.Any {
+) -> @core.Any {
   simulate_readable_stream({
     chunks,
     initial_delay_ms: Some(0),

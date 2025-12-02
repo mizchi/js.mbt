@@ -8,7 +8,7 @@
 pub type Response
 
 ///|
-pub fn Response::to_any(self : Response) -> @nostd.Any = "%identity"
+pub fn Response::to_any(self : Response) -> @core.Any = "%identity"
 
 ///| Response Methods
 
@@ -38,15 +38,15 @@ pub fn Response::ok(self : Response) -> Bool {
 
 ///|
 /// Get response headers
-pub fn Response::headers(self : Response) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @nostd.identity
+pub fn Response::headers(self : Response) -> @core.Any {
+  self.to_any()._call("headers", []) |> @core.identity
 }
 
 ///|
 /// Get all response headers
-pub async fn Response::allHeaders(self : Response) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("allHeaders", [])
-    |> @nostd.identity
+pub async fn Response::allHeaders(self : Response) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("allHeaders", [])
+    |> @core.identity
   promise.wait()
 }
 
@@ -54,36 +54,36 @@ pub async fn Response::allHeaders(self : Response) -> @nostd.Any {
 /// Get response body as text
 pub async fn Response::text(self : Response) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("text", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get response body as JSON
-pub async fn Response::json(self : Response) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("json", [])
-    |> @nostd.identity
+pub async fn Response::json(self : Response) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("json", [])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get response body as buffer
-pub async fn Response::body(self : Response) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("body", [])
-    |> @nostd.identity
+pub async fn Response::body(self : Response) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("body", [])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get request associated with response
 pub fn Response::request(self : Response) -> Request {
-  self.to_any()._call("request", []) |> @nostd.identity
+  self.to_any()._call("request", []) |> @core.identity
 }
 
 ///|
 /// Get frame associated with response
 pub fn Response::frame(self : Response) -> Frame {
-  self.to_any()._call("frame", []) |> @nostd.identity
+  self.to_any()._call("frame", []) |> @core.identity
 }
 
 ///|
@@ -106,7 +106,7 @@ pub fn Response::fromServiceWorker(self : Response) -> Bool {
 pub type Request
 
 ///|
-pub fn Request::to_any(self : Request) -> @nostd.Any = "%identity"
+pub fn Request::to_any(self : Request) -> @core.Any = "%identity"
 
 ///|
 /// Get request URL
@@ -122,15 +122,15 @@ pub fn Request::method_(self : Request) -> String {
 
 ///|
 /// Get request headers
-pub fn Request::headers(self : Request) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @nostd.identity
+pub fn Request::headers(self : Request) -> @core.Any {
+  self.to_any()._call("headers", []) |> @core.identity
 }
 
 ///|
 /// Get all request headers
-pub async fn Request::allHeaders(self : Request) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("allHeaders", [])
-    |> @nostd.identity
+pub async fn Request::allHeaders(self : Request) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("allHeaders", [])
+    |> @core.identity
   promise.wait()
 }
 
@@ -138,7 +138,7 @@ pub async fn Request::allHeaders(self : Request) -> @nostd.Any {
 /// Get request post data
 pub fn Request::postData(self : Request) -> String? {
   let result = self.to_any()._call("postData", [])
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -147,8 +147,8 @@ pub fn Request::postData(self : Request) -> String? {
 
 ///|
 /// Get request post data as JSON
-pub fn Request::postDataJSON(self : Request) -> @nostd.Any {
-  self.to_any()._call("postDataJSON", []) |> @nostd.identity
+pub fn Request::postDataJSON(self : Request) -> @core.Any {
+  self.to_any()._call("postDataJSON", []) |> @core.identity
 }
 
 ///|
@@ -166,13 +166,13 @@ pub fn Request::isNavigationRequest(self : Request) -> Bool {
 ///|
 /// Get response for this request
 pub async fn Request::response(self : Request) -> Response? {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("response", [])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("response", [])
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -184,7 +184,7 @@ pub async fn Request::response(self : Request) -> Response? {
 pub type Frame
 
 ///|
-pub fn Frame::to_any(self : Frame) -> @nostd.Any = "%identity"
+pub fn Frame::to_any(self : Frame) -> @core.Any = "%identity"
 
 ///|
 /// Get frame URL
@@ -202,7 +202,7 @@ pub fn Frame::name(self : Frame) -> String {
 /// Get frame title
 pub async fn Frame::title(self : Frame) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("title", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -210,7 +210,7 @@ pub async fn Frame::title(self : Frame) -> String {
 /// Get frame content
 pub async fn Frame::content(self : Frame) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("content", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -218,17 +218,17 @@ pub async fn Frame::content(self : Frame) -> String {
 /// Get parent frame
 pub fn Frame::parentFrame(self : Frame) -> Frame? {
   let result = self.to_any()._call("parentFrame", [])
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
 ///|
 /// Get child frames
 pub fn Frame::childFrames(self : Frame) -> Array[Frame] {
-  self.to_any()._call("childFrames", []) |> @nostd.identity
+  self.to_any()._call("childFrames", []) |> @core.identity
 }
 
 ///|
@@ -240,7 +240,7 @@ pub fn Frame::isDetached(self : Frame) -> Bool {
 ///|
 /// Get locator in frame
 pub fn Frame::locator(self : Frame, selector : String) -> Locator {
-  self.to_any()._call("locator", [@nostd.any(selector)]) |> @nostd.identity
+  self.to_any()._call("locator", [@core.any(selector)]) |> @core.identity
 }
 
 ///|
@@ -251,21 +251,21 @@ pub async fn Frame::goto(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("goto", [@nostd.any(url), options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    ._call("goto", [@core.any(url), options])
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }

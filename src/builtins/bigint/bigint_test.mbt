@@ -1,14 +1,14 @@
 ///|
 test "JsBigInt::from_int" {
   let big = JsBigInt::from_int(42)
-  assert_eq(@nostd.typeof_(big |> @nostd.any), "bigint")
+  assert_eq(@core.typeof_(big |> @core.any), "bigint")
   assert_eq(big.to_string(), "42")
 }
 
 ///|
 test "JsBigInt::from_string" {
   let big = JsBigInt::from_string("123456789012345678901234567890")
-  assert_eq(@nostd.typeof_(big |> @nostd.any), "bigint")
+  assert_eq(@core.typeof_(big |> @core.any), "bigint")
   assert_eq(big.to_string(), "123456789012345678901234567890")
 }
 

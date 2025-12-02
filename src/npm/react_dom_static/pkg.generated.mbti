@@ -3,6 +3,7 @@ package "mizchi/js/npm/react_dom_static"
 
 import(
   "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/stream"
   "mizchi/js/npm/react"
   "mizchi/js/web/streams"
@@ -10,27 +11,27 @@ import(
 )
 
 // Values
-async fn dynamic_import() -> ReactDOMStatic
+pub async fn dynamic_import() -> ReactDOMStatic
 
 // Errors
 
 // Types and methods
 pub struct PrerenderResult {
   prelude : @streams.ReadableStream
-  postponed : @nostd.Any
+  postponed : @core.Any
 }
 
 pub struct PrerenderToNodeStreamResult {
   prelude : @stream.Readable
-  postponed : @nostd.Any
+  postponed : @core.Any
 }
 
 #external
 pub type ReactDOMStatic
-fn ReactDOMStatic::as_any(Self) -> @nostd.Any
-async fn ReactDOMStatic::prerender(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderResult
+pub fn ReactDOMStatic::as_any(Self) -> @core.Any
+pub async fn ReactDOMStatic::prerender(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderResult
 #alias(prerender_to_node_stream)
-async fn ReactDOMStatic::prerenderToNodeStream(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderToNodeStreamResult
+pub async fn ReactDOMStatic::prerenderToNodeStream(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderToNodeStreamResult
 
 // Type aliases
 

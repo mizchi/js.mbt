@@ -5,24 +5,24 @@ pub(all) struct JsError {
 }
 
 ///|
-pub extern "js" fn JsError::isError(value : @nostd.Any) -> Bool =
+pub extern "js" fn JsError::isError(value : @core.Any) -> Bool =
   #| (value) => Error.isError(value)
 
 ///|
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
-  let args : Array[@nostd.Any] = if cause is Some(cause) {
+  let args : Array[@core.Any] = if cause is Some(cause) {
     [
-      @nostd.any(message).cast(),
-      @nostd.from_entries([("cause", cause |> @nostd.any)]).cast(),
+      @core.any(message).cast(),
+      @core.from_entries([("cause", cause |> @core.any)]).cast(),
     ]
   } else {
-    [@nostd.any(message).cast()]
+    [@core.any(message).cast()]
   }
   ffi_new_error(args)
 }
 
 ///|
-extern "js" fn ffi_new_error(args : Array[@nostd.Any]) -> JsError =
+extern "js" fn ffi_new_error(args : Array[@core.Any]) -> JsError =
   #| (args) => new Error(...args)
 
 ///|

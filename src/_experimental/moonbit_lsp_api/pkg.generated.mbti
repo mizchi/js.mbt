@@ -2,131 +2,131 @@
 package "mizchi/js/_experimental/moonbit_lsp_api"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/child_process"
 )
 
 // Values
-const COMPLETION_KIND_CLASS : Int = 7
+pub const COMPLETION_KIND_CLASS : Int = 7
 
-const COMPLETION_KIND_COLOR : Int = 16
+pub const COMPLETION_KIND_COLOR : Int = 16
 
-const COMPLETION_KIND_CONSTANT : Int = 21
+pub const COMPLETION_KIND_CONSTANT : Int = 21
 
-const COMPLETION_KIND_CONSTRUCTOR : Int = 4
+pub const COMPLETION_KIND_CONSTRUCTOR : Int = 4
 
-const COMPLETION_KIND_ENUM : Int = 13
+pub const COMPLETION_KIND_ENUM : Int = 13
 
-const COMPLETION_KIND_ENUM_MEMBER : Int = 20
+pub const COMPLETION_KIND_ENUM_MEMBER : Int = 20
 
-const COMPLETION_KIND_EVENT : Int = 23
+pub const COMPLETION_KIND_EVENT : Int = 23
 
-const COMPLETION_KIND_FIELD : Int = 5
+pub const COMPLETION_KIND_FIELD : Int = 5
 
-const COMPLETION_KIND_FILE : Int = 17
+pub const COMPLETION_KIND_FILE : Int = 17
 
-const COMPLETION_KIND_FOLDER : Int = 19
+pub const COMPLETION_KIND_FOLDER : Int = 19
 
-const COMPLETION_KIND_FUNCTION : Int = 3
+pub const COMPLETION_KIND_FUNCTION : Int = 3
 
-const COMPLETION_KIND_INTERFACE : Int = 8
+pub const COMPLETION_KIND_INTERFACE : Int = 8
 
-const COMPLETION_KIND_KEYWORD : Int = 14
+pub const COMPLETION_KIND_KEYWORD : Int = 14
 
-const COMPLETION_KIND_METHOD : Int = 2
+pub const COMPLETION_KIND_METHOD : Int = 2
 
-const COMPLETION_KIND_MODULE : Int = 9
+pub const COMPLETION_KIND_MODULE : Int = 9
 
-const COMPLETION_KIND_OPERATOR : Int = 24
+pub const COMPLETION_KIND_OPERATOR : Int = 24
 
-const COMPLETION_KIND_PROPERTY : Int = 10
+pub const COMPLETION_KIND_PROPERTY : Int = 10
 
-const COMPLETION_KIND_REFERENCE : Int = 18
+pub const COMPLETION_KIND_REFERENCE : Int = 18
 
-const COMPLETION_KIND_SNIPPET : Int = 15
+pub const COMPLETION_KIND_SNIPPET : Int = 15
 
-const COMPLETION_KIND_STRUCT : Int = 22
+pub const COMPLETION_KIND_STRUCT : Int = 22
 
-const COMPLETION_KIND_TEXT : Int = 1
+pub const COMPLETION_KIND_TEXT : Int = 1
 
-const COMPLETION_KIND_TYPE_PARAMETER : Int = 25
+pub const COMPLETION_KIND_TYPE_PARAMETER : Int = 25
 
-const COMPLETION_KIND_UNIT : Int = 11
+pub const COMPLETION_KIND_UNIT : Int = 11
 
-const COMPLETION_KIND_VALUE : Int = 12
+pub const COMPLETION_KIND_VALUE : Int = 12
 
-const COMPLETION_KIND_VARIABLE : Int = 6
+pub const COMPLETION_KIND_VARIABLE : Int = 6
 
-const SYMBOL_KIND_ARRAY : Int = 18
+pub const SYMBOL_KIND_ARRAY : Int = 18
 
-const SYMBOL_KIND_BOOLEAN : Int = 17
+pub const SYMBOL_KIND_BOOLEAN : Int = 17
 
-const SYMBOL_KIND_CLASS : Int = 5
+pub const SYMBOL_KIND_CLASS : Int = 5
 
-const SYMBOL_KIND_CONSTANT : Int = 14
+pub const SYMBOL_KIND_CONSTANT : Int = 14
 
-const SYMBOL_KIND_CONSTRUCTOR : Int = 9
+pub const SYMBOL_KIND_CONSTRUCTOR : Int = 9
 
-const SYMBOL_KIND_ENUM : Int = 10
+pub const SYMBOL_KIND_ENUM : Int = 10
 
-const SYMBOL_KIND_ENUM_MEMBER : Int = 22
+pub const SYMBOL_KIND_ENUM_MEMBER : Int = 22
 
-const SYMBOL_KIND_EVENT : Int = 24
+pub const SYMBOL_KIND_EVENT : Int = 24
 
-const SYMBOL_KIND_FIELD : Int = 8
+pub const SYMBOL_KIND_FIELD : Int = 8
 
-const SYMBOL_KIND_FILE : Int = 1
+pub const SYMBOL_KIND_FILE : Int = 1
 
-const SYMBOL_KIND_FUNCTION : Int = 12
+pub const SYMBOL_KIND_FUNCTION : Int = 12
 
-const SYMBOL_KIND_INTERFACE : Int = 11
+pub const SYMBOL_KIND_INTERFACE : Int = 11
 
-const SYMBOL_KIND_KEY : Int = 20
+pub const SYMBOL_KIND_KEY : Int = 20
 
-const SYMBOL_KIND_METHOD : Int = 6
+pub const SYMBOL_KIND_METHOD : Int = 6
 
-const SYMBOL_KIND_MODULE : Int = 2
+pub const SYMBOL_KIND_MODULE : Int = 2
 
-const SYMBOL_KIND_NAMESPACE : Int = 3
+pub const SYMBOL_KIND_NAMESPACE : Int = 3
 
-const SYMBOL_KIND_NULL : Int = 21
+pub const SYMBOL_KIND_NULL : Int = 21
 
-const SYMBOL_KIND_NUMBER : Int = 16
+pub const SYMBOL_KIND_NUMBER : Int = 16
 
-const SYMBOL_KIND_OBJECT : Int = 19
+pub const SYMBOL_KIND_OBJECT : Int = 19
 
-const SYMBOL_KIND_OPERATOR : Int = 25
+pub const SYMBOL_KIND_OPERATOR : Int = 25
 
-const SYMBOL_KIND_PACKAGE : Int = 4
+pub const SYMBOL_KIND_PACKAGE : Int = 4
 
-const SYMBOL_KIND_PROPERTY : Int = 7
+pub const SYMBOL_KIND_PROPERTY : Int = 7
 
-const SYMBOL_KIND_STRING : Int = 15
+pub const SYMBOL_KIND_STRING : Int = 15
 
-const SYMBOL_KIND_STRUCT : Int = 23
+pub const SYMBOL_KIND_STRUCT : Int = 23
 
-const SYMBOL_KIND_TYPE_PARAMETER : Int = 26
+pub const SYMBOL_KIND_TYPE_PARAMETER : Int = 26
 
-const SYMBOL_KIND_VARIABLE : Int = 13
+pub const SYMBOL_KIND_VARIABLE : Int = 13
 
-fn path_to_uri(String) -> String
+pub fn path_to_uri(String) -> String
 
-fn uri_to_path(String) -> String
+pub fn uri_to_path(String) -> String
 
-async fn[T] with_lsp_client(String, async (LspClient) -> T raise LspError) -> T raise LspError
+pub async fn[T] with_lsp_client(String, async (LspClient) -> T raise LspError) -> T raise LspError
 
 // Errors
 pub suberror LspError {
   ServerError(code~ : Int, message~ : String)
 }
-impl Show for LspError
+pub impl Show for LspError
 
 // Types and methods
 pub(all) struct CallHierarchyIncomingCall {
   from : CallHierarchyItem
   from_ranges : Array[Range]
 }
-fn CallHierarchyIncomingCall::from_json(@nostd.Any) -> Self
+pub fn CallHierarchyIncomingCall::from_json(@core.Any) -> Self
 
 pub(all) struct CallHierarchyItem {
   name : String
@@ -136,22 +136,22 @@ pub(all) struct CallHierarchyItem {
   range : Range
   selection_range : Range
 }
-fn CallHierarchyItem::from_json(@nostd.Any) -> Self
+pub fn CallHierarchyItem::from_json(@core.Any) -> Self
 
 pub(all) struct CallHierarchyOutgoingCall {
   to : CallHierarchyItem
   from_ranges : Array[Range]
 }
-fn CallHierarchyOutgoingCall::from_json(@nostd.Any) -> Self
+pub fn CallHierarchyOutgoingCall::from_json(@core.Any) -> Self
 
 pub(all) struct CodeAction {
   title : String
   kind : String?
-  diagnostics : Array[@nostd.Any]
+  diagnostics : Array[@core.Any]
   is_preferred : Bool?
   edit : WorkspaceEdit?
 }
-fn CodeAction::from_json(@nostd.Any) -> Self
+pub fn CodeAction::from_json(@core.Any) -> Self
 
 pub(all) struct CompletionItem {
   label : String
@@ -161,13 +161,13 @@ pub(all) struct CompletionItem {
   insert_text : String?
   insert_text_format : Int?
 }
-fn CompletionItem::from_json(@nostd.Any) -> Self
+pub fn CompletionItem::from_json(@core.Any) -> Self
 
 pub(all) struct CompletionList {
   is_incomplete : Bool
   items : Array[CompletionItem]
 }
-fn CompletionList::from_json(@nostd.Any) -> Self
+pub fn CompletionList::from_json(@core.Any) -> Self
 
 pub(all) struct DocumentSymbol {
   name : String
@@ -177,13 +177,13 @@ pub(all) struct DocumentSymbol {
   selection_range : Range
   children : Array[DocumentSymbol]
 }
-fn DocumentSymbol::from_json(@nostd.Any) -> Self
+pub fn DocumentSymbol::from_json(@core.Any) -> Self
 
 pub(all) struct Hover {
   contents : MarkupContent
   range : Range?
 }
-fn Hover::from_json(@nostd.Any) -> Self
+pub fn Hover::from_json(@core.Any) -> Self
 
 pub(all) struct InlayHint {
   position : Position
@@ -192,70 +192,70 @@ pub(all) struct InlayHint {
   padding_left : Bool?
   padding_right : Bool?
 }
-fn InlayHint::from_json(@nostd.Any) -> Self
+pub fn InlayHint::from_json(@core.Any) -> Self
 
 pub(all) struct Location {
   uri : String
   range : Range
 }
-fn Location::as_any(Self) -> @nostd.Any
-fn Location::from_json(@nostd.Any) -> Self
+pub fn Location::as_any(Self) -> @core.Any
+pub fn Location::from_json(@core.Any) -> Self
 
 pub struct LspClient {
   process : @child_process.ChildProcess
   mut request_id : Int
-  pending_requests : Map[Int, (@nostd.Any) -> Unit]
+  pending_requests : Map[Int, (@core.Any) -> Unit]
   mut is_initialized : Bool
   mut buffer : String
 }
-fn LspClient::close_document(Self, String) -> Unit
-async fn LspClient::code_action(Self, String, Range) -> Array[CodeAction] raise LspError
-async fn LspClient::completion(Self, String, Int, Int) -> CompletionList raise LspError
-async fn LspClient::definition(Self, String, Int, Int) -> Array[Location] raise LspError
-async fn LspClient::document_symbol(Self, String) -> Array[DocumentSymbol] raise LspError
-fn LspClient::exit(Self) -> Unit
-async fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
-async fn LspClient::hover(Self, String, Int, Int) -> Hover? raise LspError
-async fn LspClient::incoming_calls(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
-async fn LspClient::initialize(Self, String) -> @nostd.Any raise LspError
-async fn LspClient::inlay_hint(Self, String, Range) -> Array[InlayHint] raise LspError
-fn LspClient::new() -> Self
-fn LspClient::open_document(Self, String, String, Int, String) -> Unit
-async fn LspClient::outgoing_calls(Self, CallHierarchyItem) -> Array[CallHierarchyOutgoingCall] raise LspError
-async fn LspClient::prepare_call_hierarchy(Self, String, Int, Int) -> Array[CallHierarchyItem] raise LspError
-async fn LspClient::references(Self, String, Int, Int, include_declaration? : Bool) -> Array[Location] raise LspError
-async fn LspClient::rename(Self, String, Int, Int, String) -> WorkspaceEdit raise LspError
-async fn LspClient::shutdown(Self) -> Unit raise LspError
-async fn LspClient::signature_help(Self, String, Int, Int) -> SignatureHelp? raise LspError
-async fn LspClient::workspace_symbol(Self, String) -> Array[SymbolInformation] raise LspError
+pub fn LspClient::close_document(Self, String) -> Unit
+pub async fn LspClient::code_action(Self, String, Range) -> Array[CodeAction] raise LspError
+pub async fn LspClient::completion(Self, String, Int, Int) -> CompletionList raise LspError
+pub async fn LspClient::definition(Self, String, Int, Int) -> Array[Location] raise LspError
+pub async fn LspClient::document_symbol(Self, String) -> Array[DocumentSymbol] raise LspError
+pub fn LspClient::exit(Self) -> Unit
+pub async fn LspClient::formatting(Self, String, tab_size? : Int, insert_spaces? : Bool) -> Array[TextEdit] raise LspError
+pub async fn LspClient::hover(Self, String, Int, Int) -> Hover? raise LspError
+pub async fn LspClient::incoming_calls(Self, CallHierarchyItem) -> Array[CallHierarchyIncomingCall] raise LspError
+pub async fn LspClient::initialize(Self, String) -> @core.Any raise LspError
+pub async fn LspClient::inlay_hint(Self, String, Range) -> Array[InlayHint] raise LspError
+pub fn LspClient::new() -> Self
+pub fn LspClient::open_document(Self, String, String, Int, String) -> Unit
+pub async fn LspClient::outgoing_calls(Self, CallHierarchyItem) -> Array[CallHierarchyOutgoingCall] raise LspError
+pub async fn LspClient::prepare_call_hierarchy(Self, String, Int, Int) -> Array[CallHierarchyItem] raise LspError
+pub async fn LspClient::references(Self, String, Int, Int, include_declaration? : Bool) -> Array[Location] raise LspError
+pub async fn LspClient::rename(Self, String, Int, Int, String) -> WorkspaceEdit raise LspError
+pub async fn LspClient::shutdown(Self) -> Unit raise LspError
+pub async fn LspClient::signature_help(Self, String, Int, Int) -> SignatureHelp? raise LspError
+pub async fn LspClient::workspace_symbol(Self, String) -> Array[SymbolInformation] raise LspError
 
 pub(all) struct MarkupContent {
   kind : String
   value : String
 }
-fn MarkupContent::from_json(@nostd.Any) -> Self
+pub fn MarkupContent::from_json(@core.Any) -> Self
 
 pub(all) struct ParameterInformation {
   label : String
   documentation : String?
 }
-fn ParameterInformation::from_json(@nostd.Any) -> Self
+pub fn ParameterInformation::from_json(@core.Any) -> Self
 
 pub(all) struct Position {
   line : Int
   character : Int
 }
-fn Position::as_any(Self) -> @nostd.Any
-fn Position::from_json(@nostd.Any) -> Self
-fn Position::to_json(Self) -> @nostd.Any
+pub fn Position::as_any(Self) -> @core.Any
+pub fn Position::from_json(@core.Any) -> Self
+pub fn Position::to_json(Self) -> @core.Any
 
 pub(all) struct Range {
   start : Position
   end_ : Position
 }
-fn Range::as_any(Self) -> @nostd.Any
-fn Range::from_json(@nostd.Any) -> Self
-fn Range::to_json(Self) -> @nostd.Any
+pub fn Range::as_any(Self) -> @core.Any
+pub fn Range::from_json(@core.Any) -> Self
+pub fn Range::to_json(Self) -> @core.Any
 
 pub(all) struct RenameParams {
   text_document : TextDocumentIdentifier
@@ -268,14 +268,14 @@ pub(all) struct SignatureHelp {
   active_signature : Int?
   active_parameter : Int?
 }
-fn SignatureHelp::from_json(@nostd.Any) -> Self
+pub fn SignatureHelp::from_json(@core.Any) -> Self
 
 pub(all) struct SignatureInformation {
   label : String
   documentation : String?
   parameters : Array[ParameterInformation]
 }
-fn SignatureInformation::from_json(@nostd.Any) -> Self
+pub fn SignatureInformation::from_json(@core.Any) -> Self
 
 pub(all) struct SymbolInformation {
   name : String
@@ -283,7 +283,7 @@ pub(all) struct SymbolInformation {
   location : Location
   container_name : String?
 }
-fn SymbolInformation::from_json(@nostd.Any) -> Self
+pub fn SymbolInformation::from_json(@core.Any) -> Self
 
 pub(all) struct TextDocumentIdentifier {
   uri : String
@@ -298,14 +298,15 @@ pub(all) struct TextEdit {
   range : Range
   new_text : String
 }
-fn TextEdit::as_any(Self) -> @nostd.Any
-fn TextEdit::from_json(@nostd.Any) -> Self
+pub fn TextEdit::as_any(Self) -> @core.Any
+pub fn TextEdit::from_json(@core.Any) -> Self
 
 pub(all) struct WorkspaceEdit {
   changes : Map[String, Array[TextEdit]]
 }
-fn WorkspaceEdit::from_json(@nostd.Any) -> Self
+pub fn WorkspaceEdit::from_json(@core.Any) -> Self
 
 // Type aliases
 
 // Traits
+

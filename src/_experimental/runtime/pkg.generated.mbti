@@ -2,31 +2,31 @@
 package "mizchi/js/_experimental/runtime"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn find_moon_mod(String) -> MoonMod?
+pub fn find_moon_mod(String) -> MoonMod?
 
-fn find_moon_pkg(String) -> MoonPkg?
+pub fn find_moon_pkg(String) -> MoonPkg?
 
-fn find_source_map(String) -> String?
+pub fn find_source_map(String) -> String?
 
-fn get_current_file() -> String
+pub fn get_current_file() -> String
 
-fn get_current_source_dir() -> SourceDirInfo?
+pub fn get_current_source_dir() -> SourceDirInfo?
 
-fn get_module_type() -> ModuleType
+pub fn get_module_type() -> ModuleType
 
-fn get_source_dir(String) -> SourceDirInfo?
+pub fn get_source_dir(String) -> SourceDirInfo?
 
-fn is_target_build() -> Bool
+pub fn is_target_build() -> Bool
 
-fn is_target_build_path(String) -> Bool
+pub fn is_target_build_path(String) -> Bool
 
-fn load_source_map(String) -> @nostd.Any?
+pub fn load_source_map(String) -> @core.Any?
 
-fn resolve_pkg_name(String) -> String?
+pub fn resolve_pkg_name(String) -> String?
 
 // Errors
 
@@ -36,7 +36,7 @@ pub enum ModuleType {
   CommonJS
   Unknown
 }
-impl Show for ModuleType
+pub impl Show for ModuleType
 
 pub struct MoonMod {
   path : String
@@ -51,7 +51,7 @@ pub struct MoonMod {
   keywords : Array[String]
   preferred_target : String?
   warn_list : String?
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub struct MoonPkg {
@@ -67,7 +67,7 @@ pub struct MoonPkg {
   warn_list : String?
   native_stub : Array[String]
   overrides : Array[String]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub struct SourceDirInfo {

@@ -11,7 +11,7 @@
 pub type ImageModel
 
 ///|
-pub fn ImageModel::as_any(self : ImageModel) -> @nostd.Any = "%identity"
+pub fn ImageModel::as_any(self : ImageModel) -> @core.Any = "%identity"
 
 // ============================================================
 // Generated Image
@@ -23,13 +23,13 @@ pub(all) struct GeneratedImage {
   /// Base64-encoded image data
   base64 : String
   /// Binary image data (Uint8Array in JS)
-  uint8_array : @nostd.Any
+  uint8_array : @core.Any
   /// Raw image object
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn GeneratedImage::from_any(value : @nostd.Any) -> GeneratedImage {
+pub fn GeneratedImage::from_any(value : @core.Any) -> GeneratedImage {
   {
     base64: value._get("base64").cast(),
     uint8_array: value._get("uint8Array"),
@@ -53,27 +53,27 @@ pub(all) struct GenerateImageResult {
   /// Provider-specific metadata
   provider_metadata : ProviderMetadata?
   /// Raw response
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn GenerateImageResult::from_any(value : @nostd.Any) -> GenerateImageResult {
+pub fn GenerateImageResult::from_any(value : @core.Any) -> GenerateImageResult {
   // Parse images array
   let images_raw = value._get("images")
-  let images : Array[GeneratedImage] = if @nostd.is_undefined(images_raw) ||
-    @nostd.is_null(images_raw) {
+  let images : Array[GeneratedImage] = if @core.is_undefined(images_raw) ||
+    @core.is_null(images_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(images_raw)
+    let arr : Array[@core.Any] = @core.identity(images_raw)
     arr.map(GeneratedImage::from_any)
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
-    @nostd.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @core.is_undefined(warnings_raw) ||
+    @core.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
+    let arr : Array[@core.Any] = @core.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
@@ -109,35 +109,35 @@ pub async fn generateImage(
   /// Seed for reproducible results
   seed? : Int,
   /// Provider-specific options
-  provider_options? : @nostd.Any,
+  provider_options? : @core.Any,
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @nostd.Any,
+  abort_signal? : @core.Any,
   /// Custom headers
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> GenerateImageResult {
-  let opts = @nostd.Object::new()
-  let model_any : @nostd.Any = model.as_any().cast()
+  let opts = @core.Object::new()
+  let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
-  opts._set("prompt", prompt |> @nostd.any)
+  opts._set("prompt", prompt |> @core.any)
   if n is Some(num) {
-    opts._set("n", num |> @nostd.any)
+    opts._set("n", num |> @core.any)
   }
   if size is Some(s) {
-    opts._set("size", s |> @nostd.any)
+    opts._set("size", s |> @core.any)
   }
   if aspect_ratio is Some(ar) {
-    opts._set("aspectRatio", ar |> @nostd.any)
+    opts._set("aspectRatio", ar |> @core.any)
   }
   if seed is Some(s) {
-    opts._set("seed", s |> @nostd.any)
+    opts._set("seed", s |> @core.any)
   }
   if provider_options is Some(po) {
     opts._set("providerOptions", po)
   }
   if max_retries is Some(r) {
-    opts._set("maxRetries", r |> @nostd.any)
+    opts._set("maxRetries", r |> @core.any)
   }
   if abort_signal is Some(s) {
     opts._set("abortSignal", s)
@@ -146,10 +146,10 @@ pub async fn generateImage(
     opts._set("headers", h)
   }
   // Use experimental_generateImage function
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("experimental_generateImage")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   GenerateImageResult::from_any(result)
 }

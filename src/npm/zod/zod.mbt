@@ -4,7 +4,7 @@
 
 ///|
 // TODO: migrate to dynamic import when MoonBit supports ESM
-extern "js" fn zod() -> @nostd.Any =
+extern "js" fn zod() -> @core.Any =
   #| () => require("zod")
 
 ///|
@@ -13,7 +13,7 @@ extern "js" fn zod() -> @nostd.Any =
 pub type ZodSchema
 
 ///|
-pub extern "js" fn ZodSchema::as_any(self : ZodSchema) -> @nostd.Any =
+pub extern "js" fn ZodSchema::as_any(self : ZodSchema) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -22,7 +22,7 @@ pub extern "js" fn ZodSchema::as_any(self : ZodSchema) -> @nostd.Any =
 pub type ZodError
 
 ///|
-pub extern "js" fn ZodError::as_any(self : ZodError) -> @nostd.Any =
+pub extern "js" fn ZodError::as_any(self : ZodError) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -34,7 +34,7 @@ pub suberror ZodParseError ZodError
 priv type SafeParseResult
 
 ///|
-extern "js" fn SafeParseResult::as_any(self : SafeParseResult) -> @nostd.Any =
+extern "js" fn SafeParseResult::as_any(self : SafeParseResult) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -118,14 +118,14 @@ pub fn never() -> ZodSchema {
 ///|
 /// Create an object schema from a Map
 pub fn object(shape : Map[String, ZodSchema]) -> ZodSchema {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   shape.each(fn(key, value) { obj[key] = value.as_any() })
   zod()._call("object", [obj]).cast()
 }
 
 ///|
-/// Create an object schema from raw @nostd.Any
-pub fn object_from_any(shape : @nostd.Any) -> ZodSchema {
+/// Create an object schema from raw @core.Any
+pub fn object_from_any(shape : @core.Any) -> ZodSchema {
   zod()._call("object", [shape]).cast()
 }
 
@@ -138,24 +138,24 @@ pub fn array(element : ZodSchema) -> ZodSchema {
 ///|
 /// Create a tuple schema from an Array
 pub fn tuple(items : Array[ZodSchema]) -> ZodSchema {
-  zod()._call("tuple", [items |> @nostd.identity]).cast()
+  zod()._call("tuple", [items |> @core.identity]).cast()
 }
 
 ///|
 /// Create a union schema from an Array
 pub fn union(options : Array[ZodSchema]) -> ZodSchema {
-  zod()._call("union", [options |> @nostd.identity]).cast()
+  zod()._call("union", [options |> @core.identity]).cast()
 }
 
 ///|
 /// Create an enum schema from string values
 pub fn enum_(values : Array[String]) -> ZodSchema {
-  zod()._call("enum", [values |> @nostd.identity]).cast()
+  zod()._call("enum", [values |> @core.identity]).cast()
 }
 
 ///|
 /// Create a literal schema
-pub fn literal(value : @nostd.Any) -> ZodSchema {
+pub fn literal(value : @core.Any) -> ZodSchema {
   zod()._call("literal", [value]).cast()
 }
 
@@ -191,8 +191,8 @@ pub fn discriminated_union(
 ) -> ZodSchema {
   zod()
   ._call("discriminatedUnion", [
-    @nostd.any(discriminator),
-    options |> @nostd.identity,
+    @core.any(discriminator),
+    options |> @core.identity,
   ])
   .cast()
 }
@@ -206,12 +206,12 @@ pub fn promise(schema : ZodSchema) -> ZodSchema {
 ///|
 /// Create a lazy schema (for recursive types)
 pub fn lazy_(getter : () -> ZodSchema) -> ZodSchema {
-  zod()._call("lazy", [@nostd.from_fn0(fn() { getter().as_any() })]).cast()
+  zod()._call("lazy", [@core.from_fn0(fn() { getter().as_any() })]).cast()
 }
 
 ///|
 /// Create a native enum schema from JS object
-pub fn native_enum(enum_obj : @nostd.Any) -> ZodSchema {
+pub fn native_enum(enum_obj : @core.Any) -> ZodSchema {
   zod()._call("nativeEnum", [enum_obj]).cast()
 }
 
@@ -253,8 +253,8 @@ pub fn coerce_date() -> ZodSchema {
 /// Parse data (raises ZodParseError on validation failure)
 pub fn ZodSchema::parse(
   self : Self,
-  data : @nostd.Any,
-) -> @nostd.Any raise ZodParseError {
+  data : @core.Any,
+) -> @core.Any raise ZodParseError {
   let result : SafeParseResult = self.as_any()._call("safeParse", [data]).cast()
   if result.success() {
     result.data()
@@ -268,8 +268,8 @@ pub fn ZodSchema::parse(
 #alias(safe_parse)
 pub fn ZodSchema::safeParse(
   self : Self,
-  data : @nostd.Any,
-) -> Result[@nostd.Any, ZodError] {
+  data : @core.Any,
+) -> Result[@core.Any, ZodError] {
   let result : SafeParseResult = self.as_any()._call("safeParse", [data]).cast()
   if result.success() {
     Ok(result.data())
@@ -298,7 +298,7 @@ pub fn ZodSchema::nullish(self : Self) -> Self {
 
 ///|
 /// Set default value
-pub fn ZodSchema::default_(self : Self, value : @nostd.Any) -> Self {
+pub fn ZodSchema::default_(self : Self, value : @core.Any) -> Self {
   self.as_any()._call("default", [value]).cast()
 }
 
@@ -306,9 +306,9 @@ pub fn ZodSchema::default_(self : Self, value : @nostd.Any) -> Self {
 /// Transform parsed value
 pub fn ZodSchema::transform(
   self : Self,
-  fn_ : (@nostd.Any) -> @nostd.Any,
+  fn_ : (@core.Any) -> @core.Any,
 ) -> Self {
-  self.as_any()._call("transform", [@nostd.from_fn1(fn_)]).cast()
+  self.as_any()._call("transform", [@core.from_fn1(fn_)]).cast()
 }
 
 ///|
@@ -316,16 +316,16 @@ pub fn ZodSchema::transform(
 /// The predicate returns true if validation passes
 pub fn ZodSchema::refine(
   self : Self,
-  predicate : (@nostd.Any) -> Bool,
+  predicate : (@core.Any) -> Bool,
   message? : String,
 ) -> Self {
   match message {
     Some(msg) => {
-      let opts = @nostd.Object::new()
-      opts["message"] = @nostd.any(msg)
-      self.as_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
+      let opts = @core.Object::new()
+      opts["message"] = @core.any(msg)
+      self.as_any()._call("refine", [@core.from_fn1(predicate), opts]).cast()
     }
-    None => self.as_any()._call("refine", [@nostd.from_fn1(predicate)]).cast()
+    None => self.as_any()._call("refine", [@core.from_fn1(predicate)]).cast()
   }
 }
 
@@ -333,14 +333,14 @@ pub fn ZodSchema::refine(
 /// Custom refinement with custom error path and params
 pub fn ZodSchema::refine_with_path(
   self : Self,
-  predicate : (@nostd.Any) -> Bool,
+  predicate : (@core.Any) -> Bool,
   message : String,
   path : Array[String],
 ) -> Self {
-  let opts = @nostd.Object::new()
-  opts["message"] = @nostd.any(message)
-  opts["path"] = path |> @nostd.identity
-  self.as_any()._call("refine", [@nostd.from_fn1(predicate), opts]).cast()
+  let opts = @core.Object::new()
+  opts["message"] = @core.any(message)
+  opts["path"] = path |> @core.identity
+  self.as_any()._call("refine", [@core.from_fn1(predicate), opts]).cast()
 }
 
 ///|
@@ -354,19 +354,19 @@ pub fn ZodSchema::coerce(self : Self) -> Self {
 ///|
 /// Describe the schema (adds description metadata)
 pub fn ZodSchema::describe(self : Self, description : String) -> Self {
-  self.as_any()._call("describe", [@nostd.any(description)]).cast()
+  self.as_any()._call("describe", [@core.any(description)]).cast()
 }
 
 ///|
 /// Catch errors and return default value
-pub fn ZodSchema::catch_(self : Self, value : @nostd.Any) -> Self {
+pub fn ZodSchema::catch_(self : Self, value : @core.Any) -> Self {
   self.as_any()._call("catch", [value]).cast()
 }
 
 ///|
 /// Brand a schema with a type tag (for nominal typing)
 pub fn ZodSchema::brand(self : Self, brand : String) -> Self {
-  self.as_any()._call("brand", [@nostd.any(brand)]).cast()
+  self.as_any()._call("brand", [@core.any(brand)]).cast()
 }
 
 ///|
@@ -380,19 +380,19 @@ pub fn ZodSchema::pipe(self : Self, schema : Self) -> Self {
 ///|
 /// String min length
 pub fn ZodSchema::min(self : Self, length : Int) -> Self {
-  self.as_any()._call("min", [@nostd.any(length)]).cast()
+  self.as_any()._call("min", [@core.any(length)]).cast()
 }
 
 ///|
 /// String max length
 pub fn ZodSchema::max(self : Self, length : Int) -> Self {
-  self.as_any()._call("max", [@nostd.any(length)]).cast()
+  self.as_any()._call("max", [@core.any(length)]).cast()
 }
 
 ///|
 /// String length
 pub fn ZodSchema::length(self : Self, length : Int) -> Self {
-  self.as_any()._call("length", [@nostd.any(length)]).cast()
+  self.as_any()._call("length", [@core.any(length)]).cast()
 }
 
 ///|
@@ -423,14 +423,14 @@ pub fn ZodSchema::regex(self : Self, pattern : String) -> Self {
 /// String starts with
 #alias(starts_with)
 pub fn ZodSchema::startsWith(self : Self, prefix : String) -> Self {
-  self.as_any()._call("startsWith", [@nostd.any(prefix)]).cast()
+  self.as_any()._call("startsWith", [@core.any(prefix)]).cast()
 }
 
 ///|
 /// String ends with
 #alias(ends_with)
 pub fn ZodSchema::endsWith(self : Self, suffix : String) -> Self {
-  self.as_any()._call("endsWith", [@nostd.any(suffix)]).cast()
+  self.as_any()._call("endsWith", [@core.any(suffix)]).cast()
 }
 
 ///|
@@ -504,24 +504,24 @@ pub fn ZodSchema::base64(self : Self) -> Self {
 ///|
 /// String includes substring
 pub fn ZodSchema::includes(self : Self, value : String) -> Self {
-  self.as_any()._call("includes", [@nostd.any(value)]).cast()
+  self.as_any()._call("includes", [@core.any(value)]).cast()
 }
 
 ///|
 /// String contains substring (alias for includes)
 pub fn ZodSchema::contains(self : Self, value : String) -> Self {
-  self.as_any()._call("includes", [@nostd.any(value)]).cast()
+  self.as_any()._call("includes", [@core.any(value)]).cast()
 }
 
 ///|
 /// Date schema - minimum date
-pub fn ZodSchema::min_date(self : Self, date : @nostd.Any) -> Self {
+pub fn ZodSchema::min_date(self : Self, date : @core.Any) -> Self {
   self.as_any()._call("min", [date]).cast()
 }
 
 ///|
 /// Date schema - maximum date
-pub fn ZodSchema::max_date(self : Self, date : @nostd.Any) -> Self {
+pub fn ZodSchema::max_date(self : Self, date : @core.Any) -> Self {
   self.as_any()._call("max", [date]).cast()
 }
 
@@ -530,25 +530,25 @@ pub fn ZodSchema::max_date(self : Self, date : @nostd.Any) -> Self {
 ///|
 /// Number greater than
 pub fn ZodSchema::gt(self : Self, value : Int) -> Self {
-  self.as_any()._call("gt", [@nostd.any(value)]).cast()
+  self.as_any()._call("gt", [@core.any(value)]).cast()
 }
 
 ///|
 /// Number greater than or equal
 pub fn ZodSchema::gte(self : Self, value : Int) -> Self {
-  self.as_any()._call("gte", [@nostd.any(value)]).cast()
+  self.as_any()._call("gte", [@core.any(value)]).cast()
 }
 
 ///|
 /// Number less than
 pub fn ZodSchema::lt(self : Self, value : Int) -> Self {
-  self.as_any()._call("lt", [@nostd.any(value)]).cast()
+  self.as_any()._call("lt", [@core.any(value)]).cast()
 }
 
 ///|
 /// Number less than or equal
 pub fn ZodSchema::lte(self : Self, value : Int) -> Self {
-  self.as_any()._call("lte", [@nostd.any(value)]).cast()
+  self.as_any()._call("lte", [@core.any(value)]).cast()
 }
 
 ///|
@@ -590,7 +590,7 @@ pub fn ZodSchema::finite(self : Self) -> Self {
 ///|
 /// Number multipleOf (step validation)
 pub fn ZodSchema::multipleOf(self : Self, value : Int) -> Self {
-  self.as_any()._call("multipleOf", [@nostd.any(value)]).cast()
+  self.as_any()._call("multipleOf", [@core.any(value)]).cast()
 }
 
 ///|
@@ -611,7 +611,7 @@ pub fn ZodSchema::nonempty(self : Self) -> Self {
 
 ///|
 /// Object extend with additional properties
-pub fn ZodSchema::extend(self : Self, shape : @nostd.Any) -> Self {
+pub fn ZodSchema::extend(self : Self, shape : @core.Any) -> Self {
   self.as_any()._call("extend", [shape]).cast()
 }
 
@@ -623,13 +623,13 @@ pub fn ZodSchema::merge(self : Self, other : Self) -> Self {
 
 ///|
 /// Object pick certain keys
-pub fn ZodSchema::pick(self : Self, keys : @nostd.Any) -> Self {
+pub fn ZodSchema::pick(self : Self, keys : @core.Any) -> Self {
   self.as_any()._call("pick", [keys]).cast()
 }
 
 ///|
 /// Object omit certain keys
-pub fn ZodSchema::omit(self : Self, keys : @nostd.Any) -> Self {
+pub fn ZodSchema::omit(self : Self, keys : @core.Any) -> Self {
   self.as_any()._call("omit", [keys]).cast()
 }
 
@@ -673,7 +673,7 @@ fn SafeParseResult::success(self : SafeParseResult) -> Bool {
 
 ///|
 /// Get parsed data (only valid if success)
-fn SafeParseResult::data(self : SafeParseResult) -> @nostd.Any {
+fn SafeParseResult::data(self : SafeParseResult) -> @core.Any {
   self.as_any()["data"]
 }
 
@@ -687,7 +687,7 @@ fn SafeParseResult::error(self : SafeParseResult) -> ZodError {
 
 ///|
 /// Get issues array
-pub fn ZodError::issues(self : ZodError) -> @nostd.Any {
+pub fn ZodError::issues(self : ZodError) -> @core.Any {
   self.as_any()["issues"]
 }
 
@@ -716,28 +716,28 @@ pub fn ZodError::issuesArray(self : ZodError) -> Array[ZodIssue] {
 
 ///|
 /// Format error as string
-pub fn ZodError::format(self : ZodError) -> @nostd.Any {
+pub fn ZodError::format(self : ZodError) -> @core.Any {
   self.as_any()._call("format", [])
 }
 
 ///|
 /// Flatten error
-pub fn ZodError::flatten(self : ZodError) -> @nostd.Any {
+pub fn ZodError::flatten(self : ZodError) -> @core.Any {
   self.as_any()._call("flatten", [])
 }
 
 ///| Helper for creating regexp
 
 ///|
-extern "js" fn new_regexp(pattern : String) -> @nostd.Any =
+extern "js" fn new_regexp(pattern : String) -> @core.Any =
   #| (pattern) => new RegExp(pattern)
 
 ///| Helper functions for tests
 
 ///|
 /// Convert JSON to Any for testing
-pub fn[T] from_json(value : T) -> @nostd.Any = "%identity"
+pub fn[T] from_json(value : T) -> @core.Any = "%identity"
 
 ///|
 /// Convert Array to Any for testing
-pub fn[T] from_array(value : Array[T]) -> @nostd.Any = "%identity"
+pub fn[T] from_array(value : Array[T]) -> @core.Any = "%identity"

@@ -9,16 +9,14 @@
 pub type CustomElementRegistry
 
 ///|
-pub fn CustomElementRegistry::as_any(
-  self : CustomElementRegistry,
-) -> @nostd.Any = "%identity"
+pub fn CustomElementRegistry::as_any(self : CustomElementRegistry) -> @core.Any = "%identity"
 
 ///|
 /// Returns the custom elements registry
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry {
-  @nostd.identity(@global.global_this()._get("customElements"))
+  @core.identity(@global.global_this()._get("customElements"))
 }
 
 ///|
@@ -35,7 +33,7 @@ pub struct CustomElementCallbacks {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
 extern "js" fn create_custom_element_class(
   callbacks : CustomElementCallbacks,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(callbacks) => {
   #|  return class extends HTMLElement {
   #|    connectedCallback() {
@@ -62,7 +60,7 @@ pub fn CustomElementRegistry::define_(
   callbacks : CustomElementCallbacks,
 ) -> Unit {
   let element_class = create_custom_element_class(callbacks)
-  self.as_any()._call("define", [@nostd.any(name), @nostd.any(element_class)])
+  self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
   |> ignore
 }
 
@@ -72,7 +70,7 @@ pub fn CustomElementRegistry::define_(
 extern "js" fn create_custom_element_class_with_attributes(
   callbacks : CustomElementCallbacks,
   observedAttributes : Array[String],
-) -> @nostd.Any =
+) -> @core.Any =
   #|(callbacks, observedAttributes) => {
   #|  return class extends HTMLElement {
   #|    static get observedAttributes() {
@@ -104,16 +102,16 @@ pub fn CustomElementRegistry::define_element_with_attributes(
   let element_class = create_custom_element_class_with_attributes(
     callbacks, observed_attributes,
   )
-  self.as_any()._call("define", [@nostd.any(name), @nostd.any(element_class)])
+  self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
   |> ignore
 }
 
 ///|
 /// Returns the constructor for the custom element with the given name
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/get
-pub fn CustomElementRegistry::get(self : Self, name : String) -> @nostd.Any? {
-  let v : @nostd.Any = self.as_any()._call("get", [@nostd.any(name)]).cast()
-  v |> @nostd.identity_option
+pub fn CustomElementRegistry::get(self : Self, name : String) -> @core.Any? {
+  let v : @core.Any = self.as_any()._call("get", [@core.any(name)]).cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -121,13 +119,13 @@ pub fn CustomElementRegistry::get(self : Self, name : String) -> @nostd.Any? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/getName
 pub fn CustomElementRegistry::getName(
   self : Self,
-  element_constructor : @nostd.Any,
+  element_constructor : @core.Any,
 ) -> String? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("getName", [@nostd.any(element_constructor)])
+    ._call("getName", [@core.any(element_constructor)])
     .cast()
-  v |> @nostd.identity_option
+  v |> @core.identity_option
 }
 
 ///|
@@ -139,7 +137,7 @@ pub async fn CustomElementRegistry::whenDefined(
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("whenDefined", [@nostd.any(name)])
+    ._call("whenDefined", [@core.any(name)])
     .cast()
   promise.wait()
 }

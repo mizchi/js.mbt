@@ -261,8 +261,8 @@ test "Date.value_of() returns milliseconds" {
 /// Test Date can be converted to Any
 test "Date can be converted to Any" {
   let date = Date::new()
-  let val : @nostd.Any = date.as_any()
-  inspect(@nostd.is_null(val), content="false")
+  let val : @core.Any = date.as_any()
+  inspect(@core.is_null(val), content="false")
 }
 
 ///|

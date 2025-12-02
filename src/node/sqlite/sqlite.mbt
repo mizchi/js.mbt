@@ -44,7 +44,7 @@
 /// SQLite is an experimental feature in Node.js.
 
 ///|
-extern "js" fn sqlite_module() -> @nostd.Any =
+extern "js" fn sqlite_module() -> @core.Any =
   #| () => require("node:sqlite")
 
 ///|
@@ -65,39 +65,39 @@ pub fn DatabaseSync::new(
   allowUnknownNamedParameters? : Bool,
   defensive? : Bool,
 ) -> DatabaseSync {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if open is Some(v) {
-    opts["open"] = @nostd.any(v)
+    opts["open"] = @core.any(v)
   }
   if readOnly is Some(v) {
-    opts["readOnly"] = @nostd.any(v)
+    opts["readOnly"] = @core.any(v)
   }
   if allowExtension is Some(v) {
-    opts["allowExtension"] = @nostd.any(v)
+    opts["allowExtension"] = @core.any(v)
   }
   if enableForeignKeyConstraints is Some(v) {
-    opts["enableForeignKeyConstraints"] = @nostd.any(v)
+    opts["enableForeignKeyConstraints"] = @core.any(v)
   }
   if timeout is Some(v) {
-    opts["timeout"] = @nostd.any(v)
+    opts["timeout"] = @core.any(v)
   }
   if readBigInts is Some(v) {
-    opts["readBigInts"] = @nostd.any(v)
+    opts["readBigInts"] = @core.any(v)
   }
   if returnArrays is Some(v) {
-    opts["returnArrays"] = @nostd.any(v)
+    opts["returnArrays"] = @core.any(v)
   }
   if allowBareNamedParameters is Some(v) {
-    opts["allowBareNamedParameters"] = @nostd.any(v)
+    opts["allowBareNamedParameters"] = @core.any(v)
   }
   if allowUnknownNamedParameters is Some(v) {
-    opts["allowUnknownNamedParameters"] = @nostd.any(v)
+    opts["allowUnknownNamedParameters"] = @core.any(v)
   }
   if defensive is Some(v) {
-    opts["defensive"] = @nostd.any(v)
+    opts["defensive"] = @core.any(v)
   }
   let cls = sqlite_module()["DatabaseSync"]
-  @nostd.new(cls, [@nostd.any(path), opts]).cast()
+  @core.new(cls, [@core.any(path), opts]).cast()
 }
 
 ///|
@@ -111,60 +111,60 @@ pub fn[T, U] DatabaseSync::aggregate(
   start? : U,
   step? : (T, U) -> T,
   inverse? : (T, U) -> T,
-  result? : (T) -> @nostd.Any,
+  result? : (T) -> @core.Any,
 ) -> Unit {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if deterministic is Some(v) {
-    opts["deterministic"] = @nostd.any(v)
+    opts["deterministic"] = @core.any(v)
   }
   if directOnly is Some(v) {
-    opts["directOnly"] = @nostd.any(v)
+    opts["directOnly"] = @core.any(v)
   }
   if useBigIntArguments is Some(v) {
-    opts["useBigIntArguments"] = @nostd.any(v)
+    opts["useBigIntArguments"] = @core.any(v)
   }
   if varargs is Some(v) {
-    opts["varargs"] = @nostd.any(v)
+    opts["varargs"] = @core.any(v)
   }
   if start is Some(v) {
-    opts["start"] = @nostd.any(v)
+    opts["start"] = @core.any(v)
   }
   if step is Some(v) {
-    opts["step"] = @nostd.any(v)
+    opts["step"] = @core.any(v)
   }
   if inverse is Some(v) {
-    opts["inverse"] = @nostd.any(v)
+    opts["inverse"] = @core.any(v)
   }
   if result is Some(v) {
-    opts["result"] = @nostd.any(v)
+    opts["result"] = @core.any(v)
   }
-  @nostd.any(self)._call("aggregate", [@nostd.any(name), opts]) |> ignore
+  @core.any(self)._call("aggregate", [@core.any(name), opts]) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::function(
   self : DatabaseSync,
   name : String,
-  func : (Array[@nostd.Any]) -> @nostd.Any,
+  func : (Array[@core.Any]) -> @core.Any,
   deterministic? : Bool,
   directOnly? : Bool,
   useBigIntArguments? : Bool,
   varargs? : Bool,
 ) -> Unit {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if deterministic is Some(v) {
-    opts["deterministic"] = @nostd.any(v)
+    opts["deterministic"] = @core.any(v)
   }
   if directOnly is Some(v) {
-    opts["directOnly"] = @nostd.any(v)
+    opts["directOnly"] = @core.any(v)
   }
   if useBigIntArguments is Some(v) {
-    opts["useBigIntArguments"] = @nostd.any(v)
+    opts["useBigIntArguments"] = @core.any(v)
   }
   if varargs is Some(v) {
-    opts["varargs"] = @nostd.any(v)
+    opts["varargs"] = @core.any(v)
   }
-  @nostd.any(self)._call("function", [@nostd.any(name), @nostd.any(func), opts])
+  @core.any(self)._call("function", [@core.any(name), @core.any(func), opts])
   |> ignore
 }
 
@@ -174,7 +174,7 @@ pub fn DatabaseSync::setAuthorizer(
   self : DatabaseSync,
   callback : (Int, String?, String?, String?, String?) -> Int,
 ) -> Unit {
-  @nostd.any(self)._call("setAuthorizer", [@nostd.any(callback)]) |> ignore
+  @core.any(self)._call("setAuthorizer", [@core.any(callback)]) |> ignore
 }
 
 ///|
@@ -182,13 +182,13 @@ pub fn DatabaseSync::location(
   self : DatabaseSync,
   db_name? : String,
 ) -> String? {
-  let args : Array[@nostd.Any] = if db_name is Some(name) {
-    [@nostd.any(name)]
+  let args : Array[@core.Any] = if db_name is Some(name) {
+    [@core.any(name)]
   } else {
     []
   }
-  let result = @nostd.any(self)._call("location", args)
-  if @nostd.is_null(result) {
+  let result = @core.any(self)._call("location", args)
+  if @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -198,7 +198,7 @@ pub fn DatabaseSync::location(
 ///|
 #alias(load_extension)
 pub fn DatabaseSync::loadExtension(self : DatabaseSync, path : String) -> Unit {
-  @nostd.any(self)._call("loadExtension", [@nostd.any(path)]) |> ignore
+  @core.any(self)._call("loadExtension", [@core.any(path)]) |> ignore
 }
 
 ///|
@@ -207,29 +207,29 @@ pub fn DatabaseSync::enableLoadExtension(
   self : DatabaseSync,
   allow : Bool,
 ) -> Unit {
-  @nostd.any(self)._call("enableLoadExtension", [@nostd.any(allow)]) |> ignore
+  @core.any(self)._call("enableLoadExtension", [@core.any(allow)]) |> ignore
 }
 
 ///|
 #alias(is_open)
 pub fn DatabaseSync::isOpen(self : DatabaseSync) -> Bool {
-  @nostd.any(self)["isOpen"].cast()
+  @core.any(self)["isOpen"].cast()
 }
 
 ///|
 #alias(is_transaction)
 pub fn DatabaseSync::isTransaction(self : DatabaseSync) -> Bool {
-  @nostd.any(self)["isTransaction"].cast()
+  @core.any(self)["isTransaction"].cast()
 }
 
 ///|
 pub fn DatabaseSync::open(self : DatabaseSync) -> Unit {
-  @nostd.any(self)._call("open", []) |> ignore
+  @core.any(self)._call("open", []) |> ignore
 }
 
 ///|
 pub fn DatabaseSync::close(self : DatabaseSync) -> Unit {
-  @nostd.any(self)._call("close", []) |> ignore
+  @core.any(self)._call("close", []) |> ignore
 }
 
 ///|
@@ -238,12 +238,12 @@ pub fn DatabaseSync::createTagStore(
   self : DatabaseSync,
   max_size? : Int,
 ) -> SQLTagStore {
-  let args : Array[@nostd.Any] = if max_size is Some(size) {
-    [@nostd.any(size)]
+  let args : Array[@core.Any] = if max_size is Some(size) {
+    [@core.any(size)]
   } else {
     []
   }
-  @nostd.any(self)._call("createTagStore", args).cast()
+  @core.any(self)._call("createTagStore", args).cast()
 }
 
 ///|
@@ -253,19 +253,19 @@ pub fn DatabaseSync::createSession(
   table? : String,
   db? : String,
 ) -> Session {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if table is Some(v) {
-    opts["table"] = @nostd.any(v)
+    opts["table"] = @core.any(v)
   }
   if db is Some(v) {
-    opts["db"] = @nostd.any(v)
+    opts["db"] = @core.any(v)
   }
-  @nostd.any(self)._call("createSession", [opts]).cast()
+  @core.any(self)._call("createSession", [opts]).cast()
 }
 
 ///|
 pub fn DatabaseSync::exec(self : DatabaseSync, query : String) -> Unit {
-  @nostd.any(self)._call("exec", [@nostd.any(query)]).cast()
+  @core.any(self)._call("exec", [@core.any(query)]).cast()
 }
 
 ///|
@@ -273,7 +273,7 @@ pub fn DatabaseSync::prepare(
   self : DatabaseSync,
   query : String,
 ) -> StatementSync {
-  @nostd.any(self)._call("prepare", [@nostd.any(query)]).cast()
+  @core.any(self)._call("prepare", [@core.any(query)]).cast()
 }
 
 ///|
@@ -281,17 +281,17 @@ pub fn DatabaseSync::prepare(
 pub fn DatabaseSync::applyChangeset(
   self : DatabaseSync,
   changeset : @typedarray.Uint8Array,
-  filter? : (@nostd.Any) -> Bool,
-  onConflict? : (@nostd.Any?, @nostd.Any) -> Bool,
+  filter? : (@core.Any) -> Bool,
+  onConflict? : (@core.Any?, @core.Any) -> Bool,
 ) -> Bool {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if filter is Some(f) {
-    opts["filter"] = @nostd.from_fn1(f)
+    opts["filter"] = @core.from_fn1(f)
   }
   if onConflict is Some(oc) {
-    opts["onConflict"] = @nostd.from_fn2(oc)
+    opts["onConflict"] = @core.from_fn2(oc)
   }
-  @nostd.any(self)._call("applyChangeset", [@nostd.any(changeset), opts]).cast()
+  @core.any(self)._call("applyChangeset", [@core.any(changeset), opts]).cast()
 }
 
 ///|
@@ -301,12 +301,12 @@ pub type StatementSync
 ///|
 pub fn StatementSync::get_(
   self : StatementSync,
-  named_parameters? : Map[String, @nostd.Any],
-  anonymous_parameters? : Array[@nostd.Any],
-) -> @nostd.Any? {
-  let args : Array[@nostd.Any] = []
+  named_parameters? : Map[String, @core.Any],
+  anonymous_parameters? : Array[@core.Any],
+) -> @core.Any? {
+  let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     for key, value in params {
       obj[key] = value
     }
@@ -317,8 +317,8 @@ pub fn StatementSync::get_(
       args.push(param)
     }
   }
-  let result = @nostd.any(self)._call("get", args)
-  if @nostd.is_undefined(result) {
+  let result = @core.any(self)._call("get", args)
+  if @core.is_undefined(result) {
     None
   } else {
     Some(result)
@@ -329,19 +329,19 @@ pub fn StatementSync::get_(
 /// Get column information
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn StatementSync::columns(self : StatementSync) -> Array[@nostd.Any] {
-  @nostd.any(self)._call("columns", []).cast()
+pub fn StatementSync::columns(self : StatementSync) -> Array[@core.Any] {
+  @core.any(self)._call("columns", []).cast()
 }
 
 ///|
 pub fn StatementSync::run(
   self : StatementSync,
-  named_parameters? : Map[String, @nostd.Any],
-  anonymous_parameters? : Array[@nostd.Any],
+  named_parameters? : Map[String, @core.Any],
+  anonymous_parameters? : Array[@core.Any],
 ) -> StatementResultingChanges {
-  let args : Array[@nostd.Any] = []
+  let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     for key, value in params {
       obj[key] = value
     }
@@ -352,18 +352,18 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  @nostd.any(self)._call("run", args).cast()
+  @core.any(self)._call("run", args).cast()
 }
 
 ///|
 pub fn StatementSync::all(
   self : StatementSync,
-  named_parameters? : Map[String, @nostd.Any],
-  anonymous_parameters? : Array[@nostd.Any],
-) -> Array[@nostd.Any] {
-  let args : Array[@nostd.Any] = []
+  named_parameters? : Map[String, @core.Any],
+  anonymous_parameters? : Array[@core.Any],
+) -> Array[@core.Any] {
+  let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     for key, value in params {
       obj[key] = value
     }
@@ -374,18 +374,18 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  @nostd.any(self)._call("all", args).cast()
+  @core.any(self)._call("all", args).cast()
 }
 
 ///|
 pub fn StatementSync::iterate(
   self : StatementSync,
-  named_parameters? : Map[String, @nostd.Any],
-  anonymous_parameters? : Array[@nostd.Any],
-) -> @js.JsIterator[@nostd.Any] {
-  let args : Array[@nostd.Any] = []
+  named_parameters? : Map[String, @core.Any],
+  anonymous_parameters? : Array[@core.Any],
+) -> @js.JsIterator[@core.Any] {
+  let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     for key, value in params {
       obj[key] = value
     }
@@ -396,19 +396,19 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  @nostd.any(self)._call("iterate", args).cast()
+  @core.any(self)._call("iterate", args).cast()
 }
 
 ///|
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(self : StatementSync) -> String {
-  @nostd.any(self)["expandedSQL"].cast()
+  @core.any(self)["expandedSQL"].cast()
 }
 
 ///|
 #alias(source_sql)
 pub fn StatementSync::sourceSQL(self : StatementSync) -> String {
-  @nostd.any(self)["sourceSQL"].cast()
+  @core.any(self)["sourceSQL"].cast()
 }
 
 ///|
@@ -417,7 +417,7 @@ pub fn StatementSync::setAllowBareNamedParameters(
   self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  @nostd.any(self)._call("setAllowBareNamedParameters", [@nostd.any(enabled)])
+  @core.any(self)._call("setAllowBareNamedParameters", [@core.any(enabled)])
   |> ignore
 }
 
@@ -427,7 +427,7 @@ pub fn StatementSync::setAllowUnknownNamedParameters(
   self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  @nostd.any(self)._call("setAllowUnknownNamedParameters", [@nostd.any(enabled)])
+  @core.any(self)._call("setAllowUnknownNamedParameters", [@core.any(enabled)])
   |> ignore
 }
 
@@ -437,7 +437,7 @@ pub fn StatementSync::setReturnArrays(
   self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  @nostd.any(self)._call("setReturnArrays", [@nostd.any(enabled)]) |> ignore
+  @core.any(self)._call("setReturnArrays", [@core.any(enabled)]) |> ignore
 }
 
 ///|
@@ -446,7 +446,7 @@ pub fn StatementSync::setReadBigInts(
   self : StatementSync,
   enabled : Bool,
 ) -> Unit {
-  @nostd.any(self)._call("setReadBigInts", [@nostd.any(enabled)]) |> ignore
+  @core.any(self)._call("setReadBigInts", [@core.any(enabled)]) |> ignore
 }
 
 ///|
@@ -461,17 +461,17 @@ pub type Session
 
 ///|
 pub fn Session::changeset(self : Session) -> @typedarray.Uint8Array {
-  @nostd.any(self)._call("changeset", []).cast()
+  @core.any(self)._call("changeset", []).cast()
 }
 
 ///|
 pub fn Session::patchset(self : Session) -> @typedarray.Uint8Array {
-  @nostd.any(self)._call("patchset", []).cast()
+  @core.any(self)._call("patchset", []).cast()
 }
 
 ///|
 pub fn Session::close(self : Session) -> Unit {
-  @nostd.any(self)._call("close", []) |> ignore
+  @core.any(self)._call("close", []) |> ignore
 }
 
 ///|
@@ -480,22 +480,22 @@ pub type SQLTagStore
 
 ///|
 pub fn SQLTagStore::capacity(self : SQLTagStore) -> Int {
-  @nostd.any(self)["capacity"].cast()
+  @core.any(self)["capacity"].cast()
 }
 
 ///|
 pub fn SQLTagStore::size(self : SQLTagStore) -> Int {
-  @nostd.any(self)._call("size", []).cast()
+  @core.any(self)._call("size", []).cast()
 }
 
 ///|
 pub fn SQLTagStore::clear(self : SQLTagStore) -> Unit {
-  @nostd.any(self)._call("clear", []) |> ignore
+  @core.any(self)._call("clear", []) |> ignore
 }
 
 ///|
 pub fn SQLTagStore::db(self : SQLTagStore) -> DatabaseSync {
-  @nostd.any(self)["db"].cast()
+  @core.any(self)["db"].cast()
 }
 
 ///|
@@ -513,27 +513,26 @@ pub fn backup(
   target? : String,
   progress? : (BackupProgress) -> Unit,
 ) -> Unit {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   if rate is Some(v) {
-    opts["rate"] = @nostd.any(v)
+    opts["rate"] = @core.any(v)
   }
   if source is Some(v) {
-    opts["source"] = @nostd.any(v)
+    opts["source"] = @core.any(v)
   }
   if target is Some(v) {
-    opts["target"] = @nostd.any(v)
+    opts["target"] = @core.any(v)
   }
   if progress is Some(f) {
-    opts["progress"] = @nostd.from_fn1(f)
+    opts["progress"] = @core.from_fn1(f)
   }
   let backup_fn = sqlite_module()["backup"]
-  backup_fn._invoke([@nostd.any(source_db), @nostd.any(db_path), opts])
-  |> ignore
+  backup_fn._invoke([@core.any(source_db), @core.any(db_path), opts]) |> ignore
 }
 
 ///|
 /// SQLite constants accessor
-fn get_constants() -> @nostd.Any {
+fn get_constants() -> @core.Any {
   sqlite_module()["constants"]
 }
 

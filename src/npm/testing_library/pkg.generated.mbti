@@ -2,177 +2,174 @@
 package "mizchi/js/npm/testing_library"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
   "mizchi/js/builtins/regexp"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn build_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @nostd.Any?
+pub fn build_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> @core.Any?
 
-fn build_role_options(name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @nostd.Any?
+pub fn build_role_options(name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> @core.Any?
 
-fn build_selector_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @nostd.Any?
+pub fn build_selector_matcher_options(exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> @core.Any?
 
-fn[T : @js.JsImpl] set_opt(@nostd.Any, String, T?) -> Bool
-
-fn to_options(@nostd.Any, Bool) -> @nostd.Any?
+pub fn to_options(@core.Any, Bool) -> @core.Any?
 
 // Errors
 
 // Types and methods
 #external
 pub type FireEvent
-fn FireEvent::as_any(Self) -> @nostd.Any
-fn FireEvent::blur(Self, ScreenResult) -> Bool
-fn FireEvent::change(Self, ScreenResult, @nostd.Any) -> Bool
-fn FireEvent::click(Self, ScreenResult) -> Bool
-fn FireEvent::contextMenu(Self, ScreenResult) -> Bool
-fn FireEvent::copy(Self, ScreenResult) -> Bool
-fn FireEvent::cut(Self, ScreenResult) -> Bool
-fn FireEvent::dblClick(Self, ScreenResult) -> Bool
-fn FireEvent::drag(Self, ScreenResult) -> Bool
-fn FireEvent::dragEnd(Self, ScreenResult) -> Bool
-fn FireEvent::dragEnter(Self, ScreenResult) -> Bool
-fn FireEvent::dragLeave(Self, ScreenResult) -> Bool
-fn FireEvent::dragOver(Self, ScreenResult) -> Bool
-fn FireEvent::dragStart(Self, ScreenResult) -> Bool
-fn FireEvent::drop(Self, ScreenResult) -> Bool
-fn FireEvent::error(Self, ScreenResult) -> Bool
-fn FireEvent::focus(Self, ScreenResult) -> Bool
-fn FireEvent::input(Self, ScreenResult, @nostd.Any) -> Bool
-fn FireEvent::keyDown(Self, ScreenResult, @nostd.Any) -> Bool
-fn FireEvent::keyPress(Self, ScreenResult, @nostd.Any) -> Bool
-fn FireEvent::keyUp(Self, ScreenResult, @nostd.Any) -> Bool
-fn FireEvent::load(Self, ScreenResult) -> Bool
-fn FireEvent::mouseDown(Self, ScreenResult) -> Bool
-fn FireEvent::mouseEnter(Self, ScreenResult) -> Bool
-fn FireEvent::mouseLeave(Self, ScreenResult) -> Bool
-fn FireEvent::mouseMove(Self, ScreenResult) -> Bool
-fn FireEvent::mouseOut(Self, ScreenResult) -> Bool
-fn FireEvent::mouseOver(Self, ScreenResult) -> Bool
-fn FireEvent::mouseUp(Self, ScreenResult) -> Bool
-fn FireEvent::paste(Self, ScreenResult) -> Bool
-fn FireEvent::scroll(Self, ScreenResult) -> Bool
-fn FireEvent::select(Self, ScreenResult) -> Bool
-fn FireEvent::submit(Self, @dom.HTMLElement) -> Bool
-fn FireEvent::touchCancel(Self, ScreenResult) -> Bool
-fn FireEvent::touchEnd(Self, ScreenResult) -> Bool
-fn FireEvent::touchMove(Self, ScreenResult) -> Bool
-fn FireEvent::touchStart(Self, ScreenResult) -> Bool
+pub fn FireEvent::as_any(Self) -> @core.Any
+pub fn FireEvent::blur(Self, ScreenResult) -> Bool
+pub fn FireEvent::change(Self, ScreenResult, @core.Any) -> Bool
+pub fn FireEvent::click(Self, ScreenResult) -> Bool
+pub fn FireEvent::contextMenu(Self, ScreenResult) -> Bool
+pub fn FireEvent::copy(Self, ScreenResult) -> Bool
+pub fn FireEvent::cut(Self, ScreenResult) -> Bool
+pub fn FireEvent::dblClick(Self, ScreenResult) -> Bool
+pub fn FireEvent::drag(Self, ScreenResult) -> Bool
+pub fn FireEvent::dragEnd(Self, ScreenResult) -> Bool
+pub fn FireEvent::dragEnter(Self, ScreenResult) -> Bool
+pub fn FireEvent::dragLeave(Self, ScreenResult) -> Bool
+pub fn FireEvent::dragOver(Self, ScreenResult) -> Bool
+pub fn FireEvent::dragStart(Self, ScreenResult) -> Bool
+pub fn FireEvent::drop(Self, ScreenResult) -> Bool
+pub fn FireEvent::error(Self, ScreenResult) -> Bool
+pub fn FireEvent::focus(Self, ScreenResult) -> Bool
+pub fn FireEvent::input(Self, ScreenResult, @core.Any) -> Bool
+pub fn FireEvent::keyDown(Self, ScreenResult, @core.Any) -> Bool
+pub fn FireEvent::keyPress(Self, ScreenResult, @core.Any) -> Bool
+pub fn FireEvent::keyUp(Self, ScreenResult, @core.Any) -> Bool
+pub fn FireEvent::load(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseDown(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseEnter(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseLeave(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseMove(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseOut(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseOver(Self, ScreenResult) -> Bool
+pub fn FireEvent::mouseUp(Self, ScreenResult) -> Bool
+pub fn FireEvent::paste(Self, ScreenResult) -> Bool
+pub fn FireEvent::scroll(Self, ScreenResult) -> Bool
+pub fn FireEvent::select(Self, ScreenResult) -> Bool
+pub fn FireEvent::submit(Self, @dom.HTMLElement) -> Bool
+pub fn FireEvent::touchCancel(Self, ScreenResult) -> Bool
+pub fn FireEvent::touchEnd(Self, ScreenResult) -> Bool
+pub fn FireEvent::touchMove(Self, ScreenResult) -> Bool
+pub fn FireEvent::touchStart(Self, ScreenResult) -> Bool
 
 #external
 pub type Screen
-fn Screen::as_any(Self) -> @nostd.Any
-fn Screen::debug(Self) -> Unit
+pub fn Screen::as_any(Self) -> @core.Any
+pub fn Screen::debug(Self) -> Unit
 #alias(find_all_by_alt_text)
-async fn[T : TextMatch] Screen::findAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(find_all_by_display_value)
-async fn[T : TextMatch] Screen::findAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(find_all_by_label_text)
-async fn[T : TextMatch] Screen::findAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(find_all_by_placeholder_text)
-async fn[T : TextMatch] Screen::findAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(find_all_by_role)
-async fn Screen::findAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
+pub async fn Screen::findAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
 #alias(find_all_by_test_id)
-async fn Screen::findAllByTestId(Self, String) -> Array[ScreenResult]
+pub async fn Screen::findAllByTestId(Self, String) -> Array[ScreenResult]
 #alias(find_all_by_text)
-async fn[T : TextMatch] Screen::findAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(find_all_by_title)
-async fn[T : TextMatch] Screen::findAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub async fn[T : TextMatch] Screen::findAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(find_by_alt_text)
-async fn[T : TextMatch] Screen::findByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(find_by_display_value)
-async fn[T : TextMatch] Screen::findByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(find_by_label_text)
-async fn[T : TextMatch] Screen::findByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
 #alias(find_by_placeholder_text)
-async fn[T : TextMatch] Screen::findByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(find_by_role)
-async fn Screen::findByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult
+pub async fn Screen::findByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult
 #alias(find_by_test_id)
-async fn Screen::findByTestId(Self, String) -> ScreenResult
+pub async fn Screen::findByTestId(Self, String) -> ScreenResult
 #alias(find_by_text)
-async fn[T : TextMatch] Screen::findByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
 #alias(find_by_title)
-async fn[T : TextMatch] Screen::findByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub async fn[T : TextMatch] Screen::findByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(get_all_by_alt_text)
-fn[T : TextMatch] Screen::getAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(get_all_by_display_value)
-fn[T : TextMatch] Screen::getAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(get_all_by_label_text)
-fn[T : TextMatch] Screen::getAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(get_all_by_placeholder_text)
-fn[T : TextMatch] Screen::getAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(get_all_by_role)
-fn Screen::getAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
+pub fn Screen::getAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
 #alias(get_all_by_test_id)
-fn Screen::getAllByTestId(Self, String) -> Array[ScreenResult]
+pub fn Screen::getAllByTestId(Self, String) -> Array[ScreenResult]
 #alias(get_all_by_text)
-fn[T : TextMatch] Screen::getAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(get_all_by_title)
-fn[T : TextMatch] Screen::getAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::getAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(get_by_alt_text)
-fn[T : TextMatch] Screen::getByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(get_by_display_value)
-fn[T : TextMatch] Screen::getByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(get_by_label_text)
-fn[T : TextMatch] Screen::getByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
 #alias(get_by_placeholder_text)
-fn[T : TextMatch] Screen::getByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(get_by_role)
-fn Screen::getByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult
+pub fn Screen::getByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult
 #alias(get_by_test_id)
-fn Screen::getByTestId(Self, String) -> ScreenResult
+pub fn Screen::getByTestId(Self, String) -> ScreenResult
 #alias(get_by_text)
-fn[T : TextMatch] Screen::getByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult
 #alias(get_by_title)
-fn[T : TextMatch] Screen::getByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
+pub fn[T : TextMatch] Screen::getByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult
 #alias(query_all_by_alt_text)
-fn[T : TextMatch] Screen::queryAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(query_all_by_display_value)
-fn[T : TextMatch] Screen::queryAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(query_all_by_label_text)
-fn[T : TextMatch] Screen::queryAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(query_all_by_placeholder_text)
-fn[T : TextMatch] Screen::queryAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(query_all_by_role)
-fn Screen::queryAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
+pub fn Screen::queryAllByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> Array[ScreenResult]
 #alias(query_all_by_test_id)
-fn Screen::queryAllByTestId(Self, String) -> Array[ScreenResult]
+pub fn Screen::queryAllByTestId(Self, String) -> Array[ScreenResult]
 #alias(query_all_by_text)
-fn[T : TextMatch] Screen::queryAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> Array[ScreenResult]
 #alias(query_all_by_title)
-fn[T : TextMatch] Screen::queryAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
+pub fn[T : TextMatch] Screen::queryAllByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> Array[ScreenResult]
 #alias(query_by_alt_text)
-fn[T : TextMatch] Screen::queryByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByAltText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
 #alias(query_by_display_value)
-fn[T : TextMatch] Screen::queryByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByDisplayValue(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
 #alias(query_by_label_text)
-fn[T : TextMatch] Screen::queryByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByLabelText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult?
 #alias(query_by_placeholder_text)
-fn[T : TextMatch] Screen::queryByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByPlaceholderText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
 #alias(query_by_role)
-fn Screen::queryByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult?
+pub fn Screen::queryByRole(Self, String, name? : String?, hidden? : Bool?, selected? : Bool?, checked? : Bool?, pressed? : Bool?, expanded? : Bool?, level? : Int?, description? : String?) -> ScreenResult?
 #alias(query_by_test_id)
-fn Screen::queryByTestId(Self, String) -> ScreenResult?
+pub fn Screen::queryByTestId(Self, String) -> ScreenResult?
 #alias(query_by_text)
-fn[T : TextMatch] Screen::queryByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByText(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?, selector? : String?) -> ScreenResult?
 #alias(query_by_title)
-fn[T : TextMatch] Screen::queryByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
+pub fn[T : TextMatch] Screen::queryByTitle(Self, T, exact? : Bool?, trim? : Bool?, collapse_whitespace? : Bool?) -> ScreenResult?
 
 #external
 pub type ScreenResult
-fn ScreenResult::as_element(Self) -> @dom.HTMLElement
+pub fn ScreenResult::as_element(Self) -> @dom.HTMLElement
 
 // Type aliases
 
 // Traits
 pub trait TextMatch {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
 }
-impl TextMatch for String
-impl TextMatch for @regexp.RegExp
+pub impl TextMatch for String
+pub impl TextMatch for @regexp.RegExp
 

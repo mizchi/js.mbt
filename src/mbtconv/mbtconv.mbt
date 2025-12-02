@@ -4,7 +4,7 @@
 /// This module provides functions to convert MoonBit built-in types to JavaScript values.
 /// These conversions have runtime overhead due to iteration and recursive processing.
 ///
-/// For zero-cost conversions, use @nostd.identity() or @nostd.any() instead.
+/// For zero-cost conversions, use @core.identity() or @core.any() instead.
 ///
 /// ## Conversion Overhead Summary
 /// - Map[String, T] -> JS Object: O(n) iteration + property setting
@@ -17,10 +17,10 @@
 /// # Example
 ///
 /// ```moonbit
-/// let obj = @mbtconv.from_map({ "name": @nostd.any("Alice"), "age": @nostd.any(30) })
+/// let obj = @mbtconv.from_map({ "name": @core.any("Alice"), "age": @core.any(30) })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_map(map : Map[String, @nostd.Any]) -> @nostd.Any {
+pub fn from_map(map : Map[String, @core.Any]) -> @core.Any {
   let obj = ffi_create_object()
   for k, v in map {
     ffi_set_property(obj, k, v)
@@ -29,14 +29,14 @@ pub fn from_map(map : Map[String, @nostd.Any]) -> @nostd.Any {
 }
 
 ///|
-extern "js" fn ffi_create_object() -> @nostd.Any =
+extern "js" fn ffi_create_object() -> @core.Any =
   #| () => ({})
 
 ///|
 extern "js" fn ffi_set_property(
-  obj : @nostd.Any,
+  obj : @core.Any,
   key : String,
-  val : @nostd.Any,
+  val : @core.Any,
 ) -> Unit =
   #| (obj, key, val) => { obj[key] = val }
 
@@ -48,13 +48,13 @@ extern "js" fn ffi_set_property(
 ///
 /// ```moonbit
 /// let _obj = @mbtconv.from_option_map({
-///   "name": Some(@nostd.any("Alice")),
-///   "age": Some(@nostd.any(30)),
-///   "email": None
+///   "name": Some(@core.any("Alice")),
+///   "age": Some(@core.any(30)),
+///   "email": None,
 /// })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
-pub fn from_option_map(map : Map[String, @nostd.Any?]) -> @nostd.Any {
+pub fn from_option_map(map : Map[String, @core.Any?]) -> @core.Any {
   let obj = ffi_create_object()
   for k, v in map {
     match v {
@@ -66,7 +66,7 @@ pub fn from_option_map(map : Map[String, @nostd.Any?]) -> @nostd.Any {
 }
 
 ///|
-extern "js" fn ffi_is_nullish(v : @nostd.Any) -> Bool =
+extern "js" fn ffi_is_nullish(v : @core.Any) -> Bool =
   #| (v) => v == null
 
 ///|
@@ -82,20 +82,19 @@ extern "js" fn ffi_is_nullish(v : @nostd.Any) -> Bool =
 /// // All None - returns undefined
 /// let result = @mbtconv.from_option_map_or_undefined({
 ///   "timeout": None,
-///   "retries": None
+///   "retries": None,
 /// })
 /// // JavaScript: undefined
 ///
 /// // Some values - returns object
+///
 /// let result = @mbtconv.from_option_map_or_undefined({
-///   "timeout": Some(@nostd.any(5000)),
-///   "retries": None
+///   "timeout": Some(@core.any(5000)),
+///   "retries": None,
 /// })
 /// // JavaScript: { timeout: 5000 }
 /// ```
-pub fn from_option_map_or_undefined(
-  map : Map[String, @nostd.Any?],
-) -> @nostd.Any {
+pub fn from_option_map_or_undefined(map : Map[String, @core.Any?]) -> @core.Any {
   let obj = ffi_create_object()
   let mut has_value = false
   for k, v in map {
@@ -116,7 +115,7 @@ pub fn from_option_map_or_undefined(
 }
 
 ///|
-extern "js" fn ffi_undefined() -> @nostd.Any =
+extern "js" fn ffi_undefined() -> @core.Any =
   #| () => undefined
 
 ///|
@@ -130,15 +129,16 @@ extern "js" fn ffi_undefined() -> @nostd.Any =
 /// ```moonbit
 /// // Convert MoonBit Json to JS
 /// let json : Json = { "name": "Alice", "age": 30 }
+///
 /// let js_obj = @mbtconv.from_json(json)
 /// ```
-pub fn from_json(j : Json) -> @nostd.Any {
+pub fn from_json(j : Json) -> @core.Any {
   match j {
     Null => ffi_null()
-    String(s) => @nostd.any(s)
-    Number(n, ..) => @nostd.any(n)
-    True => @nostd.any(true)
-    False => @nostd.any(false)
+    String(s) => @core.any(s)
+    Number(n, ..) => @core.any(n)
+    True => @core.any(true)
+    False => @core.any(false)
     Object(o) => {
       let obj = ffi_create_object()
       for k, v in o {
@@ -157,15 +157,15 @@ pub fn from_json(j : Json) -> @nostd.Any {
 }
 
 ///|
-extern "js" fn ffi_null() -> @nostd.Any =
+extern "js" fn ffi_null() -> @core.Any =
   #| () => null
 
 ///|
-extern "js" fn ffi_create_array() -> @nostd.Any =
+extern "js" fn ffi_create_array() -> @core.Any =
   #| () => []
 
 ///|
-extern "js" fn ffi_array_push(arr : @nostd.Any, val : @nostd.Any) -> Unit =
+extern "js" fn ffi_array_push(arr : @core.Any, val : @core.Any) -> Unit =
   #| (arr, val) => { arr.push(val) }
 
 ///|
@@ -174,24 +174,25 @@ extern "js" fn ffi_array_push(arr : @nostd.Any, val : @nostd.Any) -> Unit =
 /// # Example
 ///
 /// ```moonbit
-/// let js_obj = @nostd.any({ "name": "Alice" })
+/// let js_obj = @core.any({ "name": "Alice" })
+///
 /// let json = @mbtconv.to_json(js_obj)
 /// ```
-pub fn to_json(v : @nostd.Any) -> Json {
+pub fn to_json(v : @core.Any) -> Json {
   if ffi_is_nullish(v) {
     return Json::null()
   }
   match ffi_typeof(v) {
     "boolean" => {
-      let b : Bool = @nostd.identity(v)
+      let b : Bool = @core.identity(v)
       return b.to_json()
     }
     "number" => {
-      let n : Double = @nostd.identity(v)
+      let n : Double = @core.identity(v)
       return n.to_json()
     }
     "string" => {
-      let s : String = @nostd.identity(v)
+      let s : String = @core.identity(v)
       return s.to_json()
     }
     _ => ()
@@ -210,7 +211,7 @@ pub fn to_json(v : @nostd.Any) -> Json {
     let keys = ffi_object_keys(v)
     let keys_len : Int = ffi_get_length(keys)
     for i = 0; i < keys_len; i = i + 1 {
-      let k : String = @nostd.identity(ffi_get_index(keys, i))
+      let k : String = @core.identity(ffi_get_index(keys, i))
       let val = ffi_get_property(v, k)
       out[k] = to_json(val)
     }
@@ -220,37 +221,37 @@ pub fn to_json(v : @nostd.Any) -> Json {
 }
 
 ///|
-extern "js" fn ffi_typeof(v : @nostd.Any) -> String =
+extern "js" fn ffi_typeof(v : @core.Any) -> String =
   #| (v) => typeof v
 
 ///|
-extern "js" fn ffi_is_array(v : @nostd.Any) -> Bool =
+extern "js" fn ffi_is_array(v : @core.Any) -> Bool =
   #| (v) => Array.isArray(v)
 
 ///|
-extern "js" fn ffi_get_length(v : @nostd.Any) -> Int =
+extern "js" fn ffi_get_length(v : @core.Any) -> Int =
   #| (v) => v.length
 
 ///|
-extern "js" fn ffi_get_index(v : @nostd.Any, i : Int) -> @nostd.Any =
+extern "js" fn ffi_get_index(v : @core.Any, i : Int) -> @core.Any =
   #| (v, i) => v[i]
 
 ///|
-extern "js" fn ffi_object_keys(v : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_object_keys(v : @core.Any) -> @core.Any =
   #| (v) => Object.keys(v)
 
 ///|
-extern "js" fn ffi_get_property(obj : @nostd.Any, key : String) -> @nostd.Any =
+extern "js" fn ffi_get_property(obj : @core.Any, key : String) -> @core.Any =
   #| (obj, key) => obj[key]
 
 ///|
-/// Convert an Option to @nostd.Any, mapping None to null and Some(v) to v.
+/// Convert an Option to @core.Any, mapping None to null and Some(v) to v.
 ///
 /// # Usage
 ///
-/// - `Some(@nostd.any(42)) |> from_option` returns 42
+/// - `Some(@core.any(42)) |> from_option` returns 42
 /// - `None |> from_option` returns null
-pub fn from_option(opt : @nostd.Any?) -> @nostd.Any {
+pub fn from_option(opt : @core.Any?) -> @core.Any {
   match opt {
     Some(v) => v
     None => ffi_null()
@@ -261,10 +262,10 @@ pub fn from_option(opt : @nostd.Any?) -> @nostd.Any {
 /// Safely convert a JavaScript value to an Option type.
 ///
 /// Converts JavaScript `null` or `undefined` to `None`, otherwise returns `Some(value)`.
-pub fn[A] to_option(v : @nostd.Any) -> A? {
+pub fn[A] to_option(v : @core.Any) -> A? {
   if ffi_is_nullish(v) {
     None
   } else {
-    Some(@nostd.identity(v))
+    Some(@core.identity(v))
   }
 }

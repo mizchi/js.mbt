@@ -16,16 +16,16 @@ test "WebAssembly module from bytes" {
 
   // Compile module
   let wasm_module = WebAssemblyModule::from_bytes(bytes)
-  inspect(@nostd.typeof_(wasm_module.as_any()), content="object")
+  inspect(@core.typeof_(wasm_module.as_any()), content="object")
 
   // Instantiate
   let instance = WebAssemblyInstance::from_module(wasm_module, None)
-  inspect(@nostd.typeof_(instance.as_any()), content="object")
+  inspect(@core.typeof_(instance.as_any()), content="object")
 
   // Get exports and call add function
   let exports = instance.exports()
   let add_func = exports._get("add")
-  let result : Int = add_func._invoke([@nostd.any(5), @nostd.any(3)]).cast()
+  let result : Int = add_func._invoke([@core.any(5), @core.any(3)]).cast()
   inspect(result, content="8")
 }
 
@@ -38,7 +38,7 @@ test "WebAssembly Memory" {
     maximum: Some(10),
     shared: false,
   })
-  inspect(@nostd.typeof_(memory.as_any()), content="object")
+  inspect(@core.typeof_(memory.as_any()), content="object")
 
   // Get the buffer
   let buffer = memory.buffer()
@@ -64,7 +64,7 @@ test "WebAssembly Table" {
     initial: 2,
     maximum: Some(10),
   })
-  inspect(@nostd.typeof_(table.as_any()), content="object")
+  inspect(@core.typeof_(table.as_any()), content="object")
 
   // Check initial length
   let length = table.length()
@@ -77,16 +77,16 @@ test "WebAssembly Global" {
   // Create a mutable i32 global
   let global = WebAssemblyGlobal::new(
     { value: "i32", mutable: true },
-    @nostd.any(42),
+    @core.any(42),
   )
-  inspect(@nostd.typeof_(global.as_any()), content="object")
+  inspect(@core.typeof_(global.as_any()), content="object")
 
   // Get the value
   let value : Int = global.value().cast()
   inspect(value, content="42")
 
   // Set a new value
-  global.set_value(100 |> @nostd.any())
+  global.set_value(100 |> @core.any())
   let new_value : Int = global.value().cast()
   inspect(new_value, content="100")
 }
@@ -97,9 +97,9 @@ test "WebAssembly Global immutable" {
   // Create an immutable f64 global
   let global = WebAssemblyGlobal::new(
     { value: "f64", mutable: false },
-    @nostd.any(3.14),
+    @core.any(3.14),
   )
-  inspect(@nostd.typeof_(global.as_any()), content="object")
+  inspect(@core.typeof_(global.as_any()), content="object")
 
   // Get the value
   let value : Double = global.value().cast()

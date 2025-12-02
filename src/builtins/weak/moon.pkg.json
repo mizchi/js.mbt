@@ -1,5 +1,12 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js/nostd"],
-  "test-import": ["mizchi/js", "mizchi/js/builtins/global"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js/core"
+  ],
+  "test-import": [
+    "mizchi/js",
+    "mizchi/js/builtins/global"
+  ]
 }

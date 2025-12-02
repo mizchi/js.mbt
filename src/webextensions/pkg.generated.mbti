@@ -2,11 +2,11 @@
 package "mizchi/js/webextensions"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn browser() -> @nostd.Any
+pub fn browser() -> @core.Any
 
 // Errors
 

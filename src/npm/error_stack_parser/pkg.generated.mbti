@@ -2,21 +2,21 @@
 package "mizchi/js/npm/error_stack_parser"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn capture_stack_trace() -> Array[StackFrame]
+pub fn capture_stack_trace() -> Array[StackFrame]
 
-fn filter_by_file(Array[StackFrame], String) -> Array[StackFrame]
+pub fn filter_by_file(Array[StackFrame], String) -> Array[StackFrame]
 
-fn first_user_frame(Array[StackFrame]) -> StackFrame?
+pub fn first_user_frame(Array[StackFrame]) -> StackFrame?
 
-fn format_stack(Array[StackFrame]) -> String
+pub fn format_stack(Array[StackFrame]) -> String
 
-fn parse(@nostd.Any) -> Array[StackFrame]
+pub fn parse(@core.Any) -> Array[StackFrame]
 
-fn parse_string(String) -> Array[StackFrame]
+pub fn parse_string(String) -> Array[StackFrame]
 
 // Errors
 
@@ -28,7 +28,7 @@ pub(all) struct StackFrame {
   column_number : Int?
   source : String?
 }
-impl Show for StackFrame
+pub impl Show for StackFrame
 
 // Type aliases
 

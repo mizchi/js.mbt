@@ -3,7 +3,7 @@
 // https://nodejs.org/api/os.html
 
 ///|
-extern "js" fn os_module() -> @nostd.Any =
+extern "js" fn os_module() -> @core.Any =
   #| () => require("node:os")
 
 ///|
@@ -12,7 +12,7 @@ extern "js" fn os_module() -> @nostd.Any =
 pub type CpuInfo
 
 ///|
-pub fn CpuInfo::to_any(self : CpuInfo) -> @nostd.Any = "%identity"
+pub fn CpuInfo::to_any(self : CpuInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get the CPU model name
@@ -62,7 +62,7 @@ pub fn CpuInfo::times_irq(self : CpuInfo) -> Int {
 pub type UserInfo
 
 ///|
-pub fn UserInfo::to_any(self : UserInfo) -> @nostd.Any = "%identity"
+pub fn UserInfo::to_any(self : UserInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get the username
@@ -86,7 +86,7 @@ pub fn UserInfo::gid(self : UserInfo) -> Int {
 /// Get the user's shell (may be null on Windows)
 pub fn UserInfo::shell(self : UserInfo) -> String? {
   let v = self.to_any()["shell"]
-  if @nostd.is_null(v) {
+  if @core.is_null(v) {
     None
   } else {
     Some(v.cast())
@@ -108,7 +108,7 @@ pub fn UserInfo::homedir(self : UserInfo) -> String {
 ///
 /// The CPU architecture: 'arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 's390', 's390x', 'x64'
 pub fn arch() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("arch", []).cast()
 }
 
@@ -121,8 +121,8 @@ pub fn arch() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn cpus() -> Array[CpuInfo] {
-  let os : @nostd.Any = os_module() |> @nostd.any
-  os._call("cpus", []) |> @nostd.identity
+  let os : @core.Any = os_module() |> @core.any
+  os._call("cpus", []) |> @core.identity
 }
 
 ///|
@@ -132,28 +132,28 @@ pub fn cpus() -> Array[CpuInfo] {
 ///
 /// 'BE' for big endian or 'LE' for little endian
 pub fn endianness() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("endianness", []).cast()
 }
 
 ///|
 /// Returns the amount of free system memory in bytes
 pub fn freemem() -> Double {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("freemem", []).cast()
 }
 
 ///|
 /// Returns the home directory of the current user
 pub fn homedir() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("homedir", []).cast()
 }
 
 ///|
 /// Returns the host name of the operating system
 pub fn hostname() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("hostname", []).cast()
 }
 
@@ -166,8 +166,8 @@ pub fn hostname() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn loadavg() -> Array[Double] {
-  let os : @nostd.Any = os_module() |> @nostd.any
-  os._call("loadavg", []) |> @nostd.identity
+  let os : @core.Any = os_module() |> @core.any
+  os._call("loadavg", []) |> @core.identity
 }
 
 ///|
@@ -177,9 +177,9 @@ pub fn loadavg() -> Array[Double] {
 ///
 /// An object with interface names as keys
 #alias(network_interfaces)
-pub fn networkInterfaces() -> @nostd.Any {
-  let os : @nostd.Any = os_module() |> @nostd.any
-  os._call("networkInterfaces", []) |> @nostd.identity
+pub fn networkInterfaces() -> @core.Any {
+  let os : @core.Any = os_module() |> @core.any
+  os._call("networkInterfaces", []) |> @core.identity
 }
 
 ///|
@@ -189,28 +189,28 @@ pub fn networkInterfaces() -> @nostd.Any {
 ///
 /// Platform: 'aix', 'darwin', 'freebsd', 'linux', 'openbsd', 'sunos', 'win32'
 pub fn platform() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("platform", []).cast()
 }
 
 ///|
 /// Returns the operating system release
 pub fn release() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("release", []).cast()
 }
 
 ///|
 /// Returns the operating system's default directory for temporary files
 pub fn tmpdir() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("tmpdir", []).cast()
 }
 
 ///|
 /// Returns the total amount of system memory in bytes
 pub fn totalmem() -> Double {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("totalmem", []).cast()
 }
 
@@ -221,14 +221,14 @@ pub fn totalmem() -> Double {
 ///
 /// OS name (e.g., 'Linux', 'Darwin', 'Windows_NT')
 pub fn type_() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("type", []).cast()
 }
 
 ///|
 /// Returns the system uptime in seconds
 pub fn uptime() -> Double {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("uptime", []).cast()
 }
 
@@ -240,8 +240,8 @@ pub fn uptime() -> Double {
 /// An object containing uid, gid, username, homedir, shell
 #alias(userinfo)
 pub fn userInfo() -> UserInfo {
-  let os : @nostd.Any = os_module() |> @nostd.any
-  os._call("userInfo", []) |> @nostd.identity
+  let os : @core.Any = os_module() |> @core.any
+  os._call("userInfo", []) |> @core.identity
 }
 
 ///|
@@ -252,15 +252,15 @@ pub fn userInfo() -> UserInfo {
 /// - `encoding`: The character encoding to use (default: 'utf8')
 #alias(userinfo_with_encoding)
 pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
-  let os : @nostd.Any = os_module() |> @nostd.any
-  let opts = @nostd.from_entries([("encoding", @nostd.any(encoding))])
-  os._call("userInfo", [opts]) |> @nostd.identity
+  let os : @core.Any = os_module() |> @core.any
+  let opts = @core.from_entries([("encoding", @core.any(encoding))])
+  os._call("userInfo", [opts]) |> @core.identity
 }
 
 ///|
 /// Returns the operating system version
 pub fn version() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("version", []).cast()
 }
 
@@ -273,7 +273,7 @@ pub fn version() -> String {
 ///
 /// '\r\n' on Windows, '\n' on POSIX
 pub fn eol() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os["EOL"].cast()
 }
 
@@ -281,9 +281,9 @@ pub fn eol() -> String {
 /// Returns the priority of the process specified by pid
 #alias(get_priority)
 pub fn getPriority(pid~ : Int?) -> Int {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   match pid {
-    Some(p) => os._call("getPriority", [@nostd.any(p)]).cast()
+    Some(p) => os._call("getPriority", [@core.any(p)]).cast()
     None => os._call("getPriority", []).cast()
   }
 }
@@ -292,11 +292,11 @@ pub fn getPriority(pid~ : Int?) -> Int {
 /// Sets the scheduling priority for the process
 #alias(set_priority)
 pub fn setPriority(priority : Int, pid~ : Int?) -> Unit {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   match pid {
     Some(p) =>
-      os._call("setPriority", [@nostd.any(p), @nostd.any(priority)]) |> ignore
-    None => os._call("setPriority", [@nostd.any(priority)]) |> ignore
+      os._call("setPriority", [@core.any(p), @core.any(priority)]) |> ignore
+    None => os._call("setPriority", [@core.any(priority)]) |> ignore
   }
 }
 
@@ -304,7 +304,7 @@ pub fn setPriority(priority : Int, pid~ : Int?) -> Unit {
 /// Returns the number of logical CPU cores available
 #alias(available_parallelism)
 pub fn availableParallelism() -> Int {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("availableParallelism", []).cast()
 }
 
@@ -315,7 +315,7 @@ pub fn availableParallelism() -> Int {
 ///
 /// Machine type (e.g., 'x86_64', 'arm64')
 pub fn machine() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os._call("machine", []).cast()
 }
 
@@ -331,6 +331,6 @@ pub fn machine() -> String {
 /// Device name or empty string if not a TTY
 #alias(dev_null)
 pub fn devNull() -> String {
-  let os : @nostd.Any = os_module() |> @nostd.any
+  let os : @core.Any = os_module() |> @core.any
   os["devNull"].cast()
 }

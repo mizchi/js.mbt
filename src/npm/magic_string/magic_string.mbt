@@ -8,7 +8,7 @@
 pub type MagicString
 
 ///|
-pub extern "js" fn MagicString::as_any(self : MagicString) -> @nostd.Any =
+pub extern "js" fn MagicString::as_any(self : MagicString) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -17,7 +17,7 @@ pub extern "js" fn MagicString::as_any(self : MagicString) -> @nostd.Any =
 pub type SourceMap
 
 ///|
-pub extern "js" fn SourceMap::as_any(self : SourceMap) -> @nostd.Any =
+pub extern "js" fn SourceMap::as_any(self : SourceMap) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -26,7 +26,7 @@ pub extern "js" fn SourceMap::as_any(self : SourceMap) -> @nostd.Any =
 pub type Bundle
 
 ///|
-pub extern "js" fn Bundle::as_any(self : Bundle) -> @nostd.Any =
+pub extern "js" fn Bundle::as_any(self : Bundle) -> @core.Any =
   #| (x) => x
 
 // FFI imports
@@ -38,7 +38,7 @@ extern "js" fn ffi_magic_string_new(source : String) -> MagicString =
 ///|
 extern "js" fn ffi_magic_string_new_with_options(
   source : String,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> MagicString =
   #|(source, options) => new (require('magic-string').default)(source, options)
 
@@ -62,7 +62,7 @@ extern "js" fn ffi_ms_update(
   start : Int,
   end : Int,
   content : String,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> MagicString =
   #|(s, start, end, content, options) => options ? s.update(start, end, content, options) : s.update(start, end, content)
 
@@ -72,7 +72,7 @@ extern "js" fn ffi_ms_overwrite(
   start : Int,
   end : Int,
   content : String,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> MagicString =
   #|(s, start, end, content, options) => options ? s.overwrite(start, end, content, options) : s.overwrite(start, end, content)
 
@@ -103,7 +103,7 @@ extern "js" fn ffi_ms_replace(
 ///|
 extern "js" fn ffi_ms_replace_regex(
   s : MagicString,
-  pattern : @nostd.Any,
+  pattern : @core.Any,
   replacement : String,
 ) -> MagicString =
   #|(s, pattern, replacement) => s.replace(pattern, replacement)
@@ -161,7 +161,7 @@ extern "js" fn ffi_ms_prepend_right(
 extern "js" fn ffi_ms_indent(
   s : MagicString,
   prefix : String?,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> MagicString =
   #|(s, prefix, options) => { if (prefix && options) return s.indent(prefix, options); if (prefix) return s.indent(prefix); return s.indent(); }
 
@@ -190,15 +190,15 @@ extern "js" fn ffi_ms_trim_lines(s : MagicString) -> MagicString =
 ///|
 extern "js" fn ffi_ms_generate_map(
   s : MagicString,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> SourceMap =
   #|(s, options) => options ? s.generateMap(options) : s.generateMap()
 
 ///|
 extern "js" fn ffi_ms_generate_decoded_map(
   s : MagicString,
-  options : @nostd.Any?,
-) -> @nostd.Any =
+  options : @core.Any?,
+) -> @core.Any =
   #|(s, options) => options ? s.generateDecodedMap(options) : s.generateDecodedMap()
 
 ///|
@@ -249,7 +249,7 @@ extern "js" fn ffi_sm_to_url(m : SourceMap) -> String =
 // Bundle FFI
 
 ///|
-extern "js" fn ffi_bundle_add_source(b : Bundle, source : @nostd.Any) -> Bundle =
+extern "js" fn ffi_bundle_add_source(b : Bundle, source : @core.Any) -> Bundle =
   #|(b, source) => b.addSource(source)
 
 ///|
@@ -271,7 +271,7 @@ extern "js" fn ffi_bundle_to_string(b : Bundle) -> String =
 ///|
 extern "js" fn ffi_bundle_generate_map(
   b : Bundle,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> SourceMap =
   #|(b, options) => options ? b.generateMap(options) : b.generateMap()
 
@@ -285,12 +285,12 @@ pub fn MagicString::new(
   offset? : Int,
 ) -> MagicString {
   if filename is Some(_) || offset is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if filename is Some(f) {
-      obj["filename"] = @nostd.any(f)
+      obj["filename"] = @core.any(f)
     }
     if offset is Some(o) {
-      obj["offset"] = @nostd.any(o)
+      obj["offset"] = @core.any(o)
     }
     ffi_magic_string_new_with_options(source, obj)
   } else {
@@ -332,12 +332,12 @@ pub fn MagicString::update(
   overwrite? : Bool,
 ) -> MagicString {
   if store_name is Some(_) || overwrite is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if store_name is Some(s) {
-      obj["storeName"] = @nostd.any(s)
+      obj["storeName"] = @core.any(s)
     }
     if overwrite is Some(o) {
-      obj["overwrite"] = @nostd.any(o)
+      obj["overwrite"] = @core.any(o)
     }
     ffi_ms_update(self, start, end, content, Some(obj))
   } else {
@@ -356,12 +356,12 @@ pub fn MagicString::overwrite(
   content_only? : Bool,
 ) -> MagicString {
   if store_name is Some(_) || content_only is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if store_name is Some(s) {
-      obj["storeName"] = @nostd.any(s)
+      obj["storeName"] = @core.any(s)
     }
     if content_only is Some(c) {
-      obj["contentOnly"] = @nostd.any(c)
+      obj["contentOnly"] = @core.any(c)
     }
     ffi_ms_overwrite(self, start, end, content, Some(obj))
   } else {
@@ -403,7 +403,7 @@ pub fn MagicString::replace(
 /// Replace pattern (regex) with replacement
 pub fn MagicString::replace_regex(
   self : MagicString,
-  pattern : @nostd.Any,
+  pattern : @core.Any,
   replacement : String,
 ) -> MagicString {
   ffi_ms_replace_regex(self, pattern, replacement)
@@ -522,18 +522,18 @@ pub fn MagicString::generate_map(
     source is Some(_) ||
     include_content is Some(_) ||
     hires is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if file is Some(f) {
-      obj["file"] = @nostd.any(f)
+      obj["file"] = @core.any(f)
     }
     if source is Some(s) {
-      obj["source"] = @nostd.any(s)
+      obj["source"] = @core.any(s)
     }
     if include_content is Some(i) {
-      obj["includeContent"] = @nostd.any(i)
+      obj["includeContent"] = @core.any(i)
     }
     if hires is Some(h) {
-      obj["hires"] = @nostd.any(h)
+      obj["hires"] = @core.any(h)
     }
     ffi_ms_generate_map(self, Some(obj))
   } else {
@@ -549,23 +549,23 @@ pub fn MagicString::generate_decoded_map(
   source? : String,
   include_content? : Bool,
   hires? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   if file is Some(_) ||
     source is Some(_) ||
     include_content is Some(_) ||
     hires is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if file is Some(f) {
-      obj["file"] = @nostd.any(f)
+      obj["file"] = @core.any(f)
     }
     if source is Some(s) {
-      obj["source"] = @nostd.any(s)
+      obj["source"] = @core.any(s)
     }
     if include_content is Some(i) {
-      obj["includeContent"] = @nostd.any(i)
+      obj["includeContent"] = @core.any(i)
     }
     if hires is Some(h) {
-      obj["hires"] = @nostd.any(h)
+      obj["hires"] = @core.any(h)
     }
     ffi_ms_generate_decoded_map(self, Some(obj))
   } else {
@@ -637,7 +637,7 @@ pub fn MagicString::get_offset(self : MagicString) -> Int {
 ///|
 /// Set the offset for position adjustment
 pub fn MagicString::set_offset(self : MagicString, offset : Int) -> Unit {
-  self.as_any()["offset"] = @nostd.any(offset)
+  self.as_any()["offset"] = @core.any(offset)
 }
 
 // SourceMap methods
@@ -658,7 +658,7 @@ pub fn SourceMap::to_url(self : SourceMap) -> String {
 /// Get the file name
 pub fn SourceMap::file(self : SourceMap) -> String? {
   let f = self.as_any()["file"]
-  if @nostd.is_nullish(f) {
+  if @core.is_nullish(f) {
     None
   } else {
     Some(f.cast())
@@ -675,7 +675,7 @@ pub fn SourceMap::sources(self : SourceMap) -> Array[String] {
 /// Get the sources content array
 pub fn SourceMap::sources_content(self : SourceMap) -> Array[String]? {
   let sc = self.as_any()["sourcesContent"]
-  if @nostd.is_nullish(sc) {
+  if @core.is_nullish(sc) {
     None
   } else {
     Some(sc.cast())
@@ -703,8 +703,8 @@ pub fn Bundle::add_source_with_filename(
   filename : String,
   content : MagicString,
 ) -> Bundle {
-  let obj = @nostd.Object::new()
-  obj["filename"] = @nostd.any(filename)
+  let obj = @core.Object::new()
+  obj["filename"] = @core.any(filename)
   obj["content"] = content.as_any()
   ffi_bundle_add_source(self, obj)
 }
@@ -742,15 +742,15 @@ pub fn Bundle::generate_map(
   hires? : Bool,
 ) -> SourceMap {
   if file is Some(_) || include_content is Some(_) || hires is Some(_) {
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     if file is Some(f) {
-      obj["file"] = @nostd.any(f)
+      obj["file"] = @core.any(f)
     }
     if include_content is Some(i) {
-      obj["includeContent"] = @nostd.any(i)
+      obj["includeContent"] = @core.any(i)
     }
     if hires is Some(h) {
-      obj["hires"] = @nostd.any(h)
+      obj["hires"] = @core.any(h)
     }
     ffi_bundle_generate_map(self, Some(obj))
   } else {

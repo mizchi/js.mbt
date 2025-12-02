@@ -6,40 +6,40 @@ test "ok - truthy value" {
 
 ///|
 test "equal - strict equality" {
-  equal(@nostd.any(1), @nostd.any(1))
-  equal(@nostd.any("hello"), @nostd.any("hello"))
-  equal(@nostd.any(true), @nostd.any(true))
+  equal(@core.any(1), @core.any(1))
+  equal(@core.any("hello"), @core.any("hello"))
+  equal(@core.any(true), @core.any(true))
 }
 
 ///|
 test "notEqual - strict inequality" {
-  notEqual(@nostd.any(1), @nostd.any(2))
-  notEqual(@nostd.any("hello"), @nostd.any("world"))
-  notEqual(@nostd.any(1), @nostd.any("1")) // strict mode: 1 !== "1"
+  notEqual(@core.any(1), @core.any(2))
+  notEqual(@core.any("hello"), @core.any("world"))
+  notEqual(@core.any(1), @core.any("1")) // strict mode: 1 !== "1"
 }
 
 ///|
 test "deepEqual - deep strict equality" {
-  let obj1 = @nostd.Object::new()
-  obj1["a"] = @nostd.any(1)
-  obj1["b"] = @nostd.any(2)
-  let obj2 = @nostd.Object::new()
-  obj2["a"] = @nostd.any(1)
-  obj2["b"] = @nostd.any(2)
+  let obj1 = @core.Object::new()
+  obj1["a"] = @core.any(1)
+  obj1["b"] = @core.any(2)
+  let obj2 = @core.Object::new()
+  obj2["a"] = @core.any(1)
+  obj2["b"] = @core.any(2)
   deepEqual(obj1, obj2)
 }
 
 ///|
 test "strictEqual - same as equal in strict mode" {
-  strictEqual(@nostd.any(42), @nostd.any(42))
-  strictEqual(@nostd.any("test"), @nostd.any("test"))
+  strictEqual(@core.any(42), @core.any(42))
+  strictEqual(@core.any("test"), @core.any("test"))
 }
 
 ///|
 test "deepStrictEqual - recursive strict equality" {
   let arr1 = @js.JsArray::from([1, 2, 3])
   let arr2 = @js.JsArray::from([1, 2, 3])
-  deepStrictEqual(@nostd.any(arr1), @nostd.any(arr2))
+  deepStrictEqual(@core.any(arr1), @core.any(arr2))
 }
 
 ///|
@@ -69,6 +69,6 @@ test "doesNotMatch - regex does not match" {
 
 ///|
 test "ifError - null and undefined pass" {
-  ifError(@nostd.null())
-  ifError(@nostd.undefined())
+  ifError(@core.null())
+  ifError(@core.undefined())
 }

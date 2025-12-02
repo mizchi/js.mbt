@@ -10,12 +10,12 @@ extern "js" fn kv_json_response(body : String, status : Int) -> @http.Response =
 ///|
 /// Helper to get KV namespace from env
 fn get_kv(env : @cloudflare.CloudflareEnv) -> @cloudflare.KVNamespace? {
-  let env_js : @nostd.Any = @nostd.identity(env)
+  let env_js : @core.Any = @core.identity(env)
   let kv_js = env_js._get("MY_KV")
-  if @nostd.typeof_(kv_js) == "undefined" {
+  if @core.typeof_(kv_js) == "undefined" {
     None
   } else {
-    Some(@nostd.identity(kv_js))
+    Some(@core.identity(kv_js))
   }
 }
 
@@ -129,17 +129,17 @@ pub fn get_kv_handler() -> @cloudflare.CloudflareFetchHandler {
         _ => return kv_json_response("{\"error\":\"Failed to list keys\"}", 500)
       }
       let keys = result.keys
-      let keys_json = @nostd.JsArray::new()
+      let keys_json = @core.JsArray::new()
       let mut i = 0
       while i < keys.length() {
         let key = keys[i]
         let name = key.name
-        keys_json._call("push", [@nostd.any(name)]) |> ignore
+        keys_json._call("push", [@core.any(name)]) |> ignore
         i = i + 1
       }
-      let response_json = @nostd.Object::new()
-      response_json["keys"] = keys_json |> @nostd.any
-      response_json["count"] = keys.length() |> @nostd.any
+      let response_json = @core.Object::new()
+      response_json["keys"] = keys_json |> @core.any
+      response_json["count"] = keys.length() |> @core.any
 
       // Convert to JSON string
       let json_str = @js.JSON::stringify(response_json)

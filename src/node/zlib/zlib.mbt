@@ -24,26 +24,26 @@ pub fn ZlibOptions::new() -> ZlibOptions {
 
 ///|
 /// Convert ZlibOptions to JavaScript object
-pub fn ZlibOptions::as_any(self : ZlibOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn ZlibOptions::as_any(self : ZlibOptions) -> @core.Any {
+  let obj = @core.Object::new()
   match self.level {
-    Some(v) => obj._set("level", v |> @nostd.any)
+    Some(v) => obj._set("level", v |> @core.any)
     None => ()
   }
   match self.chunk_size {
-    Some(v) => obj._set("chunkSize", v |> @nostd.any)
+    Some(v) => obj._set("chunkSize", v |> @core.any)
     None => ()
   }
   match self.mem_level {
-    Some(v) => obj._set("memLevel", v |> @nostd.any)
+    Some(v) => obj._set("memLevel", v |> @core.any)
     None => ()
   }
   match self.strategy {
-    Some(v) => obj._set("strategy", v |> @nostd.any)
+    Some(v) => obj._set("strategy", v |> @core.any)
     None => ()
   }
   match self.window_bits {
-    Some(v) => obj._set("windowBits", v |> @nostd.any)
+    Some(v) => obj._set("windowBits", v |> @core.any)
     None => ()
   }
   obj
@@ -51,9 +51,9 @@ pub fn ZlibOptions::as_any(self : ZlibOptions) -> @nostd.Any {
 
 ///|
 extern "js" fn ffi_gzip(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -63,19 +63,19 @@ extern "js" fn ffi_gzip(
 ///|
 /// Compress data using gzip
 pub fn gzip(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_gzip(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_gunzip(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -85,19 +85,19 @@ extern "js" fn ffi_gunzip(
 ///|
 /// Decompress gzip data
 pub fn gunzip(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_gunzip(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_deflate(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -107,19 +107,19 @@ extern "js" fn ffi_deflate(
 ///|
 /// Compress data using deflate
 pub fn deflate(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_deflate(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_inflate(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -129,19 +129,19 @@ extern "js" fn ffi_inflate(
 ///|
 /// Decompress deflate data
 pub fn inflate(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_inflate(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_brotli_compress(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -151,19 +151,19 @@ extern "js" fn ffi_brotli_compress(
 ///|
 /// Compress data using Brotli
 pub fn brotli_compress(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_brotli_compress(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_brotli_decompress(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -173,19 +173,19 @@ extern "js" fn ffi_brotli_decompress(
 ///|
 /// Decompress Brotli data
 pub fn brotli_decompress(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_brotli_decompress(buffer, options.as_any(), cb)
 }
 
 ///|
 extern "js" fn ffi_unzip(
-  buffer : @nostd.Any,
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (buffer, options, callback) => {
   #|   const zlib = require('zlib');
@@ -195,11 +195,11 @@ extern "js" fn ffi_unzip(
 ///|
 /// Decompress data with auto-detection
 pub fn unzip(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   options : ZlibOptions,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_unzip(buffer, options.as_any(), cb)
 }
 
@@ -209,10 +209,10 @@ pub fn unzip(
 pub type Gzip
 
 ///|
-pub fn Gzip::as_any(self : Gzip) -> @nostd.Any = "%identity"
+pub fn Gzip::as_any(self : Gzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gzip(options : @nostd.Any) -> Gzip =
+extern "js" fn ffi_create_gzip(options : @core.Any) -> Gzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGzip(options);
@@ -230,10 +230,10 @@ pub fn create_gzip(options : ZlibOptions) -> Gzip {
 pub type Gunzip
 
 ///|
-pub fn Gunzip::as_any(self : Gunzip) -> @nostd.Any = "%identity"
+pub fn Gunzip::as_any(self : Gunzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gunzip(options : @nostd.Any) -> Gunzip =
+extern "js" fn ffi_create_gunzip(options : @core.Any) -> Gunzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGunzip(options);
@@ -251,10 +251,10 @@ pub fn create_gunzip(options : ZlibOptions) -> Gunzip {
 pub type Deflate
 
 ///|
-pub fn Deflate::as_any(self : Deflate) -> @nostd.Any = "%identity"
+pub fn Deflate::as_any(self : Deflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_deflate(options : @nostd.Any) -> Deflate =
+extern "js" fn ffi_create_deflate(options : @core.Any) -> Deflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createDeflate(options);
@@ -272,10 +272,10 @@ pub fn create_deflate(options : ZlibOptions) -> Deflate {
 pub type Inflate
 
 ///|
-pub fn Inflate::as_any(self : Inflate) -> @nostd.Any = "%identity"
+pub fn Inflate::as_any(self : Inflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_inflate(options : @nostd.Any) -> Inflate =
+extern "js" fn ffi_create_inflate(options : @core.Any) -> Inflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createInflate(options);
@@ -293,11 +293,11 @@ pub fn create_inflate(options : ZlibOptions) -> Inflate {
 pub type BrotliCompress
 
 ///|
-pub fn BrotliCompress::as_any(self : BrotliCompress) -> @nostd.Any = "%identity"
+pub fn BrotliCompress::as_any(self : BrotliCompress) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_brotli_compress(
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> BrotliCompress =
   #| (options) => {
   #|   const zlib = require('zlib');
@@ -316,11 +316,11 @@ pub fn create_brotli_compress(options : ZlibOptions) -> BrotliCompress {
 pub type BrotliDecompress
 
 ///|
-pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @nostd.Any = "%identity"
+pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_create_brotli_decompress(
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> BrotliDecompress =
   #| (options) => {
   #|   const zlib = require('zlib');

@@ -1,6 +1,6 @@
 ///|
 test "JsIterator::drop" {
-  let arr = @nostd.any([1, 2, 3, 4, 5])
+  let arr = @core.any([1, 2, 3, 4, 5])
   let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let dropped = iter.drop(2)
   let result = dropped.toArray()
@@ -12,7 +12,7 @@ test "JsIterator::drop" {
 
 ///|
 test "JsIterator::take" {
-  let arr = @nostd.any([1, 2, 3, 4, 5])
+  let arr = @core.any([1, 2, 3, 4, 5])
   let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let taken = iter.take(3)
   let result = taken.toArray()
@@ -24,7 +24,7 @@ test "JsIterator::take" {
 
 ///|
 test "JsIterator::drop and take combined" {
-  let arr = @nostd.any([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+  let arr = @core.any([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
   let iter : @js.JsIterator[Int] = @js.JsIterator::from(arr)
   let result = iter.drop(2).take(5).toArray()
   inspect(result.length(), content="5")

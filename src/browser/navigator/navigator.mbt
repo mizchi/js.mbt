@@ -13,14 +13,14 @@ pub(all) struct Navigator {
   vendor : String
   cookieEnabled : Bool
   doNotTrack : String?
-  connection : @nostd.Any?
-  permissions : @nostd.Any
-  clipboard : @nostd.Any
-  geolocation : @nostd.Any
+  connection : @core.Any?
+  permissions : @core.Any
+  clipboard : @core.Any
+  geolocation : @core.Any
 }
 
 ///|
-pub fn Navigator::as_any(self : Navigator) -> @nostd.Any = "%identity"
+pub fn Navigator::as_any(self : Navigator) -> @core.Any = "%identity"
 
 ///|
 /// Returns the global navigator object
@@ -31,5 +31,5 @@ pub extern "js" fn navigator() -> Navigator =
 /// Vibrates the device
 /// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
 pub fn Navigator::vibrate(self : Navigator, pattern : Int) -> Bool {
-  self.as_any()._call("vibrate", [@nostd.any(pattern)]).cast()
+  self.as_any()._call("vibrate", [@core.any(pattern)]).cast()
 }

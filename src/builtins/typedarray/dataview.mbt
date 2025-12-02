@@ -6,14 +6,14 @@ pub(all) struct DataView {
 }
 
 ///|
-pub fn DataView::as_any(self : DataView) -> @nostd.Any = "%identity"
+pub fn DataView::as_any(self : DataView) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_dataview(
-  buffer : @nostd.Any,
+  buffer : @core.Any,
   byte_offset : Int,
   byte_length : Int?,
-) -> @nostd.Any =
+) -> @core.Any =
   #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
 
 ///|
@@ -22,21 +22,25 @@ pub fn DataView::new(
   byte_offset? : Int = 0,
   byte_length? : Int,
 ) -> DataView {
-  @nostd.identity(
-    ffi_new_dataview(buffer.to_any() |> @nostd.identity, byte_offset, byte_length),
+  @core.identity(
+    ffi_new_dataview(
+      buffer.to_any() |> @core.identity,
+      byte_offset,
+      byte_length,
+    ),
   )
 }
 
 ///|
 #alias(getInt8)
 pub fn DataView::get_int8(self : DataView, byte_offset : Int) -> Int {
-  self.as_any()._call("getInt8", [@nostd.any(byte_offset)]).cast()
+  self.as_any()._call("getInt8", [@core.any(byte_offset)]).cast()
 }
 
 ///|
 #alias(getUint8)
 pub fn DataView::get_uint8(self : DataView, byte_offset : Int) -> Int {
-  self.as_any()._call("getUint8", [@nostd.any(byte_offset)]).cast()
+  self.as_any()._call("getUint8", [@core.any(byte_offset)]).cast()
 }
 
 ///|
@@ -48,7 +52,7 @@ pub fn DataView::get_int16(
 ) -> Int {
   self
   .as_any()
-  ._call("getInt16", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getInt16", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -61,7 +65,7 @@ pub fn DataView::get_uint16(
 ) -> Int {
   self
   .as_any()
-  ._call("getUint16", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getUint16", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -74,7 +78,7 @@ pub fn DataView::get_int32(
 ) -> Int {
   self
   .as_any()
-  ._call("getInt32", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getInt32", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -87,7 +91,7 @@ pub fn DataView::get_uint32(
 ) -> Int {
   self
   .as_any()
-  ._call("getUint32", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getUint32", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -100,7 +104,7 @@ pub fn DataView::get_float32(
 ) -> Double {
   self
   .as_any()
-  ._call("getFloat32", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getFloat32", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -113,7 +117,7 @@ pub fn DataView::get_float64(
 ) -> Double {
   self
   .as_any()
-  ._call("getFloat64", [@nostd.any(byte_offset), @nostd.any(little_endian)])
+  ._call("getFloat64", [@core.any(byte_offset), @core.any(little_endian)])
   .cast()
 }
 
@@ -124,7 +128,7 @@ pub fn DataView::set_int8(
   byte_offset : Int,
   value : Int,
 ) -> Unit {
-  self.as_any()._call("setInt8", [@nostd.any(byte_offset), @nostd.any(value)])
+  self.as_any()._call("setInt8", [@core.any(byte_offset), @core.any(value)])
   |> ignore
 }
 
@@ -135,7 +139,7 @@ pub fn DataView::set_uint8(
   byte_offset : Int,
   value : Int,
 ) -> Unit {
-  self.as_any()._call("setUint8", [@nostd.any(byte_offset), @nostd.any(value)])
+  self.as_any()._call("setUint8", [@core.any(byte_offset), @core.any(value)])
   |> ignore
 }
 
@@ -150,9 +154,9 @@ pub fn DataView::set_int16(
   self
   .as_any()
   ._call("setInt16", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }
@@ -168,9 +172,9 @@ pub fn DataView::set_uint16(
   self
   .as_any()
   ._call("setUint16", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }
@@ -186,9 +190,9 @@ pub fn DataView::set_int32(
   self
   .as_any()
   ._call("setInt32", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }
@@ -204,9 +208,9 @@ pub fn DataView::set_uint32(
   self
   .as_any()
   ._call("setUint32", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }
@@ -222,9 +226,9 @@ pub fn DataView::set_float32(
   self
   .as_any()
   ._call("setFloat32", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }
@@ -240,9 +244,9 @@ pub fn DataView::set_float64(
   self
   .as_any()
   ._call("setFloat64", [
-    @nostd.any(byte_offset),
-    @nostd.any(value),
-    @nostd.any(little_endian),
+    @core.any(byte_offset),
+    @core.any(value),
+    @core.any(little_endian),
   ])
   |> ignore
 }

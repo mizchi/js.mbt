@@ -82,21 +82,21 @@ test "write_heap_snapshot with custom filename" {
 /// Test get_heap_snapshot returns stream
 test "get_heap_snapshot returns stream" {
   let stream = @v8.getHeapSnapshot()
-  inspect(@nostd.typeof_(stream) == "object", content="true")
+  inspect(@core.typeof_(stream) == "object", content="true")
 }
 
 ///|
 /// Test get_heap_snapshot with options
 test "get_heap_snapshot with expose_internals" {
   let stream = @v8.getHeapSnapshot(expose_internals=true)
-  inspect(@nostd.typeof_(stream) == "object", content="true")
+  inspect(@core.typeof_(stream) == "object", content="true")
 }
 
 ///|
 /// Test get_heap_snapshot with expose_numeric_values
 test "get_heap_snapshot with expose_numeric_values" {
   let stream = @v8.getHeapSnapshot(expose_numeric_values=true)
-  inspect(@nostd.typeof_(stream) == "object", content="true")
+  inspect(@core.typeof_(stream) == "object", content="true")
 }
 
 ///|
@@ -106,7 +106,7 @@ test "get_heap_snapshot with both options" {
     expose_internals=true,
     expose_numeric_values=true,
   )
-  inspect(@nostd.typeof_(stream) == "object", content="true")
+  inspect(@core.typeof_(stream) == "object", content="true")
 }
 
 ///|
@@ -122,30 +122,30 @@ test "set_heap_snapshot_near_heap_limit" {
 /// Test serialize and deserialize number
 test "serialize and deserialize number" {
   let original = 42
-  let serialized = serialize(original |> @nostd.any)
+  let serialized = serialize(original |> @core.any)
   let deserialized = deserialize(serialized)
-  inspect(@nostd.identity(deserialized) == 42, content="true")
+  inspect(@core.identity(deserialized) == 42, content="true")
 }
 
 ///|
 /// Test serialize and deserialize string
 test "serialize and deserialize string" {
   let original = "Hello, V8!"
-  let serialized = serialize(original |> @nostd.any)
-  let deserialized : String = @nostd.identity(deserialize(serialized))
+  let serialized = serialize(original |> @core.any)
+  let deserialized : String = @core.identity(deserialize(serialized))
   inspect(deserialized == "Hello, V8!", content="true")
 }
 
 ///|
 /// Test serialize and deserialize object
 test "serialize and deserialize object" {
-  let obj = @nostd.Object::new()
-  obj._set("name", "test" |> @nostd.any)
-  obj._set("value", 123 |> @nostd.any)
+  let obj = @core.Object::new()
+  obj._set("name", "test" |> @core.any)
+  obj._set("value", 123 |> @core.any)
   let serialized = serialize(obj)
   let deserialized = deserialize(serialized)
-  inspect(@nostd.identity(deserialized._get("name")) == "test", content="true")
-  inspect(@nostd.identity(deserialized._get("value")) == 123, content="true")
+  inspect(@core.identity(deserialized._get("name")) == "test", content="true")
+  inspect(@core.identity(deserialized._get("value")) == 123, content="true")
 }
 
 ///| Serializer Tests
@@ -155,10 +155,10 @@ test "serialize and deserialize object" {
 test "Serializer write and release" {
   let serializer = Serializer::new()
   serializer.write_header()
-  let success = serializer.write_value(42 |> @nostd.any)
+  let success = serializer.write_value(42 |> @core.any)
   inspect(success, content="true")
   let buffer = serializer.releaseBuffer()
-  inspect(@nostd.identity(buffer.as_any()._get("length")) > 0, content="true")
+  inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -168,7 +168,7 @@ test "Serializer write_uint32" {
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.releaseBuffer()
-  inspect(@nostd.identity(buffer.as_any()._get("length")) > 0, content="true")
+  inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -178,7 +178,7 @@ test "Serializer write_double" {
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.releaseBuffer()
-  inspect(@nostd.identity(buffer.as_any()._get("length")) > 0, content="true")
+  inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -189,7 +189,7 @@ test "Serializer transfer_array_buffer" {
   let ab = @js.ArrayBuffer::new(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
-  inspect(@nostd.identity(buffer.as_any()._get("length")) > 0, content="true")
+  inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
 }
 
 ///|
@@ -198,9 +198,9 @@ test "Serializer write_raw_bytes" {
   let serializer = Serializer::new()
   serializer.write_header()
   let buffer = @buffer.Buffer::from_string("test")
-  serializer.write_raw_bytes(buffer |> @nostd.any)
+  serializer.write_raw_bytes(buffer |> @core.any)
   let released = serializer.releaseBuffer()
-  inspect(@nostd.identity(released.as_any()._get("length")) > 0, content="true")
+  inspect(@core.identity(released.as_any()._get("length")) > 0, content="true")
 }
 
 ///| Deserializer Tests
@@ -209,17 +209,17 @@ test "Serializer write_raw_bytes" {
 /// Test Deserializer read value
 test "Deserializer read value" {
   let original = 42
-  let serialized = serialize(original |> @nostd.any)
+  let serialized = serialize(original |> @core.any)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
   let value = deserializer.read_value()
-  inspect(@nostd.identity(value) == 42, content="true")
+  inspect(@core.identity(value) == 42, content="true")
 }
 
 ///|
 /// Test Deserializer get wire format version
 test "Deserializer get_wire_format_version" {
-  let serialized = serialize(42 |> @nostd.any)
+  let serialized = serialize(42 |> @core.any)
   let deserializer = Deserializer::new(serialized)
   let version = deserializer.get_wire_format_version()
   inspect(version >= 0, content="true")
@@ -229,7 +229,7 @@ test "Deserializer get_wire_format_version" {
 /// Test Deserializer transfer_array_buffer
 test "Deserializer transfer_array_buffer" {
   let ab = @js.ArrayBuffer::new(16)
-  let serialized = serialize(ab |> @nostd.any)
+  let serialized = serialize(ab |> @core.any)
   let deserializer = Deserializer::new(serialized)
   deserializer.read_header() |> ignore
   let new_ab = @js.ArrayBuffer::new(16)
@@ -269,13 +269,13 @@ test "Deserializer read_raw_bytes" {
   let serializer = Serializer::new()
   serializer.write_header()
   let test_buffer = @buffer.Buffer::from_string("test data")
-  serializer.write_raw_bytes(test_buffer |> @nostd.any)
+  serializer.write_raw_bytes(test_buffer |> @core.any)
   let buffer = serializer.releaseBuffer()
   let deserializer = Deserializer::new(buffer)
   deserializer.read_header() |> ignore
   let read_buffer = deserializer.readRawBytes(9)
   inspect(
-    @nostd.identity(read_buffer.as_any()._get("length")) == 9,
+    @core.identity(read_buffer.as_any()._get("length")) == 9,
     content="true",
   )
 }

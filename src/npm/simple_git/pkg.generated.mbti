@@ -2,106 +2,106 @@
 package "mizchi/js/npm/simple_git"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn simpleGit(base_dir? : String, binary? : String, maxConcurrentProcesses? : Int, trimmed? : Bool) -> SimpleGit
+pub fn simpleGit(base_dir? : String, binary? : String, maxConcurrentProcesses? : Int, trimmed? : Bool) -> SimpleGit
 
 // Errors
 
 // Types and methods
 #external
 pub type BranchSummary
-fn BranchSummary::all(Self) -> Array[String]
-fn BranchSummary::as_any(Self) -> @nostd.Any
-fn BranchSummary::branches(Self) -> @nostd.Any
-fn BranchSummary::current(Self) -> String
+pub fn BranchSummary::all(Self) -> Array[String]
+pub fn BranchSummary::as_any(Self) -> @core.Any
+pub fn BranchSummary::branches(Self) -> @core.Any
+pub fn BranchSummary::current(Self) -> String
 
 #external
 pub type CommitResult
-fn CommitResult::as_any(Self) -> @nostd.Any
-fn CommitResult::branch(Self) -> String
-fn CommitResult::commit(Self) -> String
-fn CommitResult::summary(Self) -> @nostd.Any
+pub fn CommitResult::as_any(Self) -> @core.Any
+pub fn CommitResult::branch(Self) -> String
+pub fn CommitResult::commit(Self) -> String
+pub fn CommitResult::summary(Self) -> @core.Any
 
 #external
 pub type DiffResult
-fn DiffResult::as_any(Self) -> @nostd.Any
-fn DiffResult::changed(Self) -> Int
-fn DiffResult::deletions(Self) -> Int
-fn DiffResult::files(Self) -> @nostd.Any
-fn DiffResult::insertions(Self) -> Int
+pub fn DiffResult::as_any(Self) -> @core.Any
+pub fn DiffResult::changed(Self) -> Int
+pub fn DiffResult::deletions(Self) -> Int
+pub fn DiffResult::files(Self) -> @core.Any
+pub fn DiffResult::insertions(Self) -> Int
 
 #external
 pub type FetchResult
-fn FetchResult::as_any(Self) -> @nostd.Any
+pub fn FetchResult::as_any(Self) -> @core.Any
 
 #external
 pub type LogResult
-fn LogResult::all(Self) -> @nostd.Any
-fn LogResult::as_any(Self) -> @nostd.Any
-fn LogResult::latest(Self) -> @nostd.Any
-fn LogResult::total(Self) -> Int
+pub fn LogResult::all(Self) -> @core.Any
+pub fn LogResult::as_any(Self) -> @core.Any
+pub fn LogResult::latest(Self) -> @core.Any
+pub fn LogResult::total(Self) -> Int
 
 #external
 pub type PullResult
-fn PullResult::as_any(Self) -> @nostd.Any
+pub fn PullResult::as_any(Self) -> @core.Any
 
 #external
 pub type SimpleGit
-async fn SimpleGit::add(Self, Array[String]) -> Unit
-async fn SimpleGit::addAll(Self) -> Unit
-async fn SimpleGit::addAnnotatedTag(Self, String, String) -> Unit
-async fn SimpleGit::addFile(Self, String) -> Unit
-async fn SimpleGit::addRemote(Self, String, String) -> Unit
-async fn SimpleGit::addTag(Self, String) -> Unit
-fn SimpleGit::as_any(Self) -> @nostd.Any
-async fn SimpleGit::branch(Self) -> BranchSummary
-async fn SimpleGit::branchLocal(Self) -> BranchSummary
-async fn SimpleGit::checkout(Self, String) -> Unit
-async fn SimpleGit::checkoutBranch(Self, String, String) -> Unit
-async fn SimpleGit::checkoutFile(Self, String, commit? : String) -> Unit
-async fn SimpleGit::checkoutLocalBranch(Self, String) -> Unit
-async fn SimpleGit::clone(Self, String, String, branch? : String, depth? : Int) -> String
-async fn SimpleGit::commit(Self, String, files? : Array[String], author? : String) -> CommitResult
-async fn SimpleGit::deleteLocalBranch(Self, String, force? : Bool) -> Unit
-async fn SimpleGit::diff(Self, staged? : Bool, nameOnly? : Bool) -> String
-async fn SimpleGit::diffSummary(Self) -> DiffResult
-async fn SimpleGit::fetch(Self, remote? : String, branch? : String) -> FetchResult
-async fn SimpleGit::getHeadSha(Self) -> String
-async fn SimpleGit::getRemotes(Self, verbose? : Bool) -> @nostd.Any
-async fn SimpleGit::init(Self, bare? : Bool) -> Unit
-async fn SimpleGit::log(Self, max_count? : Int, from? : String, to? : String, file? : String) -> LogResult
-async fn SimpleGit::merge(Self, String) -> Unit
-async fn SimpleGit::pull(Self, remote? : String, branch? : String) -> PullResult
-async fn SimpleGit::push(Self, remote? : String, branch? : String, set_upstream? : Bool, force? : Bool, tags? : Bool) -> Unit
-async fn SimpleGit::raw(Self, Array[String]) -> String
-async fn SimpleGit::rebase(Self, String) -> Unit
-async fn SimpleGit::removeRemote(Self, String) -> Unit
-async fn SimpleGit::reset(Self, mode? : String, commit? : String) -> Unit
-async fn SimpleGit::revparse(Self, String) -> String
-async fn SimpleGit::show(Self, commit? : String) -> String
-async fn SimpleGit::stash(Self) -> Unit
-async fn SimpleGit::stashList(Self) -> @nostd.Any
-async fn SimpleGit::stashPop(Self) -> Unit
-async fn SimpleGit::status(Self) -> StatusResult
-async fn SimpleGit::tags(Self) -> @nostd.Any
+pub async fn SimpleGit::add(Self, Array[String]) -> Unit
+pub async fn SimpleGit::addAll(Self) -> Unit
+pub async fn SimpleGit::addAnnotatedTag(Self, String, String) -> Unit
+pub async fn SimpleGit::addFile(Self, String) -> Unit
+pub async fn SimpleGit::addRemote(Self, String, String) -> Unit
+pub async fn SimpleGit::addTag(Self, String) -> Unit
+pub fn SimpleGit::as_any(Self) -> @core.Any
+pub async fn SimpleGit::branch(Self) -> BranchSummary
+pub async fn SimpleGit::branchLocal(Self) -> BranchSummary
+pub async fn SimpleGit::checkout(Self, String) -> Unit
+pub async fn SimpleGit::checkoutBranch(Self, String, String) -> Unit
+pub async fn SimpleGit::checkoutFile(Self, String, commit? : String) -> Unit
+pub async fn SimpleGit::checkoutLocalBranch(Self, String) -> Unit
+pub async fn SimpleGit::clone(Self, String, String, branch? : String, depth? : Int) -> String
+pub async fn SimpleGit::commit(Self, String, files? : Array[String], author? : String) -> CommitResult
+pub async fn SimpleGit::deleteLocalBranch(Self, String, force? : Bool) -> Unit
+pub async fn SimpleGit::diff(Self, staged? : Bool, nameOnly? : Bool) -> String
+pub async fn SimpleGit::diffSummary(Self) -> DiffResult
+pub async fn SimpleGit::fetch(Self, remote? : String, branch? : String) -> FetchResult
+pub async fn SimpleGit::getHeadSha(Self) -> String
+pub async fn SimpleGit::getRemotes(Self, verbose? : Bool) -> @core.Any
+pub async fn SimpleGit::init(Self, bare? : Bool) -> Unit
+pub async fn SimpleGit::log(Self, max_count? : Int, from? : String, to? : String, file? : String) -> LogResult
+pub async fn SimpleGit::merge(Self, String) -> Unit
+pub async fn SimpleGit::pull(Self, remote? : String, branch? : String) -> PullResult
+pub async fn SimpleGit::push(Self, remote? : String, branch? : String, set_upstream? : Bool, force? : Bool, tags? : Bool) -> Unit
+pub async fn SimpleGit::raw(Self, Array[String]) -> String
+pub async fn SimpleGit::rebase(Self, String) -> Unit
+pub async fn SimpleGit::removeRemote(Self, String) -> Unit
+pub async fn SimpleGit::reset(Self, mode? : String, commit? : String) -> Unit
+pub async fn SimpleGit::revparse(Self, String) -> String
+pub async fn SimpleGit::show(Self, commit? : String) -> String
+pub async fn SimpleGit::stash(Self) -> Unit
+pub async fn SimpleGit::stashList(Self) -> @core.Any
+pub async fn SimpleGit::stashPop(Self) -> Unit
+pub async fn SimpleGit::status(Self) -> StatusResult
+pub async fn SimpleGit::tags(Self) -> @core.Any
 
 #external
 pub type StatusResult
-fn StatusResult::ahead(Self) -> Int
-fn StatusResult::as_any(Self) -> @nostd.Any
-fn StatusResult::behind(Self) -> Int
-fn StatusResult::conflicted(Self) -> Array[String]
-fn StatusResult::created(Self) -> Array[String]
-fn StatusResult::current(Self) -> String
-fn StatusResult::deleted(Self) -> Array[String]
-fn StatusResult::isClean(Self) -> Bool
-fn StatusResult::modified(Self) -> Array[String]
-fn StatusResult::notAdded(Self) -> Array[String]
-fn StatusResult::staged(Self) -> Array[String]
-fn StatusResult::tracking(Self) -> String
+pub fn StatusResult::ahead(Self) -> Int
+pub fn StatusResult::as_any(Self) -> @core.Any
+pub fn StatusResult::behind(Self) -> Int
+pub fn StatusResult::conflicted(Self) -> Array[String]
+pub fn StatusResult::created(Self) -> Array[String]
+pub fn StatusResult::current(Self) -> String
+pub fn StatusResult::deleted(Self) -> Array[String]
+pub fn StatusResult::isClean(Self) -> Bool
+pub fn StatusResult::modified(Self) -> Array[String]
+pub fn StatusResult::notAdded(Self) -> Array[String]
+pub fn StatusResult::staged(Self) -> Array[String]
+pub fn StatusResult::tracking(Self) -> String
 
 // Type aliases
 

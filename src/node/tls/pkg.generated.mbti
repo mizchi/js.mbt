@@ -3,43 +3,44 @@ package "mizchi/js/node/tls"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-fn connect(Int, String, () -> Unit, servername? : String, key? : String, cert? : String, ca? : String, rejectUnauthorized? : Bool, alpn_protocols? : Array[String], session? : @js.Object) -> TLSSocket
+pub fn connect(Int, String, () -> Unit, servername? : String, key? : String, cert? : String, ca? : String, rejectUnauthorized? : Bool, alpn_protocols? : Array[String], session? : @js.Object) -> TLSSocket
 
-fn create_server((TLSSocket) -> Unit, key? : String, cert? : String, ca? : String, pfx? : String, passphrase? : String, rejectUnauthorized? : Bool, requestCert? : Bool, alpn_protocols? : Array[String]) -> Server
+pub fn create_server((TLSSocket) -> Unit, key? : String, cert? : String, ca? : String, pfx? : String, passphrase? : String, rejectUnauthorized? : Bool, requestCert? : Bool, alpn_protocols? : Array[String]) -> Server
 
 // Errors
 
 // Types and methods
 #external
 pub type Server
-fn Server::as_any(Self) -> @nostd.Any
-fn Server::as_event_target(Self) -> @event.EventTarget
-fn Server::close(Self, () -> Unit) -> Unit
-fn Server::listen(Self, Int, () -> Unit) -> Unit
-impl @event.EventTargetImpl for Server
+pub fn Server::as_any(Self) -> @core.Any
+pub fn Server::as_event_target(Self) -> @event.EventTarget
+pub fn Server::close(Self, () -> Unit) -> Unit
+pub fn Server::listen(Self, Int, () -> Unit) -> Unit
+pub impl @event.EventTargetImpl for Server
 
 #external
 pub type TLSSocket
-fn TLSSocket::as_any(Self) -> @nostd.Any
-fn TLSSocket::as_event_target(Self) -> @event.EventTarget
-fn TLSSocket::authorization_error(Self) -> String?
-fn TLSSocket::authorized(Self) -> Bool
-fn TLSSocket::end(Self) -> Unit
-fn TLSSocket::get_cipher(Self) -> @js.Object
-fn TLSSocket::get_peer_certificate(Self, Bool) -> @js.Object
-fn TLSSocket::get_protocol(Self) -> String
-fn TLSSocket::on_data(Self, (@js.Object) -> Unit) -> Self
-fn TLSSocket::on_end(Self, () -> Unit) -> Self
-fn TLSSocket::on_error(Self, (@js.Object) -> Unit) -> Self
-fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
-fn TLSSocket::write(Self, String) -> Unit
-impl @event.EventTargetImpl for TLSSocket
+pub fn TLSSocket::as_any(Self) -> @core.Any
+pub fn TLSSocket::as_event_target(Self) -> @event.EventTarget
+pub fn TLSSocket::authorization_error(Self) -> String?
+pub fn TLSSocket::authorized(Self) -> Bool
+pub fn TLSSocket::end(Self) -> Unit
+pub fn TLSSocket::get_cipher(Self) -> @js.Object
+pub fn TLSSocket::get_peer_certificate(Self, Bool) -> @js.Object
+pub fn TLSSocket::get_protocol(Self) -> String
+pub fn TLSSocket::on_data(Self, (@js.Object) -> Unit) -> Self
+pub fn TLSSocket::on_end(Self, () -> Unit) -> Self
+pub fn TLSSocket::on_error(Self, (@js.Object) -> Unit) -> Self
+pub fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
+pub fn TLSSocket::write(Self, String) -> Unit
+pub impl @event.EventTargetImpl for TLSSocket
 
 // Type aliases
 
 // Traits
+

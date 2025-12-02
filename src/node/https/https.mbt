@@ -7,7 +7,7 @@
 pub type Agent
 
 ///|
-extern "js" fn ffi_new_agent(options : @nostd.Any) -> Agent =
+extern "js" fn ffi_new_agent(options : @core.Any) -> Agent =
   #| (options) => {
   #|   const https = require('https');
   #|   return new https.Agent(options);
@@ -25,13 +25,13 @@ pub fn Agent::new(
   timeout? : Int,
 ) -> Agent {
   let opts = @mbtconv.from_option_map({
-    "maxCachedSessions": max_cached_sessions.map(fn(x) { @nostd.any(x) }),
-    "servername": servername.map(fn(x) { @nostd.any(x) }),
-    "keepAlive": keep_alive.map(fn(x) { @nostd.any(x) }),
-    "keepAliveMsecs": keep_alive_msecs.map(fn(x) { @nostd.any(x) }),
-    "maxSockets": max_sockets.map(fn(x) { @nostd.any(x) }),
-    "maxFreeSockets": max_free_sockets.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
+    "maxCachedSessions": max_cached_sessions.map(fn(x) { @core.any(x) }),
+    "servername": servername.map(fn(x) { @core.any(x) }),
+    "keepAlive": keep_alive.map(fn(x) { @core.any(x) }),
+    "keepAliveMsecs": keep_alive_msecs.map(fn(x) { @core.any(x) }),
+    "maxSockets": max_sockets.map(fn(x) { @core.any(x) }),
+    "maxFreeSockets": max_free_sockets.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
   }).cast()
   ffi_new_agent(opts)
 }
@@ -43,20 +43,20 @@ pub fn Agent::new(
 pub type Server
 
 ///|
-pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 
 ///|
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Server with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for Server with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 extern "js" fn ffi_create_server(
-  options : @nostd.Any,
-  request_listener : @nostd.Any,
+  options : @core.Any,
+  request_listener : @core.Any,
 ) -> Server =
   #| (options, requestListener) => {
   #|   const https = require('https');
@@ -74,10 +74,10 @@ pub fn create_server(
 ) -> Server {
   let listener = @js.from_fn2(request_listener)
   let opts = @mbtconv.from_option_map({
-    "key": key.map(fn(x) { @nostd.any(x) }),
-    "cert": cert.map(fn(x) { @nostd.any(x) }),
-    "pfx": pfx.map(fn(x) { @nostd.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @nostd.any(x) }),
+    "key": key.map(fn(x) { @core.any(x) }),
+    "cert": cert.map(fn(x) { @core.any(x) }),
+    "pfx": pfx.map(fn(x) { @core.any(x) }),
+    "passphrase": passphrase.map(fn(x) { @core.any(x) }),
   }).cast()
   ffi_create_server(opts, listener)
 }
@@ -85,14 +85,14 @@ pub fn create_server(
 ///|
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
+  let cb : @core.Any = @core.identity(callback)
+  self.as_any()._call("listen", [@core.any(port), cb]) |> ignore
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   self.as_any()._call("close", [cb]) |> ignore
 }
 
@@ -102,7 +102,7 @@ pub fn Server::close(self : Server, callback : () -> Unit) -> Unit {
 pub type ClientRequest
 
 ///|
-pub fn ClientRequest::as_any(self : ClientRequest) -> @nostd.Any = "%identity"
+pub fn ClientRequest::as_any(self : ClientRequest) -> @core.Any = "%identity"
 
 ///|
 pub fn ClientRequest::as_event_target(
@@ -110,14 +110,14 @@ pub fn ClientRequest::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 extern "js" fn ffi_request(
-  options : @nostd.Any,
-  callback : @nostd.Any,
+  options : @core.Any,
+  callback : @core.Any,
 ) -> ClientRequest =
   #| (options, callback) => {
   #|   const https = require('https');
@@ -128,35 +128,35 @@ extern "js" fn ffi_request(
 /// Make an HTTPS request
 pub fn request(
   url : String,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
   method_? : String,
   host? : String,
   port? : Int,
   path? : String,
-  headers? : @nostd.Any,
+  headers? : @core.Any,
   agent? : Agent,
   rejectUnauthorized? : Bool,
 ) -> ClientRequest {
-  let cb : @nostd.Any = @nostd.identity(callback)
-  let obj = headers.unwrap_or(@nostd.Object::new())
-  obj._set("url", url |> @nostd.any)
+  let cb : @core.Any = @core.identity(callback)
+  let obj = headers.unwrap_or(@core.Object::new())
+  obj._set("url", url |> @core.any)
   if method_ is Some(v) {
-    obj._set("method", v |> @nostd.any)
+    obj._set("method", v |> @core.any)
   }
   if host is Some(v) {
-    obj._set("host", v |> @nostd.any)
+    obj._set("host", v |> @core.any)
   }
   if port is Some(v) {
-    obj._set("port", v |> @nostd.any)
+    obj._set("port", v |> @core.any)
   }
   if path is Some(v) {
-    obj._set("path", v |> @nostd.any)
+    obj._set("path", v |> @core.any)
   }
   if agent is Some(v) {
-    obj._set("agent", v |> @nostd.any)
+    obj._set("agent", v |> @core.any)
   }
   if rejectUnauthorized is Some(v) {
-    obj._set("rejectUnauthorized", v |> @nostd.any)
+    obj._set("rejectUnauthorized", v |> @core.any)
   }
   ffi_request(obj, cb)
 }
@@ -164,7 +164,7 @@ pub fn request(
 ///|
 /// Write data to the request
 pub fn ClientRequest::write(self : ClientRequest, data : String) -> Unit {
-  self.as_any()._call("write", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("write", [@core.any(data)]) |> ignore
 }
 
 ///|
@@ -174,7 +174,7 @@ pub fn ClientRequest::end(self : ClientRequest) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_get(url : String, callback : @nostd.Any) -> ClientRequest =
+extern "js" fn ffi_get(url : String, callback : @core.Any) -> ClientRequest =
   #| (url, callback) => {
   #|   const https = require('https');
   #|   return https._get(url, callback);
@@ -183,7 +183,7 @@ extern "js" fn ffi_get(url : String, callback : @nostd.Any) -> ClientRequest =
 ///|
 /// Make an HTTPS GET request
 pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   ffi_get(url, cb)
 }
 

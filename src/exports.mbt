@@ -4,7 +4,7 @@
 pub using @js_async {type AbortController, type AbortSignal}
 
 ///|
-pub using @nostd {
+pub using @core {
   type Any,
   type Nullable,
   type Nullish,

@@ -12,18 +12,18 @@
 pub(all) struct GPU {}
 
 ///|
-pub fn GPU::as_any(self : GPU) -> @nostd.Any = "%identity"
+pub fn GPU::as_any(self : GPU) -> @core.Any = "%identity"
 
 ///|
 /// Get the GPU object from navigator
-extern "js" fn ffi_navigator_gpu() -> @nostd.Any =
+extern "js" fn ffi_navigator_gpu() -> @core.Any =
   #| () => navigator.gpu
 
 ///|
 /// Get the GPU object (returns None if WebGPU is not supported)
 pub fn gpu() -> GPU? {
   let g = ffi_navigator_gpu()
-  if @nostd.is_undefined(g) {
+  if @core.is_undefined(g) {
     None
   } else {
     Some(g.cast())
@@ -38,21 +38,21 @@ pub async fn GPU::requestAdapter(
   power_preference? : String,
   force_fallback_adapter? : Bool,
 ) -> GPUAdapter? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   match power_preference {
-    Some(p) => options._set("powerPreference", @nostd.any(p))
+    Some(p) => options._set("powerPreference", @core.any(p))
     None => ()
   }
   match force_fallback_adapter {
-    Some(f) => options._set("forceFallbackAdapter", @nostd.any(f))
+    Some(f) => options._set("forceFallbackAdapter", @core.any(f))
     None => ()
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
     ._call("requestAdapter", [options])
     .cast()
   let result = promise.wait()
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -68,7 +68,7 @@ pub fn GPU::getPreferredCanvasFormat(self : GPU) -> String {
 
 ///|
 /// Get WGSL language features
-pub fn GPU::wgslLanguageFeatures(self : GPU) -> @nostd.Any {
+pub fn GPU::wgslLanguageFeatures(self : GPU) -> @core.Any {
   self.as_any()["wgslLanguageFeatures"].cast()
 }
 
@@ -82,7 +82,7 @@ pub fn GPU::wgslLanguageFeatures(self : GPU) -> @nostd.Any {
 pub(all) struct GPUAdapter {}
 
 ///|
-pub fn GPUAdapter::as_any(self : GPUAdapter) -> @nostd.Any = "%identity"
+pub fn GPUAdapter::as_any(self : GPUAdapter) -> @core.Any = "%identity"
 
 ///|
 /// Get supported features
@@ -115,17 +115,17 @@ pub async fn GPUAdapter::requestDevice(
   self : GPUAdapter,
   label? : String,
   required_features? : Array[String],
-  required_limits? : @nostd.Any,
+  required_limits? : @core.Any,
 ) -> GPUDevice? {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   match required_features {
     Some(features) => {
-      let arr = @nostd.any(features)
-      descriptor._set("requiredFeatures", @nostd.any(arr))
+      let arr = @core.any(features)
+      descriptor._set("requiredFeatures", @core.any(arr))
     }
     None => ()
   }
@@ -133,12 +133,12 @@ pub async fn GPUAdapter::requestDevice(
     Some(limits) => descriptor._set("requiredLimits", limits)
     None => ()
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
     ._call("requestDevice", [descriptor])
     .cast()
   let result = promise.wait()
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -155,7 +155,7 @@ pub async fn GPUAdapter::requestDevice(
 pub(all) struct GPUDevice {}
 
 ///|
-pub fn GPUDevice::as_any(self : GPUDevice) -> @nostd.Any = "%identity"
+pub fn GPUDevice::as_any(self : GPUDevice) -> @core.Any = "%identity"
 
 ///|
 /// Get the device label
@@ -166,7 +166,7 @@ pub fn GPUDevice::label(self : GPUDevice) -> String {
 ///|
 /// Set the device label
 pub fn GPUDevice::set_label(self : GPUDevice, label : String) -> Unit {
-  self.as_any()._set("label", @nostd.any(label))
+  self.as_any()._set("label", @core.any(label))
 }
 
 ///|
@@ -209,15 +209,15 @@ pub fn GPUDevice::createBuffer(
   label? : String,
   mapped_at_creation? : Bool,
 ) -> GPUBuffer {
-  let descriptor = @nostd.Object::new()
-  descriptor._set("size", @nostd.any(size))
-  descriptor._set("usage", @nostd.any(usage))
+  let descriptor = @core.Object::new()
+  descriptor._set("size", @core.any(size))
+  descriptor._set("usage", @core.any(usage))
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   match mapped_at_creation {
-    Some(m) => descriptor._set("mappedAtCreation", @nostd.any(m))
+    Some(m) => descriptor._set("mappedAtCreation", @core.any(m))
     None => ()
   }
   self.as_any()._call("createBuffer", [descriptor]).cast()
@@ -237,30 +237,30 @@ pub fn GPUDevice::createTexture(
   dimension? : String,
   view_formats? : Array[String],
 ) -> GPUTexture {
-  let descriptor = @nostd.Object::new()
-  descriptor._set("size", @nostd.any(size))
-  descriptor._set("format", @nostd.any(format))
-  descriptor._set("usage", @nostd.any(usage))
+  let descriptor = @core.Object::new()
+  descriptor._set("size", @core.any(size))
+  descriptor._set("format", @core.any(format))
+  descriptor._set("usage", @core.any(usage))
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   match mip_level_count {
-    Some(m) => descriptor._set("mipLevelCount", @nostd.any(m))
+    Some(m) => descriptor._set("mipLevelCount", @core.any(m))
     None => ()
   }
   match sample_count {
-    Some(s) => descriptor._set("sampleCount", @nostd.any(s))
+    Some(s) => descriptor._set("sampleCount", @core.any(s))
     None => ()
   }
   match dimension {
-    Some(d) => descriptor._set("dimension", @nostd.any(d))
+    Some(d) => descriptor._set("dimension", @core.any(d))
     None => ()
   }
   match view_formats {
     Some(vf) => {
-      let arr = @nostd.any(vf)
-      descriptor._set("viewFormats", @nostd.any(arr))
+      let arr = @core.any(vf)
+      descriptor._set("viewFormats", @core.any(arr))
     }
     None => ()
   }
@@ -275,10 +275,10 @@ pub fn GPUDevice::createShaderModule(
   code : String,
   label? : String,
 ) -> GPUShaderModule {
-  let descriptor = @nostd.Object::new()
-  descriptor._set("code", @nostd.any(code))
+  let descriptor = @core.Object::new()
+  descriptor._set("code", @core.any(code))
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createShaderModule", [descriptor]).cast()
@@ -301,49 +301,49 @@ pub fn GPUDevice::createSampler(
   compare? : String,
   max_anisotropy? : Int,
 ) -> GPUSampler {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   match address_mode_u {
-    Some(m) => descriptor._set("addressModeU", @nostd.any(m))
+    Some(m) => descriptor._set("addressModeU", @core.any(m))
     None => ()
   }
   match address_mode_v {
-    Some(m) => descriptor._set("addressModeV", @nostd.any(m))
+    Some(m) => descriptor._set("addressModeV", @core.any(m))
     None => ()
   }
   match address_mode_w {
-    Some(m) => descriptor._set("addressModeW", @nostd.any(m))
+    Some(m) => descriptor._set("addressModeW", @core.any(m))
     None => ()
   }
   match mag_filter {
-    Some(f) => descriptor._set("magFilter", @nostd.any(f))
+    Some(f) => descriptor._set("magFilter", @core.any(f))
     None => ()
   }
   match min_filter {
-    Some(f) => descriptor._set("minFilter", @nostd.any(f))
+    Some(f) => descriptor._set("minFilter", @core.any(f))
     None => ()
   }
   match mipmap_filter {
-    Some(f) => descriptor._set("mipmapFilter", @nostd.any(f))
+    Some(f) => descriptor._set("mipmapFilter", @core.any(f))
     None => ()
   }
   match lod_min_clamp {
-    Some(l) => descriptor._set("lodMinClamp", @nostd.any(l))
+    Some(l) => descriptor._set("lodMinClamp", @core.any(l))
     None => ()
   }
   match lod_max_clamp {
-    Some(l) => descriptor._set("lodMaxClamp", @nostd.any(l))
+    Some(l) => descriptor._set("lodMaxClamp", @core.any(l))
     None => ()
   }
   match compare {
-    Some(c) => descriptor._set("compare", @nostd.any(c))
+    Some(c) => descriptor._set("compare", @core.any(c))
     None => ()
   }
   match max_anisotropy {
-    Some(a) => descriptor._set("maxAnisotropy", @nostd.any(a))
+    Some(a) => descriptor._set("maxAnisotropy", @core.any(a))
     None => ()
   }
   self.as_any()._call("createSampler", [descriptor]).cast()
@@ -356,9 +356,9 @@ pub fn GPUDevice::createCommandEncoder(
   self : GPUDevice,
   label? : String,
 ) -> GPUCommandEncoder {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createCommandEncoder", [descriptor]).cast()
@@ -368,13 +368,13 @@ pub fn GPUDevice::createCommandEncoder(
 /// Create a bind group layout
 pub fn GPUDevice::createBindGroupLayout(
   self : GPUDevice,
-  entries : @nostd.Any,
+  entries : @core.Any,
   label? : String,
 ) -> GPUBindGroupLayout {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   descriptor._set("entries", entries)
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createBindGroupLayout", [descriptor]).cast()
@@ -385,14 +385,14 @@ pub fn GPUDevice::createBindGroupLayout(
 pub fn GPUDevice::createBindGroup(
   self : GPUDevice,
   layout : GPUBindGroupLayout,
-  entries : @nostd.Any,
+  entries : @core.Any,
   label? : String,
 ) -> GPUBindGroup {
-  let descriptor = @nostd.Object::new()
-  descriptor._set("layout", @nostd.any(layout))
+  let descriptor = @core.Object::new()
+  descriptor._set("layout", @core.any(layout))
   descriptor._set("entries", entries)
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createBindGroup", [descriptor]).cast()
@@ -405,11 +405,11 @@ pub fn GPUDevice::createPipelineLayout(
   bind_group_layouts : Array[GPUBindGroupLayout],
   label? : String,
 ) -> GPUPipelineLayout {
-  let descriptor = @nostd.Object::new()
-  let arr = @nostd.any(bind_group_layouts)
-  descriptor._set("bindGroupLayouts", @nostd.any(arr))
+  let descriptor = @core.Object::new()
+  let arr = @core.any(bind_group_layouts)
+  descriptor._set("bindGroupLayouts", @core.any(arr))
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createPipelineLayout", [descriptor]).cast()
@@ -420,7 +420,7 @@ pub fn GPUDevice::createPipelineLayout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice/createRenderPipeline
 pub fn GPUDevice::createRenderPipeline(
   self : GPUDevice,
-  descriptor : @nostd.Any,
+  descriptor : @core.Any,
 ) -> GPURenderPipeline {
   self.as_any()._call("createRenderPipeline", [descriptor]).cast()
 }
@@ -429,7 +429,7 @@ pub fn GPUDevice::createRenderPipeline(
 /// Create a compute pipeline
 pub fn GPUDevice::createComputePipeline(
   self : GPUDevice,
-  descriptor : @nostd.Any,
+  descriptor : @core.Any,
 ) -> GPUComputePipeline {
   self.as_any()._call("createComputePipeline", [descriptor]).cast()
 }
@@ -437,18 +437,18 @@ pub fn GPUDevice::createComputePipeline(
 ///|
 /// Push an error scope
 pub fn GPUDevice::pushErrorScope(self : GPUDevice, filter : String) -> Unit {
-  self.as_any()._call("pushErrorScope", [@nostd.any(filter)]) |> ignore
+  self.as_any()._call("pushErrorScope", [@core.any(filter)]) |> ignore
 }
 
 ///|
 /// Pop an error scope
 pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
     ._call("popErrorScope", [])
     .cast()
   let result = promise.wait()
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())
@@ -465,7 +465,7 @@ pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
 pub(all) struct GPUBuffer {}
 
 ///|
-pub fn GPUBuffer::as_any(self : GPUBuffer) -> @nostd.Any = "%identity"
+pub fn GPUBuffer::as_any(self : GPUBuffer) -> @core.Any = "%identity"
 
 ///|
 /// Buffer usage flags
@@ -531,18 +531,18 @@ pub async fn GPUBuffer::mapAsync(
   size? : Int,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match (offset, size) {
-    (None, None) => self.as_any()._call("mapAsync", [@nostd.any(mode)]).cast()
+    (None, None) => self.as_any()._call("mapAsync", [@core.any(mode)]).cast()
     (Some(o), None) =>
-      self.as_any()._call("mapAsync", [@nostd.any(mode), @nostd.any(o)]).cast()
+      self.as_any()._call("mapAsync", [@core.any(mode), @core.any(o)]).cast()
     (Some(o), Some(s)) =>
       self
       .as_any()
-      ._call("mapAsync", [@nostd.any(mode), @nostd.any(o), @nostd.any(s)])
+      ._call("mapAsync", [@core.any(mode), @core.any(o), @core.any(s)])
       .cast()
     (None, Some(s)) =>
       self
       .as_any()
-      ._call("mapAsync", [@nostd.any(mode), @nostd.any(0), @nostd.any(s)])
+      ._call("mapAsync", [@core.any(mode), @core.any(0), @core.any(s)])
       .cast()
   }
   promise.wait()
@@ -558,17 +558,11 @@ pub fn GPUBuffer::getMappedRange(
   match (offset, size) {
     (None, None) => self.as_any()._call("getMappedRange", []).cast()
     (Some(o), None) =>
-      self.as_any()._call("getMappedRange", [@nostd.any(o)]).cast()
+      self.as_any()._call("getMappedRange", [@core.any(o)]).cast()
     (Some(o), Some(s)) =>
-      self
-      .as_any()
-      ._call("getMappedRange", [@nostd.any(o), @nostd.any(s)])
-      .cast()
+      self.as_any()._call("getMappedRange", [@core.any(o), @core.any(s)]).cast()
     (None, Some(s)) =>
-      self
-      .as_any()
-      ._call("getMappedRange", [@nostd.any(0), @nostd.any(s)])
-      .cast()
+      self.as_any()._call("getMappedRange", [@core.any(0), @core.any(s)]).cast()
   }
 }
 
@@ -594,7 +588,7 @@ pub fn GPUBuffer::destroy(self : GPUBuffer) -> Unit {
 pub(all) struct GPUTexture {}
 
 ///|
-pub fn GPUTexture::as_any(self : GPUTexture) -> @nostd.Any = "%identity"
+pub fn GPUTexture::as_any(self : GPUTexture) -> @core.Any = "%identity"
 
 ///|
 /// Texture usage flags
@@ -673,37 +667,37 @@ pub fn GPUTexture::createView(
   array_layer_count? : Int,
   label? : String,
 ) -> GPUTextureView {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match format {
-    Some(f) => descriptor._set("format", @nostd.any(f))
+    Some(f) => descriptor._set("format", @core.any(f))
     None => ()
   }
   match dimension {
-    Some(d) => descriptor._set("dimension", @nostd.any(d))
+    Some(d) => descriptor._set("dimension", @core.any(d))
     None => ()
   }
   match aspect {
-    Some(a) => descriptor._set("aspect", @nostd.any(a))
+    Some(a) => descriptor._set("aspect", @core.any(a))
     None => ()
   }
   match base_mip_level {
-    Some(b) => descriptor._set("baseMipLevel", @nostd.any(b))
+    Some(b) => descriptor._set("baseMipLevel", @core.any(b))
     None => ()
   }
   match mip_level_count {
-    Some(m) => descriptor._set("mipLevelCount", @nostd.any(m))
+    Some(m) => descriptor._set("mipLevelCount", @core.any(m))
     None => ()
   }
   match base_array_layer {
-    Some(b) => descriptor._set("baseArrayLayer", @nostd.any(b))
+    Some(b) => descriptor._set("baseArrayLayer", @core.any(b))
     None => ()
   }
   match array_layer_count {
-    Some(a) => descriptor._set("arrayLayerCount", @nostd.any(a))
+    Some(a) => descriptor._set("arrayLayerCount", @core.any(a))
     None => ()
   }
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("createView", [descriptor]).cast()
@@ -724,7 +718,7 @@ pub fn GPUTexture::destroy(self : GPUTexture) -> Unit {
 pub(all) struct GPUTextureView {}
 
 ///|
-pub fn GPUTextureView::as_any(self : GPUTextureView) -> @nostd.Any = "%identity"
+pub fn GPUTextureView::as_any(self : GPUTextureView) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUTextureView::label(self : GPUTextureView) -> String {
@@ -741,7 +735,7 @@ pub fn GPUTextureView::label(self : GPUTextureView) -> String {
 pub(all) struct GPUQueue {}
 
 ///|
-pub fn GPUQueue::as_any(self : GPUQueue) -> @nostd.Any = "%identity"
+pub fn GPUQueue::as_any(self : GPUQueue) -> @core.Any = "%identity"
 
 ///|
 /// Submit command buffers to the queue
@@ -749,8 +743,8 @@ pub fn GPUQueue::submit(
   self : GPUQueue,
   command_buffers : Array[GPUCommandBuffer],
 ) -> Unit {
-  let arr = @nostd.any(command_buffers)
-  self.as_any()._call("submit", [@nostd.any(arr)]) |> ignore
+  let arr = @core.any(command_buffers)
+  self.as_any()._call("submit", [@core.any(arr)]) |> ignore
 }
 
 ///|
@@ -759,7 +753,7 @@ pub fn GPUQueue::writeBuffer(
   self : GPUQueue,
   buffer : GPUBuffer,
   buffer_offset : Int,
-  data : @nostd.Any,
+  data : @core.Any,
   data_offset? : Int,
   size? : Int,
 ) -> Unit {
@@ -767,16 +761,16 @@ pub fn GPUQueue::writeBuffer(
     (None, None) =>
       self
       .as_any()
-      ._call("writeBuffer", [buffer.as_any(), @nostd.any(buffer_offset), data])
+      ._call("writeBuffer", [buffer.as_any(), @core.any(buffer_offset), data])
       |> ignore
     (Some(do_), None) =>
       self
       .as_any()
       ._call("writeBuffer", [
         buffer.as_any(),
-        @nostd.any(buffer_offset),
+        @core.any(buffer_offset),
         data,
-        @nostd.any(do_),
+        @core.any(do_),
       ])
       |> ignore
     (Some(do_), Some(s)) =>
@@ -784,10 +778,10 @@ pub fn GPUQueue::writeBuffer(
       .as_any()
       ._call("writeBuffer", [
         buffer.as_any(),
-        @nostd.any(buffer_offset),
+        @core.any(buffer_offset),
         data,
-        @nostd.any(do_),
-        @nostd.any(s),
+        @core.any(do_),
+        @core.any(s),
       ])
       |> ignore
     (None, Some(s)) =>
@@ -795,10 +789,10 @@ pub fn GPUQueue::writeBuffer(
       .as_any()
       ._call("writeBuffer", [
         buffer.as_any(),
-        @nostd.any(buffer_offset),
+        @core.any(buffer_offset),
         data,
-        @nostd.any(0),
-        @nostd.any(s),
+        @core.any(0),
+        @core.any(s),
       ])
       |> ignore
   }
@@ -808,14 +802,14 @@ pub fn GPUQueue::writeBuffer(
 /// Write data to a texture
 pub fn GPUQueue::writeTexture(
   self : GPUQueue,
-  destination : @nostd.Any,
-  data : @nostd.Any,
-  data_layout : @nostd.Any,
+  destination : @core.Any,
+  data : @core.Any,
+  data_layout : @core.Any,
   size : GPUExtent3D,
 ) -> Unit {
   self
   .as_any()
-  ._call("writeTexture", [destination, data, data_layout, @nostd.any(size)])
+  ._call("writeTexture", [destination, data, data_layout, @core.any(size)])
   |> ignore
 }
 
@@ -839,7 +833,7 @@ pub async fn GPUQueue::onSubmittedWorkDone(self : GPUQueue) -> Unit {
 pub(all) struct GPUCommandEncoder {}
 
 ///|
-pub fn GPUCommandEncoder::as_any(self : GPUCommandEncoder) -> @nostd.Any = "%identity"
+pub fn GPUCommandEncoder::as_any(self : GPUCommandEncoder) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUCommandEncoder::label(self : GPUCommandEncoder) -> String {
@@ -850,7 +844,7 @@ pub fn GPUCommandEncoder::label(self : GPUCommandEncoder) -> String {
 /// Begin a render pass
 pub fn GPUCommandEncoder::beginRenderPass(
   self : GPUCommandEncoder,
-  descriptor : @nostd.Any,
+  descriptor : @core.Any,
 ) -> GPURenderPassEncoder {
   self.as_any()._call("beginRenderPass", [descriptor]).cast()
 }
@@ -861,9 +855,9 @@ pub fn GPUCommandEncoder::beginComputePass(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUComputePassEncoder {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("beginComputePass", [descriptor]).cast()
@@ -883,10 +877,10 @@ pub fn GPUCommandEncoder::copyBufferToBuffer(
   .as_any()
   ._call("copyBufferToBuffer", [
     source.as_any(),
-    @nostd.any(source_offset),
+    @core.any(source_offset),
     destination.as_any(),
-    @nostd.any(destination_offset),
-    @nostd.any(size),
+    @core.any(destination_offset),
+    @core.any(size),
   ])
   |> ignore
 }
@@ -895,13 +889,13 @@ pub fn GPUCommandEncoder::copyBufferToBuffer(
 /// Copy buffer to texture
 pub fn GPUCommandEncoder::copyBufferToTexture(
   self : GPUCommandEncoder,
-  source : @nostd.Any,
-  destination : @nostd.Any,
+  source : @core.Any,
+  destination : @core.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
   self
   .as_any()
-  ._call("copyBufferToTexture", [source, destination, @nostd.any(copy_size)])
+  ._call("copyBufferToTexture", [source, destination, @core.any(copy_size)])
   |> ignore
 }
 
@@ -909,13 +903,13 @@ pub fn GPUCommandEncoder::copyBufferToTexture(
 /// Copy texture to buffer
 pub fn GPUCommandEncoder::copyTextureToBuffer(
   self : GPUCommandEncoder,
-  source : @nostd.Any,
-  destination : @nostd.Any,
+  source : @core.Any,
+  destination : @core.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
   self
   .as_any()
-  ._call("copyTextureToBuffer", [source, destination, @nostd.any(copy_size)])
+  ._call("copyTextureToBuffer", [source, destination, @core.any(copy_size)])
   |> ignore
 }
 
@@ -923,13 +917,13 @@ pub fn GPUCommandEncoder::copyTextureToBuffer(
 /// Copy texture to texture
 pub fn GPUCommandEncoder::copyTextureToTexture(
   self : GPUCommandEncoder,
-  source : @nostd.Any,
-  destination : @nostd.Any,
+  source : @core.Any,
+  destination : @core.Any,
   copy_size : GPUExtent3D,
 ) -> Unit {
   self
   .as_any()
-  ._call("copyTextureToTexture", [source, destination, @nostd.any(copy_size)])
+  ._call("copyTextureToTexture", [source, destination, @core.any(copy_size)])
   |> ignore
 }
 
@@ -945,17 +939,17 @@ pub fn GPUCommandEncoder::clearBuffer(
     (None, None) =>
       self.as_any()._call("clearBuffer", [buffer.as_any()]) |> ignore
     (Some(o), None) =>
-      self.as_any()._call("clearBuffer", [buffer.as_any(), @nostd.any(o)])
+      self.as_any()._call("clearBuffer", [buffer.as_any(), @core.any(o)])
       |> ignore
     (Some(o), Some(s)) =>
       self
       .as_any()
-      ._call("clearBuffer", [buffer.as_any(), @nostd.any(o), @nostd.any(s)])
+      ._call("clearBuffer", [buffer.as_any(), @core.any(o), @core.any(s)])
       |> ignore
     (None, Some(s)) =>
       self
       .as_any()
-      ._call("clearBuffer", [buffer.as_any(), @nostd.any(0), @nostd.any(s)])
+      ._call("clearBuffer", [buffer.as_any(), @core.any(0), @core.any(s)])
       |> ignore
   }
 }
@@ -966,9 +960,9 @@ pub fn GPUCommandEncoder::finish(
   self : GPUCommandEncoder,
   label? : String,
 ) -> GPUCommandBuffer {
-  let descriptor = @nostd.Object::new()
+  let descriptor = @core.Object::new()
   match label {
-    Some(l) => descriptor._set("label", @nostd.any(l))
+    Some(l) => descriptor._set("label", @core.any(l))
     None => ()
   }
   self.as_any()._call("finish", [descriptor]).cast()
@@ -983,7 +977,7 @@ pub fn GPUCommandEncoder::finish(
 pub(all) struct GPUCommandBuffer {}
 
 ///|
-pub fn GPUCommandBuffer::as_any(self : GPUCommandBuffer) -> @nostd.Any = "%identity"
+pub fn GPUCommandBuffer::as_any(self : GPUCommandBuffer) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUCommandBuffer::label(self : GPUCommandBuffer) -> String {
@@ -999,7 +993,7 @@ pub fn GPUCommandBuffer::label(self : GPUCommandBuffer) -> String {
 pub(all) struct GPURenderPassEncoder {}
 
 ///|
-pub fn GPURenderPassEncoder::as_any(self : GPURenderPassEncoder) -> @nostd.Any = "%identity"
+pub fn GPURenderPassEncoder::as_any(self : GPURenderPassEncoder) -> @core.Any = "%identity"
 
 ///|
 /// Set the render pipeline
@@ -1017,7 +1011,7 @@ pub fn GPURenderPassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.as_any()._call("setBindGroup", [@nostd.any(index), bind_group.as_any()])
+  self.as_any()._call("setBindGroup", [@core.any(index), bind_group.as_any()])
   |> ignore
 }
 
@@ -1032,37 +1026,31 @@ pub fn GPURenderPassEncoder::setVertexBuffer(
 ) -> Unit {
   match (offset, size) {
     (None, None) =>
-      self
-      .as_any()
-      ._call("setVertexBuffer", [@nostd.any(slot), buffer.as_any()])
+      self.as_any()._call("setVertexBuffer", [@core.any(slot), buffer.as_any()])
       |> ignore
     (Some(o), None) =>
       self
       .as_any()
-      ._call("setVertexBuffer", [
-        @nostd.any(slot),
-        buffer.as_any(),
-        @nostd.any(o),
-      ])
+      ._call("setVertexBuffer", [@core.any(slot), buffer.as_any(), @core.any(o)])
       |> ignore
     (Some(o), Some(s)) =>
       self
       .as_any()
       ._call("setVertexBuffer", [
-        @nostd.any(slot),
+        @core.any(slot),
         buffer.as_any(),
-        @nostd.any(o),
-        @nostd.any(s),
+        @core.any(o),
+        @core.any(s),
       ])
       |> ignore
     (None, Some(s)) =>
       self
       .as_any()
       ._call("setVertexBuffer", [
-        @nostd.any(slot),
+        @core.any(slot),
         buffer.as_any(),
-        @nostd.any(0),
-        @nostd.any(s),
+        @core.any(0),
+        @core.any(s),
       ])
       |> ignore
   }
@@ -1081,15 +1069,15 @@ pub fn GPURenderPassEncoder::setIndexBuffer(
     (None, None) =>
       self
       .as_any()
-      ._call("setIndexBuffer", [buffer.as_any(), @nostd.any(format)])
+      ._call("setIndexBuffer", [buffer.as_any(), @core.any(format)])
       |> ignore
     (Some(o), None) =>
       self
       .as_any()
       ._call("setIndexBuffer", [
         buffer.as_any(),
-        @nostd.any(format),
-        @nostd.any(o),
+        @core.any(format),
+        @core.any(o),
       ])
       |> ignore
     (Some(o), Some(s)) =>
@@ -1097,9 +1085,9 @@ pub fn GPURenderPassEncoder::setIndexBuffer(
       .as_any()
       ._call("setIndexBuffer", [
         buffer.as_any(),
-        @nostd.any(format),
-        @nostd.any(o),
-        @nostd.any(s),
+        @core.any(format),
+        @core.any(o),
+        @core.any(s),
       ])
       |> ignore
     (None, Some(s)) =>
@@ -1107,9 +1095,9 @@ pub fn GPURenderPassEncoder::setIndexBuffer(
       .as_any()
       ._call("setIndexBuffer", [
         buffer.as_any(),
-        @nostd.any(format),
-        @nostd.any(0),
-        @nostd.any(s),
+        @core.any(format),
+        @core.any(0),
+        @core.any(s),
       ])
       |> ignore
   }
@@ -1126,23 +1114,23 @@ pub fn GPURenderPassEncoder::draw(
 ) -> Unit {
   match (instance_count, first_vertex, first_instance) {
     (None, None, None) =>
-      self.as_any()._call("draw", [@nostd.any(vertex_count)]) |> ignore
+      self.as_any()._call("draw", [@core.any(vertex_count)]) |> ignore
     (Some(ic), None, None) =>
-      self.as_any()._call("draw", [@nostd.any(vertex_count), @nostd.any(ic)])
+      self.as_any()._call("draw", [@core.any(vertex_count), @core.any(ic)])
       |> ignore
     (Some(ic), Some(fv), None) =>
       self
       .as_any()
-      ._call("draw", [@nostd.any(vertex_count), @nostd.any(ic), @nostd.any(fv)])
+      ._call("draw", [@core.any(vertex_count), @core.any(ic), @core.any(fv)])
       |> ignore
     (Some(ic), Some(fv), Some(fi)) =>
       self
       .as_any()
       ._call("draw", [
-        @nostd.any(vertex_count),
-        @nostd.any(ic),
-        @nostd.any(fv),
-        @nostd.any(fi),
+        @core.any(vertex_count),
+        @core.any(ic),
+        @core.any(fv),
+        @core.any(fi),
       ])
       |> ignore
     (None, Some(fv), fi) =>
@@ -1151,40 +1139,36 @@ pub fn GPURenderPassEncoder::draw(
           self
           .as_any()
           ._call("draw", [
-            @nostd.any(vertex_count),
-            @nostd.any(1),
-            @nostd.any(fv),
-            @nostd.any(f),
+            @core.any(vertex_count),
+            @core.any(1),
+            @core.any(fv),
+            @core.any(f),
           ])
           |> ignore
         None =>
           self
           .as_any()
-          ._call("draw", [
-            @nostd.any(vertex_count),
-            @nostd.any(1),
-            @nostd.any(fv),
-          ])
+          ._call("draw", [@core.any(vertex_count), @core.any(1), @core.any(fv)])
           |> ignore
       }
     (Some(ic), None, Some(fi)) =>
       self
       .as_any()
       ._call("draw", [
-        @nostd.any(vertex_count),
-        @nostd.any(ic),
-        @nostd.any(0),
-        @nostd.any(fi),
+        @core.any(vertex_count),
+        @core.any(ic),
+        @core.any(0),
+        @core.any(fi),
       ])
       |> ignore
     (None, None, Some(fi)) =>
       self
       .as_any()
       ._call("draw", [
-        @nostd.any(vertex_count),
-        @nostd.any(1),
-        @nostd.any(0),
-        @nostd.any(fi),
+        @core.any(vertex_count),
+        @core.any(1),
+        @core.any(0),
+        @core.any(fi),
       ])
       |> ignore
   }
@@ -1202,43 +1186,43 @@ pub fn GPURenderPassEncoder::drawIndexed(
 ) -> Unit {
   match (instance_count, first_index, base_vertex, first_instance) {
     (None, None, None, None) =>
-      self.as_any()._call("drawIndexed", [@nostd.any(index_count)]) |> ignore
+      self.as_any()._call("drawIndexed", [@core.any(index_count)]) |> ignore
     (Some(ic), None, None, None) =>
       self
       .as_any()
-      ._call("drawIndexed", [@nostd.any(index_count), @nostd.any(ic)])
+      ._call("drawIndexed", [@core.any(index_count), @core.any(ic)])
       |> ignore
     (Some(ic), Some(fi), None, None) =>
       self
       .as_any()
       ._call("drawIndexed", [
-        @nostd.any(index_count),
-        @nostd.any(ic),
-        @nostd.any(fi),
+        @core.any(index_count),
+        @core.any(ic),
+        @core.any(fi),
       ])
       |> ignore
     (Some(ic), Some(fi), Some(bv), None) =>
       self
       .as_any()
       ._call("drawIndexed", [
-        @nostd.any(index_count),
-        @nostd.any(ic),
-        @nostd.any(fi),
-        @nostd.any(bv),
+        @core.any(index_count),
+        @core.any(ic),
+        @core.any(fi),
+        @core.any(bv),
       ])
       |> ignore
     (Some(ic), Some(fi), Some(bv), Some(fii)) =>
       self
       .as_any()
       ._call("drawIndexed", [
-        @nostd.any(index_count),
-        @nostd.any(ic),
-        @nostd.any(fi),
-        @nostd.any(bv),
-        @nostd.any(fii),
+        @core.any(index_count),
+        @core.any(ic),
+        @core.any(fi),
+        @core.any(bv),
+        @core.any(fii),
       ])
       |> ignore
-    _ => self.as_any()._call("drawIndexed", [@nostd.any(index_count)]) |> ignore
+    _ => self.as_any()._call("drawIndexed", [@core.any(index_count)]) |> ignore
   }
 }
 
@@ -1256,12 +1240,12 @@ pub fn GPURenderPassEncoder::setViewport(
   self
   .as_any()
   ._call("setViewport", [
-    @nostd.any(x),
-    @nostd.any(y),
-    @nostd.any(width),
-    @nostd.any(height),
-    @nostd.any(min_depth),
-    @nostd.any(max_depth),
+    @core.any(x),
+    @core.any(y),
+    @core.any(width),
+    @core.any(height),
+    @core.any(min_depth),
+    @core.any(max_depth),
   ])
   |> ignore
 }
@@ -1278,10 +1262,10 @@ pub fn GPURenderPassEncoder::setScissorRect(
   self
   .as_any()
   ._call("setScissorRect", [
-    @nostd.any(x),
-    @nostd.any(y),
-    @nostd.any(width),
-    @nostd.any(height),
+    @core.any(x),
+    @core.any(y),
+    @core.any(width),
+    @core.any(height),
   ])
   |> ignore
 }
@@ -1290,7 +1274,7 @@ pub fn GPURenderPassEncoder::setScissorRect(
 /// Set blend constant
 pub fn GPURenderPassEncoder::setBlendConstant(
   self : GPURenderPassEncoder,
-  color : @nostd.Any,
+  color : @core.Any,
 ) -> Unit {
   self.as_any()._call("setBlendConstant", [color]) |> ignore
 }
@@ -1301,7 +1285,7 @@ pub fn GPURenderPassEncoder::setStencilReference(
   self : GPURenderPassEncoder,
   reference : Int,
 ) -> Unit {
-  self.as_any()._call("setStencilReference", [@nostd.any(reference)]) |> ignore
+  self.as_any()._call("setStencilReference", [@core.any(reference)]) |> ignore
 }
 
 ///|
@@ -1319,9 +1303,7 @@ pub fn GPURenderPassEncoder::end(self : GPURenderPassEncoder) -> Unit {
 pub(all) struct GPUComputePassEncoder {}
 
 ///|
-pub fn GPUComputePassEncoder::as_any(
-  self : GPUComputePassEncoder,
-) -> @nostd.Any = "%identity"
+pub fn GPUComputePassEncoder::as_any(self : GPUComputePassEncoder) -> @core.Any = "%identity"
 
 ///|
 /// Set the compute pipeline
@@ -1339,7 +1321,7 @@ pub fn GPUComputePassEncoder::setBindGroup(
   index : Int,
   bind_group : GPUBindGroup,
 ) -> Unit {
-  self.as_any()._call("setBindGroup", [@nostd.any(index), bind_group.as_any()])
+  self.as_any()._call("setBindGroup", [@core.any(index), bind_group.as_any()])
   |> ignore
 }
 
@@ -1353,32 +1335,29 @@ pub fn GPUComputePassEncoder::dispatchWorkgroups(
 ) -> Unit {
   match (workgroup_count_y, workgroup_count_z) {
     (None, None) =>
-      self.as_any()._call("dispatchWorkgroups", [@nostd.any(workgroup_count_x)])
+      self.as_any()._call("dispatchWorkgroups", [@core.any(workgroup_count_x)])
       |> ignore
     (Some(y), None) =>
       self
       .as_any()
-      ._call("dispatchWorkgroups", [
-        @nostd.any(workgroup_count_x),
-        @nostd.any(y),
-      ])
+      ._call("dispatchWorkgroups", [@core.any(workgroup_count_x), @core.any(y)])
       |> ignore
     (Some(y), Some(z)) =>
       self
       .as_any()
       ._call("dispatchWorkgroups", [
-        @nostd.any(workgroup_count_x),
-        @nostd.any(y),
-        @nostd.any(z),
+        @core.any(workgroup_count_x),
+        @core.any(y),
+        @core.any(z),
       ])
       |> ignore
     (None, Some(z)) =>
       self
       .as_any()
       ._call("dispatchWorkgroups", [
-        @nostd.any(workgroup_count_x),
-        @nostd.any(1),
-        @nostd.any(z),
+        @core.any(workgroup_count_x),
+        @core.any(1),
+        @core.any(z),
       ])
       |> ignore
   }
@@ -1395,7 +1374,7 @@ pub fn GPUComputePassEncoder::dispatchWorkgroupsIndirect(
   .as_any()
   ._call("dispatchWorkgroupsIndirect", [
     indirect_buffer.as_any(),
-    @nostd.any(indirect_offset),
+    @core.any(indirect_offset),
   ])
   |> ignore
 }
@@ -1415,7 +1394,7 @@ pub fn GPUComputePassEncoder::end(self : GPUComputePassEncoder) -> Unit {
 pub(all) struct GPURenderPipeline {}
 
 ///|
-pub fn GPURenderPipeline::as_any(self : GPURenderPipeline) -> @nostd.Any = "%identity"
+pub fn GPURenderPipeline::as_any(self : GPURenderPipeline) -> @core.Any = "%identity"
 
 ///|
 pub fn GPURenderPipeline::label(self : GPURenderPipeline) -> String {
@@ -1428,7 +1407,7 @@ pub fn GPURenderPipeline::getBindGroupLayout(
   self : GPURenderPipeline,
   index : Int,
 ) -> GPUBindGroupLayout {
-  self.as_any()._call("getBindGroupLayout", [@nostd.any(index)]).cast()
+  self.as_any()._call("getBindGroupLayout", [@core.any(index)]).cast()
 }
 
 // =============================================================================
@@ -1440,7 +1419,7 @@ pub fn GPURenderPipeline::getBindGroupLayout(
 pub(all) struct GPUComputePipeline {}
 
 ///|
-pub fn GPUComputePipeline::as_any(self : GPUComputePipeline) -> @nostd.Any = "%identity"
+pub fn GPUComputePipeline::as_any(self : GPUComputePipeline) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUComputePipeline::label(self : GPUComputePipeline) -> String {
@@ -1453,7 +1432,7 @@ pub fn GPUComputePipeline::getBindGroupLayout(
   self : GPUComputePipeline,
   index : Int,
 ) -> GPUBindGroupLayout {
-  self.as_any()._call("getBindGroupLayout", [@nostd.any(index)]).cast()
+  self.as_any()._call("getBindGroupLayout", [@core.any(index)]).cast()
 }
 
 // =============================================================================
@@ -1465,7 +1444,7 @@ pub fn GPUComputePipeline::getBindGroupLayout(
 pub(all) struct GPUShaderModule {}
 
 ///|
-pub fn GPUShaderModule::as_any(self : GPUShaderModule) -> @nostd.Any = "%identity"
+pub fn GPUShaderModule::as_any(self : GPUShaderModule) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUShaderModule::label(self : GPUShaderModule) -> String {
@@ -1493,7 +1472,7 @@ pub async fn GPUShaderModule::getCompilationInfo(
 pub(all) struct GPUSampler {}
 
 ///|
-pub fn GPUSampler::as_any(self : GPUSampler) -> @nostd.Any = "%identity"
+pub fn GPUSampler::as_any(self : GPUSampler) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUSampler::label(self : GPUSampler) -> String {
@@ -1509,7 +1488,7 @@ pub fn GPUSampler::label(self : GPUSampler) -> String {
 pub(all) struct GPUBindGroup {}
 
 ///|
-pub fn GPUBindGroup::as_any(self : GPUBindGroup) -> @nostd.Any = "%identity"
+pub fn GPUBindGroup::as_any(self : GPUBindGroup) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUBindGroup::label(self : GPUBindGroup) -> String {
@@ -1525,7 +1504,7 @@ pub fn GPUBindGroup::label(self : GPUBindGroup) -> String {
 pub(all) struct GPUBindGroupLayout {}
 
 ///|
-pub fn GPUBindGroupLayout::as_any(self : GPUBindGroupLayout) -> @nostd.Any = "%identity"
+pub fn GPUBindGroupLayout::as_any(self : GPUBindGroupLayout) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUBindGroupLayout::label(self : GPUBindGroupLayout) -> String {
@@ -1541,7 +1520,7 @@ pub fn GPUBindGroupLayout::label(self : GPUBindGroupLayout) -> String {
 pub(all) struct GPUPipelineLayout {}
 
 ///|
-pub fn GPUPipelineLayout::as_any(self : GPUPipelineLayout) -> @nostd.Any = "%identity"
+pub fn GPUPipelineLayout::as_any(self : GPUPipelineLayout) -> @core.Any = "%identity"
 
 ///|
 pub fn GPUPipelineLayout::label(self : GPUPipelineLayout) -> String {
@@ -1557,7 +1536,7 @@ pub fn GPUPipelineLayout::label(self : GPUPipelineLayout) -> String {
 pub(all) struct GPUSupportedFeatures {}
 
 ///|
-pub fn GPUSupportedFeatures::as_any(self : GPUSupportedFeatures) -> @nostd.Any = "%identity"
+pub fn GPUSupportedFeatures::as_any(self : GPUSupportedFeatures) -> @core.Any = "%identity"
 
 ///|
 /// Check if a feature is supported
@@ -1565,7 +1544,7 @@ pub fn GPUSupportedFeatures::has(
   self : GPUSupportedFeatures,
   feature : String,
 ) -> Bool {
-  self.as_any()._call("has", [@nostd.any(feature)]).cast()
+  self.as_any()._call("has", [@core.any(feature)]).cast()
 }
 
 ///|
@@ -1573,7 +1552,7 @@ pub fn GPUSupportedFeatures::has(
 pub(all) struct GPUSupportedLimits {}
 
 ///|
-pub fn GPUSupportedLimits::as_any(self : GPUSupportedLimits) -> @nostd.Any = "%identity"
+pub fn GPUSupportedLimits::as_any(self : GPUSupportedLimits) -> @core.Any = "%identity"
 
 ///|
 /// Get max texture dimension 1D
@@ -1616,7 +1595,7 @@ pub fn GPUSupportedLimits::maxBindGroups(self : GPUSupportedLimits) -> Int {
 pub(all) struct GPUAdapterInfo {}
 
 ///|
-pub fn GPUAdapterInfo::as_any(self : GPUAdapterInfo) -> @nostd.Any = "%identity"
+pub fn GPUAdapterInfo::as_any(self : GPUAdapterInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get vendor name
@@ -1647,7 +1626,7 @@ pub fn GPUAdapterInfo::description(self : GPUAdapterInfo) -> String {
 pub(all) struct GPUDeviceLostInfo {}
 
 ///|
-pub fn GPUDeviceLostInfo::as_any(self : GPUDeviceLostInfo) -> @nostd.Any = "%identity"
+pub fn GPUDeviceLostInfo::as_any(self : GPUDeviceLostInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get the reason for device loss
@@ -1666,7 +1645,7 @@ pub fn GPUDeviceLostInfo::message(self : GPUDeviceLostInfo) -> String {
 pub(all) struct GPUError {}
 
 ///|
-pub fn GPUError::as_any(self : GPUError) -> @nostd.Any = "%identity"
+pub fn GPUError::as_any(self : GPUError) -> @core.Any = "%identity"
 
 ///|
 /// Get error message
@@ -1679,7 +1658,7 @@ pub fn GPUError::message(self : GPUError) -> String {
 pub(all) struct GPUCompilationInfo {}
 
 ///|
-pub fn GPUCompilationInfo::as_any(self : GPUCompilationInfo) -> @nostd.Any = "%identity"
+pub fn GPUCompilationInfo::as_any(self : GPUCompilationInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get compilation messages
@@ -1692,9 +1671,7 @@ pub fn GPUCompilationInfo::messages(self : GPUCompilationInfo) -> @js.JsArray {
 pub(all) struct GPUCompilationMessage {}
 
 ///|
-pub fn GPUCompilationMessage::as_any(
-  self : GPUCompilationMessage,
-) -> @nostd.Any = "%identity"
+pub fn GPUCompilationMessage::as_any(self : GPUCompilationMessage) -> @core.Any = "%identity"
 
 ///|
 /// Get message text
@@ -1729,7 +1706,7 @@ pub fn GPUCompilationMessage::linePos(self : GPUCompilationMessage) -> Int {
 pub(all) struct GPUExtent3D {}
 
 ///|
-pub fn GPUExtent3D::as_any(self : GPUExtent3D) -> @nostd.Any = "%identity"
+pub fn GPUExtent3D::as_any(self : GPUExtent3D) -> @core.Any = "%identity"
 
 ///|
 /// Create GPUExtent3D from width, height, depth
@@ -1738,14 +1715,14 @@ pub fn GPUExtent3D::new(
   height? : Int,
   depth_or_array_layers? : Int,
 ) -> GPUExtent3D {
-  let obj = @nostd.Object::new()
-  obj._set("width", @nostd.any(width))
+  let obj = @core.Object::new()
+  obj._set("width", @core.any(width))
   match height {
-    Some(h) => obj._set("height", @nostd.any(h))
+    Some(h) => obj._set("height", @core.any(h))
     None => ()
   }
   match depth_or_array_layers {
-    Some(d) => obj._set("depthOrArrayLayers", @nostd.any(d))
+    Some(d) => obj._set("depthOrArrayLayers", @core.any(d))
     None => ()
   }
   obj.cast()
@@ -1754,5 +1731,5 @@ pub fn GPUExtent3D::new(
 ///|
 /// Create GPUExtent3D from an array [width, height?, depthOrArrayLayers?]
 pub fn GPUExtent3D::from_array(arr : Array[Int]) -> GPUExtent3D {
-  @nostd.any(arr).cast()
+  @core.any(arr).cast()
 }

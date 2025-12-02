@@ -2,14 +2,14 @@
 /// Uses zod's built-in toJSONSchema function
 
 ///|
-fn zod_module() -> @nostd.Any {
+fn zod_module() -> @core.Any {
   @node.require("zod")
 }
 
 ///|
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
-pub fn to_json_schema(schema : @zod.ZodSchema) -> @nostd.Any {
-  let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
+pub fn to_json_schema(schema : @zod.ZodSchema) -> @core.Any {
+  let schema_any : @core.Any = schema.as_any() |> @core.identity()
   zod_module()._call("toJSONSchema", [schema_any])
 }
 
@@ -20,33 +20,33 @@ pub fn to_json_schema_with_options(
   name? : String,
   io? : String,
   unrepresentable? : String,
-  override_? : @nostd.Any,
-) -> @nostd.Any {
-  let opts = @nostd.Object::new()
+  override_? : @core.Any,
+) -> @core.Any {
+  let opts = @core.Object::new()
   match name {
-    Some(v) => opts._set("name", v |> @nostd.any)
+    Some(v) => opts._set("name", v |> @core.any)
     None => ()
   }
   match io {
-    Some(v) => opts._set("io", v |> @nostd.any)
+    Some(v) => opts._set("io", v |> @core.any)
     None => ()
   }
   match unrepresentable {
-    Some(v) => opts._set("unrepresentable", v |> @nostd.any)
+    Some(v) => opts._set("unrepresentable", v |> @core.any)
     None => ()
   }
   match override_ {
     Some(v) => opts._set("override", v)
     None => ()
   }
-  let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
+  let schema_any : @core.Any = schema.as_any() |> @core.identity()
   zod_module()._call("toJSONSchema", [schema_any, opts])
 }
 
 ///|
 /// JSON Schema type representation
 pub struct JsonSchema {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
@@ -63,13 +63,13 @@ pub fn JsonSchema::from_zod_with_name(
 }
 
 ///|
-/// Create JsonSchema from raw @nostd.Any value
-pub fn JsonSchema::from_any(raw : @nostd.Any) -> JsonSchema {
+/// Create JsonSchema from raw @core.Any value
+pub fn JsonSchema::from_any(raw : @core.Any) -> JsonSchema {
   { raw, }
 }
 
 ///|
-pub fn JsonSchema::as_any(self : JsonSchema) -> @nostd.Any {
+pub fn JsonSchema::as_any(self : JsonSchema) -> @core.Any {
   self.raw
 }
 
@@ -81,7 +81,7 @@ pub fn JsonSchema::to_json(self : JsonSchema) -> String {
 ///|
 pub fn JsonSchema::type_(self : JsonSchema) -> String? {
   let t = self.raw._get("type")
-  if @nostd.is_undefined(t) {
+  if @core.is_undefined(t) {
     None
   } else {
     Some(t.cast())
@@ -89,24 +89,24 @@ pub fn JsonSchema::type_(self : JsonSchema) -> String? {
 }
 
 ///|
-pub fn JsonSchema::properties(self : JsonSchema) -> @nostd.Any {
+pub fn JsonSchema::properties(self : JsonSchema) -> @core.Any {
   self.raw._get("properties")
 }
 
 ///|
 pub fn JsonSchema::required(self : JsonSchema) -> Array[String] {
   let req = self.raw._get("required")
-  if @nostd.is_undefined(req) || @nostd.is_null(req) {
+  if @core.is_undefined(req) || @core.is_null(req) {
     []
   } else {
-    @nostd.identity(req)
+    @core.identity(req)
   }
 }
 
 ///|
 pub fn JsonSchema::items(self : JsonSchema) -> JsonSchema? {
   let items = self.raw._get("items")
-  if @nostd.is_undefined(items) {
+  if @core.is_undefined(items) {
     None
   } else {
     Some({ raw: items })
@@ -114,9 +114,9 @@ pub fn JsonSchema::items(self : JsonSchema) -> JsonSchema? {
 }
 
 ///|
-pub fn JsonSchema::definitions(self : JsonSchema) -> @nostd.Any {
+pub fn JsonSchema::definitions(self : JsonSchema) -> @core.Any {
   let defs = self.raw._get("definitions")
-  if @nostd.is_undefined(defs) {
+  if @core.is_undefined(defs) {
     self.raw._get("$defs")
   } else {
     defs
@@ -126,7 +126,7 @@ pub fn JsonSchema::definitions(self : JsonSchema) -> @nostd.Any {
 ///|
 pub fn JsonSchema::ref_(self : JsonSchema) -> String? {
   let r = self.raw._get("$ref")
-  if @nostd.is_undefined(r) {
+  if @core.is_undefined(r) {
     None
   } else {
     Some(r.cast())
@@ -136,10 +136,10 @@ pub fn JsonSchema::ref_(self : JsonSchema) -> String? {
 ///|
 pub fn JsonSchema::any_of(self : JsonSchema) -> Array[JsonSchema]? {
   let any = self.raw._get("anyOf")
-  if @nostd.is_undefined(any) {
+  if @core.is_undefined(any) {
     None
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(any)
+    let arr : Array[@core.Any] = @core.identity(any)
     Some(arr.map(fn(x) { { raw: x } }))
   }
 }
@@ -147,17 +147,17 @@ pub fn JsonSchema::any_of(self : JsonSchema) -> Array[JsonSchema]? {
 ///|
 pub fn JsonSchema::enum_values(self : JsonSchema) -> Array[String]? {
   let e = self.raw._get("enum")
-  if @nostd.is_undefined(e) {
+  if @core.is_undefined(e) {
     None
   } else {
-    Some(@nostd.identity(e))
+    Some(@core.identity(e))
   }
 }
 
 ///|
-pub fn JsonSchema::const_value(self : JsonSchema) -> @nostd.Any? {
+pub fn JsonSchema::const_value(self : JsonSchema) -> @core.Any? {
   let c = self.raw._get("const")
-  if @nostd.is_undefined(c) {
+  if @core.is_undefined(c) {
     None
   } else {
     Some(c)
@@ -167,7 +167,7 @@ pub fn JsonSchema::const_value(self : JsonSchema) -> @nostd.Any? {
 ///|
 pub fn JsonSchema::minimum(self : JsonSchema) -> Double? {
   let m = self.raw._get("minimum")
-  if @nostd.is_undefined(m) {
+  if @core.is_undefined(m) {
     None
   } else {
     Some(m.cast())
@@ -177,7 +177,7 @@ pub fn JsonSchema::minimum(self : JsonSchema) -> Double? {
 ///|
 pub fn JsonSchema::maximum(self : JsonSchema) -> Double? {
   let m = self.raw._get("maximum")
-  if @nostd.is_undefined(m) {
+  if @core.is_undefined(m) {
     None
   } else {
     Some(m.cast())
@@ -187,7 +187,7 @@ pub fn JsonSchema::maximum(self : JsonSchema) -> Double? {
 ///|
 pub fn JsonSchema::min_length(self : JsonSchema) -> Int? {
   let m = self.raw._get("minLength")
-  if @nostd.is_undefined(m) {
+  if @core.is_undefined(m) {
     None
   } else {
     Some(m.cast())
@@ -197,7 +197,7 @@ pub fn JsonSchema::min_length(self : JsonSchema) -> Int? {
 ///|
 pub fn JsonSchema::max_length(self : JsonSchema) -> Int? {
   let m = self.raw._get("maxLength")
-  if @nostd.is_undefined(m) {
+  if @core.is_undefined(m) {
     None
   } else {
     Some(m.cast())
@@ -207,7 +207,7 @@ pub fn JsonSchema::max_length(self : JsonSchema) -> Int? {
 ///|
 pub fn JsonSchema::format(self : JsonSchema) -> String? {
   let f = self.raw._get("format")
-  if @nostd.is_undefined(f) {
+  if @core.is_undefined(f) {
     None
   } else {
     Some(f.cast())
@@ -217,7 +217,7 @@ pub fn JsonSchema::format(self : JsonSchema) -> String? {
 ///|
 pub fn JsonSchema::description(self : JsonSchema) -> String? {
   let d = self.raw._get("description")
-  if @nostd.is_undefined(d) {
+  if @core.is_undefined(d) {
     None
   } else {
     Some(d.cast())
@@ -225,9 +225,9 @@ pub fn JsonSchema::description(self : JsonSchema) -> String? {
 }
 
 ///|
-pub fn JsonSchema::default_value(self : JsonSchema) -> @nostd.Any? {
+pub fn JsonSchema::default_value(self : JsonSchema) -> @core.Any? {
   let d = self.raw._get("default")
-  if @nostd.is_undefined(d) {
+  if @core.is_undefined(d) {
     None
   } else {
     Some(d)
@@ -237,9 +237,9 @@ pub fn JsonSchema::default_value(self : JsonSchema) -> @nostd.Any? {
 ///|
 pub fn JsonSchema::additional_properties(self : JsonSchema) -> JsonSchema? {
   let ap = self.raw._get("additionalProperties")
-  if @nostd.is_undefined(ap) || @nostd.is_null(ap) {
+  if @core.is_undefined(ap) || @core.is_null(ap) {
     None
-  } else if @nostd.typeof_(ap) == "boolean" {
+  } else if @core.typeof_(ap) == "boolean" {
     None
   } else {
     Some({ raw: ap })

@@ -5,7 +5,7 @@
 pub type Document
 
 ///|
-pub fn Document::as_any(self : Document) -> @nostd.Any = "%identity"
+pub fn Document::as_any(self : Document) -> @core.Any = "%identity"
 
 ///|
 pub fn Document::as_event_target(self : Document) -> @event.EventTarget = "%identity"
@@ -68,11 +68,11 @@ pub fn Document::readyState(self : Self) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
 #alias(get_element_by_id)
 pub fn Document::getElementById(self : Self, id : String) -> Element? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("getElementById", [@nostd.any(id)])
+    ._call("getElementById", [@core.any(id)])
     .cast()
-  v |> @nostd.identity_option()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -85,11 +85,11 @@ pub fn Document::getElementsByClassName(
   self : Self,
   class_name : String,
 ) -> Array[Element] {
-  let arr : @nostd.Any = self
+  let arr : @core.Any = self
     .as_any()
-    ._call("getElementsByClassName", [@nostd.any(class_name)])
+    ._call("getElementsByClassName", [@core.any(class_name)])
     .cast()
-  @js.array_from(arr).map(fn(v) { v |> @nostd.identity })
+  @js.array_from(arr).map(fn(v) { v |> @core.identity })
 }
 
 ///|
@@ -102,9 +102,9 @@ pub fn Document::getElementsByTagName(
   self : Self,
   tagName : String,
 ) -> Array[Element] {
-  let arr : @nostd.Any = self
+  let arr : @core.Any = self
     .as_any()
-    ._call("getElementsByTagName", [@nostd.any(tagName)])
+    ._call("getElementsByTagName", [@core.any(tagName)])
     .cast()
   @js.array_from(arr).map(_.cast())
 }
@@ -124,8 +124,8 @@ pub extern "js" fn Document::set_cookie(self : Self, content : String) -> Unit =
 /// Returns the document's body element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/body
 pub fn Document::body(self : Self) -> HTMLBodyElement? {
-  let v : @nostd.Any = self.as_any()._get("body").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("body").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -139,8 +139,8 @@ pub fn Document::setBody(self : Self, body : HTMLBodyElement) -> Unit {
 /// Returns the document's head element
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/head
 pub fn Document::head(self : Self) -> HTMLHeadElement? {
-  let v : @nostd.Any = self.as_any()._get("head").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("head").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn Document::title(self : Self) -> String {
 /// Sets the document's title
 #alias(set_title)
 pub fn Document::setTitle(self : Self, title : String) -> Unit {
-  self.as_any()._set("title", @nostd.any(title)) |> ignore
+  self.as_any()._set("title", @core.any(title)) |> ignore
 }
 
 ///|
@@ -191,7 +191,7 @@ pub fn Document::createDocumentFragment(self : Self) -> DocumentFragment {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createComment
 #alias(create_comment)
 pub fn Document::createComment(self : Self, data : String) -> Node {
-  self.as_any()._call("createComment", [@nostd.any(data)]).cast()
+  self.as_any()._call("createComment", [@core.any(data)]).cast()
 }
 
 ///|
@@ -229,9 +229,9 @@ pub fn Document::contentType(self : Self) -> String {
 ///|
 /// Returns the document type
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/doctype
-pub fn Document::doctype(self : Self) -> @nostd.Any? {
-  let v : @nostd.Any = self.as_any()._get("doctype").cast()
-  v |> @nostd.identity_option()
+pub fn Document::doctype(self : Self) -> @core.Any? {
+  let v : @core.Any = self.as_any()._get("doctype").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -239,7 +239,7 @@ pub fn Document::doctype(self : Self) -> @nostd.Any? {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/adoptNode
 #alias(adopt_node)
 pub fn Document::adoptNode(self : Self, node : Node) -> Node {
-  let self_js : @nostd.Any = self.as_any().cast()
+  let self_js : @core.Any = self.as_any().cast()
   self_js._call("adoptNode", [node.as_any().cast()]).cast()
 }
 
@@ -248,9 +248,9 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode
 #alias(import_node)
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
-  let self_js : @nostd.Any = self.as_any().cast()
-  let node_js : @nostd.Any = node.as_any().cast()
-  self_js._call("importNode", [node_js, @nostd.any(deep)]).cast()
+  let self_js : @core.Any = self.as_any().cast()
+  let node_js : @core.Any = node.as_any().cast()
+  self_js._call("importNode", [node_js, @core.any(deep)]).cast()
 }
 
 ///|
@@ -258,7 +258,7 @@ pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/createEvent
 #alias(create_event)
 pub fn Document::createEvent(self : Self, event_type : String) -> Event {
-  self.as_any()._call("createEvent", [@nostd.any(event_type)]).cast()
+  self.as_any()._call("createEvent", [@core.any(event_type)]).cast()
 }
 
 ///|
@@ -269,11 +269,11 @@ pub fn Document::elementFromPoint(
   x : Double,
   y : Double,
 ) -> Element? {
-  let v : @nostd.Any = self
+  let v : @core.Any = self
     .as_any()
-    ._call("elementFromPoint", [@nostd.any(x), @nostd.any(y)])
+    ._call("elementFromPoint", [@core.any(x), @core.any(y)])
     .cast()
-  v |> @nostd.identity_option()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -286,9 +286,9 @@ pub fn Document::elementsFromPoint(
   x : Double,
   y : Double,
 ) -> Array[Element] {
-  let arr : @nostd.Any = self
+  let arr : @core.Any = self
     .as_any()
-    ._call("elementsFromPoint", [@nostd.any(x), @nostd.any(y)])
+    ._call("elementsFromPoint", [@core.any(x), @core.any(y)])
     .cast()
-  @js.array_from(arr).map(fn(v) { @nostd.identity(v) })
+  @js.array_from(arr).map(fn(v) { @core.identity(v) })
 }

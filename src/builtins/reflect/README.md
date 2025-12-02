@@ -23,7 +23,7 @@ Provides bindings for JavaScript's Reflect API for intercepting JavaScript opera
 
 ```moonbit
 fn main {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   
   // Set property
   @reflect.set(obj, "name", "value")

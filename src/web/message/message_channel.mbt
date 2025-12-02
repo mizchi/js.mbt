@@ -3,7 +3,7 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
   /// The data sent by the message emitter
-  data : @nostd.Any
+  data : @core.Any
   /// The origin of the message emitter
   origin : String
   /// The last event ID
@@ -13,13 +13,13 @@ pub(all) struct MessageEvent {
 } derive(Show)
 
 ///|
-pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
+pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
 
 ///|
 pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -32,13 +32,13 @@ pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @nostd.Any
 pub type MessagePort
 
 ///|
-pub fn MessagePort::as_any(self : MessagePort) -> @nostd.Any = "%identity"
+pub fn MessagePort::as_any(self : MessagePort) -> @core.Any = "%identity"
 
 ///|
 pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for MessagePort with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for MessagePort with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -58,7 +58,7 @@ pub impl Show for MessagePort with to_string(_self) {
 #alias(post_message)
 pub fn MessagePort::postMessage(
   port : MessagePort,
-  message : @nostd.Any,
+  message : @core.Any,
 ) -> Unit {
   port.as_any()._call("postMessage", [message]) |> ignore
 }
@@ -68,11 +68,11 @@ pub fn MessagePort::postMessage(
 #alias(post_message_with_transfer)
 pub fn MessagePort::postMessageWithTransfer(
   port : MessagePort,
-  message : @nostd.Any,
-  transfer : Array[@nostd.Any],
+  message : @core.Any,
+  transfer : Array[@core.Any],
 ) -> Unit {
-  let arr : Array[@nostd.Any] = transfer.map(fn(x) { x |> @nostd.any })
-  port.as_any()._call("postMessage", [message, @nostd.any(arr)]) |> ignore
+  let arr : Array[@core.Any] = transfer.map(fn(x) { x |> @core.any })
+  port.as_any()._call("postMessage", [message, @core.any(arr)]) |> ignore
 }
 
 ///|
@@ -96,7 +96,7 @@ pub fn MessagePort::close(port : MessagePort) -> Unit {
 pub type MessageChannel
 
 ///|
-pub fn MessageChannel::as_any(self : MessageChannel) -> @nostd.Any = "%identity"
+pub fn MessageChannel::as_any(self : MessageChannel) -> @core.Any = "%identity"
 
 ///|
 pub impl Show for MessageChannel with output(self, logger) {

@@ -2,134 +2,133 @@
 package "mizchi/js/npm/react"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-async fn act(() -> Unit) -> Unit
+pub async fn act(() -> Unit) -> Unit
 
 #alias(actAsync)
-async fn act_async(async () -> Unit) -> Unit
+pub async fn act_async(async () -> Unit) -> Unit
 
 #alias(cacheSignal)
-fn cache_signal() -> @nostd.Any
+pub fn cache_signal() -> @core.Any
 
 #alias(captureOwnerStack)
-fn capture_owner_stack() -> @nostd.Any?
+pub fn capture_owner_stack() -> @core.Any?
 
 #alias(c)
-fn[T] component((T) -> Element, T, children? : Array[&ReactNode], key? : String) -> Element
+pub fn[T] component((T) -> Element, T, children? : Array[&ReactNode], key? : String) -> Element
 
 #alias(h)
-fn createElement(String, Array[&ReactNode], props? : Map[String, @nostd.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+pub fn createElement(String, Array[&ReactNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
-fn createElementDirect(String, @nostd.Any, @nostd.Any) -> Element
+pub fn createElementDirect(String, @core.Any, @core.Any) -> Element
 
 #alias(createContext)
-fn[T] create_context(T?) -> Context[T]
+pub fn[T] create_context(T?) -> Context[T]
 
-async fn dynamic_import() -> Unit
+pub async fn dynamic_import() -> Unit
 
-fn error_boundary(children~ : Array[&ReactNode], fallback? : (@nostd.Any, () -> Unit) -> Element, on_error? : (@nostd.Any, @nostd.Any) -> Unit) -> Element
+pub fn error_boundary(children~ : Array[&ReactNode], fallback? : (@core.Any, () -> Unit) -> Element, on_error? : (@core.Any, @core.Any) -> Unit) -> Element
 
-fn fragment(Array[&ReactNode], key? : String) -> Element
+pub fn fragment(Array[&ReactNode], key? : String) -> Element
 
-fn init_react_api(@nostd.Any, global_key? : String) -> Unit
+pub fn init_react_api(@core.Any, global_key? : String) -> Unit
 
 #alias(initReactAsync)
-async fn init_react_async() -> Unit
+pub async fn init_react_async() -> Unit
 
-fn[T] lazy_(() -> @nostd.Promise[@nostd.Any]) -> (T) -> Element
+pub fn[T] lazy_(() -> @core.Promise[@core.Any]) -> (T) -> Element
 
-fn[T] provider(Context[T], Array[&ReactNode], value~ : T) -> Element
+pub fn[T] provider(Context[T], Array[&ReactNode], value~ : T) -> Element
 
 #alias(reactCache)
-fn[T, R] react_cache((T) -> R) -> (T) -> R
+pub fn[T, R] react_cache((T) -> R) -> (T) -> R
 
 #alias(startTransition)
-fn start_transition(() -> Unit) -> Unit
+pub fn start_transition(() -> Unit) -> Unit
 
-fn strict_mode(Array[&ReactNode]) -> Element
+pub fn strict_mode(Array[&ReactNode]) -> Element
 
-fn suspense(Array[&ReactNode], fallback~ : Element) -> Element
+pub fn suspense(Array[&ReactNode], fallback~ : Element) -> Element
 
 #alias(use_callback)
-fn[F] useCallback(F, Array[@nostd.Any]) -> F
+pub fn[F] useCallback(F, Array[@core.Any]) -> F
 
 #alias(use_effect)
-fn useEffect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
+pub fn useEffect(() -> () -> Unit, Array[@core.Any]) -> Unit
 
 #alias(use_layout_effect)
-fn useLayoutEffect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
+pub fn useLayoutEffect(() -> () -> Unit, Array[@core.Any]) -> Unit
 
 #alias(use_memo)
-fn[T] useMemo(() -> T, Array[@nostd.Any]) -> T
+pub fn[T] useMemo(() -> T, Array[@core.Any]) -> T
 
 #alias(use_ref)
-fn[T] useRef(T?) -> ReactRef[T]
+pub fn[T] useRef(T?) -> ReactRef[T]
 
 #alias(use_state)
-fn[T] useState(T) -> (T, (T) -> Unit)
+pub fn[T] useState(T) -> (T, (T) -> Unit)
 
 #alias(useActionState)
-fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
+pub fn[T, U] use_action_state(async (T, U) -> T noraise, T) -> (T, (U) -> Unit, Bool)
 
 #alias(useContext)
-fn[T] use_context(Context[T]) -> T
+pub fn[T] use_context(Context[T]) -> T
 
 #alias(useDebugValue)
-fn[T, R] use_debug_value(T, format? : (T) -> R) -> Unit
+pub fn[T, R] use_debug_value(T, format? : (T) -> R) -> Unit
 
 #alias(useDeferredValue)
-fn[T] use_deferred_value(T, initial_value? : T) -> T
+pub fn[T] use_deferred_value(T, initial_value? : T) -> T
 
 #alias(useId)
-fn use_id() -> String
+pub fn use_id() -> String
 
 #alias(useImperativeHandle)
-fn[T] use_imperative_handle(ReactRef[T], () -> T, Array[@nostd.Any]) -> Unit
+pub fn[T] use_imperative_handle(ReactRef[T], () -> T, Array[@core.Any]) -> Unit
 
 #alias(useInsertionEffect)
-fn use_insertion_effect(() -> () -> Unit, Array[@nostd.Any]) -> Unit
+pub fn use_insertion_effect(() -> () -> Unit, Array[@core.Any]) -> Unit
 
 #alias(useOptimistic)
-fn[S, A] use_optimistic(S, (S, A) -> S) -> (S, (A) -> Unit)
+pub fn[S, A] use_optimistic(S, (S, A) -> S) -> (S, (A) -> Unit)
 
 #alias(usePromise)
-fn[T] use_promise(@nostd.Promise[T]) -> T
+pub fn[T] use_promise(@core.Promise[T]) -> T
 
 #alias(useReducer)
-fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
+pub fn[T, U] use_reducer((T, U) -> T, T) -> (T, (U) -> Unit)
 
 #alias(useStateLazy)
-fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
+pub fn[T] use_state_lazy(() -> T) -> (T, (T) -> Unit)
 
 #alias(useSyncExternalStore)
-fn[Snapshot] use_sync_external_store((() -> Unit) -> () -> Unit, () -> Snapshot, get_server_snapshot? : () -> Snapshot) -> Snapshot
+pub fn[Snapshot] use_sync_external_store((() -> Unit) -> () -> Unit, () -> Snapshot, get_server_snapshot? : () -> Snapshot) -> Snapshot
 
 #alias(useTransition)
-fn use_transition() -> (Bool, (() -> Unit) -> Unit)
+pub fn use_transition() -> (Bool, (() -> Unit) -> Unit)
 
 // Errors
 
 // Types and methods
 #external
 pub type Context[T]
-fn[T] Context::as_any(Self[T]) -> @nostd.Any
+pub fn[T] Context::as_any(Self[T]) -> @core.Any
 
 #external
 pub type Element
-fn Element::as_any(Self) -> @nostd.Any
-impl ReactNode for Element
+pub fn Element::as_any(Self) -> @core.Any
+pub impl ReactNode for Element
 
 pub(all) struct ReactRef[T] {
-  current : @nostd.Any
+  current : @core.Any
 }
-fn[T] ReactRef::as_any(Self[T]) -> @nostd.Any
-fn[T] ReactRef::get_current(Self[T]) -> T?
-fn[T] ReactRef::set_current(Self[T], T?) -> Unit
+pub fn[T] ReactRef::as_any(Self[T]) -> @core.Any
+pub fn[T] ReactRef::get_current(Self[T]) -> T?
+pub fn[T] ReactRef::set_current(Self[T], T?) -> Unit
 
 // Type aliases
 pub type AnimationEventHandler[T] = (@dom.AnimationEvent) -> Unit
@@ -160,12 +159,12 @@ pub type WheelEventHandler[T] = (@dom.WheelEvent) -> Unit
 
 // Traits
 pub(open) trait ReactNode {
-  to_react_node(Self) -> @nostd.Any
+  to_react_node(Self) -> @core.Any
 }
-impl ReactNode for Bool
-impl ReactNode for Int
-impl ReactNode for Double
-impl ReactNode for String
-impl[T : ReactNode] ReactNode for T?
-impl ReactNode for Array[&ReactNode]
+pub impl ReactNode for Bool
+pub impl ReactNode for Int
+pub impl ReactNode for Double
+pub impl ReactNode for String
+pub impl[T : ReactNode] ReactNode for T?
+pub impl ReactNode for Array[&ReactNode]
 

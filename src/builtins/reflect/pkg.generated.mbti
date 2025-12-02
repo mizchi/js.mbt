@@ -2,35 +2,35 @@
 package "mizchi/js/builtins/reflect"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn apply(@nostd.Any, @nostd.Any, Array[@nostd.Any]) -> @nostd.Any
+pub fn apply(@core.Any, @core.Any, Array[@core.Any]) -> @core.Any
 
-fn construct(@nostd.Any, Array[@nostd.Any], @nostd.Any?) -> @nostd.Any
+pub fn construct(@core.Any, Array[@core.Any], @core.Any?) -> @core.Any
 
-fn defineProperty(@nostd.Any, @nostd.Any, @nostd.Any) -> Bool
+pub fn defineProperty(@core.Any, @core.Any, @core.Any) -> Bool
 
-fn deleteProperty(@nostd.Any, @nostd.Any) -> Bool
+pub fn deleteProperty(@core.Any, @core.Any) -> Bool
 
-fn get(@nostd.Any, @nostd.Any, @nostd.Any?) -> @nostd.Any
+pub fn get(@core.Any, @core.Any, @core.Any?) -> @core.Any
 
-fn getOwnPropertyDescriptor(@nostd.Any, @nostd.Any) -> @nostd.Any
+pub fn getOwnPropertyDescriptor(@core.Any, @core.Any) -> @core.Any
 
-fn getPrototypeOf(@nostd.Any) -> @nostd.Any
+pub fn getPrototypeOf(@core.Any) -> @core.Any
 
-fn has(@nostd.Any, @nostd.Any) -> Bool
+pub fn has(@core.Any, @core.Any) -> Bool
 
-fn isExtensible(@nostd.Any) -> Bool
+pub fn isExtensible(@core.Any) -> Bool
 
-fn ownKeys(@nostd.Any) -> Array[@nostd.Any]
+pub fn ownKeys(@core.Any) -> Array[@core.Any]
 
-fn preventExtensions(@nostd.Any) -> Bool
+pub fn preventExtensions(@core.Any) -> Bool
 
-fn set(@nostd.Any, @nostd.Any, @nostd.Any, @nostd.Any?) -> Bool
+pub fn set(@core.Any, @core.Any, @core.Any, @core.Any?) -> Bool
 
-fn setPrototypeOf(@nostd.Any, @nostd.Any) -> Bool
+pub fn setPrototypeOf(@core.Any, @core.Any) -> Bool
 
 // Errors
 

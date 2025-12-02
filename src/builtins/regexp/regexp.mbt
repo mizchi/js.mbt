@@ -7,7 +7,7 @@
 pub type RegExp
 
 ///|
-pub fn RegExp::to_any(self : RegExp) -> @nostd.Any = "%identity"
+pub fn RegExp::to_any(self : RegExp) -> @core.Any = "%identity"
 
 ///|
 /// Result of RegExp.exec() method.
@@ -23,7 +23,7 @@ pub struct RegExpResult {
 }
 
 ///|
-pub fn RegExpResult::to_any(self : RegExpResult) -> @nostd.Any = "%identity"
+pub fn RegExpResult::to_any(self : RegExpResult) -> @core.Any = "%identity"
 
 ///|
 /// Result of String.match() or String.matchAll() methods.
@@ -39,7 +39,7 @@ pub struct RegExpMatchArray {
 }
 
 ///|
-pub fn RegExpMatchArray::to_any(self : RegExpMatchArray) -> @nostd.Any = "%identity"
+pub fn RegExpMatchArray::to_any(self : RegExpMatchArray) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_regexp_new(s : String, flags : String) -> RegExp =
@@ -53,7 +53,7 @@ extern "js" fn RegExp::ffi_regexp_test(self : RegExp, string : String) -> Bool =
 extern "js" fn RegExp::ffi_regexp_exec(
   self : RegExp,
   string : String,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(re, string) => re.exec(string)
 
 ///|
@@ -121,12 +121,12 @@ extern "js" fn RegExp::ffi_regexp_to_string(self : RegExp) -> String =
 
 ///|
 /// JavaScript API: String.prototype.match()
-extern "js" fn ffi_string_match(string : String, re : RegExp) -> @nostd.Any =
+extern "js" fn ffi_string_match(string : String, re : RegExp) -> @core.Any =
   #|(string, re) => string.match(re)
 
 ///|
 /// JavaScript API: String.prototype.matchAll()
-extern "js" fn ffi_string_match_all(string : String, re : RegExp) -> @nostd.Any =
+extern "js" fn ffi_string_match_all(string : String, re : RegExp) -> @core.Any =
   #|(string, re) => Array.from(string.matchAll(re))
 
 ///|
@@ -152,7 +152,7 @@ extern "js" fn ffi_string_replace_all(
 extern "js" fn ffi_string_replace_fn(
   string : String,
   re : RegExp,
-  replacer : @nostd.Any,
+  replacer : @core.Any,
 ) -> String =
   #|(string, re, replacer) => string.replace(re, replacer)
 
@@ -161,7 +161,7 @@ extern "js" fn ffi_string_replace_fn(
 extern "js" fn ffi_string_replace_all_fn(
   string : String,
   re : RegExp,
-  replacer : @nostd.Any,
+  replacer : @core.Any,
 ) -> String =
   #|(string, re, replacer) => string.replaceAll(re, replacer)
 
@@ -175,7 +175,7 @@ extern "js" fn ffi_string_search(string : String, re : RegExp) -> Int =
 extern "js" fn ffi_string_split(
   string : String,
   re : RegExp,
-  limit : @nostd.Any,
+  limit : @core.Any,
 ) -> Array[String] =
   #|(string, re, limit) => string.split(re, limit === null ? undefined : limit)
 
@@ -302,19 +302,19 @@ pub fn RegExp::test_(self : RegExp, string : String) -> Bool {
 /// JavaScript API: `RegExp.prototype.exec()`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
 pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
-  let v : @nostd.Any = RegExp::ffi_regexp_exec(self, s) |> @nostd.any
-  if @nostd.is_null(v) {
+  let v : @core.Any = RegExp::ffi_regexp_exec(self, s) |> @core.any
+  if @core.is_null(v) {
     return None
   }
   let full : String = v["0"].cast()
   let index : Int = v["index"].cast()
   let last_index : Int = v["lastIndex"].cast()
   let input : String = v["input"].cast()
-  let groups : Map[String, String]? = if @nostd.is_undefined(v["groups"]) {
+  let groups : Map[String, String]? = if @core.is_undefined(v["groups"]) {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @nostd.Object::keys(v["groups"])
+    let keys = @core.Object::keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
     }
@@ -342,8 +342,8 @@ pub fn RegExp::new(pattern : String, flags? : String) -> RegExp {
 /// JavaScript API: `String.prototype.match()`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match
 pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
-  let v : @nostd.Any = ffi_string_match(string, self) |> @nostd.any
-  if @nostd.is_null(v) {
+  let v : @core.Any = ffi_string_match(string, self) |> @core.any
+  if @core.is_null(v) {
     return None
   }
   let len : Int = v["length"].cast()
@@ -351,21 +351,21 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   for i = 0; i < len; i = i + 1 {
     matches.push(v[i.to_string()].cast())
   }
-  let index : Int? = if @nostd.is_undefined(v["index"]) {
+  let index : Int? = if @core.is_undefined(v["index"]) {
     None
   } else {
     Some(v["index"].cast())
   }
-  let input : String? = if @nostd.is_undefined(v["input"]) {
+  let input : String? = if @core.is_undefined(v["input"]) {
     None
   } else {
     Some(v["input"].cast())
   }
-  let groups : Map[String, String]? = if @nostd.is_undefined(v["groups"]) {
+  let groups : Map[String, String]? = if @core.is_undefined(v["groups"]) {
     None
   } else {
     let g : Map[String, String] = {}
-    let keys = @nostd.Object::keys(v["groups"])
+    let keys = @core.Object::keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
     }
@@ -383,7 +383,7 @@ pub fn RegExp::matchAll(
   self : RegExp,
   string : String,
 ) -> Array[RegExpMatchArray] {
-  let v : @nostd.Any = ffi_string_match_all(string, self) |> @nostd.any
+  let v : @core.Any = ffi_string_match_all(string, self) |> @core.any
   let len : Int = v["length"].cast()
   let results : Array[RegExpMatchArray] = []
   for i = 0; i < len; i = i + 1 {
@@ -393,21 +393,21 @@ pub fn RegExp::matchAll(
     for j = 0; j < match_len; j = j + 1 {
       matches.push(item[j.to_string()].cast())
     }
-    let index : Int? = if @nostd.is_undefined(item["index"]) {
+    let index : Int? = if @core.is_undefined(item["index"]) {
       None
     } else {
       Some(item["index"].cast())
     }
-    let input : String? = if @nostd.is_undefined(item["input"]) {
+    let input : String? = if @core.is_undefined(item["input"]) {
       None
     } else {
       Some(item["input"].cast())
     }
-    let groups : Map[String, String]? = if @nostd.is_undefined(item["groups"]) {
+    let groups : Map[String, String]? = if @core.is_undefined(item["groups"]) {
       None
     } else {
       let g : Map[String, String] = {}
-      let keys = @nostd.Object::keys(item["groups"])
+      let keys = @core.Object::keys(item["groups"])
       for k in keys {
         g[k] = item["groups"][k].cast()
       }
@@ -456,16 +456,16 @@ pub fn RegExp::replace_fn(
 ) -> String {
   let wrapper = fn(
     matched : String,
-    groups_val : @nostd.Any,
+    groups_val : @core.Any,
     offset : Int,
     input : String,
   ) -> String {
-    let gv : @nostd.Any = groups_val |> @nostd.any
+    let gv : @core.Any = groups_val |> @core.any
     let groups_len : Int = gv["length"].cast()
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = gv[i.to_string()]
-      if @nostd.is_undefined(item) {
+      if @core.is_undefined(item) {
         groups.push("")
       } else {
         groups.push(item.cast())
@@ -473,7 +473,7 @@ pub fn RegExp::replace_fn(
     }
     replacer(matched, groups, offset, input)
   }
-  ffi_string_replace_fn(string, self, @nostd.any(wrapper))
+  ffi_string_replace_fn(string, self, @core.any(wrapper))
 }
 
 ///|
@@ -488,16 +488,16 @@ pub fn RegExp::replace_all_fn(
 ) -> String {
   let wrapper = fn(
     matched : String,
-    groups_val : @nostd.Any,
+    groups_val : @core.Any,
     offset : Int,
     input : String,
   ) -> String {
-    let gv : @nostd.Any = groups_val |> @nostd.any
+    let gv : @core.Any = groups_val |> @core.any
     let groups_len : Int = gv["length"].cast()
     let groups : Array[String] = Array::new(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = gv[i.to_string()]
-      if @nostd.is_undefined(item) {
+      if @core.is_undefined(item) {
         groups.push("")
       } else {
         groups.push(item.cast())
@@ -505,7 +505,7 @@ pub fn RegExp::replace_all_fn(
     }
     replacer(matched, groups, offset, input)
   }
-  ffi_string_replace_all_fn(string, self, @nostd.any(wrapper))
+  ffi_string_replace_all_fn(string, self, @core.any(wrapper))
 }
 
 ///|
@@ -528,8 +528,8 @@ pub fn RegExp::split(
   limit? : Int,
 ) -> Array[String] {
   let limit_val = match limit {
-    None => @nostd.null()
-    Some(n) => @nostd.identity(n)
+    None => @core.null()
+    Some(n) => @core.identity(n)
   }
-  ffi_string_split(string, self, limit_val |> @nostd.any)
+  ffi_string_split(string, self, limit_val |> @core.any)
 }

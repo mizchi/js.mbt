@@ -47,7 +47,7 @@ test "is_builtin returns false for non-core modules" {
 /// Test createRequire creates a require function
 test "createRequire returns function" {
   let require_fn = createRequire("/tmp/test.js")
-  let type_of = require_fn |> @nostd.typeof_()
+  let type_of = require_fn |> @core.typeof_()
   inspect(type_of == "function", content="true")
 }
 

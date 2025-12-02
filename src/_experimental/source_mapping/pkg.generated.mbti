@@ -2,18 +2,18 @@
 package "mizchi/js/_experimental/source_mapping"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/error_stack_parser"
   "mizchi/js/npm/source_map"
   "moonbitlang/core/hashmap"
 )
 
 // Values
-async fn find_source_map_for_file(String) -> @nostd.Any?
+pub async fn find_source_map_for_file(String) -> @core.Any?
 
-fn format_resolved_stack(Array[ResolvedFrame]) -> String
+pub fn format_resolved_stack(Array[ResolvedFrame]) -> String
 
-async fn load_source_map_from_url(String) -> @nostd.Any
+pub async fn load_source_map_from_url(String) -> @core.Any
 
 // Errors
 
@@ -21,19 +21,19 @@ async fn load_source_map_from_url(String) -> @nostd.Any
 pub struct ErrorTracer {
   consumers : @hashmap.HashMap[String, @source_map.SourceMapConsumer]
 }
-async fn ErrorTracer::add_source_map(Self, String, String) -> Unit
-async fn ErrorTracer::add_source_map_raw(Self, String, @nostd.Any) -> Unit
-fn ErrorTracer::destroy(Self) -> Unit
-fn ErrorTracer::new() -> Self
-fn ErrorTracer::resolve_current_stack(Self) -> Array[ResolvedFrame]
-fn ErrorTracer::resolve_error(Self, @nostd.Any) -> Array[ResolvedFrame]
-fn ErrorTracer::resolve_frame(Self, @error_stack_parser.StackFrame) -> ResolvedFrame
+pub async fn ErrorTracer::add_source_map(Self, String, String) -> Unit
+pub async fn ErrorTracer::add_source_map_raw(Self, String, @core.Any) -> Unit
+pub fn ErrorTracer::destroy(Self) -> Unit
+pub fn ErrorTracer::new() -> Self
+pub fn ErrorTracer::resolve_current_stack(Self) -> Array[ResolvedFrame]
+pub fn ErrorTracer::resolve_error(Self, @core.Any) -> Array[ResolvedFrame]
+pub fn ErrorTracer::resolve_frame(Self, @error_stack_parser.StackFrame) -> ResolvedFrame
 
 pub(all) struct ResolvedFrame {
   js_frame : @error_stack_parser.StackFrame
   original : @source_map.OriginalPosition?
 }
-impl Show for ResolvedFrame
+pub impl Show for ResolvedFrame
 
 // Type aliases
 

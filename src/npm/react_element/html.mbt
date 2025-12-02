@@ -3,7 +3,7 @@
 ///|
 fn[T] common_node(
   tag_name : String,
-  props : @nostd.Any,
+  props : @core.Any,
   children~ : Array[&@react.ReactNode],
   id~ : String?,
   class~ : String?,
@@ -26,27 +26,27 @@ fn[T] common_node(
   on_drop~ : @react.DragEventHandler[T]?,
 ) -> @react.Element {
   if id is Some(id) {
-    props._set("id", id |> @nostd.any)
+    props._set("id", id |> @core.any)
   }
   if class is Some(class) {
-    props._set("className", class |> @nostd.any)
+    props._set("className", class |> @core.any)
   }
   if tab_index is Some(tab_index) {
-    props._set("tabIndex", tab_index |> @nostd.any)
+    props._set("tabIndex", tab_index |> @core.any)
   }
   if style is Some(style) {
-    let style_obj = @nostd.Object::new()
+    let style_obj = @core.Object::new()
     for k, v in style {
-      style_obj._set(k, v |> @nostd.any)
+      style_obj._set(k, v |> @core.any)
     }
     props._set("style", style_obj)
   }
   if ref_ is Some(ref_) {
-    let ref_js : @nostd.Any = ref_.as_any().cast()
+    let ref_js : @core.Any = ref_.as_any().cast()
     props._set("ref", ref_js)
   }
   if key is Some(key) {
-    props._set("key", key |> @nostd.any)
+    props._set("key", key |> @core.any)
   }
   if on_click is Some(f) {
     props._set("onClick", f |> @js.from_fn1)
@@ -88,8 +88,8 @@ fn[T] common_node(
   if on_drop is Some(f) {
     props._set("onDrop", f |> @js.from_fn1)
   }
-  let children_js : @nostd.Any = @nostd.any(children.map(_.to_react_node()))
-  let props_js : @nostd.Any = props.cast()
+  let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+  let props_js : @core.Any = props.cast()
   @react.createElementDirect(tag_name, props_js, children_js)
 }
 
@@ -98,7 +98,7 @@ pub fn div(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -125,7 +125,7 @@ pub fn div(
     "div",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -155,7 +155,7 @@ pub fn pre(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -182,7 +182,7 @@ pub fn pre(
     "pre",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     tab_index~,
@@ -212,7 +212,7 @@ pub fn blockquote(
   // common props
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -239,7 +239,7 @@ pub fn blockquote(
     "blockquote",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -268,7 +268,7 @@ pub fn blockquote(
 pub fn span(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -295,7 +295,7 @@ pub fn span(
     "span",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -324,7 +324,7 @@ pub fn span(
 pub fn nav(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -351,7 +351,7 @@ pub fn nav(
     "nav",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -380,7 +380,7 @@ pub fn nav(
 pub fn p(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -407,7 +407,7 @@ pub fn p(
     "p",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -442,7 +442,7 @@ pub fn textarea(
   default_value? : String,
   placeholder? : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -466,26 +466,26 @@ pub fn textarea(
   on_drop? : @react.DragEventHandler[@dom.HTMLTextAreaElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if rows is Some(r) {
-    custom_props._set("rows", r |> @nostd.any)
+    custom_props._set("rows", r |> @core.any)
   }
   if columns is Some(c) {
-    custom_props._set("cols", c |> @nostd.any)
+    custom_props._set("cols", c |> @core.any)
   }
   if spellcheck is Some(s) {
-    custom_props._set("spellCheck", s |> @nostd.any)
+    custom_props._set("spellCheck", s |> @core.any)
   }
   if value is Some(v) {
-    custom_props._set("value", v |> @nostd.any)
+    custom_props._set("value", v |> @core.any)
   }
   if default_value is Some(dv) {
-    custom_props._set("defaultValue", dv |> @nostd.any)
+    custom_props._set("defaultValue", dv |> @core.any)
   }
   if placeholder is Some(ph) {
-    custom_props._set("placeholder", ph |> @nostd.any)
+    custom_props._set("placeholder", ph |> @core.any)
   }
   common_node(
     "textarea",
@@ -516,7 +516,7 @@ pub fn textarea(
 ///|
 pub fn input(
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   name? : String,
@@ -545,23 +545,23 @@ pub fn input(
   on_drop? : @react.DragEventHandler[@dom.HTMLInputElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if name is Some(n) {
-    custom_props._set("name", n |> @nostd.any)
+    custom_props._set("name", n |> @core.any)
   }
   if value is Some(v) {
-    custom_props._set("value", v |> @nostd.any)
+    custom_props._set("value", v |> @core.any)
   }
   if default_value is Some(dv) {
-    custom_props._set("defaultValue", dv |> @nostd.any)
+    custom_props._set("defaultValue", dv |> @core.any)
   }
   if type_ is Some(t) {
-    custom_props._set("type", t |> @nostd.any)
+    custom_props._set("type", t |> @core.any)
   }
   if placeholder is Some(ph) {
-    custom_props._set("placeholder", ph |> @nostd.any)
+    custom_props._set("placeholder", ph |> @core.any)
   }
   common_node(
     "input",
@@ -593,7 +593,7 @@ pub fn input(
 pub fn main_(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -620,7 +620,7 @@ pub fn main_(
     "main",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -649,7 +649,7 @@ pub fn main_(
 pub fn header(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -677,7 +677,7 @@ pub fn header(
     "header",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -706,7 +706,7 @@ pub fn header(
 pub fn footer(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -734,7 +734,7 @@ pub fn footer(
     "footer",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -763,7 +763,7 @@ pub fn footer(
 pub fn ul(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -791,7 +791,7 @@ pub fn ul(
     "ul",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -820,7 +820,7 @@ pub fn ul(
 pub fn ol(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -848,7 +848,7 @@ pub fn ol(
     "ol",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -877,7 +877,7 @@ pub fn ol(
 pub fn article(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -904,7 +904,7 @@ pub fn article(
     "article",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -933,7 +933,7 @@ pub fn article(
 pub fn aside(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -960,7 +960,7 @@ pub fn aside(
     "aside",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -989,7 +989,7 @@ pub fn aside(
 pub fn section(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1016,7 +1016,7 @@ pub fn section(
     "section",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1053,7 +1053,7 @@ pub fn form(
   action? : (@http.FormData) -> Unit,
   on_submit? : (@dom.FormEvent) -> Unit,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1078,28 +1078,28 @@ pub fn form(
   on_drop? : @react.DragEventHandler[@dom.HTMLFormElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if disabled is Some(d) {
-    custom_props._set("disabled", d |> @nostd.any)
+    custom_props._set("disabled", d |> @core.any)
   }
   if name is Some(n) {
-    custom_props._set("name", n |> @nostd.any)
+    custom_props._set("name", n |> @core.any)
   }
   if method_ is Some(m) {
-    custom_props._set("method", m |> @nostd.any)
+    custom_props._set("method", m |> @core.any)
   }
   if on_submit is Some(f) {
-    let fn_value : @nostd.Any = f |> @js.from_fn1
+    let fn_value : @core.Any = f |> @js.from_fn1
     custom_props._set("onSubmit", fn_value)
   }
   if action is Some(f) {
-    let fn_value : @nostd.Any = f |> @js.from_fn1
+    let fn_value : @core.Any = f |> @js.from_fn1
     custom_props._set("action", fn_value)
   }
   if enc_type is Some(e) {
-    custom_props._set("encType", e |> @nostd.any)
+    custom_props._set("encType", e |> @core.any)
   }
   common_node(
     "form",
@@ -1135,7 +1135,7 @@ pub fn select(
   disabled? : Bool,
   name? : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1159,17 +1159,17 @@ pub fn select(
   on_drop? : @react.DragEventHandler[@dom.HTMLSelectElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if multiple is Some(m) {
-    custom_props._set("multiple", m |> @nostd.any)
+    custom_props._set("multiple", m |> @core.any)
   }
   if disabled is Some(d) {
-    custom_props._set("disabled", d |> @nostd.any)
+    custom_props._set("disabled", d |> @core.any)
   }
   if name is Some(n) {
-    custom_props._set("name", n |> @nostd.any)
+    custom_props._set("name", n |> @core.any)
   }
   common_node(
     "select",
@@ -1203,7 +1203,7 @@ pub fn option(
   value~ : String,
   selected? : Bool,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1228,12 +1228,12 @@ pub fn option(
   on_drop? : @react.DragEventHandler[@dom.HTMLOptionElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("value", value |> @nostd.any)
+  custom_props._set("value", value |> @core.any)
   if selected is Some(s) {
-    custom_props._set("selected", s |> @nostd.any)
+    custom_props._set("selected", s |> @core.any)
   }
   common_node(
     "option",
@@ -1266,7 +1266,7 @@ pub fn label(
   children : Array[&@react.ReactNode],
   htmlFor : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1291,10 +1291,10 @@ pub fn label(
   on_drop? : @react.DragEventHandler[@dom.HTMLLabelElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("htmlFor", htmlFor |> @nostd.any)
+  custom_props._set("htmlFor", htmlFor |> @core.any)
   common_node(
     "label",
     custom_props,
@@ -1325,7 +1325,7 @@ pub fn label(
 pub fn li(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1353,7 +1353,7 @@ pub fn li(
     "li",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1382,7 +1382,7 @@ pub fn li(
 pub fn code(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1410,7 +1410,7 @@ pub fn code(
     "code",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1439,7 +1439,7 @@ pub fn code(
 pub fn details(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1467,7 +1467,7 @@ pub fn details(
     "details",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1496,7 +1496,7 @@ pub fn details(
 pub fn summary(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1524,7 +1524,7 @@ pub fn summary(
     "summary",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1559,7 +1559,7 @@ pub fn a(
   target? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1584,15 +1584,15 @@ pub fn a(
   on_drop? : @react.DragEventHandler[@dom.HTMLAnchorElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("href", href |> @nostd.any)
+  custom_props._set("href", href |> @core.any)
   if download is Some(d) {
-    custom_props._set("download", d |> @nostd.any)
+    custom_props._set("download", d |> @core.any)
   }
   if target is Some(t) {
-    custom_props._set("target", t |> @nostd.any)
+    custom_props._set("target", t |> @core.any)
   }
   common_node(
     "a",
@@ -1634,7 +1634,7 @@ pub fn iframe(
   allowfullscreen? : Bool,
   loading? : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1657,27 +1657,27 @@ pub fn iframe(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("src", src |> @nostd.any)
+  custom_props._set("src", src |> @core.any)
   if width is Some(d) {
-    custom_props._set("width", d |> @nostd.any)
+    custom_props._set("width", d |> @core.any)
   }
   if height is Some(d) {
-    custom_props._set("height", d |> @nostd.any)
+    custom_props._set("height", d |> @core.any)
   }
   if frameborder is Some(d) {
-    custom_props._set("frameborder", d |> @nostd.any)
+    custom_props._set("frameborder", d |> @core.any)
   }
   if sandbox is Some(d) {
-    custom_props._set("sandbox", d |> @nostd.any)
+    custom_props._set("sandbox", d |> @core.any)
   }
   if allowfullscreen is Some(d) {
-    custom_props._set("allowfullscreen", d |> @nostd.any)
+    custom_props._set("allowfullscreen", d |> @core.any)
   }
   if loading is Some(d) {
-    custom_props._set("loading", d |> @nostd.any)
+    custom_props._set("loading", d |> @core.any)
   }
   common_node(
     "iframe",
@@ -1722,7 +1722,7 @@ pub fn img(
   sizes? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1747,36 +1747,36 @@ pub fn img(
   on_drop? : @react.DragEventHandler[@dom.HTMLImageElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("src", src |> @nostd.any)
+  custom_props._set("src", src |> @core.any)
   if alt is Some(d) {
-    custom_props._set("alt", d |> @nostd.any)
+    custom_props._set("alt", d |> @core.any)
   }
   if crossorigin is Some(d) {
-    custom_props._set("crossorigin", d |> @nostd.any)
+    custom_props._set("crossorigin", d |> @core.any)
   }
   if decoding is Some(d) {
-    custom_props._set("decoding", d |> @nostd.any)
+    custom_props._set("decoding", d |> @core.any)
   }
   if width is Some(d) {
-    custom_props._set("width", d |> @nostd.any)
+    custom_props._set("width", d |> @core.any)
   }
   if height is Some(d) {
-    custom_props._set("height", d |> @nostd.any)
+    custom_props._set("height", d |> @core.any)
   }
   if fetchpriority is Some(d) {
-    custom_props._set("fetchpriority", d |> @nostd.any)
+    custom_props._set("fetchpriority", d |> @core.any)
   }
   if loading is Some(d) {
-    custom_props._set("loading", d |> @nostd.any)
+    custom_props._set("loading", d |> @core.any)
   }
   if sizes is Some(d) {
-    custom_props._set("sizes", d |> @nostd.any)
+    custom_props._set("sizes", d |> @core.any)
   }
   if srcset is Some(d) {
-    custom_props._set("srcset", d |> @nostd.any)
+    custom_props._set("srcset", d |> @core.any)
   }
   common_node(
     "img",
@@ -1812,7 +1812,7 @@ pub fn video(
   controls? : Bool,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1837,11 +1837,11 @@ pub fn video(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if controls is Some(c) {
-    custom_props._set("controls", c |> @nostd.any)
+    custom_props._set("controls", c |> @core.any)
   }
   common_node(
     "video",
@@ -1876,7 +1876,7 @@ pub fn source(
   type_? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1901,12 +1901,12 @@ pub fn source(
   on_drop? : @react.DragEventHandler[@dom.Element],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
-  custom_props._set("src", src |> @nostd.any)
+  custom_props._set("src", src |> @core.any)
   if type_ is Some(t) {
-    custom_props._set("type", t |> @nostd.any)
+    custom_props._set("type", t |> @core.any)
   }
   common_node(
     "video",
@@ -1937,7 +1937,7 @@ pub fn source(
 ///|
 pub fn hr(
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -1965,7 +1965,7 @@ pub fn hr(
     "hr",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -1994,7 +1994,7 @@ pub fn hr(
 pub fn h1(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2022,7 +2022,7 @@ pub fn h1(
     "h1",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -2051,7 +2051,7 @@ pub fn h1(
 pub fn h2(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2079,7 +2079,7 @@ pub fn h2(
     "h2",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -2108,7 +2108,7 @@ pub fn h2(
 pub fn h3(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2136,7 +2136,7 @@ pub fn h3(
     "h3",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -2165,7 +2165,7 @@ pub fn h3(
 pub fn h4(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2193,7 +2193,7 @@ pub fn h4(
     "h4",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -2222,7 +2222,7 @@ pub fn h4(
 pub fn h5(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2250,7 +2250,7 @@ pub fn h5(
     "h5",
     match props {
       Some(p) => p
-      None => @nostd.Object::new()
+      None => @core.Object::new()
     },
     id~,
     class~,
@@ -2280,7 +2280,7 @@ pub fn button(
   children : Array[&@react.ReactNode],
   type_? : String,
   disabled? : Bool,
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -2302,14 +2302,14 @@ pub fn button(
   on_drop? : @react.DragEventHandler[@dom.HTMLButtonElement],
 ) -> @react.Element {
   let custom_props = match props {
-    Some(p) => @js.Object::assign(@nostd.Object::new(), p)
-    None => @nostd.Object::new()
+    Some(p) => @js.Object::assign(@core.Object::new(), p)
+    None => @core.Object::new()
   }
   if type_ is Some(t) {
-    custom_props._set("type", t |> @nostd.any)
+    custom_props._set("type", t |> @core.any)
   }
   if disabled is Some(d) {
-    custom_props._set("disabled", d |> @nostd.any)
+    custom_props._set("disabled", d |> @core.any)
   }
   common_node(
     "button",

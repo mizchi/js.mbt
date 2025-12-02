@@ -2,7 +2,7 @@
 #skip("history not available in JSDOM")
 test "history global function returns History" {
   let h = history()
-  assert_eq(@nostd.typeof_(h |> @nostd.any), "object")
+  assert_eq(@core.typeof_(h |> @core.any), "object")
 }
 
 ///|
@@ -25,7 +25,7 @@ test "History::state can be accessed" {
 #skip("history not available in JSDOM")
 test "History::pushState and replaceState work" {
   let h = history()
-  let state = @nostd.Object::new()
+  let state = @core.Object::new()
   h.pushState(state, "")
   h.replaceState(state, "")
   assert_true(true)

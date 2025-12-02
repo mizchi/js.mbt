@@ -2,23 +2,23 @@
 package "mizchi/js/node/url"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
 #alias(file_url_to_path)
-fn fileURLToPath(String, windows? : Bool) -> String
+pub fn fileURLToPath(String, windows? : Bool) -> String
 
 #alias(file_url_to_path_from_url)
-fn fileURLToPathFromURL(@mizchi/js/web/url.URL, windows? : Bool) -> String
+pub fn fileURLToPathFromURL(@mizchi/js/web/url.URL, windows? : Bool) -> String
 
-fn format(@mizchi/js/web/url.URL) -> String
+pub fn format(@mizchi/js/web/url.URL) -> String
 
 #alias(path_to_file_url)
-fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/web/url.URL
+pub fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/web/url.URL
 
 #alias(url_to_http_options)
-fn urlToHttpOptions(@mizchi/js/web/url.URL) -> @nostd.Any
+pub fn urlToHttpOptions(@mizchi/js/web/url.URL) -> @core.Any
 
 // Errors
 

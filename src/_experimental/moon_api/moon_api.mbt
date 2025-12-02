@@ -145,7 +145,7 @@ extern "js" fn ffi_spawn_sync_inherit(
   command : String,
   args : Array[String],
   cwd : String?,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(command, args, cwd) => {
   #|  const { spawnSync } = require('node:child_process');
   #|  const result = spawnSync(command, args, {
@@ -159,7 +159,7 @@ extern "js" fn ffi_spawn_sync_inherit(
 extern "js" fn ffi_exec_sync_with_result(
   command : String,
   cwd : String?,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(command, cwd) => {
   #|  const { execSync } = require('node:child_process');
   #|  try {
@@ -457,7 +457,7 @@ fn ffi_exec_command(
 extern "js" fn ffi_spawn_sync_shell(
   command : String,
   cwd : String?,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(command, cwd) => {
   #|  const { spawnSync } = require('node:child_process');
   #|  const result = spawnSync(command, {

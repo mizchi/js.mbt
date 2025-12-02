@@ -11,7 +11,7 @@
 pub type DuckDBModule
 
 ///|
-pub fn DuckDBModule::as_any(self : DuckDBModule) -> @nostd.Any = "%identity"
+pub fn DuckDBModule::as_any(self : DuckDBModule) -> @core.Any = "%identity"
 
 ///|
 /// AsyncDuckDB database instance
@@ -19,7 +19,7 @@ pub fn DuckDBModule::as_any(self : DuckDBModule) -> @nostd.Any = "%identity"
 pub type AsyncDuckDB
 
 ///|
-pub fn AsyncDuckDB::as_any(self : AsyncDuckDB) -> @nostd.Any = "%identity"
+pub fn AsyncDuckDB::as_any(self : AsyncDuckDB) -> @core.Any = "%identity"
 
 ///|
 /// AsyncDuckDBConnection
@@ -27,9 +27,7 @@ pub fn AsyncDuckDB::as_any(self : AsyncDuckDB) -> @nostd.Any = "%identity"
 pub type AsyncDuckDBConnection
 
 ///|
-pub fn AsyncDuckDBConnection::as_any(
-  self : AsyncDuckDBConnection,
-) -> @nostd.Any = "%identity"
+pub fn AsyncDuckDBConnection::as_any(self : AsyncDuckDBConnection) -> @core.Any = "%identity"
 
 ///|
 /// Query result
@@ -37,10 +35,10 @@ pub fn AsyncDuckDBConnection::as_any(
 pub type QueryResult
 
 ///|
-pub fn QueryResult::as_any(self : QueryResult) -> @nostd.Any = "%identity"
+pub fn QueryResult::as_any(self : QueryResult) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_import_duckdb() -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_import_duckdb() -> @js.Promise[@core.Any] =
   #| () => import("@duckdb/duckdb-wasm")
 
 ///|
@@ -152,7 +150,7 @@ pub fn AsyncDuckDBConnection::closeSync(
 
 ///|
 /// Get rows as array from query result
-pub fn QueryResult::toArray(self : QueryResult) -> @nostd.Any {
+pub fn QueryResult::toArray(self : QueryResult) -> @core.Any {
   self.as_any()._call("toArray", []).cast()
 }
 
@@ -172,6 +170,6 @@ pub fn QueryResult::numCols(self : QueryResult) -> Int {
 
 ///|
 /// Get schema
-pub fn QueryResult::schema(self : QueryResult) -> @nostd.Any {
+pub fn QueryResult::schema(self : QueryResult) -> @core.Any {
   self.as_any()["schema"].cast()
 }

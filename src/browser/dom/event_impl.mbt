@@ -1,7 +1,7 @@
 ///|
 /// EventImpl trait - base interface for all DOM events
 pub(open) trait EventImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _
@@ -65,13 +65,13 @@ impl EventImpl with defaultPrevented(self) -> Bool {
 pub type Event
 
 ///|
-pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
+pub fn Event::as_any(self : Event) -> @core.Any = "%identity"
 
 ///|
 pub fn Event::as_event(self : Event) -> @event.Event = "%identity"
 
 ///|
-pub impl EventImpl for Event with as_any(self) -> @nostd.Any {
+pub impl EventImpl for Event with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -94,10 +94,10 @@ pub(all) struct PointerEvent {
 } derive(Show)
 
 ///|
-pub fn PointerEvent::as_any(self : PointerEvent) -> @nostd.Any = "%identity"
+pub fn PointerEvent::as_any(self : PointerEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for PointerEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for PointerEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -124,10 +124,10 @@ pub(all) struct MouseEvent {
 } derive(Show)
 
 ///|
-pub fn MouseEvent::as_any(self : MouseEvent) -> @nostd.Any = "%identity"
+pub fn MouseEvent::as_any(self : MouseEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for MouseEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for MouseEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -135,8 +135,8 @@ pub impl EventImpl for MouseEvent with as_any(self) -> @nostd.Any {
 /// Returns the secondary target for the mouse event
 /// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
 pub fn MouseEvent::relatedTarget(self : Self) -> Element? {
-  let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("relatedTarget").cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -157,10 +157,10 @@ pub(all) struct KeyboardEvent {
 } derive(Show)
 
 ///|
-pub fn KeyboardEvent::as_any(self : KeyboardEvent) -> @nostd.Any = "%identity"
+pub fn KeyboardEvent::as_any(self : KeyboardEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for KeyboardEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for KeyboardEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -169,10 +169,10 @@ pub impl EventImpl for KeyboardEvent with as_any(self) -> @nostd.Any {
 pub(all) struct ChangeEvent {} derive(Show)
 
 ///|
-pub fn ChangeEvent::as_any(self : ChangeEvent) -> @nostd.Any = "%identity"
+pub fn ChangeEvent::as_any(self : ChangeEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ChangeEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for ChangeEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -183,20 +183,20 @@ pub impl EventImpl for ChangeEvent with as_any(self) -> @nostd.Any {
 pub type FocusEvent
 
 ///|
-pub fn FocusEvent::as_any(self : FocusEvent) -> @nostd.Any = "%identity"
+pub fn FocusEvent::as_any(self : FocusEvent) -> @core.Any = "%identity"
 
 ///|
 
 ///|
-pub impl EventImpl for FocusEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for FocusEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 /// Returns the related target (element losing/gaining focus)
 pub fn FocusEvent::relatedTarget(self : FocusEvent) -> Element? {
-  let v : @nostd.Any = self.as_any()._get("relatedTarget").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("relatedTarget").cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -206,10 +206,10 @@ pub(all) struct FormEvent {
 }
 
 ///|
-pub fn FormEvent::as_any(self : FormEvent) -> @nostd.Any = "%identity"
+pub fn FormEvent::as_any(self : FormEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for FormEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for FormEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -221,10 +221,10 @@ pub(all) struct DragEvent {
 }
 
 ///|
-pub fn DragEvent::as_any(self : DragEvent) -> @nostd.Any = "%identity"
+pub fn DragEvent::as_any(self : DragEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for DragEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for DragEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -239,10 +239,10 @@ pub(all) struct InputEvent {
 }
 
 ///|
-pub fn InputEvent::as_any(self : InputEvent) -> @nostd.Any = "%identity"
+pub fn InputEvent::as_any(self : InputEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for InputEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for InputEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -257,10 +257,10 @@ pub(all) struct WheelEvent {
 } derive(Show)
 
 ///|
-pub fn WheelEvent::as_any(self : WheelEvent) -> @nostd.Any = "%identity"
+pub fn WheelEvent::as_any(self : WheelEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for WheelEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for WheelEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -278,10 +278,10 @@ pub(all) struct TouchEvent {
 } derive(Show)
 
 ///|
-pub fn TouchEvent::as_any(self : TouchEvent) -> @nostd.Any = "%identity"
+pub fn TouchEvent::as_any(self : TouchEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for TouchEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for TouchEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -303,7 +303,7 @@ pub(all) struct Touch {
 } derive(Show)
 
 ///|
-pub fn Touch::as_any(self : Touch) -> @nostd.Any = "%identity"
+pub fn Touch::as_any(self : Touch) -> @core.Any = "%identity"
 
 ///|
 
@@ -321,10 +321,10 @@ pub(all) struct ClipboardEvent {
 }
 
 ///|
-pub fn ClipboardEvent::as_any(self : ClipboardEvent) -> @nostd.Any = "%identity"
+pub fn ClipboardEvent::as_any(self : ClipboardEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ClipboardEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for ClipboardEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -338,10 +338,10 @@ pub(all) struct TransitionEvent {
 } derive(Show)
 
 ///|
-pub fn TransitionEvent::as_any(self : TransitionEvent) -> @nostd.Any = "%identity"
+pub fn TransitionEvent::as_any(self : TransitionEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for TransitionEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for TransitionEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -355,10 +355,10 @@ pub(all) struct AnimationEvent {
 } derive(Show)
 
 ///|
-pub fn AnimationEvent::as_any(self : AnimationEvent) -> @nostd.Any = "%identity"
+pub fn AnimationEvent::as_any(self : AnimationEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for AnimationEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for AnimationEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -367,10 +367,10 @@ pub impl EventImpl for AnimationEvent with as_any(self) -> @nostd.Any {
 pub(all) struct ScrollEvent {} derive(Show)
 
 ///|
-pub fn ScrollEvent::as_any(self : ScrollEvent) -> @nostd.Any = "%identity"
+pub fn ScrollEvent::as_any(self : ScrollEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ScrollEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for ScrollEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -378,19 +378,19 @@ pub impl EventImpl for ScrollEvent with as_any(self) -> @nostd.Any {
 /// MessageEvent is fired when a message is received from another browsing context
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
 pub(all) struct MessageEvent {
-  data : @nostd.Any
+  data : @core.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
 } derive(Show)
 
 ///|
-pub fn MessageEvent::as_any(self : MessageEvent) -> @nostd.Any = "%identity"
+pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
 
 ///|
 
 ///|
-pub impl EventImpl for MessageEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for MessageEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -398,8 +398,8 @@ pub impl EventImpl for MessageEvent with as_any(self) -> @nostd.Any {
 /// Returns the source window of the message
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent/source
 pub fn MessageEvent::source(self : Self) -> Window? {
-  let v : @nostd.Any = self.as_any()._get("source").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("source").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -409,21 +409,21 @@ pub fn MessageEvent::source(self : Self) -> Window? {
 pub type PopStateEvent
 
 ///|
-pub fn PopStateEvent::as_any(self : PopStateEvent) -> @nostd.Any = "%identity"
+pub fn PopStateEvent::as_any(self : PopStateEvent) -> @core.Any = "%identity"
 
 ///|
 
 ///|
-pub impl EventImpl for PopStateEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for PopStateEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 /// Returns the state associated with the history entry
 /// https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent/state
-pub fn PopStateEvent::state(self : Self) -> @nostd.Any? {
-  let v : @nostd.Any = self.as_any()._get("state").cast()
-  v |> @nostd.identity_option()
+pub fn PopStateEvent::state(self : Self) -> @core.Any? {
+  let v : @core.Any = self.as_any()._get("state").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -437,10 +437,10 @@ pub(all) struct HashChangeEvent {
 } derive(Show)
 
 ///|
-pub fn HashChangeEvent::as_any(self : HashChangeEvent) -> @nostd.Any = "%identity"
+pub fn HashChangeEvent::as_any(self : HashChangeEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for HashChangeEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for HashChangeEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -451,12 +451,12 @@ pub impl EventImpl for HashChangeEvent with as_any(self) -> @nostd.Any {
 pub type BeforeUnloadEvent
 
 ///|
-pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @nostd.Any = "%identity"
+pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @core.Any = "%identity"
 
 ///|
 
 ///|
-pub impl EventImpl for BeforeUnloadEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for BeforeUnloadEvent with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -465,7 +465,7 @@ pub impl EventImpl for BeforeUnloadEvent with as_any(self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent/returnValue
 #alias(set_return_value)
 pub fn BeforeUnloadEvent::setReturnValue(self : Self, value : String) -> Unit {
-  self.as_any()._set("returnValue", @nostd.any(value)) |> ignore
+  self.as_any()._set("returnValue", @core.any(value)) |> ignore
 }
 
 ///|
@@ -484,9 +484,9 @@ pub(all) struct PageTransitionEvent {
 } derive(Show)
 
 ///|
-pub fn PageTransitionEvent::as_any(self : PageTransitionEvent) -> @nostd.Any = "%identity"
+pub fn PageTransitionEvent::as_any(self : PageTransitionEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for PageTransitionEvent with as_any(self) -> @nostd.Any {
+pub impl EventImpl for PageTransitionEvent with as_any(self) -> @core.Any {
   self.as_any()
 }

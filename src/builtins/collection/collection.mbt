@@ -11,16 +11,16 @@
 pub type JsMap[K, V]
 
 ///|
-pub fn[K, V] JsMap::to_any(self : JsMap[K, V]) -> @nostd.Any = "%identity"
+pub fn[K, V] JsMap::to_any(self : JsMap[K, V]) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Map()
 pub fn[K, V] JsMap::new() -> JsMap[K, V] {
-  ffi_new_map() |> @nostd.identity
+  ffi_new_map() |> @core.identity
 }
 
 ///|
-extern "js" fn ffi_new_map() -> @nostd.Any =
+extern "js" fn ffi_new_map() -> @core.Any =
   #| () => new Map()
 
 ///|
@@ -37,14 +37,14 @@ pub fn[K, V] JsMap::from_entries(entries : Array[(K, V)]) -> JsMap[K, V] {
 ///|
 /// JS: map.set(key, value)
 pub fn[K, V] JsMap::set(self : JsMap[K, V], key : K, value : V) -> JsMap[K, V] {
-  self.to_any()._call("set", [@nostd.any(key), @nostd.any(value)]).cast()
+  self.to_any()._call("set", [@core.any(key), @core.any(value)]).cast()
 }
 
 ///|
 /// JS: map._get(key)
 pub fn[K, V] JsMap::get(self : JsMap[K, V], key : K) -> V? {
-  let result = self.to_any()._call("get", [@nostd.any(key)])
-  if @nostd.is_undefined(result.cast()) {
+  let result = self.to_any()._call("get", [@core.any(key)])
+  if @core.is_undefined(result.cast()) {
     None
   } else {
     Some(result.cast())
@@ -60,13 +60,13 @@ pub fn[K, V] JsMap::_get(self : JsMap[K, V], key : K) -> V? {
 ///|
 /// JS: map.has(key)
 pub fn[K, V] JsMap::has(self : JsMap[K, V], key : K) -> Bool {
-  self.to_any()._call("has", [@nostd.any(key)]).cast()
+  self.to_any()._call("has", [@core.any(key)]).cast()
 }
 
 ///|
 /// JS: map.delete(key)
 pub fn[K, V] JsMap::delete(self : JsMap[K, V], key : K) -> Bool {
-  self.to_any()._call("delete", [@nostd.any(key)]).cast()
+  self.to_any()._call("delete", [@core.any(key)]).cast()
 }
 
 ///|
@@ -105,7 +105,7 @@ pub fn[K, V] JsMap::forEach(
   self : JsMap[K, V],
   callback : (V, K) -> Unit,
 ) -> Unit {
-  self.to_any()._call("forEach", [@nostd.any(callback)]) |> ignore
+  self.to_any()._call("forEach", [@core.any(callback)]) |> ignore
 }
 
 ///| JsSet
@@ -117,16 +117,16 @@ pub fn[K, V] JsMap::forEach(
 pub type JsSet[T]
 
 ///|
-pub fn[T] JsSet::to_any(self : JsSet[T]) -> @nostd.Any = "%identity"
+pub fn[T] JsSet::to_any(self : JsSet[T]) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Set()
 pub fn[T] JsSet::new() -> JsSet[T] {
-  ffi_new_set() |> @nostd.identity
+  ffi_new_set() |> @core.identity
 }
 
 ///|
-extern "js" fn ffi_new_set() -> @nostd.Any =
+extern "js" fn ffi_new_set() -> @core.Any =
   #| () => new Set()
 
 ///|
@@ -142,19 +142,19 @@ pub fn[T] JsSet::from_array(values : Array[T]) -> JsSet[T] {
 ///|
 /// JS: set.add(value)
 pub fn[T] JsSet::add(self : JsSet[T], value : T) -> JsSet[T] {
-  self.to_any()._call("add", [@nostd.any(value)]).cast()
+  self.to_any()._call("add", [@core.any(value)]).cast()
 }
 
 ///|
 /// JS: set.has(value)
 pub fn[T] JsSet::has(self : JsSet[T], value : T) -> Bool {
-  self.to_any()._call("has", [@nostd.any(value)]).cast()
+  self.to_any()._call("has", [@core.any(value)]).cast()
 }
 
 ///|
 /// JS: set.delete(value)
 pub fn[T] JsSet::delete(self : JsSet[T], value : T) -> Bool {
-  self.to_any()._call("delete", [@nostd.any(value)]).cast()
+  self.to_any()._call("delete", [@core.any(value)]).cast()
 }
 
 ///|
@@ -190,5 +190,5 @@ pub fn[T] JsSet::entries(self : JsSet[T]) -> @js.JsIterator[(T, T)] {
 ///|
 /// JS: set.forEach(callback)
 pub fn[T] JsSet::forEach(self : JsSet[T], callback : (T) -> Unit) -> Unit {
-  self.to_any()._call("forEach", [@nostd.any(callback)]) |> ignore
+  self.to_any()._call("forEach", [@core.any(callback)]) |> ignore
 }

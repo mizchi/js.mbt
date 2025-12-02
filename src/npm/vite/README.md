@@ -15,14 +15,14 @@ npm install vite
 ### Using defineConfig
 
 ```moonbit
-// defineConfig returns @nostd.Any object directly
+// defineConfig returns @core.Any object directly
 let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
   mode?=Some("development"),
   server?=Some(@js.from_map({
-    "port": @nostd.any(3000),
-    "host": @nostd.any("localhost")
+    "port": @core.any(3000),
+    "host": @core.any("localhost")
   }))
 )
 ```
@@ -78,7 +78,7 @@ let my_plugin = @vite.define_plugin(
 
 // Use in config
 let config = @vite.defineConfig(
-  plugins?=Some(@nostd.any([my_plugin]))
+  plugins?=Some(@core.any([my_plugin]))
 )
 ```
 
@@ -97,21 +97,21 @@ pub fn defineConfig(
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @nostd.Any,
-  build? : @nostd.Any,
-  preview? : @nostd.Any,
-  optimizeDeps? : @nostd.Any,
-  plugins? : @nostd.Any,
+  server? : @core.Any,
+  build? : @core.Any,
+  preview? : @core.Any,
+  optimizeDeps? : @core.Any,
+  plugins? : @core.Any,
   publicDir? : String,
   cacheDir? : String,
-  resolve? : @nostd.Any,
-  css? : @nostd.Any,
-  json? : @nostd.Any,
-  esbuild? : @nostd.Any,
-  assetsInclude? : @nostd.Any,
+  resolve? : @core.Any,
+  css? : @core.Any,
+  json? : @core.Any,
+  esbuild? : @core.Any,
+  assetsInclude? : @core.Any,
   envDir? : String,
   envPrefix? : String
-) -> @nostd.Any
+) -> @core.Any
 ```
 
 **Example:**
@@ -120,15 +120,15 @@ let config = @vite.defineConfig(
   root?=Some("."),
   base?=Some("/"),
   mode?=Some("development"),
-  plugins?=Some(@nostd.any([])),
+  plugins?=Some(@core.any([])),
   server?=Some(@js.from_map({
-    "port": @nostd.any(5173),
-    "host": @nostd.any("0.0.0.0"),
-    "open": @nostd.any(true)
+    "port": @core.any(5173),
+    "host": @core.any("0.0.0.0"),
+    "open": @core.any(true)
   })),
   build?=Some(@js.from_map({
-    "outDir": @nostd.any("dist"),
-    "sourcemap": @nostd.any(true)
+    "outDir": @core.any("dist"),
+    "sourcemap": @core.any(true)
   }))
 )
 ```
@@ -142,13 +142,13 @@ pub fn define_plugin(
   name : String,
   enforce? : String,
   apply? : String,
-  config? : (@nostd.Any) -> Unit,
+  config? : (@core.Any) -> Unit,
   configResolved? : ConfigResolvedHook,
   configureServer? : ConfigureServerHook,
-  configurePreviewServer? : (@nostd.Any) -> Unit,
-  transformIndexHtml? : (@nostd.Any) -> @nostd.Any,
-  handleHotUpdate? : (@nostd.Any) -> Unit,
-  options? : (@nostd.Any) -> Unit,
+  configurePreviewServer? : (@core.Any) -> Unit,
+  transformIndexHtml? : (@core.Any) -> @core.Any,
+  handleHotUpdate? : (@core.Any) -> Unit,
+  options? : (@core.Any) -> Unit,
   buildStart? : BuildStartHook,
   resolveId? : ResolveIdHook,
   load? : LoadHook,
@@ -160,13 +160,13 @@ pub fn define_plugin(
 
 **Hook Types:**
 ```moonbit
-pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
+pub type ResolveIdHook = (String, String?, @core.Any) -> String?
 pub type LoadHook = (String) -> String?
 pub type TransformHook = (String, String) -> String?
-pub type BuildStartHook = (@nostd.Any) -> Unit
-pub type BuildEndHook = (@nostd.Any?) -> Unit
-pub type ConfigResolvedHook = (@nostd.Any) -> Unit
-pub type ConfigureServerHook = (@nostd.Any) -> Unit
+pub type BuildStartHook = (@core.Any) -> Unit
+pub type BuildEndHook = (@core.Any?) -> Unit
+pub type ConfigResolvedHook = (@core.Any) -> Unit
+pub type ConfigureServerHook = (@core.Any) -> Unit
 ```
 
 **Parameters:**
@@ -228,7 +228,7 @@ pub async fn createServer(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~server : @nostd.Any = @js.undefined
+  ~server : @core.Any = @js.undefined
 ) -> ViteDevServer
 ```
 
@@ -239,7 +239,7 @@ pub async fn createServer(
 - `configFile` - Path to config file (default: auto-detect)
 - `logLevel` - Log level: "info" | "warn" | "error" | "silent"
 - `clearScreen` - Clear terminal screen (default: true)
-- `server` - Server-specific options as `@nostd.Any` object
+- `server` - Server-specific options as `@core.Any` object
 
 #### build
 
@@ -253,7 +253,7 @@ pub async fn build(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~build : @nostd.Any = @js.undefined
+  ~build : @core.Any = @js.undefined
 ) -> RollupOutput
 ```
 
@@ -264,7 +264,7 @@ pub async fn build(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `build` - Build-specific options as `@nostd.Any` object
+- `build` - Build-specific options as `@core.Any` object
 
 #### preview
 
@@ -278,7 +278,7 @@ pub async fn preview(
   ~configFile : String = "",
   ~logLevel : String = "",
   ~clearScreen : Bool = true,
-  ~preview : @nostd.Any = @js.undefined
+  ~preview : @core.Any = @js.undefined
 ) -> PreviewServer
 ```
 
@@ -289,7 +289,7 @@ pub async fn preview(
 - `configFile` - Path to config file
 - `logLevel` - Log level
 - `clearScreen` - Clear terminal screen
-- `preview` - Preview-specific options as `@nostd.Any` object
+- `preview` - Preview-specific options as `@core.Any` object
 
 ### ViteDevServer Methods
 
@@ -337,7 +337,7 @@ pub async fn ViteDevServer::restart(
 Get resolved URLs:
 
 ```moonbit
-pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @nostd.Any
+pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @core.Any
 ```
 
 ### PreviewServer Methods
@@ -355,7 +355,7 @@ pub fn PreviewServer::printUrls(self : PreviewServer) -> Unit
 Get resolved URLs:
 
 ```moonbit
-pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @nostd.Any
+pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @core.Any
 ```
 
 ## Advanced Configuration
@@ -364,10 +364,10 @@ pub fn PreviewServer::resolvedUrls(self : PreviewServer) -> @nostd.Any
 
 ```moonbit
 let serverConfig = @js.from_map({
-  "port": @nostd.any(3000),
-  "host": @nostd.any("localhost"),
-  "open": @nostd.any(true),
-  "cors": @nostd.any(true)
+  "port": @core.any(3000),
+  "host": @core.any("localhost"),
+  "open": @core.any(true),
+  "cors": @core.any(true)
 })
 
 let server = @vite.createServer(
@@ -380,9 +380,9 @@ let server = @vite.createServer(
 
 ```moonbit
 let buildConfig = @js.from_map({
-  "outDir": @nostd.any("dist"),
-  "minify": @nostd.any(true),
-  "sourcemap": @nostd.any(true)
+  "outDir": @core.any("dist"),
+  "minify": @core.any(true),
+  "sourcemap": @core.any(true)
 })
 
 let output = @vite.build(
@@ -404,28 +404,28 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @nostd.Any?
-  build : @nostd.Any?
-  preview : @nostd.Any?
-  optimizeDeps : @nostd.Any?
-  plugins : @nostd.Any?
+  server : @core.Any?
+  build : @core.Any?
+  preview : @core.Any?
+  optimizeDeps : @core.Any?
+  plugins : @core.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @nostd.Any?
-  css : @nostd.Any?
-  json : @nostd.Any?
-  esbuild : @nostd.Any?
-  assetsInclude : @nostd.Any?
+  resolve : @core.Any?
+  css : @core.Any?
+  json : @core.Any?
+  esbuild : @core.Any?
+  assetsInclude : @core.Any?
   envDir : String?
   envPrefix : String?
 } derive(Show)
 ```
 
-Note: `defineConfig()` returns `@nostd.Any` directly, so you typically don't need to work with the `Config` struct directly.
+Note: `defineConfig()` returns `@core.Any` directly, so you typically don't need to work with the `Config` struct directly.
 
 ### Other Types
 
-- `Plugin` - Vite plugin (alias for `@nostd.Any`)
+- `Plugin` - Vite plugin (alias for `@core.Any`)
 - `ViteDevServer` - Development server instance
 - `PreviewServer` - Preview server instance
 - `ResolvedConfig` - Resolved Vite configuration

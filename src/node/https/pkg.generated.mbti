@@ -3,42 +3,43 @@ package "mizchi/js/node/https"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-fn create_server((@js.Object, @js.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String) -> Server
+pub fn create_server((@js.Object, @js.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String) -> Server
 
-fn get(String, (@js.Object) -> Unit) -> ClientRequest
+pub fn get(String, (@js.Object) -> Unit) -> ClientRequest
 
-fn global_agent() -> Agent
+pub fn global_agent() -> Agent
 
-fn request(String, (@nostd.Any) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @nostd.Any, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
+pub fn request(String, (@core.Any) -> Unit, method_? : String, host? : String, port? : Int, path? : String, headers? : @core.Any, agent? : Agent, rejectUnauthorized? : Bool) -> ClientRequest
 
 // Errors
 
 // Types and methods
 #external
 pub type Agent
-fn Agent::new(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
+pub fn Agent::new(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
 
 #external
 pub type ClientRequest
-fn ClientRequest::as_any(Self) -> @nostd.Any
-fn ClientRequest::as_event_target(Self) -> @event.EventTarget
-fn ClientRequest::end(Self) -> Unit
-fn ClientRequest::write(Self, String) -> Unit
-impl @event.EventTargetImpl for ClientRequest
+pub fn ClientRequest::as_any(Self) -> @core.Any
+pub fn ClientRequest::as_event_target(Self) -> @event.EventTarget
+pub fn ClientRequest::end(Self) -> Unit
+pub fn ClientRequest::write(Self, String) -> Unit
+pub impl @event.EventTargetImpl for ClientRequest
 
 #external
 pub type Server
-fn Server::as_any(Self) -> @nostd.Any
-fn Server::as_event_target(Self) -> @event.EventTarget
-fn Server::close(Self, () -> Unit) -> Unit
-fn Server::listen(Self, Int, () -> Unit) -> Unit
-impl @event.EventTargetImpl for Server
+pub fn Server::as_any(Self) -> @core.Any
+pub fn Server::as_event_target(Self) -> @event.EventTarget
+pub fn Server::close(Self, () -> Unit) -> Unit
+pub fn Server::listen(Self, Int, () -> Unit) -> Unit
+pub impl @event.EventTargetImpl for Server
 
 // Type aliases
 
 // Traits
+

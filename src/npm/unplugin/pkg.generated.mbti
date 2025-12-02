@@ -2,23 +2,23 @@
 package "mizchi/js/npm/unplugin"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn[UserOptions] createUnplugin((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> (UserOptions) -> UnpluginInstance
+pub fn[UserOptions] createUnplugin((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> (UserOptions) -> UnpluginInstance
 
-async fn[UserOptions] createUnpluginAsync((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> ((UserOptions) -> UnpluginInstance)
+pub async fn[UserOptions] createUnpluginAsync((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> ((UserOptions) -> UnpluginInstance)
 
-fn createUnpluginSimple((UnpluginContextMeta) -> UnpluginOptions) -> () -> UnpluginInstance
+pub fn createUnpluginSimple((UnpluginContextMeta) -> UnpluginOptions) -> () -> UnpluginInstance
 
-fn resolve_external(String) -> @nostd.Any
+pub fn resolve_external(String) -> @core.Any
 
-fn resolve_id(String) -> @nostd.Any
+pub fn resolve_id(String) -> @core.Any
 
-fn transform_result(String) -> @nostd.Any
+pub fn transform_result(String) -> @core.Any
 
-fn transform_result_with_map(String, @nostd.Any) -> @nostd.Any
+pub fn transform_result_with_map(String, @core.Any) -> @core.Any
 
 // Errors
 
@@ -33,39 +33,39 @@ pub enum Framework {
   Rolldown
   Bun
 }
-impl Eq for Framework
-impl Show for Framework
+pub impl Eq for Framework
+pub impl Show for Framework
 
 pub(all) struct HookFilter {
   id : StringFilter?
   code : StringFilter?
 }
-fn HookFilter::as_any(Self) -> @nostd.Any
+pub fn HookFilter::to_any(Self) -> @core.Any
 
 pub(all) struct StringFilter {
   includes : Array[String]?
   excludes : Array[String]?
 }
-fn StringFilter::as_any(Self) -> @nostd.Any
+pub fn StringFilter::to_any(Self) -> @core.Any
 
 pub(all) struct UnpluginContextMeta {
   framework : Framework
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn UnpluginContextMeta::as_any(Self) -> @nostd.Any
+pub fn UnpluginContextMeta::to_any(Self) -> @core.Any
 
 #external
 pub type UnpluginInstance
-fn UnpluginInstance::as_any(Self) -> @nostd.Any
-fn UnpluginInstance::bun(Self) -> @nostd.Any
-fn UnpluginInstance::esbuild(Self) -> @nostd.Any
-fn UnpluginInstance::farm(Self) -> @nostd.Any
-fn UnpluginInstance::raw(Self) -> @nostd.Any
-fn UnpluginInstance::rolldown(Self) -> @nostd.Any
-fn UnpluginInstance::rollup(Self) -> @nostd.Any
-fn UnpluginInstance::rspack(Self) -> @nostd.Any
-fn UnpluginInstance::vite(Self) -> @nostd.Any
-fn UnpluginInstance::webpack(Self) -> @nostd.Any
+pub fn UnpluginInstance::bun(Self) -> @core.Any
+pub fn UnpluginInstance::esbuild(Self) -> @core.Any
+pub fn UnpluginInstance::farm(Self) -> @core.Any
+pub fn UnpluginInstance::raw(Self) -> @core.Any
+pub fn UnpluginInstance::rolldown(Self) -> @core.Any
+pub fn UnpluginInstance::rollup(Self) -> @core.Any
+pub fn UnpluginInstance::rspack(Self) -> @core.Any
+pub fn UnpluginInstance::to_any(Self) -> @core.Any
+pub fn UnpluginInstance::vite(Self) -> @core.Any
+pub fn UnpluginInstance::webpack(Self) -> @core.Any
 
 pub(all) struct UnpluginOptions {
   name : String
@@ -76,20 +76,20 @@ pub(all) struct UnpluginOptions {
   transformFilter : HookFilter?
   load : ((String) -> String?)?
   loadFilter : HookFilter?
-  resolveId : ((String, String?, @nostd.Any) -> String?)?
-  watchChange : ((String, @nostd.Any) -> Unit)?
+  resolveId : ((String, String?, @core.Any) -> String?)?
+  watchChange : ((String, @core.Any) -> Unit)?
   writeBundle : (() -> Unit)?
-  vite : @nostd.Any?
-  rollup : @nostd.Any?
-  webpack : ((@nostd.Any) -> Unit)?
-  rspack : ((@nostd.Any) -> Unit)?
-  esbuild : @nostd.Any?
-  farm : @nostd.Any?
-  rolldown : @nostd.Any?
-  bun : @nostd.Any?
+  vite : @core.Any?
+  rollup : @core.Any?
+  webpack : ((@core.Any) -> Unit)?
+  rspack : ((@core.Any) -> Unit)?
+  esbuild : @core.Any?
+  farm : @core.Any?
+  rolldown : @core.Any?
+  bun : @core.Any?
 }
-fn UnpluginOptions::as_any(Self) -> @nostd.Any
-fn UnpluginOptions::new(String, enforce? : String, buildStart? : () -> Unit, buildEnd? : () -> Unit, transform? : (String, String) -> String?, transformFilter? : HookFilter, load? : (String) -> String?, loadFilter? : HookFilter, resolveId? : (String, String?, @nostd.Any) -> String?, watchChange? : (String, @nostd.Any) -> Unit, writeBundle? : () -> Unit, vite? : @nostd.Any, rollup? : @nostd.Any, webpack? : (@nostd.Any) -> Unit, rspack? : (@nostd.Any) -> Unit, esbuild? : @nostd.Any, farm? : @nostd.Any, rolldown? : @nostd.Any, bun? : @nostd.Any) -> Self
+pub fn UnpluginOptions::new(String, enforce? : String, buildStart? : () -> Unit, buildEnd? : () -> Unit, transform? : (String, String) -> String?, transformFilter? : HookFilter, load? : (String) -> String?, loadFilter? : HookFilter, resolveId? : (String, String?, @core.Any) -> String?, watchChange? : (String, @core.Any) -> Unit, writeBundle? : () -> Unit, vite? : @core.Any, rollup? : @core.Any, webpack? : (@core.Any) -> Unit, rspack? : (@core.Any) -> Unit, esbuild? : @core.Any, farm? : @core.Any, rolldown? : @core.Any, bun? : @core.Any) -> Self
+pub fn UnpluginOptions::to_any(Self) -> @core.Any
 
 // Type aliases
 pub type BuildEndHook = () -> Unit
@@ -98,15 +98,15 @@ pub type BuildStartHook = () -> Unit
 
 pub type LoadHook = (String) -> String?
 
-pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
+pub type ResolveIdHook = (String, String?, @core.Any) -> String?
 
 pub type TransformHook = (String, String) -> String?
 
-pub using @js {type Any as TransformResult}
+pub using @core {type Any as TransformResult}
 
 pub type UnpluginFactory[UserOptions] = (UserOptions, UnpluginContextMeta) -> UnpluginOptions
 
-pub type WatchChangeHook = (String, @nostd.Any) -> Unit
+pub type WatchChangeHook = (String, @core.Any) -> Unit
 
 pub type WriteBundleHook = () -> Unit
 

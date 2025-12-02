@@ -1,3 +1,4 @@
+
 # MoonBit LSP API
 
 MoonBit language server client library for programmatic access to moonbit-lsp capabilities.
@@ -102,7 +103,7 @@ All methods are async and raise `LspError` on failure.
 #### Lifecycle
 
 - `new()` - Create a new LSP client
-- `initialize(root_uri)` -> `@nostd.Any` - Initialize the server
+- `initialize(root_uri)` -> `@core.Any` - Initialize the server
 - `shutdown()` -> `Unit` - Shutdown the server
 - `exit()` - Exit the server process (sync)
 

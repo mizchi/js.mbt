@@ -2,14 +2,14 @@
 package "mizchi/js/npm/ink"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/react"
 )
 
 // Values
-async fn dynamic_import() -> Ink
+pub async fn dynamic_import() -> Ink
 
-async fn dynamic_import_testing_library() -> InkTestingLibrary
+pub async fn dynamic_import_testing_library() -> InkTestingLibrary
 
 // Errors
 
@@ -20,7 +20,7 @@ pub(all) enum AlignItems {
   Center
   Stretch
 }
-fn AlignItems::to_string(Self) -> String
+pub fn AlignItems::to_string(Self) -> String
 
 pub(all) enum AlignSelf {
   Auto
@@ -29,7 +29,7 @@ pub(all) enum AlignSelf {
   Center
   Stretch
 }
-fn AlignSelf::to_string(Self) -> String
+pub fn AlignSelf::to_string(Self) -> String
 
 pub(all) enum BorderStyle {
   Single
@@ -41,13 +41,13 @@ pub(all) enum BorderStyle {
   Classic
   Arrow
 }
-fn BorderStyle::to_string(Self) -> String
+pub fn BorderStyle::to_string(Self) -> String
 
 pub(all) enum Display {
   Flex
   None
 }
-fn Display::to_string(Self) -> String
+pub fn Display::to_string(Self) -> String
 
 pub(all) enum FlexDirection {
   Row
@@ -55,45 +55,45 @@ pub(all) enum FlexDirection {
   RowReverse
   ColumnReverse
 }
-fn FlexDirection::to_string(Self) -> String
+pub fn FlexDirection::to_string(Self) -> String
 
 pub(all) enum FlexWrapMode {
   NoWrap
   Wrap
   WrapReverse
 }
-fn FlexWrapMode::to_string(Self) -> String
+pub fn FlexWrapMode::to_string(Self) -> String
 
 #external
 pub type Ink
-fn Ink::as_any(Self) -> @nostd.Any
-fn Ink::box_(Self, Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
-fn Ink::newline(Self, count? : Int) -> @react.Element
-fn Ink::render(Self, @react.Element, stdout? : @nostd.Any, stdin? : @nostd.Any, stderr? : @nostd.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
-fn Ink::spacer(Self) -> @react.Element
-fn Ink::static_(Self, Array[&@react.ReactNode], items? : Array[@nostd.Any]) -> @react.Element
-fn Ink::text(Self, Array[&@react.ReactNode], color? : String, background_color? : String, bold? : Bool, italic? : Bool, underline? : Bool, strikethrough? : Bool, inverse? : Bool, dim_color? : Bool, wrap? : TextWrap) -> @react.Element
-fn Ink::transform(Self, Array[&@react.ReactNode], (String) -> String) -> @react.Element
-fn Ink::useApp(Self) -> UseAppResult
-fn Ink::useFocus(Self, options? : UseFocusOptions) -> UseFocusResult
-fn Ink::useFocusManager(Self) -> UseFocusManagerResult
-fn Ink::useInput(Self, (String, KeyInfo) -> Unit, options? : UseInputOptions) -> Unit
-fn Ink::useStderr(Self) -> UseStderrResult
-fn Ink::useStdin(Self) -> UseStdinResult
-fn Ink::useStdout(Self) -> UseStdoutResult
+pub fn Ink::as_any(Self) -> @core.Any
+pub fn Ink::box_(Self, Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
+pub fn Ink::newline(Self, count? : Int) -> @react.Element
+pub fn Ink::render(Self, @react.Element, stdout? : @core.Any, stdin? : @core.Any, stderr? : @core.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
+pub fn Ink::spacer(Self) -> @react.Element
+pub fn Ink::static_(Self, Array[&@react.ReactNode], items? : Array[@core.Any]) -> @react.Element
+pub fn Ink::text(Self, Array[&@react.ReactNode], color? : String, background_color? : String, bold? : Bool, italic? : Bool, underline? : Bool, strikethrough? : Bool, inverse? : Bool, dim_color? : Bool, wrap? : TextWrap) -> @react.Element
+pub fn Ink::transform(Self, Array[&@react.ReactNode], (String) -> String) -> @react.Element
+pub fn Ink::useApp(Self) -> UseAppResult
+pub fn Ink::useFocus(Self, options? : UseFocusOptions) -> UseFocusResult
+pub fn Ink::useFocusManager(Self) -> UseFocusManagerResult
+pub fn Ink::useInput(Self, (String, KeyInfo) -> Unit, options? : UseInputOptions) -> Unit
+pub fn Ink::useStderr(Self) -> UseStderrResult
+pub fn Ink::useStdin(Self) -> UseStdinResult
+pub fn Ink::useStdout(Self) -> UseStdoutResult
 
 #external
 pub type InkInstance
-fn InkInstance::as_any(Self) -> @nostd.Any
-fn InkInstance::clear(Self) -> Unit
-fn InkInstance::rerender(Self, @react.Element) -> Unit
-fn InkInstance::unmount(Self) -> Unit
-async fn InkInstance::waitUntilExit(Self) -> Unit
+pub fn InkInstance::as_any(Self) -> @core.Any
+pub fn InkInstance::clear(Self) -> Unit
+pub fn InkInstance::rerender(Self, @react.Element) -> Unit
+pub fn InkInstance::unmount(Self) -> Unit
+pub async fn InkInstance::waitUntilExit(Self) -> Unit
 
 #external
 pub type InkTestingLibrary
-fn InkTestingLibrary::as_any(Self) -> @nostd.Any
-fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
+pub fn InkTestingLibrary::as_any(Self) -> @core.Any
+pub fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
 
 pub(all) enum JustifyContent {
   FlexStart
@@ -103,7 +103,7 @@ pub(all) enum JustifyContent {
   SpaceAround
   SpaceEvenly
 }
-fn JustifyContent::to_string(Self) -> String
+pub fn JustifyContent::to_string(Self) -> String
 
 pub(all) struct KeyInfo {
   up_arrow : Bool
@@ -126,29 +126,29 @@ pub(all) enum Overflow {
   Visible
   Hidden
 }
-fn Overflow::to_string(Self) -> String
+pub fn Overflow::to_string(Self) -> String
 
 #external
 pub type RenderResult
-fn RenderResult::as_any(Self) -> @nostd.Any
-fn RenderResult::frames(Self) -> Array[String]
-fn RenderResult::lastFrame(Self) -> String
-fn RenderResult::rerender(Self, @react.Element) -> Unit
-fn RenderResult::stderr(Self) -> StreamOutput
-fn RenderResult::stdin(Self) -> StdinMock
-fn RenderResult::stdout(Self) -> StreamOutput
-fn RenderResult::unmount(Self) -> Unit
+pub fn RenderResult::as_any(Self) -> @core.Any
+pub fn RenderResult::frames(Self) -> Array[String]
+pub fn RenderResult::lastFrame(Self) -> String
+pub fn RenderResult::rerender(Self, @react.Element) -> Unit
+pub fn RenderResult::stderr(Self) -> StreamOutput
+pub fn RenderResult::stdin(Self) -> StdinMock
+pub fn RenderResult::stdout(Self) -> StreamOutput
+pub fn RenderResult::unmount(Self) -> Unit
 
 pub(all) struct StdinMock {
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn StdinMock::write(Self, String) -> Unit
+pub fn StdinMock::write(Self, String) -> Unit
 
 pub(all) struct StreamOutput {
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn StreamOutput::frames(Self) -> Array[String]
-fn StreamOutput::lastFrame(Self) -> String
+pub fn StreamOutput::frames(Self) -> Array[String]
+pub fn StreamOutput::lastFrame(Self) -> String
 
 pub(all) enum TextWrap {
   Wrap
@@ -157,21 +157,21 @@ pub(all) enum TextWrap {
   TruncateMiddle
   TruncateEnd
 }
-fn TextWrap::to_string(Self) -> String
+pub fn TextWrap::to_string(Self) -> String
 
 pub(all) struct UseAppResult {
-  exit_fn : @nostd.Any
+  exit_fn : @core.Any
 }
-fn UseAppResult::exit(Self, error? : @nostd.Any) -> Unit
+pub fn UseAppResult::exit(Self, error? : @core.Any) -> Unit
 
 pub(all) struct UseFocusManagerResult {
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn UseFocusManagerResult::disableFocus(Self) -> Unit
-fn UseFocusManagerResult::enableFocus(Self) -> Unit
-fn UseFocusManagerResult::focus(Self, String) -> Unit
-fn UseFocusManagerResult::focusNext(Self) -> Unit
-fn UseFocusManagerResult::focusPrevious(Self) -> Unit
+pub fn UseFocusManagerResult::disableFocus(Self) -> Unit
+pub fn UseFocusManagerResult::enableFocus(Self) -> Unit
+pub fn UseFocusManagerResult::focus(Self, String) -> Unit
+pub fn UseFocusManagerResult::focusNext(Self) -> Unit
+pub fn UseFocusManagerResult::focusPrevious(Self) -> Unit
 
 pub(all) struct UseFocusOptions {
   auto_focus : Bool?
@@ -188,23 +188,23 @@ pub(all) struct UseInputOptions {
 }
 
 pub(all) struct UseStderrResult {
-  stderr : @nostd.Any
-  write_fn : @nostd.Any
+  stderr : @core.Any
+  write_fn : @core.Any
 }
-fn UseStderrResult::write(Self, String) -> Unit
+pub fn UseStderrResult::write(Self, String) -> Unit
 
 pub(all) struct UseStdinResult {
-  stdin : @nostd.Any
+  stdin : @core.Any
   is_raw_mode_supported : Bool
-  set_raw_mode_fn : @nostd.Any
+  set_raw_mode_fn : @core.Any
 }
-fn UseStdinResult::setRawMode(Self, Bool) -> Unit
+pub fn UseStdinResult::setRawMode(Self, Bool) -> Unit
 
 pub(all) struct UseStdoutResult {
-  stdout : @nostd.Any
-  write_fn : @nostd.Any
+  stdout : @core.Any
+  write_fn : @core.Any
 }
-fn UseStdoutResult::write(Self, String) -> Unit
+pub fn UseStdoutResult::write(Self, String) -> Unit
 
 // Type aliases
 

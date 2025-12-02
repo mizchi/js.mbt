@@ -2,7 +2,7 @@
 /// React.useState
 #alias(use_state)
 pub fn[T] useState(initial : T) -> (T, (T) -> Unit) {
-  let result = ffi_react_use_state(@nostd.any(initial))
+  let result = ffi_react_use_state(@core.any(initial))
   let value : T = result["0"].cast()
   let update_fn : (T) -> Unit = result["1"].cast()
   (value, update_fn)
@@ -12,7 +12,7 @@ pub fn[T] useState(initial : T) -> (T, (T) -> Unit) {
 /// JS: React.useState(() => initial)
 #alias(useStateLazy)
 pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
-  let initial : () -> @nostd.Any = fn() { @nostd.any(initial()) }
+  let initial : () -> @core.Any = fn() { @core.any(initial()) }
   let result = ffi_react_use_state_lazy(initial)
   let value : T = result["0"].cast()
   let update_fn : (T) -> Unit = result["1"].cast()
@@ -22,20 +22,20 @@ pub fn[T] use_state_lazy(initial : () -> T) -> (T, (T) -> Unit) {
 ///|
 /// React.useCallback
 #alias(use_callback)
-pub fn[F] useCallback(f : F, keys : Array[@nostd.Any]) -> F {
-  ffi_react_use_callback(@nostd.any(f), keys).cast()
+pub fn[F] useCallback(f : F, keys : Array[@core.Any]) -> F {
+  ffi_react_use_callback(@core.any(f), keys).cast()
 }
 
 ///|
 /// JS: React.useEffect
 #alias(use_effect)
-pub fn useEffect(f : () -> () -> Unit, keys : Array[@nostd.Any]) -> Unit {
+pub fn useEffect(f : () -> () -> Unit, keys : Array[@core.Any]) -> Unit {
   ffi_react_use_effect(f, keys)
 }
 
 ///|
 #alias(use_layout_effect)
-pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[@nostd.Any]) -> Unit {
+pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[@core.Any]) -> Unit {
   ffi_react_use_layout_effect(f, keys)
 }
 
@@ -43,15 +43,13 @@ pub fn useLayoutEffect(f : () -> () -> Unit, keys : Array[@nostd.Any]) -> Unit {
 /// React.useMemo
 /// ```mbt
 /// fn my_component(_props : Unit) -> Element {
-///   let _result = useMemo(() => {
-///     42
-///   }, [])
+///   let _result = useMemo(() => 42, [])
 ///   createElement("div", [_result])
 /// }
 /// ```
 #alias(use_memo)
-pub fn[T] useMemo(f : () -> T, keys : Array[@nostd.Any]) -> T {
-  let f = fn() { @nostd.any(f()) }
+pub fn[T] useMemo(f : () -> T, keys : Array[@core.Any]) -> T {
+  let f = fn() { @core.any(f()) }
   ffi_react_use_memo(f, keys).cast()
 }
 
@@ -67,9 +65,9 @@ pub fn[T] useMemo(f : () -> T, keys : Array[@nostd.Any]) -> T {
 pub fn[T] useRef(initial : T?) -> ReactRef[T] {
   ffi_react_use_ref(
     if initial is Some(v) {
-      @nostd.any(v)
+      @core.any(v)
     } else {
-      @nostd.undefined()
+      @core.undefined()
     },
   ).cast()
 }
@@ -77,15 +75,15 @@ pub fn[T] useRef(initial : T?) -> ReactRef[T] {
 ///|
 /// React.Ref<T>
 pub(all) struct ReactRef[T] {
-  current : @nostd.Any
+  current : @core.Any
 }
 
 ///|
-pub fn[T] ReactRef::as_any(self : ReactRef[T]) -> @nostd.Any = "%identity"
+pub fn[T] ReactRef::as_any(self : ReactRef[T]) -> @core.Any = "%identity"
 
 ///|
 pub fn[T] ReactRef::get_current(self : ReactRef[T]) -> T? {
-  if @nostd.is_nullish(self.current) {
+  if @core.is_nullish(self.current) {
     None
   } else {
     Some(self.current.cast())
@@ -94,17 +92,17 @@ pub fn[T] ReactRef::get_current(self : ReactRef[T]) -> T? {
 
 ///|
 pub fn[T] ReactRef::set_current(self : ReactRef[T], value : T?) -> Unit {
-  let js_val : @nostd.Any = match value {
-    Some(v) => @nostd.any(v)
-    None => @nostd.undefined()
+  let js_val : @core.Any = match value {
+    Some(v) => @core.any(v)
+    None => @core.undefined()
   }
   ffi_set_ref_current(self.as_any(), js_val)
 }
 
 ///|
 extern "js" fn ffi_set_ref_current(
-  ref_obj : @nostd.Any,
-  value : @nostd.Any,
+  ref_obj : @core.Any,
+  value : @core.Any,
 ) -> Unit =
   #| (ref, value) => {
   #|   ref.current = value;
@@ -115,12 +113,12 @@ extern "js" fn ffi_set_ref_current(
 pub type Context[T]
 
 ///|
-pub fn[T] Context::as_any(self : Context[T]) -> @nostd.Any = "%identity"
+pub fn[T] Context::as_any(self : Context[T]) -> @core.Any = "%identity"
 
 ///|
 #alias(createContext)
 pub fn[T] create_context(initial : T?) -> Context[T] {
-  ffi_react_create_context(@nostd.any(initial)).cast()
+  ffi_react_create_context(@core.any(initial)).cast()
 }
 
 ///|
@@ -134,8 +132,8 @@ pub fn[T] use_context(ctx : Context[T]) -> T {
 /// React.use - Use a Promise with React.use()
 /// Note: This uses React.use() internally
 #alias(usePromise)
-pub fn[T] use_promise(promise : @nostd.Promise[T]) -> T {
-  ffi_react_use(@nostd.any(promise)).cast()
+pub fn[T] use_promise(promise : @core.Promise[T]) -> T {
+  ffi_react_use(@core.any(promise)).cast()
 }
 
 ///|
@@ -144,10 +142,14 @@ pub fn[T] use_promise(promise : @nostd.Promise[T]) -> T {
 /// enum CounterAction {
 ///   Increment
 /// }
+///
 /// fn my_component(_props : Unit) -> Element {
-///   let (_state, _dispatch) = use_reducer((s: Int, a: CounterAction) => match a {
-///     Increment => s + 1
-///   }, 0)
+///   let (_state, _dispatch) = use_reducer(
+///     (s : Int, a : CounterAction) => match a {
+///       Increment => s + 1
+///     },
+///     0,
+///   )
 ///   createElement("div", [_state])
 /// }
 /// ```
@@ -156,15 +158,15 @@ pub fn[T, U] use_reducer(
   reducer : (T, U) -> T,
   initial : T,
 ) -> (T, (U) -> Unit) {
-  let val = ffi_react_use_reducer(@nostd.any(reducer), @nostd.any(initial))
+  let val = ffi_react_use_reducer(@core.any(reducer), @core.any(initial))
   (val["0"].cast(), val["1"].cast())
 }
 
 ///|
 extern "js" fn use_action_state_internal(
-  f : @nostd.Any,
-  initial : @nostd.Any,
-) -> @nostd.Any =
+  f : @core.Any,
+  initial : @core.Any,
+) -> @core.Any =
   #| (f, initial) => {
   #|   return __ReactApi.useActionState(f, initial);
   #| }
@@ -176,7 +178,7 @@ pub fn[T, U] use_action_state(
   initial : T,
 ) -> (T, (U) -> Unit, Bool) {
   let w = @js.promisify2((s, a) => f(s, a))
-  let val = use_action_state_internal(@nostd.any(w), @nostd.any(initial))
+  let val = use_action_state_internal(@core.any(w), @core.any(initial))
   (val["0"].cast(), val["1"].cast(), val["2"].cast())
 }
 
@@ -198,28 +200,31 @@ pub fn start_transition(f : () -> Unit) -> Unit {
 ///
 /// ```moonbit skip
 /// // For components with Unit
-/// extern "js" fn load_my_component() -> @nostd.Promise[@nostd.Any] =
+/// extern "js" fn load_my_component() -> @core.Promise[@core.Any] =
 ///   #| () => import("./MyComponent")
 ///
 /// let my_component : ComponentType[Unit] = lazy_(load_my_component)
 ///
 /// // For components with custom props
-/// struct MyProps { name : String }
 ///
-/// extern "js" fn load_custom_component() -> @nostd.Promise[@nostd.Any] =
+/// struct MyProps {
+///   name : String
+/// }
+///
+/// extern "js" fn load_custom_component() -> @core.Promise[@core.Any] =
 ///   #| () => import("./CustomComponent")
 ///
 /// let custom_component : ComponentType[MyProps] = lazy_(load_custom_component)
 /// ```
-pub fn[T] lazy_(f : () -> @nostd.Promise[@nostd.Any]) -> Component[T] {
-  ffi_react_lazy(@nostd.any(f)).cast()
+pub fn[T] lazy_(f : () -> @core.Promise[@core.Any]) -> Component[T] {
+  ffi_react_lazy(@core.any(f)).cast()
 }
 
 ///|
 extern "js" fn ffi_use_deferred_value(
-  value : @nostd.Any,
-  initial_value : @nostd.Any,
-) -> @nostd.Any =
+  value : @core.Any,
+  initial_value : @core.Any,
+) -> @core.Any =
   #| (value, initialValue) => globalThis.__ReactApi.useDeferredValue(value, initialValue)
 
 ///|
@@ -229,16 +234,16 @@ extern "js" fn ffi_use_deferred_value(
 #alias(useDeferredValue)
 pub fn[T] use_deferred_value(value : T, initial_value? : T) -> T {
   let initial = match initial_value {
-    Some(v) => @nostd.any(v)
-    None => @nostd.undefined()
+    Some(v) => @core.any(v)
+    None => @core.undefined()
   }
-  ffi_use_deferred_value(@nostd.any(value), initial).cast()
+  ffi_use_deferred_value(@core.any(value), initial).cast()
 }
 
 ///|
 extern "js" fn ffi_use_debug_value(
-  value : @nostd.Any,
-  formatter : @nostd.Any,
+  value : @core.Any,
+  formatter : @core.Any,
 ) -> Unit =
   #| (value, formatter) => globalThis.__ReactApi.useDebugValue(value, formatter)
 
@@ -249,8 +254,8 @@ extern "js" fn ffi_use_debug_value(
 #alias(useDebugValue)
 pub fn[T, R] use_debug_value(value : T, format? : (T) -> R) -> Unit {
   match format {
-    Some(f) => ffi_use_debug_value(@nostd.any(value), @nostd.any(f))
-    None => ffi_use_debug_value(@nostd.any(value), @nostd.undefined())
+    Some(f) => ffi_use_debug_value(@core.any(value), @core.any(f))
+    None => ffi_use_debug_value(@core.any(value), @core.undefined())
   }
 }
 
@@ -268,7 +273,7 @@ pub fn use_id() -> String {
 }
 
 ///|
-extern "js" fn ffi_use_transition() -> @nostd.Any =
+extern "js" fn ffi_use_transition() -> @core.Any =
   #| () => globalThis.__ReactApi.useTransition()
 
 ///|
@@ -283,9 +288,9 @@ pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
 
 ///|
 extern "js" fn ffi_use_optimistic(
-  state : @nostd.Any,
-  update_fn : @nostd.Any,
-) -> @nostd.Any =
+  state : @core.Any,
+  update_fn : @core.Any,
+) -> @core.Any =
   #| (state, updateFn) => globalThis.__ReactApi.useOptimistic(state, updateFn)
 
 ///|
@@ -297,14 +302,14 @@ pub fn[S, A] use_optimistic(
   state : S,
   update_fn : (S, A) -> S,
 ) -> (S, (A) -> Unit) {
-  let result = ffi_use_optimistic(@nostd.any(state), @nostd.any(update_fn))
+  let result = ffi_use_optimistic(@core.any(state), @core.any(update_fn))
   (result["0"].cast(), result["1"].cast())
 }
 
 ///|
 extern "js" fn ffi_use_insertion_effect(
-  effect : @nostd.Any,
-  deps : @nostd.Any,
+  effect : @core.Any,
+  deps : @core.Any,
 ) -> Unit =
   #| (effect, deps) => globalThis.__ReactApi.useInsertionEffect(effect, deps)
 
@@ -315,17 +320,17 @@ extern "js" fn ffi_use_insertion_effect(
 #alias(useInsertionEffect)
 pub fn use_insertion_effect(
   f : () -> () -> Unit,
-  keys : Array[@nostd.Any],
+  keys : Array[@core.Any],
 ) -> Unit {
-  ffi_use_insertion_effect(@nostd.any(f), @nostd.any(keys))
+  ffi_use_insertion_effect(@core.any(f), @core.any(keys))
 }
 
 ///|
 extern "js" fn ffi_use_sync_external_store(
-  subscribe : @nostd.Any,
-  get_snapshot : @nostd.Any,
-  get_server_snapshot : @nostd.Any,
-) -> @nostd.Any =
+  subscribe : @core.Any,
+  get_snapshot : @core.Any,
+  get_server_snapshot : @core.Any,
+) -> @core.Any =
   #| (subscribe, getSnapshot, getServerSnapshot) => globalThis.__ReactApi.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
 ///|
@@ -339,21 +344,21 @@ pub fn[Snapshot] use_sync_external_store(
   get_server_snapshot? : () -> Snapshot,
 ) -> Snapshot {
   let server_snapshot = match get_server_snapshot {
-    Some(f) => @nostd.any(f)
-    None => @nostd.undefined()
+    Some(f) => @core.any(f)
+    None => @core.undefined()
   }
   ffi_use_sync_external_store(
-    @nostd.any(subscribe),
-    @nostd.any(get_snapshot),
+    @core.any(subscribe),
+    @core.any(get_snapshot),
     server_snapshot,
   ).cast()
 }
 
 ///|
 extern "js" fn ffi_use_imperative_handle(
-  ref_ : @nostd.Any,
-  create : @nostd.Any,
-  deps : @nostd.Any,
+  ref_ : @core.Any,
+  create : @core.Any,
+  deps : @core.Any,
 ) -> Unit =
   #| (ref, create, deps) => globalThis.__ReactApi.useImperativeHandle(ref, create, deps)
 
@@ -365,22 +370,22 @@ extern "js" fn ffi_use_imperative_handle(
 pub fn[T] use_imperative_handle(
   ref_ : ReactRef[T],
   create : () -> T,
-  keys : Array[@nostd.Any],
+  keys : Array[@core.Any],
 ) -> Unit {
-  ffi_use_imperative_handle(ref_.as_any(), @nostd.any(create), @nostd.any(keys))
+  ffi_use_imperative_handle(ref_.as_any(), @core.any(create), @core.any(keys))
 }
 
 ///|
-extern "js" fn ffi_capture_owner_stack() -> @nostd.Any =
+extern "js" fn ffi_capture_owner_stack() -> @core.Any =
   #| () => globalThis.__ReactApi.captureOwnerStack ? globalThis.__ReactApi.captureOwnerStack() : null
 
 ///|
 /// React.captureOwnerStack - Capture component stack for debugging (DEV only)
 /// see: https://react.dev/reference/react/captureOwnerStack
 #alias(captureOwnerStack)
-pub fn capture_owner_stack() -> @nostd.Any? {
+pub fn capture_owner_stack() -> @core.Any? {
   let result = ffi_capture_owner_stack()
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result)
@@ -388,19 +393,19 @@ pub fn capture_owner_stack() -> @nostd.Any? {
 }
 
 ///|
-extern "js" fn ffi_cache_signal() -> @nostd.Any =
+extern "js" fn ffi_cache_signal() -> @core.Any =
   #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
 
 ///|
 /// React.cacheSignal - Create cache signal for use with cache()
 /// see: https://react.dev/reference/react/cacheSignal
 #alias(cacheSignal)
-pub fn cache_signal() -> @nostd.Any {
+pub fn cache_signal() -> @core.Any {
   ffi_cache_signal()
 }
 
 ///|
-extern "js" fn ffi_react_cache(fn_ : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_react_cache(fn_ : @core.Any) -> @core.Any =
   #| (fn) => globalThis.__ReactApi.cache ? globalThis.__ReactApi.cache(fn) : fn
 
 ///|
@@ -409,23 +414,23 @@ extern "js" fn ffi_react_cache(fn_ : @nostd.Any) -> @nostd.Any =
 /// see: https://react.dev/reference/react/cache
 #alias(reactCache)
 pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
-  ffi_react_cache(@nostd.any(f)).cast()
+  ffi_react_cache(@core.any(f)).cast()
 }
 
 ///|
-extern "js" fn ffi_act(callback : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_act(callback : @core.Any) -> @core.Any =
   #| (callback) => globalThis.__ReactApi.act(callback)
 
 ///|
 /// React.act - Wrap test code to apply updates before assertions
 /// see: https://react.dev/reference/react/act
 pub async fn act(callback : () -> Unit) -> Unit {
-  let promise : @nostd.Promise[Unit] = ffi_act(@nostd.any(callback)).cast()
+  let promise : @core.Promise[Unit] = ffi_act(@core.any(callback)).cast()
   promise.wait()
 }
 
 ///|
-extern "js" fn ffi_act_async(callback : @nostd.Any) -> @nostd.Promise[Unit] =
+extern "js" fn ffi_act_async(callback : @core.Any) -> @core.Promise[Unit] =
   #| async (callback) => await globalThis.__ReactApi.act(callback)
 
 ///|
@@ -434,5 +439,5 @@ extern "js" fn ffi_act_async(callback : @nostd.Any) -> @nostd.Promise[Unit] =
 #alias(actAsync)
 pub async fn act_async(callback : async () -> Unit) -> Unit {
   let promise_fn = @js.promisify0(callback)
-  ffi_act_async(@nostd.any(promise_fn)).wait()
+  ffi_act_async(@core.any(promise_fn)).wait()
 }

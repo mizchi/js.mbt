@@ -15,7 +15,7 @@ pub(all) struct WeatherOutput {
   temperature : Int
   condition : String
 }
-impl ToJson for WeatherOutput
+pub impl ToJson for WeatherOutput
 
 // Type aliases
 

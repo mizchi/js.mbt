@@ -2,13 +2,13 @@
 package "mizchi/js/npm/ajv"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn schema() -> @nostd.Any
+pub fn schema() -> @core.Any
 
-fn schema_from_json(String) -> @nostd.Any
+pub fn schema_from_json(String) -> @core.Any
 
 // Errors
 
@@ -16,29 +16,29 @@ fn schema_from_json(String) -> @nostd.Any
 #external
 pub type Ajv
 #alias(add_schema)
-fn Ajv::addSchema(Self, @nostd.Any, key? : String) -> Self
-fn Ajv::as_any(Self) -> @nostd.Any
-fn Ajv::compile(Self, @nostd.Any) -> ValidateFunction
-fn Ajv::errors(Self) -> @nostd.Any
+pub fn Ajv::addSchema(Self, @core.Any, key? : String) -> Self
+pub fn Ajv::as_any(Self) -> @core.Any
+pub fn Ajv::compile(Self, @core.Any) -> ValidateFunction
+pub fn Ajv::errors(Self) -> @core.Any
 #alias(get_schema)
-fn Ajv::getSchema(Self, String) -> ValidateFunction?
-fn Ajv::new(all_errors? : Bool, verbose? : Bool, strict? : Bool, coerce_types? : Bool, use_defaults? : Bool, remove_additional? : Bool) -> Self
+pub fn Ajv::getSchema(Self, String) -> ValidateFunction?
+pub fn Ajv::new(all_errors? : Bool, verbose? : Bool, strict? : Bool, coerce_types? : Bool, use_defaults? : Bool, remove_additional? : Bool) -> Self
 #alias(remove_schema)
-fn Ajv::removeSchema(Self, String) -> Self
-fn Ajv::validate(Self, @nostd.Any, @nostd.Any) -> Bool
+pub fn Ajv::removeSchema(Self, String) -> Self
+pub fn Ajv::validate(Self, @core.Any, @core.Any) -> Bool
 
 #external
 pub type ValidateFunction
-fn ValidateFunction::as_any(Self) -> @nostd.Any
-fn ValidateFunction::errors(Self) -> @nostd.Any
-fn ValidateFunction::errors_array(Self) -> Array[ValidationError]
-fn ValidateFunction::validate(Self, @nostd.Any) -> Bool
+pub fn ValidateFunction::as_any(Self) -> @core.Any
+pub fn ValidateFunction::errors(Self) -> @core.Any
+pub fn ValidateFunction::errors_array(Self) -> Array[ValidationError]
+pub fn ValidateFunction::validate(Self, @core.Any) -> Bool
 
 pub struct ValidationError {
   instance_path : String
   schema_path : String
   keyword : String
-  params : @nostd.Any
+  params : @core.Any
   message : String?
 }
 

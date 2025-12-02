@@ -2,75 +2,75 @@
 package "mizchi/js/npm/zod"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn any_() -> ZodSchema
+pub fn any_() -> ZodSchema
 
-fn array(ZodSchema) -> ZodSchema
+pub fn array(ZodSchema) -> ZodSchema
 
-fn bigint() -> ZodSchema
+pub fn bigint() -> ZodSchema
 
-fn boolean() -> ZodSchema
+pub fn boolean() -> ZodSchema
 
-fn coerce_bigint() -> ZodSchema
+pub fn coerce_bigint() -> ZodSchema
 
-fn coerce_boolean() -> ZodSchema
+pub fn coerce_boolean() -> ZodSchema
 
-fn coerce_date() -> ZodSchema
+pub fn coerce_date() -> ZodSchema
 
-fn coerce_number() -> ZodSchema
+pub fn coerce_number() -> ZodSchema
 
-fn coerce_string() -> ZodSchema
+pub fn coerce_string() -> ZodSchema
 
-fn date() -> ZodSchema
+pub fn date() -> ZodSchema
 
-fn discriminated_union(String, Array[ZodSchema]) -> ZodSchema
+pub fn discriminated_union(String, Array[ZodSchema]) -> ZodSchema
 
-fn enum_(Array[String]) -> ZodSchema
+pub fn enum_(Array[String]) -> ZodSchema
 
-fn[T] from_array(Array[T]) -> @nostd.Any
+pub fn[T] from_array(Array[T]) -> @core.Any
 
-fn[T] from_json(T) -> @nostd.Any
+pub fn[T] from_json(T) -> @core.Any
 
-fn intersection(ZodSchema, ZodSchema) -> ZodSchema
+pub fn intersection(ZodSchema, ZodSchema) -> ZodSchema
 
-fn lazy_(() -> ZodSchema) -> ZodSchema
+pub fn lazy_(() -> ZodSchema) -> ZodSchema
 
-fn literal(@nostd.Any) -> ZodSchema
+pub fn literal(@core.Any) -> ZodSchema
 
-fn map(ZodSchema, ZodSchema) -> ZodSchema
+pub fn map(ZodSchema, ZodSchema) -> ZodSchema
 
-fn native_enum(@nostd.Any) -> ZodSchema
+pub fn native_enum(@core.Any) -> ZodSchema
 
-fn never() -> ZodSchema
+pub fn never() -> ZodSchema
 
-fn null_() -> ZodSchema
+pub fn null_() -> ZodSchema
 
-fn number() -> ZodSchema
+pub fn number() -> ZodSchema
 
-fn object(Map[String, ZodSchema]) -> ZodSchema
+pub fn object(Map[String, ZodSchema]) -> ZodSchema
 
-fn object_from_any(@nostd.Any) -> ZodSchema
+pub fn object_from_any(@core.Any) -> ZodSchema
 
-fn promise(ZodSchema) -> ZodSchema
+pub fn promise(ZodSchema) -> ZodSchema
 
-fn record(ZodSchema, ZodSchema) -> ZodSchema
+pub fn record(ZodSchema, ZodSchema) -> ZodSchema
 
-fn set(ZodSchema) -> ZodSchema
+pub fn set(ZodSchema) -> ZodSchema
 
-fn string() -> ZodSchema
+pub fn string() -> ZodSchema
 
-fn tuple(Array[ZodSchema]) -> ZodSchema
+pub fn tuple(Array[ZodSchema]) -> ZodSchema
 
-fn undefined_() -> ZodSchema
+pub fn undefined_() -> ZodSchema
 
-fn union(Array[ZodSchema]) -> ZodSchema
+pub fn union(Array[ZodSchema]) -> ZodSchema
 
-fn unknown() -> ZodSchema
+pub fn unknown() -> ZodSchema
 
-fn void_() -> ZodSchema
+pub fn void_() -> ZodSchema
 
 // Errors
 pub suberror ZodParseError ZodError
@@ -78,12 +78,12 @@ pub suberror ZodParseError ZodError
 // Types and methods
 #external
 pub type ZodError
-fn ZodError::as_any(Self) -> @nostd.Any
-fn ZodError::flatten(Self) -> @nostd.Any
-fn ZodError::format(Self) -> @nostd.Any
-fn ZodError::issues(Self) -> @nostd.Any
+pub fn ZodError::as_any(Self) -> @core.Any
+pub fn ZodError::flatten(Self) -> @core.Any
+pub fn ZodError::format(Self) -> @core.Any
+pub fn ZodError::issues(Self) -> @core.Any
 #alias(issues_array)
-fn ZodError::issuesArray(Self) -> Array[ZodIssue]
+pub fn ZodError::issuesArray(Self) -> Array[ZodIssue]
 
 pub struct ZodIssue {
   code : String
@@ -93,72 +93,72 @@ pub struct ZodIssue {
 
 #external
 pub type ZodSchema
-fn ZodSchema::as_any(Self) -> @nostd.Any
-fn ZodSchema::base64(Self) -> Self
-fn ZodSchema::brand(Self, String) -> Self
-fn ZodSchema::catch_(Self, @nostd.Any) -> Self
-fn ZodSchema::coerce(Self) -> Self
-fn ZodSchema::contains(Self, String) -> Self
-fn ZodSchema::cuid(Self) -> Self
-fn ZodSchema::cuid2(Self) -> Self
-fn ZodSchema::datetime(Self) -> Self
-fn ZodSchema::default_(Self, @nostd.Any) -> Self
-fn ZodSchema::describe(Self, String) -> Self
-fn ZodSchema::email(Self) -> Self
-fn ZodSchema::emoji(Self) -> Self
+pub fn ZodSchema::as_any(Self) -> @core.Any
+pub fn ZodSchema::base64(Self) -> Self
+pub fn ZodSchema::brand(Self, String) -> Self
+pub fn ZodSchema::catch_(Self, @core.Any) -> Self
+pub fn ZodSchema::coerce(Self) -> Self
+pub fn ZodSchema::contains(Self, String) -> Self
+pub fn ZodSchema::cuid(Self) -> Self
+pub fn ZodSchema::cuid2(Self) -> Self
+pub fn ZodSchema::datetime(Self) -> Self
+pub fn ZodSchema::default_(Self, @core.Any) -> Self
+pub fn ZodSchema::describe(Self, String) -> Self
+pub fn ZodSchema::email(Self) -> Self
+pub fn ZodSchema::emoji(Self) -> Self
 #alias(ends_with)
-fn ZodSchema::endsWith(Self, String) -> Self
-fn ZodSchema::extend(Self, @nostd.Any) -> Self
-fn ZodSchema::finite(Self) -> Self
-fn ZodSchema::gt(Self, Int) -> Self
-fn ZodSchema::gte(Self, Int) -> Self
-fn ZodSchema::includes(Self, String) -> Self
-fn ZodSchema::int(Self) -> Self
-fn ZodSchema::ipv4(Self) -> Self
-fn ZodSchema::ipv6(Self) -> Self
-fn ZodSchema::length(Self, Int) -> Self
-fn ZodSchema::lt(Self, Int) -> Self
-fn ZodSchema::lte(Self, Int) -> Self
-fn ZodSchema::max(Self, Int) -> Self
-fn ZodSchema::max_date(Self, @nostd.Any) -> Self
-fn ZodSchema::merge(Self, Self) -> Self
-fn ZodSchema::min(Self, Int) -> Self
-fn ZodSchema::min_date(Self, @nostd.Any) -> Self
-fn ZodSchema::multipleOf(Self, Int) -> Self
-fn ZodSchema::negative(Self) -> Self
-fn ZodSchema::nonempty(Self) -> Self
-fn ZodSchema::nonnegative(Self) -> Self
-fn ZodSchema::nonpositive(Self) -> Self
-fn ZodSchema::nullable(Self) -> Self
-fn ZodSchema::nullish(Self) -> Self
-fn ZodSchema::omit(Self, @nostd.Any) -> Self
-fn ZodSchema::optional(Self) -> Self
-fn ZodSchema::parse(Self, @nostd.Any) -> @nostd.Any raise ZodParseError
-fn ZodSchema::partial(Self) -> Self
-fn ZodSchema::passthrough(Self) -> Self
-fn ZodSchema::pick(Self, @nostd.Any) -> Self
-fn ZodSchema::pipe(Self, Self) -> Self
-fn ZodSchema::positive(Self) -> Self
-fn ZodSchema::refine(Self, (@nostd.Any) -> Bool, message? : String) -> Self
-fn ZodSchema::refine_with_path(Self, (@nostd.Any) -> Bool, String, Array[String]) -> Self
-fn ZodSchema::regex(Self, String) -> Self
-fn ZodSchema::required_(Self) -> Self
-fn ZodSchema::safe(Self) -> Self
+pub fn ZodSchema::endsWith(Self, String) -> Self
+pub fn ZodSchema::extend(Self, @core.Any) -> Self
+pub fn ZodSchema::finite(Self) -> Self
+pub fn ZodSchema::gt(Self, Int) -> Self
+pub fn ZodSchema::gte(Self, Int) -> Self
+pub fn ZodSchema::includes(Self, String) -> Self
+pub fn ZodSchema::int(Self) -> Self
+pub fn ZodSchema::ipv4(Self) -> Self
+pub fn ZodSchema::ipv6(Self) -> Self
+pub fn ZodSchema::length(Self, Int) -> Self
+pub fn ZodSchema::lt(Self, Int) -> Self
+pub fn ZodSchema::lte(Self, Int) -> Self
+pub fn ZodSchema::max(Self, Int) -> Self
+pub fn ZodSchema::max_date(Self, @core.Any) -> Self
+pub fn ZodSchema::merge(Self, Self) -> Self
+pub fn ZodSchema::min(Self, Int) -> Self
+pub fn ZodSchema::min_date(Self, @core.Any) -> Self
+pub fn ZodSchema::multipleOf(Self, Int) -> Self
+pub fn ZodSchema::negative(Self) -> Self
+pub fn ZodSchema::nonempty(Self) -> Self
+pub fn ZodSchema::nonnegative(Self) -> Self
+pub fn ZodSchema::nonpositive(Self) -> Self
+pub fn ZodSchema::nullable(Self) -> Self
+pub fn ZodSchema::nullish(Self) -> Self
+pub fn ZodSchema::omit(Self, @core.Any) -> Self
+pub fn ZodSchema::optional(Self) -> Self
+pub fn ZodSchema::parse(Self, @core.Any) -> @core.Any raise ZodParseError
+pub fn ZodSchema::partial(Self) -> Self
+pub fn ZodSchema::passthrough(Self) -> Self
+pub fn ZodSchema::pick(Self, @core.Any) -> Self
+pub fn ZodSchema::pipe(Self, Self) -> Self
+pub fn ZodSchema::positive(Self) -> Self
+pub fn ZodSchema::refine(Self, (@core.Any) -> Bool, message? : String) -> Self
+pub fn ZodSchema::refine_with_path(Self, (@core.Any) -> Bool, String, Array[String]) -> Self
+pub fn ZodSchema::regex(Self, String) -> Self
+pub fn ZodSchema::required_(Self) -> Self
+pub fn ZodSchema::safe(Self) -> Self
 #alias(safe_parse)
-fn ZodSchema::safeParse(Self, @nostd.Any) -> Result[@nostd.Any, ZodError]
+pub fn ZodSchema::safeParse(Self, @core.Any) -> Result[@core.Any, ZodError]
 #alias(starts_with)
-fn ZodSchema::startsWith(Self, String) -> Self
-fn ZodSchema::strict(Self) -> Self
-fn ZodSchema::strip(Self) -> Self
+pub fn ZodSchema::startsWith(Self, String) -> Self
+pub fn ZodSchema::strict(Self) -> Self
+pub fn ZodSchema::strip(Self) -> Self
 #alias(to_lower_case)
-fn ZodSchema::toLowerCase(Self) -> Self
+pub fn ZodSchema::toLowerCase(Self) -> Self
 #alias(to_upper_case)
-fn ZodSchema::toUpperCase(Self) -> Self
-fn ZodSchema::transform(Self, (@nostd.Any) -> @nostd.Any) -> Self
-fn ZodSchema::trim(Self) -> Self
-fn ZodSchema::ulid(Self) -> Self
-fn ZodSchema::url(Self) -> Self
-fn ZodSchema::uuid(Self) -> Self
+pub fn ZodSchema::toUpperCase(Self) -> Self
+pub fn ZodSchema::transform(Self, (@core.Any) -> @core.Any) -> Self
+pub fn ZodSchema::trim(Self) -> Self
+pub fn ZodSchema::ulid(Self) -> Self
+pub fn ZodSchema::url(Self) -> Self
+pub fn ZodSchema::uuid(Self) -> Self
 
 // Type aliases
 

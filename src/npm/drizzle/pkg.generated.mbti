@@ -3,246 +3,246 @@ package "mizchi/js/npm/drizzle"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn and_(Array[SQL]) -> SQL
+pub fn and_(Array[SQL]) -> SQL
 
-fn asc(Column) -> @nostd.Any
+pub fn asc(Column) -> @core.Any
 
-fn avg(Column) -> SQL
+pub fn avg(Column) -> SQL
 
-fn between(Column, @nostd.Any, @nostd.Any) -> SQL
+pub fn between(Column, @core.Any, @core.Any) -> SQL
 
 #alias(big_serial)
-fn bigserial(name? : String) -> Column
+pub fn bigserial(name? : String) -> Column
 
-fn boolean(name? : String) -> Column
+pub fn boolean(name? : String) -> Column
 
-fn count(column? : Column) -> SQL
+pub fn count(column? : Column) -> SQL
 
-fn desc(Column) -> @nostd.Any
+pub fn desc(Column) -> @core.Any
 
-fn drizzle(String) -> DrizzleDB
+pub fn drizzle(String) -> DrizzleDB
 
 #alias(drizzle_better_sqlite)
-fn drizzleBetterSqlite(String) -> DrizzleDB
+pub fn drizzleBetterSqlite(String) -> DrizzleDB
 
 #alias(drizzle_better_sqlite_db)
-fn drizzleBetterSqliteDb(@nostd.Any) -> DrizzleDB
+pub fn drizzleBetterSqliteDb(@core.Any) -> DrizzleDB
 
 #alias(drizzle_d1)
-fn drizzleD1(@nostd.Any) -> DrizzleDB
+pub fn drizzleD1(@core.Any) -> DrizzleDB
 
 #alias(drizzle_d1_with_schema)
-fn drizzleD1WithSchema(@nostd.Any, @nostd.Any) -> DrizzleDB
+pub fn drizzleD1WithSchema(@core.Any, @core.Any) -> DrizzleDB
 
-fn drizzleLibsql(String) -> DrizzleDB
+pub fn drizzleLibsql(String) -> DrizzleDB
 
-fn drizzleLibsqlClient(@nostd.Any) -> DrizzleDB
+pub fn drizzleLibsqlClient(@core.Any) -> DrizzleDB
 
 #alias(drizzle_with_config)
-fn drizzleWithConfig(@nostd.Any) -> DrizzleDB
+pub fn drizzleWithConfig(@core.Any) -> DrizzleDB
 
 #alias(drizzle_with_pool)
-fn drizzleWithPool(@nostd.Any) -> DrizzleDB
+pub fn drizzleWithPool(@core.Any) -> DrizzleDB
 
-fn eq(Column, @nostd.Any) -> SQL
+pub fn eq(Column, @core.Any) -> SQL
 
-fn gt(Column, @nostd.Any) -> SQL
+pub fn gt(Column, @core.Any) -> SQL
 
-fn gte(Column, @nostd.Any) -> SQL
+pub fn gte(Column, @core.Any) -> SQL
 
-fn ilike(Column, String) -> SQL
+pub fn ilike(Column, String) -> SQL
 
-fn inArray(Column, Array[@nostd.Any]) -> SQL
+pub fn inArray(Column, Array[@core.Any]) -> SQL
 
-fn integer(name? : String) -> Column
+pub fn integer(name? : String) -> Column
 
 #alias(is_not_null)
-fn isNotNull(Column) -> SQL
+pub fn isNotNull(Column) -> SQL
 
 #alias(is_null)
-fn isNull(Column) -> SQL
+pub fn isNull(Column) -> SQL
 
-fn json(name? : String) -> Column
+pub fn json(name? : String) -> Column
 
-fn jsonb(name? : String) -> Column
+pub fn jsonb(name? : String) -> Column
 
-fn like(Column, String) -> SQL
+pub fn like(Column, String) -> SQL
 
-fn lt(Column, @nostd.Any) -> SQL
+pub fn lt(Column, @core.Any) -> SQL
 
-fn lte(Column, @nostd.Any) -> SQL
+pub fn lte(Column, @core.Any) -> SQL
 
-fn max_(Column) -> SQL
+pub fn max_(Column) -> SQL
 
-fn min_(Column) -> SQL
+pub fn min_(Column) -> SQL
 
-fn ne(Column, @nostd.Any) -> SQL
+pub fn ne(Column, @core.Any) -> SQL
 
 #alias(not_in_array)
-fn notInArray(Column, Array[@nostd.Any]) -> SQL
+pub fn notInArray(Column, Array[@core.Any]) -> SQL
 
-fn not_(SQL) -> SQL
+pub fn not_(SQL) -> SQL
 
-fn numeric(name? : String, precision? : Int, scale? : Int) -> Column
+pub fn numeric(name? : String, precision? : Int, scale? : Int) -> Column
 
-fn or_(Array[SQL]) -> SQL
+pub fn or_(Array[SQL]) -> SQL
 
 #alias(pg_check)
-fn pgCheck(String, SQL) -> @nostd.Any
+pub fn pgCheck(String, SQL) -> @core.Any
 
 #alias(pg_foreign_key)
-fn pgForeignKey(Array[Column], Array[Column], name? : String) -> @nostd.Any
+pub fn pgForeignKey(Array[Column], Array[Column], name? : String) -> @core.Any
 
 #alias(pg_index)
-fn pgIndex(String) -> PgIndexBuilder
+pub fn pgIndex(String) -> PgIndexBuilder
 
 #alias(pg_primary_key)
-fn pgPrimaryKey(Array[Column], name? : String) -> @nostd.Any
+pub fn pgPrimaryKey(Array[Column], name? : String) -> @core.Any
 
 #alias(pg_table)
-fn pgTable(String, @nostd.Any) -> Table
+pub fn pgTable(String, @core.Any) -> Table
 
 #alias(pg_table_from_map)
-fn pgTableFromMap(String, Map[String, Column]) -> Table
+pub fn pgTableFromMap(String, Map[String, Column]) -> Table
 
 #alias(pg_unique)
-fn pgUnique(name? : String) -> UniqueBuilder
+pub fn pgUnique(name? : String) -> UniqueBuilder
 
 #alias(pg_unique_index)
-fn pgUniqueIndex(String) -> PgIndexBuilder
+pub fn pgUniqueIndex(String) -> PgIndexBuilder
 
-fn placeholder(String) -> @nostd.Any
+pub fn placeholder(String) -> @core.Any
 
-fn rows(Array[Row]) -> @nostd.Any
+pub fn rows(Array[Row]) -> @core.Any
 
-fn serial(name? : String) -> Column
+pub fn serial(name? : String) -> Column
 
 #alias(sql_add)
-fn sqlAdd(@nostd.Any, @nostd.Any) -> SQL
+pub fn sqlAdd(@core.Any, @core.Any) -> SQL
 
 #alias(sql_div)
-fn sqlDiv(@nostd.Any, @nostd.Any) -> SQL
+pub fn sqlDiv(@core.Any, @core.Any) -> SQL
 
 #alias(sql_mul)
-fn sqlMul(@nostd.Any, @nostd.Any) -> SQL
+pub fn sqlMul(@core.Any, @core.Any) -> SQL
 
 #alias(sql_raw)
-fn sqlRaw(String) -> SQL
+pub fn sqlRaw(String) -> SQL
 
 #alias(sql_sub)
-fn sqlSub(@nostd.Any, @nostd.Any) -> SQL
+pub fn sqlSub(@core.Any, @core.Any) -> SQL
 
 #alias(sql_template)
-fn sqlTemplate(Array[String], Array[@nostd.Any]) -> SQL
+pub fn sqlTemplate(Array[String], Array[@core.Any]) -> SQL
 
-fn sql_expr(String) -> SQL
+pub fn sql_expr(String) -> SQL
 
 #alias(sqlite_blob)
-fn sqliteBlob(name? : String, mode? : String) -> Column
+pub fn sqliteBlob(name? : String, mode? : String) -> Column
 
 #alias(sqlite_check)
-fn sqliteCheck(String, SQL) -> @nostd.Any
+pub fn sqliteCheck(String, SQL) -> @core.Any
 
 #alias(sqlite_foreign_key)
-fn sqliteForeignKey(Array[Column], Array[Column], name? : String) -> @nostd.Any
+pub fn sqliteForeignKey(Array[Column], Array[Column], name? : String) -> @core.Any
 
 #alias(sqlite_index)
-fn sqliteIndex(String) -> IndexBuilder
+pub fn sqliteIndex(String) -> IndexBuilder
 
 #alias(sqlite_int)
-fn sqliteInt(name? : String) -> Column
+pub fn sqliteInt(name? : String) -> Column
 
 #alias(sqlite_integer)
-fn sqliteInteger(name? : String, mode? : String) -> Column
+pub fn sqliteInteger(name? : String, mode? : String) -> Column
 
 #alias(sqlite_numeric)
-fn sqliteNumeric(name? : String) -> Column
+pub fn sqliteNumeric(name? : String) -> Column
 
 #alias(sqlite_primary_key)
-fn sqlitePrimaryKey(Array[Column], name? : String) -> @nostd.Any
+pub fn sqlitePrimaryKey(Array[Column], name? : String) -> @core.Any
 
 #alias(sqlite_real)
-fn sqliteReal(name? : String) -> Column
+pub fn sqliteReal(name? : String) -> Column
 
 #alias(sqlite_table)
-fn sqliteTable(String, @nostd.Any) -> Table
+pub fn sqliteTable(String, @core.Any) -> Table
 
 #alias(sqlite_table_from_map)
-fn sqliteTableFromMap(String, Map[String, Column]) -> Table
+pub fn sqliteTableFromMap(String, Map[String, Column]) -> Table
 
 #alias(sqlite_table_with_config)
-fn sqliteTableWithConfig(String, @nostd.Any, (Table) -> @nostd.Any) -> Table
+pub fn sqliteTableWithConfig(String, @core.Any, (Table) -> @core.Any) -> Table
 
 #alias(sqlite_text)
-fn sqliteText(name? : String, mode? : String) -> Column
+pub fn sqliteText(name? : String, mode? : String) -> Column
 
 #alias(sqlite_unique)
-fn sqliteUnique(name? : String) -> UniqueBuilder
+pub fn sqliteUnique(name? : String) -> UniqueBuilder
 
 #alias(sqlite_unique_index)
-fn sqliteUniqueIndex(String) -> IndexBuilder
+pub fn sqliteUniqueIndex(String) -> IndexBuilder
 
-fn sum(Column) -> SQL
+pub fn sum(Column) -> SQL
 
-fn text(name? : String) -> Column
+pub fn text(name? : String) -> Column
 
-fn timestamp(name? : String, with_timezone? : Bool) -> Column
+pub fn timestamp(name? : String, with_timezone? : Bool) -> Column
 
-fn uuid(name? : String) -> Column
+pub fn uuid(name? : String) -> Column
 
-fn varchar(name? : String, length? : Int) -> Column
+pub fn varchar(name? : String, length? : Int) -> Column
 
 // Errors
 
 // Types and methods
 #external
 pub type Column
-fn Column::as_any(Self) -> @nostd.Any
-fn Column::asc_(Self) -> @nostd.Any
+pub fn Column::as_any(Self) -> @core.Any
+pub fn Column::asc_(Self) -> @core.Any
 #alias(default_now)
-fn Column::defaultNow(Self) -> Self
+pub fn Column::defaultNow(Self) -> Self
 #alias(default_value)
-fn Column::defaultValue(Self, @nostd.Any) -> Self
-fn Column::desc_(Self) -> @nostd.Any
+pub fn Column::defaultValue(Self, @core.Any) -> Self
+pub fn Column::desc_(Self) -> @core.Any
 #alias(generated_always_as_identity)
-fn Column::generatedAlwaysAsIdentity(Self) -> Self
+pub fn Column::generatedAlwaysAsIdentity(Self) -> Self
 #alias(not_null)
-fn Column::notNull(Self) -> Self
+pub fn Column::notNull(Self) -> Self
 #alias(nulls_first)
-fn Column::nullsFirst(Self) -> @nostd.Any
+pub fn Column::nullsFirst(Self) -> @core.Any
 #alias(nulls_last)
-fn Column::nullsLast(Self) -> @nostd.Any
+pub fn Column::nullsLast(Self) -> @core.Any
 #alias(on_delete)
-fn Column::onDelete(Self, ForeignKeyAction) -> Self
+pub fn Column::onDelete(Self, ForeignKeyAction) -> Self
 #alias(on_update)
-fn Column::onUpdate(Self, ForeignKeyAction) -> Self
+pub fn Column::onUpdate(Self, ForeignKeyAction) -> Self
 #alias(primary_key)
-fn Column::primaryKey(Self) -> Self
+pub fn Column::primaryKey(Self) -> Self
 #alias(primary_key_auto_increment)
-fn Column::primaryKeyAutoIncrement(Self) -> Self
-fn Column::references(Self, () -> Self) -> Self
-fn Column::unique(Self) -> Self
+pub fn Column::primaryKeyAutoIncrement(Self) -> Self
+pub fn Column::references(Self, () -> Self) -> Self
+pub fn Column::unique(Self) -> Self
 
 #external
 pub type DrizzleDB
-fn DrizzleDB::as_any(Self) -> @nostd.Any
-fn DrizzleDB::delete(Self, Table) -> QueryBuilder
-fn DrizzleDB::insert(Self, Table) -> QueryBuilder
+pub fn DrizzleDB::as_any(Self) -> @core.Any
+pub fn DrizzleDB::delete(Self, Table) -> QueryBuilder
+pub fn DrizzleDB::insert(Self, Table) -> QueryBuilder
 #alias(pg_transaction)
-async fn DrizzleDB::pgTransaction(Self, (Transaction) -> Unit, isolation_level? : PgIsolationLevel, access_mode? : PgAccessMode, deferrable? : Bool) -> @nostd.Any
-fn DrizzleDB::select(Self, fields? : @nostd.Any) -> QueryBuilder
+pub async fn DrizzleDB::pgTransaction(Self, (Transaction) -> Unit, isolation_level? : PgIsolationLevel, access_mode? : PgAccessMode, deferrable? : Bool) -> @core.Any
+pub fn DrizzleDB::select(Self, fields? : @core.Any) -> QueryBuilder
 #alias(select_distinct)
-fn DrizzleDB::selectDistinct(Self) -> QueryBuilder
+pub fn DrizzleDB::selectDistinct(Self) -> QueryBuilder
 #alias(sqlite_transaction)
-async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @nostd.Any
-async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @nostd.Any
+pub async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @core.Any
+pub async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @core.Any
 #alias(transaction_async)
-async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@nostd.Any]) -> @nostd.Any
-fn DrizzleDB::update(Self, Table) -> QueryBuilder
+pub async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@core.Any]) -> @core.Any
+pub fn DrizzleDB::update(Self, Table) -> QueryBuilder
 
 pub(all) enum ForeignKeyAction {
   Cascade
@@ -251,33 +251,33 @@ pub(all) enum ForeignKeyAction {
   SetNull
   SetDefault
 }
-fn ForeignKeyAction::to_string(Self) -> String
-impl Eq for ForeignKeyAction
-impl Show for ForeignKeyAction
+pub fn ForeignKeyAction::to_string(Self) -> String
+pub impl Eq for ForeignKeyAction
+pub impl Show for ForeignKeyAction
 
 #external
 pub type IndexBuilder
-fn IndexBuilder::as_any(Self) -> @nostd.Any
+pub fn IndexBuilder::as_any(Self) -> @core.Any
 #alias(index_where)
-fn IndexBuilder::filter(Self, SQL) -> Self
-fn IndexBuilder::on(Self, Array[Column]) -> Self
+pub fn IndexBuilder::filter(Self, SQL) -> Self
+pub fn IndexBuilder::on(Self, Array[Column]) -> Self
 
 pub(all) enum PgAccessMode {
   ReadOnly
   ReadWrite
 }
-fn PgAccessMode::to_string(Self) -> String
-impl Eq for PgAccessMode
-impl Show for PgAccessMode
+pub fn PgAccessMode::to_string(Self) -> String
+pub impl Eq for PgAccessMode
+pub impl Show for PgAccessMode
 
 #external
 pub type PgIndexBuilder
-fn PgIndexBuilder::as_any(Self) -> @nostd.Any
-fn PgIndexBuilder::concurrently(Self) -> Self
-fn PgIndexBuilder::filter(Self, SQL) -> Self
-fn PgIndexBuilder::on(Self, Array[Column]) -> Self
+pub fn PgIndexBuilder::as_any(Self) -> @core.Any
+pub fn PgIndexBuilder::concurrently(Self) -> Self
+pub fn PgIndexBuilder::filter(Self, SQL) -> Self
+pub fn PgIndexBuilder::on(Self, Array[Column]) -> Self
 #alias(using_method)
-fn PgIndexBuilder::usingMethod(Self, String, Array[@nostd.Any]) -> Self
+pub fn PgIndexBuilder::usingMethod(Self, String, Array[@core.Any]) -> Self
 
 pub(all) enum PgIsolationLevel {
   ReadUncommitted
@@ -285,95 +285,95 @@ pub(all) enum PgIsolationLevel {
   RepeatableRead
   Serializable
 }
-fn PgIsolationLevel::to_string(Self) -> String
-impl Eq for PgIsolationLevel
-impl Show for PgIsolationLevel
+pub fn PgIsolationLevel::to_string(Self) -> String
+pub impl Eq for PgIsolationLevel
+pub impl Show for PgIsolationLevel
 
 #external
 pub type PreparedQuery
-fn PreparedQuery::as_any(Self) -> @nostd.Any
-async fn PreparedQuery::execute(Self, params? : @nostd.Any) -> @nostd.Any
-async fn[T] PreparedQuery::execute_array(Self, params? : @nostd.Any) -> Array[T]
+pub fn PreparedQuery::as_any(Self) -> @core.Any
+pub async fn PreparedQuery::execute(Self, params? : @core.Any) -> @core.Any
+pub async fn[T] PreparedQuery::execute_array(Self, params? : @core.Any) -> Array[T]
 
 #external
 pub type QueryBuilder
-fn QueryBuilder::as_(Self, String) -> @nostd.Any
-fn QueryBuilder::as_any(Self) -> @nostd.Any
-fn QueryBuilder::except(Self, Self) -> Self
-async fn QueryBuilder::execute(Self) -> @nostd.Any
-async fn[T] QueryBuilder::execute_array(Self) -> Array[T]
-fn QueryBuilder::filter(Self, SQL) -> Self
-fn QueryBuilder::from(Self, Table) -> Self
+pub fn QueryBuilder::as_(Self, String) -> @core.Any
+pub fn QueryBuilder::as_any(Self) -> @core.Any
+pub fn QueryBuilder::except(Self, Self) -> Self
+pub async fn QueryBuilder::execute(Self) -> @core.Any
+pub async fn[T] QueryBuilder::execute_array(Self) -> Array[T]
+pub fn QueryBuilder::filter(Self, SQL) -> Self
+pub fn QueryBuilder::from(Self, Table) -> Self
 #alias(group_by)
-fn QueryBuilder::groupBy(Self, Array[Column]) -> Self
-fn QueryBuilder::having(Self, SQL) -> Self
+pub fn QueryBuilder::groupBy(Self, Array[Column]) -> Self
+pub fn QueryBuilder::having(Self, SQL) -> Self
 #alias(inner_join)
-fn QueryBuilder::innerJoin(Self, Table, SQL) -> Self
-fn QueryBuilder::intersect(Self, Self) -> Self
+pub fn QueryBuilder::innerJoin(Self, Table, SQL) -> Self
+pub fn QueryBuilder::intersect(Self, Self) -> Self
 #alias(left_join)
-fn QueryBuilder::leftJoin(Self, Table, SQL) -> Self
-fn QueryBuilder::limit(Self, Int) -> Self
-fn QueryBuilder::offset(Self, Int) -> Self
+pub fn QueryBuilder::leftJoin(Self, Table, SQL) -> Self
+pub fn QueryBuilder::limit(Self, Int) -> Self
+pub fn QueryBuilder::offset(Self, Int) -> Self
 #alias(on_conflict_do_nothing)
-fn QueryBuilder::onConflictDoNothing(Self) -> Self
+pub fn QueryBuilder::onConflictDoNothing(Self) -> Self
 #alias(on_conflict_do_update)
-fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @nostd.Any) -> Self
+pub fn QueryBuilder::onConflictDoUpdate(Self, Array[Column], @core.Any) -> Self
 #alias(order_by)
-fn QueryBuilder::orderBy(Self, Array[@nostd.Any]) -> Self
-fn QueryBuilder::prepare(Self, String) -> PreparedQuery
-fn QueryBuilder::returning(Self) -> Self
-fn QueryBuilder::set(Self, @nostd.Any) -> Self
-fn QueryBuilder::union(Self, Self) -> Self
+pub fn QueryBuilder::orderBy(Self, Array[@core.Any]) -> Self
+pub fn QueryBuilder::prepare(Self, String) -> PreparedQuery
+pub fn QueryBuilder::returning(Self) -> Self
+pub fn QueryBuilder::set(Self, @core.Any) -> Self
+pub fn QueryBuilder::union(Self, Self) -> Self
 #alias(union_all)
-fn QueryBuilder::unionAll(Self, Self) -> Self
-fn QueryBuilder::values(Self, @nostd.Any) -> Self
+pub fn QueryBuilder::unionAll(Self, Self) -> Self
+pub fn QueryBuilder::values(Self, @core.Any) -> Self
 
 pub struct Row {
   // private fields
 }
-fn Row::as_any(Self) -> @nostd.Any
-fn Row::bool(Self, String, Bool) -> Self
-fn Row::build(Self) -> @nostd.Any
-fn Row::double(Self, String, Double) -> Self
-fn Row::int(Self, String, Int) -> Self
-fn Row::new() -> Self
-fn Row::null(Self, String) -> Self
-fn Row::set_(Self, String, @nostd.Any) -> Self
-fn Row::str(Self, String, String) -> Self
+pub fn Row::as_any(Self) -> @core.Any
+pub fn Row::bool(Self, String, Bool) -> Self
+pub fn Row::build(Self) -> @core.Any
+pub fn Row::double(Self, String, Double) -> Self
+pub fn Row::int(Self, String, Int) -> Self
+pub fn Row::new() -> Self
+pub fn Row::null(Self, String) -> Self
+pub fn Row::set_(Self, String, @core.Any) -> Self
+pub fn Row::str(Self, String, String) -> Self
 
 #external
 pub type SQL
-fn SQL::as_any(Self) -> @nostd.Any
+pub fn SQL::as_any(Self) -> @core.Any
 
 pub(all) enum SqliteBehavior {
   Deferred
   Immediate
   Exclusive
 }
-fn SqliteBehavior::to_string(Self) -> String
-impl Eq for SqliteBehavior
-impl Show for SqliteBehavior
+pub fn SqliteBehavior::to_string(Self) -> String
+pub impl Eq for SqliteBehavior
+pub impl Show for SqliteBehavior
 
 #external
 pub type Table
-fn Table::as_any(Self) -> @nostd.Any
-fn Table::get(Self, String) -> @nostd.Any
+pub fn Table::as_any(Self) -> @core.Any
+pub fn Table::get(Self, String) -> @core.Any
 
 #external
 pub type Transaction
-fn Transaction::as_any(Self) -> @nostd.Any
-fn Transaction::delete(Self, Table) -> QueryBuilder
-fn Transaction::insert(Self, Table) -> QueryBuilder
-fn Transaction::rollback(Self) -> Unit
-fn Transaction::select(Self, fields? : @nostd.Any) -> QueryBuilder
-fn Transaction::update(Self, Table) -> QueryBuilder
+pub fn Transaction::as_any(Self) -> @core.Any
+pub fn Transaction::delete(Self, Table) -> QueryBuilder
+pub fn Transaction::insert(Self, Table) -> QueryBuilder
+pub fn Transaction::rollback(Self) -> Unit
+pub fn Transaction::select(Self, fields? : @core.Any) -> QueryBuilder
+pub fn Transaction::update(Self, Table) -> QueryBuilder
 
 #external
 pub type UniqueBuilder
-fn UniqueBuilder::as_any(Self) -> @nostd.Any
+pub fn UniqueBuilder::as_any(Self) -> @core.Any
 #alias(nulls_not_distinct)
-fn UniqueBuilder::nullsNotDistinct(Self) -> Self
-fn UniqueBuilder::on(Self, Array[Column]) -> Self
+pub fn UniqueBuilder::nullsNotDistinct(Self) -> Self
+pub fn UniqueBuilder::on(Self, Array[Column]) -> Self
 
 // Type aliases
 

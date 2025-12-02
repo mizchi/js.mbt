@@ -15,7 +15,7 @@ let num_schema = @zod.number()
 let bool_schema = @zod.boolean()
 
 // Validate data
-let result = str_schema.safeParse(@nostd.any("hello"))
+let result = str_schema.safeParse(@core.any("hello"))
 if result.success() {
   let data : String = result.data().cast()
 }
@@ -31,7 +31,7 @@ let user_schema = @zod.object({
   "email": @zod.string().email(),
 })
 
-let data = @nostd.Object::new()
+let data = @core.Object::new()
 data.set("name", "Alice")
 data.set("age", 30)
 data.set("email", "alice@example.com")
@@ -74,7 +74,7 @@ assert_eq(result.success(), true)
 @zod.string().optional()   // string | undefined
 @zod.string().nullable()   // string | null
 @zod.string().nullish()    // string | null | undefined
-@zod.string().default_(@nostd.any("default"))  // with default value
+@zod.string().default_(@core.any("default"))  // with default value
 ```
 
 ## Error Handling

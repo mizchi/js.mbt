@@ -10,20 +10,20 @@ test "output strategy to_string" {
 
 ///|
 test "generate object result from_any" {
-  let empty_warnings : Array[@nostd.Any] = []
-  let raw = @nostd.from_entries([
-    ("object", @nostd.from_entries([("name", "test" |> @nostd.any)]).cast()),
-    ("finishReason", @nostd.any("stop")),
+  let empty_warnings : Array[@core.Any] = []
+  let raw = @core.from_entries([
+    ("object", @core.from_entries([("name", "test" |> @core.any)]).cast()),
+    ("finishReason", @core.any("stop")),
     (
       "usage",
-      @nostd.from_entries([
-        ("inputTokens", @nostd.any(10)),
-        ("outputTokens", @nostd.any(20)),
-        ("totalTokens", @nostd.any(30)),
+      @core.from_entries([
+        ("inputTokens", @core.any(10)),
+        ("outputTokens", @core.any(20)),
+        ("totalTokens", @core.any(30)),
       ]).cast(),
     ),
-    ("warnings", @nostd.any(empty_warnings) |> @nostd.any),
-    ("response", @nostd.from_entries([("id", "resp-123" |> @nostd.any)]).cast()),
+    ("warnings", @core.any(empty_warnings) |> @core.any),
+    ("response", @core.from_entries([("id", "resp-123" |> @core.any)]).cast()),
   ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   assert_eq(result.finish_reason, @ai.FinishReason::Stop)
@@ -32,26 +32,23 @@ test "generate object result from_any" {
 
 ///|
 test "generate object result get_object" {
-  let empty_warnings : Array[@nostd.Any] = []
-  let raw = @nostd.from_entries([
+  let empty_warnings : Array[@core.Any] = []
+  let raw = @core.from_entries([
     (
       "object",
-      @nostd.from_entries([
-        ("name", @nostd.any("John")),
-        ("age", @nostd.any(30)),
-      ]).cast(),
+      @core.from_entries([("name", @core.any("John")), ("age", @core.any(30))]).cast(),
     ),
-    ("finishReason", @nostd.any("stop")),
+    ("finishReason", @core.any("stop")),
     (
       "usage",
-      @nostd.from_entries([
-        ("inputTokens", @nostd.any(10)),
-        ("outputTokens", @nostd.any(20)),
-        ("totalTokens", @nostd.any(30)),
+      @core.from_entries([
+        ("inputTokens", @core.any(10)),
+        ("outputTokens", @core.any(20)),
+        ("totalTokens", @core.any(30)),
       ]).cast(),
     ),
-    ("warnings", @nostd.any(empty_warnings)),
-    ("response", @nostd.Object::new()),
+    ("warnings", @core.any(empty_warnings)),
+    ("response", @core.Object::new()),
   ]).cast()
   let result = @ai.GenerateObjectResult::from_any(raw)
   // Get object as raw Any
@@ -65,19 +62,16 @@ test "generate object result get_object" {
 async test "generateObject with mock" {
   // This test requires actual API key, so skip by default
   let model = @ai.anthropic("claude-sonnet-4-20250514")
-  let schema = @nostd.from_entries([
-    ("type", @nostd.any("object")),
+  let schema = @core.from_entries([
+    ("type", @core.any("object")),
     (
       "properties",
-      @nostd.from_entries([
-        ("name", @nostd.from_entries([("type", @nostd.any("string"))]).cast()),
-        ("age", @nostd.from_entries([("type", @nostd.any("number"))]).cast()),
+      @core.from_entries([
+        ("name", @core.from_entries([("type", @core.any("string"))]).cast()),
+        ("age", @core.from_entries([("type", @core.any("number"))]).cast()),
       ]).cast(),
     ),
-    (
-      "required",
-      @nostd.any(["name" |> @js.any, "age" |> @js.any]) |> @nostd.any,
-    ),
+    ("required", @core.any(["name" |> @js.any, "age" |> @js.any]) |> @core.any),
   ]).cast()
   let result = @ai.generateObject(
     model~,

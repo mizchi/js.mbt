@@ -7,7 +7,7 @@
 /// Test read_file_sync reads buffer
 test "read_file_sync reads package.json" {
   let content = read_file_sync("package.json")
-  inspect(@nostd.identity(@nostd.any(content)._get("length")) > 0, content="true")
+  inspect(@core.identity(@core.any(content)._get("length")) > 0, content="true")
 }
 
 ///|
@@ -23,7 +23,7 @@ test "read_file_sync_string reads package.json as utf8" {
 /// Test write_file_sync and read_file_sync
 test "write_file_sync creates file" {
   let test_file = "test_write_sync.txt"
-  writeFileSync(test_file, @nostd.any("Hello, sync world!"))
+  writeFileSync(test_file, @core.any("Hello, sync world!"))
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content == "Hello, sync world!", content="true")
   // Cleanup
@@ -34,8 +34,8 @@ test "write_file_sync creates file" {
 /// Test append_file_sync
 test "append_file_sync appends to file" {
   let test_file = "test_append_sync.txt"
-  writeFileSync(test_file, @nostd.any("Hello"))
-  append_file_sync(test_file, @nostd.any(", World!"))
+  writeFileSync(test_file, @core.any("Hello"))
+  append_file_sync(test_file, @core.any(", World!"))
   let content = read_file_sync_string(test_file, "utf8")
   inspect(content == "Hello, World!", content="true")
   // Cleanup
@@ -62,7 +62,7 @@ test "exists_sync returns false for non-existing file" {
 /// Test stat_sync returns file stats
 test "stat_sync returns stats for package.json" {
   let stats = statSync("package.json")
-  inspect(@nostd.typeof_(stats.as_any()) == "object", content="true")
+  inspect(@core.typeof_(stats.as_any()) == "object", content="true")
 }
 
 ///|
@@ -80,7 +80,7 @@ test "mkdir_sync creates nested directories" {
 /// Test unlink_sync deletes file
 test "unlink_sync deletes file" {
   let test_file = "test_unlink_sync.txt"
-  writeFileSync(test_file, @nostd.any("delete me"))
+  writeFileSync(test_file, @core.any("delete me"))
   unlinkSync(test_file)
   let exists = existsSync(test_file)
   inspect(exists == false, content="true")
@@ -91,7 +91,7 @@ test "unlink_sync deletes file" {
 test "rename_sync renames file" {
   let old_name = "test_rename_old.txt"
   let new_name = "test_rename_new.txt"
-  writeFileSync(old_name, @nostd.any("rename test"))
+  writeFileSync(old_name, @core.any("rename test"))
   renameSync(old_name, new_name)
   let old_exists = existsSync(old_name)
   let new_exists = existsSync(new_name)
@@ -106,7 +106,7 @@ test "rename_sync renames file" {
 test "copy_file_sync copies file" {
   let src = "test_copy_src.txt"
   let dest = "test_copy_dest.txt"
-  writeFileSync(src, @nostd.any("copy test"))
+  writeFileSync(src, @core.any("copy test"))
   copyFileSync(src, dest)
   let src_content = read_file_sync_string(src, "utf8")
   let dest_content = read_file_sync_string(dest, "utf8")

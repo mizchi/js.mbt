@@ -1,7 +1,7 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/node/path",
     "mizchi/js/node/fs"
   ],

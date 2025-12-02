@@ -5,7 +5,7 @@
 pub type Event
 
 ///|
-pub fn Event::as_any(self : Event) -> @nostd.Any = "%identity"
+pub fn Event::as_any(self : Event) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Event
@@ -17,14 +17,14 @@ pub fn Event::new(
   ffi_new_event(
     event_type,
     @mbtconv.from_option_map({
-      "bubbles": bubbles.map(fn(x) { @nostd.any(x) }),
-      "cancelable": cancelable.map(fn(x) { @nostd.any(x) }),
+      "bubbles": bubbles.map(fn(x) { @core.any(x) }),
+      "cancelable": cancelable.map(fn(x) { @core.any(x) }),
     }).cast(),
   )
 }
 
 ///|
-extern "js" fn ffi_new_event(event_type : String, options : @nostd.Any) -> Event =
+extern "js" fn ffi_new_event(event_type : String, options : @core.Any) -> Event =
   #|(type, options) => new Event(type, options)
 
 ///|
@@ -36,15 +36,15 @@ pub fn Event::type_(self : Event) -> String {
 ///|
 /// Get the event target
 pub fn Event::target(self : Event) -> EventTarget? {
-  let v : @nostd.Any = self.as_any()._get("target").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("target").cast()
+  v |> @core.identity_option
 }
 
 ///|
 /// Get the current target
 pub fn Event::currentTarget(self : Event) -> EventTarget? {
-  let v : @nostd.Any = self.as_any()._get("currentTarget").cast()
-  v |> @nostd.identity_option
+  let v : @core.Any = self.as_any()._get("currentTarget").cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -87,17 +87,17 @@ pub fn Event::defaultPrevented(self : Event) -> Bool {
 /// @deprecated Use as_event_target() pattern instead
 /// Generic event target trait - kept for backward compatibility
 pub(open) trait EventTargetImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   addEventListener(
     Self,
     String,
-    (@nostd.Any) -> Unit,
+    (@core.Any) -> Unit,
     capture? : Bool,
     once? : Bool,
     passive? : Bool,
     signal? : @js.AbortSignal,
   ) -> Unit = _
-  removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit = _
+  removeEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, Event) -> Bool = _
 }
 
@@ -114,13 +114,13 @@ impl EventTargetImpl with addEventListener(
   self
   .as_any()
   ._call("addEventListener", [
-    @nostd.any(event_type),
-    @nostd.any(@js.from_fn1(handler)),
+    @core.any(event_type),
+    @core.any(@js.from_fn1(handler)),
     @mbtconv.from_option_map({
-      "capture": Some(@nostd.any(capture)),
-      "once": Some(@nostd.any(once)),
-      "passive": Some(@nostd.any(passive)),
-      "signal": signal.map(fn(x) { x |> @nostd.identity }),
+      "capture": Some(@core.any(capture)),
+      "once": Some(@core.any(once)),
+      "passive": Some(@core.any(passive)),
+      "signal": signal.map(fn(x) { x |> @core.identity }),
     }),
   ])
   |> ignore
@@ -136,9 +136,9 @@ impl EventTargetImpl with removeEventListener(
   self
   .as_any()
   ._call("removeEventListener", [
-    @nostd.any(event_type),
-    @nostd.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({ "capture": Some(@nostd.any(capture)) }),
+    @core.any(event_type),
+    @core.any(@js.from_fn1(handler)),
+    @mbtconv.from_option_map({ "capture": Some(@core.any(capture)) }),
   ])
   |> ignore
 }
@@ -156,10 +156,10 @@ impl EventTargetImpl with dispatchEvent(self, event) -> Bool {
 pub type EventTarget
 
 ///|
-pub fn EventTarget::as_any(self : EventTarget) -> @nostd.Any = "%identity"
+pub fn EventTarget::as_any(self : EventTarget) -> @core.Any = "%identity"
 
 ///|
-pub impl EventTargetImpl for EventTarget with as_any(self) -> @nostd.Any {
+pub impl EventTargetImpl for EventTarget with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -170,7 +170,7 @@ pub impl EventTargetImpl for EventTarget with as_any(self) -> @nostd.Any {
 pub fn EventTarget::addEventListener(
   self : EventTarget,
   event_type : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
@@ -179,13 +179,13 @@ pub fn EventTarget::addEventListener(
   self
   .as_any()
   ._call("addEventListener", [
-    @nostd.any(event_type),
-    @nostd.any(@js.from_fn1(handler)),
+    @core.any(event_type),
+    @core.any(@js.from_fn1(handler)),
     @mbtconv.from_option_map({
-      "capture": Some(@nostd.any(capture)),
-      "once": Some(@nostd.any(once)),
-      "passive": Some(@nostd.any(passive)),
-      "signal": signal.map(fn(x) { x |> @nostd.identity }),
+      "capture": Some(@core.any(capture)),
+      "once": Some(@core.any(once)),
+      "passive": Some(@core.any(passive)),
+      "signal": signal.map(fn(x) { x |> @core.identity }),
     }),
   ])
   |> ignore
@@ -196,7 +196,7 @@ pub fn EventTarget::addEventListener(
 pub fn EventTarget::on(
   self : EventTarget,
   event_type : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
@@ -211,15 +211,15 @@ pub fn EventTarget::on(
 pub fn EventTarget::removeEventListener(
   self : EventTarget,
   event_type : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
   capture? : Bool = false,
 ) -> Unit {
   self
   .as_any()
   ._call("removeEventListener", [
-    @nostd.any(event_type),
-    @nostd.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({ "capture": Some(@nostd.any(capture)) }),
+    @core.any(event_type),
+    @core.any(@js.from_fn1(handler)),
+    @mbtconv.from_option_map({ "capture": Some(@core.any(capture)) }),
   ])
   |> ignore
 }
@@ -229,7 +229,7 @@ pub fn EventTarget::removeEventListener(
 pub fn EventTarget::off(
   self : EventTarget,
   event_type : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
   capture? : Bool = false,
 ) -> Unit {
   self.removeEventListener(event_type, handler, capture~)

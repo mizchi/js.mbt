@@ -1,56 +1,56 @@
 ///|
 test "Reflect.get" {
-  let obj = @nostd.Object::new()
-  obj._set("name", @nostd.any("Alice"))
-  obj._set("age", @nostd.any(30))
-  let name = @reflect.get(obj, @nostd.any("name"), None)
-  let age = @reflect.get(obj, @nostd.any("age"), None)
-  assert_eq(@nostd.identity(name), "Alice")
-  assert_eq(@nostd.identity(age), 30)
+  let obj = @core.Object::new()
+  obj._set("name", @core.any("Alice"))
+  obj._set("age", @core.any(30))
+  let name = @reflect.get(obj, @core.any("name"), None)
+  let age = @reflect.get(obj, @core.any("age"), None)
+  assert_eq(@core.identity(name), "Alice")
+  assert_eq(@core.identity(age), 30)
 }
 
 ///|
 test "Reflect.set" {
-  let obj = @nostd.Object::new()
-  let result1 = @reflect.set(obj, @nostd.any("x"), @nostd.any(10), None)
-  let result2 = @reflect.set(obj, @nostd.any("y"), @nostd.any(20), None)
+  let obj = @core.Object::new()
+  let result1 = @reflect.set(obj, @core.any("x"), @core.any(10), None)
+  let result2 = @reflect.set(obj, @core.any("y"), @core.any(20), None)
   assert_true(result1)
   assert_true(result2)
-  assert_eq(@nostd.identity(obj["x"]), 10)
-  assert_eq(@nostd.identity(obj["y"]), 20)
+  assert_eq(@core.identity(obj["x"]), 10)
+  assert_eq(@core.identity(obj["y"]), 20)
 }
 
 ///|
 test "Reflect.has" {
-  let obj = @nostd.Object::new()
-  obj._set("prop", @nostd.any("value"))
-  assert_true(has(obj, @nostd.any("prop")))
-  assert_false(has(obj, @nostd.any("nonexistent")))
+  let obj = @core.Object::new()
+  obj._set("prop", @core.any("value"))
+  assert_true(has(obj, @core.any("prop")))
+  assert_false(has(obj, @core.any("nonexistent")))
 }
 
 ///|
 test "Reflect.deleteProperty" {
-  let obj = @nostd.Object::new()
-  obj._set("temp", @nostd.any("delete me"))
-  assert_true(has(obj, @nostd.any("temp")))
-  let deleted = deleteProperty(obj, @nostd.any("temp"))
+  let obj = @core.Object::new()
+  obj._set("temp", @core.any("delete me"))
+  assert_true(has(obj, @core.any("temp")))
+  let deleted = deleteProperty(obj, @core.any("temp"))
   assert_true(deleted)
-  assert_false(has(obj, @nostd.any("temp")))
+  assert_false(has(obj, @core.any("temp")))
 }
 
 ///|
 test "Reflect.ownKeys" {
-  let obj = @nostd.Object::new()
-  obj._set("a", @nostd.any(1))
-  obj._set("b", @nostd.any(2))
-  obj._set("c", @nostd.any(3))
+  let obj = @core.Object::new()
+  obj._set("a", @core.any(1))
+  obj._set("b", @core.any(2))
+  obj._set("c", @core.any(3))
   let keys = ownKeys(obj)
   assert_eq(keys.length(), 3)
 }
 
 ///|
 test "Reflect.isExtensible and preventExtensions" {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   assert_true(isExtensible(obj))
   let result = preventExtensions(obj)
   assert_true(result)
@@ -59,104 +59,99 @@ test "Reflect.isExtensible and preventExtensions" {
 
 ///|
 test "Reflect.getPrototypeOf" {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
   let proto = getPrototypeOf(obj)
-  assert_true(@nostd.is_object(proto.cast()))
+  assert_true(@core.is_object(proto.cast()))
 }
 
 ///|
 test "Reflect.setPrototypeOf" {
-  let obj = @nostd.Object::new()
-  let new_proto = @nostd.Object::new()
-  new_proto._set("custom", @nostd.any(true))
+  let obj = @core.Object::new()
+  let new_proto = @core.Object::new()
+  new_proto._set("custom", @core.any(true))
   let result = setPrototypeOf(obj, new_proto)
   assert_true(result)
   let proto = getPrototypeOf(obj)
-  assert_eq(@nostd.identity(proto["custom"]), true)
+  assert_eq(@core.identity(proto["custom"]), true)
 }
 
 ///|
 test "Reflect.apply" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
   let add_fn = g["Math"]["max"]
-  let result = apply(add_fn, @nostd.any(@global.undefined()), [
-    @nostd.any(10),
-    @nostd.any(20),
+  let result = apply(add_fn, @core.any(@global.undefined()), [
+    @core.any(10),
+    @core.any(20),
   ])
-  assert_eq(@nostd.identity(result), 20)
+  assert_eq(@core.identity(result), 20)
 }
 
 ///|
 test "Reflect.construct" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
   let array_constructor = g["Array"]
-  let arr = construct(array_constructor, [@nostd.any(3)], None)
-  assert_true(@nostd.is_array(arr.cast()))
+  let arr = construct(array_constructor, [@core.any(3)], None)
+  assert_true(@core.is_array(arr.cast()))
 }
 
 ///|
 test "Reflect.getOwnPropertyDescriptor" {
-  let obj = @nostd.Object::new()
-  obj._set("prop", @nostd.any("value"))
-  let descriptor = getOwnPropertyDescriptor(obj, @nostd.any("prop"))
-  assert_true(@nostd.is_object(descriptor.cast()))
+  let obj = @core.Object::new()
+  obj._set("prop", @core.any("value"))
+  let descriptor = getOwnPropertyDescriptor(obj, @core.any("prop"))
+  assert_true(@core.is_object(descriptor.cast()))
   let value = descriptor["value"]
-  assert_eq(@nostd.identity(value), "value")
+  assert_eq(@core.identity(value), "value")
 }
 
 ///|
 test "Reflect.defineProperty" {
-  let obj = @nostd.Object::new()
-  let descriptor = @nostd.Object::new()
-  descriptor._set("value", @nostd.any(42))
-  descriptor._set("writable", @nostd.any(true))
-  descriptor._set("enumerable", @nostd.any(true))
-  descriptor._set("configurable", @nostd.any(true))
-  let result = defineProperty(obj, @nostd.any("newProp"), descriptor)
+  let obj = @core.Object::new()
+  let descriptor = @core.Object::new()
+  descriptor._set("value", @core.any(42))
+  descriptor._set("writable", @core.any(true))
+  descriptor._set("enumerable", @core.any(true))
+  descriptor._set("configurable", @core.any(true))
+  let result = defineProperty(obj, @core.any("newProp"), descriptor)
   assert_true(result)
-  assert_eq(@nostd.identity(obj["newProp"]), 42)
+  assert_eq(@core.identity(obj["newProp"]), 42)
 }
 
 ///|
 test "Reflect.set with receiver" {
-  let obj = @nostd.Object::new()
-  obj._set("x", @nostd.any(10))
-  let receiver = @nostd.Object::new()
-  let result = set(obj, @nostd.any("x"), @nostd.any(20), Some(receiver))
+  let obj = @core.Object::new()
+  obj._set("x", @core.any(10))
+  let receiver = @core.Object::new()
+  let result = set(obj, @core.any("x"), @core.any(20), Some(receiver))
   assert_true(result)
 }
 
 ///|
 test "Reflect.get with receiver" {
-  let obj = @nostd.Object::new()
-  obj._set("value", @nostd.any(100))
-  let receiver = @nostd.Object::new()
-  let result = @reflect.get(obj, @nostd.any("value"), Some(receiver))
-  assert_eq(@nostd.identity(result), 100)
+  let obj = @core.Object::new()
+  obj._set("value", @core.any(100))
+  let receiver = @core.Object::new()
+  let result = @reflect.get(obj, @core.any("value"), Some(receiver))
+  assert_eq(@core.identity(result), 100)
 }
 
 ///|
 test "Reflect operations on frozen object" {
-  let obj = @nostd.Object::new()
-  obj._set("frozen", @nostd.any(true))
-  @object.Object::freeze(obj |> @nostd.identity) |> ignore
+  let obj = @core.Object::new()
+  obj._set("frozen", @core.any(true))
+  @object.Object::freeze(obj |> @core.identity) |> ignore
 
   // Cannot add new properties to frozen object
-  let set_result = @reflect.set(
-    obj,
-    @nostd.any("new"),
-    @nostd.any("value"),
-    None,
-  )
+  let set_result = @reflect.set(obj, @core.any("new"), @core.any("value"), None)
   assert_false(set_result)
 
   // Cannot delete properties from frozen object
-  let delete_result = @reflect.deleteProperty(obj, @nostd.any("frozen"))
+  let delete_result = @reflect.deleteProperty(obj, @core.any("frozen"))
   assert_false(delete_result)
 
   // Can still read properties
-  let value = @reflect.get(obj, @nostd.any("frozen"), None)
-  assert_eq(@nostd.identity(value), true)
+  let value = @reflect.get(obj, @core.any("frozen"), None)
+  assert_eq(@core.identity(value), true)
 
   // Frozen object is not extensible
   assert_false(@reflect.isExtensible(obj))
@@ -164,11 +159,11 @@ test "Reflect operations on frozen object" {
 
 ///|
 test "Reflect.ownKeys includes symbols" {
-  let obj = @nostd.Object::new()
-  obj._set("stringKey", @nostd.any(1))
+  let obj = @core.Object::new()
+  obj._set("stringKey", @core.any(1))
   let sym = @symbol.symbol("test")
   // Use Reflect.set to set symbol key (since _set only takes String keys)
-  @reflect.set(obj, @nostd.any(sym), @nostd.any(2), None) |> ignore
+  @reflect.set(obj, @core.any(sym), @core.any(2), None) |> ignore
   let keys = ownKeys(obj)
   // Should include both string and symbol keys
   assert_true(keys.length() >= 2)

@@ -19,7 +19,7 @@ pub(all) struct URL {
 } derive(Eq, Show)
 
 ///|
-pub fn URL::as_any(self : URL) -> @nostd.Any = "%identity"
+pub fn URL::as_any(self : URL) -> @core.Any = "%identity"
 
 ///|
 /// Create a new URL (internal)
@@ -28,8 +28,8 @@ extern "js" fn ffi_url_new(url : String, base? : String) -> URL =
 
 ///|
 /// Create a new URL
-pub fn URL::new(url : String, base? : String) -> URL raise @nostd.JsError {
-  @nostd.try_sync(fn() { @nostd.any(ffi_url_new(url, base?)) }).cast()
+pub fn URL::new(url : String, base? : String) -> URL raise @core.JsError {
+  @core.try_sync(fn() { @core.any(ffi_url_new(url, base?)) }).cast()
 }
 
 ///|

@@ -2,17 +2,17 @@
 package "mizchi/js/npm/vite"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-async fn createServer(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @nostd.Any, plugins? : @nostd.Any) -> ViteDevServer
+pub async fn createServer(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @core.Any, plugins? : @core.Any) -> ViteDevServer
 
-async fn createServerWithConfig(@nostd.Any) -> ViteDevServer
+pub async fn createServerWithConfig(@core.Any) -> ViteDevServer
 
-fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @nostd.Any, build? : @nostd.Any, preview? : @nostd.Any, optimizeDeps? : @nostd.Any, plugins? : @nostd.Any, publicDir? : String, cacheDir? : String, resolve? : @nostd.Any, css? : @nostd.Any, json? : @nostd.Any, esbuild? : @nostd.Any, assetsInclude? : @nostd.Any, envDir? : String, envPrefix? : String) -> @nostd.Any
+pub fn defineConfig(root? : String, base? : String, mode? : String, logLevel? : String, clearScreen? : Bool, server? : @core.Any, build? : @core.Any, preview? : @core.Any, optimizeDeps? : @core.Any, plugins? : @core.Any, publicDir? : String, cacheDir? : String, resolve? : @core.Any, css? : @core.Any, json? : @core.Any, esbuild? : @core.Any, assetsInclude? : @core.Any, envDir? : String, envPrefix? : String) -> @core.Any
 
-fn define_plugin(String, enforce? : String, apply? : String, config? : (@nostd.Any) -> Unit, configResolved? : (@nostd.Any) -> Unit, configureServer? : (@nostd.Any) -> Unit, configurePreviewServer? : (@nostd.Any) -> Unit, transformIndexHtml? : (@nostd.Any) -> @nostd.Any, handleHotUpdate? : (@nostd.Any) -> Unit, options? : (@nostd.Any) -> Unit, buildStart? : (@nostd.Any) -> Unit, resolveId? : (String, String?, @nostd.Any) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@nostd.Any?) -> Unit, closeBundle? : () -> Unit) -> @nostd.Any
+pub fn define_plugin(String, enforce? : String, apply? : String, config? : (@core.Any) -> Unit, configResolved? : (@core.Any) -> Unit, configureServer? : (@core.Any) -> Unit, configurePreviewServer? : (@core.Any) -> Unit, transformIndexHtml? : (@core.Any) -> @core.Any, handleHotUpdate? : (@core.Any) -> Unit, options? : (@core.Any) -> Unit, buildStart? : (@core.Any) -> Unit, resolveId? : (String, String?, @core.Any) -> String?, load? : (String) -> String?, transform? : (String, String) -> String?, buildEnd? : (@core.Any?) -> Unit, closeBundle? : () -> Unit) -> @core.Any
 
 // Errors
 
@@ -23,107 +23,107 @@ pub(all) struct Config {
   mode : String?
   logLevel : String?
   clearScreen : Bool?
-  server : @nostd.Any?
-  build : @nostd.Any?
-  preview : @nostd.Any?
-  optimizeDeps : @nostd.Any?
-  plugins : @nostd.Any?
+  server : @core.Any?
+  build : @core.Any?
+  preview : @core.Any?
+  optimizeDeps : @core.Any?
+  plugins : @core.Any?
   publicDir : String?
   cacheDir : String?
-  resolve : @nostd.Any?
-  css : @nostd.Any?
-  json : @nostd.Any?
-  esbuild : @nostd.Any?
-  assetsInclude : @nostd.Any?
+  resolve : @core.Any?
+  css : @core.Any?
+  json : @core.Any?
+  esbuild : @core.Any?
+  assetsInclude : @core.Any?
   envDir : String?
   envPrefix : String?
 }
-impl Show for Config
+pub impl Show for Config
 
 #external
 pub type DevEnvironment
-fn DevEnvironment::as_any(Self) -> @nostd.Any
-async fn DevEnvironment::fetchModule(Self, String, importer? : String) -> FetchResult
-fn DevEnvironment::hot(Self) -> HotChannel
-fn DevEnvironment::moduleGraph(Self) -> ModuleGraph
-fn DevEnvironment::name(Self) -> String
-fn DevEnvironment::pluginContainer(Self) -> PluginContainer
-async fn DevEnvironment::transformRequest(Self, String) -> TransformResult?
-fn DevEnvironment::warmupRequest(Self, String) -> Unit
+pub async fn DevEnvironment::fetchModule(Self, String, importer? : String) -> FetchResult
+pub fn DevEnvironment::hot(Self) -> HotChannel
+pub fn DevEnvironment::moduleGraph(Self) -> ModuleGraph
+pub fn DevEnvironment::name(Self) -> String
+pub fn DevEnvironment::pluginContainer(Self) -> PluginContainer
+pub fn DevEnvironment::to_any(Self) -> @core.Any
+pub async fn DevEnvironment::transformRequest(Self, String) -> TransformResult?
+pub fn DevEnvironment::warmupRequest(Self, String) -> Unit
 
 #external
 pub type FetchResult
-fn FetchResult::as_any(Self) -> @nostd.Any
+pub fn FetchResult::to_any(Self) -> @core.Any
 
 #external
 pub type HotChannel
-fn HotChannel::as_any(Self) -> @nostd.Any
-fn HotChannel::off(Self, String, (@nostd.Any) -> Unit) -> Unit
-fn HotChannel::on(Self, String, (@nostd.Any) -> Unit) -> Unit
-fn HotChannel::send(Self, @nostd.Any) -> Unit
+pub fn HotChannel::off(Self, String, (@core.Any) -> Unit) -> Unit
+pub fn HotChannel::on(Self, String, (@core.Any) -> Unit) -> Unit
+pub fn HotChannel::send(Self, @core.Any) -> Unit
+pub fn HotChannel::to_any(Self) -> @core.Any
 
 #external
 pub type ModuleGraph
-fn ModuleGraph::as_any(Self) -> @nostd.Any
-fn ModuleGraph::getModuleById(Self, String) -> ModuleNode?
-async fn ModuleGraph::getModuleByUrl(Self, String) -> ModuleNode?
-fn ModuleGraph::invalidateModule(Self, ModuleNode) -> Unit
+pub fn ModuleGraph::getModuleById(Self, String) -> ModuleNode?
+pub async fn ModuleGraph::getModuleByUrl(Self, String) -> ModuleNode?
+pub fn ModuleGraph::invalidateModule(Self, ModuleNode) -> Unit
+pub fn ModuleGraph::to_any(Self) -> @core.Any
 
 #external
 pub type ModuleNode
-fn ModuleNode::as_any(Self) -> @nostd.Any
-fn ModuleNode::file(Self) -> String?
-fn ModuleNode::id(Self) -> String?
-fn ModuleNode::importedModules(Self) -> Array[Self]
-fn ModuleNode::importers(Self) -> Array[Self]
-fn ModuleNode::moduleType(Self) -> String
-fn ModuleNode::url(Self) -> String
+pub fn ModuleNode::file(Self) -> String?
+pub fn ModuleNode::id(Self) -> String?
+pub fn ModuleNode::importedModules(Self) -> Array[Self]
+pub fn ModuleNode::importers(Self) -> Array[Self]
+pub fn ModuleNode::moduleType(Self) -> String
+pub fn ModuleNode::to_any(Self) -> @core.Any
+pub fn ModuleNode::url(Self) -> String
 
 #external
 pub type ModuleRunner
-fn ModuleRunner::as_any(Self) -> @nostd.Any
-fn ModuleRunner::clearCache(Self) -> Unit
-async fn ModuleRunner::close(Self) -> Unit
-async fn ModuleRunner::importModule(Self, String) -> @nostd.Any
-fn ModuleRunner::isClosed(Self) -> Bool
+pub fn ModuleRunner::clearCache(Self) -> Unit
+pub async fn ModuleRunner::close(Self) -> Unit
+pub async fn ModuleRunner::importModule(Self, String) -> @core.Any
+pub fn ModuleRunner::isClosed(Self) -> Bool
+pub fn ModuleRunner::to_any(Self) -> @core.Any
 
 #external
 pub type PluginContainer
-fn PluginContainer::as_any(Self) -> @nostd.Any
+pub fn PluginContainer::to_any(Self) -> @core.Any
 
 #external
 pub type TransformResult
-fn TransformResult::as_any(Self) -> @nostd.Any
-fn TransformResult::code(Self) -> String
-fn TransformResult::etag(Self) -> String?
-fn TransformResult::map(Self) -> @nostd.Any
+pub fn TransformResult::code(Self) -> String
+pub fn TransformResult::etag(Self) -> String?
+pub fn TransformResult::map(Self) -> @core.Any
+pub fn TransformResult::to_any(Self) -> @core.Any
 
 #external
 pub type ViteDevServer
-fn ViteDevServer::as_any(Self) -> @nostd.Any
-fn ViteDevServer::client(Self) -> DevEnvironment
-async fn ViteDevServer::close(Self) -> Unit
-fn ViteDevServer::environments(Self) -> @nostd.Any
-fn ViteDevServer::getEnvironment(Self, String) -> DevEnvironment
-async fn ViteDevServer::listen(Self, port? : Int) -> Self
-fn ViteDevServer::printUrls(Self) -> Unit
-fn ViteDevServer::resolvedUrls(Self) -> @nostd.Any
-fn ViteDevServer::ssr(Self) -> DevEnvironment
+pub fn ViteDevServer::client(Self) -> DevEnvironment
+pub async fn ViteDevServer::close(Self) -> Unit
+pub fn ViteDevServer::environments(Self) -> @core.Any
+pub fn ViteDevServer::getEnvironment(Self, String) -> DevEnvironment
+pub async fn ViteDevServer::listen(Self, port? : Int) -> Self
+pub fn ViteDevServer::printUrls(Self) -> Unit
+pub fn ViteDevServer::resolvedUrls(Self) -> @core.Any
+pub fn ViteDevServer::ssr(Self) -> DevEnvironment
+pub fn ViteDevServer::to_any(Self) -> @core.Any
 
 // Type aliases
-pub type BuildEndHook = (@nostd.Any?) -> Unit
+pub type BuildEndHook = (@core.Any?) -> Unit
 
-pub type BuildStartHook = (@nostd.Any) -> Unit
+pub type BuildStartHook = (@core.Any) -> Unit
 
-pub type ConfigResolvedHook = (@nostd.Any) -> Unit
+pub type ConfigResolvedHook = (@core.Any) -> Unit
 
-pub type ConfigureServerHook = (@nostd.Any) -> Unit
+pub type ConfigureServerHook = (@core.Any) -> Unit
 
 pub type LoadHook = (String) -> String?
 
-pub using @js {type Any as Plugin}
+pub using @core {type Any as Plugin}
 
-pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
+pub type ResolveIdHook = (String, String?, @core.Any) -> String?
 
 pub type TransformHook = (String, String) -> String?
 

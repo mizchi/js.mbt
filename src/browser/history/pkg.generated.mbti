@@ -2,28 +2,28 @@
 package "mizchi/js/browser/history"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn history() -> History
+pub fn history() -> History
 
 // Errors
 
 // Types and methods
 pub(all) struct History {
   length : Int
-  state : @nostd.Any?
+  state : @core.Any?
   mut scrollRestoration : String
 }
-fn History::as_any(Self) -> @nostd.Any
-fn History::back(Self) -> Unit
-fn History::forward(Self) -> Unit
-fn History::go(Self, delta? : Int) -> Unit
+pub fn History::as_any(Self) -> @core.Any
+pub fn History::back(Self) -> Unit
+pub fn History::forward(Self) -> Unit
+pub fn History::go(Self, delta? : Int) -> Unit
 #alias(push_state)
-fn History::pushState(Self, @nostd.Any, String, url? : String) -> Unit
+pub fn History::pushState(Self, @core.Any, String, url? : String) -> Unit
 #alias(replace_state)
-fn History::replaceState(Self, @nostd.Any, String, url? : String) -> Unit
+pub fn History::replaceState(Self, @core.Any, String, url? : String) -> Unit
 
 // Type aliases
 

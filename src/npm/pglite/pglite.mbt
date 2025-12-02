@@ -8,7 +8,7 @@
 pub type PGlite
 
 ///|
-pub fn PGlite::as_any(self : PGlite) -> @nostd.Any = "%identity"
+pub fn PGlite::as_any(self : PGlite) -> @core.Any = "%identity"
 
 ///|
 /// Transaction handle
@@ -16,7 +16,7 @@ pub fn PGlite::as_any(self : PGlite) -> @nostd.Any = "%identity"
 pub type Transaction
 
 ///|
-pub fn Transaction::as_any(self : Transaction) -> @nostd.Any = "%identity"
+pub fn Transaction::as_any(self : Transaction) -> @core.Any = "%identity"
 
 ///|
 /// Query results
@@ -24,7 +24,7 @@ pub fn Transaction::as_any(self : Transaction) -> @nostd.Any = "%identity"
 pub type Results
 
 ///|
-pub fn Results::as_any(self : Results) -> @nostd.Any = "%identity"
+pub fn Results::as_any(self : Results) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_pglite_create(data_dir : String) -> @js.Promise[PGlite] =
@@ -43,7 +43,7 @@ extern "js" fn ffi_pglite_create_memory() -> @js.Promise[PGlite] =
 ///|
 extern "js" fn ffi_pglite_create_with_options(
   data_dir : String,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> @js.Promise[PGlite] =
   #| async (dataDir, options) => {
   #|   const { PGlite } = await import("@electric-sql/pglite");
@@ -74,21 +74,21 @@ pub async fn PGlite::createWithOptions(
   username? : String,
   database? : String,
 ) -> PGlite {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match debug {
-    Some(v) => opts._set("debug", v |> @nostd.any)
+    Some(v) => opts._set("debug", v |> @core.any)
     None => ()
   }
   match relaxed_durability {
-    Some(v) => opts._set("relaxedDurability", v |> @nostd.any)
+    Some(v) => opts._set("relaxedDurability", v |> @core.any)
     None => ()
   }
   match username {
-    Some(v) => opts._set("username", v |> @nostd.any)
+    Some(v) => opts._set("username", v |> @core.any)
     None => ()
   }
   match database {
-    Some(v) => opts._set("database", v |> @nostd.any)
+    Some(v) => opts._set("database", v |> @core.any)
     None => ()
   }
   ffi_pglite_create_with_options(data_dir, opts).wait()
@@ -98,7 +98,7 @@ pub async fn PGlite::createWithOptions(
 extern "js" fn ffi_query(
   db : PGlite,
   sql : String,
-  params : @nostd.Any,
+  params : @core.Any,
 ) -> @js.Promise[Results] =
   #| (db, sql, params) => db.query(sql, params)
 
@@ -114,22 +114,22 @@ extern "js" fn ffi_query_no_params(
 pub async fn PGlite::query(
   self : PGlite,
   sql : String,
-  params? : Array[@nostd.Any] = [],
+  params? : Array[@core.Any] = [],
 ) -> Results {
   if params.length() == 0 {
     ffi_query_no_params(self, sql).wait()
   } else {
-    ffi_query(self, sql, @nostd.any(params)).wait()
+    ffi_query(self, sql, @core.any(params)).wait()
   }
 }
 
 ///|
-extern "js" fn ffi_exec(db : PGlite, sql : String) -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_exec(db : PGlite, sql : String) -> @js.Promise[@core.Any] =
   #| (db, sql) => db.exec(sql)
 
 ///|
 /// Execute multiple SQL statements
-pub async fn PGlite::exec(self : PGlite, sql : String) -> @nostd.Any {
+pub async fn PGlite::exec(self : PGlite, sql : String) -> @core.Any {
   ffi_exec(self, sql).wait()
 }
 
@@ -154,14 +154,14 @@ pub fn PGlite::closeSync(self : PGlite) -> @js.Promise[Unit] {
 ///|
 extern "js" fn ffi_transaction(
   db : PGlite,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
-) -> @js.Promise[@nostd.Any] =
+  callback : (Transaction) -> @js.Promise[@core.Any],
+) -> @js.Promise[@core.Any] =
   #| (db, callback) => db.transaction(callback)
 
 ///|
 extern "js" fn ffi_wrap_async_callback(
   callback : (Transaction) -> Unit,
-) -> (Transaction) -> @js.Promise[@nostd.Any] =
+) -> (Transaction) -> @js.Promise[@core.Any] =
   #| (callback) => async (tx) => { callback(tx); return null; }
 
 ///|
@@ -170,7 +170,7 @@ extern "js" fn ffi_wrap_async_callback(
 pub async fn PGlite::transaction(
   self : PGlite,
   callback : (Transaction) -> Unit,
-) -> @nostd.Any {
+) -> @core.Any {
   ffi_transaction(self, ffi_wrap_async_callback(callback)).wait()
 }
 
@@ -178,7 +178,7 @@ pub async fn PGlite::transaction(
 extern "js" fn ffi_tx_query(
   tx : Transaction,
   sql : String,
-  params : @nostd.Any,
+  params : @core.Any,
 ) -> @js.Promise[Results] =
   #| (tx, sql, params) => tx.query(sql, params)
 
@@ -194,12 +194,12 @@ extern "js" fn ffi_tx_query_no_params(
 pub async fn Transaction::query(
   self : Transaction,
   sql : String,
-  params? : Array[@nostd.Any] = [],
+  params? : Array[@core.Any] = [],
 ) -> Results {
   if params.length() == 0 {
     ffi_tx_query_no_params(self, sql).wait()
   } else {
-    ffi_tx_query(self, sql, @nostd.any(params)).wait()
+    ffi_tx_query(self, sql, @core.any(params)).wait()
   }
 }
 
@@ -215,7 +215,7 @@ pub async fn Transaction::rollback(self : Transaction) -> Unit {
 
 ///|
 /// Get rows from query results
-pub fn Results::rows(self : Results) -> @nostd.Any {
+pub fn Results::rows(self : Results) -> @core.Any {
   self.as_any()["rows"].cast()
 }
 
@@ -230,7 +230,7 @@ pub fn[T] Results::rows_array(self : Results) -> Array[T] {
 #alias(affected_rows)
 pub fn Results::affectedRows(self : Results) -> Int {
   let v = self.as_any()["affectedRows"]
-  if @nostd.is_undefined(v) {
+  if @core.is_undefined(v) {
     0
   } else {
     v.cast()
@@ -239,6 +239,6 @@ pub fn Results::affectedRows(self : Results) -> Int {
 
 ///|
 /// Get field descriptions
-pub fn Results::fields(self : Results) -> @nostd.Any {
+pub fn Results::fields(self : Results) -> @core.Any {
   self.as_any()["fields"].cast()
 }

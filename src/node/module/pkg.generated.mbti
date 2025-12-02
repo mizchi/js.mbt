@@ -2,46 +2,47 @@
 package "mizchi/js/node/module"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
 #alias(builtin_modules)
-fn builtinModules() -> Array[String]
+pub fn builtinModules() -> Array[String]
 
 #alias(create_require)
-fn createRequire(String) -> @nostd.Any
+pub fn createRequire(String) -> @core.Any
 
 #alias(enable_compile_cache)
-fn enableCompileCache(cache_dir? : String) -> Unit
+pub fn enableCompileCache(cache_dir? : String) -> Unit
 
 #alias(find_source_map)
-fn findSourceMap(String) -> SourceMap?
+pub fn findSourceMap(String) -> SourceMap?
 
 #alias(flush_compile_cache)
-fn flushCompileCache() -> Unit
+pub fn flushCompileCache() -> Unit
 
 #alias(get_compile_cache_dir)
-fn getCompileCacheDir() -> String?
+pub fn getCompileCacheDir() -> String?
 
 #alias(is_builtin)
-fn isBuiltin(String) -> Bool
+pub fn isBuiltin(String) -> Bool
 
 #alias(strip_typescript_types)
-fn stripTypeScriptTypes(String, mode? : String, source_map? : Bool, source_url? : String) -> String
+pub fn stripTypeScriptTypes(String, mode? : String, source_map? : Bool, source_url? : String) -> String
 
 #alias(sync_builtin_esm_exports)
-fn syncBuiltinESMExports() -> Unit
+pub fn syncBuiltinESMExports() -> Unit
 
 // Errors
 
 // Types and methods
 pub(all) struct SourceMap {
-  payload : @nostd.Any
+  payload : @core.Any
 }
+pub fn SourceMap::as_any(Self) -> @core.Any
 #alias(find_entry)
-fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
-fn SourceMap::as_any(Self) -> @nostd.Any
+pub fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
+pub fn SourceMap::to_any(Self) -> @core.Any
 
 pub(all) struct SourceMapEntry {
   originalLine : Int
@@ -51,8 +52,10 @@ pub(all) struct SourceMapEntry {
   generatedColumn : Int
   name : String?
 }
-fn SourceMapEntry::as_any(Self) -> @nostd.Any
+pub fn SourceMapEntry::as_any(Self) -> @core.Any
+pub fn SourceMapEntry::to_any(Self) -> @core.Any
 
 // Type aliases
 
 // Traits
+

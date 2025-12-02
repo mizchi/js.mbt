@@ -7,16 +7,16 @@
 pub type ReadStream
 
 ///|
-pub fn ReadStream::as_any(self : ReadStream) -> @nostd.Any = "%identity"
+pub fn ReadStream::as_any(self : ReadStream) -> @core.Any = "%identity"
 
 ///|
-pub fn ReadStream::to_any(self : ReadStream) -> @nostd.Any = "%identity"
+pub fn ReadStream::to_any(self : ReadStream) -> @core.Any = "%identity"
 
 ///|
 pub fn ReadStream::as_event_target(self : ReadStream) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for ReadStream with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for ReadStream with as_any(self) -> @core.Any {
   self.to_any()
 }
 
@@ -36,7 +36,7 @@ pub fn ReadStream::is_raw(self : ReadStream) -> Bool {
 /// Set raw mode for the ReadStream
 /// In raw mode, input is available character-by-character
 pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
-  self.to_any()._call("setRawMode", [@nostd.any(mode)]) |> ignore
+  self.to_any()._call("setRawMode", [@core.any(mode)]) |> ignore
 }
 
 ///|
@@ -47,16 +47,16 @@ pub fn ReadStream::set_raw_mode(self : ReadStream, mode : Bool) -> Unit {
 pub type WriteStream
 
 ///|
-pub fn WriteStream::as_any(self : WriteStream) -> @nostd.Any = "%identity"
+pub fn WriteStream::as_any(self : WriteStream) -> @core.Any = "%identity"
 
 ///|
-pub fn WriteStream::to_any(self : WriteStream) -> @nostd.Any = "%identity"
+pub fn WriteStream::to_any(self : WriteStream) -> @core.Any = "%identity"
 
 ///|
 pub fn WriteStream::as_event_target(self : WriteStream) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for WriteStream with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for WriteStream with as_any(self) -> @core.Any {
   self.to_any()
 }
 
@@ -70,17 +70,17 @@ pub fn WriteStream::is_tty(self : WriteStream) -> Bool {
 /// Write data to the stream (inherited from stream.Writable)
 pub fn WriteStream::write(
   self : WriteStream,
-  chunk : @nostd.Any,
+  chunk : @core.Any,
   encoding? : String,
-  callback? : @nostd.Any,
+  callback? : @core.Any,
 ) -> Bool {
-  let enc : @nostd.Any = match encoding {
-    Some(e) => @nostd.any(e)
-    None => @global.undefined() |> @nostd.any
+  let enc : @core.Any = match encoding {
+    Some(e) => @core.any(e)
+    None => @global.undefined() |> @core.any
   }
-  let cb : @nostd.Any = match callback {
-    Some(c) => c |> @nostd.any
-    None => @global.undefined() |> @nostd.any
+  let cb : @core.Any = match callback {
+    Some(c) => c |> @core.any
+    None => @global.undefined() |> @core.any
   }
   self.to_any()._call("write", [chunk, enc, cb]).cast()
 }
@@ -89,23 +89,23 @@ pub fn WriteStream::write(
 /// End the stream (inherited from stream.Writable)
 pub fn WriteStream::end(
   self : WriteStream,
-  chunk? : @nostd.Any,
+  chunk? : @core.Any,
   encoding? : String,
-  callback? : @nostd.Any,
+  callback? : @core.Any,
 ) -> WriteStream {
-  let chunk_any : @nostd.Any = match chunk {
+  let chunk_any : @core.Any = match chunk {
     Some(c) => c
-    None => @global.undefined() |> @nostd.any
+    None => @global.undefined() |> @core.any
   }
-  let enc : @nostd.Any = match encoding {
-    Some(e) => @nostd.any(e)
-    None => @global.undefined() |> @nostd.any
+  let enc : @core.Any = match encoding {
+    Some(e) => @core.any(e)
+    None => @global.undefined() |> @core.any
   }
-  let cb : @nostd.Any = match callback {
-    Some(c) => c |> @nostd.any
-    None => @global.undefined() |> @nostd.any
+  let cb : @core.Any = match callback {
+    Some(c) => c |> @core.any
+    None => @global.undefined() |> @core.any
   }
-  self.to_any()._call("end", [chunk_any, enc, cb]) |> @nostd.identity
+  self.to_any()._call("end", [chunk_any, enc, cb]) |> @core.identity
 }
 
 ///|
@@ -128,8 +128,8 @@ pub fn WriteStream::clear_line(
   dir : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
-  self.to_any()._call("clearLine", [@nostd.any(dir), cb]) |> ignore
+  let cb : @core.Any = @core.identity(callback)
+  self.to_any()._call("clearLine", [@core.any(dir), cb]) |> ignore
 }
 
 ///|
@@ -138,7 +138,7 @@ pub fn WriteStream::clear_screen_down(
   self : WriteStream,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = @nostd.identity(callback)
+  let cb : @core.Any = @core.identity(callback)
   self.to_any()._call("clearScreenDown", [cb]) |> ignore
 }
 
@@ -150,8 +150,8 @@ pub fn WriteStream::cursor_to(
   y : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = callback |> @nostd.any
-  self.to_any()._call("cursorTo", [@nostd.any(x), @nostd.any(y), cb]) |> ignore
+  let cb : @core.Any = callback |> @core.any
+  self.to_any()._call("cursorTo", [@core.any(x), @core.any(y), cb]) |> ignore
 }
 
 ///|
@@ -162,8 +162,8 @@ pub fn WriteStream::move_cursor(
   dy : Int,
   callback : () -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = callback |> @nostd.any
-  self.to_any()._call("moveCursor", [@nostd.any(dx), @nostd.any(dy), cb])
+  let cb : @core.Any = callback |> @core.any
+  self.to_any()._call("moveCursor", [@core.any(dx), @core.any(dy), cb])
   |> ignore
 }
 
@@ -177,13 +177,13 @@ pub fn WriteStream::get_color_depth(self : WriteStream) -> Int {
 ///|
 /// Check if terminal supports the requested color count
 pub fn WriteStream::has_colors(self : WriteStream, count : Int) -> Bool {
-  self.to_any()._call("hasColors", [@nostd.any(count)]).cast()
+  self.to_any()._call("hasColors", [@core.any(count)]).cast()
 }
 
 ///|
 /// Get window size as [columns, rows]
 pub fn WriteStream::get_window_size(self : WriteStream) -> (Int, Int) {
-  let arr : @nostd.Any = self.to_any()._call("getWindowSize", [])
+  let arr : @core.Any = self.to_any()._call("getWindowSize", [])
   let cols : Int = arr["0"].cast()
   let rows : Int = arr["1"].cast()
   (cols, rows)
@@ -195,7 +195,7 @@ pub fn WriteStream::on_resize(
   self : WriteStream,
   callback : () -> Unit,
 ) -> WriteStream {
-  self.addEventListener("resize", fn(_e : @nostd.Any) { callback() })
+  self.addEventListener("resize", fn(_e : @core.Any) { callback() })
   self
 }
 

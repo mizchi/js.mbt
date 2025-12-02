@@ -27,19 +27,19 @@ Add to your `moon.pkg.json`:
 
 ```moonbit
 // Create objects
-let obj = @nostd.Object::new()
+let obj = @core.Object::new()
 obj.set("name", "Alice")
 obj.set("age", 30)
 
 // Get properties
-let name = obj._get("name")  // Returns @nostd.Any
+let name = obj._get("name")  // Returns @core.Any
 let age: Int = obj._get("age").cast()  // Type-safe casting
 
 // Call methods
 let has_name: Bool = obj._call("hasOwnProperty", ["name"]).cast()
 
 // Create from map
-let obj2 = @js.from_map({ "x": @nostd.any(10), "y": @nostd.any(20) })
+let obj2 = @js.from_map({ "x": @core.any(10), "y": @core.any(20) })
 ```
 
 ### Type Casting
@@ -146,7 +146,7 @@ let json_str = "{\"name\":\"Alice\",\"age\":30}"
 let obj = @js.JSON::parse(json_str)
 
 // Stringify
-let obj = @js.from_map({ "name": @nostd.any("Alice"), "age": @nostd.any(30) })
+let obj = @js.from_map({ "name": @core.any("Alice"), "age": @core.any(30) })
 let json_str = @js.JSON::stringify(obj)
 
 // With formatting
@@ -197,40 +197,40 @@ async fn iterate_async(iter: @js.AsyncIterator) -> Unit {
 
 When reading test code or using this library, you'll encounter several core types and functions for bridging MoonBit and JavaScript. This section explains what they are and when to use them.
 
-### `@nostd.Any` - The Universal JavaScript Type
+### `@core.Any` - The Universal JavaScript Type
 
-`@nostd.Any` represents any JavaScript value (similar to TypeScript's `any`). It's the foundation type for all JavaScript interop.
+`@core.Any` represents any JavaScript value (similar to TypeScript's `any`). It's the foundation type for all JavaScript interop.
 
 ```moonbit
-// @nostd.Any can hold any JavaScript value
-let num : @nostd.Any = @nostd.any(42)        // number
-let str : @nostd.Any = @nostd.any("hello")   // string
-let obj : @nostd.Any = @nostd.Object::new()  // object
+// @core.Any can hold any JavaScript value
+let num : @core.Any = @core.any(42)        // number
+let str : @core.Any = @core.any("hello")   // string
+let obj : @core.Any = @core.Object::new()  // object
 ```
 
-**When you see `@nostd.Any` in code**: This value came from JavaScript and its type is unknown at compile time.
+**When you see `@core.Any` in code**: This value came from JavaScript and its type is unknown at compile time.
 
-### `@nostd.any()` - Converting MoonBit Values to JavaScript
+### `@core.any()` - Converting MoonBit Values to JavaScript
 
-`@nostd.any()` converts MoonBit values that implement `JsImpl` trait to `@nostd.Any`.
+`@core.any()` converts MoonBit values that implement `JsImpl` trait to `@core.Any`.
 
 ```moonbit
 // Convert MoonBit values to JavaScript
-let js_int = @nostd.any(42)           // Int → @nostd.Any
-let js_str = @nostd.any("hello")      // String → @nostd.Any
-let js_bool = @nostd.any(true)        // Bool → @nostd.Any
-let js_arr = @nostd.any([1, 2, 3])    // Array → @nostd.Any
+let js_int = @core.any(42)           // Int → @core.Any
+let js_str = @core.any("hello")      // String → @core.Any
+let js_bool = @core.any(true)        // Bool → @core.Any
+let js_arr = @core.any([1, 2, 3])    // Array → @core.Any
 ```
 
 **When to use**: When passing MoonBit values to JavaScript APIs that expect dynamic types.
 
 ### `@js.identity()` - Unsafe Type Casting
 
-`@js.identity()` performs an unsafe cast between any two types. It's used to convert `@nostd.Any` back to typed MoonBit values.
+`@js.identity()` performs an unsafe cast between any two types. It's used to convert `@core.Any` back to typed MoonBit values.
 
 ```moonbit
-// Cast @nostd.Any to specific types (unsafe!)
-let js_value : @nostd.Any = obj._get("count")
+// Cast @core.Any to specific types (unsafe!)
+let js_value : @core.Any = obj._get("count")
 let count : Int = @js.identity(js_value)
 
 // Common pattern: inline casting
@@ -250,13 +250,13 @@ let count : Int = obj._get("count").cast()
 
 ```moonbit
 // These types implement JsImpl:
-// - @nostd.Any, @js.Object, @js.JsArray, @js.Promise[T], etc.
+// - @core.Any, @js.Object, @js.JsArray, @js.Promise[T], etc.
 // - MoonBit primitives: String, Int, Double, Bool, etc.
 // - Array[T] where T : JsImpl
 
 // JsImpl provides these methods:
 trait JsImpl {
-  as_any(Self) -> Any           // Convert to @nostd.Any
+  as_any(Self) -> Any           // Convert to @core.Any
   get(Self, key) -> Any         // JS: self[key]
   set(Self, key, val) -> Unit   // JS: self[key] = val
   call(Self, key, args) -> Any  // JS: self[key](...args)
@@ -283,12 +283,12 @@ let age : Int = obj._get("age").cast()
 ```moonbit
 // Using from_map (recommended)
 let obj = @js.from_map({
-  "name": @nostd.any("Alice"),
-  "age": @nostd.any(30)
+  "name": @core.any("Alice"),
+  "age": @core.any(30)
 })
 
 // Manual construction
-let obj = @nostd.Object::new()
+let obj = @core.Object::new()
 obj.set("name", "Alice")  // String implements JsImpl
 obj.set("age", 30)        // Int implements JsImpl
 ```
@@ -321,12 +321,12 @@ let str_result : String = obj.call0("toString").cast()
 
 | Function/Type | Purpose | Example |
 |---------------|---------|---------|
-| `@nostd.Any` | Universal JS value type | `let v : @nostd.Any = ...` |
-| `@nostd.any(x)` | MoonBit → JS conversion | `@nostd.any(42)` |
+| `@core.Any` | Universal JS value type | `let v : @core.Any = ...` |
+| `@core.any(x)` | MoonBit → JS conversion | `@core.any(42)` |
 | `@js.identity(x)` | Unsafe type cast | `let n : Int = @js.identity(v)` |
 | `.cast()` | Same as identity (method) | `v.cast()` |
 | `JsImpl` | Trait for JS-compatible types | `fn foo(x : &JsImpl)` |
-| `.as_any()` | Convert to @nostd.Any | `obj.as_any()` |
+| `.as_any()` | Convert to @core.Any | `obj.as_any()` |
 | `._get(key)` | Property access | `obj._get("name")` |
 | `.set(key, val)` | Property assignment | `obj.set("age", 30)` |
 
@@ -338,7 +338,7 @@ When you need to access JavaScript APIs not yet wrapped in this library:
 
 ```moonbit
 // Define external FFI function
-extern "js" fn ffi_my_custom_api(arg: @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_my_custom_api(arg: @core.Any) -> @core.Any =
   #|arg => {
   #|  // JavaScript code here
   #|  return arg.customMethod();
@@ -357,7 +357,7 @@ See [escape_hatch.mbt.md](examples/escape_hatch.mbt.md) for more patterns.
 
 ### Core Types
 
-- `@nostd.Any` - Universal JavaScript value type (was `@js.Js` before v0.5.0)
+- `@core.Any` - Universal JavaScript value type (was `@js.Js` before v0.5.0)
 - `@js.Object` - JavaScript object
 - `@js.JsArray` - JavaScript array
 - `@js.Promise[T]` - JavaScript Promise
@@ -391,14 +391,14 @@ See the main [project README](../README.md) for the complete package list.
 ### Breaking Changes in v0.5.0
 
 ```moonbit
-// Type rename: @js.Js → @nostd.Any
-let value: @nostd.Any = obj._get("key")
+// Type rename: @js.Js → @core.Any
+let value: @core.Any = obj._get("key")
 
 // Method rename: to_js() → as_any()
 let any = obj.as_any()
 
-// Function rename: @js.js() → @nostd.any()
-let converted = @nostd.any(value)
+// Function rename: @js.js() → @core.any()
+let converted = @core.any(value)
 
 // Casting: unsafe_cast() → identity() or cast()
 let typed: Int = value.cast()

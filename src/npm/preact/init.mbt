@@ -2,13 +2,13 @@
 /// Initialize the Preact API and store it in globalThis.__PreactApi
 /// Node.js: globalThis.__PreactApi = require('preact')
 pub fn init_preact_api(
-  preact : @nostd.Any,
-  hooks : @nostd.Any,
+  preact : @core.Any,
+  hooks : @core.Any,
   global_key? : String = "__PreactApi",
 ) -> Unit {
-  if @nostd.is_nullish(@global.global_this()._get(global_key)) {
+  if @core.is_nullish(@global.global_this()._get(global_key)) {
     // Merge preact and hooks into a single API object
-    let api = @nostd.Object::new()
+    let api = @core.Object::new()
     // Copy preact exports
     for key in @js.Object::keys(preact) {
       api._set(key, preact._get(key))
@@ -23,19 +23,19 @@ pub fn init_preact_api(
 
 ///|
 /// Dynamic import for preact modules
-extern "js" fn import_preact() -> @js.Promise[@nostd.Any] =
+extern "js" fn import_preact() -> @js.Promise[@core.Any] =
   #|() => import("preact")
 
 ///|
-extern "js" fn import_preact_hooks() -> @js.Promise[@nostd.Any] =
+extern "js" fn import_preact_hooks() -> @js.Promise[@core.Any] =
   #|() => import("preact/hooks")
 
 ///|
 /// Dynamic import and initialize Preact API asynchronously
 pub async fn dynamic_import() -> Unit {
-  if @nostd.is_nullish(@global.global_this()._get("__PreactApi")) {
-    let preact : @nostd.Any = import_preact().wait()
-    let hooks : @nostd.Any = import_preact_hooks().wait()
+  if @core.is_nullish(@global.global_this()._get("__PreactApi")) {
+    let preact : @core.Any = import_preact().wait()
+    let hooks : @core.Any = import_preact_hooks().wait()
     init_preact_api(preact, hooks)
   }
 }

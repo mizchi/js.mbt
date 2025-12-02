@@ -8,15 +8,15 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 - Use `@js.Nullable[T]`/`@js.Nullish[T]` for nullable struct fields (not `T?`)
 - Use `identity_option` for safe null handling
 - Use labeled optional arguments instead of Options structs
-- Use `@nostd.Any` for lightweight JS interop without trait overhead
+- Use `@core.Any` for lightweight JS interop without trait overhead
 - Return concrete types, avoid redundant conversions
 - Follow naming conventions (camelCase for Web APIs, snake_case for wrappers)
 - Use `async fn` with `promise.wait()` internally for Promise-returning functions
 
 | Type | Handles | Use Case |
 |------|---------|----------|
-| `@nostd.Any` | Any JS value | TypeScript `any` equivalent |
-| `@nostd.Any` | Any JS value (lightweight) | Low overhead JS interop |
+| `@core.Any` | Any JS value | TypeScript `any` equivalent |
+| `@core.Any` | Any JS value (lightweight) | Low overhead JS interop |
 | `@js.Nullable[T]` | `T \| null` | API returns explicit null |
 | `@js.Nullish[T]` | `T \| null \| undefined` | Optional/missing fields |
 | `T?` | MoonBit Option | Function params/returns only |
@@ -36,7 +36,7 @@ pub type Value
 
 ///|
 /// Provide as_any for JS interop
-pub fn Value::as_any(self : Value) -> @nostd.Any = "%identity"
+pub fn Value::as_any(self : Value) -> @core.Any = "%identity"
 ```
 
 ### Data Containers with `struct`
@@ -61,7 +61,7 @@ Avoid MoonBit reserved words (`method`, `ref`, `type`). Use getter functions as 
 pub type MyValue
 
 ///|
-pub fn MyValue::as_any(self : MyValue) -> @nostd.Any = "%identity"
+pub fn MyValue::as_any(self : MyValue) -> @core.Any = "%identity"
 
 ///|
 pub fn MyValue::method_(self : Self) -> String {
@@ -75,9 +75,9 @@ pub fn MyValue::method_(self : Self) -> String {
 ///|
 test "type conversion" {
   // Convert MoonBit types to Any
-  let num : @nostd.Any = @nostd.any(42)
-  let str = @nostd.any("hello")
-  let bool = @nostd.any(true)
+  let num : @core.Any = @core.any(42)
+  let str = @core.any("hello")
+  let bool = @core.any(true)
 
   // Convert back
   let num_back : Int = num.cast()
@@ -99,13 +99,16 @@ Use `Nullable[T]` or `Nullish[T]` for struct fields:
 
 ```moonbit no-check
 // Nullable[T] for fields that can be null
+///|
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@nostd.Any]
-  error : @js.Nullable[@nostd.Any]
+  result : @js.Nullable[@core.Any]
+  error : @js.Nullable[@core.Any]
 }
 
 // Nullish[T] for fields that can be null or undefined
+
+///|
 pub(all) struct Config {
   timeout : @js.Nullish[Int]
 }
@@ -118,10 +121,10 @@ Use `identity_option` to safely convert nullable values from JS objects:
 ```moonbit
 ///|
 test "identity_option for nullable values" {
-  let obj = @nostd.Object::new()
-  obj._set("exists", @nostd.any("value"))
-  let exists : String? = @nostd.identity_option(obj._get("exists"))
-  let missing : String? = @nostd.identity_option(obj._get("missing"))
+  let obj = @core.Object::new()
+  obj._set("exists", @core.any("value"))
+  let exists : String? = @core.identity_option(obj._get("exists"))
+  let missing : String? = @core.identity_option(obj._get("missing"))
   assert_eq(exists, Some("value"))
   assert_eq(missing, None)
   match exists {
@@ -136,19 +139,19 @@ test "identity_option for nullable values" {
 ```moonbit
 ///|
 test "_call methods" {
-  let obj = @nostd.Object::new()
-  obj._set("name", @nostd.any("test"))
+  let obj = @core.Object::new()
+  obj._set("name", @core.any("test"))
 
   // _call with no arguments
   let str_repr : String = obj._call("toString", []).cast()
   inspect(str_repr, content="[object Object]")
 
   // _call with one argument
-  let has_name : Bool = obj._call("hasOwnProperty", [@nostd.any("name")]).cast()
+  let has_name : Bool = obj._call("hasOwnProperty", [@core.any("name")]).cast()
   assert_eq(has_name, true)
 
   // Object.keys
-  let keys = @nostd.Object::keys(obj)
+  let keys = @core.Object::keys(obj)
   assert_eq(keys.length(), 1)
 }
 ```
@@ -175,10 +178,10 @@ pub fn createServer(
   port? : Int,
   timeout? : Int,
 ) -> Server {
-  let options = @nostd.Object::new()
-  if host is Some(v) { options._set("host", @nostd.any(v)) }
-  if port is Some(v) { options._set("port", @nostd.any(v)) }
-  if timeout is Some(v) { options._set("timeout", @nostd.any(v)) }
+  let options = @core.Object::new()
+  if host is Some(v) { options._set("host", @core.any(v)) }
+  if port is Some(v) { options._set("port", @core.any(v)) }
+  if timeout is Some(v) { options._set("timeout", @core.any(v)) }
   ffi_create_server(options)
 }
 ```
@@ -190,43 +193,51 @@ Benefits:
 
 ### Return Concrete Types
 
-Return specific types instead of `@nostd.Any` when possible:
+Return specific types instead of `@core.Any` when possible:
 
 ```
 // Avoid
-fn Document::getElementById(self : Document, id : String) -> @nostd.Any?
+fn Document::getElementById(self : Document, id : String) -> @core.Any?
 
 // Prefer
 fn Document::getElementById(self : Document, id : String) -> Element?
 ```
 
-### Using @nostd.Any for Lightweight JS Interop
+### Using @core.Any for Lightweight JS Interop
 
-Use `@nostd.Any` with `_get`, `_set`, `_call` for low-overhead JS interop:
+Use `@core.Any` with `_get`, `_set`, `_call` for low-overhead JS interop:
 
 ```moonbit no-check
+///|
 #external
 pub type MyObject
 
-pub fn MyObject::as_any(self : MyObject) -> @nostd.Any = "%identity"
+///|
+pub fn MyObject::as_any(self : MyObject) -> @core.Any = "%identity"
 
 // Get property
+
+///|
 pub fn MyObject::name(self : MyObject) -> String {
   self.as_any()._get("name").cast()
 }
 
 // Set property
+
+///|
 pub fn MyObject::set_name(self : MyObject, name : String) -> Unit {
-  self.as_any()._set("name", @nostd.any(name)) |> ignore
+  self.as_any()._set("name", @core.any(name)) |> ignore
 }
 
 // Call method
+
+///|
 pub fn MyObject::greet(self : MyObject, msg : String) -> String {
-  self.as_any()._call("greet", [@nostd.any(msg)]).cast()
+  self.as_any()._call("greet", [@core.any(msg)]).cast()
 }
 ```
 
-**Benefits of `@nostd.Any`:**
+**Benefits of `@core.Any`:**
 - Zero trait vtable overhead
 - Direct FFI calls without intermediate conversions
 - Smaller generated code size
@@ -243,7 +254,7 @@ pub fn MyObject::greet(self : MyObject, msg : String) -> String {
 
 - **MoonBit-specific wrappers**: Use snake_case
   ```
-  fn from_map(map : Map[String, @nostd.Any]) -> @nostd.Any
+  fn from_map(map : Map[String, @core.Any]) -> @core.Any
   fn to_string_radix(n : Int) -> String
   ```
 
@@ -267,10 +278,13 @@ When wrapping JavaScript functions that return Promises, use `async fn` and call
 
 ```moonbit no-check
 // FFI declaration - returns Promise
-extern "js" fn ffi_fetch(url : String) -> @nostd.Promise[Response] =
+///|
+extern "js" fn ffi_fetch(url : String) -> @core.Promise[Response] =
   #|(url) => fetch(url)
 
 // Public API - async fn returns value directly
+
+///|
 pub async fn fetch(url : String) -> Response {
   ffi_fetch(url).wait()
 }
@@ -287,17 +301,22 @@ The standard pattern for async FFI functions:
 
 ```moonbit no-check
 // 1. FFI function (private) - returns Promise
-extern "js" fn ffi_read_file(path : String) -> @nostd.Promise[String] =
+///|
+extern "js" fn ffi_read_file(path : String) -> @core.Promise[String] =
   #|(path) => fs.promises.readFile(path, 'utf-8')
 
 // 2. Public async function - wraps the Promise
+
+///|
 pub async fn read_file(path : String) -> String {
   ffi_read_file(path).wait()
 }
 
 // Usage in async context
+
+///|
 async test "read file" {
-  let content = read_file("./test.txt")  // No .wait() needed
+  let content = read_file("./test.txt") // No .wait() needed
   inspect(content.length() > 0, content="true")
 }
 ```

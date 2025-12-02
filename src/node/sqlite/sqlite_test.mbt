@@ -8,7 +8,7 @@ test "sqlite exec and prepare" {
   let prepared = database.prepare("SELECT * from t3;")
   let result = prepared.all()
   inspect(
-    @nostd.json_stringify_pretty(@nostd.any(result), 2),
+    @core.json_stringify_pretty(@core.any(result), 2),
     content=(
       #|[
       #|  {
@@ -35,7 +35,7 @@ test "node:sqlite aggregate" {
   let result = database.prepare("SELECT sumint(y) as total FROM t3").get_() // { total: 9 }
   guard result is Some(r)
   inspect(
-    @nostd.json_stringify_pretty(r, 2),
+    @core.json_stringify_pretty(r, 2),
     content=(
       #|{
       #|  "total": 9
@@ -52,17 +52,17 @@ test "sqlite prepared statement with parameters" {
   )
   let insert = database.prepare("INSERT INTO users (name, age) VALUES (?, ?)")
   let result1 = insert.run(anonymous_parameters=[
-    @nostd.any("Alice"),
-    @nostd.any(30),
+    @core.any("Alice"),
+    @core.any(30),
   ])
   assert_eq(result1.changes, 1)
   let result2 = insert.run(anonymous_parameters=[
-    @nostd.any("Bob"),
-    @nostd.any(25),
+    @core.any("Bob"),
+    @core.any(25),
   ])
   assert_eq(result2.changes, 1)
   let select = database.prepare("SELECT * FROM users WHERE age > ?")
-  let users = select.all(anonymous_parameters=[@nostd.any(26)])
+  let users = select.all(anonymous_parameters=[@core.any(26)])
   assert_eq(users.length(), 1)
 }
 
@@ -76,19 +76,19 @@ test "sqlite named parameters" {
     "INSERT INTO products (name, price) VALUES (:name, :price)",
   )
   insert.run(named_parameters={
-    "name": @nostd.any("Apple"),
-    "price": @nostd.any(1.5),
+    "name": @core.any("Apple"),
+    "price": @core.any(1.5),
   })
   |> ignore
   insert.run(named_parameters={
-    "name": @nostd.any("Banana"),
-    "price": @nostd.any(0.8),
+    "name": @core.any("Banana"),
+    "price": @core.any(0.8),
   })
   |> ignore
   let select = database.prepare(
     "SELECT * FROM products WHERE price < :maxPrice",
   )
-  let products = select.all(named_parameters={ "maxPrice": @nostd.any(1.0) })
+  let products = select.all(named_parameters={ "maxPrice": @core.any(1.0) })
   assert_eq(products.length(), 1)
 }
 
@@ -98,10 +98,10 @@ test "sqlite get single row" {
   database.exec("CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT)")
   database.exec("INSERT INTO settings VALUES ('theme', 'dark'), ('lang', 'en')")
   let stmt = database.prepare("SELECT value FROM settings WHERE key = ?")
-  let result = stmt.get_(anonymous_parameters=[@nostd.any("theme")])
+  let result = stmt.get_(anonymous_parameters=[@core.any("theme")])
   guard result is Some(row)
   assert_eq(row["value"].cast(), "dark")
-  let no_result = stmt.get_(anonymous_parameters=[@nostd.any("nonexistent")])
+  let no_result = stmt.get_(anonymous_parameters=[@core.any("nonexistent")])
   assert_true(no_result is None)
 }
 
@@ -131,10 +131,10 @@ test "sqlite custom function" {
     "double",
     fn(args) {
       if args.length() == 0 {
-        return @nostd.any(0)
+        return @core.any(0)
       }
       let value : Int = args[0].cast()
-      @nostd.any(value * 2)
+      @core.any(value * 2)
     },
     varargs=true,
   )
@@ -179,10 +179,8 @@ test "sqlite session and changeset" {
   target_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   let session = source_db.createSession()
   let insert = source_db.prepare("INSERT INTO data (key, value) VALUES (?, ?)")
-  insert.run(anonymous_parameters=[@nostd.any(1), @nostd.any("hello")])
-  |> ignore
-  insert.run(anonymous_parameters=[@nostd.any(2), @nostd.any("world")])
-  |> ignore
+  insert.run(anonymous_parameters=[@core.any(1), @core.any("hello")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(2), @core.any("world")]) |> ignore
   let changeset = session.changeset()
   assert_true(changeset.byteLength > 0)
   target_db.applyChangeset(changeset) |> ignore
@@ -205,7 +203,7 @@ test "sqlite aggregate with window function" {
     "running_total",
     start=0,
     step=fn(acc, value) { acc + value },
-    result=fn(acc) { @nostd.any(acc) },
+    result=fn(acc) { @core.any(acc) },
   )
   let stmt = database.prepare(
     "SELECT product, running_total(amount) as total FROM sales GROUP BY product",
@@ -224,37 +222,34 @@ test "sqlite type-safe anonymous parameters" {
     "INSERT INTO products (name, price, stock) VALUES (?, ?, ?)",
   )
   insert.run(anonymous_parameters=[
-    @nostd.any("Apple"),
-    @nostd.any(1.5),
-    @nostd.any(100),
+    @core.any("Apple"),
+    @core.any(1.5),
+    @core.any(100),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("Banana"),
-    @nostd.any(0.8),
-    @nostd.any(150),
+    @core.any("Banana"),
+    @core.any(0.8),
+    @core.any(150),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("Orange"),
-    @nostd.any(2.0),
-    @nostd.any(75),
+    @core.any("Orange"),
+    @core.any(2.0),
+    @core.any(75),
   ])
   |> ignore
   let select = database.prepare(
     "SELECT * FROM products WHERE price < ? AND stock > ?",
   )
-  let results = select.all(anonymous_parameters=[
-    @nostd.any(1.6),
-    @nostd.any(80),
-  ])
+  let results = select.all(anonymous_parameters=[@core.any(1.6), @core.any(80)])
   assert_eq(results.length(), 2)
   let first = results[0]
   assert_eq(first["name"].cast(), "Apple")
   let get_stmt = database.prepare(
     "SELECT name, price FROM products WHERE id = ?",
   )
-  let result = get_stmt.get_(anonymous_parameters=[@nostd.any(2)])
+  let result = get_stmt.get_(anonymous_parameters=[@core.any(2)])
   guard result is Some(row)
   assert_eq(row["name"].cast(), "Banana")
   assert_eq(row["price"].cast(), 0.8)
@@ -262,8 +257,8 @@ test "sqlite type-safe anonymous parameters" {
     "SELECT * FROM products WHERE name = :productName AND stock > :minStock",
   )
   let named_results = named_stmt.all(named_parameters={
-    "productName": @nostd.any("Apple"),
-    "minStock": @nostd.any(50),
+    "productName": @core.any("Apple"),
+    "minStock": @core.any(50),
   })
   assert_eq(named_results.length(), 1)
   let product = named_results[0]
@@ -286,7 +281,7 @@ test "sqlite with readBigInts option" {
   let stmt = database.prepare("SELECT value FROM big_numbers")
   let result = stmt.get_()
   guard result is Some(row)
-  assert_false(row["value"] |> @nostd.is_nullish())
+  assert_false(row["value"] |> @core.is_nullish())
 }
 
 ///|
@@ -305,25 +300,25 @@ test "sqlite mixed type parameters" {
     "INSERT INTO mixed (str, num, flag) VALUES (?, ?, ?)",
   )
   insert.run(anonymous_parameters=[
-    @nostd.any("test"),
-    @nostd.any(3.14),
-    @nostd.any(1),
+    @core.any("test"),
+    @core.any(3.14),
+    @core.any(1),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("hello"),
-    @nostd.any(2.718),
-    @nostd.any(0),
+    @core.any("hello"),
+    @core.any(2.718),
+    @core.any(0),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("world"),
-    @nostd.any(1.414),
-    @nostd.any(1),
+    @core.any("world"),
+    @core.any(1.414),
+    @core.any(1),
   ])
   |> ignore
   let select = database.prepare("SELECT * FROM mixed WHERE flag = ?")
-  let results = select.all(anonymous_parameters=[@nostd.any(1)])
+  let results = select.all(anonymous_parameters=[@core.any(1)])
   assert_eq(results.length(), 2)
 }
 
@@ -338,25 +333,25 @@ test "sqlite named and anonymous parameters together" {
   )
   insert.run(
     named_parameters={
-      "name": @nostd.any("Meeting"),
-      "date": @nostd.any("2024-01-15"),
+      "name": @core.any("Meeting"),
+      "date": @core.any("2024-01-15"),
     },
-    anonymous_parameters=[@nostd.any(5)],
+    anonymous_parameters=[@core.any(5)],
   )
   |> ignore
   insert.run(
     named_parameters={
-      "name": @nostd.any("Deadline"),
-      "date": @nostd.any("2024-01-20"),
+      "name": @core.any("Deadline"),
+      "date": @core.any("2024-01-20"),
     },
-    anonymous_parameters=[@nostd.any(10)],
+    anonymous_parameters=[@core.any(10)],
   )
   |> ignore
   let select = database.prepare(
     "SELECT * FROM events WHERE priority > :min AND name LIKE ?",
   )
-  let results = select.all(named_parameters={ "min": @nostd.any(7) }, anonymous_parameters=[
-    @nostd.any("%line%"),
+  let results = select.all(named_parameters={ "min": @core.any(7) }, anonymous_parameters=[
+    @core.any("%line%"),
   ])
   assert_eq(results.length(), 1)
   let event = results[0]
@@ -373,7 +368,7 @@ test "sqlite iterate with type-safe parameters" {
   let stmt = database.prepare(
     "SELECT * FROM scores WHERE score > ? ORDER BY score",
   )
-  let iter = stmt.iterate(anonymous_parameters=[@nostd.any(110)])
+  let iter = stmt.iterate(anonymous_parameters=[@core.any(110)])
   let mut count = 0
   let mut first_player = ""
   let mut second_player = ""
@@ -401,29 +396,29 @@ test "sqlite get with complex named parameters" {
     "INSERT INTO employees (name, salary, department) VALUES (?, ?, ?)",
   )
   insert.run(anonymous_parameters=[
-    @nostd.any("Alice"),
-    @nostd.any(50000.0),
-    @nostd.any("Engineering"),
+    @core.any("Alice"),
+    @core.any(50000.0),
+    @core.any("Engineering"),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("Bob"),
-    @nostd.any(60000.0),
-    @nostd.any("Sales"),
+    @core.any("Bob"),
+    @core.any(60000.0),
+    @core.any("Sales"),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any("Charlie"),
-    @nostd.any(55000.0),
-    @nostd.any("Engineering"),
+    @core.any("Charlie"),
+    @core.any(55000.0),
+    @core.any("Engineering"),
   ])
   |> ignore
   let stmt = database.prepare(
     "SELECT * FROM employees WHERE department = :dept AND salary > :minSalary",
   )
   let result = stmt.get_(named_parameters={
-    "dept": @nostd.any("Engineering"),
-    "minSalary": @nostd.any(52000.0),
+    "dept": @core.any("Engineering"),
+    "minSalary": @core.any(52000.0),
   })
   guard result is Some(row)
   assert_eq(row["name"].cast(), "Charlie")
@@ -502,7 +497,7 @@ test "sqlite DatabaseSync options - allowBareNamedParameters" {
   let db = DatabaseSync::new(":memory:", allowBareNamedParameters=true)
   db.exec("CREATE TABLE test(id INTEGER, name TEXT)")
   let stmt = db.prepare("INSERT INTO test VALUES (:id, :name)")
-  stmt.run(named_parameters={ "id": @nostd.any(1), "name": @nostd.any("test") })
+  stmt.run(named_parameters={ "id": @core.any(1), "name": @core.any("test") })
   |> ignore
   db.close()
 }
@@ -544,7 +539,7 @@ test "sqlite StatementSync setReadBigInts" {
   stmt.setReadBigInts(true)
   let result = stmt.get_()
   guard result is Some(row)
-  assert_false(row["value"] |> @nostd.is_nullish())
+  assert_false(row["value"] |> @core.is_nullish())
   db.close()
 }
 
@@ -554,7 +549,7 @@ test "sqlite StatementSync setAllowBareNamedParameters" {
   db.exec("CREATE TABLE test(id INTEGER, name TEXT)")
   let stmt = db.prepare("INSERT INTO test VALUES (:id, :name)")
   stmt.setAllowBareNamedParameters(true)
-  stmt.run(named_parameters={ "id": @nostd.any(1), "name": @nostd.any("test") })
+  stmt.run(named_parameters={ "id": @core.any(1), "name": @core.any("test") })
   |> ignore
   db.close()
 }
@@ -566,8 +561,8 @@ test "sqlite StatementSync setAllowUnknownNamedParameters" {
   let stmt = db.prepare("SELECT * FROM test WHERE id = :id")
   stmt.setAllowUnknownNamedParameters(true)
   let _result = stmt.get_(named_parameters={
-    "id": @nostd.any(1),
-    "unknown": @nostd.any(2),
+    "id": @core.any(1),
+    "unknown": @core.any(2),
   })
   db.close()
 }
@@ -578,10 +573,8 @@ test "sqlite Session patchset" {
   source_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   let session = source_db.createSession()
   let insert = source_db.prepare("INSERT INTO data (key, value) VALUES (?, ?)")
-  insert.run(anonymous_parameters=[@nostd.any(1), @nostd.any("hello")])
-  |> ignore
-  insert.run(anonymous_parameters=[@nostd.any(2), @nostd.any("world")])
-  |> ignore
+  insert.run(anonymous_parameters=[@core.any(1), @core.any("hello")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(2), @core.any("world")]) |> ignore
   let patchset = session.patchset()
   assert_true(patchset.byteLength > 0)
   session.close()
@@ -594,7 +587,7 @@ test "sqlite Session with table option" {
   db.exec("CREATE TABLE data(id INTEGER PRIMARY KEY, value TEXT)")
   let session = db.createSession(table="data")
   let insert = db.prepare("INSERT INTO data (value) VALUES (?)")
-  insert.run(anonymous_parameters=[@nostd.any("test")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any("test")]) |> ignore
   let changeset = session.changeset()
   assert_true(changeset.byteLength > 0)
   session.close()
@@ -729,7 +722,7 @@ test "sqlite aggregate with all options" {
     varargs=false,
     start=0,
     step=fn(acc, value) { acc + value },
-    result=fn(acc) { @nostd.any(acc) },
+    result=fn(acc) { @core.any(acc) },
   )
   let stmt = db.prepare("SELECT test_agg(x) as total FROM test")
   let result = stmt.get_()
@@ -746,10 +739,10 @@ test "sqlite function with options" {
     "add_one",
     fn(args) {
       if args.length() == 0 {
-        return @nostd.any(0)
+        return @core.any(0)
       }
       let value : Int = args[0].cast()
-      @nostd.any(value + 1)
+      @core.any(value + 1)
     },
     deterministic=true,
     directOnly=false,
@@ -779,19 +772,19 @@ test "sqlite integer types" {
   database.exec("CREATE TABLE integers(small INT, medium INT, large INT)")
   let insert = database.prepare("INSERT INTO integers VALUES (?, ?, ?)")
   insert.run(anonymous_parameters=[
-    @nostd.any(1),
-    @nostd.any(1000),
-    @nostd.any(1000000),
+    @core.any(1),
+    @core.any(1000),
+    @core.any(1000000),
   ])
   |> ignore
   insert.run(anonymous_parameters=[
-    @nostd.any(-5),
-    @nostd.any(-500),
-    @nostd.any(-50000),
+    @core.any(-5),
+    @core.any(-500),
+    @core.any(-50000),
   ])
   |> ignore
   let select = database.prepare("SELECT * FROM integers WHERE medium < ?")
-  let results = select.all(anonymous_parameters=[@nostd.any(0)])
+  let results = select.all(anonymous_parameters=[@core.any(0)])
   assert_eq(results.length(), 1)
   let row = results[0]
   assert_eq(row["small"].cast(), -5)
@@ -802,13 +795,13 @@ test "sqlite float types" {
   let database = DatabaseSync::new(":memory:")
   database.exec("CREATE TABLE floats(val REAL)")
   let insert = database.prepare("INSERT INTO floats VALUES (?)")
-  insert.run(anonymous_parameters=[@nostd.any(3.14159)]) |> ignore
-  insert.run(anonymous_parameters=[@nostd.any(2.71828)]) |> ignore
-  insert.run(anonymous_parameters=[@nostd.any(1.41421)]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(3.14159)]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(2.71828)]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(1.41421)]) |> ignore
   let select = database.prepare(
     "SELECT * FROM floats WHERE val > ? ORDER BY val",
   )
-  let results = select.all(anonymous_parameters=[@nostd.any(2.0)])
+  let results = select.all(anonymous_parameters=[@core.any(2.0)])
   assert_eq(results.length(), 2)
 }
 
@@ -817,11 +810,11 @@ test "sqlite string escaping" {
   let database = DatabaseSync::new(":memory:")
   database.exec("CREATE TABLE texts(content TEXT)")
   let insert = database.prepare("INSERT INTO texts VALUES (?)")
-  insert.run(anonymous_parameters=[@nostd.any("It's a test")]) |> ignore
-  insert.run(anonymous_parameters=[@nostd.any("Quote: \"hello\"")]) |> ignore
-  insert.run(anonymous_parameters=[@nostd.any("Line\nbreak")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any("It's a test")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any("Quote: \"hello\"")]) |> ignore
+  insert.run(anonymous_parameters=[@core.any("Line\nbreak")]) |> ignore
   let select = database.prepare("SELECT * FROM texts WHERE content LIKE ?")
-  let results = select.all(anonymous_parameters=[@nostd.any("%test%")])
+  let results = select.all(anonymous_parameters=[@core.any("%test%")])
   assert_eq(results.length(), 1)
 }
 
@@ -831,7 +824,7 @@ test "sqlite multiple queries with same statement" {
   database.exec("CREATE TABLE counter(id INTEGER PRIMARY KEY, count INTEGER)")
   let insert = database.prepare("INSERT INTO counter (count) VALUES (?)")
   for i = 1; i <= 5; i = i + 1 {
-    insert.run(anonymous_parameters=[@nostd.any(i * 10)]) |> ignore
+    insert.run(anonymous_parameters=[@core.any(i * 10)]) |> ignore
   }
   let select = database.prepare("SELECT SUM(count) as total FROM counter")
   let result = select.get_()
@@ -850,12 +843,12 @@ test "sqlite update with type-safe parameters" {
     "UPDATE inventory SET quantity = quantity + ? WHERE item = ?",
   )
   let result = update.run(anonymous_parameters=[
-    @nostd.any(5),
-    @nostd.any("apple"),
+    @core.any(5),
+    @core.any("apple"),
   ])
   assert_eq(result.changes, 1)
   let select = database.prepare("SELECT quantity FROM inventory WHERE item = ?")
-  let row_result = select.get_(anonymous_parameters=[@nostd.any("apple")])
+  let row_result = select.get_(anonymous_parameters=[@core.any("apple")])
   guard row_result is Some(row)
   assert_eq(row["quantity"].cast(), 15)
 }
@@ -870,7 +863,7 @@ test "sqlite delete with named parameters" {
     "INSERT INTO todos (task, done) VALUES ('task1', 0), ('task2', 1), ('task3', 1)",
   )
   let delete = database.prepare("DELETE FROM todos WHERE done = :completed")
-  let result = delete.run(named_parameters={ "completed": @nostd.any(1) })
+  let result = delete.run(named_parameters={ "completed": @core.any(1) })
   assert_eq(result.changes, 2)
   let count = database.prepare("SELECT COUNT(*) as cnt FROM todos").get_()
   guard count is Some(row)
@@ -882,11 +875,11 @@ test "sqlite null handling" {
   let database = DatabaseSync::new(":memory:")
   database.exec("CREATE TABLE nullable(id INTEGER, value TEXT)")
   let insert = database.prepare("INSERT INTO nullable (id) VALUES (?)")
-  insert.run(anonymous_parameters=[@nostd.any(1)]) |> ignore
+  insert.run(anonymous_parameters=[@core.any(1)]) |> ignore
   let select = database.prepare("SELECT * FROM nullable WHERE id = ?")
-  let result = select.get_(anonymous_parameters=[@nostd.any(1)])
+  let result = select.get_(anonymous_parameters=[@core.any(1)])
   guard result is Some(row)
-  assert_true(row["value"] |> @nostd.is_null())
+  assert_true(row["value"] |> @core.is_null())
 }
 
 ///|
@@ -898,14 +891,14 @@ test "sqlite transaction with type-safe parameters" {
   let update = database.prepare(
     "UPDATE accounts SET balance = balance + ? WHERE id = ?",
   )
-  update.run(anonymous_parameters=[@nostd.any(-30.0), @nostd.any(1)]) |> ignore
-  update.run(anonymous_parameters=[@nostd.any(30.0), @nostd.any(2)]) |> ignore
+  update.run(anonymous_parameters=[@core.any(-30.0), @core.any(1)]) |> ignore
+  update.run(anonymous_parameters=[@core.any(30.0), @core.any(2)]) |> ignore
   database.exec("COMMIT")
   let select = database.prepare("SELECT balance FROM accounts WHERE id = ?")
-  let result1 = select.get_(anonymous_parameters=[@nostd.any(1)])
+  let result1 = select.get_(anonymous_parameters=[@core.any(1)])
   guard result1 is Some(row1)
   assert_eq(row1["balance"].cast(), 70.0)
-  let result2 = select.get_(anonymous_parameters=[@nostd.any(2)])
+  let result2 = select.get_(anonymous_parameters=[@core.any(2)])
   guard result2 is Some(row2)
   assert_eq(row2["balance"].cast(), 80.0)
 }

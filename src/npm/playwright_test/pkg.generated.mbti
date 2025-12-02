@@ -2,75 +2,75 @@
 package "mizchi/js/npm/playwright_test"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/npm/playwright"
 )
 
 // Values
-fn expect_fn() -> Expect
+pub fn expect_fn() -> Expect
 
-fn test_fn() -> Test
+pub fn test_fn() -> Test
 
 // Errors
 
 // Types and methods
 #external
 pub type Expect
-fn Expect::locator(Self, @playwright.Locator) -> LocatorAssertions
-fn Expect::page(Self, @playwright.Page) -> PageAssertions
-fn Expect::value(Self, @nostd.Any) -> @nostd.Any
-impl @js.JsImpl for Expect
+pub fn Expect::locator(Self, @playwright.Locator) -> LocatorAssertions
+pub fn Expect::page(Self, @playwright.Page) -> PageAssertions
+pub fn Expect::to_any(Self) -> @core.Any
+pub fn Expect::value(Self, @core.Any) -> @core.Any
 
 #external
 pub type LocatorAssertions
-async fn LocatorAssertions::toBeChecked(Self, checked? : Bool, timeout? : Int) -> Unit
-async fn LocatorAssertions::toBeDisabled(Self, timeout? : Int) -> Unit
-async fn LocatorAssertions::toBeEnabled(Self, timeout? : Int) -> Unit
-async fn LocatorAssertions::toBeFocused(Self, timeout? : Int) -> Unit
-async fn LocatorAssertions::toBeHidden(Self, timeout? : Int) -> Unit
-async fn LocatorAssertions::toBeVisible(Self, timeout? : Int) -> Unit
-async fn LocatorAssertions::toContainText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
-async fn LocatorAssertions::toHaveAttribute(Self, String, String, timeout? : Int) -> Unit
-async fn LocatorAssertions::toHaveClass(Self, String, timeout? : Int) -> Unit
-async fn LocatorAssertions::toHaveCount(Self, Int, timeout? : Int) -> Unit
-async fn LocatorAssertions::toHaveText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
-async fn LocatorAssertions::toHaveValue(Self, String, timeout? : Int) -> Unit
-impl @js.JsImpl for LocatorAssertions
+pub async fn LocatorAssertions::toBeChecked(Self, checked? : Bool, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toBeDisabled(Self, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toBeEnabled(Self, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toBeFocused(Self, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toBeHidden(Self, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toBeVisible(Self, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toContainText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toHaveAttribute(Self, String, String, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toHaveClass(Self, String, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toHaveCount(Self, Int, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toHaveText(Self, String, ignoreCase? : Bool, timeout? : Int) -> Unit
+pub async fn LocatorAssertions::toHaveValue(Self, String, timeout? : Int) -> Unit
+pub fn LocatorAssertions::to_any(Self) -> @core.Any
 
 #external
 pub type PageAssertions
-async fn PageAssertions::toHaveTitle(Self, String, timeout? : Int) -> Unit
-async fn PageAssertions::toHaveURL(Self, String, timeout? : Int) -> Unit
-impl @js.JsImpl for PageAssertions
+pub async fn PageAssertions::toHaveTitle(Self, String, timeout? : Int) -> Unit
+pub async fn PageAssertions::toHaveURL(Self, String, timeout? : Int) -> Unit
+pub fn PageAssertions::to_any(Self) -> @core.Any
 
 #external
 pub type Test
-fn Test::afterAll(Self, @nostd.Any) -> Unit
-fn Test::afterEach(Self, @nostd.Any) -> Unit
-fn Test::beforeAll(Self, @nostd.Any) -> Unit
-fn Test::beforeEach(Self, @nostd.Any) -> Unit
-fn Test::describe(Self, String, @nostd.Any) -> Unit
-fn Test::run(Self, String, @nostd.Any) -> Unit
-fn Test::setTimeout(Self, Int) -> Unit
-fn Test::skip(Self, condition? : Bool) -> Unit
-fn Test::slow(Self) -> Unit
-fn Test::use_options(Self, @nostd.Any) -> Unit
-impl @js.JsImpl for Test
+pub fn Test::afterAll(Self, @core.Any) -> Unit
+pub fn Test::afterEach(Self, @core.Any) -> Unit
+pub fn Test::beforeAll(Self, @core.Any) -> Unit
+pub fn Test::beforeEach(Self, @core.Any) -> Unit
+pub fn Test::describe(Self, String, @core.Any) -> Unit
+pub fn Test::run(Self, String, @core.Any) -> Unit
+pub fn Test::setTimeout(Self, Int) -> Unit
+pub fn Test::skip(Self, condition? : Bool) -> Unit
+pub fn Test::slow(Self) -> Unit
+pub fn Test::to_any(Self) -> @core.Any
+pub fn Test::use_options(Self, @core.Any) -> Unit
 
 #external
 pub type TestInfo
-async fn TestInfo::attach(Self, String, path? : String, body? : String, contentType? : String) -> Unit
-fn TestInfo::column(Self) -> Int
-fn TestInfo::fail(Self, message? : String) -> Unit
-fn TestInfo::file(Self) -> String
-fn TestInfo::line(Self) -> Int
-fn TestInfo::retry(Self) -> Int
-fn TestInfo::skip(Self, message? : String) -> Unit
-fn TestInfo::slow(Self) -> Unit
-fn TestInfo::status(Self) -> String?
-fn TestInfo::timeout(Self) -> Int
-fn TestInfo::title(Self) -> String
-impl @js.JsImpl for TestInfo
+pub async fn TestInfo::attach(Self, String, path? : String, body? : String, contentType? : String) -> Unit
+pub fn TestInfo::column(Self) -> Int
+pub fn TestInfo::fail(Self, message? : String) -> Unit
+pub fn TestInfo::file(Self) -> String
+pub fn TestInfo::line(Self) -> Int
+pub fn TestInfo::retry(Self) -> Int
+pub fn TestInfo::skip(Self, message? : String) -> Unit
+pub fn TestInfo::slow(Self) -> Unit
+pub fn TestInfo::status(Self) -> String?
+pub fn TestInfo::timeout(Self) -> Int
+pub fn TestInfo::title(Self) -> String
+pub fn TestInfo::to_any(Self) -> @core.Any
 
 // Type aliases
 

@@ -16,7 +16,7 @@ test "parse and get text" {
   let divs = @htmlparser2.getElementsByTagName(doc, "div")
   let div = divs[0]
   // Convert Element to Node to use getText
-  let node : @htmlparser2.Node = @nostd.identity(div.as_any())
+  let node : @htmlparser2.Node = @core.identity(div.as_any())
   let text = @htmlparser2.getText(node)
   inspect(text, content="Hello World")
 }
@@ -97,7 +97,7 @@ test "get outer html" {
   let divs = @htmlparser2.getElementsByTagName(doc, "div")
   let div = divs[0]
   // Convert Element to Node
-  let node : @htmlparser2.Node = @nostd.identity(div.as_any())
+  let node : @htmlparser2.Node = @core.identity(div.as_any())
   let outer = @htmlparser2.getOuterHTML(node)
   inspect(outer.contains("<div>"), content="true")
   inspect(outer.contains("</div>"), content="true")
@@ -106,8 +106,8 @@ test "get outer html" {
 ///|
 test "streaming parser" {
   let tags : Array[String] = []
-  let handlers = @nostd.Object::new()
-  handlers["onopentag"] = @nostd.from_fn1(fn(name : String) { tags.push(name) })
+  let handlers = @core.Object::new()
+  handlers["onopentag"] = @core.from_fn1(fn(name : String) { tags.push(name) })
   let parser = @htmlparser2.createParser(handlers)
   parser.write("<div>")
   parser.write("<span>")

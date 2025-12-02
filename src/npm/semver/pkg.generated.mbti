@@ -2,67 +2,67 @@
 package "mizchi/js/npm/semver"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn clean(String) -> String?
+pub fn clean(String) -> String?
 
-fn coerce(String) -> String?
+pub fn coerce(String) -> String?
 
-fn compare(String, String) -> Int
+pub fn compare(String, String) -> Int
 
-fn compare_loose(String, String) -> Int
+pub fn compare_loose(String, String) -> Int
 
-fn diff(String, String) -> String?
+pub fn diff(String, String) -> String?
 
-fn eq(String, String) -> Bool
+pub fn eq(String, String) -> Bool
 
-fn gt(String, String) -> Bool
+pub fn gt(String, String) -> Bool
 
-fn gte(String, String) -> Bool
+pub fn gte(String, String) -> Bool
 
-fn gtr(String, String) -> Bool
+pub fn gtr(String, String) -> Bool
 
-fn inc(String, String, identifier? : String) -> String?
+pub fn inc(String, String, identifier? : String) -> String?
 
-fn lt(String, String) -> Bool
+pub fn lt(String, String) -> Bool
 
-fn lte(String, String) -> Bool
+pub fn lte(String, String) -> Bool
 
-fn ltr(String, String) -> Bool
+pub fn ltr(String, String) -> Bool
 
-fn major(String) -> Int
+pub fn major(String) -> Int
 
-fn max(Array[String]) -> String?
+pub fn max(Array[String]) -> String?
 
-fn max_satisfying(Array[String], String) -> String?
+pub fn max_satisfying(Array[String], String) -> String?
 
-fn min(Array[String]) -> String?
+pub fn min(Array[String]) -> String?
 
-fn min_satisfying(Array[String], String) -> String?
+pub fn min_satisfying(Array[String], String) -> String?
 
-fn minor(String) -> Int
+pub fn minor(String) -> Int
 
-fn neq(String, String) -> Bool
+pub fn neq(String, String) -> Bool
 
-fn outside(String, String, String) -> Bool
+pub fn outside(String, String, String) -> Bool
 
-fn parse(String) -> String?
+pub fn parse(String) -> String?
 
-fn patch(String) -> Int
+pub fn patch(String) -> Int
 
-fn prerelease(String) -> @nostd.Any
+pub fn prerelease(String) -> @core.Any
 
-fn rsort(Array[String]) -> Array[String]
+pub fn rsort(Array[String]) -> Array[String]
 
-fn satisfies(String, String) -> Bool
+pub fn satisfies(String, String) -> Bool
 
-fn sort(Array[String]) -> Array[String]
+pub fn sort(Array[String]) -> Array[String]
 
-fn valid(String) -> String?
+pub fn valid(String) -> String?
 
-fn valid_range(String) -> String?
+pub fn valid_range(String) -> String?
 
 // Errors
 

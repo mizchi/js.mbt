@@ -8,13 +8,13 @@
 /// T is the type of the result value
 pub(all) struct IDBRequest[T] {
   result : T
-  error : @js.Nullable[@nostd.Any]
-  source : @nostd.Any
+  error : @js.Nullable[@core.Any]
+  source : @core.Any
   readyState : String
 }
 
 ///|
-pub fn[T] IDBRequest::as_any(self : IDBRequest[T]) -> @nostd.Any = "%identity"
+pub fn[T] IDBRequest::as_any(self : IDBRequest[T]) -> @core.Any = "%identity"
 
 ///|
 pub fn[T] IDBRequest::as_event_target(
@@ -22,7 +22,7 @@ pub fn[T] IDBRequest::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl[T] @event.EventTargetImpl for IDBRequest[T] with as_any(self) -> @nostd.Any {
+pub impl[T] @event.EventTargetImpl for IDBRequest[T] with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -42,22 +42,22 @@ pub fn[T] IDBRequest::is_done(self : IDBRequest[T]) -> Bool {
 /// Cast source to IDBObjectStore
 pub fn[T] IDBRequest::source_as_object_store(
   self : IDBRequest[T],
-) -> IDBObjectStore[@nostd.Any] {
-  self.source |> @nostd.identity
+) -> IDBObjectStore[@core.Any] {
+  self.source |> @core.identity
 }
 
 ///|
 /// Cast source to IDBIndex
 pub fn[T] IDBRequest::source_as_index(
   self : IDBRequest[T],
-) -> IDBIndex[@nostd.Any] {
-  self.source |> @nostd.identity
+) -> IDBIndex[@core.Any] {
+  self.source |> @core.identity
 }
 
 ///|
 /// Cast source to IDBCursor
 pub fn[T, U] IDBRequest::source_as_cursor(self : IDBRequest[T]) -> IDBCursor[U] {
-  self.source |> @nostd.identity
+  self.source |> @core.identity
 }
 
 ///| IDBOpenDBRequest - Request for opening database
@@ -65,14 +65,14 @@ pub fn[T, U] IDBRequest::source_as_cursor(self : IDBRequest[T]) -> IDBCursor[U] 
 ///|
 /// IDBOpenDBRequest extends IDBRequest for database opening
 pub(all) struct IDBOpenDBRequest {
-  result : @nostd.Any
-  error : @js.Nullable[@nostd.Any]
-  source : @nostd.Any
+  result : @core.Any
+  error : @js.Nullable[@core.Any]
+  source : @core.Any
   readyState : String
 }
 
 ///|
-pub fn IDBOpenDBRequest::as_any(self : IDBOpenDBRequest) -> @nostd.Any = "%identity"
+pub fn IDBOpenDBRequest::as_any(self : IDBOpenDBRequest) -> @core.Any = "%identity"
 
 ///|
 pub fn IDBOpenDBRequest::as_event_target(
@@ -80,7 +80,7 @@ pub fn IDBOpenDBRequest::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for IDBOpenDBRequest with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for IDBOpenDBRequest with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -91,11 +91,11 @@ pub impl @event.EventTargetImpl for IDBOpenDBRequest with as_any(self) -> @nostd
 pub(all) struct IDBDatabase {
   name : String
   version : Int
-  objectStoreNames : @nostd.Any
+  objectStoreNames : @core.Any
 }
 
 ///|
-pub fn IDBDatabase::as_any(self : IDBDatabase) -> @nostd.Any = "%identity"
+pub fn IDBDatabase::as_any(self : IDBDatabase) -> @core.Any = "%identity"
 
 ///|
 /// Create a transaction for the specified object stores
@@ -104,11 +104,11 @@ pub fn IDBDatabase::transaction(
   self : Self,
   store_names : Array[String],
   mode? : String,
-) -> IDBTransaction[@nostd.Any] {
+) -> IDBTransaction[@core.Any] {
   let mode_str = mode.unwrap_or("readonly")
   self
   .as_any()
-  ._call("transaction", [@nostd.any(store_names), @nostd.any(mode_str)])
+  ._call("transaction", [@core.any(store_names), @core.any(mode_str)])
   .cast()
 }
 
@@ -119,18 +119,18 @@ pub fn IDBDatabase::createObjectStore(
   name : String,
   keyPath? : String,
   autoIncrement? : Bool,
-) -> IDBObjectStore[@nostd.Any] {
+) -> IDBObjectStore[@core.Any] {
   let options = @mbtconv.from_option_map({
-    "keyPath": keyPath.map(fn(x) { @nostd.any(x) }),
-    "autoIncrement": autoIncrement.map(fn(x) { @nostd.any(x) }),
+    "keyPath": keyPath.map(fn(x) { @core.any(x) }),
+    "autoIncrement": autoIncrement.map(fn(x) { @core.any(x) }),
   })
-  self.as_any()._call("createObjectStore", [@nostd.any(name), options]).cast()
+  self.as_any()._call("createObjectStore", [@core.any(name), options]).cast()
 }
 
 ///|
 /// Delete an object store (only in versionchange transaction)
 pub fn IDBDatabase::deleteObjectStore(self : Self, name : String) -> Unit {
-  self.as_any()._call("deleteObjectStore", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("deleteObjectStore", [@core.any(name)]) |> ignore
 }
 
 ///|
@@ -147,11 +147,11 @@ pub fn IDBDatabase::close(self : Self) -> Unit {
 pub(all) struct IDBTransaction[T] {
   db : IDBDatabase
   mode : String
-  objectStoreNames : @nostd.Any
+  objectStoreNames : @core.Any
 }
 
 ///|
-pub fn[T] IDBTransaction::as_any(self : IDBTransaction[T]) -> @nostd.Any = "%identity"
+pub fn[T] IDBTransaction::as_any(self : IDBTransaction[T]) -> @core.Any = "%identity"
 
 ///|
 /// Get an object store from this transaction
@@ -159,7 +159,7 @@ pub fn[T] IDBTransaction::objectStore(
   self : IDBTransaction[T],
   name : String,
 ) -> IDBObjectStore[T] {
-  self.as_any()._call("objectStore", [@nostd.any(name)]).cast()
+  self.as_any()._call("objectStore", [@core.any(name)]).cast()
 }
 
 ///|
@@ -181,23 +181,23 @@ pub fn[T] IDBTransaction::abort(self : IDBTransaction[T]) -> Unit {
 /// T is the type of values stored in this object store
 pub(all) struct IDBObjectStore[T] {
   name : String
-  keyPath : @nostd.Any
+  keyPath : @core.Any
   autoIncrement : Bool
-  indexNames : @nostd.Any
+  indexNames : @core.Any
   transaction : IDBTransaction[T]
 }
 
 ///|
-pub fn[T] IDBObjectStore::as_any(self : IDBObjectStore[T]) -> @nostd.Any = "%identity"
+pub fn[T] IDBObjectStore::as_any(self : IDBObjectStore[T]) -> @core.Any = "%identity"
 
 ///|
 /// Add a new record (fails if key exists)
 pub fn[T] IDBObjectStore::add(
   self : IDBObjectStore[T],
   value : T,
-  key? : @nostd.Any,
-) -> IDBRequest[@nostd.Any] {
-  let js_value : @nostd.Any = @nostd.identity(value)
+  key? : @core.Any,
+) -> IDBRequest[@core.Any] {
+  let js_value : @core.Any = @core.identity(value)
   match key {
     Some(k) => self.as_any()._call("add", [js_value, k]).cast()
     None => self.as_any()._call("add", [js_value]).cast()
@@ -209,9 +209,9 @@ pub fn[T] IDBObjectStore::add(
 pub fn[T] IDBObjectStore::put(
   self : IDBObjectStore[T],
   value : T,
-  key? : @nostd.Any,
-) -> IDBRequest[@nostd.Any] {
-  let js_value : @nostd.Any = @nostd.identity(value)
+  key? : @core.Any,
+) -> IDBRequest[@core.Any] {
+  let js_value : @core.Any = @core.identity(value)
   match key {
     Some(k) => self.as_any()._call("put", [js_value, k]).cast()
     None => self.as_any()._call("put", [js_value]).cast()
@@ -222,7 +222,7 @@ pub fn[T] IDBObjectStore::put(
 /// Get a record by key
 pub fn[T] IDBObjectStore::get(
   self : IDBObjectStore[T],
-  key : @nostd.Any,
+  key : @core.Any,
 ) -> IDBRequest[T] {
   self.as_any()._call("get", [key]).cast()
 }
@@ -231,8 +231,8 @@ pub fn[T] IDBObjectStore::get(
 /// Delete a record by key
 pub fn[T] IDBObjectStore::delete(
   self : IDBObjectStore[T],
-  key : @nostd.Any,
-) -> IDBRequest[@nostd.Any] {
+  key : @core.Any,
+) -> IDBRequest[@core.Any] {
   self.as_any()._call("delete", [key]).cast()
 }
 
@@ -240,7 +240,7 @@ pub fn[T] IDBObjectStore::delete(
 /// Clear all records from the store
 pub fn[T] IDBObjectStore::clear(
   self : IDBObjectStore[T],
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   self.as_any()._call("clear", []).cast()
 }
 
@@ -248,15 +248,15 @@ pub fn[T] IDBObjectStore::clear(
 /// Get all records (optionally filtered by query)
 pub fn[T] IDBObjectStore::getAll(
   self : IDBObjectStore[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   count? : Int,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, count) {
     (Some(q), Some(c)) =>
-      self.as_any()._call("getAll", [q, @nostd.any(c)]).cast()
+      self.as_any()._call("getAll", [q, @core.any(c)]).cast()
     (Some(q), None) => self.as_any()._call("getAll", [q]).cast()
     (None, Some(c)) =>
-      self.as_any()._call("getAll", [@nostd.undefined(), @nostd.any(c)]).cast()
+      self.as_any()._call("getAll", [@core.undefined(), @core.any(c)]).cast()
     (None, None) => self.as_any()._call("getAll", []).cast()
   }
 }
@@ -265,17 +265,17 @@ pub fn[T] IDBObjectStore::getAll(
 /// Get all keys (optionally filtered by query)
 pub fn[T] IDBObjectStore::getAllKeys(
   self : IDBObjectStore[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   count? : Int,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, count) {
     (Some(q), Some(c)) =>
-      self.as_any()._call("getAllKeys", [q, @nostd.any(c)]).cast()
+      self.as_any()._call("getAllKeys", [q, @core.any(c)]).cast()
     (Some(q), None) => self.as_any()._call("getAllKeys", [q]).cast()
     (None, Some(c)) =>
       self
       .as_any()
-      ._call("getAllKeys", [@nostd.undefined(), @nostd.any(c)])
+      ._call("getAllKeys", [@core.undefined(), @core.any(c)])
       .cast()
     (None, None) => self.as_any()._call("getAllKeys", []).cast()
   }
@@ -285,8 +285,8 @@ pub fn[T] IDBObjectStore::getAllKeys(
 /// Count records (optionally filtered by query)
 pub fn[T] IDBObjectStore::count(
   self : IDBObjectStore[T],
-  query? : @nostd.Any,
-) -> IDBRequest[@nostd.Any] {
+  query? : @core.Any,
+) -> IDBRequest[@core.Any] {
   match query {
     Some(q) => self.as_any()._call("count", [q]).cast()
     None => self.as_any()._call("count", []).cast()
@@ -297,17 +297,17 @@ pub fn[T] IDBObjectStore::count(
 /// Open a cursor to iterate over records
 pub fn[T] IDBObjectStore::openCursor(
   self : IDBObjectStore[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   direction? : String,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, direction) {
     (Some(q), Some(d)) =>
-      self.as_any()._call("openCursor", [q, @nostd.any(d)]).cast()
+      self.as_any()._call("openCursor", [q, @core.any(d)]).cast()
     (Some(q), None) => self.as_any()._call("openCursor", [q]).cast()
     (None, Some(d)) =>
       self
       .as_any()
-      ._call("openCursor", [@nostd.undefined(), @nostd.any(d)])
+      ._call("openCursor", [@core.undefined(), @core.any(d)])
       .cast()
     (None, None) => self.as_any()._call("openCursor", []).cast()
   }
@@ -317,17 +317,17 @@ pub fn[T] IDBObjectStore::openCursor(
 /// Open a key cursor
 pub fn[T] IDBObjectStore::openKeyCursor(
   self : IDBObjectStore[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   direction? : String,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, direction) {
     (Some(q), Some(d)) =>
-      self.as_any()._call("openKeyCursor", [q, @nostd.any(d)]).cast()
+      self.as_any()._call("openKeyCursor", [q, @core.any(d)]).cast()
     (Some(q), None) => self.as_any()._call("openKeyCursor", [q]).cast()
     (None, Some(d)) =>
       self
       .as_any()
-      ._call("openKeyCursor", [@nostd.undefined(), @nostd.any(d)])
+      ._call("openKeyCursor", [@core.undefined(), @core.any(d)])
       .cast()
     (None, None) => self.as_any()._call("openKeyCursor", []).cast()
   }
@@ -343,12 +343,12 @@ pub fn[T] IDBObjectStore::createIndex(
   multiEntry? : Bool,
 ) -> IDBIndex[T] {
   let options = @mbtconv.from_option_map({
-    "unique": unique.map(fn(x) { @nostd.any(x) }),
-    "multiEntry": multiEntry.map(fn(x) { @nostd.any(x) }),
+    "unique": unique.map(fn(x) { @core.any(x) }),
+    "multiEntry": multiEntry.map(fn(x) { @core.any(x) }),
   })
   self
   .as_any()
-  ._call("createIndex", [@nostd.any(name), @nostd.any(keyPath), options])
+  ._call("createIndex", [@core.any(name), @core.any(keyPath), options])
   .cast()
 }
 
@@ -358,7 +358,7 @@ pub fn[T] IDBObjectStore::deleteIndex(
   self : IDBObjectStore[T],
   name : String,
 ) -> Unit {
-  self.as_any()._call("deleteIndex", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("deleteIndex", [@core.any(name)]) |> ignore
 }
 
 ///|
@@ -367,7 +367,7 @@ pub fn[T] IDBObjectStore::index(
   self : IDBObjectStore[T],
   name : String,
 ) -> IDBIndex[T] {
-  self.as_any()._call("index", [@nostd.any(name)]).cast()
+  self.as_any()._call("index", [@core.any(name)]).cast()
 }
 
 ///| IDBIndex - Index for object store
@@ -378,17 +378,17 @@ pub fn[T] IDBObjectStore::index(
 pub(all) struct IDBIndex[T] {
   name : String
   objectStore : IDBObjectStore[T]
-  keyPath : @nostd.Any
+  keyPath : @core.Any
   multiEntry : Bool
   unique : Bool
 }
 
 ///|
-pub fn[T] IDBIndex::as_any(self : IDBIndex[T]) -> @nostd.Any = "%identity"
+pub fn[T] IDBIndex::as_any(self : IDBIndex[T]) -> @core.Any = "%identity"
 
 ///|
 /// Get a record by index key
-pub fn[T] IDBIndex::get(self : IDBIndex[T], key : @nostd.Any) -> IDBRequest[T] {
+pub fn[T] IDBIndex::get(self : IDBIndex[T], key : @core.Any) -> IDBRequest[T] {
   self.as_any()._call("get", [key]).cast()
 }
 
@@ -396,15 +396,15 @@ pub fn[T] IDBIndex::get(self : IDBIndex[T], key : @nostd.Any) -> IDBRequest[T] {
 /// Get all records matching the query
 pub fn[T] IDBIndex::getAll(
   self : IDBIndex[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   count? : Int,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, count) {
     (Some(q), Some(c)) =>
-      self.as_any()._call("getAll", [q, @nostd.any(c)]).cast()
+      self.as_any()._call("getAll", [q, @core.any(c)]).cast()
     (Some(q), None) => self.as_any()._call("getAll", [q]).cast()
     (None, Some(c)) =>
-      self.as_any()._call("getAll", [@nostd.undefined(), @nostd.any(c)]).cast()
+      self.as_any()._call("getAll", [@core.undefined(), @core.any(c)]).cast()
     (None, None) => self.as_any()._call("getAll", []).cast()
   }
 }
@@ -413,17 +413,17 @@ pub fn[T] IDBIndex::getAll(
 /// Get all keys matching the query
 pub fn[T] IDBIndex::getAllKeys(
   self : IDBIndex[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   count? : Int,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, count) {
     (Some(q), Some(c)) =>
-      self.as_any()._call("getAllKeys", [q, @nostd.any(c)]).cast()
+      self.as_any()._call("getAllKeys", [q, @core.any(c)]).cast()
     (Some(q), None) => self.as_any()._call("getAllKeys", [q]).cast()
     (None, Some(c)) =>
       self
       .as_any()
-      ._call("getAllKeys", [@nostd.undefined(), @nostd.any(c)])
+      ._call("getAllKeys", [@core.undefined(), @core.any(c)])
       .cast()
     (None, None) => self.as_any()._call("getAllKeys", []).cast()
   }
@@ -433,8 +433,8 @@ pub fn[T] IDBIndex::getAllKeys(
 /// Count records matching the query
 pub fn[T] IDBIndex::count(
   self : IDBIndex[T],
-  query? : @nostd.Any,
-) -> IDBRequest[@nostd.Any] {
+  query? : @core.Any,
+) -> IDBRequest[@core.Any] {
   match query {
     Some(q) => self.as_any()._call("count", [q]).cast()
     None => self.as_any()._call("count", []).cast()
@@ -445,17 +445,17 @@ pub fn[T] IDBIndex::count(
 /// Open a cursor on this index
 pub fn[T] IDBIndex::openCursor(
   self : IDBIndex[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   direction? : String,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, direction) {
     (Some(q), Some(d)) =>
-      self.as_any()._call("openCursor", [q, @nostd.any(d)]).cast()
+      self.as_any()._call("openCursor", [q, @core.any(d)]).cast()
     (Some(q), None) => self.as_any()._call("openCursor", [q]).cast()
     (None, Some(d)) =>
       self
       .as_any()
-      ._call("openCursor", [@nostd.undefined(), @nostd.any(d)])
+      ._call("openCursor", [@core.undefined(), @core.any(d)])
       .cast()
     (None, None) => self.as_any()._call("openCursor", []).cast()
   }
@@ -465,17 +465,17 @@ pub fn[T] IDBIndex::openCursor(
 /// Open a key cursor on this index
 pub fn[T] IDBIndex::openKeyCursor(
   self : IDBIndex[T],
-  query? : @nostd.Any,
+  query? : @core.Any,
   direction? : String,
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   match (query, direction) {
     (Some(q), Some(d)) =>
-      self.as_any()._call("openKeyCursor", [q, @nostd.any(d)]).cast()
+      self.as_any()._call("openKeyCursor", [q, @core.any(d)]).cast()
     (Some(q), None) => self.as_any()._call("openKeyCursor", [q]).cast()
     (None, Some(d)) =>
       self
       .as_any()
-      ._call("openKeyCursor", [@nostd.undefined(), @nostd.any(d)])
+      ._call("openKeyCursor", [@core.undefined(), @core.any(d)])
       .cast()
     (None, None) => self.as_any()._call("openKeyCursor", []).cast()
   }
@@ -486,18 +486,18 @@ pub fn[T] IDBIndex::openKeyCursor(
 ///|
 /// IDBCursor represents a cursor for iterating over records
 pub(all) struct IDBCursor[T] {
-  key : @nostd.Any
-  primaryKey : @nostd.Any
+  key : @core.Any
+  primaryKey : @core.Any
   direction : String
-  source : @nostd.Any
+  source : @core.Any
 }
 
 ///|
-pub fn[T] IDBCursor::as_any(self : IDBCursor[T]) -> @nostd.Any = "%identity"
+pub fn[T] IDBCursor::as_any(self : IDBCursor[T]) -> @core.Any = "%identity"
 
 ///|
 /// Continue to the next record
-pub fn[T] IDBCursor::continue_(self : IDBCursor[T], key? : @nostd.Any) -> Unit {
+pub fn[T] IDBCursor::continue_(self : IDBCursor[T], key? : @core.Any) -> Unit {
   match key {
     Some(k) => self.as_any()._call("continue", [k]) |> ignore
     None => self.as_any()._call("continue", []) |> ignore
@@ -507,7 +507,7 @@ pub fn[T] IDBCursor::continue_(self : IDBCursor[T], key? : @nostd.Any) -> Unit {
 ///|
 /// Advance the cursor by count records
 pub fn[T] IDBCursor::advance(self : IDBCursor[T], count : Int) -> Unit {
-  self.as_any()._call("advance", [@nostd.any(count)]) |> ignore
+  self.as_any()._call("advance", [@core.any(count)]) |> ignore
 }
 
 ///|
@@ -515,14 +515,16 @@ pub fn[T] IDBCursor::advance(self : IDBCursor[T], count : Int) -> Unit {
 pub fn[T] IDBCursor::update(
   self : IDBCursor[T],
   value : T,
-) -> IDBRequest[@nostd.Any] {
-  let js_value : @nostd.Any = @nostd.identity(value)
+) -> IDBRequest[@core.Any] {
+  let js_value : @core.Any = @core.identity(value)
   self.as_any()._call("update", [js_value]).cast()
 }
 
 ///|
 /// Delete the current record
-pub fn[T] IDBCursor::delete_current(self : IDBCursor[T]) -> IDBRequest[@nostd.Any] {
+pub fn[T] IDBCursor::delete_current(
+  self : IDBCursor[T],
+) -> IDBRequest[@core.Any] {
   self.as_any()._call("delete", []).cast()
 }
 
@@ -532,23 +534,21 @@ pub fn[T] IDBCursor::delete_current(self : IDBCursor[T]) -> IDBRequest[@nostd.An
 /// IDBCursorWithValue extends IDBCursor with value property
 /// T is the type of values in the object store
 pub(all) struct IDBCursorWithValue[T] {
-  key : @nostd.Any
-  primaryKey : @nostd.Any
+  key : @core.Any
+  primaryKey : @core.Any
   direction : String
-  source : @nostd.Any
+  source : @core.Any
   value : T
 }
 
 ///|
-pub fn[T] IDBCursorWithValue::as_any(
-  self : IDBCursorWithValue[T],
-) -> @nostd.Any = "%identity"
+pub fn[T] IDBCursorWithValue::as_any(self : IDBCursorWithValue[T]) -> @core.Any = "%identity"
 
 ///|
 /// Continue to the next record
 pub fn[T] IDBCursorWithValue::continue_(
   self : IDBCursorWithValue[T],
-  key? : @nostd.Any,
+  key? : @core.Any,
 ) -> Unit {
   match key {
     Some(k) => self.as_any()._call("continue", [k]) |> ignore
@@ -562,7 +562,7 @@ pub fn[T] IDBCursorWithValue::advance(
   self : IDBCursorWithValue[T],
   count : Int,
 ) -> Unit {
-  self.as_any()._call("advance", [@nostd.any(count)]) |> ignore
+  self.as_any()._call("advance", [@core.any(count)]) |> ignore
 }
 
 ///|
@@ -570,8 +570,8 @@ pub fn[T] IDBCursorWithValue::advance(
 pub fn[T] IDBCursorWithValue::update(
   self : IDBCursorWithValue[T],
   value : T,
-) -> IDBRequest[@nostd.Any] {
-  let js_value : @nostd.Any = @nostd.identity(value)
+) -> IDBRequest[@core.Any] {
+  let js_value : @core.Any = @core.identity(value)
   self.as_any()._call("update", [js_value]).cast()
 }
 
@@ -579,7 +579,7 @@ pub fn[T] IDBCursorWithValue::update(
 /// Delete the current record
 pub fn[T] IDBCursorWithValue::delete_current(
   self : IDBCursorWithValue[T],
-) -> IDBRequest[@nostd.Any] {
+) -> IDBRequest[@core.Any] {
   self.as_any()._call("delete", []).cast()
 }
 
@@ -588,64 +588,64 @@ pub fn[T] IDBCursorWithValue::delete_current(
 ///|
 /// IDBKeyRange represents a range of keys
 pub(all) struct IDBKeyRange {
-  lower : @nostd.Any
-  upper : @nostd.Any
+  lower : @core.Any
+  upper : @core.Any
   lowerOpen : Bool
   upperOpen : Bool
 }
 
 ///|
-pub fn IDBKeyRange::as_any(self : IDBKeyRange) -> @nostd.Any = "%identity"
+pub fn IDBKeyRange::as_any(self : IDBKeyRange) -> @core.Any = "%identity"
 
 ///|
 /// Create a key range with both bounds
 pub fn IDBKeyRange::bound(
-  lower : @nostd.Any,
-  upper : @nostd.Any,
+  lower : @core.Any,
+  upper : @core.Any,
   lowerOpen? : Bool,
   upperOpen? : Bool,
 ) -> IDBKeyRange {
-  let global : @nostd.Any = @nostd.identity(@global.global_this())
+  let global : @core.Any = @core.identity(@global.global_this())
   let idb_key_range = global["IDBKeyRange"]
   idb_key_range._call("bound", [
     lower,
     upper,
-    @nostd.any(lowerOpen.unwrap_or(false)),
-    @nostd.any(upperOpen.unwrap_or(false)),
+    @core.any(lowerOpen.unwrap_or(false)),
+    @core.any(upperOpen.unwrap_or(false)),
   ])
-  |> @nostd.identity
+  |> @core.identity
 }
 
 ///|
 /// Create a key range with only one value
-pub fn IDBKeyRange::only(value : @nostd.Any) -> IDBKeyRange {
-  let global : @nostd.Any = @nostd.identity(@global.global_this())
+pub fn IDBKeyRange::only(value : @core.Any) -> IDBKeyRange {
+  let global : @core.Any = @core.identity(@global.global_this())
   let idb_key_range = global["IDBKeyRange"]
   idb_key_range._call("only", [value]).cast()
 }
 
 ///|
 /// Create a key range with lower bound
-pub fn IDBKeyRange::lowerBound(lower : @nostd.Any, open? : Bool) -> IDBKeyRange {
-  let global : @nostd.Any = @nostd.identity(@global.global_this())
+pub fn IDBKeyRange::lowerBound(lower : @core.Any, open? : Bool) -> IDBKeyRange {
+  let global : @core.Any = @core.identity(@global.global_this())
   let idb_key_range = global["IDBKeyRange"]
-  idb_key_range._call("lowerBound", [lower, @nostd.any(open.unwrap_or(false))])
-  |> @nostd.identity
+  idb_key_range._call("lowerBound", [lower, @core.any(open.unwrap_or(false))])
+  |> @core.identity
 }
 
 ///|
 /// Create a key range with upper bound
-pub fn IDBKeyRange::upperBound(upper : @nostd.Any, open? : Bool) -> IDBKeyRange {
-  let global : @nostd.Any = @nostd.identity(@global.global_this())
+pub fn IDBKeyRange::upperBound(upper : @core.Any, open? : Bool) -> IDBKeyRange {
+  let global : @core.Any = @core.identity(@global.global_this())
   let idb_key_range = global["IDBKeyRange"]
   idb_key_range
-  ._call("upperBound", [upper, @nostd.any(open.unwrap_or(false))])
+  ._call("upperBound", [upper, @core.any(open.unwrap_or(false))])
   .cast()
 }
 
 ///|
 /// Check if a key is in this range
-pub fn IDBKeyRange::includes(self : Self, key : @nostd.Any) -> Bool {
+pub fn IDBKeyRange::includes(self : Self, key : @core.Any) -> Bool {
   self.as_any()._call("includes", [key]).cast()
 }
 
@@ -653,8 +653,8 @@ pub fn IDBKeyRange::includes(self : Self, key : @nostd.Any) -> Bool {
 
 ///|
 /// Get the indexedDB factory instance from globalThis
-pub fn indexedDB() -> @nostd.Any {
-  let global : @nostd.Any = @nostd.identity(@global.global_this())
+pub fn indexedDB() -> @core.Any {
+  let global : @core.Any = @core.identity(@global.global_this())
   global["indexedDB"]
 }
 
@@ -663,8 +663,8 @@ pub fn indexedDB() -> @nostd.Any {
 pub fn open(name : String, version? : Int) -> IDBOpenDBRequest {
   let idb = indexedDB()
   match version {
-    Some(v) => idb._call("open", [@nostd.any(name), @nostd.any(v)]).cast()
-    None => idb._call("open", [@nostd.any(name)]).cast()
+    Some(v) => idb._call("open", [@core.any(name), @core.any(v)]).cast()
+    None => idb._call("open", [@core.any(name)]).cast()
   }
 }
 
@@ -672,12 +672,12 @@ pub fn open(name : String, version? : Int) -> IDBOpenDBRequest {
 /// Delete a database
 pub fn deleteDatabase(name : String) -> IDBOpenDBRequest {
   let idb = indexedDB()
-  idb._call("deleteDatabase", [@nostd.any(name)]).cast()
+  idb._call("deleteDatabase", [@core.any(name)]).cast()
 }
 
 ///|
 /// Compare two keys
-pub fn cmp(first : @nostd.Any, second : @nostd.Any) -> Int {
+pub fn cmp(first : @core.Any, second : @core.Any) -> Int {
   let idb = indexedDB()
   idb._call("cmp", [first, second]).cast()
 }

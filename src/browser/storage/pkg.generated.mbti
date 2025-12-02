@@ -2,13 +2,13 @@
 package "mizchi/js/browser/storage"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn localStorage() -> Storage
+pub fn localStorage() -> Storage
 
-fn sessionStorage() -> Storage
+pub fn sessionStorage() -> Storage
 
 // Errors
 
@@ -16,16 +16,16 @@ fn sessionStorage() -> Storage
 pub(all) struct Storage {
   length : Int
 }
-fn Storage::as_any(Self) -> @nostd.Any
-fn Storage::clear(Self) -> Unit
-fn Storage::entries(Self) -> Array[(String, String)]
-fn Storage::getItem(Self, String) -> String?
-fn Storage::hasItem(Self, String) -> Bool
-fn Storage::key(Self, Int) -> String?
-fn Storage::keys(Self) -> Array[String]
-fn Storage::removeItem(Self, String) -> Unit
-fn Storage::setItem(Self, String, String) -> Unit
-fn Storage::values(Self) -> Array[String]
+pub fn Storage::as_any(Self) -> @core.Any
+pub fn Storage::clear(Self) -> Unit
+pub fn Storage::entries(Self) -> Array[(String, String)]
+pub fn Storage::getItem(Self, String) -> String?
+pub fn Storage::hasItem(Self, String) -> Bool
+pub fn Storage::key(Self, Int) -> String?
+pub fn Storage::keys(Self) -> Array[String]
+pub fn Storage::removeItem(Self, String) -> Unit
+pub fn Storage::setItem(Self, String, String) -> Unit
+pub fn Storage::values(Self) -> Array[String]
 
 // Type aliases
 

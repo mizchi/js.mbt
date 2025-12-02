@@ -11,7 +11,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
   // Verify at least some values are non-zero (extremely unlikely all zeros)
   let mut has_nonzero = false
   for i = 0; i < 16; i = i + 1 {
-    let val : Int = result.get_at(i |> @nostd.identity)
+    let val : Int = result.get_at(i |> @core.identity)
     if val != 0 {
       has_nonzero = true
       break
@@ -50,13 +50,13 @@ test "Crypto::randomUUID generates valid UUID" {
   assert_eq(uuid.length(), 36)
 
   // Should contain hyphens at specific positions
-  assert_eq(@nostd.any(uuid)._call("charAt", [@nostd.any(8)]).cast(), "-")
-  assert_eq(@nostd.any(uuid)._call("charAt", [@nostd.any(13)]).cast(), "-")
-  assert_eq(@nostd.any(uuid)._call("charAt", [@nostd.any(18)]).cast(), "-")
-  assert_eq(@nostd.any(uuid)._call("charAt", [@nostd.any(23)]).cast(), "-")
+  assert_eq(@core.any(uuid)._call("charAt", [@core.any(8)]).cast(), "-")
+  assert_eq(@core.any(uuid)._call("charAt", [@core.any(13)]).cast(), "-")
+  assert_eq(@core.any(uuid)._call("charAt", [@core.any(18)]).cast(), "-")
+  assert_eq(@core.any(uuid)._call("charAt", [@core.any(23)]).cast(), "-")
 
   // Version should be 4 (at position 14)
-  assert_eq(@nostd.any(uuid)._call("charAt", [@nostd.any(14)]).cast(), "4")
+  assert_eq(@core.any(uuid)._call("charAt", [@core.any(14)]).cast(), "4")
 }
 
 ///|
@@ -72,8 +72,8 @@ test "Crypto::randomUUID generates unique values" {
 ///|
 test "Crypto::get returns Crypto instance" {
   let crypto = Crypto::get()
-  let js_val : @nostd.Any = crypto.as_any()
-  assert_eq(@nostd.typeof_(js_val), "object")
+  let js_val : @core.Any = crypto.as_any()
+  assert_eq(@core.typeof_(js_val), "object")
 }
 
 ///|
@@ -97,18 +97,15 @@ extern "js" fn test_ffi_array_buffer_to_hex(buffer : @js.ArrayBuffer) -> String 
 ///|
 /// [Test Helper] Creates an AES algorithm parameter object.
 /// Web Crypto API requires algorithm objects, not just strings.
-extern "js" fn test_ffi_aes_algorithm(
-  name : String,
-  length : Int,
-) -> @nostd.Any =
+extern "js" fn test_ffi_aes_algorithm(name : String, length : Int) -> @core.Any =
   #|(name, length) => ({ name, length })
 
 ///|
 /// [Test Helper] Creates AES-GCM encryption parameters with IV.
 extern "js" fn test_ffi_aes_gcm_params(
   name : String,
-  iv : @nostd.Any,
-) -> @nostd.Any =
+  iv : @core.Any,
+) -> @core.Any =
   #|(name, iv) => ({ name, iv })
 
 ///|
@@ -116,12 +113,12 @@ extern "js" fn test_ffi_aes_gcm_params(
 extern "js" fn test_ffi_hmac_algorithm(
   name : String,
   hash : String,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(name, hash) => ({ name, hash })
 
 ///|
 /// [Test Helper] Generates random bytes for IV (initialization vector).
-extern "js" fn test_ffi_random_bytes(length : Int) -> @nostd.Any =
+extern "js" fn test_ffi_random_bytes(length : Int) -> @core.Any =
   #|(length) => crypto.getRandomValues(new Uint8Array(length))
 
 ///| Digest Tests
@@ -130,7 +127,7 @@ extern "js" fn test_ffi_random_bytes(length : Int) -> @nostd.Any =
 async test "Web Crypto API: SubtleCrypto digest SHA-256" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data : @nostd.Any = @nostd.identity(
+  let data : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-256", data)
@@ -142,7 +139,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-256" {
 async test "Web Crypto API: SubtleCrypto digest SHA-384" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data : @nostd.Any = @nostd.identity(
+  let data : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-384", data)
@@ -154,7 +151,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-384" {
 async test "Web Crypto API: SubtleCrypto digest SHA-512" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data : @nostd.Any = @nostd.identity(
+  let data : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-512", data)
@@ -168,10 +165,10 @@ async test "Web Crypto API: SubtleCrypto digest SHA-512" {
 async test "Web Crypto API: SubtleCrypto generateKey AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm : @nostd.Any = test_ffi_aes_algorithm("AES-GCM", 256)
+  let algorithm : @core.Any = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let key_type : String = @nostd.identity(key["type"])
+  let key_type : String = @core.identity(key["type"])
   assert_eq(key_type, "secret")
 }
 
@@ -179,10 +176,10 @@ async test "Web Crypto API: SubtleCrypto generateKey AES-GCM" {
 async test "Web Crypto API: SubtleCrypto generateKey HMAC" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm : @nostd.Any = test_ffi_hmac_algorithm("HMAC", "SHA-256")
+  let algorithm : @core.Any = test_ffi_hmac_algorithm("HMAC", "SHA-256")
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let key_type : String = @nostd.identity(key["type"])
+  let key_type : String = @core.identity(key["type"])
   assert_eq(key_type, "secret")
 }
 
@@ -192,16 +189,16 @@ async test "Web Crypto API: SubtleCrypto generateKey HMAC" {
 async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm : @nostd.Any = test_ffi_aes_algorithm("AES-GCM", 256)
+  let algorithm : @core.Any = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let iv : @nostd.Any = test_ffi_random_bytes(12)
-  let plaintext : @nostd.Any = @nostd.identity(
+  let iv : @core.Any = test_ffi_random_bytes(12)
+  let plaintext : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("Secret message").as_any(),
   )
-  let enc_algorithm : @nostd.Any = test_ffi_aes_gcm_params("AES-GCM", iv)
+  let enc_algorithm : @core.Any = test_ffi_aes_gcm_params("AES-GCM", iv)
   let encrypted = subtle.encrypt(enc_algorithm, key, plaintext)
-  let decrypted = subtle.decrypt(enc_algorithm, key, @nostd.any(encrypted))
+  let decrypted = subtle.decrypt(enc_algorithm, key, @core.any(encrypted))
   // Convert ArrayBuffer to Uint8Array for TextDecoder
   let decrypted_bytes = @typedarray.Uint8Array::from_array_buffer(decrypted)
   let result = @encoding.TextDecoder::new().decode(decrypted_bytes)
@@ -214,14 +211,14 @@ async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
 async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm : @nostd.Any = test_ffi_hmac_algorithm("HMAC", "SHA-256")
+  let algorithm : @core.Any = test_ffi_hmac_algorithm("HMAC", "SHA-256")
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages)
-  let data : @nostd.Any = @nostd.identity(
+  let data : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("Message to sign").as_any(),
   )
   let signature = subtle.sign(algorithm, key, data)
-  let is_valid = subtle.verify(algorithm, key, @nostd.any(signature), data)
+  let is_valid = subtle.verify(algorithm, key, @core.any(signature), data)
   assert_true(is_valid)
 }
 
@@ -231,14 +228,14 @@ async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
 async test "Web Crypto API: SubtleCrypto exportKey and importKey with AES-GCM" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let algorithm : @nostd.Any = test_ffi_aes_algorithm("AES-GCM", 256)
+  let algorithm : @core.Any = test_ffi_aes_algorithm("AES-GCM", 256)
   let key_usages = ["encrypt", "decrypt"]
   let original_key = subtle.generateKey(algorithm, true, key_usages)
   let exported = subtle.exportKey("raw", original_key)
   let imported_key = subtle.importKey(
     "raw", exported, algorithm, true, key_usages,
   )
-  let key_type : String = @nostd.identity(imported_key.as_any()["type"])
+  let key_type : String = @core.identity(imported_key.as_any()["type"])
   assert_eq(key_type, "secret")
 }
 
@@ -248,7 +245,7 @@ async test "Web Crypto API: SubtleCrypto exportKey and importKey with AES-GCM" {
 async test "Web Crypto API: getCrypto returns Crypto instance" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
-  let data : @nostd.Any = @nostd.identity(
+  let data : @core.Any = @core.identity(
     @encoding.TextEncoder::new().encode("test").as_any(),
   )
   let digest = subtle.digest("SHA-256", data)

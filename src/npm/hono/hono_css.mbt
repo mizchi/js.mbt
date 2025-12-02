@@ -6,12 +6,12 @@
 /// CSS class name trait - accepts String or CssClass
 /// Used for jsx class attribute
 pub trait CssClassName {
-  value(Self) -> @nostd.Any = _
+  value(Self) -> @core.Any = _
 }
 
 ///|
-impl CssClassName with value(self) -> @nostd.Any {
-  @nostd.any(self)
+impl CssClassName with value(self) -> @core.Any {
+  @core.any(self)
 }
 
 ///|
@@ -23,7 +23,7 @@ pub impl CssClassName for String
 pub type CssClass
 
 ///|
-pub fn CssClass::as_any(self : CssClass) -> @nostd.Any = "%identity"
+pub fn CssClass::as_any(self : CssClass) -> @core.Any = "%identity"
 
 ///|
 pub impl CssClassName for CssClass with value(self) {
@@ -37,7 +37,7 @@ pub fn CssClass::to_string(self : CssClass) -> String {
 }
 
 ///|
-extern "js" fn ffi_css_to_string(c : @nostd.Any) -> String =
+extern "js" fn ffi_css_to_string(c : @core.Any) -> String =
   #|(c) => {
   #|  if (typeof c === 'string') return c;
   #|  const symbols = Object.getOwnPropertySymbols(c);
@@ -56,7 +56,7 @@ pub fn css(styles : String) -> CssClass {
 }
 
 ///|
-extern "js" fn ffi_css(styles : String) -> @nostd.Any =
+extern "js" fn ffi_css(styles : String) -> @core.Any =
   #|(styles) => {
   #|  const { css } = require('hono/css');
   #|  return css([styles]);
@@ -70,7 +70,7 @@ pub fn keyframes(animation : String) -> CssClass {
 }
 
 ///|
-extern "js" fn ffi_keyframes(animation : String) -> @nostd.Any =
+extern "js" fn ffi_keyframes(animation : String) -> @core.Any =
   #|(animation) => {
   #|  const { keyframes } = require('hono/css');
   #|  return keyframes([animation]);
@@ -79,11 +79,11 @@ extern "js" fn ffi_keyframes(animation : String) -> @nostd.Any =
 ///|
 /// Combine multiple CSS classes
 pub fn cx(classes : Array[CssClass]) -> CssClass {
-  ffi_cx(@nostd.any(classes.map(fn(c) { c.as_any() }))).cast()
+  ffi_cx(@core.any(classes.map(fn(c) { c.as_any() }))).cast()
 }
 
 ///|
-extern "js" fn ffi_cx(classes : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_cx(classes : @core.Any) -> @core.Any =
   #|(classes) => {
   #|  const { cx } = require('hono/css');
   #|  return cx(...classes);
@@ -100,7 +100,7 @@ pub fn style_component(nonce? : String) -> JSXNode {
 }
 
 ///|
-extern "js" fn ffi_style() -> @nostd.Any =
+extern "js" fn ffi_style() -> @core.Any =
   #|() => {
   #|  const { jsxs } = require('hono/jsx/jsx-runtime');
   #|  const { Style } = require('hono/css');
@@ -108,7 +108,7 @@ extern "js" fn ffi_style() -> @nostd.Any =
   #|}
 
 ///|
-extern "js" fn ffi_style_with_nonce(nonce : String) -> @nostd.Any =
+extern "js" fn ffi_style_with_nonce(nonce : String) -> @core.Any =
   #|(nonce) => {
   #|  const { jsxs } = require('hono/jsx/jsx-runtime');
   #|  const { Style } = require('hono/css');

@@ -9,7 +9,7 @@
 pub type HTTPRequest
 
 ///|
-pub fn HTTPRequest::to_any(self : HTTPRequest) -> @nostd.Any = "%identity"
+pub fn HTTPRequest::to_any(self : HTTPRequest) -> @core.Any = "%identity"
 
 ///|
 /// HTTPResponse type
@@ -18,7 +18,7 @@ pub fn HTTPRequest::to_any(self : HTTPRequest) -> @nostd.Any = "%identity"
 pub type HTTPResponse
 
 ///|
-pub fn HTTPResponse::to_any(self : HTTPResponse) -> @nostd.Any = "%identity"
+pub fn HTTPResponse::to_any(self : HTTPResponse) -> @core.Any = "%identity"
 
 ///| Page methods (network interception)
 
@@ -29,8 +29,8 @@ pub fn HTTPResponse::to_any(self : HTTPResponse) -> @nostd.Any = "%identity"
 pub async fn Page::setRequestInterception(self : Page, value : Bool) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setRequestInterception", [@nostd.any(value)])
-    |> @nostd.identity
+    ._call("setRequestInterception", [@core.any(value)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -41,7 +41,7 @@ pub async fn Page::setRequestInterception(self : Page, value : Bool) -> Unit {
 /// JS: request.abort()
 pub async fn HTTPRequest::abort(self : HTTPRequest) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("abort", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -50,7 +50,7 @@ pub async fn HTTPRequest::abort(self : HTTPRequest) -> Unit {
 /// JS: request.continue()
 pub async fn HTTPRequest::continue_(self : HTTPRequest) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("continue", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -59,12 +59,12 @@ pub async fn HTTPRequest::continue_(self : HTTPRequest) -> Unit {
 /// JS: request.continue(overrides)
 pub async fn HTTPRequest::continue_with(
   self : HTTPRequest,
-  overrides : @nostd.Any,
+  overrides : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("continue", [@nostd.any(overrides)])
-    |> @nostd.identity
+    ._call("continue", [@core.any(overrides)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -73,12 +73,12 @@ pub async fn HTTPRequest::continue_with(
 /// JS: request.respond(response)
 pub async fn HTTPRequest::respond(
   self : HTTPRequest,
-  response : @nostd.Any,
+  response : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("respond", [@nostd.any(response)])
-    |> @nostd.identity
+    ._call("respond", [@core.any(response)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -106,8 +106,8 @@ pub fn HTTPRequest::method_(self : HTTPRequest) -> String {
 ///|
 /// HTTPRequest: Get request headers
 /// JS: request.headers()
-pub fn HTTPRequest::headers(self : HTTPRequest) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @nostd.identity
+pub fn HTTPRequest::headers(self : HTTPRequest) -> @core.Any {
+  self.to_any()._call("headers", []) |> @core.identity
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn HTTPRequest::hasPostData(self : HTTPRequest) -> Bool {
 /// JS: request.fetchPostData()
 pub async fn HTTPRequest::fetchPostData(self : HTTPRequest) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("fetchPostData", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -187,8 +187,8 @@ pub fn HTTPResponse::ok(self : HTTPResponse) -> Bool {
 ///|
 /// HTTPResponse: Get response headers
 /// JS: response.headers()
-pub fn HTTPResponse::headers(self : HTTPResponse) -> @nostd.Any {
-  self.to_any()._call("headers", []) |> @nostd.identity
+pub fn HTTPResponse::headers(self : HTTPResponse) -> @core.Any {
+  self.to_any()._call("headers", []) |> @core.identity
 }
 
 ///|
@@ -196,25 +196,25 @@ pub fn HTTPResponse::headers(self : HTTPResponse) -> @nostd.Any {
 /// JS: response.text()
 pub async fn HTTPResponse::text(self : HTTPResponse) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("text", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// HTTPResponse: Get response body as JSON
 /// JS: response.json()
-pub async fn HTTPResponse::json(self : HTTPResponse) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("json", [])
-    |> @nostd.identity
+pub async fn HTTPResponse::json(self : HTTPResponse) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("json", [])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// HTTPResponse: Get response body as buffer
 /// JS: response.buffer()
-pub async fn HTTPResponse::buffer(self : HTTPResponse) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("buffer", [])
-    |> @nostd.identity
+pub async fn HTTPResponse::buffer(self : HTTPResponse) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("buffer", [])
+    |> @core.identity
   promise.wait()
 }
 

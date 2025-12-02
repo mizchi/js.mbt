@@ -1,4 +1,10 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/builtins/bigint", "mizchi/js/nostd"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/builtins/bigint",
+    "mizchi/js/core"
+  ]
 }

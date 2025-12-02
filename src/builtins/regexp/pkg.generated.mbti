@@ -2,8 +2,7 @@
 package "mizchi/js/builtins/regexp"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -13,31 +12,30 @@ import(
 // Types and methods
 #external
 pub type RegExp
-fn RegExp::as_any(Self) -> @nostd.Any
-fn RegExp::dotAll(Self) -> Bool
-fn RegExp::exec(Self, String) -> RegExpResult?
-fn RegExp::flags(Self) -> String
-fn RegExp::global(Self) -> Bool
-fn RegExp::hasIndices(Self) -> Bool
-fn RegExp::ignore_case(Self) -> Bool
-fn RegExp::lastIndex(Self) -> Int
-fn RegExp::matchAll(Self, String) -> Array[RegExpMatchArray]
-fn RegExp::match_(Self, String) -> RegExpMatchArray?
-fn RegExp::multiline(Self) -> Bool
-fn RegExp::new(String, flags? : String) -> Self
-fn RegExp::replace(Self, String, String) -> String
-fn RegExp::replace_all(Self, String, String) -> String
-fn RegExp::replace_all_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
-fn RegExp::replace_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
-fn RegExp::search(Self, String) -> Int
-fn RegExp::set_last_index(Self, Int) -> Unit
-fn RegExp::source(Self) -> String
-fn RegExp::split(Self, String, limit? : Int) -> Array[String]
-fn RegExp::sticky(Self) -> Bool
-fn RegExp::test_(Self, String) -> Bool
-fn RegExp::to_string(Self) -> String
-fn RegExp::unicode(Self) -> Bool
-impl @js.JsImpl for RegExp
+pub fn RegExp::dotAll(Self) -> Bool
+pub fn RegExp::exec(Self, String) -> RegExpResult?
+pub fn RegExp::flags(Self) -> String
+pub fn RegExp::global(Self) -> Bool
+pub fn RegExp::hasIndices(Self) -> Bool
+pub fn RegExp::ignore_case(Self) -> Bool
+pub fn RegExp::lastIndex(Self) -> Int
+pub fn RegExp::matchAll(Self, String) -> Array[RegExpMatchArray]
+pub fn RegExp::match_(Self, String) -> RegExpMatchArray?
+pub fn RegExp::multiline(Self) -> Bool
+pub fn RegExp::new(String, flags? : String) -> Self
+pub fn RegExp::replace(Self, String, String) -> String
+pub fn RegExp::replace_all(Self, String, String) -> String
+pub fn RegExp::replace_all_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+pub fn RegExp::replace_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+pub fn RegExp::search(Self, String) -> Int
+pub fn RegExp::set_last_index(Self, Int) -> Unit
+pub fn RegExp::source(Self) -> String
+pub fn RegExp::split(Self, String, limit? : Int) -> Array[String]
+pub fn RegExp::sticky(Self) -> Bool
+pub fn RegExp::test_(Self, String) -> Bool
+pub fn RegExp::to_any(Self) -> @core.Any
+pub fn RegExp::to_string(Self) -> String
+pub fn RegExp::unicode(Self) -> Bool
 
 pub struct RegExpMatchArray {
   matches : Array[String]
@@ -45,7 +43,7 @@ pub struct RegExpMatchArray {
   input : String?
   groups : Map[String, String]?
 }
-fn RegExpMatchArray::as_any(Self) -> @nostd.Any
+pub fn RegExpMatchArray::to_any(Self) -> @core.Any
 
 pub struct RegExpResult {
   full : String
@@ -54,7 +52,7 @@ pub struct RegExpResult {
   lastIndex : Int
   groups : Map[String, String]?
 }
-fn RegExpResult::as_any(Self) -> @nostd.Any
+pub fn RegExpResult::to_any(Self) -> @core.Any
 
 // Type aliases
 

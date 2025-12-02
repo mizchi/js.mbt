@@ -3,14 +3,14 @@
 /// https://www.npmjs.com/package/dotenv
 
 ///|
-extern "js" fn dotenv() -> @nostd.Any =
+extern "js" fn dotenv() -> @core.Any =
   #| () => require("dotenv")
 
 ///|
 /// DotenvConfigOutput - result of config()
 pub struct DotenvConfigOutput {
-  parsed : @nostd.Any?
-  error : @nostd.Any?
+  parsed : @core.Any?
+  error : @core.Any?
 }
 
 ///|
@@ -21,7 +21,7 @@ pub type DotenvParseOutput
 ///|
 pub extern "js" fn DotenvParseOutput::as_any(
   self : DotenvParseOutput,
-) -> @nostd.Any =
+) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -34,36 +34,36 @@ pub fn config(
   override_existing? : Bool,
   quiet? : Bool,
 ) -> DotenvConfigOutput {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match path {
-    Some(v) => opts["path"] = @nostd.any(v)
+    Some(v) => opts["path"] = @core.any(v)
     None => ()
   }
   match encoding {
-    Some(v) => opts["encoding"] = @nostd.any(v)
+    Some(v) => opts["encoding"] = @core.any(v)
     None => ()
   }
   match debug {
-    Some(v) => opts["debug"] = @nostd.any(v)
+    Some(v) => opts["debug"] = @core.any(v)
     None => ()
   }
   match override_existing {
-    Some(v) => opts["override"] = @nostd.any(v)
+    Some(v) => opts["override"] = @core.any(v)
     None => ()
   }
   match quiet {
-    Some(v) => opts["quiet"] = @nostd.any(v)
+    Some(v) => opts["quiet"] = @core.any(v)
     None => ()
   }
   let result = dotenv()._call("config", [opts])
   let parsed_raw = result["parsed"]
   let error_raw = result["error"]
-  let parsed : @nostd.Any? = if @nostd.is_undefined(parsed_raw) {
+  let parsed : @core.Any? = if @core.is_undefined(parsed_raw) {
     None
   } else {
     Some(parsed_raw)
   }
-  let error : @nostd.Any? = if @nostd.is_undefined(error_raw) {
+  let error : @core.Any? = if @core.is_undefined(error_raw) {
     None
   } else {
     Some(error_raw)
@@ -75,17 +75,17 @@ pub fn config(
 /// Load .env file with multiple paths
 #alias(config_paths)
 pub fn configPaths(paths : Array[String]) -> DotenvConfigOutput {
-  let opts = @nostd.Object::new()
-  opts["path"] = @nostd.any(paths)
+  let opts = @core.Object::new()
+  opts["path"] = @core.any(paths)
   let result = dotenv()._call("config", [opts])
   let parsed_raw = result["parsed"]
   let error_raw = result["error"]
-  let parsed : @nostd.Any? = if @nostd.is_undefined(parsed_raw) {
+  let parsed : @core.Any? = if @core.is_undefined(parsed_raw) {
     None
   } else {
     Some(parsed_raw)
   }
-  let error : @nostd.Any? = if @nostd.is_undefined(error_raw) {
+  let error : @core.Any? = if @core.is_undefined(error_raw) {
     None
   } else {
     Some(error_raw)
@@ -96,31 +96,31 @@ pub fn configPaths(paths : Array[String]) -> DotenvConfigOutput {
 ///|
 /// Parse a dotenv string or Buffer
 pub fn parse(src : String) -> DotenvParseOutput {
-  dotenv()._call("parse", [@nostd.any(src)]).cast()
+  dotenv()._call("parse", [@core.any(src)]).cast()
 }
 
 ///|
 /// Parse with options
 #alias(parse_with_options)
 pub fn parseWithOptions(src : String, debug? : Bool) -> DotenvParseOutput {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match debug {
-    Some(v) => opts["debug"] = @nostd.any(v)
+    Some(v) => opts["debug"] = @core.any(v)
     None => ()
   }
-  dotenv()._call("parse", [@nostd.any(src), opts]).cast()
+  dotenv()._call("parse", [@core.any(src), opts]).cast()
 }
 
 ///|
 /// Populate target object with source env vars
 pub fn populate(
-  target : @nostd.Any,
-  source : @nostd.Any,
+  target : @core.Any,
+  source : @core.Any,
   override_existing? : Bool,
 ) -> Unit {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match override_existing {
-    Some(v) => opts["override"] = @nostd.any(v)
+    Some(v) => opts["override"] = @core.any(v)
     None => ()
   }
   dotenv()._call("populate", [target, source, opts]) |> ignore
@@ -135,7 +135,7 @@ pub fn DotenvParseOutput::get_(
   key : String,
 ) -> String? {
   let v = self.as_any()[key]
-  if @nostd.is_undefined(v) {
+  if @core.is_undefined(v) {
     None
   } else {
     Some(v.cast())
@@ -143,7 +143,7 @@ pub fn DotenvParseOutput::get_(
 }
 
 ///|
-extern "js" fn ffi_object_keys(obj : @nostd.Any) -> Array[String] =
+extern "js" fn ffi_object_keys(obj : @core.Any) -> Array[String] =
   #| (obj) => Object.keys(obj)
 
 ///|
@@ -155,13 +155,13 @@ pub fn DotenvParseOutput::keys(self : DotenvParseOutput) -> Array[String] {
 ///| Helpers for process.env access
 
 ///|
-extern "js" fn ffi_process_env() -> @nostd.Any =
+extern "js" fn ffi_process_env() -> @core.Any =
   #| () => process.env
 
 ///|
 /// Get process.env object
 #alias(process_env)
-pub fn processEnv() -> @nostd.Any {
+pub fn processEnv() -> @core.Any {
   ffi_process_env()
 }
 
@@ -171,7 +171,7 @@ pub fn processEnv() -> @nostd.Any {
 pub fn getEnv(key : String) -> String? {
   let env = ffi_process_env()
   let v = env[key]
-  if @nostd.is_undefined(v) {
+  if @core.is_undefined(v) {
     None
   } else {
     Some(v.cast())
@@ -183,11 +183,11 @@ pub fn getEnv(key : String) -> String? {
 #alias(set_env)
 pub fn setEnv(key : String, value : String) -> Unit {
   let env = ffi_process_env()
-  env[key] = @nostd.any(value)
+  env[key] = @core.any(value)
 }
 
 ///|
-extern "js" fn ffi_delete(obj : @nostd.Any, key : String) -> Unit =
+extern "js" fn ffi_delete(obj : @core.Any, key : String) -> Unit =
   #| (obj, key) => delete obj[key]
 
 ///|

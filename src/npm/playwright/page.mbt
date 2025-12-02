@@ -8,7 +8,7 @@
 pub type Page
 
 ///|
-pub fn Page::to_any(self : Page) -> @nostd.Any = "%identity"
+pub fn Page::to_any(self : Page) -> @core.Any = "%identity"
 
 ///| Navigation Methods
 
@@ -22,25 +22,25 @@ pub async fn Page::goto(
   waitUntil? : String,
   referer? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
   if referer is Some(v) {
-    options["referer"] = @nostd.any(v)
+    options["referer"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("goto", [@nostd.any(url), options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    ._call("goto", [@core.any(url), options])
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -51,22 +51,22 @@ pub async fn Page::reload(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("reload", [options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -77,22 +77,22 @@ pub async fn Page::goBack(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("goBack", [options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -103,22 +103,22 @@ pub async fn Page::goForward(
   timeout? : Int,
   waitUntil? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("goForward", [options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -134,7 +134,7 @@ pub fn Page::url(self : Page) -> String {
 /// Get page title
 pub async fn Page::title(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("title", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -142,7 +142,7 @@ pub async fn Page::title(self : Page) -> String {
 /// Get page content (HTML)
 pub async fn Page::content(self : Page) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("content", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -154,17 +154,17 @@ pub async fn Page::setContent(
   timeout? : Int,
   waitUntil? : String,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setContent", [@nostd.any(html), options])
-    |> @nostd.identity
+    ._call("setContent", [@core.any(html), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -173,7 +173,7 @@ pub async fn Page::setContent(
 ///|
 /// Get locator for CSS selector or text
 pub fn Page::locator(self : Page, selector : String) -> Locator {
-  self.to_any()._call("locator", [@nostd.any(selector)]) |> @nostd.identity
+  self.to_any()._call("locator", [@core.any(selector)]) |> @core.identity
 }
 
 ///|
@@ -184,37 +184,35 @@ pub fn Page::getByRole(
   name? : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if name is Some(v) {
-    options["name"] = @nostd.any(v)
+    options["name"] = @core.any(v)
   }
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByRole", [@nostd.any(role), options])
-  |> @nostd.identity
+  self.to_any()._call("getByRole", [@core.any(role), options]) |> @core.identity
 }
 
 ///|
 /// Get locator by text
 pub fn Page::getByText(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByText", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByText", [@core.any(text), options]) |> @core.identity
 }
 
 ///|
 /// Get locator by label
 pub fn Page::getByLabel(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByLabel", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByLabel", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
@@ -224,40 +222,40 @@ pub fn Page::getByPlaceholder(
   text : String,
   exact? : Bool,
 ) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByPlaceholder", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByPlaceholder", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
 /// Get locator by alt text
 pub fn Page::getByAltText(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByAltText", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByAltText", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
 /// Get locator by title
 pub fn Page::getByTitle(self : Page, text : String, exact? : Bool) -> Locator {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if exact is Some(v) {
-    options["exact"] = @nostd.any(v)
+    options["exact"] = @core.any(v)
   }
-  self.to_any()._call("getByTitle", [@nostd.any(text), options])
-  |> @nostd.identity
+  self.to_any()._call("getByTitle", [@core.any(text), options])
+  |> @core.identity
 }
 
 ///|
 /// Get locator by test ID
 pub fn Page::getByTestId(self : Page, testId : String) -> Locator {
-  self.to_any()._call("getByTestId", [@nostd.any(testId)]) |> @nostd.identity
+  self.to_any()._call("getByTestId", [@core.any(testId)]) |> @core.identity
 }
 
 ///| Action Methods
@@ -277,41 +275,41 @@ pub async fn Page::click(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if button is Some(v) {
-    options["button"] = @nostd.any(v)
+    options["button"] = @core.any(v)
   }
   if clickCount is Some(v) {
-    options["clickCount"] = @nostd.any(v)
+    options["clickCount"] = @core.any(v)
   }
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@nostd.any(v))
+    options["modifiers"] = @core.any(@core.any(v))
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if position is Some((x, y)) {
-    let pos = @nostd.Object::new()
-    pos["x"] = @nostd.any(x)
-    pos["y"] = @nostd.any(y)
+    let pos = @core.Object::new()
+    pos["x"] = @core.any(x)
+    pos["y"] = @core.any(y)
     options["position"] = pos
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if trial is Some(v) {
-    options["trial"] = @nostd.any(v)
+    options["trial"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("click", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("click", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -323,17 +321,17 @@ pub async fn Page::dblclick(
   timeout? : Int,
   force? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("dblclick", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("dblclick", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -347,20 +345,20 @@ pub async fn Page::fill(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("fill", [@nostd.any(selector), @nostd.any(value), options])
-    |> @nostd.identity
+    ._call("fill", [@core.any(selector), @core.any(value), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -374,20 +372,20 @@ pub async fn Page::type_(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("type", [@nostd.any(selector), @nostd.any(text), options])
-    |> @nostd.identity
+    ._call("type", [@core.any(selector), @core.any(text), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -401,20 +399,20 @@ pub async fn Page::press(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if delay is Some(v) {
-    options["delay"] = @nostd.any(v)
+    options["delay"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("press", [@nostd.any(selector), @nostd.any(key), options])
-    |> @nostd.identity
+    ._call("press", [@core.any(selector), @core.any(key), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -427,20 +425,20 @@ pub async fn Page::check(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("check", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("check", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -453,20 +451,20 @@ pub async fn Page::uncheck(
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("uncheck", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("uncheck", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -475,25 +473,25 @@ pub async fn Page::uncheck(
 pub async fn Page::selectOption(
   self : Page,
   selector : String,
-  values : @nostd.Any,
+  values : @core.Any,
   force? : Bool,
   noWaitAfter? : Bool,
   timeout? : Int,
 ) -> Array[String] {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if noWaitAfter is Some(v) {
-    options["noWaitAfter"] = @nostd.any(v)
+    options["noWaitAfter"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Array[String]] = self
     .to_any()
-    ._call("selectOption", [@nostd.any(selector), @nostd.any(values), options])
-    |> @nostd.identity
+    ._call("selectOption", [@core.any(selector), @core.any(values), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -508,29 +506,29 @@ pub async fn Page::hover(
   timeout? : Int,
   trial? : Bool,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if force is Some(v) {
-    options["force"] = @nostd.any(v)
+    options["force"] = @core.any(v)
   }
   if modifiers is Some(v) {
-    options["modifiers"] = @nostd.any(@nostd.any(v))
+    options["modifiers"] = @core.any(@core.any(v))
   }
   if position is Some((x, y)) {
-    let pos = @nostd.Object::new()
-    pos["x"] = @nostd.any(x)
-    pos["y"] = @nostd.any(y)
+    let pos = @core.Object::new()
+    pos["x"] = @core.any(x)
+    pos["y"] = @core.any(y)
     options["position"] = pos
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if trial is Some(v) {
-    options["trial"] = @nostd.any(v)
+    options["trial"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("hover", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("hover", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -541,14 +539,14 @@ pub async fn Page::focus(
   selector : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("focus", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("focus", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -562,21 +560,21 @@ pub async fn Page::waitForSelector(
   state? : String,
   timeout? : Int,
   strict? : Bool,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if state is Some(v) {
-    options["state"] = @nostd.any(v)
+    options["state"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if strict is Some(v) {
-    options["strict"] = @nostd.any(v)
+    options["strict"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("waitForSelector", [@nostd.any(selector), options])
-    |> @nostd.identity
+    ._call("waitForSelector", [@core.any(selector), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -587,16 +585,15 @@ pub async fn Page::waitForLoadState(
   state? : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = match state {
     Some(s) =>
-      self.to_any()._call("waitForLoadState", [@nostd.any(s), options])
-      |> @nostd.identity
-    None =>
-      self.to_any()._call("waitForLoadState", [options]) |> @nostd.identity
+      self.to_any()._call("waitForLoadState", [@core.any(s), options])
+      |> @core.identity
+    None => self.to_any()._call("waitForLoadState", [options]) |> @core.identity
   }
   promise.wait()
 }
@@ -609,25 +606,25 @@ pub async fn Page::waitForNavigation(
   url? : String,
   waitUntil? : String,
 ) -> Response? {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if url is Some(v) {
-    options["url"] = @nostd.any(v)
+    options["url"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("waitForNavigation", [options])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) {
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
@@ -639,17 +636,17 @@ pub async fn Page::waitForURL(
   timeout? : Int,
   waitUntil? : String,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if waitUntil is Some(v) {
-    options["waitUntil"] = @nostd.any(v)
+    options["waitUntil"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("waitForURL", [@nostd.any(url), options])
-    |> @nostd.identity
+    ._call("waitForURL", [@core.any(url), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -658,8 +655,8 @@ pub async fn Page::waitForURL(
 pub async fn Page::waitForTimeout(self : Page, timeout : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("waitForTimeout", [@nostd.any(timeout)])
-    |> @nostd.identity
+    ._call("waitForTimeout", [@core.any(timeout)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -668,32 +665,26 @@ pub async fn Page::waitForTimeout(self : Page, timeout : Int) -> Unit {
 pub async fn Page::waitForFunction(
   self : Page,
   pageFunction : String,
-  arg? : @nostd.Any,
+  arg? : @core.Any,
   polling? : Int,
   timeout? : Int,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if polling is Some(v) {
-    options["polling"] = @nostd.any(v)
+    options["polling"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = match arg {
+  let promise : @js.Promise[@core.Any] = match arg {
     Some(a) =>
       self
       .to_any()
-      ._call("waitForFunction", [
-        @nostd.any(pageFunction),
-        @nostd.any(a),
-        options,
-      ])
-      |> @nostd.identity
+      ._call("waitForFunction", [@core.any(pageFunction), @core.any(a), options])
+      |> @core.identity
     None =>
-      self
-      .to_any()
-      ._call("waitForFunction", [@nostd.any(pageFunction), options])
-      |> @nostd.identity
+      self.to_any()._call("waitForFunction", [@core.any(pageFunction), options])
+      |> @core.identity
   }
   promise.wait()
 }
@@ -705,15 +696,15 @@ pub async fn Page::waitForFunction(
 pub async fn Page::evaluate(
   self : Page,
   pageFunction : String,
-  arg? : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = match arg {
+  arg? : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = match arg {
     Some(a) =>
-      self.to_any()._call("evaluate", [@nostd.any(pageFunction), @nostd.any(a)])
-      |> @nostd.identity
+      self.to_any()._call("evaluate", [@core.any(pageFunction), @core.any(a)])
+      |> @core.identity
     None =>
-      self.to_any()._call("evaluate", [@nostd.any(pageFunction)])
-      |> @nostd.identity
+      self.to_any()._call("evaluate", [@core.any(pageFunction)])
+      |> @core.identity
   }
   promise.wait()
 }
@@ -723,17 +714,17 @@ pub async fn Page::evaluate(
 pub async fn Page::evaluateHandle(
   self : Page,
   pageFunction : String,
-  arg? : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = match arg {
+  arg? : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = match arg {
     Some(a) =>
       self
       .to_any()
-      ._call("evaluateHandle", [@nostd.any(pageFunction), @nostd.any(a)])
-      |> @nostd.identity
+      ._call("evaluateHandle", [@core.any(pageFunction), @core.any(a)])
+      |> @core.identity
     None =>
-      self.to_any()._call("evaluateHandle", [@nostd.any(pageFunction)])
-      |> @nostd.identity
+      self.to_any()._call("evaluateHandle", [@core.any(pageFunction)])
+      |> @core.identity
   }
   promise.wait()
 }
@@ -748,40 +739,40 @@ pub async fn Page::screenshot(
   type_? : String,
   quality? : Int,
   fullPage? : Bool,
-  clip? : @nostd.Any,
+  clip? : @core.Any,
   omitBackground? : Bool,
   timeout? : Int,
   scale? : String,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if type_ is Some(v) {
-    options["type"] = @nostd.any(v)
+    options["type"] = @core.any(v)
   }
   if quality is Some(v) {
-    options["quality"] = @nostd.any(v)
+    options["quality"] = @core.any(v)
   }
   if fullPage is Some(v) {
-    options["fullPage"] = @nostd.any(v)
+    options["fullPage"] = @core.any(v)
   }
   if clip is Some(v) {
-    options["clip"] = @nostd.any(v)
+    options["clip"] = @core.any(v)
   }
   if omitBackground is Some(v) {
-    options["omitBackground"] = @nostd.any(v)
+    options["omitBackground"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if scale is Some(v) {
-    options["scale"] = @nostd.any(v)
+    options["scale"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("screenshot", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -802,51 +793,51 @@ pub async fn Page::pdf(
   format? : String,
   width? : String,
   height? : String,
-  margin? : @nostd.Any,
+  margin? : @core.Any,
   preferCSSPageSize? : Bool,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if scale is Some(v) {
-    options["scale"] = @nostd.any(v)
+    options["scale"] = @core.any(v)
   }
   if displayHeaderFooter is Some(v) {
-    options["displayHeaderFooter"] = @nostd.any(v)
+    options["displayHeaderFooter"] = @core.any(v)
   }
   if headerTemplate is Some(v) {
-    options["headerTemplate"] = @nostd.any(v)
+    options["headerTemplate"] = @core.any(v)
   }
   if footerTemplate is Some(v) {
-    options["footerTemplate"] = @nostd.any(v)
+    options["footerTemplate"] = @core.any(v)
   }
   if printBackground is Some(v) {
-    options["printBackground"] = @nostd.any(v)
+    options["printBackground"] = @core.any(v)
   }
   if landscape is Some(v) {
-    options["landscape"] = @nostd.any(v)
+    options["landscape"] = @core.any(v)
   }
   if pageRanges is Some(v) {
-    options["pageRanges"] = @nostd.any(v)
+    options["pageRanges"] = @core.any(v)
   }
   if format is Some(v) {
-    options["format"] = @nostd.any(v)
+    options["format"] = @core.any(v)
   }
   if width is Some(v) {
-    options["width"] = @nostd.any(v)
+    options["width"] = @core.any(v)
   }
   if height is Some(v) {
-    options["height"] = @nostd.any(v)
+    options["height"] = @core.any(v)
   }
   if margin is Some(v) {
-    options["margin"] = @nostd.any(v)
+    options["margin"] = @core.any(v)
   }
   if preferCSSPageSize is Some(v) {
-    options["preferCSSPageSize"] = @nostd.any(v)
+    options["preferCSSPageSize"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self.to_any()._call("pdf", [options])
-    |> @nostd.identity
+  let promise : @js.Promise[@core.Any] = self.to_any()._call("pdf", [options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -855,12 +846,12 @@ pub async fn Page::pdf(
 ///|
 /// Close page
 pub async fn Page::close(self : Page, runBeforeUnload? : Bool) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if runBeforeUnload is Some(v) {
-    options["runBeforeUnload"] = @nostd.any(v)
+    options["runBeforeUnload"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -872,7 +863,7 @@ pub fn Page::close_with_error_callback(
   on_error : (Error) -> Unit,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @nostd.identity
+    |> @core.identity
   let _ = promise.catch_(fn(e) {
     on_error(e)
     @js.Promise::resolve(())
@@ -890,7 +881,7 @@ pub fn Page::isClosed(self : Page) -> Bool {
 /// Bring page to front
 pub async fn Page::bringToFront(self : Page) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("bringToFront", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -901,13 +892,13 @@ pub async fn Page::setViewportSize(
   width : Int,
   height : Int,
 ) -> Unit {
-  let viewport = @nostd.Object::new()
-  viewport["width"] = @nostd.any(width)
-  viewport["height"] = @nostd.any(height)
+  let viewport = @core.Object::new()
+  viewport["width"] = @core.any(width)
+  viewport["height"] = @core.any(height)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("setViewportSize", [viewport])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -915,7 +906,7 @@ pub async fn Page::setViewportSize(
 /// Get viewport size
 pub fn Page::viewportSize(self : Page) -> (Int, Int)? {
   let result = self.to_any()._call("viewportSize", [])
-  if @nostd.is_nullish(result) {
+  if @core.is_nullish(result) {
     None
   } else {
     let width : Int = result["width"].cast()
@@ -928,12 +919,12 @@ pub fn Page::viewportSize(self : Page) -> (Int, Int)? {
 /// Set extra HTTP headers
 pub async fn Page::setExtraHTTPHeaders(
   self : Page,
-  headers : @nostd.Any,
+  headers : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("setExtraHTTPHeaders", [@nostd.any(headers)])
-    |> @nostd.identity
+    ._call("setExtraHTTPHeaders", [@core.any(headers)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -945,24 +936,24 @@ pub async fn Page::addScriptTag(
   path? : String,
   content? : String,
   type_? : String,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if url is Some(v) {
-    options["url"] = @nostd.any(v)
+    options["url"] = @core.any(v)
   }
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if content is Some(v) {
-    options["content"] = @nostd.any(v)
+    options["content"] = @core.any(v)
   }
   if type_ is Some(v) {
-    options["type"] = @nostd.any(v)
+    options["type"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("addScriptTag", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -973,21 +964,21 @@ pub async fn Page::addStyleTag(
   url? : String,
   path? : String,
   content? : String,
-) -> @nostd.Any {
-  let options = @nostd.Object::new()
+) -> @core.Any {
+  let options = @core.Object::new()
   if url is Some(v) {
-    options["url"] = @nostd.any(v)
+    options["url"] = @core.any(v)
   }
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if content is Some(v) {
-    options["content"] = @nostd.any(v)
+    options["content"] = @core.any(v)
   }
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
     ._call("addStyleTag", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -996,24 +987,24 @@ pub async fn Page::addStyleTag(
 pub async fn Page::exposeFunction(
   self : Page,
   name : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("exposeFunction", [@nostd.any(name), @nostd.any(callback)])
-    |> @nostd.identity
+    ._call("exposeFunction", [@core.any(name), @core.any(callback)])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Set default navigation timeout
 pub fn Page::setDefaultNavigationTimeout(self : Page, timeout : Int) -> Unit {
-  self.to_any()._call("setDefaultNavigationTimeout", [@nostd.any(timeout)])
+  self.to_any()._call("setDefaultNavigationTimeout", [@core.any(timeout)])
   |> ignore
 }
 
 ///|
 /// Set default timeout
 pub fn Page::setDefaultTimeout(self : Page, timeout : Int) -> Unit {
-  self.to_any()._call("setDefaultTimeout", [@nostd.any(timeout)]) |> ignore
+  self.to_any()._call("setDefaultTimeout", [@core.any(timeout)]) |> ignore
 }

@@ -2,56 +2,56 @@
 package "mizchi/js/npm/vitest"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn expect(@nostd.Any) -> Expect
+pub fn expect(@core.Any) -> Expect
 
-fn setup_standalone() -> Unit
+pub fn setup_standalone() -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type Expect
-fn Expect::not_(Self) -> Self
-fn Expect::rejects(Self) -> Self
-fn Expect::resolves(Self) -> Self
-fn Expect::toBe(Self, @nostd.Any) -> Unit
-fn Expect::toBeCloseTo(Self, Double, num_digits? : Int) -> Unit
-fn Expect::toBeDefined(Self) -> Unit
-fn Expect::toBeFalsy(Self) -> Unit
-fn Expect::toBeGreaterThan(Self, Double) -> Unit
-fn Expect::toBeGreaterThanOrEqual(Self, Double) -> Unit
-fn Expect::toBeInstanceOf(Self, @nostd.Any) -> Unit
-fn Expect::toBeLessThan(Self, Double) -> Unit
-fn Expect::toBeLessThanOrEqual(Self, Double) -> Unit
-fn Expect::toBeNaN(Self) -> Unit
-fn Expect::toBeNull(Self) -> Unit
-fn Expect::toBeTruthy(Self) -> Unit
-fn Expect::toBeTypeOf(Self, String) -> Unit
-fn Expect::toBeUndefined(Self) -> Unit
-fn Expect::toContain(Self, @nostd.Any) -> Unit
-fn Expect::toContainEqual(Self, @nostd.Any) -> Unit
-fn Expect::toEqual(Self, @nostd.Any) -> Unit
-fn Expect::toHaveBeenCalled(Self) -> Unit
-fn Expect::toHaveBeenCalledTimes(Self, Int) -> Unit
-fn Expect::toHaveBeenCalledWith(Self, Array[@nostd.Any]) -> Unit
-fn Expect::toHaveBeenLastCalledWith(Self, Array[@nostd.Any]) -> Unit
-fn Expect::toHaveBeenNthCalledWith(Self, Int, Array[@nostd.Any]) -> Unit
-fn Expect::toHaveLastReturnedWith(Self, @nostd.Any) -> Unit
-fn Expect::toHaveLength(Self, Int) -> Unit
-fn Expect::toHaveProperty(Self, String, value? : @nostd.Any) -> Unit
-fn Expect::toHaveReturned(Self) -> Unit
-fn Expect::toHaveReturnedTimes(Self, Int) -> Unit
-fn Expect::toHaveReturnedWith(Self, @nostd.Any) -> Unit
-fn Expect::toMatch(Self, String) -> Unit
-fn Expect::toMatchObject(Self, @nostd.Any) -> Unit
-fn Expect::toSatisfy(Self, @nostd.Any) -> Unit
-fn Expect::toStrictEqual(Self, @nostd.Any) -> Unit
-fn Expect::toThrow(Self, expected? : String) -> Unit
-fn Expect::toThrowError(Self, expected? : String) -> Unit
+pub fn Expect::not_(Self) -> Self
+pub fn Expect::rejects(Self) -> Self
+pub fn Expect::resolves(Self) -> Self
+pub fn Expect::toBe(Self, @core.Any) -> Unit
+pub fn Expect::toBeCloseTo(Self, Double, num_digits? : Int) -> Unit
+pub fn Expect::toBeDefined(Self) -> Unit
+pub fn Expect::toBeFalsy(Self) -> Unit
+pub fn Expect::toBeGreaterThan(Self, Double) -> Unit
+pub fn Expect::toBeGreaterThanOrEqual(Self, Double) -> Unit
+pub fn Expect::toBeInstanceOf(Self, @core.Any) -> Unit
+pub fn Expect::toBeLessThan(Self, Double) -> Unit
+pub fn Expect::toBeLessThanOrEqual(Self, Double) -> Unit
+pub fn Expect::toBeNaN(Self) -> Unit
+pub fn Expect::toBeNull(Self) -> Unit
+pub fn Expect::toBeTruthy(Self) -> Unit
+pub fn Expect::toBeTypeOf(Self, String) -> Unit
+pub fn Expect::toBeUndefined(Self) -> Unit
+pub fn Expect::toContain(Self, @core.Any) -> Unit
+pub fn Expect::toContainEqual(Self, @core.Any) -> Unit
+pub fn Expect::toEqual(Self, @core.Any) -> Unit
+pub fn Expect::toHaveBeenCalled(Self) -> Unit
+pub fn Expect::toHaveBeenCalledTimes(Self, Int) -> Unit
+pub fn Expect::toHaveBeenCalledWith(Self, Array[@core.Any]) -> Unit
+pub fn Expect::toHaveBeenLastCalledWith(Self, Array[@core.Any]) -> Unit
+pub fn Expect::toHaveBeenNthCalledWith(Self, Int, Array[@core.Any]) -> Unit
+pub fn Expect::toHaveLastReturnedWith(Self, @core.Any) -> Unit
+pub fn Expect::toHaveLength(Self, Int) -> Unit
+pub fn Expect::toHaveProperty(Self, String, value? : @core.Any) -> Unit
+pub fn Expect::toHaveReturned(Self) -> Unit
+pub fn Expect::toHaveReturnedTimes(Self, Int) -> Unit
+pub fn Expect::toHaveReturnedWith(Self, @core.Any) -> Unit
+pub fn Expect::toMatch(Self, String) -> Unit
+pub fn Expect::toMatchObject(Self, @core.Any) -> Unit
+pub fn Expect::toSatisfy(Self, @core.Any) -> Unit
+pub fn Expect::toStrictEqual(Self, @core.Any) -> Unit
+pub fn Expect::toThrow(Self, expected? : String) -> Unit
+pub fn Expect::toThrowError(Self, expected? : String) -> Unit
 
 // Type aliases
 

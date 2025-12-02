@@ -7,7 +7,7 @@
 pub type MockTimers
 
 ///|
-pub fn MockTimers::as_any(self : MockTimers) -> @nostd.Any = "%identity"
+pub fn MockTimers::as_any(self : MockTimers) -> @core.Any = "%identity"
 
 ///|
 /// Get the mock.timers object
@@ -23,21 +23,21 @@ pub fn MockTimers::enable(
   apis? : Array[String],
   now? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if apis is Some(apis) {
-    options._set("apis", @nostd.any(apis))
+    options._set("apis", @core.any(apis))
   }
   if now is Some(now) {
-    options._set("now", now |> @nostd.any)
+    options._set("now", now |> @core.any)
   }
-  self.as_any()._call("enable", [@nostd.any(options)]) |> ignore
+  self.as_any()._call("enable", [@core.any(options)]) |> ignore
 }
 
 ///|
 /// Advance mocked time by milliseconds
 /// mock.timers.tick(milliseconds)
 pub fn MockTimers::tick(self : MockTimers, milliseconds : Int) -> Unit {
-  self.as_any()._call("tick", [@nostd.any(milliseconds)]) |> ignore
+  self.as_any()._call("tick", [@core.any(milliseconds)]) |> ignore
 }
 
 ///|
@@ -58,5 +58,5 @@ pub fn MockTimers::reset(self : MockTimers) -> Unit {
 /// Set absolute time
 /// mock.timers.setTime(milliseconds)
 pub fn MockTimers::setTime(self : MockTimers, milliseconds : Int) -> Unit {
-  self.as_any()._call("setTime", [@nostd.any(milliseconds)]) |> ignore
+  self.as_any()._call("setTime", [@core.any(milliseconds)]) |> ignore
 }

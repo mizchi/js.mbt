@@ -3,19 +3,20 @@ package "mizchi/js/npm/modelcontextprotocol"
 
 import(
   "mizchi/js"
+  "mizchi/js/core"
   "moonbitlang/core/immut/hashmap"
 )
 
 // Values
-let internal_error : Int
+pub let internal_error : Int
 
-let invalid_params : Int
+pub let invalid_params : Int
 
-let invalid_request : Int
+pub let invalid_request : Int
 
-let method_not_found : Int
+pub let method_not_found : Int
 
-let parse_error : Int
+pub let parse_error : Int
 
 // Errors
 
@@ -23,15 +24,15 @@ let parse_error : Int
 pub(all) struct CallToolResult {
   content : Array[ContentResult]
   is_error : Bool?
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub struct ClientInfo {
   name : String
   version : String
 }
-fn ClientInfo::from_js(@nostd.Any) -> Self?
-impl Show for ClientInfo
+pub fn ClientInfo::from_js(@core.Any) -> Self?
+pub impl Show for ClientInfo
 
 pub struct Content {
   type_ : ContentType
@@ -40,85 +41,85 @@ pub struct Content {
   mime_type : String?
   uri : String?
 }
-fn Content::as_any(Self) -> @nostd.Any
-fn Content::image(String, String) -> Self
-fn Content::resource(String) -> Self
-fn Content::text(String) -> Self
-impl Show for Content
+pub fn Content::as_any(Self) -> @core.Any
+pub fn Content::image(String, String) -> Self
+pub fn Content::resource(String) -> Self
+pub fn Content::text(String) -> Self
+pub impl Show for Content
 
 pub(all) struct ContentResult {
   text : String?
   data : String?
   mime_type : String?
-  raw : @nostd.Any
+  raw : @core.Any
 }
-fn ContentResult::type_(Self) -> String
+pub fn ContentResult::type_(Self) -> String
 
 pub enum ContentType {
   Text
   Image
   Resource
 }
-fn ContentType::to_string(Self) -> String
-impl Eq for ContentType
-impl Show for ContentType
+pub fn ContentType::to_string(Self) -> String
+pub impl Eq for ContentType
+pub impl Show for ContentType
 
 pub(all) struct GetPromptResult {
   description : String?
   messages : Array[PromptMessageResult]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub struct JsonRpcError {
   code : Int
   message : String
-  data : @nostd.Any?
+  data : @core.Any?
 }
-fn JsonRpcError::as_any(Self) -> @nostd.Any
+pub fn JsonRpcError::as_any(Self) -> @core.Any
 
 pub struct JsonRpcErrorResponse {
   jsonrpc : String
   id : RequestId
   error : JsonRpcError
 }
-fn JsonRpcErrorResponse::as_any(Self) -> @nostd.Any
+pub fn JsonRpcErrorResponse::as_any(Self) -> @core.Any
 
 pub(all) struct JsonRpcNotification {
   jsonrpc : String
   method_name : String
-  params : @nostd.Any?
+  params : @core.Any?
 }
-fn JsonRpcNotification::as_any(Self) -> @nostd.Any
+pub fn JsonRpcNotification::as_any(Self) -> @core.Any
 
 pub struct JsonRpcRequest {
   jsonrpc : String
   id : RequestId
   method_name : String
-  params : @nostd.Any?
+  params : @core.Any?
 }
-fn JsonRpcRequest::as_any(Self) -> @nostd.Any
-fn JsonRpcRequest::from_js(@nostd.Any) -> Self?
+pub fn JsonRpcRequest::as_any(Self) -> @core.Any
+pub fn JsonRpcRequest::from_js(@core.Any) -> Self?
 
 pub struct JsonRpcResponse {
   jsonrpc : String
   id : RequestId
-  result : @nostd.Any
+  result : @core.Any
 }
-fn JsonRpcResponse::as_any(Self) -> @nostd.Any
+pub fn JsonRpcResponse::as_any(Self) -> @core.Any
 
 pub(all) struct ListPromptsResult {
   prompts : Array[PromptInfo]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub(all) struct ListResourcesResult {
   resources : Array[ResourceInfo]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub(all) struct ListToolsResult {
   tools : Array[ToolInfo]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub struct McpClient {
@@ -126,38 +127,38 @@ pub struct McpClient {
   mut request_id : Int
   endpoint : String
 }
-fn McpClient::create_request(Self, String) -> JsonRpcRequest
-fn McpClient::create_request_with_params(Self, String, &@js.JsImpl) -> JsonRpcRequest
-fn McpClient::get_server_info(Self) -> ServerInfo?
-fn McpClient::new(String) -> Self
+pub fn McpClient::create_request(Self, String) -> JsonRpcRequest
+pub fn McpClient::create_request_with_params(Self, String, @core.Any) -> JsonRpcRequest
+pub fn McpClient::get_server_info(Self) -> ServerInfo?
+pub fn McpClient::new(String) -> Self
 
 pub struct McpServer {
   info : ServerInfo
-  mut tools : @hashmap.HashMap[String, (Tool, (@nostd.Any) -> @js.Promise[Array[Content]])]
+  mut tools : @hashmap.HashMap[String, (Tool, (@core.Any) -> @js.Promise[Array[Content]])]
   mut resources : @hashmap.HashMap[String, (Resource, (String) -> @js.Promise[Array[Content]])]
-  mut prompts : @hashmap.HashMap[String, (Prompt, (@nostd.Any) -> @js.Promise[Array[Content]])]
+  mut prompts : @hashmap.HashMap[String, (Prompt, (@core.Any) -> @js.Promise[Array[Content]])]
 }
-fn[T] McpServer::add_prompt(Self, Prompt, async (T) -> Array[Content]) -> Unit
-fn McpServer::add_resource(Self, Resource, async (String) -> Array[Content]) -> Unit
-fn[T] McpServer::add_tool(Self, Tool, async (T) -> Array[Content]) -> Unit
-fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
-fn McpServer::new(String, String) -> Self
+pub fn[T] McpServer::add_prompt(Self, Prompt, async (T) -> Array[Content]) -> Unit
+pub fn McpServer::add_resource(Self, Resource, async (String) -> Array[Content]) -> Unit
+pub fn[T] McpServer::add_tool(Self, Tool, async (T) -> Array[Content]) -> Unit
+pub fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
+pub fn McpServer::new(String, String) -> Self
 
 pub(all) struct Prompt {
   name : String
   description : String?
   arguments : Array[PromptArgument]
 }
-fn Prompt::as_any(Self) -> @nostd.Any
-impl Show for Prompt
+pub fn Prompt::as_any(Self) -> @core.Any
+pub impl Show for Prompt
 
 pub(all) struct PromptArgument {
   name : String
   description : String?
   required : Bool
 }
-fn PromptArgument::as_any(Self) -> @nostd.Any
-impl Show for PromptArgument
+pub fn PromptArgument::as_any(Self) -> @core.Any
+pub impl Show for PromptArgument
 
 pub(all) struct PromptArgumentInfo {
   name : String
@@ -175,7 +176,7 @@ pub(all) struct PromptMessage {
   role : String
   content : Content
 }
-fn PromptMessage::as_any(Self) -> @nostd.Any
+pub fn PromptMessage::as_any(Self) -> @core.Any
 
 pub(all) struct PromptMessageResult {
   role : String
@@ -186,21 +187,21 @@ pub(all) struct PromptResult {
   description : String?
   messages : Array[PromptMessage]
 }
-fn PromptResult::as_any(Self) -> @nostd.Any
+pub fn PromptResult::as_any(Self) -> @core.Any
 
 pub(all) struct ReadResourceResult {
   contents : Array[ContentResult]
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 pub enum RequestId {
   String(String)
   Number(Int)
 }
-fn RequestId::as_any(Self) -> @nostd.Any
-fn RequestId::from_js(@nostd.Any) -> Self?
-impl Eq for RequestId
-impl Show for RequestId
+pub fn RequestId::as_any(Self) -> @core.Any
+pub fn RequestId::from_js(@core.Any) -> Self?
+pub impl Eq for RequestId
+pub impl Show for RequestId
 
 pub(all) struct Resource {
   uri : String
@@ -208,8 +209,8 @@ pub(all) struct Resource {
   description : String?
   mime_type : String?
 }
-fn Resource::as_any(Self) -> @nostd.Any
-impl Show for Resource
+pub fn Resource::as_any(Self) -> @core.Any
+pub impl Show for Resource
 
 pub(all) struct ResourceInfo {
   uri : String
@@ -220,72 +221,69 @@ pub(all) struct ResourceInfo {
 
 #external
 pub type SdkClient
-async fn SdkClient::call_tool(Self, String, &@js.JsImpl) -> CallToolResult
-async fn SdkClient::close(Self) -> Unit
-async fn SdkClient::connect(Self, StdioClientTransport) -> Unit
-async fn SdkClient::get_prompt(Self, String, @nostd.Any?) -> GetPromptResult
-async fn SdkClient::list_prompts(Self) -> ListPromptsResult
-async fn SdkClient::list_resources(Self) -> ListResourcesResult
-async fn SdkClient::list_tools(Self) -> ListToolsResult
-fn SdkClient::new(String, String) -> Self
-fn SdkClient::on_log_message(Self, (String, String, @nostd.Any) -> Unit) -> Unit
-async fn SdkClient::read_resource(Self, String) -> ReadResourceResult
-fn SdkClient::set_notification_handler(Self, String, (@nostd.Any) -> Unit) -> Unit
-impl @js.JsImpl for SdkClient
+pub fn SdkClient::as_any(Self) -> @core.Any
+pub async fn SdkClient::call_tool(Self, String, @core.Any) -> CallToolResult
+pub async fn SdkClient::close(Self) -> Unit
+pub async fn SdkClient::connect(Self, StdioClientTransport) -> Unit
+pub async fn SdkClient::get_prompt(Self, String, @core.Any?) -> GetPromptResult
+pub async fn SdkClient::list_prompts(Self) -> ListPromptsResult
+pub async fn SdkClient::list_resources(Self) -> ListResourcesResult
+pub async fn SdkClient::list_tools(Self) -> ListToolsResult
+pub fn SdkClient::new(String, String) -> Self
+pub fn SdkClient::on_log_message(Self, (String, String, @core.Any) -> Unit) -> Unit
+pub async fn SdkClient::read_resource(Self, String) -> ReadResourceResult
+pub fn SdkClient::set_notification_handler(Self, String, (@core.Any) -> Unit) -> Unit
 
 #external
 pub type SdkServer
-async fn SdkServer::close(Self) -> Unit
-async fn SdkServer::connect(Self, StdioServerTransport) -> Unit
-fn SdkServer::log(Self, String, String) -> Unit
-fn SdkServer::new(String, String, tools? : Bool, resources? : Bool, prompts? : Bool) -> Self
-fn SdkServer::send_notification(Self, String, &@js.JsImpl) -> Unit
-fn SdkServer::set_prompts_get_handler(Self, async (String, @nostd.Any) -> PromptResult) -> Unit
-fn SdkServer::set_prompts_list_handler(Self, () -> Array[Prompt]) -> Unit
-fn SdkServer::set_resources_list_handler(Self, () -> Array[Resource]) -> Unit
-fn SdkServer::set_resources_read_handler(Self, async (String) -> Array[Content]) -> Unit
-fn SdkServer::set_tools_call_handler(Self, async (String, @nostd.Any) -> Array[Content]) -> Unit
-fn SdkServer::set_tools_list_handler(Self, () -> Array[Tool]) -> Unit
-impl @js.JsImpl for SdkServer
+pub async fn SdkServer::close(Self) -> Unit
+pub async fn SdkServer::connect(Self, StdioServerTransport) -> Unit
+pub fn SdkServer::log(Self, String, String) -> Unit
+pub fn SdkServer::new(String, String, tools? : Bool, resources? : Bool, prompts? : Bool) -> Self
+pub fn SdkServer::send_notification(Self, String, @core.Any) -> Unit
+pub fn SdkServer::set_prompts_get_handler(Self, async (String, @core.Any) -> PromptResult) -> Unit
+pub fn SdkServer::set_prompts_list_handler(Self, () -> Array[Prompt]) -> Unit
+pub fn SdkServer::set_resources_list_handler(Self, () -> Array[Resource]) -> Unit
+pub fn SdkServer::set_resources_read_handler(Self, async (String) -> Array[Content]) -> Unit
+pub fn SdkServer::set_tools_call_handler(Self, async (String, @core.Any) -> Array[Content]) -> Unit
+pub fn SdkServer::set_tools_list_handler(Self, () -> Array[Tool]) -> Unit
 
 pub struct ServerCapabilities {
   tools : Bool
   resources : Bool
   prompts : Bool
 }
-fn ServerCapabilities::as_any(Self) -> @nostd.Any
-impl Show for ServerCapabilities
+pub fn ServerCapabilities::as_any(Self) -> @core.Any
+pub impl Show for ServerCapabilities
 
 pub struct ServerInfo {
   name : String
   version : String
 }
-fn ServerInfo::as_any(Self) -> @nostd.Any
-impl Show for ServerInfo
+pub fn ServerInfo::as_any(Self) -> @core.Any
+pub impl Show for ServerInfo
 
 #external
 pub type StdioClientTransport
-async fn StdioClientTransport::close(Self) -> Unit
-fn StdioClientTransport::new(String, Array[String], env? : @nostd.Any, cwd? : String) -> Self
-async fn StdioClientTransport::start(Self) -> Unit
-impl @js.JsImpl for StdioClientTransport
+pub async fn StdioClientTransport::close(Self) -> Unit
+pub fn StdioClientTransport::new(String, Array[String], env? : @core.Any, cwd? : String) -> Self
+pub async fn StdioClientTransport::start(Self) -> Unit
 
 #external
 pub type StdioServerTransport
-fn StdioServerTransport::new() -> Self
-impl @js.JsImpl for StdioServerTransport
+pub fn StdioServerTransport::new() -> Self
 
 pub(all) struct Tool {
   name : String
   description : String
-  input_schema : @nostd.Any
+  input_schema : @core.Any
 }
-fn Tool::as_any(Self) -> @nostd.Any
+pub fn Tool::as_any(Self) -> @core.Any
 
 pub(all) struct ToolInfo {
   name : String
   description : String?
-  input_schema : @nostd.Any
+  input_schema : @core.Any
 }
 
 // Type aliases

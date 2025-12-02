@@ -12,7 +12,7 @@
 pub type Yargs
 
 ///|
-pub extern "js" fn Yargs::as_any(self : Yargs) -> @nostd.Any =
+pub extern "js" fn Yargs::as_any(self : Yargs) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -21,7 +21,7 @@ pub extern "js" fn Yargs::as_any(self : Yargs) -> @nostd.Any =
 pub type Argv
 
 ///|
-pub extern "js" fn Argv::as_any(self : Argv) -> @nostd.Any =
+pub extern "js" fn Argv::as_any(self : Argv) -> @core.Any =
   #| (x) => x
 
 ///| FFI Functions
@@ -34,7 +34,7 @@ extern "js" fn ffi_yargs() -> Yargs =
   #| }
 
 ///|
-extern "js" fn ffi_yargs_with_args(args : @nostd.Any) -> Yargs =
+extern "js" fn ffi_yargs_with_args(args : @core.Any) -> Yargs =
   #| (args) => {
   #|   const yargs = require('yargs');
   #|   return yargs(args);
@@ -51,7 +51,7 @@ pub fn yargs() -> Yargs {
 ///|
 /// Create a yargs instance with specific arguments
 pub fn yargs_with_args(args : Array[String]) -> Yargs {
-  ffi_yargs_with_args(@nostd.any(args))
+  ffi_yargs_with_args(@core.any(args))
 }
 
 ///| Yargs Methods - Option Configuration
@@ -64,34 +64,34 @@ pub fn Yargs::option(
   alias_? : String,
   type_? : String,
   description? : String,
-  default? : @nostd.Any,
+  default? : @core.Any,
   demandOption? : Bool,
   choices? : Array[String],
   array? : Bool,
 ) -> Yargs {
-  let opt = @nostd.Object::new()
+  let opt = @core.Object::new()
   if alias_ is Some(v) {
-    opt["alias"] = @nostd.any(v)
+    opt["alias"] = @core.any(v)
   }
   if type_ is Some(v) {
-    opt["type"] = @nostd.any(v)
+    opt["type"] = @core.any(v)
   }
   if description is Some(v) {
-    opt["describe"] = @nostd.any(v)
+    opt["describe"] = @core.any(v)
   }
   if default is Some(v) {
     opt["default"] = v
   }
   if demandOption is Some(v) {
-    opt["demandOption"] = @nostd.any(v)
+    opt["demandOption"] = @core.any(v)
   }
   if choices is Some(v) {
-    opt["choices"] = @nostd.any(v)
+    opt["choices"] = @core.any(v)
   }
   if array is Some(v) {
-    opt["array"] = @nostd.any(v)
+    opt["array"] = @core.any(v)
   }
-  self.as_any()._call("option", [@nostd.any(key), opt]).cast()
+  self.as_any()._call("option", [@core.any(key), opt]).cast()
 }
 
 ///|
@@ -101,29 +101,29 @@ pub fn Yargs::positional(
   key : String,
   type_? : String,
   description? : String,
-  default? : @nostd.Any,
+  default? : @core.Any,
   choices? : Array[String],
 ) -> Yargs {
-  let opt = @nostd.Object::new()
+  let opt = @core.Object::new()
   if type_ is Some(v) {
-    opt["type"] = @nostd.any(v)
+    opt["type"] = @core.any(v)
   }
   if description is Some(v) {
-    opt["describe"] = @nostd.any(v)
+    opt["describe"] = @core.any(v)
   }
   if default is Some(v) {
     opt["default"] = v
   }
   if choices is Some(v) {
-    opt["choices"] = @nostd.any(v)
+    opt["choices"] = @core.any(v)
   }
-  self.as_any()._call("positional", [@nostd.any(key), opt]).cast()
+  self.as_any()._call("positional", [@core.any(key), opt]).cast()
 }
 
 ///|
 /// Set an alias for an option
 pub fn Yargs::alias_(self : Yargs, key : String, alias_name : String) -> Yargs {
-  self.as_any()._call("alias", [@nostd.any(key), @nostd.any(alias_name)]).cast()
+  self.as_any()._call("alias", [@core.any(key), @core.any(alias_name)]).cast()
 }
 
 ///|
@@ -135,44 +135,44 @@ pub fn Yargs::describe(
 ) -> Yargs {
   self
   .as_any()
-  ._call("describe", [@nostd.any(key), @nostd.any(description)])
+  ._call("describe", [@core.any(key), @core.any(description)])
   .cast()
 }
 
 ///|
 /// Set default value for an option
-pub fn Yargs::default(self : Yargs, key : String, value : @nostd.Any) -> Yargs {
-  self.as_any()._call("default", [@nostd.any(key), value]).cast()
+pub fn Yargs::default(self : Yargs, key : String, value : @core.Any) -> Yargs {
+  self.as_any()._call("default", [@core.any(key), value]).cast()
 }
 
 ///|
 /// Mark option as boolean type
 pub fn Yargs::boolean(self : Yargs, key : String) -> Yargs {
-  self.as_any()._call("boolean", [@nostd.any(key)]).cast()
+  self.as_any()._call("boolean", [@core.any(key)]).cast()
 }
 
 ///|
 /// Mark option as string type
 pub fn Yargs::string(self : Yargs, key : String) -> Yargs {
-  self.as_any()._call("string", [@nostd.any(key)]).cast()
+  self.as_any()._call("string", [@core.any(key)]).cast()
 }
 
 ///|
 /// Mark option as number type
 pub fn Yargs::number(self : Yargs, key : String) -> Yargs {
-  self.as_any()._call("number", [@nostd.any(key)]).cast()
+  self.as_any()._call("number", [@core.any(key)]).cast()
 }
 
 ///|
 /// Mark option as array type
 pub fn Yargs::array(self : Yargs, key : String) -> Yargs {
-  self.as_any()._call("array", [@nostd.any(key)]).cast()
+  self.as_any()._call("array", [@core.any(key)]).cast()
 }
 
 ///|
 /// Mark option as count type (count occurrences)
 pub fn Yargs::count(self : Yargs, key : String) -> Yargs {
-  self.as_any()._call("count", [@nostd.any(key)]).cast()
+  self.as_any()._call("count", [@core.any(key)]).cast()
 }
 
 ///|
@@ -182,7 +182,7 @@ pub fn Yargs::choices(
   key : String,
   values : Array[String],
 ) -> Yargs {
-  self.as_any()._call("choices", [@nostd.any(key), @nostd.any(values)]).cast()
+  self.as_any()._call("choices", [@core.any(key), @core.any(values)]).cast()
 }
 
 ///| Yargs Methods - Validation
@@ -198,16 +198,16 @@ pub fn Yargs::demandOption(
     Some(msg) =>
       self
       .as_any()
-      ._call("demandOption", [@nostd.any(key), @nostd.any(msg)])
+      ._call("demandOption", [@core.any(key), @core.any(msg)])
       .cast()
-    None => self.as_any()._call("demandOption", [@nostd.any(key)]).cast()
+    None => self.as_any()._call("demandOption", [@core.any(key)]).cast()
   }
 }
 
 ///|
 /// Require at least n commands (min only)
 pub fn Yargs::demandCommand(self : Yargs, min : Int) -> Yargs {
-  self.as_any()._call("demandCommand", [@nostd.any(min)]).cast()
+  self.as_any()._call("demandCommand", [@core.any(min)]).cast()
 }
 
 ///|
@@ -224,25 +224,21 @@ pub fn Yargs::demandCommand_full(
       self
       .as_any()
       ._call("demandCommand", [
-        @nostd.any(min),
-        @nostd.any(max),
-        @nostd.any(minM),
-        @nostd.any(maxM),
+        @core.any(min),
+        @core.any(max),
+        @core.any(minM),
+        @core.any(maxM),
       ])
       .cast()
     (Some(minM), None) =>
       self
       .as_any()
-      ._call("demandCommand", [
-        @nostd.any(min),
-        @nostd.any(max),
-        @nostd.any(minM),
-      ])
+      ._call("demandCommand", [@core.any(min), @core.any(max), @core.any(minM)])
       .cast()
     _ =>
       self
       .as_any()
-      ._call("demandCommand", [@nostd.any(min), @nostd.any(max)])
+      ._call("demandCommand", [@core.any(min), @core.any(max)])
       .cast()
   }
 }
@@ -251,7 +247,7 @@ pub fn Yargs::demandCommand_full(
 /// Enable strict mode (report unrecognized options as errors)
 pub fn Yargs::strict(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => self.as_any()._call("strict", [@nostd.any(v)]).cast()
+    Some(v) => self.as_any()._call("strict", [@core.any(v)]).cast()
     None => self.as_any()._call("strict", []).cast()
   }
 }
@@ -260,7 +256,7 @@ pub fn Yargs::strict(self : Yargs, enabled? : Bool) -> Yargs {
 /// Enable strict commands mode
 pub fn Yargs::strictCommands(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => self.as_any()._call("strictCommands", [@nostd.any(v)]).cast()
+    Some(v) => self.as_any()._call("strictCommands", [@core.any(v)]).cast()
     None => self.as_any()._call("strictCommands", []).cast()
   }
 }
@@ -269,7 +265,7 @@ pub fn Yargs::strictCommands(self : Yargs, enabled? : Bool) -> Yargs {
 /// Enable strict options mode
 pub fn Yargs::strictOptions(self : Yargs, enabled? : Bool) -> Yargs {
   match enabled {
-    Some(v) => self.as_any()._call("strictOptions", [@nostd.any(v)]).cast()
+    Some(v) => self.as_any()._call("strictOptions", [@core.any(v)]).cast()
     None => self.as_any()._call("strictOptions", []).cast()
   }
 }
@@ -285,7 +281,7 @@ pub fn Yargs::command(
 ) -> Yargs {
   self
   .as_any()
-  ._call("command", [@nostd.any(cmd), @nostd.any(description)])
+  ._call("command", [@core.any(cmd), @core.any(description)])
   .cast()
 }
 
@@ -295,18 +291,18 @@ pub fn Yargs::command_with_handler(
   self : Yargs,
   cmd : String,
   description : String,
-  builder : @nostd.Any,
-  handler : @nostd.Any,
+  builder : @core.Any,
+  handler : @core.Any,
 ) -> Yargs {
   self
   .as_any()
-  ._call("command", [@nostd.any(cmd), @nostd.any(description), builder, handler])
+  ._call("command", [@core.any(cmd), @core.any(description), builder, handler])
   .cast()
 }
 
 ///|
 /// Define a command with object configuration
-pub fn Yargs::command_module(self : Yargs, mod : @nostd.Any) -> Yargs {
+pub fn Yargs::command_module(self : Yargs, mod : @core.Any) -> Yargs {
   self.as_any()._call("command", [mod]).cast()
 }
 
@@ -321,8 +317,8 @@ pub fn Yargs::help(
 ) -> Yargs {
   match (option, description) {
     (Some(opt), Some(desc)) =>
-      self.as_any()._call("help", [@nostd.any(opt), @nostd.any(desc)]).cast()
-    (Some(opt), None) => self.as_any()._call("help", [@nostd.any(opt)]).cast()
+      self.as_any()._call("help", [@core.any(opt), @core.any(desc)]).cast()
+    (Some(opt), None) => self.as_any()._call("help", [@core.any(opt)]).cast()
     (None, _) => self.as_any()._call("help", []).cast()
   }
 }
@@ -339,12 +335,12 @@ pub fn Yargs::version(
     (Some(opt), Some(desc), Some(ver)) =>
       self
       .as_any()
-      ._call("version", [@nostd.any(opt), @nostd.any(desc), @nostd.any(ver)])
+      ._call("version", [@core.any(opt), @core.any(desc), @core.any(ver)])
       .cast()
     (Some(opt), None, Some(ver)) =>
-      self.as_any()._call("version", [@nostd.any(opt), @nostd.any(ver)]).cast()
+      self.as_any()._call("version", [@core.any(opt), @core.any(ver)]).cast()
     (None, None, Some(ver)) =>
-      self.as_any()._call("version", [@nostd.any(ver)]).cast()
+      self.as_any()._call("version", [@core.any(ver)]).cast()
     _ => self.as_any()._call("version", []).cast()
   }
 }
@@ -352,7 +348,7 @@ pub fn Yargs::version(
 ///|
 /// Set usage message
 pub fn Yargs::usage(self : Yargs, message : String) -> Yargs {
-  self.as_any()._call("usage", [@nostd.any(message)]).cast()
+  self.as_any()._call("usage", [@core.any(message)]).cast()
 }
 
 ///|
@@ -364,14 +360,14 @@ pub fn Yargs::example(
 ) -> Yargs {
   self
   .as_any()
-  ._call("example", [@nostd.any(cmd), @nostd.any(description)])
+  ._call("example", [@core.any(cmd), @core.any(description)])
   .cast()
 }
 
 ///|
 /// Set epilog message (shown at end of help)
 pub fn Yargs::epilog(self : Yargs, message : String) -> Yargs {
-  self.as_any()._call("epilog", [@nostd.any(message)]).cast()
+  self.as_any()._call("epilog", [@core.any(message)]).cast()
 }
 
 ///|
@@ -397,13 +393,13 @@ pub fn Yargs::parse(self : Yargs) -> Argv {
 ///|
 /// Parse specific arguments
 pub fn Yargs::parse_args(self : Yargs, args : Array[String]) -> Argv {
-  self.as_any()._call("parse", [@nostd.any(args)]).cast()
+  self.as_any()._call("parse", [@core.any(args)]).cast()
 }
 
 ///|
 /// Parse arguments asynchronously
 pub async fn Yargs::parseAsync(self : Yargs) -> Argv {
-  let promise : @nostd.Promise[Argv] = self
+  let promise : @core.Promise[Argv] = self
     .as_any()
     ._call("parseAsync", [])
     .cast()
@@ -413,9 +409,9 @@ pub async fn Yargs::parseAsync(self : Yargs) -> Argv {
 ///|
 /// Parse specific arguments asynchronously
 pub async fn Yargs::parseAsync_args(self : Yargs, args : Array[String]) -> Argv {
-  let promise : @nostd.Promise[Argv] = self
+  let promise : @core.Promise[Argv] = self
     .as_any()
-    ._call("parseAsync", [@nostd.any(args)])
+    ._call("parseAsync", [@core.any(args)])
     .cast()
   promise.wait()
 }
@@ -431,25 +427,25 @@ pub fn Yargs::argv(self : Yargs) -> Argv {
 ///|
 /// Control whether to exit on error
 pub fn Yargs::exitProcess(self : Yargs, enabled : Bool) -> Yargs {
-  self.as_any()._call("exitProcess", [@nostd.any(enabled)]).cast()
+  self.as_any()._call("exitProcess", [@core.any(enabled)]).cast()
 }
 
 ///|
 /// Set script name (shown in help)
 pub fn Yargs::scriptName(self : Yargs, name : String) -> Yargs {
-  self.as_any()._call("scriptName", [@nostd.any(name)]).cast()
+  self.as_any()._call("scriptName", [@core.any(name)]).cast()
 }
 
 ///|
 /// Wrap output at specified width
 pub fn Yargs::wrap(self : Yargs, columns : Int) -> Yargs {
-  self.as_any()._call("wrap", [@nostd.any(columns)]).cast()
+  self.as_any()._call("wrap", [@core.any(columns)]).cast()
 }
 
 ///|
 /// Set locale for error messages
 pub fn Yargs::locale(self : Yargs, locale : String) -> Yargs {
-  self.as_any()._call("locale", [@nostd.any(locale)]).cast()
+  self.as_any()._call("locale", [@core.any(locale)]).cast()
 }
 
 ///| Argv Methods
@@ -458,7 +454,7 @@ pub fn Yargs::locale(self : Yargs, locale : String) -> Yargs {
 /// Get a string value from argv
 pub fn Argv::get_string(self : Argv, key : String) -> String? {
   let value = self.as_any()[key]
-  if @nostd.is_nullish(value) {
+  if @core.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -469,7 +465,7 @@ pub fn Argv::get_string(self : Argv, key : String) -> String? {
 /// Get an int value from argv
 pub fn Argv::get_int(self : Argv, key : String) -> Int? {
   let value = self.as_any()[key]
-  if @nostd.is_nullish(value) {
+  if @core.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -480,7 +476,7 @@ pub fn Argv::get_int(self : Argv, key : String) -> Int? {
 /// Get a bool value from argv
 pub fn Argv::get_bool(self : Argv, key : String) -> Bool? {
   let value = self.as_any()[key]
-  if @nostd.is_nullish(value) {
+  if @core.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -491,7 +487,7 @@ pub fn Argv::get_bool(self : Argv, key : String) -> Bool? {
 /// Get an array of strings from argv
 pub fn Argv::get_array(self : Argv, key : String) -> Array[String]? {
   let value = self.as_any()[key]
-  if @nostd.is_nullish(value) {
+  if @core.is_nullish(value) {
     None
   } else {
     Some(value.cast())
@@ -513,5 +509,5 @@ pub fn Argv::script_name(self : Argv) -> String {
 ///|
 /// Check if a flag was provided
 pub fn Argv::has(self : Argv, key : String) -> Bool {
-  not(@nostd.is_nullish(self.as_any()[key]))
+  not(@core.is_nullish(self.as_any()[key]))
 }

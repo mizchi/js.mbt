@@ -3,7 +3,7 @@
 
 ///|
 /// V8 Module FFI
-extern "js" fn ffi_require_v8() -> @nostd.Any =
+extern "js" fn ffi_require_v8() -> @core.Any =
   #|() => require("node:v8")
 
 ///|
@@ -12,68 +12,68 @@ extern "js" fn ffi_require_v8() -> @nostd.Any =
 pub type HeapStatistics
 
 ///|
-pub fn HeapStatistics::as_any(self : HeapStatistics) -> @nostd.Any = "%identity"
+pub fn HeapStatistics::as_any(self : HeapStatistics) -> @core.Any = "%identity"
 
 ///|
 pub fn HeapStatistics::total_heap_size(self : HeapStatistics) -> Int {
-  self.as_any()._get("total_heap_size") |> @nostd.identity
+  self.as_any()._get("total_heap_size") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::total_heap_size_executable(self : HeapStatistics) -> Int {
-  self.as_any()._get("total_heap_size_executable") |> @nostd.identity
+  self.as_any()._get("total_heap_size_executable") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::total_physical_size(self : HeapStatistics) -> Int {
-  self.as_any()._get("total_physical_size") |> @nostd.identity
+  self.as_any()._get("total_physical_size") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::total_available_size(self : HeapStatistics) -> Int {
-  self.as_any()._get("total_available_size") |> @nostd.identity
+  self.as_any()._get("total_available_size") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::used_heap_size(self : HeapStatistics) -> Int {
-  self.as_any()._get("used_heap_size") |> @nostd.identity
+  self.as_any()._get("used_heap_size") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::heap_size_limit(self : HeapStatistics) -> Int {
-  self.as_any()._get("heap_size_limit") |> @nostd.identity
+  self.as_any()._get("heap_size_limit") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::malloced_memory(self : HeapStatistics) -> Int {
-  self.as_any()._get("malloced_memory") |> @nostd.identity
+  self.as_any()._get("malloced_memory") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::peak_malloced_memory(self : HeapStatistics) -> Int {
-  self.as_any()._get("peak_malloced_memory") |> @nostd.identity
+  self.as_any()._get("peak_malloced_memory") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::does_zap_garbage(self : HeapStatistics) -> Int {
-  self.as_any()._get("does_zap_garbage") |> @nostd.identity
+  self.as_any()._get("does_zap_garbage") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::number_of_native_contexts(self : HeapStatistics) -> Int {
-  self.as_any()._get("number_of_native_contexts") |> @nostd.identity
+  self.as_any()._get("number_of_native_contexts") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::number_of_detached_contexts(
   self : HeapStatistics,
 ) -> Int {
-  self.as_any()._get("number_of_detached_contexts") |> @nostd.identity
+  self.as_any()._get("number_of_detached_contexts") |> @core.identity
 }
 
 ///|
 pub fn HeapStatistics::external_memory(self : HeapStatistics) -> Int {
-  self.as_any()._get("external_memory") |> @nostd.identity
+  self.as_any()._get("external_memory") |> @core.identity
 }
 
 ///|
@@ -82,34 +82,34 @@ pub fn HeapStatistics::external_memory(self : HeapStatistics) -> Int {
 pub type HeapCodeStatistics
 
 ///|
-pub fn HeapCodeStatistics::as_any(self : HeapCodeStatistics) -> @nostd.Any = "%identity"
+pub fn HeapCodeStatistics::as_any(self : HeapCodeStatistics) -> @core.Any = "%identity"
 
 ///|
 pub fn HeapCodeStatistics::code_and_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.as_any()._get("code_and_metadata_size") |> @nostd.identity
+  self.as_any()._get("code_and_metadata_size") |> @core.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::bytecode_and_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.as_any()._get("bytecode_and_metadata_size") |> @nostd.identity
+  self.as_any()._get("bytecode_and_metadata_size") |> @core.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::external_script_source_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.as_any()._get("external_script_source_size") |> @nostd.identity
+  self.as_any()._get("external_script_source_size") |> @core.identity
 }
 
 ///|
 pub fn HeapCodeStatistics::cpu_profiler_metadata_size(
   self : HeapCodeStatistics,
 ) -> Int {
-  self.as_any()._get("cpu_profiler_metadata_size") |> @nostd.identity
+  self.as_any()._get("cpu_profiler_metadata_size") |> @core.identity
 }
 
 ///|
@@ -118,35 +118,35 @@ pub fn HeapCodeStatistics::cpu_profiler_metadata_size(
 pub type HeapSpaceStatistics
 
 ///|
-pub fn HeapSpaceStatistics::as_any(self : HeapSpaceStatistics) -> @nostd.Any = "%identity"
+pub fn HeapSpaceStatistics::as_any(self : HeapSpaceStatistics) -> @core.Any = "%identity"
 
 ///|
 pub fn HeapSpaceStatistics::space_name(self : HeapSpaceStatistics) -> String {
-  self.as_any()._get("space_name") |> @nostd.identity
+  self.as_any()._get("space_name") |> @core.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_size(self : HeapSpaceStatistics) -> Int {
-  self.as_any()._get("space_size") |> @nostd.identity
+  self.as_any()._get("space_size") |> @core.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_used_size(self : HeapSpaceStatistics) -> Int {
-  self.as_any()._get("space_used_size") |> @nostd.identity
+  self.as_any()._get("space_used_size") |> @core.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::space_available_size(
   self : HeapSpaceStatistics,
 ) -> Int {
-  self.as_any()._get("space_available_size") |> @nostd.identity
+  self.as_any()._get("space_available_size") |> @core.identity
 }
 
 ///|
 pub fn HeapSpaceStatistics::physical_space_size(
   self : HeapSpaceStatistics,
 ) -> Int {
-  self.as_any()._get("physical_space_size") |> @nostd.identity
+  self.as_any()._get("physical_space_size") |> @core.identity
 }
 
 ///| Heap Statistics Functions
@@ -166,7 +166,7 @@ pub fn getHeapStatistics() -> HeapStatistics {
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
   let v8 = ffi_require_v8()
-  v8._call("getHeapSpaceStatistics", []) |> @nostd.identity
+  v8._call("getHeapSpaceStatistics", []) |> @core.identity
 }
 
 ///|
@@ -183,14 +183,14 @@ pub fn getHeapCodeStatistics() -> HeapCodeStatistics {
 pub fn getHeapSnapshot(
   expose_internals? : Bool,
   expose_numeric_values? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8._call("getHeapSnapshot", [])
     _ => {
-      let opts : @nostd.Any = @mbtconv.from_option_map({
-        "exposeInternals": expose_internals.map(fn(x) { @nostd.any(x) }),
-        "exposeNumericValues": expose_numeric_values.map(fn(x) { @nostd.any(x) }),
+      let opts : @core.Any = @mbtconv.from_option_map({
+        "exposeInternals": expose_internals.map(fn(x) { @core.any(x) }),
+        "exposeNumericValues": expose_numeric_values.map(fn(x) { @core.any(x) }),
       }).cast()
       v8._call("getHeapSnapshot", [opts])
     }
@@ -203,7 +203,7 @@ pub fn getHeapSnapshot(
 pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
-    Some(f) => @nostd.identity(v8._call("writeHeapSnapshot", [@nostd.any(f)]))
+    Some(f) => @core.identity(v8._call("writeHeapSnapshot", [@core.any(f)]))
     None => v8._call("writeHeapSnapshot", []).cast()
   }
 }
@@ -213,23 +213,23 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 #alias(set_heap_snapshot_near_heap_limit)
 pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
   let v8 = ffi_require_v8()
-  v8._call("setHeapSnapshotNearHeapLimit", [@nostd.any(limit)]) |> ignore
+  v8._call("setHeapSnapshotNearHeapLimit", [@core.any(limit)]) |> ignore
 }
 
 ///| Serialization Functions
 
 ///|
 /// Serialize a value to a Buffer
-pub fn serialize(value : @nostd.Any) -> @buffer.Buffer {
+pub fn serialize(value : @core.Any) -> @buffer.Buffer {
   let v8 = ffi_require_v8()
-  @nostd.identity(v8._call("serialize", [value]))
+  @core.identity(v8._call("serialize", [value]))
 }
 
 ///|
 /// Deserialize a Buffer to a value
-pub fn deserialize(buffer : @buffer.Buffer) -> @nostd.Any {
+pub fn deserialize(buffer : @buffer.Buffer) -> @core.Any {
   let v8 = ffi_require_v8()
-  v8._call("deserialize", [@nostd.any(buffer)])
+  v8._call("deserialize", [@core.any(buffer)])
 }
 
 ///| Serializer Class
@@ -239,16 +239,16 @@ pub fn deserialize(buffer : @buffer.Buffer) -> @nostd.Any {
 pub type Serializer
 
 ///|
-pub fn Serializer::as_any(self : Serializer) -> @nostd.Any = "%identity"
+pub fn Serializer::as_any(self : Serializer) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_serializer() -> @nostd.Any =
+extern "js" fn ffi_new_serializer() -> @core.Any =
   #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
 
 ///|
 /// Create a new Serializer
 pub fn Serializer::new() -> Serializer {
-  @nostd.identity(ffi_new_serializer())
+  @core.identity(ffi_new_serializer())
 }
 
 ///|
@@ -261,7 +261,7 @@ pub fn Serializer::writeHeader(self : Self) -> Unit {
 ///|
 /// Write a value
 #alias(write_value)
-pub fn Serializer::writeValue(self : Self, value : @nostd.Any) -> Bool {
+pub fn Serializer::writeValue(self : Self, value : @core.Any) -> Bool {
   self.as_any()._call("writeValue", [value]).cast()
 }
 
@@ -282,7 +282,7 @@ pub fn Serializer::transferArrayBuffer(
 ) -> Unit {
   self
   .as_any()
-  ._call("transferArrayBuffer", [@nostd.any(id), @nostd.any(array_buffer)])
+  ._call("transferArrayBuffer", [@core.any(id), @core.any(array_buffer)])
   |> ignore
 }
 
@@ -290,20 +290,20 @@ pub fn Serializer::transferArrayBuffer(
 /// Write uint32
 #alias(writeUint32)
 pub fn Serializer::write_uint32(self : Self, value : Int) -> Unit {
-  self.as_any()._call("writeUint32", [@nostd.any(value)]) |> ignore
+  self.as_any()._call("writeUint32", [@core.any(value)]) |> ignore
 }
 
 ///|
 /// Write double
 #alias(writeDouble)
 pub fn Serializer::write_double(self : Self, value : Double) -> Unit {
-  self.as_any()._call("writeDouble", [@nostd.any(value)]) |> ignore
+  self.as_any()._call("writeDouble", [@core.any(value)]) |> ignore
 }
 
 ///|
 /// Write raw bytes
 #alias(writeRawBytes)
-pub fn Serializer::write_raw_bytes(self : Self, buffer : @nostd.Any) -> Unit {
+pub fn Serializer::write_raw_bytes(self : Self, buffer : @core.Any) -> Unit {
   self.as_any()._call("writeRawBytes", [buffer]) |> ignore
 }
 
@@ -314,20 +314,20 @@ pub fn Serializer::write_raw_bytes(self : Self, buffer : @nostd.Any) -> Unit {
 pub type Deserializer
 
 ///|
-pub fn Deserializer::as_any(self : Deserializer) -> @nostd.Any = "%identity"
+pub fn Deserializer::as_any(self : Deserializer) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_deserializer(buffer : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_new_deserializer(buffer : @core.Any) -> @core.Any =
   #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
 
 ///|
-extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @nostd.Any =
+extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @core.Any =
   #| (b) => b
 
 ///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
-  @nostd.identity(ffi_new_deserializer(buffer_to_js_any(buffer)))
+  @core.identity(ffi_new_deserializer(buffer_to_js_any(buffer)))
 }
 
 ///|
@@ -340,7 +340,7 @@ pub fn Deserializer::readHeader(self : Self) -> Bool {
 ///|
 /// Read a value
 #alias(read_value)
-pub fn Deserializer::readValue(self : Self) -> @nostd.Any {
+pub fn Deserializer::readValue(self : Self) -> @core.Any {
   self.as_any()._call("readValue", [])
 }
 
@@ -354,7 +354,7 @@ pub fn Deserializer::transfer_array_buffer(
 ) -> Unit {
   self
   .as_any()
-  ._call("transferArrayBuffer", [@nostd.any(id), @nostd.any(array_buffer)])
+  ._call("transferArrayBuffer", [@core.any(id), @core.any(array_buffer)])
   |> ignore
 }
 
@@ -383,7 +383,7 @@ pub fn Deserializer::readDouble(self : Self) -> Double {
 /// Read raw bytes
 #alias(read_raw_bytes)
 pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
-  self.as_any()._call("readRawBytes", [@nostd.any(length)]).cast()
+  self.as_any()._call("readRawBytes", [@core.any(length)]).cast()
 }
 
 ///| Utility Functions
@@ -401,7 +401,7 @@ pub fn cachedDataVersionTag() -> Int {
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(flags : String) -> Unit {
   let v8 = ffi_require_v8()
-  v8._call("setFlagsFromString", [@nostd.any(flags)]) |> ignore
+  v8._call("setFlagsFromString", [@core.any(flags)]) |> ignore
 }
 
 ///|

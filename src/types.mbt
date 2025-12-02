@@ -28,26 +28,26 @@
 pub type Object
 
 ///|
-pub fn Object::to_any(self : Object) -> @nostd.Any = "%identity"
+pub fn Object::to_any(self : Object) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Object()
 /// Returns Any directly - use from_map() for creating objects with initial properties
-/// Example: `let obj = @js.from_map({ "key": @nostd.any(value) })` for typed object creation
-pub fn Object::new() -> @nostd.Any {
-  @nostd.Object::new()
+/// Example: `let obj = @js.from_map({ "key": @core.any(value) })` for typed object creation
+pub fn Object::new() -> @core.Any {
+  @core.Object::new()
 }
 
 ///|
-pub fn Object::keys(v : @nostd.Any) -> Array[String] {
-  let object_class = @nostd.global_this()._get("Object")
+pub fn Object::keys(v : @core.Any) -> Array[String] {
+  let object_class = @core.global_this()._get("Object")
   object_class._call("keys", [v]) |> identity
 }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : @nostd.Any, source : @nostd.Any) -> @nostd.Any {
-  let object_class = @nostd.global_this()._get("Object")
+pub fn Object::assign(target : @core.Any, source : @core.Any) -> @core.Any {
+  let object_class = @core.global_this()._get("Object")
   object_class._call("assign", [target, source]) |> identity
 }
 
@@ -61,20 +61,20 @@ pub fn Object::assign(target : @nostd.Any, source : @nostd.Any) -> @nostd.Any {
 pub type JsArray
 
 ///|
-pub fn JsArray::as_any(self : JsArray) -> @nostd.Any = "%identity"
+pub fn JsArray::as_any(self : JsArray) -> @core.Any = "%identity"
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
   ffi_json_stringify(
     self.as_any() |> identity,
-    @nostd.undefined(),
-    @nostd.undefined(),
+    @core.undefined(),
+    @core.undefined(),
   )
 }
 
 ///|
 /// JS: Array.from(items)
-pub fn[T] JsArray::from(items : Array[T]) -> @nostd.Any {
+pub fn[T] JsArray::from(items : Array[T]) -> @core.Any {
   ffi_array_from(items |> identity) |> identity
 }
 
@@ -86,7 +86,7 @@ pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
 
 ///|
 /// JS: Array.isArray(v)
-pub fn JsArray::isArray(v : @nostd.Any) -> Bool {
+pub fn JsArray::isArray(v : @core.Any) -> Bool {
   ffi_is_array(v |> identity)
 }
 
@@ -100,7 +100,7 @@ pub fn array_from(v : Any) -> Array[Any] {
 
 ///|
 /// Throws a JavaScript error/value
-pub fn throw_(v : @nostd.Any) -> Unit {
+pub fn throw_(v : @core.Any) -> Unit {
   ffi_throw(v |> identity)
 }
 
@@ -114,8 +114,8 @@ pub type JSON
 ///|
 /// JS: JSON.stringify(v, replacer, space)
 pub fn JSON::stringify(
-  v : @nostd.Any,
-  replacer? : Any = @nostd.undefined(),
+  v : @core.Any,
+  replacer? : Any = @core.undefined(),
   space? : Int = 2,
 ) -> String {
   ffi_json_stringify(v |> identity, replacer, space |> any)
@@ -136,11 +136,11 @@ pub fn JSON::parse(s : String, reviver? : Any? = None) -> Any raise ThrowError {
 pub type JsString
 
 ///|
-pub fn JsString::to_any(self : JsString) -> @nostd.Any = "%identity"
+pub fn JsString::to_any(self : JsString) -> @core.Any = "%identity"
 
 ///|
 fn string_instance() -> JsString {
-  ffi_get(@nostd.global_this(), "String") |> identity
+  ffi_get(@core.global_this(), "String") |> identity
 }
 
 ///|
@@ -150,7 +150,7 @@ pub fn JsString::fromCharCode(values : Array[Int]) -> String {
   let from_char_code = string_class.to_any()["fromCharCode"]
   from_char_code._call("apply", [
     string_class.to_any(),
-    @nostd.any(@nostd.any(values)),
+    @core.any(@core.any(values)),
   ])
   |> identity
 }
@@ -162,7 +162,7 @@ pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
   let from_code_point = string_class.to_any()["fromCodePoint"]
   from_code_point._call("apply", [
     string_class.to_any(),
-    @nostd.any(@nostd.any(values)),
+    @core.any(@core.any(values)),
   ])
   |> identity
 }
@@ -176,10 +176,10 @@ pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
 pub(all) type JsIterator[T]
 
 ///|
-pub fn[T] JsIterator::to_any(self : JsIterator[T]) -> @nostd.Any = "%identity"
+pub fn[T] JsIterator::to_any(self : JsIterator[T]) -> @core.Any = "%identity"
 
 ///|
-pub fn[T] JsIterator::as_any(self : JsIterator[T]) -> @nostd.Any = "%identity"
+pub fn[T] JsIterator::as_any(self : JsIterator[T]) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_iterator_from(v : Any) -> Any =
@@ -207,14 +207,14 @@ pub fn[T] JsIterator::next(self : JsIterator[T]) -> T? {
 /// JS: iterator.drop(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/drop
 pub fn[T] JsIterator::drop(self : Self[T], limit : Int) -> Self[T] {
-  self.to_any()._call("drop", [@nostd.any(limit)]) |> identity
+  self.to_any()._call("drop", [@core.any(limit)]) |> identity
 }
 
 ///|
 /// JS: iterator.take(limit)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Iterator/take
 pub fn[T] JsIterator::take(self : Self[T], limit : Int) -> Self[T] {
-  self.to_any()._call("take", [@nostd.any(limit)]) |> identity
+  self.to_any()._call("take", [@core.any(limit)]) |> identity
 }
 
 ///|
@@ -239,16 +239,16 @@ pub fn[T] JsIterator::iter(self : JsIterator[T]) -> Iterator[T] {
 pub(all) type AsyncIterator[T]
 
 ///|
-pub fn[T] AsyncIterator::to_any(self : AsyncIterator[T]) -> @nostd.Any = "%identity"
+pub fn[T] AsyncIterator::to_any(self : AsyncIterator[T]) -> @core.Any = "%identity"
 
 ///|
 /// JS: asyncIterator.next()
 pub async fn[T] AsyncIterator::next(self : AsyncIterator[T]) -> T? {
-  let v : Promise[@nostd.Any] = self.to_any()._call("next", []) |> identity
-  let v : @nostd.Any = v.wait()
-  if (@nostd.any(v)["done"] |> identity) {
+  let v : Promise[@core.Any] = self.to_any()._call("next", []) |> identity
+  let v : @core.Any = v.wait()
+  if (@core.any(v)["done"] |> identity) {
     None
   } else {
-    Some(@nostd.any(v)["value"] |> identity)
+    Some(@core.any(v)["value"] |> identity)
   }
 }

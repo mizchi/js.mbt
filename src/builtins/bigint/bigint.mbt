@@ -6,7 +6,7 @@
 pub type JsBigInt
 
 ///|
-pub fn JsBigInt::as_any(self : JsBigInt) -> @nostd.Any = "%identity"
+pub fn JsBigInt::as_any(self : JsBigInt) -> @core.Any = "%identity"
 
 ///|
 /// JS: BigInt(value)

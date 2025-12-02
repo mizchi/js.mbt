@@ -16,32 +16,32 @@ async fn run() -> Unit {
         name: "greet",
         description: "Greet someone by name",
         input_schema: @mbtconv.from_map({
-          "type": @nostd.any("object"),
+          "type": @core.any("object"),
           "properties": @mbtconv.from_map({
             "name": @mbtconv.from_map({
-              "type": @nostd.any("string"),
-              "description": @nostd.any("Name to greet"),
+              "type": @core.any("string"),
+              "description": @core.any("Name to greet"),
             }).cast(),
           }).cast(),
-          "required": @nostd.any(["name"]),
+          "required": @core.any(["name"]),
         }).cast(),
       },
       {
         name: "add",
         description: "Add two numbers",
         input_schema: @mbtconv.from_map({
-          "type": @nostd.any("object"),
+          "type": @core.any("object"),
           "properties": @mbtconv.from_map({
             "a": @mbtconv.from_map({
-              "type": @nostd.any("number"),
-              "description": @nostd.any("First number"),
+              "type": @core.any("number"),
+              "description": @core.any("First number"),
             }).cast(),
             "b": @mbtconv.from_map({
-              "type": @nostd.any("number"),
-              "description": @nostd.any("Second number"),
+              "type": @core.any("number"),
+              "description": @core.any("Second number"),
             }).cast(),
           }).cast(),
-          "required": @nostd.any(["a", "b"]),
+          "required": @core.any(["a", "b"]),
         }).cast(),
       },
     ]
@@ -95,7 +95,7 @@ async fn run() -> Unit {
   server.set_prompts_get_handler(async fn(name, args) {
     if name == "greeting-template" {
       let person_name : String = args._get("name")
-        |> @nostd.identity_option()
+        |> @core.identity_option()
         |> Option::unwrap_or("World")
       {
         description: Some("A friendly greeting"),

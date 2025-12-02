@@ -1,5 +1,15 @@
 {
-  "supported-targets": ["js"],
-  "import": ["moonbitlang/async/js_async", "mizchi/js/nostd", "mizchi/js/builtins/symbol"],
-  "test-import": ["moonbitlang/async", "mizchi/js/node/events", "mizchi/js/builtins/global"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "moonbitlang/async/js_async",
+    "mizchi/js/core",
+    "mizchi/js/builtins/symbol"
+  ],
+  "test-import": [
+    "moonbitlang/async",
+    "mizchi/js/node/events",
+    "mizchi/js/builtins/global"
+  ]
 }

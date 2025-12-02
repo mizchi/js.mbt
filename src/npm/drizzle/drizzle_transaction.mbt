@@ -7,21 +7,21 @@
 pub type Transaction
 
 ///|
-pub fn Transaction::as_any(self : Transaction) -> @nostd.Any = "%identity"
+pub fn Transaction::as_any(self : Transaction) -> @core.Any = "%identity"
 
 // ============ Transaction Operations ============
 
 ///|
 extern "js" fn ffi_transaction(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
-) -> @js.Promise[@nostd.Any] =
+  callback : (Transaction) -> @js.Promise[@core.Any],
+) -> @js.Promise[@core.Any] =
   #| (db, callback) => db.transaction(callback)
 
 ///|
 extern "js" fn ffi_wrap_tx_callback(
   callback : (Transaction) -> Unit,
-) -> (Transaction) -> @js.Promise[@nostd.Any] =
+) -> (Transaction) -> @js.Promise[@core.Any] =
   #| (callback) => async (tx) => { callback(tx); return null; }
 
 ///|
@@ -29,15 +29,15 @@ extern "js" fn ffi_wrap_tx_callback(
 pub async fn DrizzleDB::transaction(
   self : DrizzleDB,
   callback : (Transaction) -> Unit,
-) -> @nostd.Any {
+) -> @core.Any {
   ffi_transaction(self, ffi_wrap_tx_callback(callback)).wait()
 }
 
 ///|
 extern "js" fn ffi_transaction_async(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
-) -> @js.Promise[@nostd.Any] =
+  callback : (Transaction) -> @js.Promise[@core.Any],
+) -> @js.Promise[@core.Any] =
   #| (db, callback) => db.transaction(callback)
 
 ///|
@@ -45,8 +45,8 @@ extern "js" fn ffi_transaction_async(
 #alias(transaction_async)
 pub async fn DrizzleDB::transactionAsync(
   self : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
-) -> @nostd.Any {
+  callback : (Transaction) -> @js.Promise[@core.Any],
+) -> @core.Any {
   ffi_transaction_async(self, callback).wait()
 }
 
@@ -89,9 +89,9 @@ pub fn PgAccessMode::to_string(self : PgAccessMode) -> String {
 ///|
 extern "js" fn ffi_pg_transaction_with_opts(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
-  opts : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  callback : (Transaction) -> @js.Promise[@core.Any],
+  opts : @core.Any,
+) -> @js.Promise[@core.Any] =
   #| (db, callback, opts) => db.transaction(callback, opts)
 
 ///|
@@ -103,16 +103,16 @@ pub async fn DrizzleDB::pgTransaction(
   isolation_level? : PgIsolationLevel,
   access_mode? : PgAccessMode,
   deferrable? : Bool,
-) -> @nostd.Any {
-  let opts = @nostd.Object::new()
+) -> @core.Any {
+  let opts = @core.Object::new()
   if isolation_level is Some(il) {
-    opts._set("isolationLevel", il.to_string() |> @nostd.any)
+    opts._set("isolationLevel", il.to_string() |> @core.any)
   }
   if access_mode is Some(am) {
-    opts._set("accessMode", am.to_string() |> @nostd.any)
+    opts._set("accessMode", am.to_string() |> @core.any)
   }
   if deferrable is Some(d) {
-    opts._set("deferrable", d |> @nostd.any)
+    opts._set("deferrable", d |> @core.any)
   }
   ffi_pg_transaction_with_opts(self, ffi_wrap_tx_callback(callback), opts).wait()
 }
@@ -139,9 +139,9 @@ pub fn SqliteBehavior::to_string(self : SqliteBehavior) -> String {
 ///|
 extern "js" fn ffi_sqlite_transaction_with_behavior(
   db : DrizzleDB,
-  callback : (Transaction) -> @js.Promise[@nostd.Any],
+  callback : (Transaction) -> @js.Promise[@core.Any],
   behavior : String,
-) -> @js.Promise[@nostd.Any] =
+) -> @js.Promise[@core.Any] =
   #| (db, callback, behavior) => db.transaction(callback, { behavior })
 
 ///|
@@ -151,7 +151,7 @@ pub async fn DrizzleDB::sqliteTransaction(
   self : DrizzleDB,
   behavior : SqliteBehavior,
   callback : (Transaction) -> Unit,
-) -> @nostd.Any {
+) -> @core.Any {
   ffi_sqlite_transaction_with_behavior(
     self,
     ffi_wrap_tx_callback(callback),
@@ -168,7 +168,7 @@ extern "js" fn ffi_tx_select(tx : Transaction) -> QueryBuilder =
 ///|
 extern "js" fn ffi_tx_select_fields(
   tx : Transaction,
-  fields : @nostd.Any,
+  fields : @core.Any,
 ) -> QueryBuilder =
   #| (tx, fields) => tx.select(fields)
 
@@ -176,7 +176,7 @@ extern "js" fn ffi_tx_select_fields(
 /// Start a SELECT query within transaction
 pub fn Transaction::select(
   self : Transaction,
-  fields? : @nostd.Any,
+  fields? : @core.Any,
 ) -> QueryBuilder {
   match fields {
     Some(f) => ffi_tx_select_fields(self, f)

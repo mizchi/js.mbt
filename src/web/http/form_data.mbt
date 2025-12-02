@@ -4,19 +4,19 @@
 pub type FormData
 
 ///|
-pub fn FormData::as_any(self : FormData) -> @nostd.Any = "%identity"
+pub fn FormData::as_any(self : FormData) -> @core.Any = "%identity"
 
 ///|
 pub fn FormData::append(self : Self, name : String, value : String) -> Unit {
-  self.as_any()._call("append", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("append", [@core.any(name), @core.any(value)]) |> ignore
 }
 
 ///|
 pub fn FormData::delete(self : Self, name : String) -> Unit {
-  self.as_any()._call("delete", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("delete", [@core.any(name)]) |> ignore
 }
 
 ///|
 pub fn FormData::get(self : Self, name : String) -> String {
-  self.as_any()._call("get", [@nostd.any(name)]).cast()
+  self.as_any()._call("get", [@core.any(name)]).cast()
 }

@@ -1,5 +1,5 @@
 ///|
-extern "js" fn fs_promises_module() -> @nostd.Any =
+extern "js" fn fs_promises_module() -> @core.Any =
   #| () => require("node:fs/promises")
 
 ///|
@@ -7,7 +7,7 @@ extern "js" fn fs_promises_module() -> @nostd.Any =
 pub type Stat
 
 ///|
-pub fn Stat::as_any(self : Stat) -> @nostd.Any = "%identity"
+pub fn Stat::as_any(self : Stat) -> @core.Any = "%identity"
 
 ///|
 // pub impl @js.JsImpl for Stat
@@ -30,15 +30,15 @@ pub fn Stat::size(self : Self) -> Int {
 ///|
 pub fn Stat::mtime_ms(self : Self) -> Float {
   let mtime = self.as_any()._get("mtime")
-  @nostd.identity(mtime._get("getTime")._call("call", [mtime]))
+  @core.identity(mtime._get("getTime")._call("call", [mtime]))
 }
 
 ///|
 /// node:fs/promises.stat
 pub async fn stat(path : String) -> Stat {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Stat] = fs
-    ._call("stat", [path |> @nostd.identity])
+  let promise : @core.Promise[Stat] = fs
+    ._call("stat", [path |> @core.identity])
     .cast()
   promise.wait()
 }
@@ -47,11 +47,11 @@ pub async fn stat(path : String) -> Stat {
 /// node:fs/promises.mkdir
 pub async fn mkdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @core.any(x) }),
   }).cast()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("mkdir", [path |> @nostd.any, opts |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("mkdir", [path |> @core.any, opts |> @core.any])
     .cast()
   promise.wait()
 }
@@ -66,16 +66,16 @@ pub fn glob(
 ) -> @js.AsyncIterator[String] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
-  let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(@nostd.identity(arr |> @nostd.any))
-    (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
+  let exclude_opt : @core.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(@core.identity(arr |> @core.any))
+    (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "exclude": exclude_opt,
   }).cast()
-  fs._call("glob", [path |> @nostd.any, opts |> @nostd.any]).cast()
+  fs._call("glob", [path |> @core.any, opts |> @core.any]).cast()
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn glob(
 pub type Dirent
 
 ///|
-pub fn Dirent::as_any(self : Dirent) -> @nostd.Any = "%identity"
+pub fn Dirent::as_any(self : Dirent) -> @core.Any = "%identity"
 
 ///|
 // pub impl @js.JsImpl for Dirent
@@ -114,17 +114,17 @@ pub fn glob_with_filetype(
 ) -> @js.AsyncIterator[Dirent] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
-  let exclude_opt : @nostd.Any? = match (exclude, exclude_fn) {
-    (Some(arr), _) => Some(@nostd.identity(arr |> @nostd.any))
-    (None, Some(f)) => Some(@nostd.identity(f |> @js.from_fn1))
+  let exclude_opt : @core.Any? = match (exclude, exclude_fn) {
+    (Some(arr), _) => Some(@core.identity(arr |> @core.any))
+    (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "withFileTypes": Some(@nostd.any(true)),
-    "cwd": cwd.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "withFileTypes": Some(@core.any(true)),
+    "cwd": cwd.map(fn(x) { @core.any(x) }),
     "exclude": exclude_opt,
   }).cast()
-  fs._call("glob", [path |> @nostd.any, opts |> @nostd.any]).cast()
+  fs._call("glob", [path |> @core.any, opts |> @core.any]).cast()
 }
 
 ///|
@@ -133,13 +133,13 @@ pub fn glob_with_filetype(
 pub type FileHandle
 
 ///|
-pub fn FileHandle::as_any(self : FileHandle) -> @nostd.Any = "%identity"
+pub fn FileHandle::as_any(self : FileHandle) -> @core.Any = "%identity"
 
 ///|
 pub async fn open(path : String) -> FileHandle {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[FileHandle] = fs
-    ._call("open", [path |> @nostd.identity])
+  let promise : @core.Promise[FileHandle] = fs
+    ._call("open", [path |> @core.identity])
     .cast()
   promise.wait()
 }
@@ -148,8 +148,8 @@ pub async fn open(path : String) -> FileHandle {
 #alias(read_file)
 pub async fn readFile(path : String, encoding? : String = "utf-8") -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = fs
-    ._call("readFile", [path |> @nostd.any, encoding |> @nostd.any])
+  let promise : @core.Promise[String] = fs
+    ._call("readFile", [path |> @core.any, encoding |> @core.any])
     .cast()
   promise.wait()
 }
@@ -162,8 +162,8 @@ pub async fn read_file_as_string(
   encoding? : String = "utf8",
 ) -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = fs
-    ._call("readFile", [path |> @nostd.any, encoding |> @nostd.any])
+  let promise : @core.Promise[String] = fs
+    ._call("readFile", [path |> @core.any, encoding |> @core.any])
     .cast()
   promise.wait()
 }
@@ -173,8 +173,8 @@ pub async fn read_file_as_string(
 /// JS: fs.promises.readFile(path)
 pub async fn read_file_as_buffer(path : String) -> @buffer.Buffer {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[@buffer.Buffer] = @nostd.identity(
-    fs._call("readFile", [path |> @nostd.any]),
+  let promise : @core.Promise[@buffer.Buffer] = @core.identity(
+    fs._call("readFile", [path |> @core.any]),
   )
   promise.wait()
 }
@@ -191,21 +191,21 @@ pub async fn writeFile(
   signal? : @js.AbortSignal,
 ) -> Unit {
   let fs = fs_promises_module()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "encoding": Some(@nostd.any(encoding)),
-    "mode": Some(@nostd.any(mode)),
-    "flag": Some(@nostd.any(flag)),
-    "flush": Some(@nostd.any(flush)),
-    "signal": signal.map(fn(x) { x |> @nostd.identity }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "encoding": Some(@core.any(encoding)),
+    "mode": Some(@core.any(mode)),
+    "flag": Some(@core.any(flag)),
+    "flush": Some(@core.any(flush)),
+    "signal": signal.map(fn(x) { x |> @core.identity }),
   }).cast()
-  let promise : @nostd.Promise[
+  let promise : @core.Promise[
     Unit,
-    // @nostd.identity(
+    // @core.identity(
   ] = fs
     ._call("writeFile", [
-      path |> @nostd.any,
-      content |> @nostd.any,
-      opts |> @nostd.any,
+      path |> @core.any,
+      content |> @core.any,
+      opts |> @core.any,
     ])
     .cast()
   // )
@@ -215,8 +215,8 @@ pub async fn writeFile(
 ///|
 pub async fn rename(path : String, dest : String) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("rename", [path |> @nostd.any, dest |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("rename", [path |> @core.any, dest |> @core.any])
     .cast()
   promise.wait()
 }
@@ -224,12 +224,12 @@ pub async fn rename(path : String, dest : String) -> Unit {
 ///|
 pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
-    "force": force.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @core.any(x) }),
+    "force": force.map(fn(x) { @core.any(x) }),
   }).cast()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("rm", [path |> @nostd.any, opts |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("rm", [path |> @core.any, opts |> @core.any])
     .cast()
   promise.wait()
 }
@@ -237,11 +237,11 @@ pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
 ///|
 pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @core.any(x) }),
   }).cast()
-  let promise : @nostd.Promise[Unit] = @nostd.identity(
-    fs._call("cp", [path |> @nostd.any, dest |> @nostd.any, opts |> @nostd.any]),
+  let promise : @core.Promise[Unit] = @core.identity(
+    fs._call("cp", [path |> @core.any, dest |> @core.any, opts |> @core.any]),
   )
   promise.wait()
 }
@@ -252,8 +252,8 @@ pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
 /// Change file permissions
 pub async fn chmod(path : String, mode : Int) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("chmod", [path |> @nostd.any, mode |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("chmod", [path |> @core.any, mode |> @core.any])
     .cast()
   promise.wait()
 }
@@ -262,8 +262,8 @@ pub async fn chmod(path : String, mode : Int) -> Unit {
 /// Change file owner
 pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = @nostd.identity(
-    fs._call("chown", [path |> @nostd.any, uid |> @nostd.any, gid |> @nostd.any]),
+  let promise : @core.Promise[Unit] = @core.identity(
+    fs._call("chown", [path |> @core.any, uid |> @core.any, gid |> @core.any]),
   )
   promise.wait()
 }
@@ -272,17 +272,16 @@ pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
 /// Create symbolic link
 pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = match type_ {
+  let promise : @core.Promise[Unit] = match type_ {
     Some(t) =>
-      @nostd.identity(
+      @core.identity(
         fs._call("symlink", [
-          target |> @nostd.any,
-          path |> @nostd.any,
-          t |> @nostd.any,
+          target |> @core.any,
+          path |> @core.any,
+          t |> @core.any,
         ]),
       )
-    None =>
-      fs._call("symlink", [target |> @nostd.any, path |> @nostd.any]).cast()
+    None => fs._call("symlink", [target |> @core.any, path |> @core.any]).cast()
   }
   promise.wait()
 }
@@ -291,8 +290,8 @@ pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
 /// Read symbolic link
 pub async fn readlink(path : String) -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = @nostd.identity(
-    fs._call("readlink", [path |> @nostd.any]),
+  let promise : @core.Promise[String] = @core.identity(
+    fs._call("readlink", [path |> @core.any]),
   )
   promise.wait()
 }
@@ -301,8 +300,8 @@ pub async fn readlink(path : String) -> String {
 /// Get real path
 pub async fn realpath(path : String) -> String {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[String] = @nostd.identity(
-    fs._call("realpath", [path |> @nostd.any]),
+  let promise : @core.Promise[String] = @core.identity(
+    fs._call("realpath", [path |> @core.any]),
   )
   promise.wait()
 }
@@ -311,10 +310,9 @@ pub async fn realpath(path : String) -> String {
 /// Truncate file
 pub async fn truncate(path : String, len? : Int) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = match len {
-    Some(l) =>
-      fs._call("truncate", [path |> @nostd.any, l |> @nostd.any]).cast()
-    None => @nostd.identity(fs._call("truncate", [path |> @nostd.any]))
+  let promise : @core.Promise[Unit] = match len {
+    Some(l) => fs._call("truncate", [path |> @core.any, l |> @core.any]).cast()
+    None => @core.identity(fs._call("truncate", [path |> @core.any]))
   }
   promise.wait()
 }
@@ -323,11 +321,11 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
 /// Remove directory
 pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "recursive": recursive.map(fn(x) { @core.any(x) }),
   }).cast()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("rmdir", [path |> @nostd.any, opts |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("rmdir", [path |> @core.any, opts |> @core.any])
     .cast()
   promise.wait()
 }
@@ -336,9 +334,9 @@ pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
 /// Check file access
 pub async fn access(path : String, mode? : Int) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = match mode {
-    Some(m) => fs._call("access", [path |> @nostd.any, m |> @nostd.any]).cast()
-    None => @nostd.identity(fs._call("access", [path |> @nostd.any]))
+  let promise : @core.Promise[Unit] = match mode {
+    Some(m) => fs._call("access", [path |> @core.any, m |> @core.any]).cast()
+    None => @core.identity(fs._call("access", [path |> @core.any]))
   }
   promise.wait()
 }
@@ -351,21 +349,21 @@ pub async fn appendFile(
   encoding? : String,
 ) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = match encoding {
+  let promise : @core.Promise[Unit] = match encoding {
     Some(enc) => {
-      let opts : @nostd.Any = @mbtconv.from_option_map({
-        "encoding": Some(@nostd.any(enc)),
+      let opts : @core.Any = @mbtconv.from_option_map({
+        "encoding": Some(@core.any(enc)),
       }).cast()
-      @nostd.identity(
+      @core.identity(
         fs._call("appendFile", [
-          path |> @nostd.any,
-          data |> @nostd.any,
-          opts |> @nostd.any,
+          path |> @core.any,
+          data |> @core.any,
+          opts |> @core.any,
         ]),
       )
     }
     None =>
-      fs._call("appendFile", [path |> @nostd.any, data |> @nostd.any]).cast()
+      fs._call("appendFile", [path |> @core.any, data |> @core.any]).cast()
   }
   promise.wait()
 }
@@ -374,8 +372,8 @@ pub async fn appendFile(
 /// Copy file
 pub async fn copyFile(src : String, dest : String) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = fs
-    ._call("copyFile", [src |> @nostd.any, dest |> @nostd.any])
+  let promise : @core.Promise[Unit] = fs
+    ._call("copyFile", [src |> @core.any, dest |> @core.any])
     .cast()
   promise.wait()
 }
@@ -384,8 +382,8 @@ pub async fn copyFile(src : String, dest : String) -> Unit {
 /// Read directory contents
 pub async fn readdir(path : String) -> Array[String] {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Array[String]] = @nostd.identity(
-    fs._call("readdir", [path |> @nostd.any]),
+  let promise : @core.Promise[Array[String]] = @core.identity(
+    fs._call("readdir", [path |> @core.any]),
   )
   promise.wait()
 }
@@ -394,8 +392,8 @@ pub async fn readdir(path : String) -> Array[String] {
 /// Unlink (delete) file
 pub async fn unlink(path : String) -> Unit {
   let fs = fs_promises_module()
-  let promise : @nostd.Promise[Unit] = @nostd.identity(
-    fs._call("unlink", [path |> @nostd.any]),
+  let promise : @core.Promise[Unit] = @core.identity(
+    fs._call("unlink", [path |> @core.any]),
   )
   promise.wait()
 }

@@ -30,7 +30,7 @@ async fn run() -> Unit {
   println("\n=== Calling 'greet' Tool ===")
   let greet_result = client.call_tool(
     "greet",
-    @nostd.from_entries([("name", @nostd.any("MoonBit"))]).cast(),
+    @core.from_entries([("name", @core.any("MoonBit"))]).cast(),
   )
   for content in greet_result.content {
     if content.text is Some(text) {
@@ -41,7 +41,7 @@ async fn run() -> Unit {
   println("\n=== Calling 'add' Tool ===")
   let add_result = client.call_tool(
     "add",
-    @mbtconv.from_map({ "a": @nostd.any(10.0), "b": @nostd.any(32.0) }).cast(),
+    @mbtconv.from_map({ "a": @core.any(10.0), "b": @core.any(32.0) }).cast(),
   )
   for content in add_result.content {
     if content.text is Some(text) {
@@ -79,7 +79,7 @@ async fn run() -> Unit {
   println("\n=== Getting Prompt ===")
   let prompt_result = client.get_prompt(
     "greeting-template",
-    Some(@nostd.from_entries([("name", @nostd.any("Developer"))]).cast()),
+    Some(@core.from_entries([("name", @core.any("Developer"))]).cast()),
   )
   if prompt_result.description is Some(desc) {
     println("Description: " + desc)

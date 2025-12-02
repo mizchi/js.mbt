@@ -14,14 +14,14 @@ pub(all) struct WebSocket {
 }
 
 ///|
-pub fn WebSocket::as_any(self : WebSocket) -> @nostd.Any = "%identity"
+pub fn WebSocket::as_any(self : WebSocket) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn WebSocket::as_event_target(self : WebSocket) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for WebSocket with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for WebSocket with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -77,8 +77,8 @@ pub extern "js" fn WebSocket::new(
 pub fn WebSocket::close(self : Self, code? : Int, reason? : String) -> Unit {
   match (code, reason) {
     (Some(c), Some(r)) =>
-      self.as_any()._call("close", [@nostd.any(c), @nostd.any(r)]) |> ignore
-    (Some(c), None) => self.as_any()._call("close", [@nostd.any(c)]) |> ignore
+      self.as_any()._call("close", [@core.any(c), @core.any(r)]) |> ignore
+    (Some(c), None) => self.as_any()._call("close", [@core.any(c)]) |> ignore
     (None, _) => self.as_any()._call("close", []) |> ignore
   }
 }
@@ -87,28 +87,28 @@ pub fn WebSocket::close(self : Self, code? : Int, reason? : String) -> Unit {
 /// Send data
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_string(self : Self, data : String) -> Unit {
-  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("send", [@core.any(data)]) |> ignore
 }
 
 ///|
 /// Send binary data
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_buffer(self : Self, data : @buffer.Buffer) -> Unit {
-  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("send", [@core.any(data)]) |> ignore
 }
 
 ///|
 /// Send ArrayBuffer
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_arraybuffer(self : Self, data : @js.ArrayBuffer) -> Unit {
-  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("send", [@core.any(data)]) |> ignore
 }
 
 ///|
 /// Send Blob
 /// JS: webSocket.send(data)
 pub fn WebSocket::send_blob(self : Self, data : @blob.Blob) -> Unit {
-  self.as_any()._call("send", [@nostd.any(data)]) |> ignore
+  self.as_any()._call("send", [@core.any(data)]) |> ignore
 }
 
 ///|
@@ -116,9 +116,9 @@ pub fn WebSocket::send_blob(self : Self, data : @blob.Blob) -> Unit {
 /// JS: webSocket.onopen = handler
 pub fn WebSocket::set_onopen(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onopen"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onopen"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -126,9 +126,9 @@ pub fn WebSocket::set_onopen(
 /// JS: webSocket.onmessage = handler
 pub fn WebSocket::set_onmessage(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -136,9 +136,9 @@ pub fn WebSocket::set_onmessage(
 /// JS: webSocket.onerror = handler
 pub fn WebSocket::set_onerror(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -146,35 +146,35 @@ pub fn WebSocket::set_onerror(
 /// JS: webSocket.onclose = handler
 pub fn WebSocket::set_onclose(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onclose"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onclose"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
 /// MessageEvent helper to get data
 /// JS: event.data
-pub fn get_message_data(event : @nostd.Any) -> String {
+pub fn get_message_data(event : @core.Any) -> String {
   event._get("data").cast()
 }
 
 ///|
 /// CloseEvent helper to get code
 /// JS: event.code
-pub fn get_close_code(event : @nostd.Any) -> Int {
+pub fn get_close_code(event : @core.Any) -> Int {
   event._get("code").cast()
 }
 
 ///|
 /// CloseEvent helper to get reason
 /// JS: event.reason
-pub fn get_close_reason(event : @nostd.Any) -> String {
+pub fn get_close_reason(event : @core.Any) -> String {
   event._get("reason").cast()
 }
 
 ///|
 /// CloseEvent helper to get wasClean
 /// JS: event.wasClean
-pub fn get_close_was_clean(event : @nostd.Any) -> Bool {
+pub fn get_close_was_clean(event : @core.Any) -> Bool {
   event._get("wasClean").cast()
 }

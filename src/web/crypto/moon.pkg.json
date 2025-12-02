@@ -1,5 +1,14 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js/nostd", "mizchi/js/builtins/typedarray", "mizchi/js"],
-  "test-import": ["moonbitlang/async", "mizchi/js/web/encoding"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js/core",
+    "mizchi/js/builtins/typedarray",
+    "mizchi/js"
+  ],
+  "test-import": [
+    "moonbitlang/async",
+    "mizchi/js/web/encoding"
+  ]
 }

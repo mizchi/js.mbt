@@ -13,7 +13,7 @@
 pub type Test
 
 ///|
-pub fn Test::to_any(self : Test) -> @nostd.Any = "%identity"
+pub fn Test::to_any(self : Test) -> @core.Any = "%identity"
 
 ///|
 /// Expect function type - for assertions
@@ -21,7 +21,7 @@ pub fn Test::to_any(self : Test) -> @nostd.Any = "%identity"
 pub type Expect
 
 ///|
-pub fn Expect::to_any(self : Expect) -> @nostd.Any = "%identity"
+pub fn Expect::to_any(self : Expect) -> @core.Any = "%identity"
 
 ///|
 /// TestInfo - information about the currently running test
@@ -29,7 +29,7 @@ pub fn Expect::to_any(self : Expect) -> @nostd.Any = "%identity"
 pub type TestInfo
 
 ///|
-pub fn TestInfo::to_any(self : TestInfo) -> @nostd.Any = "%identity"
+pub fn TestInfo::to_any(self : TestInfo) -> @core.Any = "%identity"
 
 ///|
 /// PageAssertions - assertions for Page
@@ -37,7 +37,7 @@ pub fn TestInfo::to_any(self : TestInfo) -> @nostd.Any = "%identity"
 pub type PageAssertions
 
 ///|
-pub fn PageAssertions::to_any(self : PageAssertions) -> @nostd.Any = "%identity"
+pub fn PageAssertions::to_any(self : PageAssertions) -> @core.Any = "%identity"
 
 ///|
 /// LocatorAssertions - assertions for Locator
@@ -45,7 +45,7 @@ pub fn PageAssertions::to_any(self : PageAssertions) -> @nostd.Any = "%identity"
 pub type LocatorAssertions
 
 ///|
-pub fn LocatorAssertions::to_any(self : LocatorAssertions) -> @nostd.Any = "%identity"
+pub fn LocatorAssertions::to_any(self : LocatorAssertions) -> @core.Any = "%identity"
 
 ///| FFI Functions
 
@@ -84,13 +84,13 @@ pub fn expect_fn() -> Expect {
 extern "js" fn ffi_call_test(
   t : Test,
   name : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (t, name, callback) => t(name, callback)
 
 ///|
 /// Define a test case
-pub fn Test::run(self : Test, name : String, callback : @nostd.Any) -> Unit {
+pub fn Test::run(self : Test, name : String, callback : @core.Any) -> Unit {
   ffi_call_test(self, name, callback)
 }
 
@@ -99,16 +99,12 @@ pub fn Test::run(self : Test, name : String, callback : @nostd.Any) -> Unit {
 extern "js" fn ffi_describe(
   t : Test,
   name : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> Unit =
   #| (t, name, callback) => t.describe(name, callback)
 
 ///|
-pub fn Test::describe(
-  self : Test,
-  name : String,
-  callback : @nostd.Any,
-) -> Unit {
+pub fn Test::describe(self : Test, name : String, callback : @core.Any) -> Unit {
   ffi_describe(self, name, callback)
 }
 
@@ -142,56 +138,56 @@ pub fn Test::slow(self : Test) -> Unit {
 ///|
 /// Set test timeout
 pub fn Test::setTimeout(self : Test, timeout_ms : Int) -> Unit {
-  self.to_any()._call("setTimeout", [@nostd.any(timeout_ms)]) |> ignore
+  self.to_any()._call("setTimeout", [@core.any(timeout_ms)]) |> ignore
 }
 
 ///|
 /// beforeEach hook
-extern "js" fn ffi_beforeEach(t : Test, callback : @nostd.Any) -> Unit =
+extern "js" fn ffi_beforeEach(t : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.beforeEach(callback)
 
 ///|
-pub fn Test::beforeEach(self : Test, callback : @nostd.Any) -> Unit {
+pub fn Test::beforeEach(self : Test, callback : @core.Any) -> Unit {
   ffi_beforeEach(self, callback)
 }
 
 ///|
 /// afterEach hook
-extern "js" fn ffi_afterEach(t : Test, callback : @nostd.Any) -> Unit =
+extern "js" fn ffi_afterEach(t : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.afterEach(callback)
 
 ///|
-pub fn Test::afterEach(self : Test, callback : @nostd.Any) -> Unit {
+pub fn Test::afterEach(self : Test, callback : @core.Any) -> Unit {
   ffi_afterEach(self, callback)
 }
 
 ///|
 /// beforeAll hook
-extern "js" fn ffi_beforeAll(t : Test, callback : @nostd.Any) -> Unit =
+extern "js" fn ffi_beforeAll(t : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.beforeAll(callback)
 
 ///|
-pub fn Test::beforeAll(self : Test, callback : @nostd.Any) -> Unit {
+pub fn Test::beforeAll(self : Test, callback : @core.Any) -> Unit {
   ffi_beforeAll(self, callback)
 }
 
 ///|
 /// afterAll hook
-extern "js" fn ffi_afterAll(t : Test, callback : @nostd.Any) -> Unit =
+extern "js" fn ffi_afterAll(t : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.afterAll(callback)
 
 ///|
-pub fn Test::afterAll(self : Test, callback : @nostd.Any) -> Unit {
+pub fn Test::afterAll(self : Test, callback : @core.Any) -> Unit {
   ffi_afterAll(self, callback)
 }
 
 ///|
 /// Configure test options
-extern "js" fn ffi_use(t : Test, options : @nostd.Any) -> Unit =
+extern "js" fn ffi_use(t : Test, options : @core.Any) -> Unit =
   #| (t, options) => t.use(options)
 
 ///|
-pub fn Test::use_options(self : Test, options : @nostd.Any) -> Unit {
+pub fn Test::use_options(self : Test, options : @core.Any) -> Unit {
   ffi_use(self, options)
 }
 
@@ -201,20 +197,20 @@ pub fn Test::use_options(self : Test, options : @nostd.Any) -> Unit {
 /// Call expect function (expect is callable)
 extern "js" fn ffi_expect_value(
   expect : Expect,
-  value : @nostd.Any,
-) -> @nostd.Any =
+  value : @core.Any,
+) -> @core.Any =
   #| (expect, value) => expect(value)
 
 ///|
 /// Create expectation for a value
-pub fn Expect::value(self : Expect, value : @nostd.Any) -> @nostd.Any {
+pub fn Expect::value(self : Expect, value : @core.Any) -> @core.Any {
   ffi_expect_value(self, value)
 }
 
 ///|
 /// Create page assertions
 pub fn Expect::page(self : Expect, page : @playwright.Page) -> PageAssertions {
-  @nostd.identity(ffi_expect_value(self, page.to_any() |> @nostd.identity))
+  @core.identity(ffi_expect_value(self, page.to_any() |> @core.identity))
 }
 
 ///|
@@ -223,7 +219,7 @@ pub fn Expect::locator(
   self : Expect,
   locator : @playwright.Locator,
 ) -> LocatorAssertions {
-  @nostd.identity(ffi_expect_value(self, locator.to_any() |> @nostd.identity))
+  @core.identity(ffi_expect_value(self, locator.to_any() |> @core.identity))
 }
 
 ///| Page Assertions
@@ -235,14 +231,14 @@ pub async fn PageAssertions::toHaveTitle(
   title : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveTitle", [@nostd.any(title), options])
-    |> @nostd.identity
+    ._call("toHaveTitle", [@core.any(title), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -253,14 +249,14 @@ pub async fn PageAssertions::toHaveURL(
   url : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveURL", [@nostd.any(url), options])
-    |> @nostd.identity
+    ._call("toHaveURL", [@core.any(url), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -272,14 +268,14 @@ pub async fn LocatorAssertions::toBeVisible(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeVisible", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -289,12 +285,12 @@ pub async fn LocatorAssertions::toBeHidden(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self.to_any()._call("toBeHidden", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -304,14 +300,14 @@ pub async fn LocatorAssertions::toBeEnabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeEnabled", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -321,14 +317,14 @@ pub async fn LocatorAssertions::toBeDisabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeDisabled", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -339,17 +335,17 @@ pub async fn LocatorAssertions::toBeChecked(
   checked? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if checked is Some(v) {
-    options["checked"] = @nostd.any(v)
+    options["checked"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeChecked", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -361,17 +357,17 @@ pub async fn LocatorAssertions::toHaveText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if ignoreCase is Some(v) {
-    options["ignoreCase"] = @nostd.any(v)
+    options["ignoreCase"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveText", [@nostd.any(text), options])
-    |> @nostd.identity
+    ._call("toHaveText", [@core.any(text), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -383,17 +379,17 @@ pub async fn LocatorAssertions::toContainText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if ignoreCase is Some(v) {
-    options["ignoreCase"] = @nostd.any(v)
+    options["ignoreCase"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toContainText", [@nostd.any(text), options])
-    |> @nostd.identity
+    ._call("toContainText", [@core.any(text), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -404,14 +400,14 @@ pub async fn LocatorAssertions::toHaveValue(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveValue", [@nostd.any(value), options])
-    |> @nostd.identity
+    ._call("toHaveValue", [@core.any(value), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -423,14 +419,14 @@ pub async fn LocatorAssertions::toHaveAttribute(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveAttribute", [@nostd.any(name), @nostd.any(value), options])
-    |> @nostd.identity
+    ._call("toHaveAttribute", [@core.any(name), @core.any(value), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -441,14 +437,14 @@ pub async fn LocatorAssertions::toHaveClass(
   class_ : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveClass", [@nostd.any(class_), options])
-    |> @nostd.identity
+    ._call("toHaveClass", [@core.any(class_), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -459,14 +455,14 @@ pub async fn LocatorAssertions::toHaveCount(
   count : Int,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("toHaveCount", [@nostd.any(count), options])
-    |> @nostd.identity
+    ._call("toHaveCount", [@core.any(count), options])
+    |> @core.identity
   promise.wait()
 }
 
@@ -476,14 +472,14 @@ pub async fn LocatorAssertions::toBeFocused(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeFocused", [options])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -529,7 +525,7 @@ pub fn TestInfo::retry(self : TestInfo) -> Int {
 /// Get test status
 pub fn TestInfo::status(self : TestInfo) -> String? {
   let status = self.to_any()["status"]
-  if @nostd.is_nullish(status) {
+  if @core.is_nullish(status) {
     None
   } else {
     Some(status.cast())
@@ -541,8 +537,8 @@ pub fn TestInfo::status(self : TestInfo) -> String? {
 pub fn TestInfo::skip(self : TestInfo, message? : String) -> Unit {
   match message {
     Some(m) =>
-      self.to_any()._call("skip", [@nostd.any(true), @nostd.any(m)]) |> ignore
-    None => self.to_any()._call("skip", [@nostd.any(true)]) |> ignore
+      self.to_any()._call("skip", [@core.any(true), @core.any(m)]) |> ignore
+    None => self.to_any()._call("skip", [@core.any(true)]) |> ignore
   }
 }
 
@@ -551,15 +547,15 @@ pub fn TestInfo::skip(self : TestInfo, message? : String) -> Unit {
 pub fn TestInfo::fail(self : TestInfo, message? : String) -> Unit {
   match message {
     Some(m) =>
-      self.to_any()._call("fail", [@nostd.any(true), @nostd.any(m)]) |> ignore
-    None => self.to_any()._call("fail", [@nostd.any(true)]) |> ignore
+      self.to_any()._call("fail", [@core.any(true), @core.any(m)]) |> ignore
+    None => self.to_any()._call("fail", [@core.any(true)]) |> ignore
   }
 }
 
 ///|
 /// Mark test as slow
 pub fn TestInfo::slow(self : TestInfo) -> Unit {
-  self.to_any()._call("slow", [@nostd.any(true)]) |> ignore
+  self.to_any()._call("slow", [@core.any(true)]) |> ignore
 }
 
 ///|
@@ -571,19 +567,19 @@ pub async fn TestInfo::attach(
   body? : String,
   contentType? : String,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if path is Some(v) {
-    options["path"] = @nostd.any(v)
+    options["path"] = @core.any(v)
   }
   if body is Some(v) {
-    options["body"] = @nostd.any(v)
+    options["body"] = @core.any(v)
   }
   if contentType is Some(v) {
-    options["contentType"] = @nostd.any(v)
+    options["contentType"] = @core.any(v)
   }
   let promise : @js.Promise[Unit] = self
     .to_any()
-    ._call("attach", [@nostd.any(name), options])
-    |> @nostd.identity
+    ._call("attach", [@core.any(name), options])
+    |> @core.identity
   promise.wait()
 }

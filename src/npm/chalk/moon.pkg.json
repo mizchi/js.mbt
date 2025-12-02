@@ -1,6 +1,8 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
-    "mizchi/js/nostd"
+    "mizchi/js/core"
   ]
 }

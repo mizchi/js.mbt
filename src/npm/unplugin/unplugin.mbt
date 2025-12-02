@@ -7,11 +7,11 @@
 ///| FFI
 
 ///|
-extern "js" fn ffi_require_unplugin() -> @nostd.Any =
+extern "js" fn ffi_require_unplugin() -> @core.Any =
   #|() => require("unplugin")
 
 ///|
-extern "js" fn ffi_import_unplugin() -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_import_unplugin() -> @js.Promise[@core.Any] =
   #|() => import("unplugin")
 
 ///| Core Types
@@ -47,7 +47,7 @@ fn framework_from_string(s : String) -> Framework {
 
 ///|
 /// Transform result - can be a string, object with code/map, or null
-pub type TransformResult = @nostd.Any
+pub type TransformResult = @core.Any
 
 ///|
 /// Context metadata passed to the factory function
@@ -55,17 +55,17 @@ pub(all) struct UnpluginContextMeta {
   /// The current framework/bundler being used
   framework : Framework
   /// Raw meta object for framework-specific access
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn UnpluginContextMeta::to_any(self : UnpluginContextMeta) -> @nostd.Any {
+pub fn UnpluginContextMeta::to_any(self : UnpluginContextMeta) -> @core.Any {
   self.raw
 }
 
 ///|
 /// Create UnpluginContextMeta from JS object
-fn meta_from_js(meta : @nostd.Any) -> UnpluginContextMeta {
+fn meta_from_js(meta : @core.Any) -> UnpluginContextMeta {
   let framework_str : String = meta["framework"].cast()
   { framework: framework_from_string(framework_str), raw: meta }
 }
@@ -78,10 +78,10 @@ pub(all) struct StringFilter {
 }
 
 ///|
-pub fn StringFilter::to_any(self : StringFilter) -> @nostd.Any {
+pub fn StringFilter::to_any(self : StringFilter) -> @core.Any {
   @mbtconv.from_option_map({
-    "include": self.includes.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
-    "exclude": self.excludes.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
+    "include": self.includes.map(fn(x) { @core.identity(@core.any(x)) }),
+    "exclude": self.excludes.map(fn(x) { @core.identity(@core.any(x)) }),
   })
 }
 
@@ -93,7 +93,7 @@ pub(all) struct HookFilter {
 }
 
 ///|
-pub fn HookFilter::to_any(self : HookFilter) -> @nostd.Any {
+pub fn HookFilter::to_any(self : HookFilter) -> @core.Any {
   @mbtconv.from_option_map({
     "id": self.id.map(fn(x) { x.to_any() }),
     "code": self.code.map(fn(x) { x.to_any() }),
@@ -104,8 +104,8 @@ pub fn HookFilter::to_any(self : HookFilter) -> @nostd.Any {
 
 ///|
 /// ResolveId hook callback
-/// (id: String, importer: String?, options: @nostd.Any) -> String? | ResolveIdResult?
-pub type ResolveIdHook = (String, String?, @nostd.Any) -> String?
+/// (id: String, importer: String?, options: @core.Any) -> String? | ResolveIdResult?
+pub type ResolveIdHook = (String, String?, @core.Any) -> String?
 
 ///|
 /// Load hook callback
@@ -128,7 +128,7 @@ pub type BuildEndHook = () -> Unit
 ///|
 /// WatchChange hook callback
 /// (id: String, change: { event: 'create' | 'update' | 'delete' }) -> Unit
-pub type WatchChangeHook = (String, @nostd.Any) -> Unit
+pub type WatchChangeHook = (String, @core.Any) -> Unit
 
 ///|
 /// WriteBundle hook callback
@@ -162,21 +162,21 @@ pub(all) struct UnpluginOptions {
   /// Write bundle hook
   writeBundle : WriteBundleHook?
   /// Vite-specific plugin options
-  vite : @nostd.Any?
+  vite : @core.Any?
   /// Rollup-specific plugin options
-  rollup : @nostd.Any?
+  rollup : @core.Any?
   /// Webpack-specific function (receives compiler)
-  webpack : ((@nostd.Any) -> Unit)?
+  webpack : ((@core.Any) -> Unit)?
   /// Rspack-specific function (receives compiler)
-  rspack : ((@nostd.Any) -> Unit)?
+  rspack : ((@core.Any) -> Unit)?
   /// Esbuild-specific options
-  esbuild : @nostd.Any?
+  esbuild : @core.Any?
   /// Farm-specific plugin options
-  farm : @nostd.Any?
+  farm : @core.Any?
   /// Rolldown-specific plugin options
-  rolldown : @nostd.Any?
+  rolldown : @core.Any?
   /// Bun-specific plugin options
-  bun : @nostd.Any?
+  bun : @core.Any?
 }
 
 ///|
@@ -192,14 +192,14 @@ pub fn UnpluginOptions::new(
   resolveId? : ResolveIdHook,
   watchChange? : WatchChangeHook,
   writeBundle? : WriteBundleHook,
-  vite? : @nostd.Any,
-  rollup? : @nostd.Any,
-  webpack? : (@nostd.Any) -> Unit,
-  rspack? : (@nostd.Any) -> Unit,
-  esbuild? : @nostd.Any,
-  farm? : @nostd.Any,
-  rolldown? : @nostd.Any,
-  bun? : @nostd.Any,
+  vite? : @core.Any,
+  rollup? : @core.Any,
+  webpack? : (@core.Any) -> Unit,
+  rspack? : (@core.Any) -> Unit,
+  esbuild? : @core.Any,
+  farm? : @core.Any,
+  rolldown? : @core.Any,
+  bun? : @core.Any,
 ) -> UnpluginOptions {
   {
     name,
@@ -225,72 +225,72 @@ pub fn UnpluginOptions::new(
 }
 
 ///|
-pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj["name"] = @nostd.any(self.name)
+pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @core.Any {
+  let obj = @core.Object::new()
+  obj["name"] = @core.any(self.name)
   if self.enforce is Some(v) {
-    obj["enforce"] = @nostd.any(v)
+    obj["enforce"] = @core.any(v)
   }
   if self.buildStart is Some(v) {
-    obj["buildStart"] = @nostd.any(@js.from_fn0(v))
+    obj["buildStart"] = @core.any(@js.from_fn0(v))
   }
   if self.buildEnd is Some(v) {
-    obj["buildEnd"] = @nostd.any(@js.from_fn0(v))
+    obj["buildEnd"] = @core.any(@js.from_fn0(v))
   }
   // Transform with optional filter
   if self.transform is Some(handler) {
     if self.transformFilter is Some(filter) {
-      let hook = @nostd.Object::new()
+      let hook = @core.Object::new()
       hook["filter"] = filter.to_any()
-      hook["handler"] = @nostd.any(@js.from_fn2(handler))
+      hook["handler"] = @core.any(@js.from_fn2(handler))
       obj["transform"] = hook
     } else {
-      obj["transform"] = @nostd.any(@js.from_fn2(handler))
+      obj["transform"] = @core.any(@js.from_fn2(handler))
     }
   }
   // Load with optional filter
   if self.load is Some(handler) {
     if self.loadFilter is Some(filter) {
-      let hook = @nostd.Object::new()
+      let hook = @core.Object::new()
       hook["filter"] = filter.to_any()
-      hook["handler"] = @nostd.any(@js.from_fn1(handler))
+      hook["handler"] = @core.any(@js.from_fn1(handler))
       obj["load"] = hook
     } else {
-      obj["load"] = @nostd.any(@js.from_fn1(handler))
+      obj["load"] = @core.any(@js.from_fn1(handler))
     }
   }
   if self.resolveId is Some(v) {
-    obj["resolveId"] = @nostd.any(@js.from_fn3(v))
+    obj["resolveId"] = @core.any(@js.from_fn3(v))
   }
   if self.watchChange is Some(v) {
-    obj["watchChange"] = @nostd.any(@js.from_fn2(v))
+    obj["watchChange"] = @core.any(@js.from_fn2(v))
   }
   if self.writeBundle is Some(v) {
-    obj["writeBundle"] = @nostd.any(@js.from_fn0(v))
+    obj["writeBundle"] = @core.any(@js.from_fn0(v))
   }
   if self.vite is Some(v) {
-    obj["vite"] = @nostd.any(v)
+    obj["vite"] = @core.any(v)
   }
   if self.rollup is Some(v) {
-    obj["rollup"] = @nostd.any(v)
+    obj["rollup"] = @core.any(v)
   }
   if self.webpack is Some(v) {
-    obj["webpack"] = @nostd.any(@js.from_fn1(v))
+    obj["webpack"] = @core.any(@js.from_fn1(v))
   }
   if self.rspack is Some(v) {
-    obj["rspack"] = @nostd.any(@js.from_fn1(v))
+    obj["rspack"] = @core.any(@js.from_fn1(v))
   }
   if self.esbuild is Some(v) {
-    obj["esbuild"] = @nostd.any(v)
+    obj["esbuild"] = @core.any(v)
   }
   if self.farm is Some(v) {
-    obj["farm"] = @nostd.any(v)
+    obj["farm"] = @core.any(v)
   }
   if self.rolldown is Some(v) {
-    obj["rolldown"] = @nostd.any(v)
+    obj["rolldown"] = @core.any(v)
   }
   if self.bun is Some(v) {
-    obj["bun"] = @nostd.any(v)
+    obj["bun"] = @core.any(v)
   }
   obj
 }
@@ -303,60 +303,60 @@ pub fn UnpluginOptions::to_any(self : UnpluginOptions) -> @nostd.Any {
 pub type UnpluginInstance
 
 ///|
-pub fn UnpluginInstance::to_any(self : UnpluginInstance) -> @nostd.Any = "%identity"
+pub fn UnpluginInstance::to_any(self : UnpluginInstance) -> @core.Any = "%identity"
 
 ///|
 /// Get Vite plugin from the unplugin instance
-pub fn UnpluginInstance::vite(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["vite"] |> @nostd.identity
+pub fn UnpluginInstance::vite(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["vite"] |> @core.identity
 }
 
 ///|
 /// Get Rollup plugin from the unplugin instance
-pub fn UnpluginInstance::rollup(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rollup"] |> @nostd.identity
+pub fn UnpluginInstance::rollup(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["rollup"] |> @core.identity
 }
 
 ///|
 /// Get webpack plugin from the unplugin instance
-pub fn UnpluginInstance::webpack(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["webpack"] |> @nostd.identity
+pub fn UnpluginInstance::webpack(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["webpack"] |> @core.identity
 }
 
 ///|
 /// Get Rspack plugin from the unplugin instance
-pub fn UnpluginInstance::rspack(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rspack"] |> @nostd.identity
+pub fn UnpluginInstance::rspack(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["rspack"] |> @core.identity
 }
 
 ///|
 /// Get esbuild plugin from the unplugin instance
-pub fn UnpluginInstance::esbuild(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["esbuild"] |> @nostd.identity
+pub fn UnpluginInstance::esbuild(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["esbuild"] |> @core.identity
 }
 
 ///|
 /// Get Farm plugin from the unplugin instance
-pub fn UnpluginInstance::farm(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["farm"] |> @nostd.identity
+pub fn UnpluginInstance::farm(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["farm"] |> @core.identity
 }
 
 ///|
 /// Get Rolldown plugin from the unplugin instance
-pub fn UnpluginInstance::rolldown(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["rolldown"] |> @nostd.identity
+pub fn UnpluginInstance::rolldown(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["rolldown"] |> @core.identity
 }
 
 ///|
 /// Get Bun plugin from the unplugin instance
-pub fn UnpluginInstance::bun(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["bun"] |> @nostd.identity
+pub fn UnpluginInstance::bun(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["bun"] |> @core.identity
 }
 
 ///|
 /// Get raw plugin for any framework
-pub fn UnpluginInstance::raw(self : UnpluginInstance) -> @nostd.Any {
-  self.to_any()["raw"] |> @nostd.identity
+pub fn UnpluginInstance::raw(self : UnpluginInstance) -> @core.Any {
+  self.to_any()["raw"] |> @core.identity
 }
 
 ///| Factory Functions
@@ -373,15 +373,15 @@ pub fn[UserOptions] createUnplugin(
 ) -> (UserOptions) -> UnpluginInstance {
   let unplugin_mod = ffi_require_unplugin()
   let create_fn = unplugin_mod["createUnplugin"]
-  let js_factory = fn(options : @nostd.Any, meta : @nostd.Any) -> @nostd.Any {
-    let user_options : UserOptions = @nostd.identity(options)
+  let js_factory = fn(options : @core.Any, meta : @core.Any) -> @core.Any {
+    let user_options : UserOptions = @core.identity(options)
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(user_options, context_meta)
     unplugin_options.to_any()
   }
-  let instance = create_fn._invoke([@nostd.any(@js.from_fn2(js_factory))])
+  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
   fn(options : UserOptions) -> UnpluginInstance {
-    instance._invoke([@nostd.any(options)]) |> @nostd.identity
+    instance._invoke([@core.any(options)]) |> @core.identity
   }
 }
 
@@ -392,13 +392,13 @@ pub fn createUnpluginSimple(
 ) -> () -> UnpluginInstance {
   let unplugin_mod = ffi_require_unplugin()
   let create_fn = unplugin_mod["createUnplugin"]
-  let js_factory = fn(_options : @nostd.Any, meta : @nostd.Any) -> @nostd.Any {
+  let js_factory = fn(_options : @core.Any, meta : @core.Any) -> @core.Any {
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(context_meta)
     unplugin_options.to_any()
   }
-  let instance = create_fn._invoke([@nostd.any(@js.from_fn2(js_factory))])
-  fn() -> UnpluginInstance { instance._invoke([]) |> @nostd.identity }
+  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
+  fn() -> UnpluginInstance { instance._invoke([]) |> @core.identity }
 }
 
 ///|
@@ -408,15 +408,15 @@ pub async fn[UserOptions] createUnpluginAsync(
 ) -> (UserOptions) -> UnpluginInstance {
   let unplugin_mod = ffi_import_unplugin().wait()
   let create_fn = unplugin_mod["createUnplugin"]
-  let js_factory = fn(options : @nostd.Any, meta : @nostd.Any) -> @nostd.Any {
-    let user_options : UserOptions = @nostd.identity(options)
+  let js_factory = fn(options : @core.Any, meta : @core.Any) -> @core.Any {
+    let user_options : UserOptions = @core.identity(options)
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(user_options, context_meta)
     unplugin_options.to_any()
   }
-  let instance = create_fn._invoke([@nostd.any(@js.from_fn2(js_factory))])
+  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
   fn(options : UserOptions) -> UnpluginInstance {
-    instance._invoke([@nostd.any(options)]) |> @nostd.identity
+    instance._invoke([@core.any(options)]) |> @core.identity
   }
 }
 
@@ -425,36 +425,36 @@ pub async fn[UserOptions] createUnpluginAsync(
 ///|
 /// Create a transform result with code only
 pub fn transform_result(code : String) -> TransformResult {
-  @nostd.any(code)
+  @core.any(code)
 }
 
 ///|
 /// Create a transform result with code and source map
 pub fn transform_result_with_map(
   code : String,
-  map : @nostd.Any,
+  map : @core.Any,
 ) -> TransformResult {
-  let obj = @nostd.Object::new()
-  obj["code"] = @nostd.any(code)
-  obj["map"] = @nostd.any(map)
-  obj |> @nostd.identity
+  let obj = @core.Object::new()
+  obj["code"] = @core.any(code)
+  obj["map"] = @core.any(map)
+  obj |> @core.identity
 }
 
 ///| Resolve Result Helpers
 
 ///|
 /// Create a resolve result that marks module as external
-pub fn resolve_external(id : String) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj["id"] = @nostd.any(id)
-  obj["external"] = @nostd.any(true)
-  obj |> @nostd.identity
+pub fn resolve_external(id : String) -> @core.Any {
+  let obj = @core.Object::new()
+  obj["id"] = @core.any(id)
+  obj["external"] = @core.any(true)
+  obj |> @core.identity
 }
 
 ///|
 /// Create a resolve result with custom id
-pub fn resolve_id(id : String) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj["id"] = @nostd.any(id)
-  obj |> @nostd.identity
+pub fn resolve_id(id : String) -> @core.Any {
+  let obj = @core.Object::new()
+  obj["id"] = @core.any(id)
+  obj |> @core.identity
 }

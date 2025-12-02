@@ -13,7 +13,7 @@
 pub type Endpoint
 
 ///|
-pub fn Endpoint::as_any(self : Endpoint) -> @nostd.Any = "%identity"
+pub fn Endpoint::as_any(self : Endpoint) -> @core.Any = "%identity"
 
 ///|
 /// Remote - a proxy to a remote object
@@ -21,7 +21,7 @@ pub fn Endpoint::as_any(self : Endpoint) -> @nostd.Any = "%identity"
 pub type Remote
 
 ///|
-pub fn Remote::as_any(self : Remote) -> @nostd.Any = "%identity"
+pub fn Remote::as_any(self : Remote) -> @core.Any = "%identity"
 
 ///|
 /// ProxyMarked - marks a value to be proxied
@@ -29,7 +29,7 @@ pub fn Remote::as_any(self : Remote) -> @nostd.Any = "%identity"
 pub type ProxyMarked
 
 ///|
-pub fn ProxyMarked::as_any(self : ProxyMarked) -> @nostd.Any = "%identity"
+pub fn ProxyMarked::as_any(self : ProxyMarked) -> @core.Any = "%identity"
 
 ///|
 /// TransferHandler - custom transfer handler for complex types
@@ -37,61 +37,61 @@ pub fn ProxyMarked::as_any(self : ProxyMarked) -> @nostd.Any = "%identity"
 pub type TransferHandler
 
 ///|
-pub fn TransferHandler::as_any(self : TransferHandler) -> @nostd.Any = "%identity"
+pub fn TransferHandler::as_any(self : TransferHandler) -> @core.Any = "%identity"
 
 ///| Core FFI
 
 ///|
-extern "js" fn ffi_wrap(endpoint : @nostd.Any) -> Remote =
+extern "js" fn ffi_wrap(endpoint : @core.Any) -> Remote =
   #| (endpoint) => require('comlink').wrap(endpoint)
 
 ///|
-extern "js" fn ffi_expose(obj : @nostd.Any, endpoint : @nostd.Any) -> Unit =
+extern "js" fn ffi_expose(obj : @core.Any, endpoint : @core.Any) -> Unit =
   #| (obj, endpoint) => require('comlink').expose(obj, endpoint)
 
 ///|
-extern "js" fn ffi_expose_self(obj : @nostd.Any) -> Unit =
+extern "js" fn ffi_expose_self(obj : @core.Any) -> Unit =
   #| (obj) => require('comlink').expose(obj)
 
 ///|
 extern "js" fn ffi_transfer(
-  value : @nostd.Any,
-  transferables : @nostd.Any,
-) -> @nostd.Any =
+  value : @core.Any,
+  transferables : @core.Any,
+) -> @core.Any =
   #| (value, transferables) => require('comlink').transfer(value, transferables)
 
 ///|
-extern "js" fn ffi_proxy(value : @nostd.Any) -> ProxyMarked =
+extern "js" fn ffi_proxy(value : @core.Any) -> ProxyMarked =
   #| (value) => require('comlink').proxy(value)
 
 ///|
 extern "js" fn ffi_window_endpoint(
-  window : @nostd.Any,
-  context : @nostd.Any,
+  window : @core.Any,
+  context : @core.Any,
   target_origin : String,
 ) -> Endpoint =
   #| (window, context, targetOrigin) => require('comlink').windowEndpoint(window, context, targetOrigin)
 
 ///|
-extern "js" fn ffi_window_endpoint_default(window : @nostd.Any) -> Endpoint =
+extern "js" fn ffi_window_endpoint_default(window : @core.Any) -> Endpoint =
   #| (window) => require('comlink').windowEndpoint(window)
 
 ///|
-extern "js" fn ffi_create_endpoint() -> @nostd.Any =
+extern "js" fn ffi_create_endpoint() -> @core.Any =
   #| () => require('comlink').createEndpoint
 
 ///|
-extern "js" fn ffi_release_proxy() -> @nostd.Any =
+extern "js" fn ffi_release_proxy() -> @core.Any =
   #| () => require('comlink').releaseProxy
 
 ///|
-extern "js" fn ffi_proxy_marker() -> @nostd.Any =
+extern "js" fn ffi_proxy_marker() -> @core.Any =
   #| () => require('comlink').proxyMarker
 
 ///| TransferHandler FFI
 
 ///|
-extern "js" fn ffi_get_transfer_handlers() -> @nostd.Any =
+extern "js" fn ffi_get_transfer_handlers() -> @core.Any =
   #| () => require('comlink').transferHandlers
 
 ///| Core Functions
@@ -99,7 +99,7 @@ extern "js" fn ffi_get_transfer_handlers() -> @nostd.Any =
 ///|
 /// Wrap an endpoint to create a proxy to the exposed object
 /// Use this in the main thread to wrap a Worker
-pub fn wrap(endpoint : @nostd.Any) -> Remote {
+pub fn wrap(endpoint : @core.Any) -> Remote {
   ffi_wrap(endpoint)
 }
 
@@ -118,7 +118,7 @@ pub fn wrapMessagePort(port : @message.MessagePort) -> Remote {
 ///|
 /// Expose an object to be called from another thread
 /// Use this in the Worker to expose functions
-pub fn expose(obj : @nostd.Any, endpoint? : @nostd.Any) -> Unit {
+pub fn expose(obj : @core.Any, endpoint? : @core.Any) -> Unit {
   match endpoint {
     Some(ep) => ffi_expose(obj, ep)
     None => ffi_expose_self(obj)
@@ -127,14 +127,14 @@ pub fn expose(obj : @nostd.Any, endpoint? : @nostd.Any) -> Unit {
 
 ///|
 /// Expose an object to a Worker
-pub fn exposeToWorker(obj : @nostd.Any, worker : @worker.Worker) -> Unit {
+pub fn exposeToWorker(obj : @core.Any, worker : @worker.Worker) -> Unit {
   ffi_expose(obj, worker.as_any().cast())
 }
 
 ///|
 /// Expose an object to a MessagePort
 pub fn exposeToMessagePort(
-  obj : @nostd.Any,
+  obj : @core.Any,
   port : @message.MessagePort,
 ) -> Unit {
   ffi_expose(obj, port.as_any().cast())
@@ -144,24 +144,24 @@ pub fn exposeToMessagePort(
 /// Mark a value to be transferred (not copied) to the other thread
 /// Use for ArrayBuffer, MessagePort, etc.
 pub fn transfer(
-  value : @nostd.Any,
-  transferables : Array[@nostd.Any],
-) -> @nostd.Any {
-  ffi_transfer(value, @nostd.any(transferables))
+  value : @core.Any,
+  transferables : Array[@core.Any],
+) -> @core.Any {
+  ffi_transfer(value, @core.any(transferables))
 }
 
 ///|
 /// Mark a callback/function to be kept as a proxy
 /// Useful for event callbacks that need to be called from the worker
-pub fn proxy(value : @nostd.Any) -> ProxyMarked {
+pub fn proxy(value : @core.Any) -> ProxyMarked {
   ffi_proxy(value)
 }
 
 ///|
 /// Create an endpoint for communicating with an iframe/window
 pub fn windowEndpoint(
-  window : @nostd.Any,
-  context? : @nostd.Any,
+  window : @core.Any,
+  context? : @core.Any,
   target_origin? : String,
 ) -> Endpoint {
   match (context, target_origin) {
@@ -173,27 +173,27 @@ pub fn windowEndpoint(
 ///|
 /// Get the createEndpoint symbol
 /// Used to create a new MessagePort from a proxy
-pub fn createEndpointSymbol() -> @nostd.Any {
+pub fn createEndpointSymbol() -> @core.Any {
   ffi_create_endpoint()
 }
 
 ///|
 /// Get the releaseProxy symbol
 /// Used to release a proxy and its associated resources
-pub fn releaseProxySymbol() -> @nostd.Any {
+pub fn releaseProxySymbol() -> @core.Any {
   ffi_release_proxy()
 }
 
 ///|
 /// Get the proxyMarker symbol
-pub fn proxyMarkerSymbol() -> @nostd.Any {
+pub fn proxyMarkerSymbol() -> @core.Any {
   ffi_proxy_marker()
 }
 
 ///|
 /// Get the transfer handlers map
 /// Use this to register custom transfer handlers
-pub fn transferHandlers() -> @nostd.Any {
+pub fn transferHandlers() -> @core.Any {
   ffi_get_transfer_handlers()
 }
 
@@ -203,8 +203,8 @@ pub fn transferHandlers() -> @nostd.Any {
 extern "js" fn ffi_remote_call(
   remote : Remote,
   name : String,
-  args : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  args : @core.Any,
+) -> @js.Promise[@core.Any] =
   #| (remote, name, args) => remote[name](...args)
 
 ///|
@@ -223,14 +223,14 @@ extern "js" fn ffi_remote_create_endpoint(
 pub fn Remote::callMethod(
   self : Remote,
   name : String,
-  args : Array[@nostd.Any],
-) -> @js.Promise[@nostd.Any] {
-  ffi_remote_call(self, name, @nostd.any(args))
+  args : Array[@core.Any],
+) -> @js.Promise[@core.Any] {
+  ffi_remote_call(self, name, @core.any(args))
 }
 
 ///|
 /// Call remote with no arguments
-pub fn Remote::call0(self : Remote, name : String) -> @js.Promise[@nostd.Any] {
+pub fn Remote::call0(self : Remote, name : String) -> @js.Promise[@core.Any] {
   self.as_any()._call(name, []).cast()
 }
 
@@ -239,9 +239,9 @@ pub fn Remote::call0(self : Remote, name : String) -> @js.Promise[@nostd.Any] {
 pub fn Remote::call1(
   self : Remote,
   name : String,
-  arg : @nostd.Any,
-) -> @js.Promise[@nostd.Any] {
-  self.as_any()._call(name, [@nostd.any(arg)]).cast()
+  arg : @core.Any,
+) -> @js.Promise[@core.Any] {
+  self.as_any()._call(name, [@core.any(arg)]).cast()
 }
 
 ///|
@@ -249,15 +249,15 @@ pub fn Remote::call1(
 pub fn Remote::call2(
   self : Remote,
   name : String,
-  arg1 : @nostd.Any,
-  arg2 : @nostd.Any,
-) -> @js.Promise[@nostd.Any] {
-  self.as_any()._call(name, [@nostd.any(arg1), @nostd.any(arg2)]).cast()
+  arg1 : @core.Any,
+  arg2 : @core.Any,
+) -> @js.Promise[@core.Any] {
+  self.as_any()._call(name, [@core.any(arg1), @core.any(arg2)]).cast()
 }
 
 ///|
 /// Get a property from the remote object
-pub fn Remote::get(self : Remote, prop : String) -> @js.Promise[@nostd.Any] {
+pub fn Remote::get(self : Remote, prop : String) -> @js.Promise[@core.Any] {
   self.as_any()[prop].cast()
 }
 
@@ -279,18 +279,18 @@ pub fn Remote::createEndpoint(
 
 ///|
 /// Wrap a function to be proxied (for callbacks)
-pub fn proxyCallback(f : (@nostd.Any) -> Unit) -> ProxyMarked {
+pub fn proxyCallback(f : (@core.Any) -> Unit) -> ProxyMarked {
   ffi_proxy(@js.from_fn1(f))
 }
 
 ///|
 /// Wrap a function with return value to be proxied
-pub fn proxyFunction(f : (@nostd.Any) -> @nostd.Any) -> ProxyMarked {
+pub fn proxyFunction(f : (@core.Any) -> @core.Any) -> ProxyMarked {
   ffi_proxy(@js.from_fn1(f))
 }
 
 ///|
 /// Transfer an ArrayBuffer
-pub fn transferArrayBuffer(buffer : @nostd.Any) -> @nostd.Any {
-  ffi_transfer(buffer, @nostd.any([buffer]))
+pub fn transferArrayBuffer(buffer : @core.Any) -> @core.Any {
+  ffi_transfer(buffer, @core.any([buffer]))
 }

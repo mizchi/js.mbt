@@ -7,7 +7,7 @@
     "mizchi/js/node/process",
     "mizchi/js/node/tty",
     "mizchi/js/npm/ai",
-    "mizchi/js/nostd"
+    "mizchi/js/core"
   ],
   "test-import": [],
   "link": {

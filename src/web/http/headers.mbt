@@ -4,4 +4,4 @@
 pub type Headers
 
 ///|
-pub fn Headers::as_any(self : Headers) -> @nostd.Any = "%identity"
+pub fn Headers::as_any(self : Headers) -> @core.Any = "%identity"

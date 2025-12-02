@@ -2,194 +2,194 @@
 package "mizchi/js/npm/date_fns"
 
 import(
-  "mizchi/js"
   "mizchi/js/builtins/date"
+  "mizchi/js/core"
 )
 
 // Values
-fn add(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
+pub fn add(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
 
 #alias(add_days)
-fn addDays(&DateArgs, Int) -> @date.Date
+pub fn addDays(&DateArgs, Int) -> @date.Date
 
 #alias(add_hours)
-fn addHours(&DateArgs, Int) -> @date.Date
+pub fn addHours(&DateArgs, Int) -> @date.Date
 
 #alias(add_minutes)
-fn addMinutes(&DateArgs, Int) -> @date.Date
+pub fn addMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(add_months)
-fn addMonths(&DateArgs, Int) -> @date.Date
+pub fn addMonths(&DateArgs, Int) -> @date.Date
 
 #alias(add_years)
-fn addYears(&DateArgs, Int) -> @date.Date
+pub fn addYears(&DateArgs, Int) -> @date.Date
 
 #alias(compare_asc)
-fn compareAsc(&DateArgs, &DateArgs) -> Int
+pub fn compareAsc(&DateArgs, &DateArgs) -> Int
 
 #alias(compare_desc)
-fn compareDesc(&DateArgs, &DateArgs) -> Int
+pub fn compareDesc(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_days)
-fn differenceInDays(&DateArgs, &DateArgs) -> Int
+pub fn differenceInDays(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_hours)
-fn differenceInHours(&DateArgs, &DateArgs) -> Int
+pub fn differenceInHours(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_milliseconds)
-fn differenceInMilliseconds(&DateArgs, &DateArgs) -> Int
+pub fn differenceInMilliseconds(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_minutes)
-fn differenceInMinutes(&DateArgs, &DateArgs) -> Int
+pub fn differenceInMinutes(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_months)
-fn differenceInMonths(&DateArgs, &DateArgs) -> Int
+pub fn differenceInMonths(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_seconds)
-fn differenceInSeconds(&DateArgs, &DateArgs) -> Int
+pub fn differenceInSeconds(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_weeks)
-fn differenceInWeeks(&DateArgs, &DateArgs) -> Int
+pub fn differenceInWeeks(&DateArgs, &DateArgs) -> Int
 
 #alias(difference_in_years)
-fn differenceInYears(&DateArgs, &DateArgs) -> Int
+pub fn differenceInYears(&DateArgs, &DateArgs) -> Int
 
 #alias(end_of_day)
-fn endOfDay(&DateArgs) -> @date.Date
+pub fn endOfDay(&DateArgs) -> @date.Date
 
 #alias(end_of_month)
-fn endOfMonth(&DateArgs) -> @date.Date
+pub fn endOfMonth(&DateArgs) -> @date.Date
 
 #alias(end_of_week)
-fn endOfWeek(&DateArgs) -> @date.Date
+pub fn endOfWeek(&DateArgs) -> @date.Date
 
 #alias(end_of_year)
-fn endOfYear(&DateArgs) -> @date.Date
+pub fn endOfYear(&DateArgs) -> @date.Date
 
-fn format(&DateArgs, String) -> String
+pub fn format(&DateArgs, String) -> String
 
 #alias(format_distance)
-fn formatDistance(&DateArgs, &DateArgs) -> String
+pub fn formatDistance(&DateArgs, &DateArgs) -> String
 
 #alias(format_distance_to_now)
-fn formatDistanceToNow(&DateArgs) -> String
+pub fn formatDistanceToNow(&DateArgs) -> String
 
 #alias(format_iso)
-fn formatISO(&DateArgs) -> String
+pub fn formatISO(&DateArgs) -> String
 
 #alias(format_relative)
-fn formatRelative(&DateArgs, &DateArgs) -> String
+pub fn formatRelative(&DateArgs, &DateArgs) -> String
 
 #alias(from_time)
-fn fromTime(Int) -> @date.Date
+pub fn fromTime(Int) -> @date.Date
 
 #alias(from_unix_time)
-fn fromUnixTime(Int) -> @date.Date
+pub fn fromUnixTime(Int) -> @date.Date
 
 #alias(from_ymd)
-fn fromYMD(Int, Int, Int) -> @date.Date
+pub fn fromYMD(Int, Int, Int) -> @date.Date
 
 #alias(get_date)
-fn getDate(&DateArgs) -> Int
+pub fn getDate(&DateArgs) -> Int
 
 #alias(get_day)
-fn getDay(&DateArgs) -> Int
+pub fn getDay(&DateArgs) -> Int
 
 #alias(get_hours)
-fn getHours(&DateArgs) -> Int
+pub fn getHours(&DateArgs) -> Int
 
 #alias(get_minutes)
-fn getMinutes(&DateArgs) -> Int
+pub fn getMinutes(&DateArgs) -> Int
 
 #alias(get_month)
-fn getMonth(&DateArgs) -> Int
+pub fn getMonth(&DateArgs) -> Int
 
 #alias(get_seconds)
-fn getSeconds(&DateArgs) -> Int
+pub fn getSeconds(&DateArgs) -> Int
 
 #alias(get_time)
-fn getTime(&DateArgs) -> Int
+pub fn getTime(&DateArgs) -> Int
 
 #alias(get_unix_time)
-fn getUnixTime(&DateArgs) -> Int
+pub fn getUnixTime(&DateArgs) -> Int
 
 #alias(get_year)
-fn getYear(&DateArgs) -> Int
+pub fn getYear(&DateArgs) -> Int
 
 #alias(is_after)
-fn isAfter(&DateArgs, &DateArgs) -> Bool
+pub fn isAfter(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_before)
-fn isBefore(&DateArgs, &DateArgs) -> Bool
+pub fn isBefore(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_equal)
-fn isEqual(&DateArgs, &DateArgs) -> Bool
+pub fn isEqual(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_day)
-fn isSameDay(&DateArgs, &DateArgs) -> Bool
+pub fn isSameDay(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_month)
-fn isSameMonth(&DateArgs, &DateArgs) -> Bool
+pub fn isSameMonth(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_same_year)
-fn isSameYear(&DateArgs, &DateArgs) -> Bool
+pub fn isSameYear(&DateArgs, &DateArgs) -> Bool
 
 #alias(is_valid)
-fn isValid(&DateArgs) -> Bool
+pub fn isValid(&DateArgs) -> Bool
 
-fn now() -> @date.Date
+pub fn now() -> @date.Date
 
-fn parse(String, String, &DateArgs) -> @date.Date
+pub fn parse(String, String, &DateArgs) -> @date.Date
 
 #alias(parse_iso)
-fn parseISO(String) -> @date.Date
+pub fn parseISO(String) -> @date.Date
 
 #alias(set_date)
-fn setDate(&DateArgs, Int) -> @date.Date
+pub fn setDate(&DateArgs, Int) -> @date.Date
 
 #alias(set_hours)
-fn setHours(&DateArgs, Int) -> @date.Date
+pub fn setHours(&DateArgs, Int) -> @date.Date
 
 #alias(set_minutes)
-fn setMinutes(&DateArgs, Int) -> @date.Date
+pub fn setMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(set_month)
-fn setMonth(&DateArgs, Int) -> @date.Date
+pub fn setMonth(&DateArgs, Int) -> @date.Date
 
 #alias(set_seconds)
-fn setSeconds(&DateArgs, Int) -> @date.Date
+pub fn setSeconds(&DateArgs, Int) -> @date.Date
 
 #alias(set_year)
-fn setYear(&DateArgs, Int) -> @date.Date
+pub fn setYear(&DateArgs, Int) -> @date.Date
 
 #alias(start_of_day)
-fn startOfDay(&DateArgs) -> @date.Date
+pub fn startOfDay(&DateArgs) -> @date.Date
 
 #alias(start_of_month)
-fn startOfMonth(&DateArgs) -> @date.Date
+pub fn startOfMonth(&DateArgs) -> @date.Date
 
 #alias(start_of_week)
-fn startOfWeek(&DateArgs) -> @date.Date
+pub fn startOfWeek(&DateArgs) -> @date.Date
 
 #alias(start_of_year)
-fn startOfYear(&DateArgs) -> @date.Date
+pub fn startOfYear(&DateArgs) -> @date.Date
 
-fn sub(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
+pub fn sub(&DateArgs, years? : Int, months? : Int, weeks? : Int, days? : Int, hours? : Int, minutes? : Int, seconds? : Int) -> @date.Date
 
 #alias(sub_days)
-fn subDays(&DateArgs, Int) -> @date.Date
+pub fn subDays(&DateArgs, Int) -> @date.Date
 
 #alias(sub_hours)
-fn subHours(&DateArgs, Int) -> @date.Date
+pub fn subHours(&DateArgs, Int) -> @date.Date
 
 #alias(sub_minutes)
-fn subMinutes(&DateArgs, Int) -> @date.Date
+pub fn subMinutes(&DateArgs, Int) -> @date.Date
 
 #alias(sub_months)
-fn subMonths(&DateArgs, Int) -> @date.Date
+pub fn subMonths(&DateArgs, Int) -> @date.Date
 
 #alias(sub_years)
-fn subYears(&DateArgs, Int) -> @date.Date
+pub fn subYears(&DateArgs, Int) -> @date.Date
 
 // Errors
 
@@ -199,9 +199,9 @@ fn subYears(&DateArgs, Int) -> @date.Date
 
 // Traits
 pub(open) trait DateArgs {
-  to_date(Self) -> @nostd.Any = _
+  to_date(Self) -> @core.Any = _
 }
-impl DateArgs for Int
-impl DateArgs for String
-impl DateArgs for @date.Date
+pub impl DateArgs for Int
+pub impl DateArgs for String
+pub impl DateArgs for @date.Date
 

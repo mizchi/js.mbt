@@ -40,34 +40,34 @@ pub fn MinifyOptions::default() -> MinifyOptions {
 }
 
 ///|
-fn build_options(options : MinifyOptions) -> @nostd.Any {
-  let js_options = @nostd.Object::new()
-  js_options["compress"] = @nostd.any(options.compress)
-  js_options["mangle"] = @nostd.any(options.mangle)
+fn build_options(options : MinifyOptions) -> @core.Any {
+  let js_options = @core.Object::new()
+  js_options["compress"] = @core.any(options.compress)
+  js_options["mangle"] = @core.any(options.mangle)
   if options.sourceMap {
-    js_options["sourceMap"] = @nostd.any(true)
+    js_options["sourceMap"] = @core.any(true)
   }
   if options.toplevel {
-    js_options["toplevel"] = @nostd.any(true)
+    js_options["toplevel"] = @core.any(true)
   }
   if options.keep_fnames {
-    let mangle_opts = @nostd.Object::new()
-    mangle_opts["keep_fnames"] = @nostd.any(true)
+    let mangle_opts = @core.Object::new()
+    mangle_opts["keep_fnames"] = @core.any(true)
     js_options["mangle"] = mangle_opts
   }
   if options.keep_classnames {
-    let mangle_opts = @nostd.Object::new()
-    mangle_opts["keep_classnames"] = @nostd.any(true)
+    let mangle_opts = @core.Object::new()
+    mangle_opts["keep_classnames"] = @core.any(true)
     js_options["mangle"] = mangle_opts
   }
   js_options
 }
 
 ///|
-fn parse_result(result : @nostd.Any) -> MinifyResult {
+fn parse_result(result : @core.Any) -> MinifyResult {
   let code : String = result["code"].cast()
   let map_val = result["map"]
-  let map : String? = if @nostd.is_nullish(map_val) {
+  let map : String? = if @core.is_nullish(map_val) {
     None
   } else {
     Some(map_val.cast())
@@ -88,8 +88,8 @@ pub async fn minify(
 ///|
 extern "js" fn ffi_minify(
   code : String,
-  options : @nostd.Any,
-) -> @nostd.Promise[@nostd.Any] =
+  options : @core.Any,
+) -> @core.Promise[@core.Any] =
   #|async (code, options) => {
   #|  const { minify } = require('terser');
   #|  return minify(code, options);
@@ -106,10 +106,7 @@ pub fn minify_sync(
 }
 
 ///|
-extern "js" fn ffi_minify_sync(
-  code : String,
-  options : @nostd.Any,
-) -> @nostd.Any =
+extern "js" fn ffi_minify_sync(code : String, options : @core.Any) -> @core.Any =
   #|(code, options) => {
   #|  const { minify_sync } = require('terser');
   #|  return minify_sync(code, options);

@@ -1,10 +1,10 @@
 ///|
 test "util:inspect" {
-  let obj = @nostd.from_entries([
-    ("xxx", @nostd.any("------------------------")),
-    ("a", @nostd.any(1)),
-    ("b", @nostd.any([1, 2, 3])),
-    ("c", @nostd.from_entries([("d", @nostd.any("hello"))])),
+  let obj = @core.from_entries([
+    ("xxx", @core.any("------------------------")),
+    ("a", @core.any(1)),
+    ("b", @core.any([1, 2, 3])),
+    ("c", @core.from_entries([("d", @core.any("hello"))])),
   ])
   let s = @util.inspect(
     obj,
@@ -24,12 +24,18 @@ test "util:inspect" {
 
 ///|
 test "util:inspect with depth" {
-  let nested = @nostd.from_entries([
-    ("a", @nostd.from_entries([
-      ("b", @nostd.from_entries([
-        ("c", @nostd.from_entries([("d", @nostd.any("deep"))])),
-      ])),
-    ])),
+  let nested = @core.from_entries([
+    (
+      "a",
+      @core.from_entries([
+        (
+          "b",
+          @core.from_entries([
+            ("c", @core.from_entries([("d", @core.any("deep"))])),
+          ]),
+        ),
+      ]),
+    ),
   ])
 
   // Shallow depth
@@ -43,9 +49,9 @@ test "util:inspect with depth" {
 
 ///|
 test "util:inspect with colors" {
-  let obj = @nostd.from_entries([
-    ("num", @nostd.any(123)),
-    ("str", @nostd.any("hello")),
+  let obj = @core.from_entries([
+    ("num", @core.any(123)),
+    ("str", @core.any("hello")),
   ])
 
   // Without colors

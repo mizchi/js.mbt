@@ -6,7 +6,7 @@ test "HTMLTextAreaElement - create and access value" {
   @global_jsdom.register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
-    |> @nostd.identity
+    |> @core.identity
 
   // Read initial value
   textarea.value |> inspect(content="")
@@ -23,7 +23,7 @@ test "HTMLTextAreaElement - placeholder property" {
   @global_jsdom.register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
-    |> @nostd.identity
+    |> @core.identity
 
   // Set placeholder
   textarea.placeholder = "Enter text here"
@@ -37,7 +37,7 @@ test "HTMLTextAreaElement - disabled property" {
   @global_jsdom.register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
-    |> @nostd.identity
+    |> @core.identity
 
   // Check initial state
   textarea.disabled |> inspect(content="false")
@@ -54,7 +54,7 @@ test "HTMLTextAreaElement - rows and cols" {
   @global_jsdom.register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
-    |> @nostd.identity
+    |> @core.identity
 
   // Set rows and cols
   textarea.rows = 10
@@ -69,7 +69,7 @@ test "HTMLTextAreaElement - rows and cols" {
 test "HTMLInputElement - create and access value" {
   @global_jsdom.register()
   let doc = document()
-  let input : HTMLInputElement = doc.createElement("input") |> @nostd.identity
+  let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Read initial value
   input.value |> inspect(content="")
@@ -85,7 +85,7 @@ test "HTMLInputElement - create and access value" {
 test "HTMLInputElement - checked property" {
   @global_jsdom.register()
   let doc = document()
-  let input : HTMLInputElement = doc.createElement("input") |> @nostd.identity
+  let input : HTMLInputElement = doc.createElement("input") |> @core.identity
   input.setType("checkbox")
 
   // Check initial state
@@ -102,7 +102,7 @@ test "HTMLInputElement - checked property" {
 test "HTMLInputElement - disabled property" {
   @global_jsdom.register()
   let doc = document()
-  let input : HTMLInputElement = doc.createElement("input") |> @nostd.identity
+  let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Set disabled
   input.disabled = true
@@ -115,7 +115,7 @@ test "HTMLInputElement - disabled property" {
 test "HTMLInputElement - placeholder property" {
   @global_jsdom.register()
   let doc = document()
-  let input : HTMLInputElement = doc.createElement("input") |> @nostd.identity
+  let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Set placeholder
   input.placeholder = "Enter your name"
@@ -128,7 +128,7 @@ test "HTMLInputElement - placeholder property" {
 test "HTMLCanvasElement - width and height properties" {
   @global_jsdom.register()
   let doc = document()
-  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @nostd.identity
+  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
   // Set width and height
   canvas.width = 800
@@ -143,7 +143,7 @@ test "HTMLCanvasElement - width and height properties" {
 test "HTMLCanvasElement - default dimensions" {
   @global_jsdom.register()
   let doc = document()
-  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @nostd.identity
+  let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
   // Check default dimensions (300x150 per HTML spec)
   canvas.width |> inspect(content="300")
@@ -154,7 +154,7 @@ test "HTMLCanvasElement - default dimensions" {
 test "HTMLIFrameElement - src and sandbox properties" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @nostd.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set src and sandbox
   iframe.src = "https://example.com"
@@ -169,7 +169,7 @@ test "HTMLIFrameElement - src and sandbox properties" {
 test "HTMLIFrameElement - width and height properties" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @nostd.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set width and height as strings
   iframe.width = "640"
@@ -184,7 +184,7 @@ test "HTMLIFrameElement - width and height properties" {
 test "HTMLIFrameElement - name property" {
   @global_jsdom.register()
   let doc = document()
-  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @nostd.identity
+  let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set name
   iframe.name = "myFrame"

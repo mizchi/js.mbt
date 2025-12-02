@@ -2,8 +2,7 @@
 package "mizchi/js/web/message"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
@@ -14,35 +13,35 @@ import(
 // Types and methods
 #external
 pub type MessageChannel
-fn MessageChannel::as_any(Self) -> @nostd.Any
-fn MessageChannel::new() -> Self
-fn MessageChannel::port1(Self) -> MessagePort
-fn MessageChannel::port2(Self) -> MessagePort
-impl Show for MessageChannel
+pub fn MessageChannel::as_any(Self) -> @core.Any
+pub fn MessageChannel::new() -> Self
+pub fn MessageChannel::port1(Self) -> MessagePort
+pub fn MessageChannel::port2(Self) -> MessagePort
+pub impl Show for MessageChannel
 
 pub(all) struct MessageEvent {
-  data : @nostd.Any
+  data : @core.Any
   origin : String
   lastEventId : String
   ports : Array[MessagePort]
 }
-fn MessageEvent::as_any(Self) -> @nostd.Any
-fn MessageEvent::as_event_target(Self) -> @event.EventTarget
-impl @event.EventTargetImpl for MessageEvent
-impl Show for MessageEvent
+pub fn MessageEvent::as_any(Self) -> @core.Any
+pub fn MessageEvent::as_event_target(Self) -> @event.EventTarget
+pub impl @event.EventTargetImpl for MessageEvent
+pub impl Show for MessageEvent
 
 #external
 pub type MessagePort
-fn MessagePort::as_any(Self) -> @nostd.Any
-fn MessagePort::as_event_target(Self) -> @event.EventTarget
-fn MessagePort::close(Self) -> Unit
+pub fn MessagePort::as_any(Self) -> @core.Any
+pub fn MessagePort::as_event_target(Self) -> @event.EventTarget
+pub fn MessagePort::close(Self) -> Unit
 #alias(post_message)
-fn MessagePort::postMessage(Self, &@js.JsImpl) -> Unit
+pub fn MessagePort::postMessage(Self, @core.Any) -> Unit
 #alias(post_message_with_transfer)
-fn MessagePort::postMessageWithTransfer(Self, &@js.JsImpl, Array[@nostd.Any]) -> Unit
-fn MessagePort::start(Self) -> Unit
-impl @event.EventTargetImpl for MessagePort
-impl Show for MessagePort
+pub fn MessagePort::postMessageWithTransfer(Self, @core.Any, Array[@core.Any]) -> Unit
+pub fn MessagePort::start(Self) -> Unit
+pub impl @event.EventTargetImpl for MessagePort
+pub impl Show for MessagePort
 
 // Type aliases
 

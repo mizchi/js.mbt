@@ -2,11 +2,11 @@
 package "mizchi/js/browser/navigator"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn navigator() -> Navigator
+pub fn navigator() -> Navigator
 
 // Errors
 
@@ -23,13 +23,13 @@ pub(all) struct Navigator {
   vendor : String
   cookieEnabled : Bool
   doNotTrack : String?
-  connection : @nostd.Any?
-  permissions : @nostd.Any
-  clipboard : @nostd.Any
-  geolocation : @nostd.Any
+  connection : @core.Any?
+  permissions : @core.Any
+  clipboard : @core.Any
+  geolocation : @core.Any
 }
-fn Navigator::as_any(Self) -> @nostd.Any
-fn Navigator::vibrate(Self, Int) -> Bool
+pub fn Navigator::as_any(Self) -> @core.Any
+pub fn Navigator::vibrate(Self, Int) -> Bool
 
 // Type aliases
 

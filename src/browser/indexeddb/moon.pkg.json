@@ -1,13 +1,17 @@
 {
   "is_main": false,
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/web/event",
     "mizchi/js/builtins/global"
   ],
-  "test-import": ["moonbitlang/async"],
+  "test-import": [
+    "moonbitlang/async"
+  ],
   "warn-list": "-5"
 }

@@ -23,7 +23,7 @@ test "execSync with input string" {
 
 ///|
 test "execSync with env option" {
-  let env_obj = @nostd.from_entries([("TEST_VAR", @nostd.any("custom_value"))]).cast()
+  let env_obj = @core.from_entries([("TEST_VAR", @core.any("custom_value"))]).cast()
   let output = execSync("echo $TEST_VAR", shell="/bin/sh", env=env_obj)
   assert_true(output.contains("custom_value"))
 }
@@ -114,10 +114,10 @@ test "spawnSync with shell option" {
 
 ///|
 test "spawnSync with env option" {
-  let env_obj = @nostd.from_entries([("TEST_VAR", @nostd.any("test_value"))]).cast()
+  let env_obj = @core.from_entries([("TEST_VAR", @core.any("test_value"))]).cast()
   let result = spawnSync("echo", args=["$TEST_VAR"], shell=true, env=env_obj)
   let stdout = result.stdout()
-  let buffer : @buffer.Buffer = @nostd.identity(stdout)
+  let buffer : @buffer.Buffer = @core.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("test_value"))
 }
@@ -133,26 +133,26 @@ test "spawnSync handles non-existent command with error" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
   // Error is a Js object (not nullish) when command is not found
-  let error : @nostd.Any = result.error().cast()
-  inspect(@nostd.is_nullish(error), content="false")
+  let error : @core.Any = result.error().cast()
+  inspect(@core.is_nullish(error), content="false")
   // Verify it's an error object
-  assert_true(@nostd.is_object(error))
+  assert_true(@core.is_object(error))
 }
 
 ///|
 test "spawnSync handles command not found" {
   // Use stdio="pipe" to suppress error output to console
   let result = spawnSync("/nonexistent/command", stdio="pipe")
-  let error : @nostd.Any = result.error().cast()
+  let error : @core.Any = result.error().cast()
   // Error field exists as a Js object
-  assert_true(@nostd.is_object(error))
+  assert_true(@core.is_object(error))
 }
 
 ///|
 test "spawnSync captures output in result" {
   let result = spawnSync("echo", args=["captured"])
   let stdout = result.stdout()
-  let buffer : @buffer.Buffer = @nostd.identity(stdout)
+  let buffer : @buffer.Buffer = @core.identity(stdout)
   let stdout_str = buffer.toString()
   assert_true(stdout_str.contains("captured"))
 }
@@ -179,7 +179,7 @@ test "execFileSync with working directory" {
 
 ///|
 test "execFileSync with env option" {
-  let env_obj = @nostd.from_entries([("MY_VAR", @nostd.any("file_value"))]).cast()
+  let env_obj = @core.from_entries([("MY_VAR", @core.any("file_value"))]).cast()
   let output = execFileSync("sh", args=["-c", "echo $MY_VAR"], env=env_obj)
   assert_true(output.contains("file_value"))
 }
@@ -340,8 +340,8 @@ async test "Node Child Process: ChildProcess has stdout and stderr streams" {
   defer proc.kill() |> ignore
   let stdout = proc.stdout()
   let stderr = proc.stderr()
-  assert_true(@nostd.type_of(stdout.as_any()) == "object")
-  assert_true(@nostd.type_of(stderr.as_any()) == "object")
+  assert_true(@core.type_of(stdout.as_any()) == "object")
+  assert_true(@core.type_of(stderr.as_any()) == "object")
 }
 
 ///|
@@ -397,7 +397,7 @@ async test "Node Child Process: ChildProcess stdin is available" {
   let proc = @child_process.spawn("cat")
   defer proc.kill() |> ignore
   let stdin = proc.stdin()
-  assert_true(@nostd.type_of(stdin.as_any()) == "object")
+  assert_true(@core.type_of(stdin.as_any()) == "object")
 }
 
 ///|

@@ -1,31 +1,28 @@
 ///|
 extern "js" fn ffi_property_is_enumerable(
-  obj : @nostd.Any,
+  obj : @core.Any,
   key : String,
 ) -> Bool =
   #| (obj, key) => obj.propertyIsEnumerable(key)
 
 ///|
-extern "js" fn ffi_is_prototype_of(
-  obj : @nostd.Any,
-  target : @nostd.Any,
-) -> Bool =
+extern "js" fn ffi_is_prototype_of(obj : @core.Any, target : @core.Any) -> Bool =
   #| (obj, target) => obj.isPrototypeOf(target)
 
 ///|
-extern "js" fn ffi_object_entries(obj : @nostd.Any) -> Array[@nostd.Any] =
+extern "js" fn ffi_object_entries(obj : @core.Any) -> Array[@core.Any] =
   #| (obj) => Object.entries(obj)
 
 ///|
 extern "js" fn ffi_json_stringify(
-  value : @nostd.Any,
-  replacer : @nostd.Any,
-  space : @nostd.Any,
+  value : @core.Any,
+  replacer : @core.Any,
+  space : @core.Any,
 ) -> String =
   #| (value, replacer, space) => JSON.stringify(value, replacer, space)
 
 ///|
-extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
+extern "js" fn ffi_has_own_property(obj : @core.Any, key : String) -> Bool =
   #| (obj, key) => obj.hasOwnProperty(key)
 
 ///|
@@ -34,18 +31,18 @@ extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
 pub type Object
 
 ///|
-pub fn Object::to_any(self : Object) -> @nostd.Any = "%identity"
+pub fn Object::to_any(self : Object) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Object()
 /// Returns Any directly - use from_map() for creating objects with initial properties
-/// Example: `let obj = @js.from_map({ "key": @nostd.any(value) })` for typed object creation
-pub extern "js" fn Object::new() -> @nostd.Any =
+/// Example: `let obj = @js.from_map({ "key": @core.any(value) })` for typed object creation
+pub extern "js" fn Object::new() -> @core.Any =
   #| () => ({})
 
 ///|
 /// get the Object class
-extern "js" fn object_class() -> @nostd.Any =
+extern "js" fn object_class() -> @core.Any =
   #| () => Object
 
 ///|
@@ -53,8 +50,8 @@ extern "js" fn object_class() -> @nostd.Any =
 ///
 /// Returns an array of a given object's own enumerable property names.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::keys(v : @nostd.Any) -> Array[String] {
-  @nostd.any(object_class())._call("keys", [v]) |> @nostd.identity
+pub fn Object::keys(v : @core.Any) -> Array[String] {
+  @core.any(object_class())._call("keys", [v]) |> @core.identity
 }
 
 ///|
@@ -62,8 +59,8 @@ pub fn Object::keys(v : @nostd.Any) -> Array[String] {
 ///
 /// Returns an array of a given object's own enumerable property values.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::values(v : @nostd.Any) -> Array[@nostd.Any] {
-  @nostd.any(object_class())._call("values", [v]) |> @nostd.identity
+pub fn Object::values(v : @core.Any) -> Array[@core.Any] {
+  @core.any(object_class())._call("values", [v]) |> @core.identity
 }
 
 ///|
@@ -71,109 +68,106 @@ pub fn Object::values(v : @nostd.Any) -> Array[@nostd.Any] {
 ///
 /// Returns an array of a given object's own enumerable property [key, value] pairs.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::entries(v : @nostd.Any) -> Array[(String, @nostd.Any)] {
-  let entries = ffi_object_entries(v |> @nostd.identity)
+pub fn Object::entries(v : @core.Any) -> Array[(String, @core.Any)] {
+  let entries = ffi_object_entries(v |> @core.identity)
   entries.map(entry => (
-    @nostd.any(entry)["0"] |> @nostd.identity,
-    @nostd.any(entry)["1"],
+    @core.any(entry)["0"] |> @core.identity,
+    @core.any(entry)["1"],
   ))
 }
 
 ///|
 /// JS: Object.assign(target, source)
-pub fn Object::assign(target : @nostd.Any, source : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("assign", [target, source])
+pub fn Object::assign(target : @core.Any, source : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("assign", [target, source])
 }
 
 ///|
 /// JS: Object.create(v)
-pub fn Object::create(v : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("create", [v])
+pub fn Object::create(v : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("create", [v])
 }
 
 ///|
 /// JS: Object.is(a, b)
 /// Determines whether two values are the same value
-pub fn Object::is_(a : @nostd.Any, b : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("is", [a, b]) |> @nostd.identity
+pub fn Object::is_(a : @core.Any, b : @core.Any) -> Bool {
+  @core.any(object_class())._call("is", [a, b]) |> @core.identity
 }
 
 ///|
 /// JS: Object.freeze(obj)
 /// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
-pub fn Object::freeze(obj : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("freeze", [obj])
+pub fn Object::freeze(obj : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("freeze", [obj])
 }
 
 ///|
 /// JS: Object.seal(obj)
 /// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
-pub fn Object::seal(obj : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("seal", [obj])
+pub fn Object::seal(obj : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("seal", [obj])
 }
 
 ///|
 /// JS: Object.isFrozen(obj)
 /// Determines if an object is frozen
-pub fn Object::isFrozen(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isFrozen", [obj]) |> @nostd.identity
+pub fn Object::isFrozen(obj : @core.Any) -> Bool {
+  @core.any(object_class())._call("isFrozen", [obj]) |> @core.identity
 }
 
 ///|
 /// JS: Object.isSealed(obj)
 /// Determines if an object is sealed
-pub fn Object::isSealed(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isSealed", [obj]) |> @nostd.identity
+pub fn Object::isSealed(obj : @core.Any) -> Bool {
+  @core.any(object_class())._call("isSealed", [obj]) |> @core.identity
 }
 
 ///|
 /// JS: Object.preventExtensions(obj)
 /// Prevents new properties from being added to an object
-pub fn Object::preventExtensions(obj : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("preventExtensions", [obj])
+pub fn Object::preventExtensions(obj : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("preventExtensions", [obj])
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Determines if an object is extensible
-pub fn Object::isExtensible_static(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isExtensible", [obj]) |> @nostd.identity
+pub fn Object::isExtensible_static(obj : @core.Any) -> Bool {
+  @core.any(object_class())._call("isExtensible", [obj]) |> @core.identity
 }
 
 ///|
 /// JS: object.propertyIsEnumerable(k)
 pub fn Object::propertyIsEnumerable(self : Self, key : String) -> Bool {
-  ffi_property_is_enumerable(self |> @nostd.identity, key |> @nostd.identity)
+  ffi_property_is_enumerable(self |> @core.identity, key |> @core.identity)
 }
 
 ///|
 /// JS: object.isPrototypeOf(target)
-pub fn Object::isPrototypeOf(self : Self, target : @nostd.Any) -> Bool {
-  ffi_is_prototype_of(
-    self.to_any() |> @nostd.identity,
-    target |> @nostd.identity,
-  )
+pub fn Object::isPrototypeOf(self : Self, target : @core.Any) -> Bool {
+  ffi_is_prototype_of(self.to_any() |> @core.identity, target |> @core.identity)
 }
 
 ///|
 pub fn Object::hasOwnProperty(self : Self, key : String) -> Bool {
-  ffi_has_own_property(self |> @nostd.identity, key |> @nostd.identity)
+  ffi_has_own_property(self |> @core.identity, key |> @core.identity)
 }
 
 ///|
 /// JS: Object.isExtensible(obj)
 /// Instance method that calls the static Object.isExtensible
 pub fn Object::isExtensible(self : Self) -> Bool {
-  @nostd.any(object_class())._call("isExtensible", [self.to_any()])
-  |> @nostd.identity
+  @core.any(object_class())._call("isExtensible", [self.to_any()])
+  |> @core.identity
 }
 
 ///|
 pub fn Object::to_string(self : Self) -> String {
   ffi_json_stringify(
-    self.to_any() |> @nostd.identity,
-    @nostd.undefined(),
-    @nostd.undefined(),
+    self.to_any() |> @core.identity,
+    @core.undefined(),
+    @core.undefined(),
   )
 }
 
@@ -185,7 +179,7 @@ pub fn Object::to_string(self : Self) -> String {
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 pub(all) struct PropertyDescriptor {
   /// The value associated with the property (data descriptors only)
-  value : @nostd.Any?
+  value : @core.Any?
   /// true if the value can be changed with an assignment operator (data descriptors only)
   writable : Bool?
   /// true if the property shows up during enumeration
@@ -193,9 +187,9 @@ pub(all) struct PropertyDescriptor {
   /// true if the property descriptor can be changed and deleted from the object
   configurable : Bool?
   /// A function serving as a getter for the property (accessor descriptors only)
-  get : (() -> @nostd.Any)?
+  get : (() -> @core.Any)?
   /// A function serving as a setter for the property (accessor descriptors only)
-  set : ((@nostd.Any) -> Unit)?
+  set : ((@core.Any) -> Unit)?
 }
 
 ///|
@@ -203,40 +197,40 @@ pub(all) struct PropertyDescriptor {
 /// Defines a new property directly on an object, or modifies an existing property
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
 pub fn Object::defineProperty(
-  obj : @nostd.Any,
+  obj : @core.Any,
   prop : String,
-  value? : @nostd.Any,
+  value? : @core.Any,
   writable? : Bool,
   enumerable? : Bool,
   configurable? : Bool,
-  get? : () -> @nostd.Any,
-  set? : (@nostd.Any) -> Unit,
-) -> @nostd.Any {
+  get? : () -> @core.Any,
+  set? : (@core.Any) -> Unit,
+) -> @core.Any {
   let descriptor = Object::new()
   if value is Some(v) {
-    descriptor["value"] = v |> @nostd.any
+    descriptor["value"] = v |> @core.any
   }
   if writable is Some(v) {
-    descriptor["writable"] = v |> @nostd.any
+    descriptor["writable"] = v |> @core.any
   }
   if enumerable is Some(v) {
-    descriptor["enumerable"] = v |> @nostd.any
+    descriptor["enumerable"] = v |> @core.any
   }
   if configurable is Some(v) {
-    descriptor["configurable"] = v |> @nostd.any
+    descriptor["configurable"] = v |> @core.any
   }
   if get is Some(getter) {
-    descriptor["get"] = getter |> @nostd.any
+    descriptor["get"] = getter |> @core.any
   }
   if set is Some(setter) {
-    descriptor["set"] = setter |> @nostd.any
+    descriptor["set"] = setter |> @core.any
   }
-  @nostd.any(object_class())._call("defineProperty", [
+  @core.any(object_class())._call("defineProperty", [
     obj,
-    @nostd.any(prop),
-    @nostd.any(descriptor),
+    @core.any(prop),
+    @core.any(descriptor),
   ])
-  |> @nostd.identity
+  |> @core.identity
 }
 
 ///|
@@ -244,15 +238,15 @@ pub fn Object::defineProperty(
 /// Defines new or modifies existing properties directly on an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties
 pub fn Object::defineProperties(
-  obj : @nostd.Any,
-  props : @nostd.Any,
-) -> @nostd.Any {
-  @nostd.any(object_class())._call("defineProperties", [obj, @nostd.any(props)])
-  |> @nostd.identity
+  obj : @core.Any,
+  props : @core.Any,
+) -> @core.Any {
+  @core.any(object_class())._call("defineProperties", [obj, @core.any(props)])
+  |> @core.identity
 }
 
 ///|
-extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
+extern "js" fn ffi_get(obj : @core.Any, key : String) -> @core.Any =
   #| (obj, key) => obj[key]
 
 ///|
@@ -260,14 +254,14 @@ extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
 /// Returns a property descriptor for an own property
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor
 pub fn Object::getOwnPropertyDescriptor(
-  obj : @nostd.Any,
+  obj : @core.Any,
   prop : String,
 ) -> PropertyDescriptor? {
-  let desc : @nostd.Any = @nostd.any(object_class())._call(
+  let desc : @core.Any = @core.any(object_class())._call(
     "getOwnPropertyDescriptor",
-    [obj, @nostd.any(prop)],
+    [obj, @core.any(prop)],
   )
-  if @nostd.is_nullish(desc) {
+  if @core.is_nullish(desc) {
     None
   } else {
     Some({
@@ -309,27 +303,27 @@ pub fn Object::getOwnPropertyDescriptor(
 /// JS: Object.getOwnPropertyDescriptors(obj)
 /// Returns all own property descriptors of an object
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors
-pub fn Object::getOwnPropertyDescriptors(obj : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("getOwnPropertyDescriptors", [obj])
-  |> @nostd.identity
+pub fn Object::getOwnPropertyDescriptors(obj : @core.Any) -> @core.Any {
+  @core.any(object_class())._call("getOwnPropertyDescriptors", [obj])
+  |> @core.identity
 }
 
 ///|
 /// JS: Object.getOwnPropertyNames(obj)
 /// Returns an array of all own property names (including non-enumerable)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-pub fn Object::getOwnPropertyNames(obj : @nostd.Any) -> Array[String] {
-  @nostd.any(object_class())._call("getOwnPropertyNames", [obj])
-  |> @nostd.identity
+pub fn Object::getOwnPropertyNames(obj : @core.Any) -> Array[String] {
+  @core.any(object_class())._call("getOwnPropertyNames", [obj])
+  |> @core.identity
 }
 
 ///|
 /// JS: Object.getOwnPropertySymbols(obj)
 /// Returns an array of all own symbol properties
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols
-pub fn Object::getOwnPropertySymbols(obj : @nostd.Any) -> Array[@symbol.Symbol] {
-  @nostd.any(object_class())._call("getOwnPropertySymbols", [obj])
-  |> @nostd.identity
+pub fn Object::getOwnPropertySymbols(obj : @core.Any) -> Array[@symbol.Symbol] {
+  @core.any(object_class())._call("getOwnPropertySymbols", [obj])
+  |> @core.identity
 }
 
 ///|
@@ -339,13 +333,13 @@ pub fn Object::getOwnPropertySymbols(obj : @nostd.Any) -> Array[@symbol.Symbol] 
 pub fn[T] Object::groupBy(
   items : Array[T],
   callback : (T, Int) -> String,
-) -> @nostd.Any {
-  let js_callback : (@nostd.Any, Int) -> String = fn(item, index) {
-    callback(item |> @nostd.identity, index)
+) -> @core.Any {
+  let js_callback : (@core.Any, Int) -> String = fn(item, index) {
+    callback(item |> @core.identity, index)
   }
-  @nostd.any(object_class())._call("groupBy", [
-    @nostd.any(items),
-    @nostd.any(@nostd.from_fn2(js_callback)),
+  @core.any(object_class())._call("groupBy", [
+    @core.any(items),
+    @core.any(@core.from_fn2(js_callback)),
   ])
-  |> @nostd.identity
+  |> @core.identity
 }

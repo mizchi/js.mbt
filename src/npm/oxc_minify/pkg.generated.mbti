@@ -2,11 +2,11 @@
 package "mizchi/js/npm/oxc_minify"
 
 // Values
-fn minify(String) -> String
+pub fn minify(String) -> String
 
-async fn minify_async(String, String) -> MinifyResult
+pub async fn minify_async(String, String) -> MinifyResult
 
-fn minify_sync(String, String) -> MinifyResult
+pub fn minify_sync(String, String) -> MinifyResult
 
 // Errors
 

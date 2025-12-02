@@ -4,23 +4,23 @@ pub fn config_example() -> Unit {
   println("=== defineConfig Example ===")
 
   // Create configuration using defineConfig with labeled arguments
-  // This returns a @nostd.Any object directly
+  // This returns a @core.Any object directly
   let config = @vite.defineConfig(
     root?=Some("."),
     base?=Some("/"),
     mode?=Some("development"),
     server?=Some(
       @mbtconv.from_map({
-        "port": @nostd.any(3000),
-        "host": @nostd.any("localhost"),
-        "open": @nostd.any(false),
+        "port": @core.any(3000),
+        "host": @core.any("localhost"),
+        "open": @core.any(false),
       }).cast(),
     ),
     build?=Some(
       @mbtconv.from_map({
-        "outDir": @nostd.any("dist"),
-        "sourcemap": @nostd.any(true),
-        "minify": @nostd.any(true),
+        "outDir": @core.any("dist"),
+        "sourcemap": @core.any(true),
+        "minify": @core.any(true),
       }).cast(),
     ),
   )

@@ -3,52 +3,52 @@ package "mizchi/js/npm/testing_library_preact"
 
 import(
   "mizchi/js/browser/dom"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/preact"
   "mizchi/js/npm/testing_library"
 )
 
 // Values
-fn act(() -> Unit) -> @nostd.Any
+pub fn act(() -> Unit) -> @core.Any
 
-fn cleanup() -> Unit
+pub fn cleanup() -> Unit
 
-fn configure(@nostd.Any) -> Unit
+pub fn configure(@core.Any) -> Unit
 
 #alias(fire_event)
-fn fireEvent() -> @testing_library.FireEvent
+pub fn fireEvent() -> @testing_library.FireEvent
 
-fn render(@preact.VNode) -> RenderResult
+pub fn render(@preact.VNode) -> RenderResult
 
-fn renderHook(@nostd.Any) -> RenderHookResult
+pub fn renderHook(@core.Any) -> RenderHookResult
 
-fn screen() -> @testing_library.Screen
+pub fn screen() -> @testing_library.Screen
 
-async fn waitFor(() -> Unit) -> Unit
+pub async fn waitFor(() -> Unit) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type PreactTestingLibrary
-fn PreactTestingLibrary::as_any(Self) -> @nostd.Any
+pub fn PreactTestingLibrary::as_any(Self) -> @core.Any
 
 #external
 pub type RenderHookResult
-fn RenderHookResult::as_any(Self) -> @nostd.Any
-fn RenderHookResult::rerender(Self, @nostd.Any) -> Unit
-fn RenderHookResult::result(Self) -> @nostd.Any
-fn RenderHookResult::unmount(Self) -> Unit
+pub fn RenderHookResult::as_any(Self) -> @core.Any
+pub fn RenderHookResult::rerender(Self, @core.Any) -> Unit
+pub fn RenderHookResult::result(Self) -> @core.Any
+pub fn RenderHookResult::unmount(Self) -> Unit
 
 #external
 pub type RenderResult
-fn RenderResult::asFragment(Self) -> @nostd.Any
-fn RenderResult::as_any(Self) -> @nostd.Any
-fn RenderResult::baseElement(Self) -> @dom.HTMLElement
-fn RenderResult::container(Self) -> @dom.HTMLElement
-fn RenderResult::debug(Self) -> Unit
-fn RenderResult::rerender(Self, @preact.VNode) -> Unit
-fn RenderResult::unmount(Self) -> Unit
+pub fn RenderResult::asFragment(Self) -> @core.Any
+pub fn RenderResult::as_any(Self) -> @core.Any
+pub fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+pub fn RenderResult::container(Self) -> @dom.HTMLElement
+pub fn RenderResult::debug(Self) -> Unit
+pub fn RenderResult::rerender(Self, @preact.VNode) -> Unit
+pub fn RenderResult::unmount(Self) -> Unit
 
 // Type aliases
 

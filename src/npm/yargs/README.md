@@ -15,7 +15,7 @@ fn main {
   let argv = @yargs.yargs_with_args(@process.argv().slice(2))
     .usage("Usage: $0 <command> [options]")
     .option("name", alias_="n", type_="string", description="Your name", demandOption=true)
-    .option("port", alias_="p", type_="number", description="Port number", default=@nostd.any(3000))
+    .option("port", alias_="p", type_="number", description="Port number", default=@core.any(3000))
     .option("verbose", alias_="v", type_="boolean", description="Enable verbose mode")
     .help()
     .parse()

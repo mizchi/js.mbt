@@ -2,52 +2,52 @@
 package "mizchi/js/builtins/global"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn atob(String) -> String
+pub fn atob(String) -> String
 
-fn btoa(String) -> String
+pub fn btoa(String) -> String
 
-fn clear_interval(Timer) -> Unit
+pub fn clear_interval(Timer) -> Unit
 
-fn clear_timeout(Timer) -> Unit
+pub fn clear_timeout(Timer) -> Unit
 
-fn decode_uri(String) -> String
+pub fn decode_uri(String) -> String
 
-fn decode_uri_component(String) -> String
+pub fn decode_uri_component(String) -> String
 
-fn dynamic_import(String) -> @nostd.Any
+pub fn dynamic_import(String) -> @core.Any
 
-fn encode_uri(String) -> String
+pub fn encode_uri(String) -> String
 
-fn encode_uri_component(String) -> String
+pub fn encode_uri_component(String) -> String
 
-fn global_this() -> @nostd.Any
+pub fn global_this() -> @core.Any
 
-fn is_finite(Double) -> Bool
+pub fn is_finite(Double) -> Bool
 
-fn is_nan(@nostd.Any) -> Bool
+pub fn is_nan(@core.Any) -> Bool
 
-fn parse_float(String) -> Double?
+pub fn parse_float(String) -> Double?
 
-fn parse_int(String, radix? : Int) -> Int?
+pub fn parse_int(String, radix? : Int) -> Int?
 
-fn queue_microtask(() -> Unit) -> Unit
+pub fn queue_microtask(() -> Unit) -> Unit
 
-fn set_interval(() -> Unit, Int) -> Timer
+pub fn set_interval(() -> Unit, Int) -> Timer
 
-fn set_timeout(() -> Unit, Int) -> Timer
+pub fn set_timeout(() -> Unit, Int) -> Timer
 
-fn undefined() -> @nostd.Any
+pub fn undefined() -> @core.Any
 
 // Errors
 
 // Types and methods
 #external
 pub type Timer
-fn Timer::as_any(Self) -> @nostd.Any
+pub fn Timer::as_any(Self) -> @core.Any
 
 // Type aliases
 

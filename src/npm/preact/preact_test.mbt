@@ -8,9 +8,9 @@ priv struct MutBox[T] {
 fn setup() -> () -> Unit {
   @global_jsdom.register()
   init_preact_api(@node.require("preact"), @node.require("preact/hooks"))
-  let signals : @nostd.Any = @node.require("@preact/signals").cast()
+  let signals : @core.Any = @node.require("@preact/signals").cast()
   init_preact_signals(signals)
-  let ssr : @nostd.Any = @node.require("preact-render-to-string").cast()
+  let ssr : @core.Any = @node.require("preact-render-to-string").cast()
   init_preact_ssr(ssr)
   fn() { () }
 }
@@ -18,7 +18,7 @@ fn setup() -> () -> Unit {
 ///|
 fn get_container() -> @dom.HTMLElement {
   let doc = @dom.document()
-  let container : @dom.HTMLElement = @nostd.identity(doc.createElement("div"))
+  let container : @dom.HTMLElement = @core.identity(doc.createElement("div"))
   guard doc.body() is Some(body) else { abort("body not found") }
   body.as_node().appendChild(container.as_node()) |> ignore
   container
@@ -30,15 +30,15 @@ test "h creates VNode" {
   defer dispose()
   let vnode = h("div", ["Hello"])
   // VNode should be created
-  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@core.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
 test "h with props" {
   let dispose = setup()
   defer dispose()
-  let vnode = h("button", ["Click me"], props={ "disabled": @nostd.any(true) })
-  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
+  let vnode = h("button", ["Click me"], props={ "disabled": @core.any(true) })
+  inspect(not(@core.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -46,7 +46,7 @@ test "h with style" {
   let dispose = setup()
   defer dispose()
   let vnode = h("div", ["Styled"], style={ "color": "red", "fontSize": "16px" })
-  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@core.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -54,7 +54,7 @@ test "fragment" {
   let dispose = setup()
   defer dispose()
   let vnode = fragment(["Hello", " ", "World"])
-  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@core.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -65,7 +65,7 @@ test "component function" {
     h("div", ["Component content"])
   }
   let vnode = component(my_component, ())
-  inspect(not(@nostd.is_nullish(vnode.as_any())), content="true")
+  inspect(not(@core.is_nullish(vnode.as_any())), content="true")
 }
 
 ///|
@@ -345,7 +345,7 @@ test "SSR then hydrate" {
   defer dispose()
   // 1. SSR: render component to string
   let app : Component[Unit] = fn(_props) {
-    h("div", [h("button", ["Click me"])], props={ "id": @nostd.any("app") })
+    h("div", [h("button", ["Click me"])], props={ "id": @core.any("app") })
   }
   let html = renderToString(component(app, ()))
   inspect(html, content="<div id=\"app\"><button>Click me</button></div>")
@@ -395,7 +395,7 @@ async test "SSR async component then hydrate" {
 test "createResource - initial loading state" {
   let dispose = setup()
   defer dispose()
-  let resource = createResource(fn() { @nostd.Promise::resolve("fetched data") })
+  let resource = createResource(fn() { @core.Promise::resolve("fetched data") })
   // Resource starts in loading state
   inspect(resource.loading(), content="true")
   inspect(resource.try_value(), content="None")

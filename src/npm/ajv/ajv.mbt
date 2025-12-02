@@ -8,7 +8,7 @@
 pub type Ajv
 
 ///|
-pub fn Ajv::as_any(self : Ajv) -> @nostd.Any = "%identity"
+pub fn Ajv::as_any(self : Ajv) -> @core.Any = "%identity"
 
 ///|
 /// ValidateFunction - compiled validation function
@@ -16,7 +16,7 @@ pub fn Ajv::as_any(self : Ajv) -> @nostd.Any = "%identity"
 pub type ValidateFunction
 
 ///|
-pub fn ValidateFunction::as_any(self : ValidateFunction) -> @nostd.Any = "%identity"
+pub fn ValidateFunction::as_any(self : ValidateFunction) -> @core.Any = "%identity"
 
 ///|
 /// ValidationError - represents a single validation error
@@ -24,12 +24,12 @@ pub struct ValidationError {
   instance_path : String
   schema_path : String
   keyword : String
-  params : @nostd.Any
+  params : @core.Any
   message : String?
 }
 
 ///|
-extern "js" fn ffi_new_ajv(options : @nostd.Any) -> Ajv =
+extern "js" fn ffi_new_ajv(options : @core.Any) -> Ajv =
   #| (options) => {
   #|   const Ajv = require("ajv").default || require("ajv");
   #|   return new Ajv(options);
@@ -46,29 +46,29 @@ pub fn Ajv::new(
   use_defaults? : Bool,
   remove_additional? : Bool,
 ) -> Ajv {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match all_errors {
-    Some(v) => opts["allErrors"] = @nostd.any(v)
+    Some(v) => opts["allErrors"] = @core.any(v)
     None => ()
   }
   match verbose {
-    Some(v) => opts["verbose"] = @nostd.any(v)
+    Some(v) => opts["verbose"] = @core.any(v)
     None => ()
   }
   match strict {
-    Some(v) => opts["strict"] = @nostd.any(v)
+    Some(v) => opts["strict"] = @core.any(v)
     None => ()
   }
   match coerce_types {
-    Some(v) => opts["coerceTypes"] = @nostd.any(v)
+    Some(v) => opts["coerceTypes"] = @core.any(v)
     None => ()
   }
   match use_defaults {
-    Some(v) => opts["useDefaults"] = @nostd.any(v)
+    Some(v) => opts["useDefaults"] = @core.any(v)
     None => ()
   }
   match remove_additional {
-    Some(v) => opts["removeAdditional"] = @nostd.any(v)
+    Some(v) => opts["removeAdditional"] = @core.any(v)
     None => ()
   }
   ffi_new_ajv(opts)
@@ -77,18 +77,14 @@ pub fn Ajv::new(
 ///|
 /// Compile a schema and return a validation function
 /// https://ajv.js.org/api.html#ajv-compile-schema-object-boolean-validate
-pub fn Ajv::compile(self : Ajv, schema : @nostd.Any) -> ValidateFunction {
+pub fn Ajv::compile(self : Ajv, schema : @core.Any) -> ValidateFunction {
   self.as_any()._call("compile", [schema]).cast()
 }
 
 ///|
 /// Validate data against a schema directly
 /// https://ajv.js.org/api.html#ajv-validate-schema-object-boolean-data-any-boolean
-pub fn Ajv::validate(
-  self : Ajv,
-  schema : @nostd.Any,
-  data : @nostd.Any,
-) -> Bool {
+pub fn Ajv::validate(self : Ajv, schema : @core.Any, data : @core.Any) -> Bool {
   self.as_any()._call("validate", [schema, data]).cast()
 }
 
@@ -96,9 +92,9 @@ pub fn Ajv::validate(
 /// Add schema to the instance
 /// https://ajv.js.org/api.html#ajv-addschema-schema-object-object-key-string-ajv
 #alias(add_schema)
-pub fn Ajv::addSchema(self : Ajv, schema : @nostd.Any, key? : String) -> Ajv {
+pub fn Ajv::addSchema(self : Ajv, schema : @core.Any, key? : String) -> Ajv {
   match key {
-    Some(k) => self.as_any()._call("addSchema", [schema, @nostd.any(k)]).cast()
+    Some(k) => self.as_any()._call("addSchema", [schema, @core.any(k)]).cast()
     None => self.as_any()._call("addSchema", [schema]).cast()
   }
 }
@@ -108,8 +104,8 @@ pub fn Ajv::addSchema(self : Ajv, schema : @nostd.Any, key? : String) -> Ajv {
 /// https://ajv.js.org/api.html#ajv-getschema-string-validate
 #alias(get_schema)
 pub fn Ajv::getSchema(self : Ajv, key : String) -> ValidateFunction? {
-  let result = self.as_any()._call("getSchema", [@nostd.any(key)])
-  if @nostd.is_undefined(result) {
+  let result = self.as_any()._call("getSchema", [@core.any(key)])
+  if @core.is_undefined(result) {
     None
   } else {
     Some(result.cast())
@@ -121,20 +117,20 @@ pub fn Ajv::getSchema(self : Ajv, key : String) -> ValidateFunction? {
 /// https://ajv.js.org/api.html#ajv-removeschema-schema-object-string-regexp-ajv
 #alias(remove_schema)
 pub fn Ajv::removeSchema(self : Ajv, schema_key : String) -> Ajv {
-  self.as_any()._call("removeSchema", [@nostd.any(schema_key)]).cast()
+  self.as_any()._call("removeSchema", [@core.any(schema_key)]).cast()
 }
 
 ///|
 /// Get errors from the last validation
 /// Returns null if no errors
-pub fn Ajv::errors(self : Ajv) -> @nostd.Any {
+pub fn Ajv::errors(self : Ajv) -> @core.Any {
   self.as_any()["errors"]
 }
 
 ///|
 extern "js" fn ffi_validate_call(
   validate : ValidateFunction,
-  data : @nostd.Any,
+  data : @core.Any,
 ) -> Bool =
   #| (validate, data) => validate(data)
 
@@ -142,7 +138,7 @@ extern "js" fn ffi_validate_call(
 /// Validate data using the compiled function
 pub fn ValidateFunction::validate(
   self : ValidateFunction,
-  data : @nostd.Any,
+  data : @core.Any,
 ) -> Bool {
   ffi_validate_call(self, data)
 }
@@ -150,7 +146,7 @@ pub fn ValidateFunction::validate(
 ///|
 /// Get errors from the compiled validation function
 /// Returns null if no errors
-pub fn ValidateFunction::errors(self : ValidateFunction) -> @nostd.Any {
+pub fn ValidateFunction::errors(self : ValidateFunction) -> @core.Any {
   self.as_any()["errors"]
 }
 
@@ -160,7 +156,7 @@ pub fn ValidateFunction::errors_array(
   self : ValidateFunction,
 ) -> Array[ValidationError] {
   let errors = self.errors()
-  if @nostd.is_null(errors) || @nostd.is_undefined(errors) {
+  if @core.is_null(errors) || @core.is_undefined(errors) {
     return []
   }
   let length : Int = errors["length"].cast()
@@ -172,7 +168,7 @@ pub fn ValidateFunction::errors_array(
     let keyword : String = err["keyword"].cast()
     let params = err["params"]
     let msg = err["message"]
-    let message : String? = if @nostd.is_undefined(msg) || @nostd.is_null(msg) {
+    let message : String? = if @core.is_undefined(msg) || @core.is_null(msg) {
       None
     } else {
       Some(msg.cast())
@@ -184,13 +180,13 @@ pub fn ValidateFunction::errors_array(
 
 ///|
 /// Helper to create a JSON schema object
-pub fn schema() -> @nostd.Any {
-  @nostd.Object::new()
+pub fn schema() -> @core.Any {
+  @core.Object::new()
 }
 
 ///|
 /// Helper to create a schema from JSON string
 /// May throw if JSON is invalid
-pub fn schema_from_json(json_str : String) -> @nostd.Any {
-  @nostd.json_parse(json_str)
+pub fn schema_from_json(json_str : String) -> @core.Any {
+  @core.json_parse(json_str)
 }

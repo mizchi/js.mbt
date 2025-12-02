@@ -8,11 +8,11 @@
 pub type Browser
 
 ///|
-pub fn Browser::to_any(self : Browser) -> @nostd.Any = "%identity"
+pub fn Browser::to_any(self : Browser) -> @core.Any = "%identity"
 
 ///|
 /// FFI: Launch browser with options
-extern "js" fn ffi_launch(options : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_launch(options : @core.Any) -> @core.Any =
   #| (options) => {
   #|   const puppeteer = require('puppeteer');
   #|   return puppeteer.launch(options);
@@ -33,7 +33,7 @@ pub async fn launch(
   timeout? : Int,
   userDataDir? : String,
   dumpio? : Bool,
-  env? : @nostd.Any,
+  env? : @core.Any,
   pipe? : Bool,
   ignoreDefaultArgs? : Bool,
   waitForInitialPage? : Bool,
@@ -42,53 +42,53 @@ pub async fn launch(
   handleSIGINT? : Bool,
   handleSIGTERM? : Bool,
 ) -> Browser {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if headless is Some(v) {
-    options["headless"] = @nostd.any(v)
+    options["headless"] = @core.any(v)
   }
   if args is Some(v) {
-    options["args"] = @nostd.any(@nostd.any(v))
+    options["args"] = @core.any(@core.any(v))
   }
   if executablePath is Some(v) {
-    options["executablePath"] = @nostd.any(v)
+    options["executablePath"] = @core.any(v)
   }
   if devtools is Some(v) {
-    options["devtools"] = @nostd.any(v)
+    options["devtools"] = @core.any(v)
   }
   if timeout is Some(v) {
-    options["timeout"] = @nostd.any(v)
+    options["timeout"] = @core.any(v)
   }
   if userDataDir is Some(v) {
-    options["userDataDir"] = @nostd.any(v)
+    options["userDataDir"] = @core.any(v)
   }
   if dumpio is Some(v) {
-    options["dumpio"] = @nostd.any(v)
+    options["dumpio"] = @core.any(v)
   }
   if env is Some(v) {
-    options["env"] = @nostd.any(v)
+    options["env"] = @core.any(v)
   }
   if pipe is Some(v) {
-    options["pipe"] = @nostd.any(v)
+    options["pipe"] = @core.any(v)
   }
   if ignoreDefaultArgs is Some(v) {
-    options["ignoreDefaultArgs"] = @nostd.any(v)
+    options["ignoreDefaultArgs"] = @core.any(v)
   }
   if waitForInitialPage is Some(v) {
-    options["waitForInitialPage"] = @nostd.any(v)
+    options["waitForInitialPage"] = @core.any(v)
   }
   if debuggingPort is Some(v) {
-    options["debuggingPort"] = @nostd.any(v)
+    options["debuggingPort"] = @core.any(v)
   }
   if handleSIGHUP is Some(v) {
-    options["handleSIGHUP"] = @nostd.any(v)
+    options["handleSIGHUP"] = @core.any(v)
   }
   if handleSIGINT is Some(v) {
-    options["handleSIGINT"] = @nostd.any(v)
+    options["handleSIGINT"] = @core.any(v)
   }
   if handleSIGTERM is Some(v) {
-    options["handleSIGTERM"] = @nostd.any(v)
+    options["handleSIGTERM"] = @core.any(v)
   }
-  let promise : @js.Promise[Browser] = ffi_launch(options) |> @nostd.identity
+  let promise : @js.Promise[Browser] = ffi_launch(options) |> @core.identity
   promise.wait()
 }
 
@@ -98,7 +98,7 @@ pub async fn launch(
 /// Browser: Create new page
 pub async fn Browser::newPage(self : Browser) -> Page {
   let promise : @js.Promise[Page] = self.to_any()._call("newPage", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -106,7 +106,7 @@ pub async fn Browser::newPage(self : Browser) -> Page {
 /// Browser: Close browser
 pub async fn Browser::close(self : Browser) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("close", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -114,7 +114,7 @@ pub async fn Browser::close(self : Browser) -> Unit {
 /// Browser: Get all pages
 pub async fn Browser::pages(self : Browser) -> Array[Page] {
   let promise : @js.Promise[Array[Page]] = self.to_any()._call("pages", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -122,7 +122,7 @@ pub async fn Browser::pages(self : Browser) -> Array[Page] {
 /// Browser: Get version
 pub async fn Browser::version(self : Browser) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("version", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -130,6 +130,6 @@ pub async fn Browser::version(self : Browser) -> String {
 /// Browser: Get user agent
 pub async fn Browser::userAgent(self : Browser) -> String {
   let promise : @js.Promise[String] = self.to_any()._call("userAgent", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }

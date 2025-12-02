@@ -16,11 +16,11 @@ async test "Promise: @js.Promise::then" {
 
 ///|
 async test "Promise: @js.Promise::catch_" {
-  let err_val = @nostd.Object::new()
+  let err_val = @core.Object::new()
   let p = @js.Promise::reject(err_val)
-  let recovered = p.catch_(_ => @js.Promise::resolve(42 |> @nostd.any))
-  let result : @nostd.Any = recovered.wait()
-  let v : Int = @nostd.identity(result)
+  let recovered = p.catch_(_ => @js.Promise::resolve(42 |> @core.any))
+  let result : @core.Any = recovered.wait()
+  let v : Int = @core.identity(result)
   assert_eq(v, 42)
 }
 
@@ -458,11 +458,11 @@ async test "Promise: @js.Promise::withPromiseResolvers multiple resolve calls" {
 
 ///|
 async test "Promise: Promise chain with error recovery" {
-  let err_val : @nostd.Any = @nostd.identity(@nostd.Object::new())
+  let err_val : @core.Any = @core.identity(@core.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => @js.Promise::resolve(10 |> @js.any))
     .then(v => {
-      let i : Int = @nostd.identity(v)
+      let i : Int = @core.identity(v)
       @js.Promise::resolve(i * 2)
     })
   let result = p.wait()
@@ -515,18 +515,18 @@ async test "Promise: @js.Promise::allSettled handles both fulfilled and rejected
 ///|
 /// Rejection propagates through then chain without catch
 async test "Promise: rejection propagates through then chain" {
-  let err_val : @nostd.Any = @nostd.Object::new()
+  let err_val : @core.Any = @core.Object::new()
   let p = @js.Promise::reject(err_val)
     .then(v => {
-      let _ignored : @nostd.Any = v
-      @js.Promise::resolve(99 |> @nostd.any)
+      let _ignored : @core.Any = v
+      @js.Promise::resolve(99 |> @core.any)
     })
     .then(v => {
-      let _ignored : @nostd.Any = v
-      @js.Promise::resolve(100 |> @nostd.any)
+      let _ignored : @core.Any = v
+      @js.Promise::resolve(100 |> @core.any)
     })
-  let result : @nostd.Any = p.wait() catch { _e => @nostd.any(-1) }
-  let num : Int = @nostd.identity(result)
+  let result : @core.Any = p.wait() catch { _e => @core.any(-1) }
+  let num : Int = @core.identity(result)
   inspect(num, content="-1")
 }
 
@@ -535,18 +535,18 @@ async test "Promise: rejection propagates through then chain" {
 async test "Promise: multiple catch handlers in chain" {
   let mut first_catch_called = false
   let mut second_catch_called = false
-  let err_val : @nostd.Any = @nostd.identity(@nostd.Object::new())
+  let err_val : @core.Any = @core.identity(@core.Object::new())
   let p = @js.Promise::reject(err_val)
     .catch_(_ => {
       first_catch_called = true
-      @js.Promise::resolve(42 |> @nostd.any)
+      @js.Promise::resolve(42 |> @core.any)
     })
     .catch_(_ => {
       second_catch_called = true
-      @js.Promise::resolve(99 |> @nostd.any)
+      @js.Promise::resolve(99 |> @core.any)
     })
-  let result : @nostd.Any = p.wait()
-  let num : Int = @nostd.identity(result)
+  let result : @core.Any = p.wait()
+  let num : Int = @core.identity(result)
   inspect(num, content="42")
   inspect(first_catch_called, content="true")
   inspect(second_catch_called, content="false")
@@ -556,12 +556,12 @@ async test "Promise: multiple catch handlers in chain" {
 /// catch_ then finally_ chain
 async test "Promise: catch then finally chain" {
   let mut finally_called = false
-  let err_val : @nostd.Any = @nostd.identity(@nostd.Object::new())
+  let err_val : @core.Any = @core.identity(@core.Object::new())
   let p = @js.Promise::reject(err_val)
-    .catch_(_ => @js.Promise::resolve(42 |> @nostd.any))
+    .catch_(_ => @js.Promise::resolve(42 |> @core.any))
     .finally_(fn() { finally_called = true })
-  let result : @nostd.Any = p.wait()
-  let num : Int = @nostd.identity(result)
+  let result : @core.Any = p.wait()
+  let num : Int = @core.identity(result)
   inspect(num, content="42")
   inspect(finally_called, content="true")
 }
@@ -579,12 +579,12 @@ async test "Promise: rejection in then followed by catch" {
 ///|
 /// Nested catch handlers
 async test "Promise: nested catch handlers" {
-  let err_val : @nostd.Any = @nostd.identity(@nostd.Object::new())
+  let err_val : @core.Any = @core.identity(@core.Object::new())
   let p = @js.Promise::reject(err_val)
-    .catch_(_ => @js.Promise::reject(@nostd.identity(@nostd.Object::new())))
-    .catch_(_ => @js.Promise::resolve(100 |> @nostd.any))
-  let result : @nostd.Any = p.wait()
-  let num : Int = @nostd.identity(result)
+    .catch_(_ => @js.Promise::reject(@core.identity(@core.Object::new())))
+    .catch_(_ => @js.Promise::resolve(100 |> @core.any))
+  let result : @core.Any = p.wait()
+  let num : Int = @core.identity(result)
   inspect(num, content="100")
 }
 

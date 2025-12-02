@@ -3,7 +3,7 @@
 pub type ReactDOMStatic
 
 ///|
-pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @nostd.Any = "%identity"
+pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @core.Any = "%identity"
 
 // Internal helper for calling JS methods
 
@@ -11,9 +11,9 @@ pub fn ReactDOMStatic::as_any(self : ReactDOMStatic) -> @nostd.Any = "%identity"
 fn ReactDOMStatic::call2(
   self : ReactDOMStatic,
   name : String,
-  arg1 : @nostd.Any,
-  arg2 : @nostd.Any,
-) -> @nostd.Any {
+  arg1 : @core.Any,
+  arg2 : @core.Any,
+) -> @core.Any {
   self.as_any()._call(name, [arg1, arg2])
 }
 
@@ -34,7 +34,7 @@ pub struct PrerenderResult {
   /// HTML content as a Web ReadableStream
   prelude : @streams.ReadableStream
   /// Postponed data for resuming, or null if complete
-  postponed : @nostd.Any
+  postponed : @core.Any
 }
 
 ///|
@@ -43,7 +43,7 @@ pub struct PrerenderToNodeStreamResult {
   /// HTML content as a Node.js Readable stream
   prelude : @stream.Readable
   /// Postponed data for resuming, or null if complete
-  postponed : @nostd.Any
+  postponed : @core.Any
 }
 
 ///|
@@ -56,28 +56,28 @@ fn build_options(
   on_error? : (@js.JsError) -> Unit,
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
-) -> @nostd.Any {
-  let opts = @nostd.Object::new()
+) -> @core.Any {
+  let opts = @core.Object::new()
   if bootstrap_script_content is Some(v) {
-    opts._set("bootstrapScriptContent", v |> @nostd.any)
+    opts._set("bootstrapScriptContent", v |> @core.any)
   }
   if bootstrap_scripts is Some(v) {
-    opts._set("bootstrapScripts", @nostd.any(v))
+    opts._set("bootstrapScripts", @core.any(v))
   }
   if bootstrap_modules is Some(v) {
-    opts._set("bootstrapModules", @nostd.any(v))
+    opts._set("bootstrapModules", @core.any(v))
   }
   if identifier_prefix is Some(v) {
-    opts._set("identifierPrefix", v |> @nostd.any)
+    opts._set("identifierPrefix", v |> @core.any)
   }
   if namespace_uri is Some(v) {
-    opts._set("namespaceURI", v |> @nostd.any)
+    opts._set("namespaceURI", v |> @core.any)
   }
   if on_error is Some(v) {
     opts._set("onError", @js.from_fn1(v))
   }
   if progressive_chunk_size is Some(v) {
-    opts._set("progressiveChunkSize", v |> @nostd.any)
+    opts._set("progressiveChunkSize", v |> @core.any)
   }
   if signal is Some(v) {
     opts._set("signal", @js.any(v))
@@ -110,8 +110,8 @@ pub async fn ReactDOMStatic::prerender(
     progressive_chunk_size?,
     signal?,
   )
-  let react_node_js : @nostd.Any = react_node.as_any().cast()
-  let promise : @js.Promise[@nostd.Any] = self
+  let react_node_js : @core.Any = react_node.as_any().cast()
+  let promise : @js.Promise[@core.Any] = self
     .call2("prerender", react_node_js, opts)
     .cast()
   let result = promise.wait()
@@ -147,8 +147,8 @@ pub async fn ReactDOMStatic::prerenderToNodeStream(
     progressive_chunk_size?,
     signal?,
   )
-  let react_node_js : @nostd.Any = react_node.as_any().cast()
-  let promise : @js.Promise[@nostd.Any] = self
+  let react_node_js : @core.Any = react_node.as_any().cast()
+  let promise : @js.Promise[@core.Any] = self
     .call2("prerenderToNodeStream", react_node_js, opts)
     .cast()
   let result = promise.wait()

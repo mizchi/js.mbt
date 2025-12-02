@@ -1,5 +1,16 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/builtins/symbol", "mizchi/js/mbtconv", "mizchi/js/node", "mizchi/js/builtins/reflect", "moonbitlang/async", "mizchi/js/builtins/global"],
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/builtins/symbol",
+    "mizchi/js/mbtconv",
+    "mizchi/js/node",
+    "mizchi/js/builtins/reflect",
+    "moonbitlang/async",
+    "mizchi/js/builtins/global"
+  ],
   "warn-list": "-4-6-7-27"
 }

@@ -2,7 +2,7 @@
 package "mizchi/js/web/url"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -24,15 +24,15 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 }
-fn URL::as_any(Self) -> @nostd.Any
-fn URL::new(String, base? : String) -> Self raise @nostd.JsError
-fn URL::searchParams(Self) -> URLSearchParams
+pub fn URL::as_any(Self) -> @core.Any
+pub fn URL::new(String, base? : String) -> Self raise @core.JsError
+pub fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
-fn URL::to_json(Self) -> String
+pub fn URL::to_json(Self) -> String
 #alias(toString)
-fn URL::to_string(Self) -> String
-impl Eq for URL
-impl Show for URL
+pub fn URL::to_string(Self) -> String
+pub impl Eq for URL
+pub impl Show for URL
 
 pub(all) struct URLPattern {
   protocol : String
@@ -45,21 +45,21 @@ pub(all) struct URLPattern {
   hash : String
   hasRegExpGroups : Bool
 }
-fn URLPattern::as_any(Self) -> @nostd.Any
-fn URLPattern::exec(Self, String) -> URLPatternResult?
+pub fn URLPattern::as_any(Self) -> @core.Any
+pub fn URLPattern::exec(Self, String) -> URLPatternResult?
 #alias(exec_with_base)
-fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
-fn URLPattern::new(String, base? : String) -> Self
+pub fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
+pub fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
-fn URLPattern::newFromObject(@nostd.Any, base? : String) -> Self
-fn URLPattern::test_url(Self, String) -> Bool
-fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
+pub fn URLPattern::newFromObject(@core.Any, base? : String) -> Self
+pub fn URLPattern::test_url(Self, String) -> Bool
+pub fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
 
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @nostd.Any
+  groups : @core.Any
 }
-fn URLPatternComponentResult::as_any(Self) -> @nostd.Any
+pub fn URLPatternComponentResult::as_any(Self) -> @core.Any
 
 pub(all) struct URLPatternResult {
   inputs : Array[String]
@@ -72,22 +72,22 @@ pub(all) struct URLPatternResult {
   search : URLPatternComponentResult
   hash : URLPatternComponentResult
 }
-fn URLPatternResult::as_any(Self) -> @nostd.Any
+pub fn URLPatternResult::as_any(Self) -> @core.Any
 
 pub(all) struct URLSearchParams {
   size : Int
 }
-fn URLSearchParams::append(Self, String, String) -> Unit
-fn URLSearchParams::as_any(Self) -> @nostd.Any
-fn URLSearchParams::delete(Self, String) -> Unit
-fn URLSearchParams::get(Self, String) -> String?
+pub fn URLSearchParams::append(Self, String, String) -> Unit
+pub fn URLSearchParams::as_any(Self) -> @core.Any
+pub fn URLSearchParams::delete(Self, String) -> Unit
+pub fn URLSearchParams::get(Self, String) -> String?
 #alias(get_all)
-fn URLSearchParams::getAll(Self, String) -> Array[String]
-fn URLSearchParams::has(Self, String) -> Bool
-fn URLSearchParams::set(Self, String, String) -> Unit
-fn URLSearchParams::sort(Self) -> Unit
+pub fn URLSearchParams::getAll(Self, String) -> Array[String]
+pub fn URLSearchParams::has(Self, String) -> Bool
+pub fn URLSearchParams::set(Self, String, String) -> Unit
+pub fn URLSearchParams::sort(Self) -> Unit
 #alias(toString)
-fn URLSearchParams::to_string(Self) -> String
+pub fn URLSearchParams::to_string(Self) -> String
 
 // Type aliases
 

@@ -11,7 +11,7 @@ pub(all) struct CompressionStream {
 }
 
 ///|
-pub fn CompressionStream::as_any(self : CompressionStream) -> @nostd.Any = "%identity"
+pub fn CompressionStream::as_any(self : CompressionStream) -> @core.Any = "%identity"
 
 ///|
 /// Create a new CompressionStream with the specified format
@@ -30,7 +30,7 @@ pub fn CompressionStream::new(format : String) -> CompressionStream {
 }
 
 ///|
-extern "js" fn new_compression_stream(format : String) -> @nostd.Any =
+extern "js" fn new_compression_stream(format : String) -> @core.Any =
   #|(format) => new CompressionStream(format)
 
 ///|
@@ -42,7 +42,7 @@ pub(all) struct DecompressionStream {
 }
 
 ///|
-pub fn DecompressionStream::as_any(self : DecompressionStream) -> @nostd.Any = "%identity"
+pub fn DecompressionStream::as_any(self : DecompressionStream) -> @core.Any = "%identity"
 
 ///|
 /// Create a new DecompressionStream with the specified format
@@ -61,5 +61,5 @@ pub fn DecompressionStream::new(format : String) -> DecompressionStream {
 }
 
 ///|
-extern "js" fn new_decompression_stream(format : String) -> @nostd.Any =
+extern "js" fn new_decompression_stream(format : String) -> @core.Any =
   #|(format) => new DecompressionStream(format)

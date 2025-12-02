@@ -3,17 +3,17 @@
 ///|
 test "global_this" {
   let global = global_this()
-  assert_false(@nostd.is_null(global))
+  assert_false(@core.is_null(global))
 }
 
 ///| Type Checking
 
 ///|
 test "is_nan" {
-  let nan_val : @nostd.Any = @nostd.any(0.0 / 0.0)
+  let nan_val : @core.Any = @core.any(0.0 / 0.0)
   assert_true(is_nan(nan_val))
-  assert_false(is_nan(@nostd.any(42)))
-  assert_false(is_nan(@nostd.any(3.14)))
+  assert_false(is_nan(@core.any(42)))
+  assert_false(is_nan(@core.any(3.14)))
 }
 
 ///|
@@ -226,10 +226,10 @@ test "isFinite - check NaN" {
 
 ///|
 test "global isNaN" {
-  let nan_val = @nostd.any(0.0 / 0.0)
+  let nan_val = @core.any(0.0 / 0.0)
   assert_true(@global.is_nan(nan_val))
-  assert_false(@global.is_nan(@nostd.any(42)))
-  assert_false(@global.is_nan(@nostd.any(3.14)))
+  assert_false(@global.is_nan(@core.any(42)))
+  assert_false(@global.is_nan(@core.any(3.14)))
 }
 
 ///| String Encoding (Base64)

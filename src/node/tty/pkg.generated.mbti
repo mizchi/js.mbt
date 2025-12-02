@@ -2,45 +2,47 @@
 package "mizchi/js/node/tty"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-fn isatty(Int) -> Bool
+pub fn isatty(Int) -> Bool
 
 // Errors
 
 // Types and methods
 #external
 pub type ReadStream
-fn ReadStream::as_any(Self) -> @nostd.Any
-fn ReadStream::as_event_target(Self) -> @event.EventTarget
-fn ReadStream::is_raw(Self) -> Bool
-fn ReadStream::is_tty(Self) -> Bool
-fn ReadStream::set_raw_mode(Self, Bool) -> Unit
-impl @event.EventTargetImpl for ReadStream
+pub fn ReadStream::as_any(Self) -> @core.Any
+pub fn ReadStream::as_event_target(Self) -> @event.EventTarget
+pub fn ReadStream::is_raw(Self) -> Bool
+pub fn ReadStream::is_tty(Self) -> Bool
+pub fn ReadStream::set_raw_mode(Self, Bool) -> Unit
+pub fn ReadStream::to_any(Self) -> @core.Any
+pub impl @event.EventTargetImpl for ReadStream
 
 #external
 pub type WriteStream
-fn WriteStream::as_any(Self) -> @nostd.Any
-fn WriteStream::as_event_target(Self) -> @event.EventTarget
-fn WriteStream::clear_line(Self, Int, () -> Unit) -> Unit
-fn WriteStream::clear_screen_down(Self, () -> Unit) -> Unit
-fn WriteStream::columns(Self) -> Int
-fn WriteStream::cursor_to(Self, Int, Int, () -> Unit) -> Unit
-fn WriteStream::end(Self, chunk? : @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Self
-fn WriteStream::get_color_depth(Self) -> Int
-fn WriteStream::get_window_size(Self) -> (Int, Int)
-fn WriteStream::has_colors(Self, Int) -> Bool
-fn WriteStream::is_tty(Self) -> Bool
-fn WriteStream::move_cursor(Self, Int, Int, () -> Unit) -> Unit
-fn WriteStream::on_resize(Self, () -> Unit) -> Self
-fn WriteStream::rows(Self) -> Int
-fn WriteStream::write(Self, @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Bool
-impl @event.EventTargetImpl for WriteStream
+pub fn WriteStream::as_any(Self) -> @core.Any
+pub fn WriteStream::as_event_target(Self) -> @event.EventTarget
+pub fn WriteStream::clear_line(Self, Int, () -> Unit) -> Unit
+pub fn WriteStream::clear_screen_down(Self, () -> Unit) -> Unit
+pub fn WriteStream::columns(Self) -> Int
+pub fn WriteStream::cursor_to(Self, Int, Int, () -> Unit) -> Unit
+pub fn WriteStream::end(Self, chunk? : @core.Any, encoding? : String, callback? : @core.Any) -> Self
+pub fn WriteStream::get_color_depth(Self) -> Int
+pub fn WriteStream::get_window_size(Self) -> (Int, Int)
+pub fn WriteStream::has_colors(Self, Int) -> Bool
+pub fn WriteStream::is_tty(Self) -> Bool
+pub fn WriteStream::move_cursor(Self, Int, Int, () -> Unit) -> Unit
+pub fn WriteStream::on_resize(Self, () -> Unit) -> Self
+pub fn WriteStream::rows(Self) -> Int
+pub fn WriteStream::to_any(Self) -> @core.Any
+pub fn WriteStream::write(Self, @core.Any, encoding? : String, callback? : @core.Any) -> Bool
+pub impl @event.EventTargetImpl for WriteStream
 
 // Type aliases
 
 // Traits
+

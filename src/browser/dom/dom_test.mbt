@@ -348,11 +348,7 @@ test "EventTarget - addEventListener and dispatchEvent" {
   let event = doc.createEvent("Event")
   event
   .as_any()
-  ._call("initEvent", [
-    @nostd.any("click"),
-    @nostd.any(false),
-    @nostd.any(false),
-  ])
+  ._call("initEvent", [@core.any("click"), @core.any(false), @core.any(false)])
   |> ignore
 
   // dispatchEvent test
@@ -377,9 +373,9 @@ test "EventTarget - removeEventListener" {
   event
   .as_any()
   ._call("initEvent", [
-    @nostd.any("test-event"),
-    @nostd.any(false),
-    @nostd.any(false),
+    @core.any("test-event"),
+    @core.any(false),
+    @core.any(false),
   ])
   |> ignore
   div.as_event_target().dispatchEvent(event.as_event()) |> ignore
@@ -393,9 +389,9 @@ test "EventTarget - removeEventListener" {
   event2
   .as_any()
   ._call("initEvent", [
-    @nostd.any("test-event"),
-    @nostd.any(false),
-    @nostd.any(false),
+    @core.any("test-event"),
+    @core.any(false),
+    @core.any(false),
   ])
   |> ignore
   div.as_event_target().dispatchEvent(event2.as_event()) |> ignore

@@ -3,69 +3,69 @@ package "mizchi/js/npm/comlink"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/message"
   "mizchi/js/web/worker"
 )
 
 // Values
-fn createEndpointSymbol() -> @nostd.Any
+pub fn createEndpointSymbol() -> @core.Any
 
-fn expose(@nostd.Any, endpoint? : @nostd.Any) -> Unit
+pub fn expose(@core.Any, endpoint? : @core.Any) -> Unit
 
-fn exposeToMessagePort(@nostd.Any, @message.MessagePort) -> Unit
+pub fn exposeToMessagePort(@core.Any, @message.MessagePort) -> Unit
 
-fn exposeToWorker(@nostd.Any, @worker.Worker) -> Unit
+pub fn exposeToWorker(@core.Any, @worker.Worker) -> Unit
 
-fn proxy(@nostd.Any) -> ProxyMarked
+pub fn proxy(@core.Any) -> ProxyMarked
 
-fn proxyCallback((@nostd.Any) -> Unit) -> ProxyMarked
+pub fn proxyCallback((@core.Any) -> Unit) -> ProxyMarked
 
-fn proxyFunction((@nostd.Any) -> @nostd.Any) -> ProxyMarked
+pub fn proxyFunction((@core.Any) -> @core.Any) -> ProxyMarked
 
-fn proxyMarkerSymbol() -> @nostd.Any
+pub fn proxyMarkerSymbol() -> @core.Any
 
-fn releaseProxySymbol() -> @nostd.Any
+pub fn releaseProxySymbol() -> @core.Any
 
-fn transfer(@nostd.Any, Array[@nostd.Any]) -> @nostd.Any
+pub fn transfer(@core.Any, Array[@core.Any]) -> @core.Any
 
-fn transferArrayBuffer(@nostd.Any) -> @nostd.Any
+pub fn transferArrayBuffer(@core.Any) -> @core.Any
 
-fn transferHandlers() -> @nostd.Any
+pub fn transferHandlers() -> @core.Any
 
-fn windowEndpoint(@nostd.Any, context? : @nostd.Any, target_origin? : String) -> Endpoint
+pub fn windowEndpoint(@core.Any, context? : @core.Any, target_origin? : String) -> Endpoint
 
-fn wrap(@nostd.Any) -> Remote
+pub fn wrap(@core.Any) -> Remote
 
-fn wrapMessagePort(@message.MessagePort) -> Remote
+pub fn wrapMessagePort(@message.MessagePort) -> Remote
 
-fn wrapWorker(@worker.Worker) -> Remote
+pub fn wrapWorker(@worker.Worker) -> Remote
 
 // Errors
 
 // Types and methods
 #external
 pub type Endpoint
-fn Endpoint::as_any(Self) -> @nostd.Any
+pub fn Endpoint::as_any(Self) -> @core.Any
 
 #external
 pub type ProxyMarked
-fn ProxyMarked::as_any(Self) -> @nostd.Any
+pub fn ProxyMarked::as_any(Self) -> @core.Any
 
 #external
 pub type Remote
-fn Remote::as_any(Self) -> @nostd.Any
-fn Remote::call0(Self, String) -> @js.Promise[@nostd.Any]
-fn Remote::call1(Self, String, @nostd.Any) -> @js.Promise[@nostd.Any]
-fn Remote::call2(Self, String, @nostd.Any, @nostd.Any) -> @js.Promise[@nostd.Any]
-fn Remote::callMethod(Self, String, Array[@nostd.Any]) -> @js.Promise[@nostd.Any]
-fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
-fn Remote::get(Self, String) -> @js.Promise[@nostd.Any]
-fn Remote::release(Self) -> Unit
+pub fn Remote::as_any(Self) -> @core.Any
+pub fn Remote::call0(Self, String) -> @js.Promise[@core.Any]
+pub fn Remote::call1(Self, String, @core.Any) -> @js.Promise[@core.Any]
+pub fn Remote::call2(Self, String, @core.Any, @core.Any) -> @js.Promise[@core.Any]
+pub fn Remote::callMethod(Self, String, Array[@core.Any]) -> @js.Promise[@core.Any]
+pub fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
+pub fn Remote::get(Self, String) -> @js.Promise[@core.Any]
+pub fn Remote::release(Self) -> Unit
 
 #external
 pub type TransferHandler
-fn TransferHandler::as_any(Self) -> @nostd.Any
+pub fn TransferHandler::as_any(Self) -> @core.Any
 
 // Type aliases
 

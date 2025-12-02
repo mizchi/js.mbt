@@ -8,21 +8,21 @@
 pub type ApiClient
 
 ///|
-pub fn ApiClient::as_any(self : ApiClient) -> @nostd.Any = "%identity"
+pub fn ApiClient::as_any(self : ApiClient) -> @core.Any = "%identity"
 
 ///|
 /// Create a new API client
 pub fn create_api_client(base_url : String) -> ApiClient {
-  let obj = @nostd.Object::new()
-  obj["baseUrl"] = base_url |> @nostd.any
+  let obj = @core.Object::new()
+  obj["baseUrl"] = base_url |> @core.any
   obj.cast()
 }
 
 ///|
 /// Fetch todos from API
-pub async fn ApiClient::fetch_todos(self : ApiClient) -> Array[@nostd.Any] {
+pub async fn ApiClient::fetch_todos(self : ApiClient) -> Array[@core.Any] {
   let base_url : String = self.as_any()["baseUrl"].cast()
-  ffi_fetch_json(base_url + "/api/todos").wait() |> @nostd.identity
+  ffi_fetch_json(base_url + "/api/todos").wait() |> @core.identity
 }
 
 ///|
@@ -40,7 +40,7 @@ pub async fn ApiClient::delete_todo(self : ApiClient, id : Int) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_fetch_json(url : String) -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_fetch_json(url : String) -> @js.Promise[@core.Any] =
   #|(url) => fetch(url, { credentials: 'include' }).then(r => r.json())
 
 ///|

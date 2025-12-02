@@ -6,7 +6,7 @@ async test "Response: read body as text" {
   let response = Response::new(body="Hello, async world!")
 
   // Read body as text
-  let text_result : @nostd.Any = response.as_any()._call("text", [])
+  let text_result : @core.Any = response.as_any()._call("text", [])
   let text_promise : @js.Promise[String] = text_result.cast()
   let text = text_promise.wait()
   assert_eq(text, "Hello, async world!")
@@ -18,11 +18,11 @@ async test "Response: read body as JSON" {
   let response = Response::new(body=json_str)
 
   // Read body as JSON
-  let json_result : @nostd.Any = response.as_any()._call("json", [])
-  let json_promise : @js.Promise[@nostd.Any] = json_result.cast()
+  let json_result : @core.Any = response.as_any()._call("json", [])
+  let json_promise : @js.Promise[@core.Any] = json_result.cast()
   let json_obj = json_promise.wait()
-  let name : String = @nostd.identity(json_obj._get("name"))
-  let value : Int = @nostd.identity(json_obj._get("value"))
+  let name : String = @core.identity(json_obj._get("name"))
+  let value : Int = @core.identity(json_obj._get("value"))
   assert_eq(name, "test")
   assert_eq(value, 42)
 }
@@ -40,10 +40,10 @@ async test "Response: read body stream chunk by chunk" {
       // Read all chunks
       let mut done = false
       while not(done) {
-        let result : @nostd.Any = reader.as_any()._call("read", [])
-        let promise : @js.Promise[@nostd.Any] = result.cast()
+        let result : @core.Any = reader.as_any()._call("read", [])
+        let promise : @js.Promise[@core.Any] = result.cast()
         let data = promise.wait()
-        done = @nostd.identity(data._get("done"))
+        done = @core.identity(data._get("done"))
         if not(done) {
           // Decode Uint8Array to string using TextDecoder from @encoding
           let value : @typedarray.Uint8Array = data._get("value").cast()
@@ -66,12 +66,12 @@ async test "Response: clone and read both bodies" {
   let cloned = response.clone()
 
   // Read original
-  let text1_result : @nostd.Any = response.as_any()._call("text", [])
+  let text1_result : @core.Any = response.as_any()._call("text", [])
   let text1_promise : @js.Promise[String] = text1_result.cast()
   let text1 = text1_promise.wait()
 
   // Read cloned
-  let text2_result : @nostd.Any = cloned.as_any()._call("text", [])
+  let text2_result : @core.Any = cloned.as_any()._call("text", [])
   let text2_promise : @js.Promise[String] = text2_result.cast()
   let text2 = text2_promise.wait()
   assert_eq(text1, "original content")
@@ -83,7 +83,7 @@ async test "Response: read body multiple times fails after first read" {
   let response = Response::new(body="single read")
 
   // First read succeeds
-  let text1_result : @nostd.Any = response.as_any()._call("text", [])
+  let text1_result : @core.Any = response.as_any()._call("text", [])
   let text1_promise : @js.Promise[String] = text1_result.cast()
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
@@ -104,7 +104,7 @@ async test "Response: read large body in chunks" {
     i = i + 1
   }
   let response = Response::new(body=large_content)
-  let text_result : @nostd.Any = response.as_any()._call("text", [])
+  let text_result : @core.Any = response.as_any()._call("text", [])
   let text_promise : @js.Promise[String] = text_result.cast()
   let text = text_promise.wait()
   assert_eq(text, large_content)
@@ -124,8 +124,8 @@ async test "Response: body stream with defer cleanup" {
       assert_eq(stream.locked(), true)
 
       // Read one chunk
-      let result : @nostd.Any = reader.as_any()._call("read", [])
-      let promise : @js.Promise[@nostd.Any] = result.cast()
+      let result : @core.Any = reader.as_any()._call("read", [])
+      let promise : @js.Promise[@core.Any] = result.cast()
       let _data = promise.wait()
 
       // defer will automatically call release_lock
@@ -137,31 +137,31 @@ async test "Response: body stream with defer cleanup" {
 ///|
 async test "Response: arrayBuffer method" {
   let response = Response::new(body="buffer test")
-  let buffer_result : @nostd.Any = response.as_any()._call("arrayBuffer", [])
-  let buffer_promise : @js.Promise[@nostd.Any] = buffer_result.cast()
+  let buffer_result : @core.Any = response.as_any()._call("arrayBuffer", [])
+  let buffer_promise : @js.Promise[@core.Any] = buffer_result.cast()
   let buffer = buffer_promise.wait()
 
   // Verify we got an ArrayBuffer
-  let buffer_type = @nostd.typeof_(buffer)
+  let buffer_type = @core.typeof_(buffer)
   assert_eq(buffer_type, "object")
 
   // Get byte length
-  let byte_length : Int = @nostd.identity(buffer._get("byteLength"))
+  let byte_length : Int = @core.identity(buffer._get("byteLength"))
   assert_true(byte_length > 0)
 }
 
 ///|
 async test "Response: blob method" {
   let response = Response::new(body="blob content")
-  let blob_result : @nostd.Any = response.as_any()._call("blob", [])
-  let blob_promise : @js.Promise[@nostd.Any] = blob_result.cast()
+  let blob_result : @core.Any = response.as_any()._call("blob", [])
+  let blob_promise : @js.Promise[@core.Any] = blob_result.cast()
   let blob = blob_promise.wait()
 
   // Verify we got a Blob
-  let blob_type = @nostd.typeof_(blob)
+  let blob_type = @core.typeof_(blob)
   assert_eq(blob_type, "object")
 
   // Get blob size
-  let size : Int = @nostd.identity(blob._get("size"))
+  let size : Int = @core.identity(blob._get("size"))
   assert_true(size > 0)
 }

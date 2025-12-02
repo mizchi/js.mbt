@@ -55,7 +55,7 @@ test "require_test loads ai/test module" {
   let test_module = require_test()
   // Check that MockLanguageModelV3 exists
   let mock_class = test_module._get("MockLanguageModelV3")
-  assert_false(@nostd.is_undefined(mock_class))
+  assert_false(@core.is_undefined(mock_class))
 }
 
 ///|

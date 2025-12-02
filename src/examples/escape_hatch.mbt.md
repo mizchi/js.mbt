@@ -5,11 +5,10 @@ When `mizchi/js` doesn't provide a wrapper for a JavaScript API you need, use th
 ## Pattern: Accessing Missing Properties
 
 ```moonbit
-
 ///|
 test "access globalThis properties" {
   // Access global object
-  let global = @nostd.global_this()
+  let global = @core.global_this()
 
   // Check if Math exists
   let math = global._get("Math")
@@ -24,23 +23,24 @@ test "access globalThis properties" {
 ## Pattern: Calling Missing Methods
 
 ```moonbit
-
 ///|
 test "call methods with call()" {
-  let obj = @nostd.Object::new()
-  obj._set("value", 42 |> @nostd.any)
+  let obj = @core.Object::new()
+  obj._set("value", 42 |> @core.any)
 
   // call0 - no arguments
   let str = obj._call("toString", [])
   inspect(str, content="[object Object]")
 
   // call1 - one argument
-  let has : Bool = @nostd.identity(obj._call("hasOwnProperty", ["value" |> @nostd.any]))
+  let has : Bool = @core.identity(
+    obj._call("hasOwnProperty", ["value" |> @core.any]),
+  )
   assert_eq(has, true)
 
   // call - variable arguments
-  let arr = @nostd.any([1, 2, 3])
-  let joined : String = @nostd.identity(arr._call("join", ["-" |> @nostd.any]))
+  let arr = @core.any([1, 2, 3])
+  let joined : String = @core.identity(arr._call("join", ["-" |> @core.any]))
   inspect(joined, content="1-2-3")
 }
 ```
@@ -48,16 +48,15 @@ test "call methods with call()" {
 ## Pattern: Checking API Availability
 
 ```moonbit
-
 ///|
 test "feature detection" {
   // Check if Math exists
-  let math = @nostd.global_this()._get("Math")
+  let math = @core.global_this()._get("Math")
   let has_math = !@js.is_undefined(math)
   assert_eq(has_math, true)
 
   // Check if a fictional API exists
-  let fake_api = @nostd.global_this()._get("FakeAPI12345")
+  let fake_api = @core.global_this()._get("FakeAPI12345")
   let has_fake = !@js.is_undefined(fake_api)
   assert_eq(has_fake, false)
 }
@@ -66,13 +65,12 @@ test "feature detection" {
 ## Pattern: Accessing Nested Properties
 
 ```moonbit
-
 ///|
 test "nested property access" {
   // Create nested structure
-  let obj = @nostd.Object::new()
-  let config = @nostd.Object::new()
-  let api = @nostd.Object::new()
+  let obj = @core.Object::new()
+  let config = @core.Object::new()
+  let api = @core.Object::new()
   api.set("endpoint", "https://api.example.com")
   config.set("api", api)
   obj.set("config", config)
@@ -88,10 +86,9 @@ test "nested property access" {
 ## Pattern: Safe Nested Access
 
 ```moonbit
-
 ///|
 test "safe nested access with undefined checks" {
-  let obj = @nostd.Object::new()
+  let obj = @core.Object::new()
 
   // Check each level before accessing
   let config = obj._get("config")
@@ -110,12 +107,11 @@ test "safe nested access with undefined checks" {
 ## Pattern: Error Handling with throwable
 
 ```moonbit
-
 ///|
 test "error handling with throwable" {
-  let result = @js.throwable(fn() -> @nostd.Any {
+  let result = @js.throwable(fn() -> @core.Any {
     // Risky JS operation
-    let obj = @nostd.Object::new()
+    let obj = @core.Object::new()
     obj.set("value", 42)
     obj
   }) catch {
@@ -128,16 +124,15 @@ test "error handling with throwable" {
 ## Pattern: Creating Instances with new_
 
 ```moonbit
-
 ///|
 test "create instances of unsupported classes" {
   // Access constructor from globalThis
-  let map_constructor = @nostd.global_this()._get("Map")
-  let map = @nostd.new(map_constructor, [])
+  let map_constructor = @core.global_this()._get("Map")
+  let map = @core.new(map_constructor, [])
 
   // Use methods via call()
-  map._call("set", ["key" |> @nostd.any, "value" |> @nostd.any]) |> ignore
-  let value = map.call1("get", "key" |> @nostd.any)
+  map._call("set", ["key" |> @core.any, "value" |> @core.any]) |> ignore
+  let value = map.call1("get", "key" |> @core.any)
   inspect(value, content="value")
   let size : Int = @js.identity(map._get("size"))
   assert_eq(size, 1)

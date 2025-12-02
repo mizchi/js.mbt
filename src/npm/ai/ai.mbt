@@ -4,14 +4,14 @@
 /// Message content types
 pub(all) enum MessageContent {
   Text(String)
-  Parts(Array[@nostd.Any])
+  Parts(Array[@core.Any])
 }
 
 ///|
-pub fn MessageContent::as_any(self : MessageContent) -> @nostd.Any {
+pub fn MessageContent::as_any(self : MessageContent) -> @core.Any {
   match self {
     Text(text) => text |> @js.any
-    Parts(parts) => parts |> @nostd.any
+    Parts(parts) => parts |> @core.any
   }
 }
 
@@ -25,27 +25,27 @@ pub(all) enum ModelMessage {
 }
 
 ///|
-pub fn ModelMessage::as_any(self : ModelMessage) -> @nostd.Any {
+pub fn ModelMessage::as_any(self : ModelMessage) -> @core.Any {
   match self {
     AssistantMessage(content~) =>
       @mbtconv.from_map({
-        "role": @nostd.any("assistant"),
-        "content": @nostd.any(content.as_any()),
+        "role": @core.any("assistant"),
+        "content": @core.any(content.as_any()),
       }).cast()
     UserMessage(content~) =>
       @mbtconv.from_map({
-        "role": @nostd.any("user"),
-        "content": @nostd.any(content.as_any()),
+        "role": @core.any("user"),
+        "content": @core.any(content.as_any()),
       }).cast()
     SystemMessage(content~) =>
       @mbtconv.from_map({
-        "role": @nostd.any("system"),
-        "content": @nostd.any(content.as_any()),
+        "role": @core.any("system"),
+        "content": @core.any(content.as_any()),
       }).cast()
     ToolMessage(content~) =>
       @mbtconv.from_map({
-        "role": @nostd.any("tool"),
-        "content": @nostd.any(content.as_any()),
+        "role": @core.any("tool"),
+        "content": @core.any(content.as_any()),
       }).cast()
   }
 }
@@ -56,10 +56,10 @@ pub fn ModelMessage::as_any(self : ModelMessage) -> @nostd.Any {
 pub type Model
 
 ///|
-pub fn Model::as_any(self : Model) -> @nostd.Any = "%identity"
+pub fn Model::as_any(self : Model) -> @core.Any = "%identity"
 
 ///|
-fn ai_module() -> @nostd.Any {
+fn ai_module() -> @core.Any {
   @node.require("ai")
 }
 
@@ -80,22 +80,22 @@ pub async fn generateText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> GenerateTextResult {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
+    opts._set("messages", msgs.map(_.as_any()) |> @core.any)
   }
   if prompt is Some(p) {
-    opts._set("prompt", p |> @nostd.any)
+    opts._set("prompt", p |> @core.any)
   }
   if system is Some(s) {
-    opts._set("system", s |> @nostd.any)
+    opts._set("system", s |> @core.any)
   }
   if max_tokens is Some(t) {
-    opts._set("maxTokens", t |> @nostd.any)
+    opts._set("maxTokens", t |> @core.any)
   }
   if temperature is Some(t) {
-    opts._set("temperature", t |> @nostd.any)
+    opts._set("temperature", t |> @core.any)
   }
   if tools is Some(t) {
     opts._set("tools", t.as_any())
@@ -104,7 +104,7 @@ pub async fn generateText(
     opts._set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
-    opts._set("maxSteps", ms |> @nostd.any)
+    opts._set("maxSteps", ms |> @core.any)
   }
   if stop_when is Some(sw) {
     opts._set("stopWhen", sw.as_any())
@@ -113,12 +113,12 @@ pub async fn generateText(
     opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts._set("activeTools", at |> @nostd.any)
+    opts._set("activeTools", at |> @core.any)
   }
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("generateText")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
 }
@@ -131,7 +131,7 @@ pub type StreamTextResultHandle
 ///|
 pub fn StreamTextResultHandle::as_any(
   self : StreamTextResultHandle,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// Stream text using the AI SDK (streaming)
@@ -151,22 +151,22 @@ pub fn streamText(
   prepare_step? : PrepareStep,
   active_tools? : Array[String],
 ) -> StreamTextResultHandle {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
+    opts._set("messages", msgs.map(_.as_any()) |> @core.any)
   }
   if prompt is Some(p) {
-    opts._set("prompt", p |> @nostd.any)
+    opts._set("prompt", p |> @core.any)
   }
   if system is Some(s) {
-    opts._set("system", s |> @nostd.any)
+    opts._set("system", s |> @core.any)
   }
   if max_tokens is Some(t) {
-    opts._set("maxTokens", t |> @nostd.any)
+    opts._set("maxTokens", t |> @core.any)
   }
   if temperature is Some(t) {
-    opts._set("temperature", t |> @nostd.any)
+    opts._set("temperature", t |> @core.any)
   }
   if tools is Some(t) {
     opts._set("tools", t.as_any())
@@ -175,7 +175,7 @@ pub fn streamText(
     opts._set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
-    opts._set("maxSteps", ms |> @nostd.any)
+    opts._set("maxSteps", ms |> @core.any)
   }
   if stop_when is Some(sw) {
     opts._set("stopWhen", sw.as_any())
@@ -184,10 +184,10 @@ pub fn streamText(
     opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts._set("activeTools", at |> @nostd.any)
+    opts._set("activeTools", at |> @core.any)
   }
   let result = ai_module()._get("streamText")._invoke([opts])
-  @nostd.identity(result)
+  @core.identity(result)
 }
 
 ///|
@@ -196,19 +196,19 @@ pub fn streamText(
 #alias(full_stream_raw)
 pub fn StreamTextResultHandle::fullStreamRaw(
   self : StreamTextResultHandle,
-) -> @js.AsyncIterator[@nostd.Any] {
+) -> @js.AsyncIterator[@core.Any] {
   let iterable = self.as_any()._get("fullStream")
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
   // TODO: unsafe cast as string to access key
-  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let key = @js.Symbol::asyncIterator() |> @core.identity
   let iter = iterable._call(key, [])
-  @nostd.identity(iter)
+  @core.identity(iter)
 }
 
 ///|
 /// Typed async iterator wrapper that converts raw JS values to TextStreamPart
 pub(all) struct TextStreamPartIterator {
-  raw : @js.AsyncIterator[@nostd.Any]
+  raw : @js.AsyncIterator[@core.Any]
 }
 
 ///|
@@ -231,9 +231,9 @@ pub fn StreamTextResultHandle::fullStream(
   let iterable = self.as_any()._get("fullStream")
 
   // TODO: unsafe cast as string to access key
-  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let key = @js.Symbol::asyncIterator() |> @core.identity
   let iter = iterable._call(key, [])
-  { raw: @nostd.identity(iter) }
+  { raw: @core.identity(iter) }
 }
 
 ///|
@@ -247,9 +247,9 @@ pub fn StreamTextResultHandle::textStream(
   // Call Symbol.asyncIterator method: iterable[Symbol.asyncIterator]()
 
   // TODO: unsafe cast as string to access key
-  let key = @js.Symbol::asyncIterator() |> @nostd.identity
+  let key = @js.Symbol::asyncIterator() |> @core.identity
   let iter = iterable._call(key, [])
-  @nostd.identity(iter)
+  @core.identity(iter)
 }
 
 ///|
@@ -257,9 +257,7 @@ pub fn StreamTextResultHandle::textStream(
 pub async fn StreamTextResultHandle::text(
   self : StreamTextResultHandle,
 ) -> String {
-  let promise : @js.Promise[String] = @nostd.identity(
-    self.as_any()._get("text"),
-  )
+  let promise : @js.Promise[String] = @core.identity(self.as_any()._get("text"))
   promise.wait()
 }
 
@@ -269,7 +267,7 @@ pub async fn StreamTextResultHandle::text(
 pub async fn StreamTextResultHandle::finishReason(
   self : StreamTextResultHandle,
 ) -> FinishReason {
-  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
+  let promise : @js.Promise[@core.Any] = @core.identity(
     self.as_any()._get("finishReason"),
   )
   let result = promise.wait()
@@ -281,7 +279,7 @@ pub async fn StreamTextResultHandle::finishReason(
 pub async fn StreamTextResultHandle::usage(
   self : StreamTextResultHandle,
 ) -> LanguageModelUsage {
-  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
+  let promise : @js.Promise[@core.Any] = @core.identity(
     self.as_any()._get("usage"),
   )
   let result = promise.wait()
@@ -293,11 +291,11 @@ pub async fn StreamTextResultHandle::usage(
 pub async fn StreamTextResultHandle::steps(
   self : StreamTextResultHandle,
 ) -> Array[StepResult] {
-  let promise : @js.Promise[@nostd.Any] = @nostd.identity(
+  let promise : @js.Promise[@core.Any] = @core.identity(
     self.as_any()._get("steps"),
   )
   let result = promise.wait()
-  let arr : Array[@nostd.Any] = @nostd.identity(result)
+  let arr : Array[@core.Any] = @core.identity(result)
   arr.map(StepResult::from_any)
 }
 

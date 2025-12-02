@@ -14,7 +14,7 @@ extern "js" fn create_readable_from_array(
   #| }
 
 ///|
-extern "js" fn create_writable_to_array_promises() -> @nostd.Any =
+extern "js" fn create_writable_to_array_promises() -> @core.Any =
   #| () => {
   #|   const { Writable } = require('node:stream');
   #|   const chunks = [];
@@ -48,7 +48,7 @@ extern "js" fn create_passthrough_promises() -> @stream.PassThrough =
   #| }
 
 ///|
-extern "js" fn get_chunks_promises(writable : @nostd.Any) -> Array[String] =
+extern "js" fn get_chunks_promises(writable : @core.Any) -> Array[String] =
   #| (writable) => writable.chunks || []
 
 ///| Pipeline operations
@@ -57,7 +57,7 @@ extern "js" fn get_chunks_promises(writable : @nostd.Any) -> Array[String] =
 async test "Node Stream Promises: pipeline with promises - basic" {
   let readable = create_readable_from_array(["hello", "world"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [readable.as_any().cast(), writable_js]
+  let streams : Array[@core.Any] = [readable.as_any().cast(), writable_js]
   ignore(promises_pipeline(streams))
   let chunks = get_chunks_promises(writable_js)
   assert_eq(chunks.length(), 2)
@@ -70,7 +70,7 @@ async test "Node Stream Promises: pipeline with promises - with transform" {
   let readable = create_readable_from_array(["hello", "world"])
   let transform = create_transform_uppercase_promises()
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [
+  let streams : Array[@core.Any] = [
     readable.as_any().cast(),
     transform.as_any().cast(),
     writable_js,
@@ -88,7 +88,7 @@ async test "Node Stream Promises: pipeline with promises - multiple transforms" 
   let transform1 = create_transform_uppercase_promises()
   let transform2 = create_passthrough_promises()
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [
+  let streams : Array[@core.Any] = [
     readable.as_any().cast(),
     transform1.as_any().cast(),
     transform2.as_any().cast(),
@@ -106,7 +106,7 @@ async test "Node Stream Promises: pipeline with promises - async operations" {
   let readable = create_readable_from_array(["async", "test"])
   let transform = create_transform_uppercase_promises()
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [
+  let streams : Array[@core.Any] = [
     readable.as_any().cast(),
     transform.as_any().cast(),
     writable_js,
@@ -122,7 +122,7 @@ async test "Node Stream Promises: pipeline with promises - async operations" {
 async test "Node Stream Promises: pipeline with promises - successful completion" {
   let readable = create_readable_from_array(["test", "data"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [readable.as_any().cast(), writable_js]
+  let streams : Array[@core.Any] = [readable.as_any().cast(), writable_js]
   let _stream = promises_pipeline(streams)
   let chunks = get_chunks_promises(writable_js)
   assert_eq(chunks.length(), 2)
@@ -132,7 +132,7 @@ async test "Node Stream Promises: pipeline with promises - successful completion
 async test "Node Stream Promises: pipeline with promises - then chain" {
   let readable = create_readable_from_array(["chain", "test"])
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [readable.as_any().cast(), writable_js]
+  let streams : Array[@core.Any] = [readable.as_any().cast(), writable_js]
   ignore(promises_pipeline(streams))
   let chunks = get_chunks_promises(writable_js)
   assert_eq(chunks.length(), 2)
@@ -148,7 +148,7 @@ async test "Node Stream Promises: pipeline with promises - large data" {
   }
   let readable = create_readable_from_array(items)
   let writable_js = create_writable_to_array_promises()
-  let streams : Array[@nostd.Any] = [readable.as_any().cast(), writable_js]
+  let streams : Array[@core.Any] = [readable.as_any().cast(), writable_js]
   ignore(promises_pipeline(streams))
   let chunks = get_chunks_promises(writable_js)
   assert_eq(chunks.length(), 100)
@@ -161,9 +161,9 @@ async test "Node Stream Promises: pipeline with promises - large data" {
 ///|
 async test "Node Stream Promises: finished with promises - writable" {
   let writable_js = create_writable_to_array_promises()
-  let writable : @stream.Writable = @nostd.identity(writable_js)
+  let writable : @stream.Writable = @core.identity(writable_js)
   // Write some data
-  let _ = writable.write(@nostd.any("test"))
+  let _ = writable.write(@core.any("test"))
   // End the stream
   ignore(writable.as_any()._call("end", []))
   // Wait for finish
@@ -185,9 +185,9 @@ async test "Node Stream Promises: finished with promises - readable" {
 ///|
 async test "Node Stream Promises: finished with promises - multiple streams" {
   let writable1_js = create_writable_to_array_promises()
-  let writable1 : @stream.Writable = @nostd.identity(writable1_js)
+  let writable1 : @stream.Writable = @core.identity(writable1_js)
   let writable2_js = create_writable_to_array_promises()
-  let writable2 : @stream.Writable = @nostd.identity(writable2_js)
+  let writable2 : @stream.Writable = @core.identity(writable2_js)
   // End both streams
   ignore(writable1.as_any()._call("end", []))
   ignore(writable2.as_any()._call("end", []))

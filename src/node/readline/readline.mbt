@@ -10,14 +10,14 @@ pub type Interface
 /// Wrap MoonBit completer function to JavaScript function
 extern "js" fn wrap_completer(
   f : (String) -> (Array[String], String),
-) -> @nostd.Any =
+) -> @core.Any =
   #|(f) => (line) => {
   #|  const result = f(line);
   #|  return result;
   #|}
 
 ///|
-extern "js" fn create_interface_impl(options : @nostd.Any) -> Interface =
+extern "js" fn create_interface_impl(options : @core.Any) -> Interface =
   #|(options) => {
   #|  const readline = require('node:readline');
   #|  return readline.createInterface(options);
@@ -38,34 +38,34 @@ pub fn createInterface(
   escape_code_timeout? : Int,
   tab_size? : Int,
 ) -> Interface {
-  let obj = @nostd.Object::new()
-  obj._set("input", input |> @nostd.any)
+  let obj = @core.Object::new()
+  obj._set("input", input |> @core.any)
   if output is Some(o) {
-    obj._set("output", o |> @nostd.any)
+    obj._set("output", o |> @core.any)
   }
   if completer is Some(c) {
-    obj._set("completer", wrap_completer(c) |> @nostd.any)
+    obj._set("completer", wrap_completer(c) |> @core.any)
   }
   if terminal is Some(t) {
-    obj._set("terminal", t |> @nostd.any)
+    obj._set("terminal", t |> @core.any)
   }
   if history_size is Some(h) {
-    obj._set("historySize", h |> @nostd.any)
+    obj._set("historySize", h |> @core.any)
   }
   if prompt is Some(p) {
-    obj._set("prompt", p |> @nostd.any)
+    obj._set("prompt", p |> @core.any)
   }
   if cr_lf_delay is Some(d) {
-    obj._set("crlfDelay", d |> @nostd.any)
+    obj._set("crlfDelay", d |> @core.any)
   }
   if remove_history_duplicates is Some(r) {
-    obj._set("removeHistoryDuplicates", r |> @nostd.any)
+    obj._set("removeHistoryDuplicates", r |> @core.any)
   }
   if escape_code_timeout is Some(e) {
-    obj._set("escapeCodeTimeout", e |> @nostd.any)
+    obj._set("escapeCodeTimeout", e |> @core.any)
   }
   if tab_size is Some(t) {
-    obj._set("tabSize", t |> @nostd.any)
+    obj._set("tabSize", t |> @core.any)
   }
   create_interface_impl(obj)
 }

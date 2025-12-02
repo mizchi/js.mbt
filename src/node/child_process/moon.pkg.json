@@ -1,5 +1,17 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/mbtconv", "mizchi/js/node/events", "mizchi/js/web/streams"],
-  "test-import": ["moonbitlang/async", "mizchi/js/node/buffer", "mizchi/js/builtins/global"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/mbtconv",
+    "mizchi/js/node/events",
+    "mizchi/js/web/streams"
+  ],
+  "test-import": [
+    "moonbitlang/async",
+    "mizchi/js/node/buffer",
+    "mizchi/js/builtins/global"
+  ]
 }

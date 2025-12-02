@@ -6,17 +6,17 @@
 
 ### 現状
 
-`@js.JsImpl` trait は deprecated となり、`@nostd.Any` パターンへの移行を推奨している。
+`@js.JsImpl` trait は deprecated となり、`@core.Any` パターンへの移行を推奨している。
 `moon check` を実行すると大量の警告が表示される:
 
 ```
-Warning (Alert deprecated): trait inlining is too heavy. Use @nostd.Any
+Warning (Alert deprecated): trait inlining is too heavy. Use @core.Any
 ```
 
 ### 対応方針
 
 1. **各ファイルの `pub impl @js.JsImpl for SomeType` を削除**
-2. **代わりに `pub fn SomeType::as_any(self : SomeType) -> @nostd.Any = "%identity"` を追加**
+2. **代わりに `pub fn SomeType::as_any(self : SomeType) -> @core.Any = "%identity"` を追加**
 3. **内部で `self._call()` / `self._get()` / `self.set()` を使用している箇所を `self.as_any()._call()` / `self.as_any()["key"]` に変更**
 
 ### 警告が多いファイル
@@ -42,7 +42,7 @@ $ moon check 2>&1 | grep -c "Alert deprecated"
 
 ## nostd Migration (Priority: High)
 
-`@js.JsImpl` trait のオーバーヘッドを削減し、バンドルサイズを最小化するため `@nostd` への移行を進める。
+`@js.JsImpl` trait のオーバーヘッドを削減し、バンドルサイズを最小化するため `@core` への移行を進める。
 
 ### Migration Pattern
 
@@ -51,7 +51,7 @@ $ moon check 2>&1 | grep -c "Alert deprecated"
 pub impl @js.JsImpl for MyType
 
 // After: Direct %identity conversion
-pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
+pub fn MyType::as_any(self : MyType) -> @core.Any = "%identity"
 ```
 
 **Note:** `to_any` は `as_any` にリネームされました (TypeScript の `as T` 構文に合わせて)。
@@ -66,15 +66,15 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [x] `src/web/performance` - `@js.JsImpl` 削除、`as_any()` 追加
 - [x] `src/web/encoding` - `@js.JsImpl` 削除、`as_any()` 追加
 - [x] `src/web/url` - `as_any()` 追加、`JsError` 使用 (node/url 後方互換のため `@js.JsImpl` 維持)
-- [x] `src/web/crypto` - `as_any()` 追加、`&@js.JsImpl` を `@nostd.Any` に変換
+- [x] `src/web/crypto` - `as_any()` 追加、`&@js.JsImpl` を `@core.Any` に変換
 - [x] `src/browser/storage` - `@js.JsImpl` 削除、`as_any()` 追加
 - [x] `src/browser/location` - `@js.JsImpl` 削除、`as_any()` 追加
 - [x] `src/browser/history` - `@js.JsImpl` 削除、`as_any()` 追加
 - [x] `src/browser/navigator` - `@js.JsImpl` 削除、`as_any()` 追加
-- [x] `src/cloudflare/r2.mbt` - `@nostd.identity` に修正
-- [x] `src/builtins/atomics` - `&@js.JsImpl` を `@nostd.Any` に変換、`as_any()` 追加
-- [x] `src/builtins/reflect` - `&@js.JsImpl` を `@nostd.Any` に変換、`as_any()` 追加
-- [x] `src/builtins/proxy` - `&@js.JsImpl` を `@nostd.Any` に変換、`as_any()` 追加 (後方互換のため `@js.JsImpl` 維持)
+- [x] `src/cloudflare/r2.mbt` - `@core.identity` に修正
+- [x] `src/builtins/atomics` - `&@js.JsImpl` を `@core.Any` に変換、`as_any()` 追加
+- [x] `src/builtins/reflect` - `&@js.JsImpl` を `@core.Any` に変換、`as_any()` 追加
+- [x] `src/builtins/proxy` - `&@js.JsImpl` を `@core.Any` に変換、`as_any()` 追加 (後方互換のため `@js.JsImpl` 維持)
 - [x] `src/browser/serviceworker` - `as_any()` 追加、`self.as_any().set()` を `self.as_any()["key"] =` に変換
 - [x] `src/browser/observer` - 外部タイプに `as_any()` 追加、`self._call()` を `self.as_any()._call()` に変換
 - [x] `src/npm/comlink` - 外部タイプに `as_any()` 追加、Remote メソッドを `._call()` に変換
@@ -97,7 +97,7 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 - [x] `src/npm/react_router` - nostd 移行完了
 - [x] `src/npm/testing_library_react` - nostd 移行完了
 - [x] `src/npm/testing_library_preact` - nostd 移行完了
-- [x] `src/npm/hono` - nostd 移行完了 (`@nostd.typeof_`, `@nostd.Object::new()` 使用)
+- [x] `src/npm/hono` - nostd 移行完了 (`@core.typeof_`, `@core.Object::new()` 使用)
 - [x] `src/npm/preact` - nostd 移行完了
 - [x] `src/npm/msw` - nostd 移行完了
 - [x] `src/npm/ajv` - nostd 移行完了
@@ -150,12 +150,12 @@ pub fn MyType::as_any(self : MyType) -> @nostd.Any = "%identity"
 ### Notes
 
 - `@js.JsImpl` は段階的に削除。依存先が移行完了するまで後方互換として維持
-- 新規コードでは `@nostd.any(value)._call([...])` パターンを使用
-- ジェネリクス引数は `value : @nostd.Any` で受ける
+- 新規コードでは `@core.any(value)._call([...])` パターンを使用
+- ジェネリクス引数は `value : @core.Any` で受ける
 - データ変換を伴わない純粋な FFI 呼び出しは `pub extern "js" fn ...` による直接実装を優先する
   - 例: `pub extern "js" fn close(self : Self) -> Unit = #| ...`
   - ラッパー関数より直接 FFI の方がバンドルサイズが小さくなる
-- **`@mbtconv` は `@nostd` のみに依存** - `mizchi/js` への依存がなく、MoonBit 変換コストが大きいため、API 内部での使用は推奨しない
+- **`@mbtconv` は `@core` のみに依存** - `mizchi/js` への依存がなく、MoonBit 変換コストが大きいため、API 内部での使用は推奨しない
   - `@mbtconv.from_map` / `@mbtconv.from_json` / `@mbtconv.to_json` は MoonBit コレクション型の変換でランタイムオーバーヘッドが発生
   - ユーザー向け便利関数としては有用だが、高頻度で呼ばれる内部実装では直接 FFI を使用すること
 

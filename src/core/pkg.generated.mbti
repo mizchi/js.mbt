@@ -1,0 +1,173 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/core"
+
+// Values
+pub fn[T] any(T) -> Any
+
+pub fn as_any(Any?) -> Any
+
+pub fn assert_throws(() -> Any) -> String raise JsError
+
+pub fn assert_throws_with(() -> Any, String) -> Unit
+
+pub fn console_debug(Any) -> Unit
+
+pub fn console_error(Any) -> Unit
+
+pub fn console_info(Any) -> Unit
+
+pub fn console_log(Any) -> Unit
+
+pub fn console_warn(Any) -> Unit
+
+pub fn equal(Any, Any) -> Bool
+
+pub fn[E : Show + Error] export_sync(() -> Any raise E) -> Any
+
+pub fn ffi_wrap_sync(() -> Any, (Any) -> Unit, (Any) -> Unit) -> Unit
+
+pub fn from_entries(Array[(String, Any)]) -> Any
+
+pub fn[A] from_fn0(() -> A) -> Any
+
+pub fn[A, B] from_fn1((A) -> B) -> Any
+
+pub fn[A, B, C] from_fn2((A, B) -> C) -> Any
+
+pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> Any
+
+pub fn[A] from_option(A?) -> Any
+
+pub fn global_this() -> Any
+
+pub fn[A, B] identity(A) -> B
+
+pub fn[T] identity_option(Any) -> T?
+
+pub fn instanceof_(Any, Any) -> Bool
+
+pub fn is_array(Any) -> Bool
+
+pub fn is_null(Any) -> Bool
+
+pub fn is_nullish(Any) -> Bool
+
+pub fn is_object(Any) -> Bool
+
+pub fn is_undefined(Any) -> Bool
+
+pub fn json_parse(String) -> Any
+
+pub fn json_stringify(Any) -> String
+
+pub fn json_stringify_pretty(Any, Int) -> String
+
+pub fn new(Any, Array[Any]) -> Any
+
+pub fn new_(Any, Array[Any]) -> Any
+
+pub fn null() -> Any
+
+pub fn[T] nullable(T?) -> Any
+
+pub fn run_async(async () -> Unit noraise) -> Unit
+
+pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
+pub fn throw_error(String) -> Unit
+
+pub fn try_sync(() -> Any) -> Any raise JsError
+
+pub fn type_of(Any) -> String
+
+pub fn typeof_(Any) -> String
+
+pub fn undefined() -> Any
+
+// Errors
+pub suberror JsError String
+
+// Types and methods
+#external
+pub type Any
+pub fn Any::_call(Self, String, Array[Self]) -> Self
+#alias("_[_]")
+pub fn Any::_get(Self, String) -> Self
+pub fn Any::_get_by_index(Self, Int) -> Self
+pub fn Any::_invoke(Self, Array[Self]) -> Self
+#alias("_[_]=_")
+pub fn Any::_set(Self, String, Self) -> Unit
+pub fn[T] Any::cast(Self) -> T
+pub fn Any::to_string(Self) -> String
+pub impl Eq for Any
+pub impl Show for Any
+
+#external
+pub type JsArray
+pub fn JsArray::new() -> Any
+
+#external
+pub type Nullable[T]
+pub fn[T] Nullable::is_null(Self[T]) -> Bool
+pub fn[T] Nullable::to_option(Self[T]) -> T?
+
+#external
+pub type Nullish[T]
+pub fn[T] Nullish::to_option(Self[T]) -> T?
+
+#external
+pub type Object
+pub fn Object::assign(Any, Any) -> Any
+pub fn Object::entries(Any) -> Array[Any]
+pub fn Object::freeze(Any) -> Any
+pub fn Object::has_own(Any, String) -> Bool
+pub fn Object::keys(Any) -> Array[String]
+pub fn Object::new() -> Any
+pub fn Object::values(Any) -> Array[Any]
+
+#external
+pub type Promise[T]
+pub fn[T] Promise::async_fn(async () -> T noraise) -> Self[T]
+pub fn[T] Promise::new(((T) -> Unit, (Any) -> Unit) -> Unit) -> Self[T]
+pub fn Promise::reject(Any) -> Self[Any]
+pub fn[T] Promise::resolve(T) -> Self[T]
+pub async fn[T] Promise::wait(Self[T]) -> T
+
+#external
+pub type Union2[A, B]
+pub fn[A, B] Union2::from(Any) -> Self[A, B]
+pub fn[A, B] Union2::to0(Self[A, B]) -> A
+pub fn[A, B] Union2::to1(Self[A, B]) -> B
+pub fn[A, B] Union2::to_any(Self[A, B]) -> Any
+
+#external
+pub type Union3[A, B, C]
+pub fn[A, B, C] Union3::from(Any) -> Self[A, B, C]
+pub fn[A, B, C] Union3::to0(Self[A, B, C]) -> A
+pub fn[A, B, C] Union3::to1(Self[A, B, C]) -> B
+pub fn[A, B, C] Union3::to2(Self[A, B, C]) -> C
+pub fn[A, B, C] Union3::to_any(Self[A, B, C]) -> Any
+
+#external
+pub type Union4[A, B, C, D]
+pub fn[A, B, C, D] Union4::from(Any) -> Self[A, B, C, D]
+pub fn[A, B, C, D] Union4::to0(Self[A, B, C, D]) -> A
+pub fn[A, B, C, D] Union4::to1(Self[A, B, C, D]) -> B
+pub fn[A, B, C, D] Union4::to2(Self[A, B, C, D]) -> C
+pub fn[A, B, C, D] Union4::to3(Self[A, B, C, D]) -> D
+pub fn[A, B, C, D] Union4::to_any(Self[A, B, C, D]) -> Any
+
+#external
+pub type Union5[A, B, C, D, E]
+pub fn[A, B, C, D, E] Union5::from(Any) -> Self[A, B, C, D, E]
+pub fn[A, B, C, D, E] Union5::to0(Self[A, B, C, D, E]) -> A
+pub fn[A, B, C, D, E] Union5::to1(Self[A, B, C, D, E]) -> B
+pub fn[A, B, C, D, E] Union5::to2(Self[A, B, C, D, E]) -> C
+pub fn[A, B, C, D, E] Union5::to3(Self[A, B, C, D, E]) -> D
+pub fn[A, B, C, D, E] Union5::to4(Self[A, B, C, D, E]) -> E
+pub fn[A, B, C, D, E] Union5::to_any(Self[A, B, C, D, E]) -> Any
+
+// Type aliases
+
+// Traits
+

@@ -4,7 +4,7 @@
 pub type VNode
 
 ///|
-pub fn VNode::as_any(self : VNode) -> @nostd.Any = "%identity"
+pub fn VNode::as_any(self : VNode) -> @core.Any = "%identity"
 
 ///|
 /// Component function type (functional component)
@@ -13,28 +13,28 @@ pub type Component[T] = (T) -> VNode
 ///|
 /// Vue.Ref<T> - Reactive reference
 pub(all) struct Ref[T] {
-  value : @nostd.Any
+  value : @core.Any
 }
 
 ///|
 pub fn[T] Ref::get_value(self : Ref[T]) -> T {
-  @nostd.identity(self.value)
+  @core.identity(self.value)
 }
 
 ///|
 pub fn[T] Ref::set_value(self : Ref[T], value : T) -> Unit {
-  ffi_set_ref_value(self |> @nostd.identity, value |> @nostd.identity)
+  ffi_set_ref_value(self |> @core.identity, value |> @core.identity)
 }
 
 ///|
 extern "js" fn ffi_set_ref_value(
-  ref_obj : @nostd.Any,
-  value : @nostd.Any,
+  ref_obj : @core.Any,
+  value : @core.Any,
 ) -> Unit =
   #|(ref, value) => { ref.value = value; }
 
 ///|
-pub fn[T] Ref::as_any(self : Ref[T]) -> @nostd.Any {
+pub fn[T] Ref::as_any(self : Ref[T]) -> @core.Any {
   self.value
 }
 
@@ -43,14 +43,14 @@ pub fn[T] Ref::as_any(self : Ref[T]) -> @nostd.Any {
 pub fn h(
   tag : String,
   children : Array[&VueNode],
-  props? : Map[String, @nostd.Any],
+  props? : Map[String, @core.Any],
   style? : Map[String, String],
   ref_? : Ref[@dom.Element],
   key? : String,
 ) -> VNode {
-  let tag = @nostd.any(tag)
-  let children = children.map(_.to_vue_node()) |> @nostd.any
-  let val = @nostd.Object::new()
+  let tag = @core.any(tag)
+  let children = children.map(_.to_vue_node()) |> @core.any
+  let val = @core.Object::new()
   if props is Some(props) {
     for k, v in props {
       val._set(k, v)
@@ -60,16 +60,16 @@ pub fn h(
     val._set("ref", ref_.as_any())
   }
   if key is Some(key) {
-    val._set("key", key |> @nostd.any)
+    val._set("key", key |> @core.any)
   }
   if style is Some(style) {
-    let style_obj = @nostd.Object::new()
+    let style_obj = @core.Object::new()
     for k, v in style {
-      style_obj._set(k, v |> @nostd.any)
+      style_obj._set(k, v |> @core.any)
     }
     val._set("style", style_obj)
   }
-  @nostd.identity(ffi_h(tag, val, children))
+  @core.identity(ffi_h(tag, val, children))
 }
 
 ///|
@@ -81,156 +81,156 @@ pub fn[T] component(
   children? : Array[&VueNode] = [],
   key? : String,
 ) -> VNode {
-  let tag = @nostd.identity(tag)
-  let children = children.map(_.to_vue_node()) |> @nostd.any
-  let val : @nostd.Any = props |> @nostd.identity
+  let tag = @core.identity(tag)
+  let children = children.map(_.to_vue_node()) |> @core.any
+  let val : @core.Any = props |> @core.identity
   if key is Some(key) {
-    if @nostd.is_nullish(val) {
-      let obj = @nostd.Object::new()
-      obj._set("key", key |> @nostd.any)
-      return ffi_h(tag, obj, children) |> @nostd.identity
+    if @core.is_nullish(val) {
+      let obj = @core.Object::new()
+      obj._set("key", key |> @core.any)
+      return ffi_h(tag, obj, children) |> @core.identity
     }
-    val._set("key", key |> @nostd.any)
+    val._set("key", key |> @core.any)
   }
-  ffi_h(tag, val, children) |> @nostd.identity
+  ffi_h(tag, val, children) |> @core.identity
 }
 
 ///|
 /// Vue.Fragment
 pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   let tag = get_fragment()
-  let children = children.map(_.to_vue_node()) |> @nostd.any
-  let val = @nostd.Object::new()
+  let children = children.map(_.to_vue_node()) |> @core.any
+  let val = @core.Object::new()
   if key is Some(key) {
-    val._set("key", key |> @nostd.any)
+    val._set("key", key |> @core.any)
   }
-  ffi_h(tag, val, children) |> @nostd.identity
+  ffi_h(tag, val, children) |> @core.identity
 }
 
 ///|
 /// Vue.render - Render a VNode to a DOM container using createApp
 pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
-  ffi_render(vnode |> @nostd.identity, container |> @nostd.identity)
+  ffi_render(vnode |> @core.identity, container |> @core.identity)
 }
 
 ///|
 /// Vue.createApp - Create a Vue application instance
-pub fn createApp(rootComponent : @nostd.Any, props? : @nostd.Any) -> @nostd.Any {
+pub fn createApp(rootComponent : @core.Any, props? : @core.Any) -> @core.Any {
   let p = match props {
     Some(p) => p
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
   ffi_create_app(rootComponent, p)
 }
 
 ///|
 /// Mount a Vue app to a container
-pub fn mount(app : @nostd.Any, container : @dom.Element) -> Unit {
-  ffi_mount(app, container |> @nostd.identity)
+pub fn mount(app : @core.Any, container : @dom.Element) -> Unit {
+  ffi_mount(app, container |> @core.identity)
 }
 
 ///|
 /// Vue.ref - Create a reactive reference
 #alias(create_ref)
 pub fn[T] ref_(initial : T) -> Ref[T] {
-  @nostd.identity(ffi_ref(initial |> @nostd.identity))
+  @core.identity(ffi_ref(initial |> @core.identity))
 }
 
 ///|
 /// Vue.reactive - Create a reactive object
 pub fn[T] reactive(obj : T) -> T {
-  @nostd.identity(ffi_reactive(obj |> @nostd.identity))
+  @core.identity(ffi_reactive(obj |> @core.identity))
 }
 
 ///|
 /// Vue.computed - Create a computed property
 pub fn[T] computed(getter : () -> T) -> Ref[T] {
-  @nostd.identity(ffi_computed(getter |> @js.any))
+  @core.identity(ffi_computed(getter |> @js.any))
 }
 
 ///|
 /// Vue.computed with getter and setter
 pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   options._set("get", get |> @js.any)
   options._set("set", set |> @js.any)
-  @nostd.identity(ffi_computed(options))
+  @core.identity(ffi_computed(options))
 }
 
 ///|
 /// Vue.readonly - Create a readonly proxy
 pub fn[T] readonly_(obj : T) -> T {
-  @nostd.identity(ffi_readonly(obj |> @nostd.identity))
+  @core.identity(ffi_readonly(obj |> @core.identity))
 }
 
 ///|
 /// Vue.toRef - Create a ref from a reactive object property
-pub fn[T] toRef(obj : @nostd.Any, key : String) -> Ref[T] {
-  @nostd.identity(ffi_to_ref(obj, key))
+pub fn[T] toRef(obj : @core.Any, key : String) -> Ref[T] {
+  @core.identity(ffi_to_ref(obj, key))
 }
 
 ///|
 /// Vue.toRefs - Create refs from all properties of a reactive object
-pub fn toRefs(obj : @nostd.Any) -> @nostd.Any {
+pub fn toRefs(obj : @core.Any) -> @core.Any {
   ffi_to_refs(obj)
 }
 
 ///|
 /// Vue.unref - Unwrap a ref
 pub fn[T] unref(ref_ : Ref[T]) -> T {
-  @nostd.identity(ffi_unref(ref_ |> @nostd.identity))
+  @core.identity(ffi_unref(ref_ |> @core.identity))
 }
 
 ///|
 /// Vue.isRef - Check if a value is a ref
-pub fn isRef(value : @nostd.Any) -> Bool {
+pub fn isRef(value : @core.Any) -> Bool {
   ffi_is_ref(value)
 }
 
 ///|
 /// Vue.isReactive - Check if a value is reactive
-pub fn isReactive(value : @nostd.Any) -> Bool {
+pub fn isReactive(value : @core.Any) -> Bool {
   ffi_is_reactive(value)
 }
 
 ///|
 /// Vue.isReadonly - Check if a value is readonly
-pub fn isReadonly(value : @nostd.Any) -> Bool {
+pub fn isReadonly(value : @core.Any) -> Bool {
   ffi_is_readonly(value)
 }
 
 ///|
 /// Vue.toRaw - Get the raw object from a reactive proxy
 pub fn[T] toRaw(proxy : T) -> T {
-  @nostd.identity(ffi_to_raw(proxy |> @nostd.identity))
+  @core.identity(ffi_to_raw(proxy |> @core.identity))
 }
 
 ///|
 /// Vue.markRaw - Mark an object so it won't be converted to reactive
 pub fn[T] markRaw(obj : T) -> T {
-  @nostd.identity(ffi_mark_raw(obj |> @nostd.identity))
+  @core.identity(ffi_mark_raw(obj |> @core.identity))
 }
 
 ///|
 /// Vue.shallowRef - Create a shallow ref
 pub fn[T] shallowRef(initial : T) -> Ref[T] {
-  @nostd.identity(ffi_shallow_ref(initial |> @nostd.identity))
+  @core.identity(ffi_shallow_ref(initial |> @core.identity))
 }
 
 ///|
 /// Vue.shallowReactive - Create a shallow reactive object
 pub fn[T] shallowReactive(obj : T) -> T {
-  @nostd.identity(ffi_shallow_reactive(obj |> @nostd.identity))
+  @core.identity(ffi_shallow_reactive(obj |> @core.identity))
 }
 
 ///|
 /// Vue.shallowReadonly - Create a shallow readonly proxy
 pub fn[T] shallowReadonly(obj : T) -> T {
-  @nostd.identity(ffi_shallow_readonly(obj |> @nostd.identity))
+  @core.identity(ffi_shallow_readonly(obj |> @core.identity))
 }
 
 ///|
 /// Vue.triggerRef - Manually trigger effects for a shallow ref
 pub fn[T] triggerRef(ref_ : Ref[T]) -> Unit {
-  ffi_trigger_ref(ref_ |> @nostd.identity)
+  ffi_trigger_ref(ref_ |> @core.identity)
 }

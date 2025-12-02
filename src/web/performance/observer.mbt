@@ -4,7 +4,7 @@
 pub type PerformanceObserver
 
 ///|
-pub fn PerformanceObserver::as_any(self : PerformanceObserver) -> @nostd.Any = "%identity"
+pub fn PerformanceObserver::as_any(self : PerformanceObserver) -> @core.Any = "%identity"
 
 ///|
 /// PerformanceObserverEntryList - list of observed performance entries
@@ -14,11 +14,11 @@ pub type PerformanceObserverEntryList
 ///|
 pub fn PerformanceObserverEntryList::as_any(
   self : PerformanceObserverEntryList,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_performance_observer(
-  callback : (@nostd.Any, @nostd.Any) -> Unit,
+  callback : (@core.Any, @core.Any) -> Unit,
 ) -> PerformanceObserver =
   #|(callback) => new PerformanceObserver(callback)
 
@@ -30,7 +30,7 @@ pub fn PerformanceObserver::new(
   callback : (PerformanceObserverEntryList, PerformanceObserver) -> Unit,
 ) -> PerformanceObserver {
   ffi_new_performance_observer(fn(list, observer) {
-    callback(@nostd.identity(list), @nostd.identity(observer))
+    callback(@core.identity(list), @core.identity(observer))
   })
 }
 
@@ -40,7 +40,7 @@ pub fn PerformanceObserver::new(
 /// Example: observer.observe({ entryTypes: ["measure", "mark"] })
 pub fn PerformanceObserver::observe(
   self : PerformanceObserver,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> Unit {
   self.as_any()._call("observe", [options]) |> ignore
 }
@@ -77,7 +77,7 @@ pub fn PerformanceObserverEntryList::getEntriesByType(
   self : PerformanceObserverEntryList,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.as_any()._call("getEntriesByType", [@nostd.any(entryType)]).cast()
+  self.as_any()._call("getEntriesByType", [@core.any(entryType)]).cast()
 }
 
 ///|
@@ -87,5 +87,5 @@ pub fn PerformanceObserverEntryList::getEntriesByName(
   self : PerformanceObserverEntryList,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.as_any()._call("getEntriesByName", [@nostd.any(name)]).cast()
+  self.as_any()._call("getEntriesByName", [@core.any(name)]).cast()
 }

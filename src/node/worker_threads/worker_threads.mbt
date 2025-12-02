@@ -8,7 +8,7 @@
 pub type Worker
 
 ///|
-pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
+pub fn Worker::as_any(self : Worker) -> @core.Any = "%identity"
 
 ///|
 /// MessagePort represents a message port for communication
@@ -16,11 +16,11 @@ pub fn Worker::as_any(self : Worker) -> @nostd.Any = "%identity"
 pub type MessagePort
 
 ///|
-pub fn MessagePort::as_any(self : MessagePort) -> @nostd.Any = "%identity"
+pub fn MessagePort::as_any(self : MessagePort) -> @core.Any = "%identity"
 
 ///|
 /// Module Functions
-extern "js" fn ffi_require_worker_threads() -> @nostd.Any =
+extern "js" fn ffi_require_worker_threads() -> @core.Any =
   #|() => require("node:worker_threads")
 
 ///|
@@ -32,26 +32,26 @@ extern "js" fn ffi_get_thread_id() -> Int =
 /// https://nodejs.org/api/worker_threads.html#new-workerfilename-options
 pub fn Worker::new(
   filename : String,
-  workerData? : @nostd.Any,
-  env? : @nostd.Any,
+  workerData? : @core.Any,
+  env? : @core.Any,
   stdin? : Bool,
   stdout? : Bool,
   stderr? : Bool,
   execArgv? : Array[String],
-  resourceLimits? : @nostd.Any,
+  resourceLimits? : @core.Any,
 ) -> Worker {
   let wt = ffi_require_worker_threads()
   let worker_class = wt._get("Worker")
   let js_opts = @mbtconv.from_option_map({
-    "workerData": workerData.map(fn(x) { @nostd.identity(x) }),
-    "env": env.map(fn(x) { @nostd.identity(x) }),
-    "stdin": stdin.map(fn(x) { @nostd.any(x) }),
-    "stdout": stdout.map(fn(x) { @nostd.any(x) }),
-    "stderr": stderr.map(fn(x) { @nostd.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
-    "resourceLimits": resourceLimits.map(fn(x) { @nostd.identity(x) }),
+    "workerData": workerData.map(fn(x) { @core.identity(x) }),
+    "env": env.map(fn(x) { @core.identity(x) }),
+    "stdin": stdin.map(fn(x) { @core.any(x) }),
+    "stdout": stdout.map(fn(x) { @core.any(x) }),
+    "stderr": stderr.map(fn(x) { @core.any(x) }),
+    "execArgv": execArgv.map(fn(x) { @core.identity(@core.any(x)) }),
+    "resourceLimits": resourceLimits.map(fn(x) { @core.identity(x) }),
   }).cast()
-  @nostd.identity(@nostd.new_(worker_class, [@nostd.any(filename), js_opts]))
+  @core.identity(@core.new_(worker_class, [@core.any(filename), js_opts]))
 }
 
 ///|
@@ -59,12 +59,12 @@ pub fn Worker::new(
 /// https://nodejs.org/api/worker_threads.html#workerpostmessagevalue-transferlist
 pub fn Worker::postMessage(
   self : Worker,
-  value : @nostd.Any,
-  transferList? : Array[@nostd.Any],
+  value : @core.Any,
+  transferList? : Array[@core.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any()._call("postMessage", [value, @nostd.any(list)]) |> ignore
+      self.as_any()._call("postMessage", [value, @core.any(list)]) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -97,31 +97,31 @@ pub fn Worker::threadId(self : Worker) -> Int {
 ///|
 /// Get the stdin stream of the worker (if enabled)
 pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
-  self.as_any()._get("stdin") |> @nostd.identity_option()
+  self.as_any()._get("stdin") |> @core.identity_option()
 }
 
 ///|
 /// Get the stdout stream of the worker (if enabled)
 pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stdout") |> @nostd.identity_option()
+  self.as_any()._get("stdout") |> @core.identity_option()
 }
 
 ///|
 /// Get the stderr stream of the worker (if enabled)
 pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stderr") |> @nostd.identity_option()
+  self.as_any()._get("stderr") |> @core.identity_option()
 }
 
 ///|
 /// MessagePort methods
 pub fn MessagePort::postMessage(
   self : MessagePort,
-  value : @nostd.Any,
-  transferList? : Array[@nostd.Any],
+  value : @core.Any,
+  transferList? : Array[@core.Any],
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any()._call("postMessage", [value, @nostd.any(list)]) |> ignore
+      self.as_any()._call("postMessage", [value, @core.any(list)]) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -149,14 +149,14 @@ pub fn isMainThread() -> Bool {
 /// Get the parent port (null in main thread)
 /// https://nodejs.org/api/worker_threads.html#workerparentport
 pub fn parentPort() -> MessagePort? {
-  ffi_require_worker_threads()._get("parentPort") |> @nostd.identity_option()
+  ffi_require_worker_threads()._get("parentPort") |> @core.identity_option()
 }
 
 ///|
 /// Get the worker data passed to the worker
 /// https://nodejs.org/api/worker_threads.html#workerworkerdata
-pub fn workerData() -> @nostd.Any? {
-  ffi_require_worker_threads()._get("workerData") |> @nostd.identity_option()
+pub fn workerData() -> @core.Any? {
+  ffi_require_worker_threads()._get("workerData") |> @core.identity_option()
 }
 
 ///|

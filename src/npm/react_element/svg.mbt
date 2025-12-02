@@ -6,7 +6,7 @@ pub fn svg(
   height~ : Double,
   view_box? : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -33,16 +33,16 @@ pub fn svg(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("width", width |> @nostd.any)
-  attrs._set("height", height |> @nostd.any)
+  attrs._set("width", width |> @core.any)
+  attrs._set("height", height |> @core.any)
   if view_box is Some(view_box) {
-    attrs._set("viewBox", view_box |> @nostd.any)
+    attrs._set("viewBox", view_box |> @core.any)
   }
   common_node(
     "svg",
@@ -81,7 +81,7 @@ pub fn circle(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -102,23 +102,23 @@ pub fn circle(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("cx", cx |> @nostd.any)
-  attrs._set("cy", cy |> @nostd.any)
-  attrs._set("r", r |> @nostd.any)
+  attrs._set("cx", cx |> @core.any)
+  attrs._set("cy", cy |> @core.any)
+  attrs._set("r", r |> @core.any)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "circle",
@@ -158,7 +158,7 @@ pub fn ellipse(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -184,24 +184,24 @@ pub fn ellipse(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("cx", cx |> @nostd.any)
-  attrs._set("cy", cy |> @nostd.any)
-  attrs._set("rx", rx |> @nostd.any)
-  attrs._set("ry", ry |> @nostd.any)
+  attrs._set("cx", cx |> @core.any)
+  attrs._set("cy", cy |> @core.any)
+  attrs._set("rx", rx |> @core.any)
+  attrs._set("ry", ry |> @core.any)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "circle",
@@ -241,7 +241,7 @@ pub fn rect(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -267,24 +267,24 @@ pub fn rect(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("x", x |> @nostd.any)
-  attrs._set("y", y |> @nostd.any)
-  attrs._set("width", width |> @nostd.any)
-  attrs._set("height", height |> @nostd.any)
+  attrs._set("x", x |> @core.any)
+  attrs._set("y", y |> @core.any)
+  attrs._set("width", width |> @core.any)
+  attrs._set("height", height |> @core.any)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "rect",
@@ -324,7 +324,7 @@ pub fn line(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -350,24 +350,24 @@ pub fn line(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("x1", x1 |> @nostd.any)
-  attrs._set("y1", y1 |> @nostd.any)
-  attrs._set("x2", x2 |> @nostd.any)
-  attrs._set("y2", y2 |> @nostd.any)
+  attrs._set("x1", x1 |> @core.any)
+  attrs._set("y1", y1 |> @core.any)
+  attrs._set("x2", x2 |> @core.any)
+  attrs._set("y2", y2 |> @core.any)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "line",
@@ -404,7 +404,7 @@ pub fn path(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -430,21 +430,21 @@ pub fn path(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("d", d |> @nostd.any)
+  attrs._set("d", d |> @core.any)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "path",
@@ -478,7 +478,7 @@ pub fn use_(
   href~ : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -504,13 +504,13 @@ pub fn use_(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("href", href |> @nostd.any)
+  attrs._set("href", href |> @core.any)
   common_node(
     "use",
     attrs,
@@ -546,7 +546,7 @@ pub fn polygon(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -571,22 +571,22 @@ pub fn polygon(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @nostd.Object::keys(p).length() > 0 {
-        @nostd.Object::assign(@nostd.Object::new(), p)
+      if @core.Object::keys(p).length() > 0 {
+        @core.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("points", points |> @nostd.identity)
+  attrs._set("points", points |> @core.identity)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "points",
@@ -623,7 +623,7 @@ pub fn polyline(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -648,22 +648,22 @@ pub fn polyline(
 ) -> @react.Element {
   let attrs = match props {
     Some(p) =>
-      if @nostd.Object::keys(p).length() > 0 {
-        @nostd.Object::assign(@nostd.Object::new(), p)
+      if @core.Object::keys(p).length() > 0 {
+        @core.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("points", points |> @nostd.identity)
+  attrs._set("points", points |> @core.identity)
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "polyline",
@@ -700,7 +700,7 @@ pub fn g(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -726,20 +726,20 @@ pub fn g(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   common_node(
     "g",
@@ -771,7 +771,7 @@ pub fn g(
 pub fn defs(
   children : Array[&@react.ReactNode],
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -797,11 +797,11 @@ pub fn defs(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
   common_node(
     "defs",
@@ -845,7 +845,7 @@ pub fn text(
   fill? : String,
 
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -871,37 +871,37 @@ pub fn text(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("x", x |> @nostd.any)
-  attrs._set("y", y |> @nostd.any)
+  attrs._set("x", x |> @core.any)
+  attrs._set("y", y |> @core.any)
   if dx is Some(dx) {
-    attrs._set("dx", dx |> @nostd.any)
+    attrs._set("dx", dx |> @core.any)
   }
   if dy is Some(dy) {
-    attrs._set("dy", dy |> @nostd.any)
+    attrs._set("dy", dy |> @core.any)
   }
   if length_adjust is Some(length_adjust) {
-    attrs._set("lengthAdjust", length_adjust |> @nostd.any)
+    attrs._set("lengthAdjust", length_adjust |> @core.any)
   }
   if text_length is Some(text_length) {
-    attrs._set("textLength", text_length |> @nostd.any)
+    attrs._set("textLength", text_length |> @core.any)
   }
   if stroke is Some(stroke) {
-    attrs._set("stroke", stroke |> @nostd.any)
+    attrs._set("stroke", stroke |> @core.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs._set("strokeWidth", stroke_width |> @nostd.any)
+    attrs._set("strokeWidth", stroke_width |> @core.any)
   }
   if fill is Some(fill) {
-    attrs._set("fill", fill |> @nostd.any)
+    attrs._set("fill", fill |> @core.any)
   }
   if rotate is Some(rotate) {
-    attrs._set("rotate", rotate |> @nostd.any)
+    attrs._set("rotate", rotate |> @core.any)
   }
   common_node(
     "text",
@@ -935,7 +935,7 @@ pub fn image(
   y~ : Double,
   href~ : String,
   // shared
-  props? : @nostd.Any,
+  props? : @core.Any,
   id? : String,
   class? : String,
   style? : Map[String, String],
@@ -961,15 +961,15 @@ pub fn image(
   let attrs = match props {
     Some(p) =>
       if @js.Object::keys(p).length() > 0 {
-        @js.Object::assign(@nostd.Object::new(), p)
+        @js.Object::assign(@core.Object::new(), p)
       } else {
         p
       }
-    None => @nostd.Object::new()
+    None => @core.Object::new()
   }
-  attrs._set("x", x |> @nostd.any)
-  attrs._set("y", y |> @nostd.any)
-  attrs._set("href", href |> @nostd.any)
+  attrs._set("x", x |> @core.any)
+  attrs._set("y", y |> @core.any)
+  attrs._set("href", href |> @core.any)
   common_node(
     "image",
     attrs,

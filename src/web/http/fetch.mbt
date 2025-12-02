@@ -1,6 +1,9 @@
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/API/fetch
-extern "js" fn ffi_fetch(url : String, init : @nostd.Any) -> @js.Promise[Response] =
+extern "js" fn ffi_fetch(
+  url : String,
+  init : @core.Any,
+) -> @js.Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
@@ -15,7 +18,7 @@ pub async fn fetch(
   headers? : Map[String, String] = {},
   cache? : String,
   mode? : String,
-  body? : @nostd.Any, // String, ArrayBuffer, FormData, etc.
+  body? : @core.Any, // String, ArrayBuffer, FormData, etc.
   credentials? : String,
   integrity? : String,
   keepalive? : Bool,
@@ -25,24 +28,24 @@ pub async fn fetch(
   referrerPolicy? : String,
   signal? : @js.AbortSignal,
 ) -> Response {
-  let header_obj = @nostd.Object::new()
+  let header_obj = @core.Object::new()
   for k, v in headers {
-    header_obj._set(k, @nostd.any(v))
+    header_obj._set(k, @core.any(v))
   }
   let init_obj = @mbtconv.from_option_map({
-    "method": Some(@nostd.any(method_)),
+    "method": Some(@core.any(method_)),
     "headers": Some(header_obj),
     "body": body.map(fn(x) { x }),
-    "cache": cache.map(fn(x) { @nostd.any(x) }),
-    "mode": mode.map(fn(x) { @nostd.any(x) }),
-    "credentials": credentials.map(fn(x) { @nostd.any(x) }),
-    "integrity": integrity.map(fn(x) { @nostd.any(x) }),
-    "keepalive": keepalive.map(fn(x) { @nostd.any(x) }),
-    "priority": priority.map(fn(x) { @nostd.any(x) }),
-    "redirect": redirect.map(fn(x) { @nostd.any(x) }),
-    "referrer": referrer.map(fn(x) { @nostd.any(x) }),
-    "referrerPolicy": referrerPolicy.map(fn(x) { @nostd.any(x) }),
-    "signal": signal.map(fn(x) { @nostd.identity(x) }),
+    "cache": cache.map(fn(x) { @core.any(x) }),
+    "mode": mode.map(fn(x) { @core.any(x) }),
+    "credentials": credentials.map(fn(x) { @core.any(x) }),
+    "integrity": integrity.map(fn(x) { @core.any(x) }),
+    "keepalive": keepalive.map(fn(x) { @core.any(x) }),
+    "priority": priority.map(fn(x) { @core.any(x) }),
+    "redirect": redirect.map(fn(x) { @core.any(x) }),
+    "referrer": referrer.map(fn(x) { @core.any(x) }),
+    "referrerPolicy": referrerPolicy.map(fn(x) { @core.any(x) }),
+    "signal": signal.map(fn(x) { @core.identity(x) }),
   }).cast()
   ffi_fetch(url, init_obj).wait()
 }

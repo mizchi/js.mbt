@@ -4,7 +4,7 @@
 /// https://nodejs.org/api/async_context.html#class-asynclocalstorage
 
 ///|
-extern "js" fn async_local_storage_constructor() -> @nostd.Any =
+extern "js" fn async_local_storage_constructor() -> @core.Any =
   #| () => require("async_hooks").AsyncLocalStorage
 
 ///|
@@ -13,12 +13,12 @@ extern "js" fn async_local_storage_constructor() -> @nostd.Any =
 pub type AsyncLocalStorage[T]
 
 ///|
-pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @nostd.Any = "%identity"
+pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @core.Any = "%identity"
 
 ///|
 /// Create a new AsyncLocalStorage instance
 pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
-  @nostd.identity(@nostd.new(async_local_storage_constructor(), []))
+  @core.identity(@core.new(async_local_storage_constructor(), []))
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn[T] AsyncLocalStorage::run(
 ) -> Unit {
   self
   .as_any()
-  ._call("run", [@nostd.any(store), @nostd.any(callback |> @js.from_fn0)])
+  ._call("run", [@core.any(store), @core.any(callback |> @js.from_fn0)])
   |> ignore
 }
 
@@ -42,14 +42,14 @@ pub fn[T] AsyncLocalStorage::exit(
   self : AsyncLocalStorage[T],
   callback : () -> Unit,
 ) -> Unit {
-  self.as_any()._call("exit", [@nostd.any(callback |> @js.from_fn0)]) |> ignore
+  self.as_any()._call("exit", [@core.any(callback |> @js.from_fn0)]) |> ignore
 }
 
 ///|
 /// Returns the current store. If called outside of an asynchronous context, it returns undefined.
 /// https://nodejs.org/api/async_context.html#asynclocalstoragegetstore
 pub fn[T] AsyncLocalStorage::getStore(self : AsyncLocalStorage[T]) -> T? {
-  self.as_any()._call("getStore", []) |> @nostd.identity_option()
+  self.as_any()._call("getStore", []) |> @core.identity_option()
 }
 
 ///|
@@ -59,7 +59,7 @@ pub fn[T] AsyncLocalStorage::enterWith(
   self : AsyncLocalStorage[T],
   store : T,
 ) -> Unit {
-  self.as_any()._call("enterWith", [@nostd.any(store)]) |> ignore
+  self.as_any()._call("enterWith", [@core.any(store)]) |> ignore
 }
 
 ///|

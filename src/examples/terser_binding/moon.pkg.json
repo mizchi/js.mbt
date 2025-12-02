@@ -1,6 +1,6 @@
 {
   "is-main": true,
   "import": [
-    "mizchi/js/nostd"
+    "mizchi/js/core"
   ]
 }

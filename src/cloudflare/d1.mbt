@@ -5,12 +5,12 @@
 pub type D1Database
 
 ///|
-pub fn D1Database::as_any(self : D1Database) -> @nostd.Any = "%identity"
+pub fn D1Database::as_any(self : D1Database) -> @core.Any = "%identity"
 
 ///|
 /// Prepare a SQL statement
 pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
-  self.as_any()._call("prepare", [@nostd.any(query)]).cast()
+  self.as_any()._call("prepare", [@core.any(query)]).cast()
 }
 
 ///|
@@ -18,7 +18,7 @@ pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
 pub async fn D1Database::exec(self : Self, query : String) -> D1ExecResult {
   let promise : @js.Promise[D1ExecResult] = self
     .as_any()
-    ._call("exec", [@nostd.any(query)])
+    ._call("exec", [@core.any(query)])
     .cast()
   promise.wait()
 }
@@ -29,23 +29,23 @@ pub async fn D1Database::batch(
   self : Self,
   statements : Array[D1PreparedStatement],
 ) -> Array[D1Result] {
-  let stmts_js = @nostd.JsArray::new()
+  let stmts_js = @core.JsArray::new()
   let mut i = 0
   while i < statements.length() {
-    @nostd.any(stmts_js)._call("push", [@nostd.any(statements[i])]) |> ignore
+    @core.any(stmts_js)._call("push", [@core.any(statements[i])]) |> ignore
     i = i + 1
   }
   let promise : @js.Promise[Array[D1Result]] = self
     .as_any()
-    ._call("batch", [@nostd.any(stmts_js)])
+    ._call("batch", [@core.any(stmts_js)])
     .cast()
   promise.wait()
 }
 
 ///|
 /// Dump the entire database
-pub async fn D1Database::dump(self : Self) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("dump", []).cast()
+pub async fn D1Database::dump(self : Self) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.as_any()._call("dump", []).cast()
   promise.wait()
 }
 
@@ -55,14 +55,14 @@ pub async fn D1Database::dump(self : Self) -> @nostd.Any {
 pub type D1PreparedStatement
 
 ///|
-pub fn D1PreparedStatement::as_any(self : D1PreparedStatement) -> @nostd.Any = "%identity"
+pub fn D1PreparedStatement::as_any(self : D1PreparedStatement) -> @core.Any = "%identity"
 
 ///|
 /// Bind parameters to a prepared statement
 /// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
 pub fn D1PreparedStatement::bind(
   self : Self,
-  params : Array[@nostd.Any],
+  params : Array[@core.Any],
 ) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
@@ -70,20 +70,20 @@ pub fn D1PreparedStatement::bind(
   let bind_fn = stmt_js["bind"]
 
   // Convert MoonBit array to JavaScript array
-  let params_js = @nostd.JsArray::new()
+  let params_js = @core.JsArray::new()
   let mut i = 0
   while i < params.length() {
-    @nostd.any(params_js)._call("push", [@nostd.any(params[i])]) |> ignore
+    @core.any(params_js)._call("push", [@core.any(params[i])]) |> ignore
     i = i + 1
   }
 
   // Use apply to spread the array as individual arguments
-  bind_fn._call("apply", [stmt_js, @nostd.any(params_js)]).cast()
+  bind_fn._call("apply", [stmt_js, @core.any(params_js)]).cast()
 }
 
 ///|
 /// Bind a single parameter
-pub fn D1PreparedStatement::bind1(self : Self, param : @nostd.Any) -> Self {
+pub fn D1PreparedStatement::bind1(self : Self, param : @core.Any) -> Self {
   self.bind([param])
 }
 
@@ -91,8 +91,8 @@ pub fn D1PreparedStatement::bind1(self : Self, param : @nostd.Any) -> Self {
 /// Bind two parameters
 pub fn D1PreparedStatement::bind2(
   self : Self,
-  p1 : @nostd.Any,
-  p2 : @nostd.Any,
+  p1 : @core.Any,
+  p2 : @core.Any,
 ) -> Self {
   self.bind([p1, p2])
 }
@@ -101,17 +101,17 @@ pub fn D1PreparedStatement::bind2(
 /// Bind three parameters
 pub fn D1PreparedStatement::bind3(
   self : Self,
-  p1 : @nostd.Any,
-  p2 : @nostd.Any,
-  p3 : @nostd.Any,
+  p1 : @core.Any,
+  p2 : @core.Any,
+  p3 : @core.Any,
 ) -> Self {
   self.bind([p1, p2, p3])
 }
 
 ///|
 /// Execute the statement and return first row
-pub async fn D1PreparedStatement::first(self : Self) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = self
+pub async fn D1PreparedStatement::first(self : Self) -> @core.Any? {
+  let promise : @js.Promise[@core.Any?] = self
     .as_any()
     ._call("first", [])
     .cast()
@@ -123,10 +123,10 @@ pub async fn D1PreparedStatement::first(self : Self) -> @nostd.Any? {
 pub async fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
-) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = self
+) -> @core.Any? {
+  let promise : @js.Promise[@core.Any?] = self
     .as_any()
-    ._call("first", [@nostd.any(col_name)])
+    ._call("first", [@core.any(col_name)])
     .cast()
   promise.wait()
 }
@@ -150,12 +150,12 @@ pub async fn D1PreparedStatement::run(self : Self) -> D1Result {
 pub async fn D1PreparedStatement::raw(
   self : Self,
   columnNames? : Bool,
-) -> Array[@nostd.Any] {
-  let promise : @js.Promise[Array[@nostd.Any]] = if columnNames is None {
+) -> Array[@core.Any] {
+  let promise : @js.Promise[Array[@core.Any]] = if columnNames is None {
     self.as_any()._call("raw", []).cast()
   } else {
     let opts = @mbtconv.from_option_map({
-      "columnNames": columnNames.map(fn(x) { @nostd.any(x) }),
+      "columnNames": columnNames.map(fn(x) { @core.any(x) }),
     })
     self.as_any()._call("raw", [opts]).cast()
   }
@@ -165,20 +165,20 @@ pub async fn D1PreparedStatement::raw(
 ///|
 /// Result of a D1 query
 pub(all) struct D1Result {
-  results : Array[@nostd.Any]?
+  results : Array[@core.Any]?
   success : Bool
   meta : D1Meta?
   error : String?
 }
 
 ///|
-pub fn D1Result::as_any(self : D1Result) -> @nostd.Any = "%identity"
+pub fn D1Result::as_any(self : D1Result) -> @core.Any = "%identity"
 
 ///|
 /// Get results from D1Result
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn D1Result::get_results(self : Self) -> Array[@nostd.Any] {
+pub fn D1Result::get_results(self : Self) -> Array[@core.Any] {
   match self.results {
     Some(r) => r
     None => []
@@ -198,7 +198,7 @@ pub(all) struct D1Meta {
 }
 
 ///|
-pub fn D1Meta::as_any(self : D1Meta) -> @nostd.Any = "%identity"
+pub fn D1Meta::as_any(self : D1Meta) -> @core.Any = "%identity"
 
 ///|
 /// Result of exec operation
@@ -208,7 +208,7 @@ pub(all) struct D1ExecResult {
 }
 
 ///|
-pub fn D1ExecResult::as_any(self : D1ExecResult) -> @nostd.Any = "%identity"
+pub fn D1ExecResult::as_any(self : D1ExecResult) -> @core.Any = "%identity"
 
 ///|
 /// Legacy type alias for compatibility

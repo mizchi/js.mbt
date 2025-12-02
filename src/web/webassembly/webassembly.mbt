@@ -10,7 +10,7 @@
 pub type WebAssemblyModule
 
 ///|
-pub fn WebAssemblyModule::as_any(self : WebAssemblyModule) -> @nostd.Any = "%identity"
+pub fn WebAssemblyModule::as_any(self : WebAssemblyModule) -> @core.Any = "%identity"
 
 ///|
 /// WebAssembly.Instance represents an instantiated WebAssembly module
@@ -19,11 +19,11 @@ pub fn WebAssemblyModule::as_any(self : WebAssemblyModule) -> @nostd.Any = "%ide
 pub type WebAssemblyInstance
 
 ///|
-pub fn WebAssemblyInstance::as_any(self : WebAssemblyInstance) -> @nostd.Any = "%identity"
+pub fn WebAssemblyInstance::as_any(self : WebAssemblyInstance) -> @core.Any = "%identity"
 
 ///|
 /// Get the exports object from a WebAssembly instance
-pub fn WebAssemblyInstance::exports(self : Self) -> @nostd.Any {
+pub fn WebAssemblyInstance::exports(self : Self) -> @core.Any {
   self.as_any()["exports"].cast()
 }
 
@@ -34,7 +34,7 @@ pub fn WebAssemblyInstance::exports(self : Self) -> @nostd.Any {
 pub type WebAssemblyMemory
 
 ///|
-pub fn WebAssemblyMemory::as_any(self : WebAssemblyMemory) -> @nostd.Any = "%identity"
+pub fn WebAssemblyMemory::as_any(self : WebAssemblyMemory) -> @core.Any = "%identity"
 
 ///|
 /// Get the buffer from WebAssembly memory
@@ -45,7 +45,7 @@ pub fn WebAssemblyMemory::buffer(self : Self) -> @js.ArrayBuffer {
 ///|
 /// Grow the memory by delta pages
 pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.as_any()._call("grow", [@nostd.any(delta)]).cast()
+  self.as_any()._call("grow", [@core.any(delta)]).cast()
 }
 
 ///|
@@ -57,7 +57,7 @@ pub(all) struct MemoryDescriptor {
 }
 
 ///|
-extern "js" fn ffi_new_memory(descriptor : @nostd.Any) -> WebAssemblyMemory =
+extern "js" fn ffi_new_memory(descriptor : @core.Any) -> WebAssemblyMemory =
   #| (descriptor) => new WebAssembly.Memory(descriptor)
 
 ///|
@@ -67,9 +67,9 @@ pub fn WebAssemblyMemory::new(
 ) -> WebAssemblyMemory {
   ffi_new_memory(
     @mbtconv.from_option_map({
-      "initial": Some(@nostd.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @nostd.any(x) }),
-      "shared": Some(@nostd.any(descriptor.shared)),
+      "initial": Some(@core.any(descriptor.initial)),
+      "maximum": descriptor.maximum.map(fn(x) { @core.any(x) }),
+      "shared": Some(@core.any(descriptor.shared)),
     }).cast(),
   )
 }
@@ -80,7 +80,7 @@ pub fn WebAssemblyMemory::new(
 pub type WebAssemblyTable
 
 ///|
-pub fn WebAssemblyTable::as_any(self : WebAssemblyTable) -> @nostd.Any = "%identity"
+pub fn WebAssemblyTable::as_any(self : WebAssemblyTable) -> @core.Any = "%identity"
 
 ///|
 /// Get the length of the table
@@ -93,9 +93,9 @@ pub fn WebAssemblyTable::length(self : Self) -> Int {
 pub fn WebAssemblyTable::set(
   self : Self,
   index : Int,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Unit {
-  ignore(self.as_any()._call("set", [@nostd.any(index), @nostd.any(value)]))
+  ignore(self.as_any()._call("set", [@core.any(index), @core.any(value)]))
 }
 
 ///|
@@ -103,9 +103,9 @@ pub fn WebAssemblyTable::set(
 pub fn WebAssemblyTable::grow(
   self : Self,
   delta : Int,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Int {
-  self.as_any()._call("grow", [@nostd.any(delta), @nostd.any(value)]).cast()
+  self.as_any()._call("grow", [@core.any(delta), @core.any(value)]).cast()
 }
 
 ///|
@@ -117,7 +117,7 @@ pub(all) struct TableDescriptor {
 }
 
 ///|
-extern "js" fn ffi_new_table(descriptor : @nostd.Any) -> WebAssemblyTable =
+extern "js" fn ffi_new_table(descriptor : @core.Any) -> WebAssemblyTable =
   #| (descriptor) => new WebAssembly.Table(descriptor)
 
 ///|
@@ -125,9 +125,9 @@ extern "js" fn ffi_new_table(descriptor : @nostd.Any) -> WebAssemblyTable =
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
   ffi_new_table(
     @mbtconv.from_option_map({
-      "element": Some(@nostd.any(descriptor.element)),
-      "initial": Some(@nostd.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @nostd.any(x) }),
+      "element": Some(@core.any(descriptor.element)),
+      "initial": Some(@core.any(descriptor.initial)),
+      "maximum": descriptor.maximum.map(fn(x) { @core.any(x) }),
     }).cast(),
   )
 }
@@ -138,18 +138,18 @@ pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
 pub type WebAssemblyGlobal
 
 ///|
-pub fn WebAssemblyGlobal::as_any(self : WebAssemblyGlobal) -> @nostd.Any = "%identity"
+pub fn WebAssemblyGlobal::as_any(self : WebAssemblyGlobal) -> @core.Any = "%identity"
 
 ///|
 /// Get the value of the global
-pub fn WebAssemblyGlobal::value(self : Self) -> @nostd.Any {
+pub fn WebAssemblyGlobal::value(self : Self) -> @core.Any {
   self.as_any()["value"].cast()
 }
 
 ///|
 /// Set the value of the global (only for mutable globals)
-pub fn WebAssemblyGlobal::set_value(self : Self, value : @nostd.Any) -> Unit {
-  self.as_any()["value"] = @nostd.any(value)
+pub fn WebAssemblyGlobal::set_value(self : Self, value : @core.Any) -> Unit {
+  self.as_any()["value"] = @core.any(value)
 }
 
 ///|
@@ -161,8 +161,8 @@ pub(all) struct GlobalDescriptor {
 
 ///|
 extern "js" fn ffi_new_global(
-  descriptor : @nostd.Any,
-  value : @nostd.Any,
+  descriptor : @core.Any,
+  value : @core.Any,
 ) -> WebAssemblyGlobal =
   #| (descriptor, value) => new WebAssembly.Global(descriptor, value)
 
@@ -170,17 +170,17 @@ extern "js" fn ffi_new_global(
 /// Create a new WebAssembly global
 pub fn WebAssemblyGlobal::new(
   descriptor : GlobalDescriptor,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> WebAssemblyGlobal {
-  let obj : @nostd.Any = @mbtconv.from_map({
-    "value": @nostd.any(descriptor.value),
-    "mutable": @nostd.any(descriptor.mutable),
+  let obj : @core.Any = @mbtconv.from_map({
+    "value": @core.any(descriptor.value),
+    "mutable": @core.any(descriptor.mutable),
   }).cast()
   ffi_new_global(obj, value)
 }
 
 ///|
-extern "js" fn ffi_new_module(bytes : @nostd.Any) -> WebAssemblyModule =
+extern "js" fn ffi_new_module(bytes : @core.Any) -> WebAssemblyModule =
   #| (bytes) => new WebAssembly.Module(bytes)
 
 ///|
@@ -188,7 +188,7 @@ extern "js" fn ffi_new_module(bytes : @nostd.Any) -> WebAssemblyModule =
 pub fn WebAssemblyModule::from_bytes(
   bytes : @typedarray.Uint8Array,
 ) -> WebAssemblyModule {
-  ffi_new_module(@nostd.any(bytes))
+  ffi_new_module(@core.any(bytes))
 }
 
 ///|
@@ -196,13 +196,13 @@ pub fn WebAssemblyModule::from_bytes(
 pub fn WebAssemblyModule::from_buffer(
   buffer : @js.ArrayBuffer,
 ) -> WebAssemblyModule {
-  ffi_new_module(@nostd.any(buffer))
+  ffi_new_module(@core.any(buffer))
 }
 
 ///|
 extern "js" fn ffi_new_instance(
   wasm_module : WebAssemblyModule,
-  import_object : @nostd.Any,
+  import_object : @core.Any,
 ) -> WebAssemblyInstance =
   #| (module, importObject) => new WebAssembly.Instance(module, importObject)
 
@@ -210,7 +210,7 @@ extern "js" fn ffi_new_instance(
 /// Instantiate a WebAssembly module
 pub fn WebAssemblyInstance::from_module(
   wasm_module : WebAssemblyModule,
-  import_object : @nostd.Any?,
+  import_object : @core.Any?,
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
@@ -221,16 +221,16 @@ pub fn WebAssemblyInstance::from_module(
 
 ///|
 extern "js" fn ffi_instantiate(
-  bytes : @nostd.Any,
-  import_object : @nostd.Any,
-) -> @nostd.Any =
+  bytes : @core.Any,
+  import_object : @core.Any,
+) -> @core.Any =
   #| async (bytes, importObject) => await WebAssembly.instantiate(bytes, importObject)
 
 ///|
 /// Compile and instantiate a WebAssembly module from bytes
 pub fn instantiate_bytes(
   bytes : @typedarray.Uint8Array,
-  import_object : @nostd.Any?,
+  import_object : @core.Any?,
 ) -> (WebAssemblyModule, WebAssemblyInstance) {
   let imports = match import_object {
     Some(obj) => obj
@@ -246,7 +246,7 @@ pub fn instantiate_bytes(
 /// Compile and instantiate a WebAssembly module from a module
 pub fn instantiate_module(
   wasm_module : WebAssemblyModule,
-  import_object : @nostd.Any?,
+  import_object : @core.Any?,
 ) -> WebAssemblyInstance {
   let imports = match import_object {
     Some(obj) => obj
@@ -256,7 +256,7 @@ pub fn instantiate_module(
 }
 
 ///|
-extern "js" fn ffi_validate(bytes : @nostd.Any) -> Bool =
+extern "js" fn ffi_validate(bytes : @core.Any) -> Bool =
   #| (bytes) => WebAssembly.validate(bytes)
 
 ///|
@@ -266,11 +266,11 @@ pub fn validate(bytes : @typedarray.Uint8Array) -> Bool {
 }
 
 ///|
-extern "js" fn ffi_compile(bytes : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_compile(bytes : @core.Any) -> @core.Any =
   #| async (bytes) => await WebAssembly.compile(bytes)
 
 ///|
 /// Compile a WebAssembly module (async)
-pub fn compile(bytes : @typedarray.Uint8Array) -> @nostd.Any {
+pub fn compile(bytes : @typedarray.Uint8Array) -> @core.Any {
   ffi_compile(bytes.as_any())
 }

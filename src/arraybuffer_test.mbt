@@ -25,7 +25,7 @@ test "ArrayBuffer with maxByteLength" {
 }
 
 ///|
-test "@nostd.ArrayBuffer::slice operations" {
+test "@core.ArrayBuffer::slice operations" {
   let buffer = @js.ArrayBuffer::new(16)
 
   // Basic slice
@@ -50,7 +50,7 @@ test "@js.ArrayBuffer::is_view" {
   let buffer = @js.ArrayBuffer::new(16)
 
   // Plain buffer is not a view
-  assert_false(@js.ArrayBuffer::isView(buffer |> @nostd.any))
+  assert_false(@js.ArrayBuffer::isView(buffer |> @core.any))
 
   // Note: Testing with actual views requires typedarray package
   // which would create circular dependency.

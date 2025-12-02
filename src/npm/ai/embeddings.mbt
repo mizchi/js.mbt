@@ -11,7 +11,7 @@
 pub type EmbeddingModel
 
 ///|
-pub fn EmbeddingModel::as_any(self : EmbeddingModel) -> @nostd.Any = "%identity"
+pub fn EmbeddingModel::as_any(self : EmbeddingModel) -> @core.Any = "%identity"
 
 // ============================================================
 // Embedding Usage
@@ -24,7 +24,7 @@ pub(all) struct EmbeddingUsage {
 }
 
 ///|
-pub fn EmbeddingUsage::from_any(value : @nostd.Any) -> EmbeddingUsage {
+pub fn EmbeddingUsage::from_any(value : @core.Any) -> EmbeddingUsage {
   { tokens: value._get("tokens").cast() }
 }
 
@@ -40,13 +40,13 @@ pub(all) struct EmbedResult {
   /// Token usage
   usage : EmbeddingUsage
   /// Raw response
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn EmbedResult::from_any(value : @nostd.Any) -> EmbedResult {
+pub fn EmbedResult::from_any(value : @core.Any) -> EmbedResult {
   let embedding_raw = value._get("embedding")
-  let embedding : Array[Double] = @nostd.identity(embedding_raw)
+  let embedding : Array[Double] = @core.identity(embedding_raw)
   {
     embedding,
     usage: EmbeddingUsage::from_any(value._get("usage")),
@@ -66,13 +66,13 @@ pub(all) struct EmbedManyResult {
   /// Total token usage
   usage : EmbeddingUsage
   /// Raw response
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn EmbedManyResult::from_any(value : @nostd.Any) -> EmbedManyResult {
+pub fn EmbedManyResult::from_any(value : @core.Any) -> EmbedManyResult {
   let embeddings_raw = value._get("embeddings")
-  let embeddings : Array[Array[Double]] = @nostd.identity(embeddings_raw)
+  let embeddings : Array[Array[Double]] = @core.identity(embeddings_raw)
   {
     embeddings,
     usage: EmbeddingUsage::from_any(value._get("usage")),
@@ -94,16 +94,16 @@ pub async fn embed(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @nostd.Any,
+  abort_signal? : @core.Any,
   /// Custom headers
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> EmbedResult {
-  let opts = @nostd.Object::new()
-  let model_any : @nostd.Any = model.as_any().cast()
+  let opts = @core.Object::new()
+  let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
-  opts._set("value", value |> @nostd.any)
+  opts._set("value", value |> @core.any)
   if max_retries is Some(r) {
-    opts._set("maxRetries", r |> @nostd.any)
+    opts._set("maxRetries", r |> @core.any)
   }
   if abort_signal is Some(s) {
     opts._set("abortSignal", s)
@@ -111,10 +111,10 @@ pub async fn embed(
   if headers is Some(h) {
     opts._set("headers", h)
   }
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("embed")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   EmbedResult::from_any(result)
 }
@@ -132,19 +132,19 @@ pub async fn embedMany(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @nostd.Any,
+  abort_signal? : @core.Any,
   /// Custom headers
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> EmbedManyResult {
-  let opts = @nostd.Object::new()
-  let model_any : @nostd.Any = model.as_any().cast()
+  let opts = @core.Object::new()
+  let model_any : @core.Any = model.as_any().cast()
   opts._set("model", model_any)
-  opts._set("values", values |> @nostd.any)
+  opts._set("values", values |> @core.any)
   if max_parallel_calls is Some(c) {
-    opts._set("maxParallelCalls", c |> @nostd.any)
+    opts._set("maxParallelCalls", c |> @core.any)
   }
   if max_retries is Some(r) {
-    opts._set("maxRetries", r |> @nostd.any)
+    opts._set("maxRetries", r |> @core.any)
   }
   if abort_signal is Some(s) {
     opts._set("abortSignal", s)
@@ -152,10 +152,10 @@ pub async fn embedMany(
   if headers is Some(h) {
     opts._set("headers", h)
   }
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("embedMany")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   EmbedManyResult::from_any(result)
 }

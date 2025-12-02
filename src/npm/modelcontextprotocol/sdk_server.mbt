@@ -2,15 +2,15 @@
 /// Bindings for @modelcontextprotocol/sdk server implementation
 
 ///|
-extern "js" fn require_mcp_server() -> @nostd.Any =
+extern "js" fn require_mcp_server() -> @core.Any =
   #| () => require("@modelcontextprotocol/sdk/server/index.js")
 
 ///|
-extern "js" fn require_mcp_types() -> @nostd.Any =
+extern "js" fn require_mcp_types() -> @core.Any =
   #| () => require("@modelcontextprotocol/sdk/types.js")
 
 ///|
-extern "js" fn require_stdio_transport() -> @nostd.Any =
+extern "js" fn require_stdio_transport() -> @core.Any =
   #| () => require("@modelcontextprotocol/sdk/server/stdio.js")
 
 // ============================================================
@@ -43,35 +43,35 @@ pub fn SdkServer::new(
   let sdk = require_mcp_server()
   let server_class = sdk._get("Server")
   // Build capabilities object
-  let capabilities = @nostd.Object::new()
+  let capabilities = @core.Object::new()
   if tools {
-    capabilities._set("tools", @nostd.Object::new())
+    capabilities._set("tools", @core.Object::new())
   }
   if resources {
-    capabilities._set("resources", @nostd.Object::new())
+    capabilities._set("resources", @core.Object::new())
   }
   if prompts {
-    capabilities._set("prompts", @nostd.Object::new())
+    capabilities._set("prompts", @core.Object::new())
   }
   // Build server info
-  let server_info = @nostd.identity(
+  let server_info = @core.identity(
     @mbtconv.from_map({
-      "name": name |> @nostd.any,
-      "version": version |> @nostd.any,
+      "name": name |> @core.any,
+      "version": version |> @core.any,
     }),
   )
   // Create server instance
-  let opts = @nostd.identity(
-    @mbtconv.from_map({ "capabilities": @nostd.any(capabilities) }),
+  let opts = @core.identity(
+    @mbtconv.from_map({ "capabilities": @core.any(capabilities) }),
   )
-  ffi_construct(server_class, [server_info, opts]) |> @nostd.identity
+  ffi_construct(server_class, [server_info, opts]) |> @core.identity
 }
 
 ///|
 extern "js" fn ffi_construct(
-  class_ : @nostd.Any,
-  args : Array[@nostd.Any],
-) -> @nostd.Any =
+  class_ : @core.Any,
+  args : Array[@core.Any],
+) -> @core.Any =
   #| (cls, args) => new cls(...args)
 
 ///|
@@ -82,21 +82,21 @@ pub fn SdkServer::set_tools_list_handler(
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("ListToolsRequestSchema")
-  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
+  let wrapped = fn(_request : @core.Any) -> @core.Any {
     let tools = handler()
-    let tools_arr : Array[@nostd.Any] = tools.map(fn(t) { t.as_any() })
-    @nostd.identity(
-      @mbtconv.from_map({ "tools": @nostd.any(@nostd.any(tools_arr)) }),
+    let tools_arr : Array[@core.Any] = tools.map(fn(t) { t.as_any() })
+    @core.identity(
+      @mbtconv.from_map({ "tools": @core.any(@core.any(tools_arr)) }),
     )
   }
-  ffi_set_handler(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler(self |> @core.any, schema, wrapped)
 }
 
 ///|
 extern "js" fn ffi_set_handler(
-  server : @nostd.Any,
-  schema : @nostd.Any,
-  handler : (@nostd.Any) -> @nostd.Any,
+  server : @core.Any,
+  schema : @core.Any,
+  handler : (@core.Any) -> @core.Any,
 ) -> Unit =
   #| (server, schema, handler) => server.setRequestHandler(schema, handler)
 
@@ -104,32 +104,32 @@ extern "js" fn ffi_set_handler(
 /// Set request handler for tools/call
 pub fn SdkServer::set_tools_call_handler(
   self : SdkServer,
-  handler : async (String, @nostd.Any) -> Array[Content],
+  handler : async (String, @core.Any) -> Array[Content],
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("CallToolRequestSchema")
-  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+  let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request._get("params")
     let name : String = params._get("name").cast()
     let args = params._get("arguments")
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(contents) {
-      let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @nostd.identity(
-          @mbtconv.from_map({ "content": @nostd.any(@nostd.any(content_arr)) }),
+        @core.identity(
+          @mbtconv.from_map({ "content": @core.any(@core.any(content_arr)) }),
         ),
       )
     })
   }
-  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler_async(self |> @core.any, schema, wrapped)
 }
 
 ///|
 extern "js" fn ffi_set_handler_async(
-  server : @nostd.Any,
-  schema : @nostd.Any,
-  handler : (@nostd.Any) -> @js.Promise[@nostd.Any],
+  server : @core.Any,
+  schema : @core.Any,
+  handler : (@core.Any) -> @js.Promise[@core.Any],
 ) -> Unit =
   #| (server, schema, handler) => server.setRequestHandler(schema, handler)
 
@@ -141,14 +141,14 @@ pub fn SdkServer::set_resources_list_handler(
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("ListResourcesRequestSchema")
-  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
+  let wrapped = fn(_request : @core.Any) -> @core.Any {
     let resources = handler()
-    let resources_arr : Array[@nostd.Any] = resources.map(fn(r) { r.as_any() })
-    @nostd.identity(
-      @mbtconv.from_map({ "resources": @nostd.any(@nostd.any(resources_arr)) }),
+    let resources_arr : Array[@core.Any] = resources.map(fn(r) { r.as_any() })
+    @core.identity(
+      @mbtconv.from_map({ "resources": @core.any(@core.any(resources_arr)) }),
     )
   }
-  ffi_set_handler(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler(self |> @core.any, schema, wrapped)
 }
 
 ///|
@@ -159,20 +159,20 @@ pub fn SdkServer::set_resources_read_handler(
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("ReadResourceRequestSchema")
-  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+  let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request._get("params")
     let uri : String = params._get("uri").cast()
     let promise_handler = @js.promisify1(handler)
     promise_handler(uri).then(fn(contents) {
-      let content_arr : Array[@nostd.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
-        @nostd.identity(
-          @mbtconv.from_map({ "contents": @nostd.any(@nostd.any(content_arr)) }),
+        @core.identity(
+          @mbtconv.from_map({ "contents": @core.any(@core.any(content_arr)) }),
         ),
       )
     })
   }
-  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler_async(self |> @core.any, schema, wrapped)
 }
 
 ///|
@@ -183,25 +183,25 @@ pub fn SdkServer::set_prompts_list_handler(
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("ListPromptsRequestSchema")
-  let wrapped = fn(_request : @nostd.Any) -> @nostd.Any {
+  let wrapped = fn(_request : @core.Any) -> @core.Any {
     let prompts = handler()
-    let prompts_arr : Array[@nostd.Any] = prompts.map(fn(p) { p.as_any() })
-    @nostd.identity(
-      @mbtconv.from_map({ "prompts": @nostd.any(@nostd.any(prompts_arr)) }),
+    let prompts_arr : Array[@core.Any] = prompts.map(fn(p) { p.as_any() })
+    @core.identity(
+      @mbtconv.from_map({ "prompts": @core.any(@core.any(prompts_arr)) }),
     )
   }
-  ffi_set_handler(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler(self |> @core.any, schema, wrapped)
 }
 
 ///|
 /// Set request handler for prompts/get
 pub fn SdkServer::set_prompts_get_handler(
   self : SdkServer,
-  handler : async (String, @nostd.Any) -> PromptResult,
+  handler : async (String, @core.Any) -> PromptResult,
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("GetPromptRequestSchema")
-  let wrapped = fn(request : @nostd.Any) -> @js.Promise[@nostd.Any] {
+  let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request._get("params")
     let name : String = params._get("name").cast()
     let args = params._get("arguments")
@@ -210,7 +210,7 @@ pub fn SdkServer::set_prompts_get_handler(
       @js.Promise::resolve(result.as_any())
     })
   }
-  ffi_set_handler_async(self |> @nostd.any, schema, wrapped)
+  ffi_set_handler_async(self |> @core.any, schema, wrapped)
 }
 
 ///|
@@ -228,21 +228,21 @@ pub(all) struct PromptMessage {
 }
 
 ///|
-pub fn PromptMessage::as_any(self : PromptMessage) -> @nostd.Any {
-  @nostd.identity(
+pub fn PromptMessage::as_any(self : PromptMessage) -> @core.Any {
+  @core.identity(
     @mbtconv.from_map({
-      "role": self.role |> @nostd.any,
-      "content": @nostd.any(self.content.as_any()),
+      "role": self.role |> @core.any,
+      "content": @core.any(self.content.as_any()),
     }),
   )
 }
 
 ///|
-pub fn PromptResult::as_any(self : PromptResult) -> @nostd.Any {
-  let messages_arr : Array[@nostd.Any] = self.messages.map(fn(m) { m.as_any() })
+pub fn PromptResult::as_any(self : PromptResult) -> @core.Any {
+  let messages_arr : Array[@core.Any] = self.messages.map(fn(m) { m.as_any() })
   @mbtconv.from_option_map({
-    "description": self.description.map(fn(d) { d |> @nostd.any }),
-    "messages": Some(@nostd.identity(@nostd.any(messages_arr))),
+    "description": self.description.map(fn(d) { d |> @core.any }),
+    "messages": Some(@core.identity(@core.any(messages_arr))),
   }).cast()
 }
 
@@ -255,18 +255,18 @@ pub fn PromptResult::as_any(self : PromptResult) -> @nostd.Any {
 pub fn StdioServerTransport::new() -> StdioServerTransport {
   let stdio_mod = require_stdio_transport()
   let transport_class = stdio_mod._get("StdioServerTransport")
-  ffi_construct(transport_class, []) |> @nostd.identity
+  ffi_construct(transport_class, []) |> @core.identity
 }
 
 ///|
 extern "js" fn ffi_server_connect(
-  server : @nostd.Any,
-  transport : @nostd.Any,
+  server : @core.Any,
+  transport : @core.Any,
 ) -> @js.Promise[Unit] =
   #| (server, transport) => server.connect(transport)
 
 ///|
-extern "js" fn ffi_server_close(server : @nostd.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_server_close(server : @core.Any) -> @js.Promise[Unit] =
   #| (server) => server.close()
 
 ///|
@@ -275,13 +275,13 @@ pub async fn SdkServer::connect(
   self : SdkServer,
   transport : StdioServerTransport,
 ) -> Unit {
-  ffi_server_connect(self |> @nostd.any, transport |> @nostd.any).wait()
+  ffi_server_connect(self |> @core.any, transport |> @core.any).wait()
 }
 
 ///|
 /// Close server
 pub async fn SdkServer::close(self : SdkServer) -> Unit {
-  ffi_server_close(self |> @nostd.any).wait()
+  ffi_server_close(self |> @core.any).wait()
 }
 
 ///|
@@ -289,15 +289,15 @@ pub async fn SdkServer::close(self : SdkServer) -> Unit {
 pub fn SdkServer::send_notification(
   self : SdkServer,
   method_name : String,
-  params : @nostd.Any,
+  params : @core.Any,
 ) -> Unit {
-  let notification = @nostd.identity(
+  let notification = @core.identity(
     @mbtconv.from_map({
-      "method": method_name |> @nostd.any,
-      "params": @nostd.any(params),
+      "method": method_name |> @core.any,
+      "params": @core.any(params),
     }),
   )
-  (self |> @nostd.any)._get("notification")._invoke([notification]) |> ignore
+  (self |> @core.any)._get("notification")._invoke([notification]) |> ignore
 }
 
 ///|
@@ -307,11 +307,11 @@ pub fn SdkServer::log(
   level : String,
   message : String,
 ) -> Unit {
-  let params = @nostd.identity(
+  let params = @core.identity(
     @mbtconv.from_map({
-      "level": level |> @nostd.any,
-      "logger": "server" |> @nostd.any,
-      "data": message |> @nostd.any,
+      "level": level |> @core.any,
+      "logger": "server" |> @core.any,
+      "data": message |> @core.any,
     }),
   )
   self.send_notification("notifications/message", params)

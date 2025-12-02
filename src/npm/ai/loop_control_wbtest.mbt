@@ -215,7 +215,7 @@ test "PrepareStepResult::with_active_tools" {
 
 ///|
 test "PrepareStepResult::with_messages" {
-  let msgs : Array[@nostd.Any] = [@nostd.any("hello")]
+  let msgs : Array[@core.Any] = [@core.any("hello")]
   let result = PrepareStepResult::with_messages(msgs)
   assert_true(result.model is None)
   assert_true(result.active_tools is None)
@@ -238,7 +238,7 @@ test "PrepareStepResult as_any creates JS object" {
   let js_obj = result.as_any()
   // Check activeTools is set
   let active_tools = js_obj._get("activeTools")
-  assert_false(@nostd.is_undefined(active_tools))
+  assert_false(@core.is_undefined(active_tools))
   // Check system is set
   let system : String = js_obj._get("system").cast()
   assert_eq(system, "You are helpful")
@@ -246,9 +246,9 @@ test "PrepareStepResult as_any creates JS object" {
   let max_tokens : Int = js_obj._get("maxTokens").cast()
   assert_eq(max_tokens, 100)
   // Check model is not set
-  assert_true(@nostd.is_undefined(js_obj._get("model")))
+  assert_true(@core.is_undefined(js_obj._get("model")))
   // Check temperature is not set
-  assert_true(@nostd.is_undefined(js_obj._get("temperature")))
+  assert_true(@core.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
@@ -256,18 +256,18 @@ test "StopCondition as_any creates JS function" {
   let cond = step_count_is(3)
   let js_fn = cond.as_any()
   // Verify it's a function
-  assert_false(@nostd.is_undefined(js_fn))
+  assert_false(@core.is_undefined(js_fn))
   // Call it with a mock context
-  let ctx = @nostd.Object::new()
-  ctx._set("stepNumber", 2 |> @nostd.any)
-  let empty_arr : Array[@nostd.Any] = []
-  ctx._set("messages", empty_arr |> @nostd.any)
-  ctx._set("toolCalls", empty_arr |> @nostd.any)
-  ctx._set("finishReason", "stop" |> @nostd.any)
+  let ctx = @core.Object::new()
+  ctx._set("stepNumber", 2 |> @core.any)
+  let empty_arr : Array[@core.Any] = []
+  ctx._set("messages", empty_arr |> @core.any)
+  ctx._set("toolCalls", empty_arr |> @core.any)
+  ctx._set("finishReason", "stop" |> @core.any)
   let result1 : Bool = js_fn._invoke([ctx]).cast()
   assert_eq(result1, false)
   // Call with step 3
-  ctx._set("stepNumber", 3 |> @nostd.any)
+  ctx._set("stepNumber", 3 |> @core.any)
   let result2 : Bool = js_fn._invoke([ctx]).cast()
   assert_eq(result2, true)
 }

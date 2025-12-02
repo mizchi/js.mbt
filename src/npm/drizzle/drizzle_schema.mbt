@@ -8,7 +8,7 @@
 #alias(pg_index)
 pub fn pgIndex(name : String) -> PgIndexBuilder {
   let fn_ = drizzle_pg_core()._get("index")
-  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
+  @core.any(fn_)._invoke([@core.any(name)]).cast()
 }
 
 ///|
@@ -16,7 +16,7 @@ pub fn pgIndex(name : String) -> PgIndexBuilder {
 #alias(pg_unique_index)
 pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
   let fn_ = drizzle_pg_core()._get("uniqueIndex")
-  @nostd.any(fn_)._invoke([@nostd.any(name)]).cast()
+  @core.any(fn_)._invoke([@core.any(name)]).cast()
 }
 
 ///|
@@ -25,7 +25,7 @@ pub fn pgUniqueIndex(name : String) -> PgIndexBuilder {
 pub type PgIndexBuilder
 
 ///|
-pub fn PgIndexBuilder::as_any(self : PgIndexBuilder) -> @nostd.Any = "%identity"
+pub fn PgIndexBuilder::as_any(self : PgIndexBuilder) -> @core.Any = "%identity"
 
 ///|
 /// Specify columns for index
@@ -33,7 +33,7 @@ pub fn PgIndexBuilder::on(
   self : PgIndexBuilder,
   columns : Array[Column],
 ) -> PgIndexBuilder {
-  @nostd.any(self)._call("on", columns.map(fn(c) { @nostd.any(c) })).cast()
+  @core.any(self)._call("on", columns.map(fn(c) { @core.any(c) })).cast()
 }
 
 ///|
@@ -42,20 +42,20 @@ pub fn PgIndexBuilder::filter(
   self : PgIndexBuilder,
   condition : SQL,
 ) -> PgIndexBuilder {
-  @nostd.any(self)._call("where", [@nostd.any(condition)]).cast()
+  @core.any(self)._call("where", [@core.any(condition)]).cast()
 }
 
 ///|
 /// Build index concurrently (PostgreSQL)
 pub fn PgIndexBuilder::concurrently(self : PgIndexBuilder) -> PgIndexBuilder {
-  @nostd.any(self)._call("concurrently", []).cast()
+  @core.any(self)._call("concurrently", []).cast()
 }
 
 ///|
 extern "js" fn ffi_pg_index_using(
   builder : PgIndexBuilder,
   index_type : String,
-  columns : @nostd.Any,
+  columns : @core.Any,
 ) -> PgIndexBuilder =
   #| (builder, index_type, columns) => builder.using(index_type, ...columns)
 
@@ -65,9 +65,9 @@ extern "js" fn ffi_pg_index_using(
 pub fn PgIndexBuilder::usingMethod(
   self : PgIndexBuilder,
   index_method : String,
-  columns : Array[@nostd.Any],
+  columns : Array[@core.Any],
 ) -> PgIndexBuilder {
-  ffi_pg_index_using(self, index_method, @nostd.any(columns))
+  ffi_pg_index_using(self, index_method, @core.any(columns))
 }
 
 // ============ Composite Primary Key ============
@@ -75,27 +75,27 @@ pub fn PgIndexBuilder::usingMethod(
 ///|
 /// Create a composite primary key (PostgreSQL)
 #alias(pg_primary_key)
-pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
+pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @core.Any {
   let fn_ = drizzle_pg_core()._get("primaryKey")
-  let opts = @nostd.Object::new()
-  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
+  let opts = @core.Object::new()
+  opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
-    opts._set("name", n |> @nostd.any)
+    opts._set("name", n |> @core.any)
   }
-  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
+  @core.any(fn_)._invoke([@core.any(opts)]).cast()
 }
 
 ///|
 /// Create a composite primary key (SQLite)
 #alias(sqlite_primary_key)
-pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
+pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @core.Any {
   let fn_ = drizzle_sqlite_core()._get("primaryKey")
-  let opts = @nostd.Object::new()
-  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
+  let opts = @core.Object::new()
+  opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
-    opts._set("name", n |> @nostd.any)
+    opts._set("name", n |> @core.any)
   }
-  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
+  @core.any(fn_)._invoke([@core.any(opts)]).cast()
 }
 
 // ============ Composite Unique Constraint ============
@@ -106,8 +106,8 @@ pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
 pub fn pgUnique(name? : String) -> UniqueBuilder {
   let fn_ = drizzle_pg_core()._get("unique")
   match name {
-    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
-    None => @nostd.any(fn_)._invoke([]).cast()
+    Some(n) => @core.any(fn_)._invoke([@core.any(n)]).cast()
+    None => @core.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -117,8 +117,8 @@ pub fn pgUnique(name? : String) -> UniqueBuilder {
 pub fn sqliteUnique(name? : String) -> UniqueBuilder {
   let fn_ = drizzle_sqlite_core()._get("unique")
   match name {
-    Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n)]).cast()
-    None => @nostd.any(fn_)._invoke([]).cast()
+    Some(n) => @core.any(fn_)._invoke([@core.any(n)]).cast()
+    None => @core.any(fn_)._invoke([]).cast()
   }
 }
 
@@ -128,7 +128,7 @@ pub fn sqliteUnique(name? : String) -> UniqueBuilder {
 pub type UniqueBuilder
 
 ///|
-pub fn UniqueBuilder::as_any(self : UniqueBuilder) -> @nostd.Any = "%identity"
+pub fn UniqueBuilder::as_any(self : UniqueBuilder) -> @core.Any = "%identity"
 
 ///|
 /// Specify columns for unique constraint
@@ -136,14 +136,14 @@ pub fn UniqueBuilder::on(
   self : UniqueBuilder,
   columns : Array[Column],
 ) -> UniqueBuilder {
-  @nostd.any(self)._call("on", columns.map(fn(c) { @nostd.any(c) })).cast()
+  @core.any(self)._call("on", columns.map(fn(c) { @core.any(c) })).cast()
 }
 
 ///|
 /// NULLS NOT DISTINCT (PostgreSQL 15+)
 #alias(nulls_not_distinct)
 pub fn UniqueBuilder::nullsNotDistinct(self : UniqueBuilder) -> UniqueBuilder {
-  @nostd.any(self)._call("nullsNotDistinct", []).cast()
+  @core.any(self)._call("nullsNotDistinct", []).cast()
 }
 
 // ============ Foreign Key ============
@@ -155,18 +155,18 @@ pub fn pgForeignKey(
   columns : Array[Column],
   foreign_columns : Array[Column],
   name? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   let fn_ = drizzle_pg_core()._get("foreignKey")
-  let opts = @nostd.Object::new()
-  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
+  let opts = @core.Object::new()
+  opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",
-    @nostd.any(foreign_columns.map(fn(c) { c.as_any() })),
+    @core.any(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
-    opts._set("name", n |> @nostd.any)
+    opts._set("name", n |> @core.any)
   }
-  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
+  @core.any(fn_)._invoke([@core.any(opts)]).cast()
 }
 
 ///|
@@ -176,18 +176,18 @@ pub fn sqliteForeignKey(
   columns : Array[Column],
   foreign_columns : Array[Column],
   name? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   let fn_ = drizzle_sqlite_core()._get("foreignKey")
-  let opts = @nostd.Object::new()
-  opts._set("columns", @nostd.any(columns.map(fn(c) { c.as_any() })))
+  let opts = @core.Object::new()
+  opts._set("columns", @core.any(columns.map(fn(c) { c.as_any() })))
   opts._set(
     "foreignColumns",
-    @nostd.any(foreign_columns.map(fn(c) { c.as_any() })),
+    @core.any(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
-    opts._set("name", n |> @nostd.any)
+    opts._set("name", n |> @core.any)
   }
-  @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
+  @core.any(fn_)._invoke([@core.any(opts)]).cast()
 }
 
 // ============ Check Constraint ============
@@ -195,44 +195,44 @@ pub fn sqliteForeignKey(
 ///|
 /// Create a check constraint (PostgreSQL)
 #alias(pg_check)
-pub fn pgCheck(name : String, condition : SQL) -> @nostd.Any {
+pub fn pgCheck(name : String, condition : SQL) -> @core.Any {
   let fn_ = drizzle_pg_core()._get("check")
-  @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
+  @core.any(fn_)._invoke([@core.any(name), @core.any(condition)]).cast()
 }
 
 ///|
 /// Create a check constraint (SQLite)
 #alias(sqlite_check)
-pub fn sqliteCheck(name : String, condition : SQL) -> @nostd.Any {
+pub fn sqliteCheck(name : String, condition : SQL) -> @core.Any {
   let fn_ = drizzle_sqlite_core()._get("check")
-  @nostd.any(fn_)._invoke([@nostd.any(name), @nostd.any(condition)]).cast()
+  @core.any(fn_)._invoke([@core.any(name), @core.any(condition)]).cast()
 }
 
 // ============ Column Order Modifiers for Index ============
 
 ///|
 /// Ascending order for column in index
-pub fn Column::asc_(self : Column) -> @nostd.Any {
+pub fn Column::asc_(self : Column) -> @core.Any {
   self.call0("asc")
 }
 
 ///|
 /// Descending order for column in index
-pub fn Column::desc_(self : Column) -> @nostd.Any {
+pub fn Column::desc_(self : Column) -> @core.Any {
   self.call0("desc")
 }
 
 ///|
 /// NULLS FIRST for column in index
 #alias(nulls_first)
-pub fn Column::nullsFirst(self : Column) -> @nostd.Any {
+pub fn Column::nullsFirst(self : Column) -> @core.Any {
   self.call0("nullsFirst")
 }
 
 ///|
 /// NULLS LAST for column in index
 #alias(nulls_last)
-pub fn Column::nullsLast(self : Column) -> @nostd.Any {
+pub fn Column::nullsLast(self : Column) -> @core.Any {
   self.call0("nullsLast")
 }
 
@@ -263,12 +263,12 @@ pub fn ForeignKeyAction::to_string(self : ForeignKeyAction) -> String {
 /// Set ON DELETE action for column reference
 #alias(on_delete)
 pub fn Column::onDelete(self : Column, action : ForeignKeyAction) -> Column {
-  self.call1("onDelete", @nostd.any(action.to_string())) |> @nostd.identity
+  self.call1("onDelete", @core.any(action.to_string())) |> @core.identity
 }
 
 ///|
 /// Set ON UPDATE action for column reference
 #alias(on_update)
 pub fn Column::onUpdate(self : Column, action : ForeignKeyAction) -> Column {
-  self.call1("onUpdate", @nostd.any(action.to_string())) |> @nostd.identity
+  self.call1("onUpdate", @core.any(action.to_string())) |> @core.identity
 }

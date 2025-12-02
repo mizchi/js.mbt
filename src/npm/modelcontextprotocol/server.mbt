@@ -15,13 +15,13 @@ pub type PromptHandler[T] = async (T) -> Array[Content]
 // Internal handler type aliases (promisified versions)
 
 ///|
-type InternalToolHandler = (@nostd.Any) -> @js.Promise[Array[Content]]
+type InternalToolHandler = (@core.Any) -> @js.Promise[Array[Content]]
 
 ///|
 type InternalResourceHandler = (String) -> @js.Promise[Array[Content]]
 
 ///|
-type InternalPromptHandler = (@nostd.Any) -> @js.Promise[Array[Content]]
+type InternalPromptHandler = (@core.Any) -> @js.Promise[Array[Content]]
 
 ///|
 /// MCP Server
@@ -52,8 +52,8 @@ pub fn[T] McpServer::add_tool(
   tool : Tool,
   handler : ToolHandler[T],
 ) -> Unit {
-  let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
-    handler(@nostd.identity(args))
+  let wrapped : async (@core.Any) -> Array[Content] = async fn(args) {
+    handler(@core.identity(args))
   }
   let promisified : InternalToolHandler = @js.promisify1(wrapped)
   self.tools = self.tools.add(tool.name, (tool, promisified))
@@ -77,8 +77,8 @@ pub fn[T] McpServer::add_prompt(
   prompt : Prompt,
   handler : PromptHandler[T],
 ) -> Unit {
-  let wrapped : async (@nostd.Any) -> Array[Content] = async fn(args) {
-    handler(@nostd.identity(args))
+  let wrapped : async (@core.Any) -> Array[Content] = async fn(args) {
+    handler(@core.identity(args))
   }
   let promisified : InternalPromptHandler = @js.promisify1(wrapped)
   self.prompts = self.prompts.add(prompt.name, (prompt, promisified))
@@ -118,7 +118,7 @@ pub fn McpServer::handle_request(
 fn McpServer::handle_initialize(
   self : McpServer,
   id : RequestId,
-  _params : @nostd.Any?,
+  _params : @core.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   // Build capabilities dynamically
   let capabilities : ServerCapabilities = {
@@ -127,12 +127,12 @@ fn McpServer::handle_initialize(
     prompts: self.prompts.length() > 0,
   }
   let result = @mbtconv.from_map({
-    "protocolVersion": @nostd.any("2024-11-05"),
-    "serverInfo": @nostd.any(self.info.as_any()),
-    "capabilities": @nostd.any(capabilities.as_any()),
+    "protocolVersion": @core.any("2024-11-05"),
+    "serverInfo": @core.any(self.info.as_any()),
+    "capabilities": @core.any(capabilities.as_any()),
   })
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
 }
 
@@ -141,14 +141,14 @@ fn McpServer::handle_tools_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let tools : Array[@nostd.Any] = []
+  let tools : Array[@core.Any] = []
   self.tools.each(fn(_, value) {
     let (tool, _) = value
     tools.push(tool.as_any())
   })
-  let result = @mbtconv.from_map({ "tools": @nostd.any(@nostd.any(tools)) })
+  let result = @mbtconv.from_map({ "tools": @core.any(@core.any(tools)) })
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
 }
 
@@ -156,10 +156,10 @@ fn McpServer::handle_tools_list(
 fn McpServer::handle_tools_call(
   self : McpServer,
   id : RequestId,
-  params : @nostd.Any?,
+  params : @core.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @nostd.identity_option(@nostd.any(p)._get("name")) is Some(tool_name) else {
+    @core.identity_option(@core.any(p)._get("name")) is Some(tool_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing tool name")),
     )
@@ -169,15 +169,15 @@ fn McpServer::handle_tools_call(
       Err(self.method_not_found_error(id, "Tool not found: " + tool_name)),
     )
   }
-  let arguments : @nostd.Any = @nostd.identity_option(
-    @nostd.any(p)._get("arguments"),
-  ).unwrap_or(@nostd.Object::new())
+  let arguments : @core.Any = @core.identity_option(
+    @core.any(p)._get("arguments"),
+  ).unwrap_or(@core.Object::new())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
-      "content": @nostd.any(@nostd.any(content.map(fn(c) { @nostd.any(c) }))),
+      "content": @core.any(@core.any(content.map(fn(c) { @core.any(c) }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )
   })
 }
@@ -187,16 +187,16 @@ fn McpServer::handle_resources_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let resources : Array[@nostd.Any] = []
+  let resources : Array[@core.Any] = []
   self.resources.each(fn(_, value) {
     let (resource, _) = value
     resources.push(resource.as_any())
   })
   let result = @mbtconv.from_map({
-    "resources": @nostd.any(@nostd.any(resources)),
+    "resources": @core.any(@core.any(resources)),
   })
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
 }
 
@@ -204,10 +204,10 @@ fn McpServer::handle_resources_list(
 fn McpServer::handle_resources_read(
   self : McpServer,
   id : RequestId,
-  params : @nostd.Any?,
+  params : @core.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @nostd.identity_option(@nostd.any(p)._get("uri")) is Some(resource_uri) else {
+    @core.identity_option(@core.any(p)._get("uri")) is Some(resource_uri) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing resource URI")),
     )
@@ -221,10 +221,10 @@ fn McpServer::handle_resources_read(
   }
   handler(resource_uri).then(fn(content) {
     let result = @mbtconv.from_map({
-      "contents": @nostd.any(@nostd.any(content.map(fn(c) { c.as_any() }))),
+      "contents": @core.any(@core.any(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )
   })
 }
@@ -234,14 +234,14 @@ fn McpServer::handle_prompts_list(
   self : McpServer,
   id : RequestId,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
-  let prompts : Array[@nostd.Any] = []
+  let prompts : Array[@core.Any] = []
   self.prompts.each(fn(_, value) {
     let (prompt, _) = value
     prompts.push(prompt.as_any())
   })
-  let result = @mbtconv.from_map({ "prompts": @nostd.any(@nostd.any(prompts)) })
+  let result = @mbtconv.from_map({ "prompts": @core.any(@core.any(prompts)) })
   @js.Promise::resolve(
-    Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+    Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
 }
 
@@ -249,10 +249,10 @@ fn McpServer::handle_prompts_list(
 fn McpServer::handle_prompts_get(
   self : McpServer,
   id : RequestId,
-  params : @nostd.Any?,
+  params : @core.Any?,
 ) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]] {
   guard params is Some(p) &&
-    @nostd.identity_option(@nostd.any(p)._get("name")) is Some(prompt_name) else {
+    @core.identity_option(@core.any(p)._get("name")) is Some(prompt_name) else {
     return @js.Promise::resolve(
       Err(self.invalid_params_error(id, "Missing prompt name")),
     )
@@ -262,15 +262,15 @@ fn McpServer::handle_prompts_get(
       Err(self.method_not_found_error(id, "Prompt not found: " + prompt_name)),
     )
   }
-  let arguments : @nostd.Any = @nostd.identity_option(
-    @nostd.any(p)._get("arguments"),
-  ).unwrap_or(@nostd.Object::new())
+  let arguments : @core.Any = @core.identity_option(
+    @core.any(p)._get("arguments"),
+  ).unwrap_or(@core.Object::new())
   handler(arguments).then(fn(content) {
     let result = @mbtconv.from_map({
-      "messages": @nostd.any(@nostd.any(content.map(fn(c) { c.as_any() }))),
+      "messages": @core.any(@core.any(content.map(fn(c) { c.as_any() }))),
     })
     @js.Promise::resolve(
-      Ok({ jsonrpc: "2.0", id, result: @nostd.identity(result) }),
+      Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )
   })
 }

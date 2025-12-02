@@ -5,7 +5,7 @@
 pub type Promise[T]
 
 ///|
-pub fn[T] Promise::to_any(self : Promise[T]) -> @nostd.Any = "%identity"
+pub fn[T] Promise::to_any(self : Promise[T]) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Promise((resolve, reject) => { ... })
@@ -57,7 +57,7 @@ pub fn[A] Promise::resolve(x : A) -> Self[A] {
 ///|
 /// js: Promise.reject(error)
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject
-pub fn Promise::reject(x : @nostd.Any) -> Self[@nostd.Any] {
+pub fn Promise::reject(x : @core.Any) -> Self[@core.Any] {
   ffi_promise_reject(identity(x)) |> identity
 }
 
@@ -80,13 +80,13 @@ pub fn[A, B] Promise::catch_(
   self : Self[A],
   f : (Error) -> Promise[B],
 ) -> Promise[B] {
-  self.to_any()._call("catch", [@nostd.any(from_fn1(f))]).cast()
+  self.to_any()._call("catch", [@core.any(from_fn1(f))]).cast()
 }
 
 ///|
 /// JS: promise.finally(() => { ... })
 pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
-  self.to_any()._call("finally", [@nostd.any(from_fn0(f))]).cast()
+  self.to_any()._call("finally", [@core.any(from_fn0(f))]).cast()
 }
 
 ///|
@@ -95,8 +95,8 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 pub async fn[T] Promise::wait(self : Self[T]) -> T {
   suspend((ok, err) => self
     .to_any()
-    ._call("then", [@nostd.any(from_fn1(ok))])
-    ._call("catch", [@nostd.any(from_fn1(err))])
+    ._call("then", [@core.any(from_fn1(ok))])
+    ._call("catch", [@core.any(from_fn1(err))])
     |> ignore)
 }
 
@@ -150,11 +150,11 @@ pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
 pub(all) struct SettledResult[T] {
   status : String // "fulfilled" | "rejected"
   value : T?
-  reason : Nullable[@nostd.Any]
+  reason : Nullable[@core.Any]
 }
 
 ///|
-pub fn[T] SettledResult::to_any(self : SettledResult[T]) -> @nostd.Any = "%identity"
+pub fn[T] SettledResult::to_any(self : SettledResult[T]) -> @core.Any = "%identity"
 
 ///|
 /// JS: Promise.allSettled(promises)

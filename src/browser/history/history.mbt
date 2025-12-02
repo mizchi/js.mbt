@@ -3,12 +3,12 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/History
 pub(all) struct History {
   length : Int
-  state : @nostd.Any?
+  state : @core.Any?
   mut scrollRestoration : String
 }
 
 ///|
-pub fn History::as_any(self : History) -> @nostd.Any = "%identity"
+pub fn History::as_any(self : History) -> @core.Any = "%identity"
 
 ///|
 /// Returns the global history object
@@ -35,7 +35,7 @@ pub fn History::forward(self : History) -> Unit {
 pub fn History::go(self : History, delta? : Int) -> Unit {
   let s = self.as_any()
   match delta {
-    Some(d) => s._call("go", [@nostd.any(d)]) |> ignore
+    Some(d) => s._call("go", [@core.any(d)]) |> ignore
     None => s._call("go", []) |> ignore
   }
 }
@@ -46,15 +46,15 @@ pub fn History::go(self : History, delta? : Int) -> Unit {
 #alias(push_state)
 pub fn History::pushState(
   self : History,
-  state : @nostd.Any,
+  state : @core.Any,
   unused : String,
   url? : String,
 ) -> Unit {
   let s = self.as_any()
   match url {
     Some(u) =>
-      s._call("pushState", [state, @nostd.any(unused), @nostd.any(u)]) |> ignore
-    None => s._call("pushState", [state, @nostd.any(unused)]) |> ignore
+      s._call("pushState", [state, @core.any(unused), @core.any(u)]) |> ignore
+    None => s._call("pushState", [state, @core.any(unused)]) |> ignore
   }
 }
 
@@ -64,15 +64,15 @@ pub fn History::pushState(
 #alias(replace_state)
 pub fn History::replaceState(
   self : History,
-  state : @nostd.Any,
+  state : @core.Any,
   unused : String,
   url? : String,
 ) -> Unit {
   let s = self.as_any()
   match url {
     Some(u) =>
-      s._call("replaceState", [state, @nostd.any(unused), @nostd.any(u)])
+      s._call("replaceState", [state, @core.any(unused), @core.any(u)])
       |> ignore
-    None => s._call("replaceState", [state, @nostd.any(unused)]) |> ignore
+    None => s._call("replaceState", [state, @core.any(unused)]) |> ignore
   }
 }

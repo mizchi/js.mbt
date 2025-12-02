@@ -2,115 +2,115 @@
 package "mizchi/js/npm/better_auth"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn betterAuth(database~ : @nostd.Any, providers~ : Array[&Provider], base_url? : String, secret? : String) -> Auth
+pub fn betterAuth(database~ : @core.Any, providers~ : Array[&Provider], base_url? : String, secret? : String) -> Auth
 
-fn createAuthClient(base_url~ : String) -> AuthClient
+pub fn createAuthClient(base_url~ : String) -> AuthClient
 
 // Errors
 
 // Types and methods
 #external
 pub type Auth
-fn Auth::api(Self) -> AuthApi
-fn Auth::handler(Self) -> @nostd.Any
-impl @js.JsImpl for Auth
+pub fn Auth::api(Self) -> AuthApi
+pub fn Auth::handler(Self) -> @core.Any
+pub fn Auth::to_any(Self) -> @core.Any
 
 #external
 pub type AuthApi
-async fn AuthApi::getSession(Self, @nostd.Any) -> SessionResponse?
-async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @nostd.Any) -> AuthResponse
-async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @nostd.Any
-async fn AuthApi::signOut(Self, @nostd.Any) -> Unit
-async fn AuthApi::signUpEmail(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
-impl @js.JsImpl for AuthApi
+pub async fn AuthApi::getSession(Self, @core.Any) -> SessionResponse?
+pub async fn AuthApi::signInEmail(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String, headers? : @core.Any) -> AuthResponse
+pub async fn AuthApi::signInSocial(Self, provider~ : String, callback_url? : String) -> @core.Any
+pub async fn AuthApi::signOut(Self, @core.Any) -> Unit
+pub async fn AuthApi::signUpEmail(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
+pub fn AuthApi::to_any(Self) -> @core.Any
 
 #external
 pub type AuthClient
-async fn AuthClient::getSession(Self) -> @nostd.Any
-fn AuthClient::signIn(Self) -> SignInClient
-async fn AuthClient::signOut(Self) -> Unit
-fn AuthClient::signUp(Self) -> SignUpClient
-impl @js.JsImpl for AuthClient
+pub async fn AuthClient::getSession(Self) -> @core.Any
+pub fn AuthClient::signIn(Self) -> SignInClient
+pub async fn AuthClient::signOut(Self) -> Unit
+pub fn AuthClient::signUp(Self) -> SignUpClient
+pub fn AuthClient::to_any(Self) -> @core.Any
 
 #external
 pub type AuthResponse
-fn AuthResponse::error(Self) -> @nostd.Any
-fn AuthResponse::errorMessage(Self) -> String?
-fn AuthResponse::hasError(Self) -> Bool
-fn AuthResponse::token(Self) -> String
-fn AuthResponse::user(Self) -> User
-impl @js.JsImpl for AuthResponse
+pub fn AuthResponse::error(Self) -> @core.Any
+pub fn AuthResponse::errorMessage(Self) -> String?
+pub fn AuthResponse::hasError(Self) -> Bool
+pub fn AuthResponse::to_any(Self) -> @core.Any
+pub fn AuthResponse::token(Self) -> String
+pub fn AuthResponse::user(Self) -> User
 
 pub(all) struct EmailPassword {
   enabled : Bool
 }
-impl Provider for EmailPassword
+pub impl Provider for EmailPassword
 
 pub(all) struct GitHub {
   client_id : String
   client_secret : String
 }
-impl Provider for GitHub
+pub impl Provider for GitHub
 
 pub(all) struct Google {
   client_id : String
   client_secret : String
 }
-impl Provider for Google
+pub impl Provider for Google
 
 #external
 pub type Session
-fn Session::expiresAt(Self) -> String
-fn Session::id(Self) -> String
-fn Session::ipAddress(Self) -> String?
-fn Session::token(Self) -> String
-fn Session::userAgent(Self) -> String?
-fn Session::userId(Self) -> String
-impl @js.JsImpl for Session
+pub fn Session::expiresAt(Self) -> String
+pub fn Session::id(Self) -> String
+pub fn Session::ipAddress(Self) -> String?
+pub fn Session::to_any(Self) -> @core.Any
+pub fn Session::token(Self) -> String
+pub fn Session::userAgent(Self) -> String?
+pub fn Session::userId(Self) -> String
 
 #external
 pub type SessionResponse
-fn SessionResponse::session(Self) -> Session
-fn SessionResponse::user(Self) -> User
-impl @js.JsImpl for SessionResponse
+pub fn SessionResponse::session(Self) -> Session
+pub fn SessionResponse::to_any(Self) -> @core.Any
+pub fn SessionResponse::user(Self) -> User
 
 #external
 pub type SignInClient
-async fn SignInClient::email(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String) -> AuthResponse
-async fn SignInClient::social(Self, provider~ : String, callback_url? : String) -> @nostd.Any
-impl @js.JsImpl for SignInClient
+pub async fn SignInClient::email(Self, email~ : String, password~ : String, remember_me? : Bool, callback_url? : String) -> AuthResponse
+pub async fn SignInClient::social(Self, provider~ : String, callback_url? : String) -> @core.Any
+pub fn SignInClient::to_any(Self) -> @core.Any
 
 #external
 pub type SignUpClient
-async fn SignUpClient::email(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
-impl @js.JsImpl for SignUpClient
+pub async fn SignUpClient::email(Self, name~ : String, email~ : String, password~ : String, image? : String, callback_url? : String) -> AuthResponse
+pub fn SignUpClient::to_any(Self) -> @core.Any
 
 #external
 pub type UseSessionResult
-fn UseSessionResult::data(Self) -> @nostd.Any
-fn UseSessionResult::error(Self) -> @nostd.Any?
-fn UseSessionResult::isPending(Self) -> Bool
-impl @js.JsImpl for UseSessionResult
+pub fn UseSessionResult::data(Self) -> @core.Any
+pub fn UseSessionResult::error(Self) -> @core.Any?
+pub fn UseSessionResult::isPending(Self) -> Bool
+pub fn UseSessionResult::to_any(Self) -> @core.Any
 
 #external
 pub type User
-fn User::createdAt(Self) -> String
-fn User::email(Self) -> String
-fn User::emailVerified(Self) -> Bool
-fn User::id(Self) -> String
-fn User::image(Self) -> String?
-fn User::name(Self) -> String?
-fn User::updatedAt(Self) -> String
-impl @js.JsImpl for User
+pub fn User::createdAt(Self) -> String
+pub fn User::email(Self) -> String
+pub fn User::emailVerified(Self) -> Bool
+pub fn User::id(Self) -> String
+pub fn User::image(Self) -> String?
+pub fn User::name(Self) -> String?
+pub fn User::to_any(Self) -> @core.Any
+pub fn User::updatedAt(Self) -> String
 
 // Type aliases
 
 // Traits
 pub trait Provider {
-  apply(Self, @nostd.Any) -> Unit
+  apply(Self, @core.Any) -> Unit
 }
 

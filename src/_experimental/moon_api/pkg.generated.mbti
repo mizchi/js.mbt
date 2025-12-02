@@ -2,39 +2,39 @@
 package "mizchi/js/_experimental/moon_api"
 
 // Values
-fn build(target? : Target, mode? : BuildMode, output_wat? : Bool, debug? : Bool, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn build(target? : Target, mode? : BuildMode, output_wat? : Bool, debug? : Bool, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn bundle(target? : Target, mode? : BuildMode, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn bundle(target? : Target, mode? : BuildMode, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn check(target? : Target, package_path? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn check(target? : Target, package_path? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn check_and_test(target? : Target, pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn check_and_test(target? : Target, pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn clean(cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn clean(cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn coverage_analyze(pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn coverage_analyze(pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn coverage_report(format? : String, output? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn coverage_report(format? : String, output? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn doc(serve? : Bool, port? : Int, bind? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn doc(serve? : Bool, port? : Int, bind? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn fmt(check? : Bool, files? : Array[String], cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn fmt(check? : Bool, files? : Array[String], cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn fmt_and_info(cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn fmt_and_info(cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn get_version() -> String
+pub fn get_version() -> String
 
-fn info(target? : Target, pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn info(target? : Target, pkg? : String, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn is_available() -> Bool
+pub fn is_available() -> Bool
 
-fn run(String, target? : Target, mode? : BuildMode, debug? : Bool, runner? : Runner, args? : Array[String], cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn run(String, target? : Target, mode? : BuildMode, debug? : Bool, runner? : Runner, args? : Array[String], cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn run_test(target? : Target, mode? : BuildMode, pkg? : String, file? : String, index? : Int, update? : Bool, limit? : Int, cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn run_test(target? : Target, mode? : BuildMode, pkg? : String, file? : String, index? : Int, update? : Bool, limit? : Int, cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn upgrade(cwd? : String, stdio? : Stdio) -> CommandResult
+pub fn upgrade(cwd? : String, stdio? : Stdio) -> CommandResult
 
-fn version(all? : Bool, cwd? : String) -> CommandResult
+pub fn version(all? : Bool, cwd? : String) -> CommandResult
 
 // Errors
 
@@ -43,7 +43,7 @@ pub(all) enum BuildMode {
   Debug
   Release
 }
-impl Show for BuildMode
+pub impl Show for BuildMode
 
 pub struct CommandResult {
   exit_code : Int
@@ -57,13 +57,13 @@ pub(all) enum Runner {
   Deno
   Bun
 }
-impl Show for Runner
+pub impl Show for Runner
 
 pub(all) enum Stdio {
   Inherit
   Pipe
 }
-impl Show for Stdio
+pub impl Show for Stdio
 
 pub(all) enum Target {
   JS
@@ -72,7 +72,7 @@ pub(all) enum Target {
   Native
   All
 }
-impl Show for Target
+pub impl Show for Target
 
 // Type aliases
 

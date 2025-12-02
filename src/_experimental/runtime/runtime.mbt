@@ -34,7 +34,7 @@ pub struct MoonMod {
   /// Warn list setting of the module
   warn_list : String?
   /// Raw parsed content (for accessing deps, scripts, etc.)
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
@@ -69,7 +69,7 @@ pub struct MoonPkg {
   /// Dependency overrides
   overrides : Array[String]
   /// Raw parsed content (for accessing imports, targets, link, pre-build, etc.)
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
@@ -113,16 +113,16 @@ fn find_moon_mod_from(dir : String) -> MoonMod? {
     return Some({
       path: moon_mod_path,
       root_dir: dir,
-      name: parsed._get("name") |> @nostd.identity,
-      version: parsed._get("version") |> @nostd.identity,
+      name: parsed._get("name") |> @core.identity,
+      version: parsed._get("version") |> @core.identity,
       source,
-      description: parsed._get("description") |> @nostd.identity,
-      license: parsed._get("license") |> @nostd.identity,
-      readme: parsed._get("readme") |> @nostd.identity,
-      repository: parsed._get("repository") |> @nostd.identity,
+      description: parsed._get("description") |> @core.identity,
+      license: parsed._get("license") |> @core.identity,
+      readme: parsed._get("readme") |> @core.identity,
+      repository: parsed._get("repository") |> @core.identity,
       keywords,
-      preferred_target: parsed._get("preferred-target") |> @nostd.identity,
-      warn_list: parsed._get("warn-list") |> @nostd.identity,
+      preferred_target: parsed._get("preferred-target") |> @core.identity,
+      warn_list: parsed._get("warn-list") |> @core.identity,
       raw: parsed,
     })
   }
@@ -135,7 +135,7 @@ fn find_moon_mod_from(dir : String) -> MoonMod? {
 }
 
 ///|
-extern "js" fn ffi_json_parse(s : String) -> @nostd.Any =
+extern "js" fn ffi_json_parse(s : String) -> @core.Any =
   #|(s) => JSON.parse(s)
 
 ///|
@@ -171,10 +171,10 @@ fn find_moon_pkg_from(dir : String) -> MoonPkg? {
       is_main,
       test_import_all,
       supported_targets,
-      bin_name: parsed._get("bin-name") |> @nostd.identity,
-      bin_target: parsed._get("bin-target") |> @nostd.identity,
-      implement: parsed._get("implement") |> @nostd.identity,
-      warn_list: parsed._get("warn-list") |> @nostd.identity,
+      bin_name: parsed._get("bin-name") |> @core.identity,
+      bin_target: parsed._get("bin-target") |> @core.identity,
+      implement: parsed._get("implement") |> @core.identity,
+      warn_list: parsed._get("warn-list") |> @core.identity,
       native_stub,
       overrides,
       raw: parsed,
@@ -190,12 +190,12 @@ fn find_moon_pkg_from(dir : String) -> MoonPkg? {
 
 ///|
 /// Safely extract string array from JSON, returns empty array if not present
-fn get_string_array(obj : @nostd.Any, key : String) -> Array[String] {
+fn get_string_array(obj : @core.Any, key : String) -> Array[String] {
   let value = obj._get(key)
-  if @nostd.is_nullish(value) || not(@nostd.is_array(value)) {
+  if @core.is_nullish(value) || not(@core.is_array(value)) {
     return []
   }
-  value |> @nostd.identity
+  value |> @core.identity
 }
 
 ///|
@@ -460,7 +460,7 @@ extern "js" fn ffi_extract_source_map_url(content : String) -> String =
 
 ///|
 /// Load and parse source map for a JS file
-pub fn load_source_map(js_file_path : String) -> @nostd.Any? {
+pub fn load_source_map(js_file_path : String) -> @core.Any? {
   let map_path = find_source_map(js_file_path)
   let path = match map_path {
     Some(p) => p
@@ -482,7 +482,7 @@ pub fn load_source_map(js_file_path : String) -> @nostd.Any? {
 }
 
 ///|
-extern "js" fn ffi_parse_data_url_source_map(data_url : String) -> @nostd.Any =
+extern "js" fn ffi_parse_data_url_source_map(data_url : String) -> @core.Any =
   #|(dataUrl) => {
   #|  const base64 = dataUrl.split(',')[1];
   #|  const json = Buffer.from(base64, 'base64').toString('utf-8');

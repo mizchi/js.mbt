@@ -23,10 +23,10 @@ test "Atomics isLockFree checks size support" {
 ///|
 test "Atomics add operation" {
   // Create a SharedArrayBuffer (or regular ArrayBuffer for testing)
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Test add operation
   let oldValue = @atomics.add(ta_any, 0, 5)
@@ -37,10 +37,10 @@ test "Atomics add operation" {
 
 ///|
 test "Atomics load and store operations" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Store a value
   let stored = @atomics.store(ta_any, 0, 42)
@@ -53,10 +53,10 @@ test "Atomics load and store operations" {
 
 ///|
 test "Atomics sub operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Set initial value
   @atomics.store(ta_any, 0, 10) |> ignore
@@ -70,10 +70,10 @@ test "Atomics sub operation" {
 
 ///|
 test "Atomics and_ bitwise operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Set initial value (binary: 1111)
   @atomics.store(ta_any, 0, 15) |> ignore
@@ -87,10 +87,10 @@ test "Atomics and_ bitwise operation" {
 
 ///|
 test "Atomics or_ bitwise operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Set initial value (binary: 0101)
   @atomics.store(ta_any, 0, 5) |> ignore
@@ -104,10 +104,10 @@ test "Atomics or_ bitwise operation" {
 
 ///|
 test "Atomics xor bitwise operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
   // Set initial value (binary: 1111)
   @atomics.store(ta_any, 0, 15) |> ignore
 
@@ -120,10 +120,10 @@ test "Atomics xor bitwise operation" {
 
 ///|
 test "Atomics exchange operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Set initial value
   @atomics.store(ta_any, 0, 100) |> ignore
@@ -137,10 +137,10 @@ test "Atomics exchange operation" {
 
 ///|
 test "Atomics compareExchange operation" {
-  let g : @nostd.Any = @global.global_this() |> @nostd.any
-  let buffer = @nostd.new(g["ArrayBuffer"] |> @nostd.identity, [@nostd.any(16)])
-  let ta = @nostd.new(g["Int32Array"] |> @nostd.identity, [buffer])
-  let ta_any : @nostd.Any = ta |> @nostd.any
+  let g : @core.Any = @global.global_this() |> @core.any
+  let buffer = @core.new(g["ArrayBuffer"] |> @core.identity, [@core.any(16)])
+  let ta = @core.new(g["Int32Array"] |> @core.identity, [buffer])
+  let ta_any : @core.Any = ta |> @core.any
 
   // Set initial value
   @atomics.store(ta_any, 0, 5) |> ignore

@@ -8,18 +8,18 @@
 pub type AuthClient
 
 ///|
-pub fn AuthClient::to_any(self : AuthClient) -> @nostd.Any = "%identity"
+pub fn AuthClient::to_any(self : AuthClient) -> @core.Any = "%identity"
 
 ///|
 /// Create a new auth client
 pub fn createAuthClient(base_url~ : String) -> AuthClient {
-  let obj = @nostd.Object::new()
-  obj["baseURL"] = @nostd.any(base_url)
-  ffi_create_auth_client(obj |> @nostd.identity) |> @nostd.identity
+  let obj = @core.Object::new()
+  obj["baseURL"] = @core.any(base_url)
+  ffi_create_auth_client(obj |> @core.identity) |> @core.identity
 }
 
 ///|
-extern "js" fn ffi_create_auth_client(config : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_create_auth_client(config : @core.Any) -> @core.Any =
   #|(config) => {
   #|  const { createAuthClient } = require('better-auth/client');
   #|  return createAuthClient(config);
@@ -31,12 +31,12 @@ extern "js" fn ffi_create_auth_client(config : @nostd.Any) -> @nostd.Any =
 pub type SignUpClient
 
 ///|
-pub fn SignUpClient::to_any(self : SignUpClient) -> @nostd.Any = "%identity"
+pub fn SignUpClient::to_any(self : SignUpClient) -> @core.Any = "%identity"
 
 ///|
 /// Get signUp methods from client
 pub fn AuthClient::signUp(self : AuthClient) -> SignUpClient {
-  self.to_any()["signUp"] |> @nostd.identity
+  self.to_any()["signUp"] |> @core.identity
 }
 
 ///|
@@ -49,20 +49,18 @@ pub async fn SignUpClient::email(
   image? : String,
   callback_url? : String,
 ) -> AuthResponse {
-  let obj = @nostd.Object::new()
-  obj["name"] = @nostd.any(name)
-  obj["email"] = @nostd.any(email)
-  obj["password"] = @nostd.any(password)
+  let obj = @core.Object::new()
+  obj["name"] = @core.any(name)
+  obj["email"] = @core.any(email)
+  obj["password"] = @core.any(password)
   if image is Some(img) {
-    obj["image"] = @nostd.any(img)
+    obj["image"] = @core.any(img)
   }
   if callback_url is Some(url) {
-    obj["callbackURL"] = @nostd.any(url)
+    obj["callbackURL"] = @core.any(url)
   }
-  let promise : @js.Promise[AuthResponse] = self
-    .to_any()["email"]
-    ._invoke([obj])
-    |> @nostd.identity
+  let promise : @js.Promise[AuthResponse] = self.to_any()["email"]._invoke([obj])
+    |> @core.identity
   promise.wait()
 }
 
@@ -72,12 +70,12 @@ pub async fn SignUpClient::email(
 pub type SignInClient
 
 ///|
-pub fn SignInClient::to_any(self : SignInClient) -> @nostd.Any = "%identity"
+pub fn SignInClient::to_any(self : SignInClient) -> @core.Any = "%identity"
 
 ///|
 /// Get signIn methods from client
 pub fn AuthClient::signIn(self : AuthClient) -> SignInClient {
-  self.to_any()["signIn"] |> @nostd.identity
+  self.to_any()["signIn"] |> @core.identity
 }
 
 ///|
@@ -89,19 +87,17 @@ pub async fn SignInClient::email(
   remember_me? : Bool,
   callback_url? : String,
 ) -> AuthResponse {
-  let obj = @nostd.Object::new()
-  obj["email"] = @nostd.any(email)
-  obj["password"] = @nostd.any(password)
+  let obj = @core.Object::new()
+  obj["email"] = @core.any(email)
+  obj["password"] = @core.any(password)
   if remember_me is Some(rm) {
-    obj["rememberMe"] = @nostd.any(rm)
+    obj["rememberMe"] = @core.any(rm)
   }
   if callback_url is Some(url) {
-    obj["callbackURL"] = @nostd.any(url)
+    obj["callbackURL"] = @core.any(url)
   }
-  let promise : @js.Promise[AuthResponse] = self
-    .to_any()["email"]
-    ._invoke([obj])
-    |> @nostd.identity
+  let promise : @js.Promise[AuthResponse] = self.to_any()["email"]._invoke([obj])
+    |> @core.identity
   promise.wait()
 }
 
@@ -112,26 +108,22 @@ pub async fn SignInClient::social(
   self : SignInClient,
   provider~ : String,
   callback_url? : String,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj["provider"] = @nostd.any(provider)
+) -> @core.Any {
+  let obj = @core.Object::new()
+  obj["provider"] = @core.any(provider)
   if callback_url is Some(url) {
-    obj["callbackURL"] = @nostd.any(url)
+    obj["callbackURL"] = @core.any(url)
   }
-  let promise : @js.Promise[@nostd.Any] = self
-    .to_any()["social"]
-    ._invoke([obj])
-    |> @nostd.identity
+  let promise : @js.Promise[@core.Any] = self.to_any()["social"]._invoke([obj])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Get current session
-pub async fn AuthClient::getSession(self : AuthClient) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
-    .to_any()["getSession"]
-    ._invoke([])
-    |> @nostd.identity
+pub async fn AuthClient::getSession(self : AuthClient) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.to_any()["getSession"]._invoke([])
+    |> @core.identity
   promise.wait()
 }
 
@@ -139,7 +131,7 @@ pub async fn AuthClient::getSession(self : AuthClient) -> @nostd.Any {
 /// Sign out (client-side)
 pub async fn AuthClient::signOut(self : AuthClient) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()["signOut"]._invoke([])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -149,13 +141,12 @@ pub async fn AuthClient::signOut(self : AuthClient) -> Unit {
 pub type UseSessionResult
 
 ///|
-pub fn UseSessionResult::to_any(self : UseSessionResult) -> @nostd.Any =
-  "%identity"
+pub fn UseSessionResult::to_any(self : UseSessionResult) -> @core.Any = "%identity"
 
 ///|
 /// Get session data
-pub fn UseSessionResult::data(self : UseSessionResult) -> @nostd.Any {
-  self.to_any()["data"] |> @nostd.identity
+pub fn UseSessionResult::data(self : UseSessionResult) -> @core.Any {
+  self.to_any()["data"] |> @core.identity
 }
 
 ///|
@@ -166,6 +157,6 @@ pub fn UseSessionResult::isPending(self : UseSessionResult) -> Bool {
 
 ///|
 /// Get error if any
-pub fn UseSessionResult::error(self : UseSessionResult) -> @nostd.Any? {
-  @nostd.identity_option(self.to_any()["error"])
+pub fn UseSessionResult::error(self : UseSessionResult) -> @core.Any? {
+  @core.identity_option(self.to_any()["error"])
 }

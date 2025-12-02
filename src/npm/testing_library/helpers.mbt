@@ -1,9 +1,9 @@
 ///|
 /// Helper to set optional value on JS object, returns true if value was set
-fn[T] set_opt(obj : @nostd.Any, key : String, val : T?) -> Bool {
+fn[T] set_opt(obj : @core.Any, key : String, val : T?) -> Bool {
   match val {
     Some(v) => {
-      obj._set(key, v |> @nostd.any)
+      obj._set(key, v |> @core.any)
       true
     }
     None => false
@@ -12,7 +12,7 @@ fn[T] set_opt(obj : @nostd.Any, key : String, val : T?) -> Bool {
 
 ///|
 /// Helper to convert object to Some if any options were set, None otherwise
-pub fn to_options(obj : @nostd.Any, has_any : Bool) -> @nostd.Any? {
+pub fn to_options(obj : @core.Any, has_any : Bool) -> @core.Any? {
   if has_any {
     Some(obj)
   } else {
@@ -26,8 +26,8 @@ pub fn build_matcher_options(
   exact? : Bool? = None,
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
-) -> @nostd.Any? {
-  let obj = @nostd.Object::new()
+) -> @core.Any? {
+  let obj = @core.Object::new()
   let has = set_opt(obj, "exact", exact) ||
     set_opt(obj, "trim", trim) ||
     set_opt(obj, "collapseWhitespace", collapse_whitespace)
@@ -41,8 +41,8 @@ pub fn build_selector_matcher_options(
   trim? : Bool? = None,
   collapse_whitespace? : Bool? = None,
   selector? : String? = None,
-) -> @nostd.Any? {
-  let obj = @nostd.Object::new()
+) -> @core.Any? {
+  let obj = @core.Object::new()
   let has = set_opt(obj, "exact", exact) ||
     set_opt(obj, "trim", trim) ||
     set_opt(obj, "collapseWhitespace", collapse_whitespace) ||
@@ -61,8 +61,8 @@ pub fn build_role_options(
   expanded? : Bool? = None,
   level? : Int? = None,
   description? : String? = None,
-) -> @nostd.Any? {
-  let obj = @nostd.Object::new()
+) -> @core.Any? {
+  let obj = @core.Object::new()
   let has = set_opt(obj, "name", name) ||
     set_opt(obj, "hidden", hidden) ||
     set_opt(obj, "selected", selected) ||

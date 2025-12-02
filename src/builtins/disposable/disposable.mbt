@@ -5,7 +5,7 @@
 pub type DisposableStack
 
 ///|
-pub fn DisposableStack::to_any(self : DisposableStack) -> @nostd.Any = "%identity"
+pub fn DisposableStack::to_any(self : DisposableStack) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_disposable_stack() -> DisposableStack =
@@ -28,7 +28,7 @@ pub fn DisposableStack::disposed(self : DisposableStack) -> Bool {
 /// Register a value implementing the disposable protocol
 /// JS: stack.use(value)
 pub fn[T] DisposableStack::use_(self : DisposableStack, value : T) -> T {
-  self.to_any()._call("use", [@nostd.any(value)]).cast()
+  self.to_any()._call("use", [@core.any(value)]).cast()
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn[T] DisposableStack::adopt(
 ) -> T {
   self
   .to_any()
-  ._call("adopt", [@nostd.any(value), @nostd.any(@nostd.from_fn1(disposer))])
+  ._call("adopt", [@core.any(value), @core.any(@core.from_fn1(disposer))])
   .cast()
 }
 
@@ -52,8 +52,7 @@ pub fn DisposableStack::defer_(
   self : DisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_any()._call("defer", [@nostd.any(@nostd.from_fn0(callback))])
-  |> ignore
+  self.to_any()._call("defer", [@core.any(@core.from_fn0(callback))]) |> ignore
 }
 
 ///|
@@ -77,7 +76,7 @@ pub fn DisposableStack::move_(self : DisposableStack) -> DisposableStack {
 pub type AsyncDisposableStack
 
 ///|
-pub fn AsyncDisposableStack::to_any(self : AsyncDisposableStack) -> @nostd.Any = "%identity"
+pub fn AsyncDisposableStack::to_any(self : AsyncDisposableStack) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_async_disposable_stack() -> AsyncDisposableStack =
@@ -103,7 +102,7 @@ pub fn[T] AsyncDisposableStack::use_(
   self : AsyncDisposableStack,
   value : T,
 ) -> T {
-  self.to_any()._call("use", [@nostd.any(value)]).cast()
+  self.to_any()._call("use", [@core.any(value)]).cast()
 }
 
 ///|
@@ -116,7 +115,7 @@ pub fn[T] AsyncDisposableStack::adopt(
 ) -> T {
   self
   .to_any()
-  ._call("adopt", [@nostd.any(value), @nostd.any(@nostd.from_fn1(disposer))])
+  ._call("adopt", [@core.any(value), @core.any(@core.from_fn1(disposer))])
   .cast()
 }
 
@@ -127,8 +126,7 @@ pub fn AsyncDisposableStack::defer_(
   self : AsyncDisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_any()._call("defer", [@nostd.any(@nostd.from_fn0(callback))])
-  |> ignore
+  self.to_any()._call("defer", [@core.any(@core.from_fn0(callback))]) |> ignore
 }
 
 ///|

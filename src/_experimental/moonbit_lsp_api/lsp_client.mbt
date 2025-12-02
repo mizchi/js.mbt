@@ -7,7 +7,7 @@
 pub struct LspClient {
   process : @child_process.ChildProcess
   mut request_id : Int
-  pending_requests : Map[Int, (@nostd.Any) -> Unit]
+  pending_requests : Map[Int, (@core.Any) -> Unit]
   mut is_initialized : Bool
   mut buffer : String
 }
@@ -20,18 +20,18 @@ pub(all) struct Position {
 }
 
 ///|
-pub fn Position::as_any(self : Position) -> @nostd.Any = "%identity"
+pub fn Position::as_any(self : Position) -> @core.Any = "%identity"
 
 ///|
-pub fn Position::to_json(self : Position) -> @nostd.Any {
+pub fn Position::to_json(self : Position) -> @core.Any {
   @mbtconv.from_map({
-    "line": @nostd.any(self.line),
-    "character": @nostd.any(self.character),
+    "line": @core.any(self.line),
+    "character": @core.any(self.character),
   }).cast()
 }
 
 ///|
-pub fn Position::from_json(json : @nostd.Any) -> Position {
+pub fn Position::from_json(json : @core.Any) -> Position {
   { line: json._get("line").cast(), character: json._get("character").cast() }
 }
 
@@ -43,18 +43,18 @@ pub(all) struct Range {
 }
 
 ///|
-pub fn Range::as_any(self : Range) -> @nostd.Any = "%identity"
+pub fn Range::as_any(self : Range) -> @core.Any = "%identity"
 
 ///|
-pub fn Range::to_json(self : Range) -> @nostd.Any {
+pub fn Range::to_json(self : Range) -> @core.Any {
   @mbtconv.from_map({
-    "start": @nostd.any(self.start.to_json()),
-    "end": @nostd.any(self.end_.to_json()),
+    "start": @core.any(self.start.to_json()),
+    "end": @core.any(self.end_.to_json()),
   }).cast()
 }
 
 ///|
-pub fn Range::from_json(json : @nostd.Any) -> Range {
+pub fn Range::from_json(json : @core.Any) -> Range {
   {
     start: Position::from_json(json._get("start")),
     end_: Position::from_json(json._get("end")),
@@ -69,10 +69,10 @@ pub(all) struct Location {
 }
 
 ///|
-pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
+pub fn Location::as_any(self : Location) -> @core.Any = "%identity"
 
 ///|
-pub fn Location::from_json(json : @nostd.Any) -> Location {
+pub fn Location::from_json(json : @core.Any) -> Location {
   { uri: json._get("uri").cast(), range: Range::from_json(json._get("range")) }
 }
 
@@ -83,8 +83,8 @@ pub(all) struct TextDocumentIdentifier {
 }
 
 ///|
-fn TextDocumentIdentifier::to_json(self : TextDocumentIdentifier) -> @nostd.Any {
-  @nostd.from_entries([("uri", @nostd.any(self.uri))]).cast()
+fn TextDocumentIdentifier::to_json(self : TextDocumentIdentifier) -> @core.Any {
+  @core.from_entries([("uri", @core.any(self.uri))]).cast()
 }
 
 ///|
@@ -97,10 +97,10 @@ pub(all) struct TextDocumentPositionParams {
 ///|
 fn TextDocumentPositionParams::to_json(
   self : TextDocumentPositionParams,
-) -> @nostd.Any {
+) -> @core.Any {
   @mbtconv.from_map({
-    "textDocument": @nostd.any(self.text_document.to_json()),
-    "position": @nostd.any(self.position.to_json()),
+    "textDocument": @core.any(self.text_document.to_json()),
+    "position": @core.any(self.position.to_json()),
   }).cast()
 }
 
@@ -113,11 +113,11 @@ pub(all) struct RenameParams {
 }
 
 ///|
-fn RenameParams::to_json(self : RenameParams) -> @nostd.Any {
+fn RenameParams::to_json(self : RenameParams) -> @core.Any {
   @mbtconv.from_map({
-    "textDocument": @nostd.any(self.text_document.to_json()),
-    "position": @nostd.any(self.position.to_json()),
-    "newName": @nostd.any(self.new_name),
+    "textDocument": @core.any(self.text_document.to_json()),
+    "position": @core.any(self.position.to_json()),
+    "newName": @core.any(self.new_name),
   }).cast()
 }
 
@@ -129,10 +129,10 @@ pub(all) struct TextEdit {
 }
 
 ///|
-pub fn TextEdit::as_any(self : TextEdit) -> @nostd.Any = "%identity"
+pub fn TextEdit::as_any(self : TextEdit) -> @core.Any = "%identity"
 
 ///|
-pub fn TextEdit::from_json(json : @nostd.Any) -> TextEdit {
+pub fn TextEdit::from_json(json : @core.Any) -> TextEdit {
   {
     range: Range::from_json(json._get("range")),
     new_text: json._get("newText").cast(),
@@ -146,10 +146,10 @@ pub(all) struct WorkspaceEdit {
 }
 
 ///|
-pub fn WorkspaceEdit::from_json(json : @nostd.Any) -> WorkspaceEdit {
+pub fn WorkspaceEdit::from_json(json : @core.Any) -> WorkspaceEdit {
   let changes_obj = json._get("changes")
   let changes : Map[String, Array[TextEdit]] = {}
-  if not(@nostd.is_nullish(changes_obj)) {
+  if not(@core.is_nullish(changes_obj)) {
     let keys = @object.Object::keys(changes_obj)
     for i in 0..<keys.length() {
       let key : String = keys.get(i).unwrap()
@@ -221,10 +221,10 @@ fn LspClient::setup_response_handler(self : LspClient) -> Unit {
   .stdout()
   .as_any()
   ._call("on", [
-    @nostd.any("data"),
-    @nostd.any(
-      @js.from_fn1(fn(data : @nostd.Any) {
-        let chunk : String = @nostd.any(data)._call("toString", []).cast()
+    @core.any("data"),
+    @core.any(
+      @js.from_fn1(fn(data : @core.Any) {
+        let chunk : String = @core.any(data)._call("toString", []).cast()
         self.buffer = self.buffer + chunk
         self.process_buffer()
       }),
@@ -287,14 +287,14 @@ extern "js" fn ffi_parse_content_length(header : String) -> Int =
   #|}
 
 ///|
-extern "js" fn ffi_json_parse(content : String) -> @nostd.Any =
+extern "js" fn ffi_json_parse(content : String) -> @core.Any =
   #|(content) => JSON.parse(content)
 
 ///|
 fn LspClient::handle_message(self : LspClient, content : String) -> Unit {
   let json = ffi_json_parse(content)
   let id = json._get("id")
-  if not(@nostd.is_nullish(id)) {
+  if not(@core.is_nullish(id)) {
     let request_id : Int = id.cast()
     match self.pending_requests.get(request_id) {
       Some(callback) => {
@@ -310,16 +310,16 @@ fn LspClient::handle_message(self : LspClient, content : String) -> Unit {
 fn LspClient::send_request(
   self : LspClient,
   method_name : String,
-  params : @nostd.Any,
-  callback : (@nostd.Any) -> Unit,
+  params : @core.Any,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   self.request_id = self.request_id + 1
   let id = self.request_id
   let request = @mbtconv.from_map({
-    "jsonrpc": @nostd.any("2.0"),
-    "id": @nostd.any(id),
-    "method": @nostd.any(method_name),
-    "params": @nostd.any(params),
+    "jsonrpc": @core.any("2.0"),
+    "id": @core.any(id),
+    "method": @core.any(method_name),
+    "params": @core.any(params),
   }).cast()
   let content = @js.JSON::stringify(request)
   let message = "Content-Length: " +
@@ -327,26 +327,26 @@ fn LspClient::send_request(
     "\r\n\r\n" +
     content
   self.pending_requests[id] = callback
-  self.process.stdin().as_any()._call("write", [@nostd.any(message)]) |> ignore
+  self.process.stdin().as_any()._call("write", [@core.any(message)]) |> ignore
 }
 
 ///|
 fn LspClient::send_notification(
   self : LspClient,
   method_name : String,
-  params : @nostd.Any,
+  params : @core.Any,
 ) -> Unit {
   let notification = @mbtconv.from_map({
-    "jsonrpc": @nostd.any("2.0"),
-    "method": @nostd.any(method_name),
-    "params": @nostd.any(params),
+    "jsonrpc": @core.any("2.0"),
+    "method": @core.any(method_name),
+    "params": @core.any(params),
   }).cast()
   let content = @js.JSON::stringify(notification)
   let message = "Content-Length: " +
     ffi_string_length(content).to_string() +
     "\r\n\r\n" +
     content
-  self.process.stdin().as_any()._call("write", [@nostd.any(message)]) |> ignore
+  self.process.stdin().as_any()._call("write", [@core.any(message)]) |> ignore
 }
 
 ///|
@@ -354,7 +354,7 @@ extern "js" fn ffi_get_pid() -> Int =
   #|() => process.pid
 
 ///|
-extern "js" fn ffi_is_array(value : @nostd.Any) -> Bool =
+extern "js" fn ffi_is_array(value : @core.Any) -> Bool =
   #|(value) => Array.isArray(value)
 
 ///|
@@ -362,29 +362,29 @@ extern "js" fn ffi_is_array(value : @nostd.Any) -> Bool =
 pub async fn LspClient::initialize(
   self : LspClient,
   root_uri : String,
-) -> @nostd.Any raise LspError {
+) -> @core.Any raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "processId": @nostd.any(ffi_get_pid()),
-      "rootUri": @nostd.any(root_uri),
+      "processId": @core.any(ffi_get_pid()),
+      "rootUri": @core.any(root_uri),
       "capabilities": @mbtconv.from_map({
         "textDocument": @mbtconv.from_map({
           "definition": @mbtconv.from_map({
-            "dynamicRegistration": @nostd.any(true),
+            "dynamicRegistration": @core.any(true),
           }).cast(),
           "references": @mbtconv.from_map({
-            "dynamicRegistration": @nostd.any(true),
+            "dynamicRegistration": @core.any(true),
           }).cast(),
           "rename": @mbtconv.from_map({
-            "dynamicRegistration": @nostd.any(true),
-            "prepareSupport": @nostd.any(true),
+            "dynamicRegistration": @core.any(true),
+            "prepareSupport": @core.any(true),
           }).cast(),
         }).cast(),
       }).cast(),
     }).cast()
     self.send_request("initialize", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -405,9 +405,9 @@ pub async fn LspClient::initialize(
 /// Shutdown the LSP server
 pub async fn LspClient::shutdown(self : LspClient) -> Unit raise LspError {
   @js.suspend(fn(resolve, reject) {
-    self.send_request("shutdown", @nostd.null(), fn(response) {
+    self.send_request("shutdown", @core.null(), fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -424,7 +424,7 @@ pub async fn LspClient::shutdown(self : LspClient) -> Unit raise LspError {
 ///|
 /// Exit the LSP server
 pub fn LspClient::exit(self : LspClient) -> Unit {
-  self.send_notification("exit", @nostd.null())
+  self.send_notification("exit", @core.null())
   self.process.kill() |> ignore
 }
 
@@ -439,10 +439,10 @@ pub fn LspClient::open_document(
 ) -> Unit {
   let params = @mbtconv.from_map({
     "textDocument": @mbtconv.from_map({
-      "uri": @nostd.any(uri),
-      "languageId": @nostd.any(language_id),
-      "version": @nostd.any(version),
-      "text": @nostd.any(text),
+      "uri": @core.any(uri),
+      "languageId": @core.any(language_id),
+      "version": @core.any(version),
+      "text": @core.any(text),
     }).cast(),
   }).cast()
   self.send_notification("textDocument/didOpen", params)
@@ -452,7 +452,7 @@ pub fn LspClient::open_document(
 /// Close a text document
 pub fn LspClient::close_document(self : LspClient, uri : String) -> Unit {
   let params = @mbtconv.from_map({
-    "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
+    "textDocument": @core.from_entries([("uri", @core.any(uri))]).cast(),
   }).cast()
   self.send_notification("textDocument/didClose", params)
 }
@@ -474,7 +474,7 @@ pub async fn LspClient::definition(
       response,
     ) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -484,7 +484,7 @@ pub async fn LspClient::definition(
       } else {
         let result = response._get("result")
         let locations : Array[Location] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           // Result can be Location | Location[] | null
           if ffi_is_array(result) {
             let len : Int = result._get("length").cast()
@@ -512,18 +512,18 @@ pub async fn LspClient::references(
 ) -> Array[Location] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
+      "textDocument": @core.from_entries([("uri", @core.any(uri))]).cast(),
       "position": @mbtconv.from_map({
-        "line": @nostd.any(line),
-        "character": @nostd.any(character),
+        "line": @core.any(line),
+        "character": @core.any(character),
       }).cast(),
       "context": @mbtconv.from_map({
-        "includeDeclaration": @nostd.any(include_declaration.unwrap_or(true)),
+        "includeDeclaration": @core.any(include_declaration.unwrap_or(true)),
       }).cast(),
     }).cast()
     self.send_request("textDocument/references", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -533,7 +533,7 @@ pub async fn LspClient::references(
       } else {
         let result = response._get("result")
         let locations : Array[Location] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             locations.push(Location::from_json(result._get_by_index(i)))
@@ -562,7 +562,7 @@ pub async fn LspClient::rename(
     }
     self.send_request("textDocument/rename", params.to_json(), fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -571,7 +571,7 @@ pub async fn LspClient::rename(
         )
       } else {
         let result = response._get("result")
-        if @nostd.is_nullish(result) {
+        if @core.is_nullish(result) {
           resolve({ changes: {} })
         } else {
           resolve(WorkspaceEdit::from_json(result))
@@ -596,7 +596,7 @@ pub async fn LspClient::hover(
     }
     self.send_request("textDocument/hover", params.to_json(), fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -605,7 +605,7 @@ pub async fn LspClient::hover(
         )
       } else {
         let result = response._get("result")
-        if @nostd.is_nullish(result) {
+        if @core.is_nullish(result) {
           resolve(None)
         } else {
           resolve(Some(Hover::from_json(result)))
@@ -632,7 +632,7 @@ pub async fn LspClient::completion(
       response,
     ) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -641,7 +641,7 @@ pub async fn LspClient::completion(
         )
       } else {
         let result = response._get("result")
-        if @nostd.is_nullish(result) {
+        if @core.is_nullish(result) {
           resolve({ is_incomplete: false, items: [] })
         } else {
           resolve(CompletionList::from_json(result))
@@ -668,7 +668,7 @@ pub async fn LspClient::signature_help(
       response,
     ) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -677,7 +677,7 @@ pub async fn LspClient::signature_help(
         )
       } else {
         let result = response._get("result")
-        if @nostd.is_nullish(result) {
+        if @core.is_nullish(result) {
           resolve(None)
         } else {
           resolve(Some(SignatureHelp::from_json(result)))
@@ -695,11 +695,11 @@ pub async fn LspClient::document_symbol(
 ) -> Array[DocumentSymbol] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
+      "textDocument": @core.from_entries([("uri", @core.any(uri))]).cast(),
     }).cast()
     self.send_request("textDocument/documentSymbol", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -709,7 +709,7 @@ pub async fn LspClient::document_symbol(
       } else {
         let result = response._get("result")
         let symbols : Array[DocumentSymbol] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             symbols.push(DocumentSymbol::from_json(result._get_by_index(i)))
@@ -728,10 +728,10 @@ pub async fn LspClient::workspace_symbol(
   query : String,
 ) -> Array[SymbolInformation] raise LspError {
   @js.suspend(fn(resolve, reject) {
-    let params = @nostd.from_entries([("query", @nostd.any(query))]).cast()
+    let params = @core.from_entries([("query", @core.any(query))]).cast()
     self.send_request("workspace/symbol", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -741,7 +741,7 @@ pub async fn LspClient::workspace_symbol(
       } else {
         let result = response._get("result")
         let symbols : Array[SymbolInformation] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             symbols.push(SymbolInformation::from_json(result._get_by_index(i)))
@@ -763,15 +763,15 @@ pub async fn LspClient::formatting(
 ) -> Array[TextEdit] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]).cast(),
+      "textDocument": @core.from_entries([("uri", @core.any(uri))]).cast(),
       "options": @mbtconv.from_map({
-        "tabSize": @nostd.any(tab_size.unwrap_or(2)),
-        "insertSpaces": @nostd.any(insert_spaces.unwrap_or(true)),
+        "tabSize": @core.any(tab_size.unwrap_or(2)),
+        "insertSpaces": @core.any(insert_spaces.unwrap_or(true)),
       }).cast(),
     }).cast()
     self.send_request("textDocument/formatting", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -781,7 +781,7 @@ pub async fn LspClient::formatting(
       } else {
         let result = response._get("result")
         let edits : Array[TextEdit] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             edits.push(TextEdit::from_json(result._get_by_index(i)))
@@ -802,15 +802,15 @@ pub async fn LspClient::code_action(
 ) -> Array[CodeAction] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]),
-      "range": @nostd.any(range.to_json()),
+      "textDocument": @core.from_entries([("uri", @core.any(uri))]),
+      "range": @core.any(range.to_json()),
       "context": @mbtconv.from_map({
-        "diagnostics": @nostd.any(@nostd.any(([] : Array[@nostd.Any]))),
+        "diagnostics": @core.any(@core.any(([] : Array[@core.Any]))),
       }),
     }).cast()
     self.send_request("textDocument/codeAction", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -820,7 +820,7 @@ pub async fn LspClient::code_action(
       } else {
         let result = response._get("result")
         let actions : Array[CodeAction] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             actions.push(CodeAction::from_json(result._get_by_index(i)))
@@ -849,7 +849,7 @@ pub async fn LspClient::prepare_call_hierarchy(
       response,
     ) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -859,7 +859,7 @@ pub async fn LspClient::prepare_call_hierarchy(
       } else {
         let result = response._get("result")
         let items : Array[CallHierarchyItem] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             items.push(CallHierarchyItem::from_json(result._get_by_index(i)))
@@ -880,16 +880,16 @@ pub async fn LspClient::incoming_calls(
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
       "item": @mbtconv.from_map({
-        "name": @nostd.any(item.name),
-        "kind": @nostd.any(item.kind),
-        "uri": @nostd.any(item.uri),
-        "range": @nostd.any(item.range.to_json()),
-        "selectionRange": @nostd.any(item.selection_range.to_json()),
+        "name": @core.any(item.name),
+        "kind": @core.any(item.kind),
+        "uri": @core.any(item.uri),
+        "range": @core.any(item.range.to_json()),
+        "selectionRange": @core.any(item.selection_range.to_json()),
       }),
     }).cast()
     self.send_request("callHierarchy/incomingCalls", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -899,7 +899,7 @@ pub async fn LspClient::incoming_calls(
       } else {
         let result = response._get("result")
         let calls : Array[CallHierarchyIncomingCall] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             calls.push(
@@ -922,16 +922,16 @@ pub async fn LspClient::outgoing_calls(
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
       "item": @mbtconv.from_map({
-        "name": @nostd.any(item.name),
-        "kind": @nostd.any(item.kind),
-        "uri": @nostd.any(item.uri),
-        "range": @nostd.any(item.range.to_json()),
-        "selectionRange": @nostd.any(item.selection_range.to_json()),
+        "name": @core.any(item.name),
+        "kind": @core.any(item.kind),
+        "uri": @core.any(item.uri),
+        "range": @core.any(item.range.to_json()),
+        "selectionRange": @core.any(item.selection_range.to_json()),
       }),
     }).cast()
     self.send_request("callHierarchy/outgoingCalls", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -941,7 +941,7 @@ pub async fn LspClient::outgoing_calls(
       } else {
         let result = response._get("result")
         let calls : Array[CallHierarchyOutgoingCall] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             calls.push(
@@ -964,12 +964,12 @@ pub async fn LspClient::inlay_hint(
 ) -> Array[InlayHint] raise LspError {
   @js.suspend(fn(resolve, reject) {
     let params = @mbtconv.from_map({
-      "textDocument": @nostd.from_entries([("uri", @nostd.any(uri))]),
-      "range": @nostd.any(range.to_json()),
+      "textDocument": @core.from_entries([("uri", @core.any(uri))]),
+      "range": @core.any(range.to_json()),
     }).cast()
     self.send_request("textDocument/inlayHint", params, fn(response) {
       let error = response._get("error")
-      if not(@nostd.is_nullish(error)) {
+      if not(@core.is_nullish(error)) {
         reject(
           ServerError(
             code=error._get("code").cast(),
@@ -979,7 +979,7 @@ pub async fn LspClient::inlay_hint(
       } else {
         let result = response._get("result")
         let hints : Array[InlayHint] = []
-        if not(@nostd.is_nullish(result)) {
+        if not(@core.is_nullish(result)) {
           let len : Int = result._get("length").cast()
           for i in 0..<len {
             hints.push(InlayHint::from_json(result._get_by_index(i)))

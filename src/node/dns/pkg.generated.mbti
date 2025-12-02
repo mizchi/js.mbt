@@ -6,29 +6,29 @@ import(
 )
 
 // Values
-fn get_servers() -> @js.JsArray
+pub fn get_servers() -> @js.JsArray
 
-fn lookup(String, (@js.Object?, @js.Object) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
+pub fn lookup(String, (@js.Object?, @js.Object) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
 
-fn resolve(String, String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve(String, String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve4(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve4(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve6(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve6(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve_cname(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve_cname(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve_mx(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve_mx(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve_ns(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve_ns(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve_srv(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve_srv(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn resolve_txt(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn resolve_txt(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn reverse(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
+pub fn reverse(String, (@js.Object?, @js.JsArray) -> Unit) -> Unit
 
-fn set_servers(Array[String]) -> Unit
+pub fn set_servers(Array[String]) -> Unit
 
 // Errors
 

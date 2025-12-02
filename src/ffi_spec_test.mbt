@@ -29,7 +29,7 @@ pub(all) struct SimpleStruct {
 } derive(Show)
 
 ///|
-pub fn SimpleStruct::as_any(self : Self) -> @nostd.Any = "%identity"
+pub fn SimpleStruct::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 /// Struct with Option fields
@@ -37,11 +37,11 @@ pub(all) struct StructWithOptions {
   required : String
   optionalInt : Int?
   optionalString : String?
-  optionalJs : @nostd.Any?
+  optionalJs : @core.Any?
 }
 
 ///|
-pub fn StructWithOptions::as_any(self : Self) -> @nostd.Any = "%identity"
+pub fn StructWithOptions::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 /// Nested struct
@@ -51,7 +51,7 @@ pub(all) struct NestedStruct {
 }
 
 ///|
-pub fn NestedStruct::as_any(self : Self) -> @nostd.Any = "%identity"
+pub fn NestedStruct::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 /// Struct with optional nested struct
@@ -61,7 +61,7 @@ pub(all) struct StructWithOptionalNested {
 }
 
 ///|
-pub fn StructWithOptionalNested::as_any(self : Self) -> @nostd.Any = "%identity"
+pub fn StructWithOptionalNested::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 /// Generic container
@@ -72,7 +72,7 @@ pub(all) struct Container[T] {
 ///| Helper Functions - All extern "js" must be at top level
 
 ///|
-extern "js" fn create_all_fields() -> @nostd.Any =
+extern "js" fn create_all_fields() -> @core.Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: 42,
@@ -81,7 +81,7 @@ extern "js" fn create_all_fields() -> @nostd.Any =
   #|})
 
 ///|
-extern "js" fn create_null_fields() -> @nostd.Any =
+extern "js" fn create_null_fields() -> @core.Any =
   #|() => ({
   #|  required: "test",
   #|  optionalInt: null,
@@ -90,7 +90,7 @@ extern "js" fn create_null_fields() -> @nostd.Any =
   #|})
 
 ///|
-extern "js" fn create_undefined_fields() -> @nostd.Any =
+extern "js" fn create_undefined_fields() -> @core.Any =
   #|() => ({  
   #|  required: "test",
   #|  optionalInt: undefined,
@@ -99,48 +99,48 @@ extern "js" fn create_undefined_fields() -> @nostd.Any =
   #|})
 
 ///|
-extern "js" fn create_missing_fields() -> @nostd.Any =
+extern "js" fn create_missing_fields() -> @core.Any =
   #|() => ({ required: "test" })
 
 ///|
-extern "js" fn create_nested() -> @nostd.Any =
+extern "js" fn create_nested() -> @core.Any =
   #|() => ({
   #|  id: 1,
   #|  simple: { name: "Alice", age: 30 }
   #|})
 
 ///|
-extern "js" fn create_null_nested() -> @nostd.Any =
+extern "js" fn create_null_nested() -> @core.Any =
   #|() => ({
   #|  id: 1,
   #|  nested: null
   #|})
 
 ///|
-extern "js" fn create_undefined_nested() -> @nostd.Any =
+extern "js" fn create_undefined_nested() -> @core.Any =
   #|() => ({
   #|  id: 1,
   #|  nested: undefined
   #|})
 
 ///|
-extern "js" fn create_null_value() -> @nostd.Any =
+extern "js" fn create_null_value() -> @core.Any =
   #|() => ({ value: null })
 
 ///|
-extern "js" fn get_number() -> @nostd.Any =
+extern "js" fn get_number() -> @core.Any =
   #|() => 42
 
 ///|
-extern "js" fn get_null() -> @nostd.Any =
+extern "js" fn get_null() -> @core.Any =
   #|() => null
 
 ///|
-extern "js" fn get_undefined() -> @nostd.Any =
+extern "js" fn get_undefined() -> @core.Any =
   #|() => undefined
 
 ///|
-extern "js" fn get_simple() -> @nostd.Any =
+extern "js" fn get_simple() -> @core.Any =
   #|() => ({ name: "Charlie", age: 35 })
 
 ///| Test Cases
@@ -233,24 +233,24 @@ test "Optional nested struct with undefined" {
 
 ///|
 test "Generic Container[Int]" {
-  let js_obj = @nostd.Object::new()
-  js_obj._set("value", 42 |> @nostd.any)
+  let js_obj = @core.Object::new()
+  js_obj._set("value", 42 |> @core.any)
   let container : Container[Int] = js_obj |> identity
   inspect(container.value, content="42")
 }
 
 ///|
 test "Generic Container[String]" {
-  let js_obj = @nostd.Object::new()
-  js_obj._set("value", "test" |> @nostd.any)
+  let js_obj = @core.Object::new()
+  js_obj._set("value", "test" |> @core.any)
   let container : Container[String] = js_obj |> identity
   inspect(container.value, content="test")
 }
 
 ///|
 test "Generic Container[Int?] with value" {
-  let js_obj = @nostd.Object::new()
-  js_obj._set("value", 42 |> @nostd.any)
+  let js_obj = @core.Object::new()
+  js_obj._set("value", 42 |> @core.any)
   let container : Container[Int?] = js_obj |> identity
   inspect(container.value, content="Some(42)")
 }
@@ -267,10 +267,10 @@ test "Generic Container[Int?] with null" {
 
 ///|
 test "Generic Container[SimpleStruct]" {
-  let js_obj = @nostd.Object::new()
-  let simple_obj = @nostd.Object::new()
-  simple_obj._set("name", "Bob" |> @nostd.any)
-  simple_obj._set("age", 25 |> @nostd.any)
+  let js_obj = @core.Object::new()
+  let simple_obj = @core.Object::new()
+  simple_obj._set("name", "Bob" |> @core.any)
+  simple_obj._set("age", 25 |> @core.any)
   js_obj._set("value", simple_obj)
   let container : Container[SimpleStruct] = js_obj |> identity
   inspect(container.value.name, content="Bob")
@@ -301,19 +301,19 @@ test "Direct identity to Int? with undefined" {
 
 ///|
 test "identity_option with null" {
-  let value : Int? = @nostd.identity_option(get_null())
+  let value : Int? = @core.identity_option(get_null())
   inspect(value, content="None")
 }
 
 ///|
 test "identity_option with undefined" {
-  let value : Int? = @nostd.identity_option(get_undefined())
+  let value : Int? = @core.identity_option(get_undefined())
   inspect(value, content="None")
 }
 
 ///|
 test "identity_option with value" {
-  let value : Int? = @nostd.identity_option(get_number())
+  let value : Int? = @core.identity_option(get_number())
   inspect(value, content="Some(42)")
 }
 
@@ -321,12 +321,12 @@ test "identity_option with value" {
 
 ///|
 pub trait Convertible {
-  from_js(@nostd.Any) -> Self
+  from_js(@core.Any) -> Self
 }
 
 ///|
-pub impl Convertible for SimpleStruct with from_js(js : @nostd.Any) -> SimpleStruct {
-  @nostd.identity(js)
+pub impl Convertible for SimpleStruct with from_js(js : @core.Any) -> SimpleStruct {
+  @core.identity(js)
 }
 
 ///|
@@ -358,20 +358,20 @@ pub(all) struct ContainerWithCustom {
 }
 
 ///|
-pub fn ContainerWithCustom::as_any(self : Self) -> @nostd.Any = "%identity"
+pub fn ContainerWithCustom::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 test "from_option roundtrip" {
   let original : Int? = Some(123)
-  let js_val = @nostd.from_option(original)
-  let restored : Int? = @nostd.identity_option(js_val)
+  let js_val = @core.from_option(original)
+  let restored : Int? = @core.identity_option(js_val)
   inspect(restored, content="Some(123)")
 }
 
 ///|
 test "from_option roundtrip with None" {
   let original : String? = None
-  let js_val = @nostd.from_option(original)
-  let restored : String? = @nostd.identity_option(js_val)
+  let js_val = @core.from_option(original)
+  let restored : String? = @core.identity_option(js_val)
   inspect(restored, content="None")
 }

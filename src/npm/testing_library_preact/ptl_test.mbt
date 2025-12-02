@@ -17,7 +17,7 @@ test "render basic component" {
   let s = screen()
   let el = s.getByText("Hello World")
   inspect(
-    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    not(@core.is_nullish(el.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -31,7 +31,7 @@ test "getByRole button" {
   let s = screen()
   let button = s.getByRole("button")
   inspect(
-    not(@nostd.is_nullish(button.as_element().as_any().cast())),
+    not(@core.is_nullish(button.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -54,7 +54,7 @@ test "fireEvent click" {
   let clicked = Ref::new(false)
   let handler : () -> Unit = fn() { clicked.val = true }
   let vnode = @preact.h("button", ["Click me"], props={
-    "onClick": handler |> @nostd.identity,
+    "onClick": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -123,13 +123,13 @@ test "getByTestId finds element" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("div", ["Test"], props={
-    "data-testid": @nostd.any("my-test-id"),
+    "data-testid": @core.any("my-test-id"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTestId("my-test-id")
   inspect(
-    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    not(@core.is_nullish(el.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -139,19 +139,19 @@ test "fireEvent change" {
   let dispose = setup()
   defer dispose()
   let value = Ref::new("")
-  let handler : (@nostd.Any) -> Unit = fn(e) {
-    let target : @nostd.Any = e._get("target")
+  let handler : (@core.Any) -> Unit = fn(e) {
+    let target : @core.Any = e._get("target")
     value.val = target._get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "onChange": handler |> @nostd.identity,
+    "type": @core.any("text"),
+    "onChange": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.from_entries([
-    ("target", @nostd.from_entries([("value", @nostd.any("hello"))]).cast()),
+  let event : @core.Any = @core.from_entries([
+    ("target", @core.from_entries([("value", @core.any("hello"))]).cast()),
   ]).cast()
   fireEvent().change(input, event) |> ignore
   inspect(value.val, content="hello")
@@ -162,19 +162,19 @@ test "fireEvent input" {
   let dispose = setup()
   defer dispose()
   let value = Ref::new("")
-  let handler : (@nostd.Any) -> Unit = fn(e) {
-    let target : @nostd.Any = e._get("target")
+  let handler : (@core.Any) -> Unit = fn(e) {
+    let target : @core.Any = e._get("target")
     value.val = target._get("value").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "onInput": handler |> @nostd.identity,
+    "type": @core.any("text"),
+    "onInput": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.from_entries([
-    ("target", @nostd.from_entries([("value", @nostd.any("world"))]).cast()),
+  let event : @core.Any = @core.from_entries([
+    ("target", @core.from_entries([("value", @core.any("world"))]).cast()),
   ]).cast()
   fireEvent().input(input, event) |> ignore
   inspect(value.val, content="world")
@@ -188,9 +188,9 @@ test "fireEvent focus and blur" {
   let focus_handler : () -> Unit = fn() { focused.val = true }
   let blur_handler : () -> Unit = fn() { focused.val = false }
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "onFocus": focus_handler |> @nostd.identity,
-    "onBlur": blur_handler |> @nostd.identity,
+    "type": @core.any("text"),
+    "onFocus": focus_handler |> @core.identity,
+    "onBlur": blur_handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -206,17 +206,17 @@ test "fireEvent keyDown" {
   let dispose = setup()
   defer dispose()
   let key_pressed = Ref::new("")
-  let handler : (@nostd.Any) -> Unit = fn(e) {
+  let handler : (@core.Any) -> Unit = fn(e) {
     key_pressed.val = e._get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "onKeyDown": handler |> @nostd.identity,
+    "type": @core.any("text"),
+    "onKeyDown": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.from_entries([("key", @nostd.any("Enter"))]).cast()
+  let event : @core.Any = @core.from_entries([("key", @core.any("Enter"))]).cast()
   fireEvent().keyDown(input, event) |> ignore
   inspect(key_pressed.val, content="Enter")
 }
@@ -226,17 +226,17 @@ test "fireEvent keyUp" {
   let dispose = setup()
   defer dispose()
   let key_released = Ref::new("")
-  let handler : (@nostd.Any) -> Unit = fn(e) {
+  let handler : (@core.Any) -> Unit = fn(e) {
     key_released.val = e._get("key").cast()
   }
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "onKeyUp": handler |> @nostd.identity,
+    "type": @core.any("text"),
+    "onKeyUp": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByRole("textbox")
-  let event : @nostd.Any = @nostd.from_entries([("key", @nostd.any("Escape"))]).cast()
+  let event : @core.Any = @core.from_entries([("key", @core.any("Escape"))]).cast()
   fireEvent().keyUp(input, event) |> ignore
   inspect(key_released.val, content="Escape")
 }
@@ -248,7 +248,7 @@ test "fireEvent dblClick" {
   let count = Ref::new(0)
   let handler : () -> Unit = fn() { count.val = count.val + 1 }
   let vnode = @preact.h("button", ["Double Click"], props={
-    "onDblClick": handler |> @nostd.identity,
+    "onDblClick": handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -266,8 +266,8 @@ test "fireEvent mouseDown and mouseUp" {
   let down_handler : () -> Unit = fn() { down.val = true }
   let up_handler : () -> Unit = fn() { up.val = true }
   let vnode = @preact.h("button", ["Mouse"], props={
-    "onMouseDown": down_handler |> @nostd.identity,
-    "onMouseUp": up_handler |> @nostd.identity,
+    "onMouseDown": down_handler |> @core.identity,
+    "onMouseUp": up_handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -287,8 +287,8 @@ test "fireEvent mouseEnter and mouseLeave" {
   let enter_handler : () -> Unit = fn() { entered.val = true }
   let leave_handler : () -> Unit = fn() { left.val = true }
   let vnode = @preact.h("div", ["Hover me"], props={
-    "onMouseEnter": enter_handler |> @nostd.identity,
-    "onMouseLeave": leave_handler |> @nostd.identity,
+    "onMouseEnter": enter_handler |> @core.identity,
+    "onMouseLeave": leave_handler |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
@@ -318,7 +318,7 @@ test "render result asFragment" {
   let vnode = @preact.h("div", ["Fragment Test"])
   let result = render(vnode)
   let frag = result.asFragment()
-  inspect(not(@nostd.is_nullish(frag)), content="true")
+  inspect(not(@core.is_nullish(frag)), content="true")
 }
 
 ///|
@@ -327,18 +327,18 @@ test "getByLabelText" {
   defer dispose()
   let vnode = @preact.fragment([
     @preact.h("label", ["Username"], props={
-      "for": @nostd.any("username-input"),
+      "for": @core.any("username-input"),
     }),
     @preact.h("input", [], props={
-      "id": @nostd.any("username-input"),
-      "type": @nostd.any("text"),
+      "id": @core.any("username-input"),
+      "type": @core.any("text"),
     }),
   ])
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByLabelText("Username")
   inspect(
-    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    not(@core.is_nullish(input.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -348,14 +348,14 @@ test "getByPlaceholderText" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "placeholder": @nostd.any("Enter your name"),
+    "type": @core.any("text"),
+    "placeholder": @core.any("Enter your name"),
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByPlaceholderText("Enter your name")
   inspect(
-    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    not(@core.is_nullish(input.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -365,15 +365,15 @@ test "getByDisplayValue" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("input", [], props={
-    "type": @nostd.any("text"),
-    "value": @nostd.any("current value"),
-    "onChange": (fn() {  }) |> @nostd.identity,
+    "type": @core.any("text"),
+    "value": @core.any("current value"),
+    "onChange": (fn() {  }) |> @core.identity,
   })
   render(vnode) |> ignore
   let s = screen()
   let input = s.getByDisplayValue("current value")
   inspect(
-    not(@nostd.is_nullish(input.as_element().as_any().cast())),
+    not(@core.is_nullish(input.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -383,14 +383,14 @@ test "getByAltText" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("img", [], props={
-    "alt": @nostd.any("Profile picture"),
-    "src": @nostd.any("profile.jpg"),
+    "alt": @core.any("Profile picture"),
+    "src": @core.any("profile.jpg"),
   })
   render(vnode) |> ignore
   let s = screen()
   let img = s.getByAltText("Profile picture")
   inspect(
-    not(@nostd.is_nullish(img.as_element().as_any().cast())),
+    not(@core.is_nullish(img.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -400,13 +400,13 @@ test "getByTitle" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("span", ["Info"], props={
-    "title": @nostd.any("More information"),
+    "title": @core.any("More information"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.getByTitle("More information")
   inspect(
-    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    not(@core.is_nullish(el.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -441,8 +441,8 @@ test "getAllByTestId returns multiple" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.fragment([
-    @preact.h("div", ["Item 1"], props={ "data-testid": @nostd.any("item") }),
-    @preact.h("div", ["Item 2"], props={ "data-testid": @nostd.any("item") }),
+    @preact.h("div", ["Item 1"], props={ "data-testid": @core.any("item") }),
+    @preact.h("div", ["Item 2"], props={ "data-testid": @core.any("item") }),
   ])
   render(vnode) |> ignore
   let s = screen()
@@ -459,7 +459,7 @@ async test "findByText" {
   let s = screen()
   let el = s.findByText("Async content")
   inspect(
-    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    not(@core.is_nullish(el.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -473,7 +473,7 @@ async test "findByRole" {
   let s = screen()
   let button = s.findByRole("button")
   inspect(
-    not(@nostd.is_nullish(button.as_element().as_any().cast())),
+    not(@core.is_nullish(button.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -483,13 +483,13 @@ async test "findByTestId" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.h("div", ["Test"], props={
-    "data-testid": @nostd.any("async-test"),
+    "data-testid": @core.any("async-test"),
   })
   render(vnode) |> ignore
   let s = screen()
   let el = s.findByTestId("async-test")
   inspect(
-    not(@nostd.is_nullish(el.as_element().as_any().cast())),
+    not(@core.is_nullish(el.as_element().as_any().cast())),
     content="true",
   )
 }
@@ -529,8 +529,8 @@ async test "findAllByTestId" {
   let dispose = setup()
   defer dispose()
   let vnode = @preact.fragment([
-    @preact.h("li", ["A"], props={ "data-testid": @nostd.any("list-item") }),
-    @preact.h("li", ["B"], props={ "data-testid": @nostd.any("list-item") }),
+    @preact.h("li", ["A"], props={ "data-testid": @core.any("list-item") }),
+    @preact.h("li", ["B"], props={ "data-testid": @core.any("list-item") }),
   ])
   render(vnode) |> ignore
   let s = screen()
@@ -580,19 +580,19 @@ test "fireEvent submit" {
   let dispose = setup()
   defer dispose()
   let submitted = Ref::new(false)
-  let handler : (@nostd.Any) -> Unit = fn(e) {
+  let handler : (@core.Any) -> Unit = fn(e) {
     e._call("preventDefault", []) |> ignore
     submitted.val = true
   }
   let vnode = @preact.h(
     "form",
-    [@preact.h("button", ["Submit"], props={ "type": @nostd.any("submit") })],
-    props={ "onSubmit": handler |> @nostd.identity },
+    [@preact.h("button", ["Submit"], props={ "type": @core.any("submit") })],
+    props={ "onSubmit": handler |> @core.identity },
   )
   let result = render(vnode)
   let form : @dom.HTMLElement = match
     result.container().as_node().firstChild() {
-    Some(node) => @nostd.identity(node)
+    Some(node) => @core.identity(node)
     None => abort("firstChild not found")
   }
   fireEvent().submit(form) |> ignore
@@ -605,11 +605,11 @@ test "fireEvent scroll" {
   defer dispose()
   let scrolled = Ref::new(false)
   let handler : () -> Unit = fn() { scrolled.val = true }
-  let style_obj : @nostd.Any = @nostd.from_entries([
-    ("overflow", @nostd.any("auto")),
-    ("height", @nostd.any("100px")),
+  let style_obj : @core.Any = @core.from_entries([
+    ("overflow", @core.any("auto")),
+    ("height", @core.any("100px")),
   ]).cast()
-  let handler_any : @nostd.Any = @nostd.identity(handler)
+  let handler_any : @core.Any = @core.identity(handler)
   let vnode = @preact.h("div", ["Scrollable"], props={
     "onScroll": handler_any,
     "style": style_obj.cast(),

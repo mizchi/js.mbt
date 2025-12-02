@@ -7,7 +7,7 @@
 pub type Deno
 
 ///|
-pub fn Deno::as_any(self : Deno) -> @nostd.Any = "%identity"
+pub fn Deno::as_any(self : Deno) -> @core.Any = "%identity"
 
 ///|
 /// Deno global object
@@ -19,26 +19,26 @@ pub extern "js" fn deno() -> Deno =
 ///|
 /// Get environment variable
 pub fn Deno::env_get(self : Deno, key : String) -> String? {
-  self.as_any()["env"]._call("get", [@nostd.any(key)]).cast()
-  |> @nostd.identity_option
+  self.as_any()["env"]._call("get", [@core.any(key)]).cast()
+  |> @core.identity_option
 }
 
 ///|
 /// Set environment variable
 pub fn Deno::env_set(self : Deno, key : String, value : String) -> Unit {
-  self.as_any()["env"]._call("set", [@nostd.any(key), @nostd.any(value)])
+  self.as_any()["env"]._call("set", [@core.any(key), @core.any(value)])
   |> ignore
 }
 
 ///|
 /// Delete environment variable
 pub fn Deno::env_delete(self : Deno, key : String) -> Unit {
-  self.as_any()["env"]._call("delete", [@nostd.any(key)]) |> ignore
+  self.as_any()["env"]._call("delete", [@core.any(key)]) |> ignore
 }
 
 ///|
 /// Get all environment variables
-pub fn Deno::env_toObject(self : Deno) -> @nostd.Any {
+pub fn Deno::env_toObject(self : Deno) -> @core.Any {
   self.as_any()["env"]._call("toObject", []).cast()
 }
 
@@ -52,7 +52,7 @@ pub fn Deno::cwd(self : Deno) -> String {
 /// Exit the process
 pub fn Deno::exit(self : Deno, code? : Int) -> Unit {
   match code {
-    Some(c) => self.as_any()._call("exit", [@nostd.any(c)]) |> ignore
+    Some(c) => self.as_any()._call("exit", [@core.any(c)]) |> ignore
     None => self.as_any()._call("exit", []) |> ignore
   }
 }
@@ -91,8 +91,8 @@ pub fn Deno::build_arch(self : Deno) -> String {
 
 ///|
 /// Read all data from stdin
-pub async fn Deno::stdin_read(self : Deno) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.as_any()["stdin"]
+pub async fn Deno::stdin_read(self : Deno) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.as_any()["stdin"]
     ._call("read", [])
     .cast()
   promise.wait()
@@ -100,8 +100,8 @@ pub async fn Deno::stdin_read(self : Deno) -> @nostd.Any {
 
 ///|
 /// Write to stdout
-pub async fn Deno::stdout_write(self : Deno, data : @nostd.Any) -> Int {
-  let data_any : @nostd.Any = data.cast()
+pub async fn Deno::stdout_write(self : Deno, data : @core.Any) -> Int {
+  let data_any : @core.Any = data.cast()
   let promise : @js.Promise[Int] = self.as_any()["stdout"]
     ._call("write", [data_any])
     .cast()
@@ -110,8 +110,8 @@ pub async fn Deno::stdout_write(self : Deno, data : @nostd.Any) -> Int {
 
 ///|
 /// Write to stderr
-pub async fn Deno::stderr_write(self : Deno, data : @nostd.Any) -> Int {
-  let data_any : @nostd.Any = data.cast()
+pub async fn Deno::stderr_write(self : Deno, data : @core.Any) -> Int {
+  let data_any : @core.Any = data.cast()
   let promise : @js.Promise[Int] = self.as_any()["stderr"]
     ._call("write", [data_any])
     .cast()
@@ -125,7 +125,7 @@ pub async fn Deno::stderr_write(self : Deno, data : @nostd.Any) -> Int {
 pub async fn Deno::readTextFile(self : Deno, path : String) -> String {
   let promise : @js.Promise[String] = self
     .as_any()
-    ._call("readTextFile", [@nostd.any(path)])
+    ._call("readTextFile", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -139,7 +139,7 @@ pub async fn Deno::writeTextFile(
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("writeTextFile", [@nostd.any(path), @nostd.any(data)])
+    ._call("writeTextFile", [@core.any(path), @core.any(data)])
     .cast()
   promise.wait()
 }
@@ -152,7 +152,7 @@ pub async fn Deno::readFile(
 ) -> @typedarray.Uint8Array {
   let promise : @js.Promise[@typedarray.Uint8Array] = self
     .as_any()
-    ._call("readFile", [@nostd.any(path)])
+    ._call("readFile", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -162,11 +162,11 @@ pub async fn Deno::readFile(
 pub async fn Deno::writeFile(
   self : Deno,
   path : String,
-  data : @nostd.Any,
+  data : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("writeFile", [@nostd.any(path), data])
+    ._call("writeFile", [@core.any(path), data])
     .cast()
   promise.wait()
 }
@@ -183,11 +183,11 @@ pub async fn Deno::remove(
       self
       .as_any()
       ._call("remove", [
-        @nostd.any(path),
-        @mbtconv.from_option_map({ "recursive": Some(@nostd.any(r)) }).cast(),
+        @core.any(path),
+        @mbtconv.from_option_map({ "recursive": Some(@core.any(r)) }).cast(),
       ])
       .cast()
-    None => self.as_any()._call("remove", [@nostd.any(path)]).cast()
+    None => self.as_any()._call("remove", [@core.any(path)]).cast()
   }
   promise.wait()
 }
@@ -200,19 +200,19 @@ pub async fn Deno::mkdir(self : Deno, path : String, recursive? : Bool) -> Unit 
       self
       .as_any()
       ._call("mkdir", [
-        @nostd.any(path),
-        @mbtconv.from_option_map({ "recursive": Some(@nostd.any(r)) }).cast(),
+        @core.any(path),
+        @mbtconv.from_option_map({ "recursive": Some(@core.any(r)) }).cast(),
       ])
       .cast()
-    None => self.as_any()._call("mkdir", [@nostd.any(path)]).cast()
+    None => self.as_any()._call("mkdir", [@core.any(path)]).cast()
   }
   promise.wait()
 }
 
 ///|
 /// Read directory entries
-pub fn Deno::readDir(self : Deno, path : String) -> @nostd.Any {
-  self.as_any()._call("readDir", [@nostd.any(path)]).cast()
+pub fn Deno::readDir(self : Deno, path : String) -> @core.Any {
+  self.as_any()._call("readDir", [@core.any(path)]).cast()
 }
 
 ///|
@@ -224,7 +224,7 @@ pub async fn Deno::rename(
 ) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("rename", [@nostd.any(oldpath), @nostd.any(newpath)])
+    ._call("rename", [@core.any(oldpath), @core.any(newpath)])
     .cast()
   promise.wait()
 }
@@ -234,27 +234,27 @@ pub async fn Deno::rename(
 pub async fn Deno::copyFile(self : Deno, from : String, to : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("copyFile", [@nostd.any(from), @nostd.any(to)])
+    ._call("copyFile", [@core.any(from), @core.any(to)])
     .cast()
   promise.wait()
 }
 
 ///|
 /// Check if path exists
-pub async fn Deno::stat(self : Deno, path : String) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+pub async fn Deno::stat(self : Deno, path : String) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
-    ._call("stat", [@nostd.any(path)])
+    ._call("stat", [@core.any(path)])
     .cast()
   promise.wait()
 }
 
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
-pub async fn Deno::lstat(self : Deno, path : String) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+pub async fn Deno::lstat(self : Deno, path : String) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
-    ._call("lstat", [@nostd.any(path)])
+    ._call("lstat", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -264,7 +264,7 @@ pub async fn Deno::lstat(self : Deno, path : String) -> @nostd.Any {
 pub async fn Deno::readLink(self : Deno, path : String) -> String {
   let promise : @js.Promise[String] = self
     .as_any()
-    ._call("readLink", [@nostd.any(path)])
+    ._call("readLink", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -274,7 +274,7 @@ pub async fn Deno::readLink(self : Deno, path : String) -> String {
 pub async fn Deno::symlink(self : Deno, target : String, path : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("symlink", [@nostd.any(target), @nostd.any(path)])
+    ._call("symlink", [@core.any(target), @core.any(path)])
     .cast()
   promise.wait()
 }
@@ -284,7 +284,7 @@ pub async fn Deno::symlink(self : Deno, target : String, path : String) -> Unit 
 pub async fn Deno::chmod(self : Deno, path : String, mode : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("chmod", [@nostd.any(path), @nostd.any(mode)])
+    ._call("chmod", [@core.any(path), @core.any(mode)])
     .cast()
   promise.wait()
 }
@@ -294,7 +294,7 @@ pub async fn Deno::chmod(self : Deno, path : String, mode : Int) -> Unit {
 pub async fn Deno::realPath(self : Deno, path : String) -> String {
   let promise : @js.Promise[String] = self
     .as_any()
-    ._call("realPath", [@nostd.any(path)])
+    ._call("realPath", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -304,7 +304,7 @@ pub async fn Deno::realPath(self : Deno, path : String) -> String {
 pub async fn Deno::truncate(self : Deno, name : String, len : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("truncate", [@nostd.any(name), @nostd.any(len)])
+    ._call("truncate", [@core.any(name), @core.any(len)])
     .cast()
   promise.wait()
 }
@@ -317,7 +317,7 @@ pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
       self
       .as_any()
       ._call("makeTempDir", [
-        @mbtconv.from_option_map({ "prefix": Some(@nostd.any(p)) }).cast(),
+        @mbtconv.from_option_map({ "prefix": Some(@core.any(p)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("makeTempDir", []).cast()
@@ -333,7 +333,7 @@ pub async fn Deno::makeTempFile(self : Deno, prefix? : String) -> String {
       self
       .as_any()
       ._call("makeTempFile", [
-        @mbtconv.from_option_map({ "prefix": Some(@nostd.any(p)) }).cast(),
+        @mbtconv.from_option_map({ "prefix": Some(@core.any(p)) }).cast(),
       ])
       .cast()
     None => self.as_any()._call("makeTempFile", []).cast()
@@ -369,26 +369,26 @@ pub fn Deno::loadavg(self : Deno) -> Array[Double] {
 
 ///|
 /// Get network interfaces
-pub fn Deno::networkInterfaces(self : Deno) -> @nostd.Any {
+pub fn Deno::networkInterfaces(self : Deno) -> @core.Any {
   self.as_any()._call("networkInterfaces", []).cast()
 }
 
 ///|
 /// Get system memory info
-pub fn Deno::systemMemoryInfo(self : Deno) -> @nostd.Any {
+pub fn Deno::systemMemoryInfo(self : Deno) -> @core.Any {
   self.as_any()._call("systemMemoryInfo", []).cast()
 }
 
 ///|
 /// Get user ID (Unix only)
 pub fn Deno::uid(self : Deno) -> Int? {
-  self.as_any()._call("uid", []).cast() |> @nostd.identity_option
+  self.as_any()._call("uid", []).cast() |> @core.identity_option
 }
 
 ///|
 /// Get group ID (Unix only)
 pub fn Deno::gid(self : Deno) -> Int? {
-  self.as_any()._call("gid", []).cast() |> @nostd.identity_option
+  self.as_any()._call("gid", []).cast() |> @core.identity_option
 }
 
 ///| Network APIs
@@ -399,12 +399,12 @@ pub async fn Deno::connect(
   self : Self,
   hostname : String,
   port : Int,
-) -> @nostd.Any {
-  let opts : @nostd.Any = @mbtconv.from_map({
-    "hostname": @nostd.any(hostname),
-    "port": @nostd.any(port),
+) -> @core.Any {
+  let opts : @core.Any = @mbtconv.from_map({
+    "hostname": @core.any(hostname),
+    "port": @core.any(port),
   }).cast()
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
     ._call("connect", [opts])
     .cast()
@@ -413,10 +413,10 @@ pub async fn Deno::connect(
 
 ///|
 /// Listen on a network address (TCP server)
-pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @nostd.Any {
-  let opts : @nostd.Any = @mbtconv.from_map({
-    "hostname": @nostd.any(hostname),
-    "port": @nostd.any(port),
+pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @core.Any {
+  let opts : @core.Any = @mbtconv.from_map({
+    "hostname": @core.any(hostname),
+    "port": @core.any(port),
   }).cast()
   self.as_any()._call("listen", [opts]).cast()
 }
@@ -427,10 +427,10 @@ pub async fn Deno::resolveDns(
   self : Deno,
   query : String,
   recordType : String,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .as_any()
-    ._call("resolveDns", [@nostd.any(query), @nostd.any(recordType)])
+    ._call("resolveDns", [@core.any(query), @core.any(recordType)])
     .cast()
   promise.wait()
 }
@@ -439,9 +439,9 @@ pub async fn Deno::resolveDns(
 
 ///|
 /// Serve HTTP requests (simplified version)
-pub fn Deno::serve(self : Deno, port : Int, handler : @nostd.Any) -> @nostd.Any {
-  let opts : @nostd.Any = @mbtconv.from_map({
-    "port": @nostd.any(port),
+pub fn Deno::serve(self : Deno, port : Int, handler : @core.Any) -> @core.Any {
+  let opts : @core.Any = @mbtconv.from_map({
+    "port": @core.any(port),
     "handler": handler.cast(),
   }).cast()
   self.as_any()._call("serve", [opts]).cast()
@@ -461,7 +461,7 @@ pub extern "js" fn Deno::now(self : Deno) -> Double =
 pub type FsFile
 
 ///|
-pub fn FsFile::as_any(self : FsFile) -> @nostd.Any = "%identity"
+pub fn FsFile::as_any(self : FsFile) -> @core.Any = "%identity"
 
 ///|
 /// Open a file
@@ -472,14 +472,14 @@ pub async fn Deno::open(
   write? : Bool,
   read? : Bool,
 ) -> FsFile {
-  let opts : @nostd.Any = @mbtconv.from_option_map({
-    "create": create.map(fn(x) { @nostd.any(x) }),
-    "write": write.map(fn(x) { @nostd.any(x) }),
-    "read": read.map(fn(x) { @nostd.any(x) }),
+  let opts : @core.Any = @mbtconv.from_option_map({
+    "create": create.map(fn(x) { @core.any(x) }),
+    "write": write.map(fn(x) { @core.any(x) }),
+    "read": read.map(fn(x) { @core.any(x) }),
   }).cast()
   let promise : @js.Promise[FsFile] = self
     .as_any()
-    ._call("open", [@nostd.any(path), opts])
+    ._call("open", [@core.any(path), opts])
     .cast()
   promise.wait()
 }
@@ -489,7 +489,7 @@ pub async fn Deno::open(
 pub async fn Deno::create(self : Deno, path : String) -> FsFile {
   let promise : @js.Promise[FsFile] = self
     .as_any()
-    ._call("create", [@nostd.any(path)])
+    ._call("create", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -502,8 +502,8 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 
 ///|
 /// Read from file
-pub async fn FsFile::read(self : FsFile, buffer : @nostd.Any) -> Int {
-  let buffer_any : @nostd.Any = buffer.cast()
+pub async fn FsFile::read(self : FsFile, buffer : @core.Any) -> Int {
+  let buffer_any : @core.Any = buffer.cast()
   let promise : @js.Promise[Int] = self
     .as_any()
     ._call("read", [buffer_any])
@@ -513,8 +513,8 @@ pub async fn FsFile::read(self : FsFile, buffer : @nostd.Any) -> Int {
 
 ///|
 /// Write to file
-pub async fn FsFile::write(self : FsFile, data : @nostd.Any) -> Int {
-  let data_any : @nostd.Any = data.cast()
+pub async fn FsFile::write(self : FsFile, data : @core.Any) -> Int {
+  let data_any : @core.Any = data.cast()
   let promise : @js.Promise[Int] = self
     .as_any()
     ._call("write", [data_any])
@@ -527,7 +527,7 @@ pub async fn FsFile::write(self : FsFile, data : @nostd.Any) -> Int {
 pub async fn FsFile::seek(self : FsFile, offset : Int, whence : Int) -> Int {
   let promise : @js.Promise[Int] = self
     .as_any()
-    ._call("seek", [@nostd.any(offset), @nostd.any(whence)])
+    ._call("seek", [@core.any(offset), @core.any(whence)])
     .cast()
   promise.wait()
 }
@@ -539,7 +539,7 @@ pub async fn FsFile::seek(self : FsFile, offset : Int, whence : Int) -> Int {
 pub type TestContext
 
 ///|
-pub fn TestContext::as_any(self : TestContext) -> @nostd.Any = "%identity"
+pub fn TestContext::as_any(self : TestContext) -> @core.Any = "%identity"
 
 ///|
 /// Deno.test(name, fn)
@@ -548,8 +548,8 @@ pub fn Deno::test_(
   name : String,
   f : (TestContext) -> Unit,
 ) -> Unit {
-  let fn_any : @nostd.Any = @js.from_fn1(f).cast()
-  self.as_any()._call("test", [@nostd.any(name), fn_any]) |> ignore
+  let fn_any : @core.Any = @js.from_fn1(f).cast()
+  self.as_any()._call("test", [@core.any(name), fn_any]) |> ignore
 }
 
 ///|
@@ -559,8 +559,8 @@ pub fn Deno::test_async(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let fn_any : @nostd.Any = (@js.promisify1(f) |> @js.from_fn1).cast()
-  self.as_any()._call("test", [@nostd.any(name), fn_any]) |> ignore
+  let fn_any : @core.Any = (@js.promisify1(f) |> @js.from_fn1).cast()
+  self.as_any()._call("test", [@core.any(name), fn_any]) |> ignore
 }
 
 ///|
@@ -570,9 +570,9 @@ pub fn Deno::test_only(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let opts : @nostd.Any = @mbtconv.from_map({
-    "name": @nostd.any(name),
-    "only": @nostd.any(true),
+  let opts : @core.Any = @mbtconv.from_map({
+    "name": @core.any(name),
+    "only": @core.any(true),
     "fn": (@js.promisify1(f) |> @js.from_fn1).cast(),
   }).cast()
   self.as_any()._call("test", [opts]) |> ignore
@@ -587,19 +587,19 @@ pub fn Deno::test_only(
 pub type Command
 
 ///|
-pub fn Command::as_any(self : Command) -> @nostd.Any = "%identity"
+pub fn Command::as_any(self : Command) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Command
 /// https://docs.deno.com/api/deno/~/Deno.Command
 extern "js" fn ffi_new_command(
   program : String,
-  args : @nostd.Any,
-  cwd : @nostd.Any,
-  env : @nostd.Any,
-  stdin : @nostd.Any,
-  stdout : @nostd.Any,
-  stderr : @nostd.Any,
+  args : @core.Any,
+  cwd : @core.Any,
+  env : @core.Any,
+  stdin : @core.Any,
+  stdout : @core.Any,
+  stderr : @core.Any,
 ) -> Command =
   #| (program, args, cwd, env, stdin, stdout, stderr) => {
   #|   const opts = {};
@@ -618,7 +618,7 @@ pub fn Command::new(
   program : String,
   args? : Array[String],
   cwd? : String,
-  env? : @nostd.Any,
+  env? : @core.Any,
   stdin? : String,
   stdout? : String,
   stderr? : String,
@@ -626,13 +626,13 @@ pub fn Command::new(
   ffi_new_command(
     program,
     args
-    .map(fn(a) { @nostd.any(a.map(fn(s) { @nostd.any(s) })) })
+    .map(fn(a) { @core.any(a.map(fn(s) { @core.any(s) })) })
     .unwrap_or(@global.undefined()),
-    cwd.map(fn(c) { @nostd.any(c) }).unwrap_or(@global.undefined()),
+    cwd.map(fn(c) { @core.any(c) }).unwrap_or(@global.undefined()),
     env.unwrap_or(@global.undefined()),
-    stdin.map(fn(s) { @nostd.any(s) }).unwrap_or(@global.undefined()),
-    stdout.map(fn(s) { @nostd.any(s) }).unwrap_or(@global.undefined()),
-    stderr.map(fn(s) { @nostd.any(s) }).unwrap_or(@global.undefined()),
+    stdin.map(fn(s) { @core.any(s) }).unwrap_or(@global.undefined()),
+    stdout.map(fn(s) { @core.any(s) }).unwrap_or(@global.undefined()),
+    stderr.map(fn(s) { @core.any(s) }).unwrap_or(@global.undefined()),
   )
 }
 
@@ -642,7 +642,7 @@ pub fn Command::new(
 pub type CommandOutput
 
 ///|
-pub fn CommandOutput::as_any(self : CommandOutput) -> @nostd.Any = "%identity"
+pub fn CommandOutput::as_any(self : CommandOutput) -> @core.Any = "%identity"
 
 ///|
 /// Get exit code from CommandOutput
@@ -671,7 +671,7 @@ pub fn CommandOutput::stderr(self : CommandOutput) -> @typedarray.Uint8Array {
 ///|
 /// Get signal that terminated the process (if any)
 pub fn CommandOutput::signal(self : CommandOutput) -> String? {
-  self.as_any()["signal"].cast() |> @nostd.identity_option
+  self.as_any()["signal"].cast() |> @core.identity_option
 }
 
 ///|
@@ -700,7 +700,7 @@ pub fn Command::outputSync(self : Command) -> CommandOutput {
 pub type ChildProcess
 
 ///|
-pub fn ChildProcess::as_any(self : ChildProcess) -> @nostd.Any = "%identity"
+pub fn ChildProcess::as_any(self : ChildProcess) -> @core.Any = "%identity"
 
 ///|
 /// Get process ID
@@ -710,19 +710,19 @@ pub fn ChildProcess::pid(self : ChildProcess) -> Int {
 
 ///|
 /// Get stdin stream (WritableStream)
-pub fn ChildProcess::stdin(self : ChildProcess) -> @nostd.Any {
+pub fn ChildProcess::stdin(self : ChildProcess) -> @core.Any {
   self.as_any()["stdin"].cast()
 }
 
 ///|
 /// Get stdout stream (ReadableStream)
-pub fn ChildProcess::stdout(self : ChildProcess) -> @nostd.Any {
+pub fn ChildProcess::stdout(self : ChildProcess) -> @core.Any {
   self.as_any()["stdout"].cast()
 }
 
 ///|
 /// Get stderr stream (ReadableStream)
-pub fn ChildProcess::stderr(self : ChildProcess) -> @nostd.Any {
+pub fn ChildProcess::stderr(self : ChildProcess) -> @core.Any {
   self.as_any()["stderr"].cast()
 }
 
@@ -732,7 +732,7 @@ pub fn ChildProcess::stderr(self : ChildProcess) -> @nostd.Any {
 pub type CommandStatus
 
 ///|
-pub fn CommandStatus::as_any(self : CommandStatus) -> @nostd.Any = "%identity"
+pub fn CommandStatus::as_any(self : CommandStatus) -> @core.Any = "%identity"
 
 ///|
 /// Get exit code from CommandStatus
@@ -749,7 +749,7 @@ pub fn CommandStatus::success(self : CommandStatus) -> Bool {
 ///|
 /// Get signal that terminated the process (if any)
 pub fn CommandStatus::signal(self : CommandStatus) -> String? {
-  self.as_any()["signal"].cast() |> @nostd.identity_option
+  self.as_any()["signal"].cast() |> @core.identity_option
 }
 
 ///|
@@ -763,7 +763,7 @@ pub async fn ChildProcess::status(self : ChildProcess) -> CommandStatus {
 /// Send signal to process
 pub fn ChildProcess::kill(self : ChildProcess, signal? : String) -> Unit {
   match signal {
-    Some(s) => self.as_any()._call("kill", [@nostd.any(s)]) |> ignore
+    Some(s) => self.as_any()._call("kill", [@core.any(s)]) |> ignore
     None => self.as_any()._call("kill", []) |> ignore
   }
 }

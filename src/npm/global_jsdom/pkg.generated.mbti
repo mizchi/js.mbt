@@ -2,7 +2,7 @@
 package "mizchi/js/npm/global_jsdom"
 
 // Values
-fn register() -> Unit
+pub fn register() -> Unit
 
 // Errors
 

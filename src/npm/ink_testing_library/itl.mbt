@@ -11,13 +11,13 @@
 pub type InkTestingLibrary
 
 ///|
-pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @nostd.Any = "%identity"
+pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @core.Any = "%identity"
 
 ///|
 /// Dynamic import for ink-testing-library module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_ink_testing_library_internal() -> @nostd.Promise[
+extern "js" fn import_ink_testing_library_internal() -> @core.Promise[
   InkTestingLibrary,
 ] =
   #| () => import("ink-testing-library")
@@ -40,7 +40,7 @@ pub async fn dynamic_import() -> InkTestingLibrary {
 pub type RenderResult
 
 ///|
-pub fn RenderResult::as_any(self : RenderResult) -> @nostd.Any = "%identity"
+pub fn RenderResult::as_any(self : RenderResult) -> @core.Any = "%identity"
 
 ///|
 /// JS: InkTestingLibrary.render(element)
@@ -57,7 +57,7 @@ pub fn InkTestingLibrary::render(
 /// Returns the last rendered frame as a string, or None if nothing was rendered
 pub fn RenderResult::lastFrame(self : RenderResult) -> String? {
   let result = self.as_any()["lastFrame"]._invoke([])
-  if @nostd.is_undefined(result) || @nostd.is_null(result) {
+  if @core.is_undefined(result) || @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -105,7 +105,7 @@ pub fn RenderResult::unmount(self : RenderResult) -> Unit {
 pub type Stdin
 
 ///|
-pub fn Stdin::as_any(self : Stdin) -> @nostd.Any = "%identity"
+pub fn Stdin::as_any(self : Stdin) -> @core.Any = "%identity"
 
 ///|
 /// JS: result.stdin
@@ -118,7 +118,7 @@ pub fn RenderResult::stdin(self : RenderResult) -> Stdin {
 /// JS: stdin.write(data)
 /// Write data to stdin to simulate user input
 pub fn Stdin::write(self : Stdin, data : String) -> Unit {
-  self.as_any()["write"]._invoke([@nostd.any(data)]) |> ignore
+  self.as_any()["write"]._invoke([@core.any(data)]) |> ignore
 }
 
 // ============================================================
@@ -131,7 +131,7 @@ pub fn Stdin::write(self : Stdin, data : String) -> Unit {
 pub type Stdout
 
 ///|
-pub fn Stdout::as_any(self : Stdout) -> @nostd.Any = "%identity"
+pub fn Stdout::as_any(self : Stdout) -> @core.Any = "%identity"
 
 ///|
 /// JS: result.stdout
@@ -145,7 +145,7 @@ pub fn RenderResult::stdout(self : RenderResult) -> Stdout {
 /// Returns the last frame written to stdout
 pub fn Stdout::lastFrame(self : Stdout) -> String? {
   let result = self.as_any()["lastFrame"]._invoke([])
-  if @nostd.is_undefined(result) || @nostd.is_null(result) {
+  if @core.is_undefined(result) || @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -176,7 +176,7 @@ pub fn Stdout::frames(self : Stdout) -> Array[String] {
 pub type Stderr
 
 ///|
-pub fn Stderr::as_any(self : Stderr) -> @nostd.Any = "%identity"
+pub fn Stderr::as_any(self : Stderr) -> @core.Any = "%identity"
 
 ///|
 /// JS: result.stderr
@@ -190,7 +190,7 @@ pub fn RenderResult::stderr(self : RenderResult) -> Stderr {
 /// Returns the last frame written to stderr
 pub fn Stderr::lastFrame(self : Stderr) -> String? {
   let result = self.as_any()["lastFrame"]._invoke([])
-  if @nostd.is_undefined(result) || @nostd.is_null(result) {
+  if @core.is_undefined(result) || @core.is_null(result) {
     None
   } else {
     Some(result.cast())

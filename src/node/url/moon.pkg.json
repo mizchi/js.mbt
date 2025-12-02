@@ -1,10 +1,15 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/web/http",
-    { "path": "mizchi/js/web/url", "alias": "weburl" }
+    {
+      "path": "mizchi/js/web/url",
+      "alias": "weburl"
+    }
   ]
 }

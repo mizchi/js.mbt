@@ -2,30 +2,29 @@
 package "mizchi/js/npm/client_s3"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-async fn copy_object(S3Client, String, String, String, String) -> CopyObjectOutput
+pub async fn copy_object(S3Client, String, String, String, String) -> CopyObjectOutput
 
-async fn create_bucket(S3Client, String) -> Unit
+pub async fn create_bucket(S3Client, String) -> Unit
 
-async fn delete_bucket(S3Client, String) -> Unit
+pub async fn delete_bucket(S3Client, String) -> Unit
 
-async fn delete_object(S3Client, String, String) -> DeleteObjectOutput
+pub async fn delete_object(S3Client, String, String) -> DeleteObjectOutput
 
-async fn get_object(S3Client, String, String) -> GetObjectOutput
+pub async fn get_object(S3Client, String, String) -> GetObjectOutput
 
-async fn head_object(S3Client, String, String) -> HeadObjectOutput
+pub async fn head_object(S3Client, String, String) -> HeadObjectOutput
 
-async fn list_buckets(S3Client) -> ListBucketsOutput
+pub async fn list_buckets(S3Client) -> ListBucketsOutput
 
-async fn list_objects_v2(S3Client, String, prefix? : String, maxKeys? : Int, continuationToken? : String) -> ListObjectsV2Output
+pub async fn list_objects_v2(S3Client, String, prefix? : String, maxKeys? : Int, continuationToken? : String) -> ListObjectsV2Output
 
-async fn put_object(S3Client, String, String, String, contentType? : String) -> PutObjectOutput
+pub async fn put_object(S3Client, String, String, String, contentType? : String) -> PutObjectOutput
 
-async fn put_object_bytes(S3Client, String, String, Bytes, contentType? : String) -> PutObjectOutput
+pub async fn put_object_bytes(S3Client, String, String, Bytes, contentType? : String) -> PutObjectOutput
 
 // Errors
 
@@ -43,12 +42,12 @@ pub struct DeleteObjectOutput {
 }
 
 pub struct GetObjectOutput {
-  body : @nostd.Any
+  body : @core.Any
   content_type : String?
   content_length : Int?
   etag : String?
 }
-async fn GetObjectOutput::body_as_string(Self) -> String
+pub async fn GetObjectOutput::body_as_string(Self) -> String
 
 pub struct HeadObjectOutput {
   content_type : String?
@@ -72,14 +71,14 @@ pub struct PutObjectOutput {
 
 #external
 pub type S3Client
-fn S3Client::as_any(Self) -> @nostd.Any
-fn S3Client::new(region? : String, endpoint? : String, accessKeyId? : String, secretAccessKey? : String, forcePathStyle? : Bool) -> Self
+pub fn S3Client::as_any(Self) -> @core.Any
+pub fn S3Client::new(region? : String, endpoint? : String, accessKeyId? : String, secretAccessKey? : String, forcePathStyle? : Bool) -> Self
 
 pub struct S3Object {
   key : String?
   size : Int?
   etag : String?
-  last_modified : @nostd.Any
+  last_modified : @core.Any
 }
 
 // Type aliases

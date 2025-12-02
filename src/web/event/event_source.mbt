@@ -11,14 +11,14 @@ pub(all) struct EventSource {
 }
 
 ///|
-pub fn EventSource::as_any(self : EventSource) -> @nostd.Any = "%identity"
+pub fn EventSource::as_any(self : EventSource) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn EventSource::as_event_target(self : EventSource) -> EventTarget = "%identity"
 
 ///|
-pub impl EventTargetImpl for EventSource with as_any(self) -> @nostd.Any {
+pub impl EventTargetImpl for EventSource with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -66,9 +66,9 @@ pub fn EventSource::close(self : Self) -> Unit {
 /// JS: eventSource.onopen = handler
 pub fn EventSource::set_onopen(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onopen"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onopen"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -76,9 +76,9 @@ pub fn EventSource::set_onopen(
 /// JS: eventSource.onmessage = handler
 pub fn EventSource::set_onmessage(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
@@ -86,31 +86,31 @@ pub fn EventSource::set_onmessage(
 /// JS: eventSource.onerror = handler
 pub fn EventSource::set_onerror(
   self : Self,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
 /// MessageEvent helper to get data
 /// JS: event.data
-pub fn get_event_data(event : @nostd.Any) -> String {
-  let e : @nostd.Any = event |> @nostd.any
+pub fn get_event_data(event : @core.Any) -> String {
+  let e : @core.Any = event |> @core.any
   e["data"].cast()
 }
 
 ///|
 /// MessageEvent helper to get lastEventId
 /// JS: event.lastEventId
-pub fn get_last_event_id(event : @nostd.Any) -> String {
-  let e : @nostd.Any = event |> @nostd.any
+pub fn get_last_event_id(event : @core.Any) -> String {
+  let e : @core.Any = event |> @core.any
   e["lastEventId"].cast()
 }
 
 ///|
 /// MessageEvent helper to get origin
 /// JS: event.origin
-pub fn get_event_origin(event : @nostd.Any) -> String {
-  let e : @nostd.Any = event |> @nostd.any
+pub fn get_event_origin(event : @core.Any) -> String {
+  let e : @core.Any = event |> @core.any
   e["origin"].cast()
 }

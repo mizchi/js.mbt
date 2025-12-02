@@ -3,7 +3,7 @@
 ///|
 test "TextEncoder::new - create encoder" {
   let encoder = TextEncoder::new()
-  assert_eq(@nostd.typeof_(@nostd.any(encoder)), "object")
+  assert_eq(@core.typeof_(@core.any(encoder)), "object")
 }
 
 ///|
@@ -57,7 +57,7 @@ test "TextEncoder::encode - special characters" {
 ///|
 test "TextDecoder::new - create decoder" {
   let decoder = TextDecoder::new()
-  assert_eq(@nostd.typeof_(@nostd.any(decoder)), "object")
+  assert_eq(@core.typeof_(@core.any(decoder)), "object")
 }
 
 ///|

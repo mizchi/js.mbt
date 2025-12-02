@@ -2,7 +2,7 @@
 // WebAssembly System Interface (WASI) API
 
 ///|
-extern "js" fn wasi_module_ffi() -> @nostd.Any =
+extern "js" fn wasi_module_ffi() -> @core.Any =
   #| () => require("node:wasi")
 
 ///|
@@ -11,7 +11,7 @@ extern "js" fn wasi_module_ffi() -> @nostd.Any =
 pub type WasiModule
 
 ///|
-pub fn WasiModule::as_any(self : WasiModule) -> @nostd.Any = "%identity"
+pub fn WasiModule::as_any(self : WasiModule) -> @core.Any = "%identity"
 
 ///|
 /// Get wasi module
@@ -21,9 +21,9 @@ fn wasi_module() -> WasiModule {
 
 ///|
 extern "js" fn ffi_new_wasi(
-  wasi_class : @nostd.Any,
-  options : @nostd.Any,
-) -> @nostd.Any =
+  wasi_class : @core.Any,
+  options : @core.Any,
+) -> @core.Any =
   #| (WasiClass, options) => new WasiClass(options)
 
 ///|
@@ -31,7 +31,7 @@ extern "js" fn ffi_new_wasi(
 pub type WASI
 
 ///|
-pub fn WASI::as_any(self : WASI) -> @nostd.Any = "%identity"
+pub fn WASI::as_any(self : WASI) -> @core.Any = "%identity"
 
 ///|
 /// Create a new WASI instance
@@ -56,29 +56,29 @@ pub fn WASI::new(
 ) -> WASI {
   let env_obj = match env {
     Some(env) => {
-      let obj = @nostd.Object::new()
-      env.each(fn(key, value) { obj._set(key, value |> @nostd.any) })
+      let obj = @core.Object::new()
+      env.each(fn(key, value) { obj._set(key, value |> @core.any) })
       Some(obj)
     }
     None => None
   }
   let preopens_obj = match preopens {
     Some(preopens) => {
-      let obj = @nostd.Object::new()
-      preopens.each(fn(key, value) { obj._set(key, value |> @nostd.any) })
+      let obj = @core.Object::new()
+      preopens.each(fn(key, value) { obj._set(key, value |> @core.any) })
       Some(obj)
     }
     None => None
   }
   let options = @mbtconv.from_option_map({
-    "version": Some(@nostd.any(version)),
-    "args": args.map(fn(x) { @nostd.any(x) }),
-    "env": env_obj.map(x => @nostd.any(x)),
-    "preopens": preopens_obj.map(x => @nostd.any(x)),
-    "returnOnExit": returnOnExit.map(x => @nostd.any(x)),
-    "stdin": stdin.map(x => @nostd.any(x)),
-    "stdout": stdout.map(x => @nostd.any(x)),
-    "stderr": stderr.map(x => @nostd.any(x)),
+    "version": Some(@core.any(version)),
+    "args": args.map(fn(x) { @core.any(x) }),
+    "env": env_obj.map(x => @core.any(x)),
+    "preopens": preopens_obj.map(x => @core.any(x)),
+    "returnOnExit": returnOnExit.map(x => @core.any(x)),
+    "stdin": stdin.map(x => @core.any(x)),
+    "stdout": stdout.map(x => @core.any(x)),
+    "stderr": stderr.map(x => @core.any(x)),
   }).cast()
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.as_any()._get("WASI")
@@ -88,7 +88,7 @@ pub fn WASI::new(
 
 ///|
 /// Get import object for WebAssembly.instantiate()
-pub fn WASI::getImportObject(self : Self) -> @nostd.Any {
+pub fn WASI::getImportObject(self : Self) -> @core.Any {
   self.as_any()._call("getImportObject", [])
 }
 
@@ -98,7 +98,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.as_any()._call("start", [@nostd.any(instance)]) |> ignore
+  self.as_any()._call("start", [@core.any(instance)]) |> ignore
 }
 
 ///|
@@ -107,11 +107,11 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.as_any()._call("initialize", [@nostd.any(instance)]) |> ignore
+  self.as_any()._call("initialize", [@core.any(instance)]) |> ignore
 }
 
 ///|
 /// Get the wasiImport property
-pub fn WASI::wasiImport(self : Self) -> @nostd.Any {
+pub fn WASI::wasiImport(self : Self) -> @core.Any {
   self.as_any()._get("wasiImport")
 }

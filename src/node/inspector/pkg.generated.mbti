@@ -3,36 +3,40 @@ package "mizchi/js/node/inspector"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-fn close() -> Unit
+pub fn close() -> Unit
 
-fn console() -> Console
+pub fn console() -> Console
 
-fn open(Int?, String?, Bool?) -> @js.Object
+pub fn open(Int?, String?, Bool?) -> @js.Object
 
-fn url() -> String?
+pub fn url() -> String?
 
-fn wait_for_debugger() -> Unit
+pub fn wait_for_debugger() -> Unit
 
 // Errors
 
 // Types and methods
 pub type Console
+pub fn Console::as_any(Self) -> @core.Any
+pub fn Console::to_any(Self) -> @core.Any
 
 pub type Session
-fn Session::as_any(Self) -> @nostd.Any
-fn Session::as_event_target(Self) -> @event.EventTarget
-fn Session::connect(Self) -> Unit
-fn Session::connect_to_main_thread(Self) -> Unit
-fn Session::disconnect(Self) -> Unit
-fn Session::new() -> Self
-fn Session::post(Self, String, @js.Object?, (@js.Object?, @js.Object) -> Unit) -> Unit
-impl @event.EventTargetImpl for Session
+pub fn Session::as_any(Self) -> @core.Any
+pub fn Session::as_event_target(Self) -> @event.EventTarget
+pub fn Session::connect(Self) -> Unit
+pub fn Session::connect_to_main_thread(Self) -> Unit
+pub fn Session::disconnect(Self) -> Unit
+pub fn Session::new() -> Self
+pub fn Session::post(Self, String, @js.Object?, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn Session::to_any(Self) -> @core.Any
+pub impl @event.EventTargetImpl for Session
 
 // Type aliases
 
 // Traits
+

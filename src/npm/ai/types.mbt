@@ -4,12 +4,12 @@
 ///|
 /// Provider metadata - additional provider-specific information
 pub(all) struct ProviderMetadata {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn ProviderMetadata::from_any(value : @nostd.Any) -> ProviderMetadata? {
-  if @nostd.is_undefined(value) || @nostd.is_null(value) {
+pub fn ProviderMetadata::from_any(value : @core.Any) -> ProviderMetadata? {
+  if @core.is_undefined(value) || @core.is_null(value) {
     None
   } else {
     Some({ raw: value })
@@ -17,7 +17,7 @@ pub fn ProviderMetadata::from_any(value : @nostd.Any) -> ProviderMetadata? {
 }
 
 ///|
-pub fn ProviderMetadata::as_any(self : ProviderMetadata) -> @nostd.Any {
+pub fn ProviderMetadata::as_any(self : ProviderMetadata) -> @core.Any {
   self.raw
 }
 
@@ -32,13 +32,13 @@ pub(all) struct LanguageModelUsage {
 }
 
 ///|
-pub fn LanguageModelUsage::from_any(value : @nostd.Any) -> LanguageModelUsage {
+pub fn LanguageModelUsage::from_any(value : @core.Any) -> LanguageModelUsage {
   let cached = value._get("cachedInputTokens")
   {
     input_tokens: value._get("inputTokens").cast(),
     output_tokens: value._get("outputTokens").cast(),
     total_tokens: value._get("totalTokens").cast(),
-    cached_input_tokens: if @nostd.is_undefined(cached) {
+    cached_input_tokens: if @core.is_undefined(cached) {
       0
     } else {
       cached.cast()
@@ -89,16 +89,16 @@ pub fn FinishReason::to_string(self : FinishReason) -> String {
 pub(all) struct CallWarning {
   type_ : String
   message : String?
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn CallWarning::from_any(value : @nostd.Any) -> CallWarning {
+pub fn CallWarning::from_any(value : @core.Any) -> CallWarning {
   {
     type_: value._get("type").cast(),
     message: {
       let m = value._get("message")
-      if @nostd.is_undefined(m) {
+      if @core.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -149,15 +149,15 @@ pub(all) enum Source {
 }
 
 ///|
-pub fn Source::from_any(value : @nostd.Any) -> Source {
+pub fn Source::from_any(value : @core.Any) -> Source {
   let source_type = value._get("sourceType")
-  if @nostd.is_undefined(source_type) || source_type.cast() == "url" {
+  if @core.is_undefined(source_type) || source_type.cast() == "url" {
     UrlSource({
       id: value._get("id").cast(),
       url: value._get("url").cast(),
       title: {
         let t = value._get("title")
-        if @nostd.is_undefined(t) {
+        if @core.is_undefined(t) {
           None
         } else {
           Some(t.cast())
@@ -172,7 +172,7 @@ pub fn Source::from_any(value : @nostd.Any) -> Source {
       id: value._get("id").cast(),
       title: {
         let t = value._get("title")
-        if @nostd.is_undefined(t) {
+        if @core.is_undefined(t) {
           None
         } else {
           Some(t.cast())
@@ -190,16 +190,16 @@ pub fn Source::from_any(value : @nostd.Any) -> Source {
 pub(all) struct GeneratedFile {
   name : String?
   media_type : String?
-  data : @nostd.Any
-  raw : @nostd.Any
+  data : @core.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
+pub fn GeneratedFile::from_any(value : @core.Any) -> GeneratedFile {
   {
     name: {
       let n = value._get("name")
-      if @nostd.is_undefined(n) {
+      if @core.is_undefined(n) {
         None
       } else {
         Some(n.cast())
@@ -207,7 +207,7 @@ pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
     },
     media_type: {
       let m = value._get("mediaType")
-      if @nostd.is_undefined(m) {
+      if @core.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -224,11 +224,11 @@ pub fn GeneratedFile::from_any(value : @nostd.Any) -> GeneratedFile {
 pub(all) struct ToolCall {
   tool_call_id : String
   tool_name : String
-  input : @nostd.Any
+  input : @core.Any
 }
 
 ///|
-pub fn ToolCall::from_any(value : @nostd.Any) -> ToolCall {
+pub fn ToolCall::from_any(value : @core.Any) -> ToolCall {
   {
     tool_call_id: value._get("toolCallId").cast(),
     tool_name: value._get("toolName").cast(),
@@ -242,12 +242,12 @@ pub fn ToolCall::from_any(value : @nostd.Any) -> ToolCall {
 pub(all) struct ToolResult {
   tool_call_id : String
   tool_name : String
-  input : @nostd.Any
-  output : @nostd.Any
+  input : @core.Any
+  output : @core.Any
 }
 
 ///|
-pub fn ToolResult::from_any(value : @nostd.Any) -> ToolResult {
+pub fn ToolResult::from_any(value : @core.Any) -> ToolResult {
   {
     tool_call_id: value._get("toolCallId").cast(),
     tool_name: value._get("toolName").cast(),
@@ -261,12 +261,12 @@ pub fn ToolResult::from_any(value : @nostd.Any) -> ToolResult {
 pub(all) struct ToolError {
   tool_call_id : String
   tool_name : String
-  args : @nostd.Any
-  error : @nostd.Any
+  args : @core.Any
+  error : @core.Any
 }
 
 ///|
-pub fn ToolError::from_any(value : @nostd.Any) -> ToolError {
+pub fn ToolError::from_any(value : @core.Any) -> ToolError {
   {
     tool_call_id: value._get("toolCallId").cast(),
     tool_name: value._get("toolName").cast(),
@@ -281,11 +281,11 @@ pub fn ToolError::from_any(value : @nostd.Any) -> ToolError {
 pub(all) struct ToolOutputDenied {
   tool_call_id : String
   tool_name : String
-  input : @nostd.Any
+  input : @core.Any
 }
 
 ///|
-pub fn ToolOutputDenied::from_any(value : @nostd.Any) -> ToolOutputDenied {
+pub fn ToolOutputDenied::from_any(value : @core.Any) -> ToolOutputDenied {
   {
     tool_call_id: value._get("toolCallId").cast(),
     tool_name: value._get("toolName").cast(),
@@ -299,11 +299,11 @@ pub fn ToolOutputDenied::from_any(value : @nostd.Any) -> ToolOutputDenied {
 pub(all) struct ToolApprovalRequest {
   tool_call_id : String
   tool_name : String
-  input : @nostd.Any
+  input : @core.Any
 }
 
 ///|
-pub fn ToolApprovalRequest::from_any(value : @nostd.Any) -> ToolApprovalRequest {
+pub fn ToolApprovalRequest::from_any(value : @core.Any) -> ToolApprovalRequest {
   {
     tool_call_id: value._get("toolCallId").cast(),
     tool_name: value._get("toolName").cast(),
@@ -317,14 +317,14 @@ pub(all) struct Tool {
   /// Tool description for the model
   description : String
   /// JSON Schema for input parameters (raw JSON schema object)
-  input_schema : @nostd.Any
+  input_schema : @core.Any
   /// Execute function (receives parsed args, returns result)
-  execute : (@nostd.Any) -> @nostd.Any
+  execute : (@core.Any) -> @core.Any
 }
 
 ///|
 /// Create a typed tool with input/output type conversion.
-/// Input type must be convertible from @nostd.Any (via @nostd.identity cast).
+/// Input type must be convertible from @core.Any (via @core.identity cast).
 /// Output type must implement ToJson for serialization.
 pub fn[Input, Output : ToJson] Tool::typed(
   description~ : String,
@@ -335,7 +335,7 @@ pub fn[Input, Output : ToJson] Tool::typed(
     description,
     input_schema: @mbtconv.from_json(input_schema).cast(),
     execute: fn(args) {
-      let typed_input : Input = @nostd.identity(args)
+      let typed_input : Input = @core.identity(args)
       let result = execute(typed_input)
       @mbtconv.from_json(result.to_json()).cast()
     },
@@ -344,7 +344,7 @@ pub fn[Input, Output : ToJson] Tool::typed(
 
 ///|
 /// Create an async typed tool with input/output type conversion.
-/// Input type must be convertible from @nostd.Any (via @nostd.identity cast).
+/// Input type must be convertible from @core.Any (via @core.identity cast).
 /// Output type must implement ToJson for serialization.
 /// The execute function can be async for API calls, database access, etc.
 pub fn[Input, Output : ToJson] Tool::typed_async(
@@ -353,33 +353,31 @@ pub fn[Input, Output : ToJson] Tool::typed_async(
   execute : async (Input) -> Output,
 ) -> Tool {
   // Wrap async function with promisify1 to return a Promise
-  let promisified = @js.promisify1(async fn(args : @nostd.Any) -> @nostd.Any {
-    let typed_input : Input = @nostd.identity(args)
+  let promisified = @js.promisify1(async fn(args : @core.Any) -> @core.Any {
+    let typed_input : Input = @core.identity(args)
     let result = execute(typed_input)
     @mbtconv.from_json(result.to_json()).cast()
   })
   {
     description,
     input_schema: @mbtconv.from_json(input_schema).cast(),
-    execute: fn(args) { promisified(args) |> @nostd.identity },
+    execute: fn(args) { promisified(args) |> @core.identity },
   }
 }
 
 ///|
 /// Convert Tool to JS object format expected by AI SDK
 /// Note: AI SDK v6 requires inputSchema to be wrapped with jsonSchema()
-pub fn Tool::as_any(self : Tool) -> @nostd.Any {
+pub fn Tool::as_any(self : Tool) -> @core.Any {
   let ai_module = @node.require("ai")
   let json_schema_fn = ai_module._get("jsonSchema")
-  let obj = @nostd.Object::new()
-  obj._set("description", self.description |> @nostd.any)
+  let obj = @core.Object::new()
+  obj._set("description", self.description |> @core.any)
   // Wrap with jsonSchema() helper from AI SDK
   let wrapped_schema = json_schema_fn._invoke([self.input_schema])
   obj._set("inputSchema", wrapped_schema)
   // Wrap execute function
-  let execute_fn : @nostd.Any = @js.from_fn1(fn(
-    args : @nostd.Any,
-  ) -> @nostd.Any {
+  let execute_fn : @core.Any = @js.from_fn1(fn(args : @core.Any) -> @core.Any {
     (self.execute)(args)
   })
   obj._set("execute", execute_fn)
@@ -407,8 +405,8 @@ pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
 
 ///|
 /// Convert Tools to JS object format
-pub fn Tools::as_any(self : Tools) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn Tools::as_any(self : Tools) -> @core.Any {
+  let obj = @core.Object::new()
   for name, tool in self.tools {
     obj._set(name, tool.as_any())
   }
@@ -429,15 +427,15 @@ pub(all) enum ToolChoice {
 }
 
 ///|
-pub fn ToolChoice::as_any(self : ToolChoice) -> @nostd.Any {
+pub fn ToolChoice::as_any(self : ToolChoice) -> @core.Any {
   match self {
     Auto => "auto" |> @js.any
     Required => "required" |> @js.any
     None_ => "none" |> @js.any
     Tool(name) => {
-      let obj = @nostd.Object::new()
-      obj._set("type", "tool" |> @nostd.any)
-      obj._set("toolName", name |> @nostd.any)
+      let obj = @core.Object::new()
+      obj._set("type", "tool" |> @core.any)
+      obj._set("toolName", name |> @core.any)
       obj
     }
   }
@@ -446,12 +444,12 @@ pub fn ToolChoice::as_any(self : ToolChoice) -> @nostd.Any {
 ///|
 /// Language model request metadata
 pub(all) struct LanguageModelRequestMetadata {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
 pub fn LanguageModelRequestMetadata::from_any(
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> LanguageModelRequestMetadata {
   { raw: value }
 }
@@ -461,18 +459,18 @@ pub fn LanguageModelRequestMetadata::from_any(
 pub(all) struct LanguageModelResponseMetadata {
   id : String?
   model_id : String?
-  timestamp : @nostd.Any?
-  raw : @nostd.Any
+  timestamp : @core.Any?
+  raw : @core.Any
 }
 
 ///|
 pub fn LanguageModelResponseMetadata::from_any(
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> LanguageModelResponseMetadata {
   {
     id: {
       let i = value._get("id")
-      if @nostd.is_undefined(i) {
+      if @core.is_undefined(i) {
         None
       } else {
         Some(i.cast())
@@ -480,7 +478,7 @@ pub fn LanguageModelResponseMetadata::from_any(
     },
     model_id: {
       let m = value._get("modelId")
-      if @nostd.is_undefined(m) {
+      if @core.is_undefined(m) {
         None
       } else {
         Some(m.cast())
@@ -488,7 +486,7 @@ pub fn LanguageModelResponseMetadata::from_any(
     },
     timestamp: {
       let t = value._get("timestamp")
-      if @nostd.is_undefined(t) {
+      if @core.is_undefined(t) {
         None
       } else {
         Some(t)
@@ -558,15 +556,15 @@ pub(all) enum TextStreamPart {
   Finish(finish_reason~ : FinishReason, total_usage~ : LanguageModelUsage)
   Abort
   // Error and raw
-  Error(error~ : @nostd.Any)
-  Raw(raw_value~ : @nostd.Any)
+  Error(error~ : @core.Any)
+  Raw(raw_value~ : @core.Any)
   // Unknown
-  Unknown(type_~ : String, raw~ : @nostd.Any)
+  Unknown(type_~ : String, raw~ : @core.Any)
 }
 
 ///|
 /// Parse TextStreamPart from raw JavaScript object
-pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
+pub fn TextStreamPart::from_any(value : @core.Any) -> TextStreamPart {
   let type_str : String = value._get("type").cast()
   match type_str {
     "text-start" =>
@@ -622,7 +620,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         ),
         provider_executed={
           let p = value._get("providerExecuted")
-          if @nostd.is_undefined(p) {
+          if @core.is_undefined(p) {
             None
           } else {
             Some(p.cast())
@@ -630,7 +628,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         },
         dynamic={
           let d = value._get("dynamic")
-          if @nostd.is_undefined(d) {
+          if @core.is_undefined(d) {
             None
           } else {
             Some(d.cast())
@@ -638,7 +636,7 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
         },
         title={
           let t = value._get("title")
-          if @nostd.is_undefined(t) {
+          if @core.is_undefined(t) {
             None
           } else {
             Some(t.cast())
@@ -673,10 +671,10 @@ pub fn TextStreamPart::from_any(value : @nostd.Any) -> TextStreamPart {
       )
     "start-step" => {
       let warnings_raw = value._get("warnings")
-      let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) {
+      let warnings : Array[CallWarning] = if @core.is_undefined(warnings_raw) {
         []
       } else {
-        let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
+        let arr : Array[@core.Any] = @core.identity(warnings_raw)
         arr.map(CallWarning::from_any)
       }
       StartStep(
@@ -801,7 +799,7 @@ pub(all) struct ReasoningOutput {
 }
 
 ///|
-pub fn ReasoningOutput::from_any(value : @nostd.Any) -> ReasoningOutput {
+pub fn ReasoningOutput::from_any(value : @core.Any) -> ReasoningOutput {
   {
     text: value._get("text").cast(),
     provider_metadata: ProviderMetadata::from_any(
@@ -832,7 +830,7 @@ pub(all) enum ContentPart {
 }
 
 ///|
-pub fn ContentPart::from_any(value : @nostd.Any) -> ContentPart {
+pub fn ContentPart::from_any(value : @core.Any) -> ContentPart {
   let type_str : String = value._get("type").cast()
   match type_str {
     "text" =>
@@ -914,80 +912,78 @@ pub(all) struct GenerateTextResult {
   /// Response metadata
   response : LanguageModelResponseMetadata
   /// Raw result object
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn GenerateTextResult::from_any(value : @nostd.Any) -> GenerateTextResult {
+pub fn GenerateTextResult::from_any(value : @core.Any) -> GenerateTextResult {
   // Parse content array
   let content_raw = value._get("content")
-  let content : Array[ContentPart] = if @nostd.is_undefined(content_raw) ||
-    @nostd.is_null(content_raw) {
+  let content : Array[ContentPart] = if @core.is_undefined(content_raw) ||
+    @core.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
+    let arr : Array[@core.Any] = @core.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
   let reasoning_raw = value._get("reasoning")
-  let reasoning : Array[ReasoningOutput] = if @nostd.is_undefined(reasoning_raw) ||
-    @nostd.is_null(reasoning_raw) {
+  let reasoning : Array[ReasoningOutput] = if @core.is_undefined(reasoning_raw) ||
+    @core.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
+    let arr : Array[@core.Any] = @core.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse files array
   let files_raw = value._get("files")
-  let files : Array[GeneratedFile] = if @nostd.is_undefined(files_raw) ||
-    @nostd.is_null(files_raw) {
+  let files : Array[GeneratedFile] = if @core.is_undefined(files_raw) ||
+    @core.is_null(files_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(files_raw)
+    let arr : Array[@core.Any] = @core.identity(files_raw)
     arr.map(GeneratedFile::from_any)
   }
   // Parse sources array
   let sources_raw = value._get("sources")
-  let sources : Array[Source] = if @nostd.is_undefined(sources_raw) ||
-    @nostd.is_null(sources_raw) {
+  let sources : Array[Source] = if @core.is_undefined(sources_raw) ||
+    @core.is_null(sources_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(sources_raw)
+    let arr : Array[@core.Any] = @core.identity(sources_raw)
     arr.map(Source::from_any)
   }
   // Parse tool_calls array
   let tool_calls_raw = value._get("toolCalls")
-  let tool_calls : Array[ToolCall] = if @nostd.is_undefined(tool_calls_raw) ||
-    @nostd.is_null(tool_calls_raw) {
+  let tool_calls : Array[ToolCall] = if @core.is_undefined(tool_calls_raw) ||
+    @core.is_null(tool_calls_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
+    let arr : Array[@core.Any] = @core.identity(tool_calls_raw)
     arr.map(ToolCall::from_any)
   }
   // Parse tool_results array
   let tool_results_raw = value._get("toolResults")
-  let tool_results : Array[ToolResult] = if @nostd.is_undefined(
-      tool_results_raw,
-    ) ||
-    @nostd.is_null(tool_results_raw) {
+  let tool_results : Array[ToolResult] = if @core.is_undefined(tool_results_raw) ||
+    @core.is_null(tool_results_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(tool_results_raw)
+    let arr : Array[@core.Any] = @core.identity(tool_results_raw)
     arr.map(ToolResult::from_any)
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
-    @nostd.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @core.is_undefined(warnings_raw) ||
+    @core.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
+    let arr : Array[@core.Any] = @core.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   // Parse reasoning_text
   let reasoning_text_raw = value._get("reasoningText")
-  let reasoning_text : String? = if @nostd.is_undefined(reasoning_text_raw) ||
-    @nostd.is_null(reasoning_text_raw) {
+  let reasoning_text : String? = if @core.is_undefined(reasoning_text_raw) ||
+    @core.is_null(reasoning_text_raw) {
     None
   } else {
     Some(reasoning_text_raw.cast())
@@ -1029,36 +1025,36 @@ pub(all) struct StepResult {
   /// Step response metadata
   response : LanguageModelResponseMetadata
   /// Raw step object
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
-pub fn StepResult::from_any(value : @nostd.Any) -> StepResult {
+pub fn StepResult::from_any(value : @core.Any) -> StepResult {
   // Parse content array
   let content_raw = value._get("content")
-  let content : Array[ContentPart] = if @nostd.is_undefined(content_raw) ||
-    @nostd.is_null(content_raw) {
+  let content : Array[ContentPart] = if @core.is_undefined(content_raw) ||
+    @core.is_null(content_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(content_raw)
+    let arr : Array[@core.Any] = @core.identity(content_raw)
     arr.map(ContentPart::from_any)
   }
   // Parse reasoning array
   let reasoning_raw = value._get("reasoning")
-  let reasoning : Array[ReasoningOutput] = if @nostd.is_undefined(reasoning_raw) ||
-    @nostd.is_null(reasoning_raw) {
+  let reasoning : Array[ReasoningOutput] = if @core.is_undefined(reasoning_raw) ||
+    @core.is_null(reasoning_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(reasoning_raw)
+    let arr : Array[@core.Any] = @core.identity(reasoning_raw)
     arr.map(ReasoningOutput::from_any)
   }
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
-    @nostd.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @core.is_undefined(warnings_raw) ||
+    @core.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
+    let arr : Array[@core.Any] = @core.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {

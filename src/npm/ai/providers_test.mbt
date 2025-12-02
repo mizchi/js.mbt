@@ -28,9 +28,9 @@ test "OpenAIOptions::as_any with all fields" {
 test "OpenAIOptions::as_any with empty options" {
   let opts = OpenAIOptions::default()
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
-  assert_true(@nostd.is_undefined(js_obj._get("organization")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("organization")))
 }
 
 ///|
@@ -57,8 +57,8 @@ test "AnthropicOptions::as_any with all fields" {
 test "AnthropicOptions::as_any with empty options" {
   let opts = AnthropicOptions::default()
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
 }
 
 ///|
@@ -85,8 +85,8 @@ test "GoogleOptions::as_any with all fields" {
 test "GoogleOptions::as_any with empty options" {
   let opts = GoogleOptions::default()
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
 }
 
 ///|
@@ -99,8 +99,8 @@ test "OpenAIOptions::as_any with partial fields - api_key only" {
   let js_obj = opts.as_any()
   let api_key : String = js_obj._get("apiKey").cast()
   assert_eq(api_key, "my-key")
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
-  assert_true(@nostd.is_undefined(js_obj._get("organization")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("organization")))
 }
 
 ///|
@@ -111,10 +111,10 @@ test "OpenAIOptions::as_any with partial fields - base_url only" {
     organization: None,
   }
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
   let base_url : String = js_obj._get("baseURL").cast()
   assert_eq(base_url, "https://custom.api.com")
-  assert_true(@nostd.is_undefined(js_obj._get("organization")))
+  assert_true(@core.is_undefined(js_obj._get("organization")))
 }
 
 ///|
@@ -125,8 +125,8 @@ test "OpenAIOptions::as_any with partial fields - organization only" {
     organization: Some("my-org"),
   }
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
   let org : String = js_obj._get("organization").cast()
   assert_eq(org, "my-org")
 }
@@ -140,7 +140,7 @@ test "AnthropicOptions::as_any with partial fields - api_key only" {
   let js_obj = opts.as_any()
   let api_key : String = js_obj._get("apiKey").cast()
   assert_eq(api_key, "anthropic-key")
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
 }
 
 ///|
@@ -150,7 +150,7 @@ test "AnthropicOptions::as_any with partial fields - base_url only" {
     base_url: Some("https://custom.anthropic.com"),
   }
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
   let base_url : String = js_obj._get("baseURL").cast()
   assert_eq(base_url, "https://custom.anthropic.com")
 }
@@ -161,7 +161,7 @@ test "GoogleOptions::as_any with partial fields - api_key only" {
   let js_obj = opts.as_any()
   let api_key : String = js_obj._get("apiKey").cast()
   assert_eq(api_key, "google-key")
-  assert_true(@nostd.is_undefined(js_obj._get("baseURL")))
+  assert_true(@core.is_undefined(js_obj._get("baseURL")))
 }
 
 ///|
@@ -171,7 +171,7 @@ test "GoogleOptions::as_any with partial fields - base_url only" {
     base_url: Some("https://custom.google.com"),
   }
   let js_obj = opts.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("apiKey")))
+  assert_true(@core.is_undefined(js_obj._get("apiKey")))
   let base_url : String = js_obj._get("baseURL").cast()
   assert_eq(base_url, "https://custom.google.com")
 }

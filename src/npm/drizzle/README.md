@@ -2,7 +2,7 @@
 
 **WARNING: This API is not recommended for use.**
 
-This binding lacks type safety compared to TypeScript's drizzle-orm. Column access returns `@nostd.Any`, and field validation only happens at runtime.
+This binding lacks type safety compared to TypeScript's drizzle-orm. Column access returns `@core.Any`, and field validation only happens at runtime.
 
 ## Recommendations
 

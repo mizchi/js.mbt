@@ -5,14 +5,14 @@
 pub type CloudflareEnv
 
 ///|
-pub fn CloudflareEnv::as_any(self : CloudflareEnv) -> @nostd.Any = "%identity"
+pub fn CloudflareEnv::as_any(self : CloudflareEnv) -> @core.Any = "%identity"
 
 ///|
 #external
 pub type CloudflareContext
 
 ///|
-pub fn CloudflareContext::as_any(self : CloudflareContext) -> @nostd.Any = "%identity"
+pub fn CloudflareContext::as_any(self : CloudflareContext) -> @core.Any = "%identity"
 
 ///|
 #alias(wait_until)
@@ -20,7 +20,7 @@ pub fn CloudflareContext::waitUntil(
   self : CloudflareContext,
   promise : @js.Promise[Unit],
 ) -> Unit {
-  self.as_any()._call("waitUntil", [@nostd.any(promise)]) |> ignore
+  self.as_any()._call("waitUntil", [@core.any(promise)]) |> ignore
 }
 
 ///|
@@ -38,7 +38,7 @@ pub(all) struct CloudflareRequest {
 }
 
 ///|
-pub fn CloudflareRequest::as_any(self : CloudflareRequest) -> @nostd.Any = "%identity"
+pub fn CloudflareRequest::as_any(self : CloudflareRequest) -> @core.Any = "%identity"
 
 ///|
 /// CloudflareFetchHandler is a type alias for Cloudflare Worker fetch handler

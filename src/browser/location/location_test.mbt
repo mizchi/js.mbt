@@ -2,7 +2,7 @@
 #skip("location not available in JSDOM")
 test "location global function returns Location" {
   let loc = location()
-  assert_eq(@nostd.typeof_(loc |> @nostd.any), "object")
+  assert_eq(@core.typeof_(loc |> @core.any), "object")
 }
 
 ///|

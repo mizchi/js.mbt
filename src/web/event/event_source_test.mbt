@@ -26,20 +26,20 @@ test "EventSource constructor exists" {
 
 ///|
 test "get_event_data extracts data from event" {
-  let event : @nostd.Any = @nostd.from_entries([("data", @nostd.any("test data"))]).cast()
+  let event : @core.Any = @core.from_entries([("data", @core.any("test data"))]).cast()
   assert_eq(get_event_data(event), "test data")
 }
 
 ///|
 test "get_last_event_id extracts lastEventId from event" {
-  let event : @nostd.Any = @nostd.from_entries([("lastEventId", @nostd.any("123"))]).cast()
+  let event : @core.Any = @core.from_entries([("lastEventId", @core.any("123"))]).cast()
   assert_eq(get_last_event_id(event), "123")
 }
 
 ///|
 test "get_event_origin extracts origin from event" {
-  let event : @nostd.Any = @nostd.from_entries([
-    ("origin", @nostd.any("https://example.com")),
+  let event : @core.Any = @core.from_entries([
+    ("origin", @core.any("https://example.com")),
   ]).cast()
   assert_eq(get_event_origin(event), "https://example.com")
 }

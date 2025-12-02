@@ -23,7 +23,7 @@ test "Buffer.alloc" {
   // Zero-filled buffer
   assert_eq(buf.as_any()._get("0").cast(), 0)
   assert_eq(buf.as_any()._get("9").cast(), 0)
-  let buf_filled = Buffer::alloc(5, fill=@nostd.any(0x41)) // Fill with 'A'
+  let buf_filled = Buffer::alloc(5, fill=@core.any(0x41)) // Fill with 'A'
   assert_eq(buf_filled.toString(), "AAAAA")
 }
 
@@ -36,8 +36,8 @@ test "Buffer.allocUnsafe" {
 ///|
 test "Buffer.isBuffer" {
   let buf = Buffer::from_string("test")
-  assert_eq(Buffer::isBuffer(buf |> @nostd.any), true)
-  assert_eq(Buffer::isBuffer(@nostd.any("hello")), false)
+  assert_eq(Buffer::isBuffer(buf |> @core.any), true)
+  assert_eq(Buffer::isBuffer(@core.any("hello")), false)
 }
 
 ///|
@@ -113,10 +113,10 @@ test "Buffer copy" {
 ///|
 test "Buffer fill" {
   let buf = Buffer::alloc(5)
-  buf.fill(@nostd.any(0x41)) |> ignore // Fill with 'A'
+  buf.fill(@core.any(0x41)) |> ignore // Fill with 'A'
   assert_eq(buf.toString(), "AAAAA")
   let buf2 = Buffer::alloc(10)
-  buf2.fill(@nostd.any(0x42), offset=2, end=7) |> ignore // Fill with 'B'
+  buf2.fill(@core.any(0x42), offset=2, end=7) |> ignore // Fill with 'B'
   assert_eq(buf2.as_any()._get("1").cast(), 0)
   assert_eq(buf2.as_any()._get("2").cast(), 0x42) // 'B'
   assert_eq(buf2.as_any()._get("6").cast(), 0x42) // 'B'
@@ -135,21 +135,21 @@ test "Buffer equals" {
 ///|
 test "Buffer includes and indexOf" {
   let buf = Buffer::from_string("Hello World")
-  assert_eq(buf.includes(@nostd.any("World")), true)
-  assert_eq(buf.includes(@nostd.any("Foo")), false)
-  assert_eq(buf.indexOf(@nostd.any("World")), 6)
-  assert_eq(buf.indexOf(@nostd.any("Foo")), -1)
-  assert_eq(buf.indexOf(@nostd.any("o")), 4)
+  assert_eq(buf.includes(@core.any("World")), true)
+  assert_eq(buf.includes(@core.any("Foo")), false)
+  assert_eq(buf.indexOf(@core.any("World")), 6)
+  assert_eq(buf.indexOf(@core.any("Foo")), -1)
+  assert_eq(buf.indexOf(@core.any("o")), 4)
 }
 
 ///|
 test "Buffer get and set" {
   let buf = Buffer::alloc(5)
-  buf.as_any()._set("0", 72 |> @nostd.any) // 'H'
-  buf.as_any()._set("1", 101 |> @nostd.any) // 'e'
-  buf.as_any()._set("2", 108 |> @nostd.any) // 'l'
-  buf.as_any()._set("3", 108 |> @nostd.any) // 'l'
-  buf.as_any()._set("4", 111 |> @nostd.any) // 'o'
+  buf.as_any()._set("0", 72 |> @core.any) // 'H'
+  buf.as_any()._set("1", 101 |> @core.any) // 'e'
+  buf.as_any()._set("2", 108 |> @core.any) // 'l'
+  buf.as_any()._set("3", 108 |> @core.any) // 'l'
+  buf.as_any()._set("4", 111 |> @core.any) // 'o'
   assert_eq(buf.as_any()._get("0").cast(), 72)
   assert_eq(buf.toString(), "Hello")
 }
@@ -160,11 +160,11 @@ test "Buffer toJSON" {
   let json = buf.toJSON()
 
   // JSON representation has type and data fields
-  let json_type : String = @nostd.identity(json.as_any()._get("type"))
+  let json_type : String = @core.identity(json.as_any()._get("type"))
   assert_eq(json_type, "Buffer")
   // The data field is an array, verify it has the correct length
   let data = json.as_any()._get("data")
-  let data_length : Int = @nostd.identity(data._get("length"))
+  let data_length : Int = @core.identity(data._get("length"))
   assert_eq(data_length, 5)
 }
 

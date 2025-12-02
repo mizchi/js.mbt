@@ -5,7 +5,7 @@
 pub type FSWatcher
 
 ///|
-pub fn FSWatcher::as_any(self : FSWatcher) -> @nostd.Any = "%identity"
+pub fn FSWatcher::as_any(self : FSWatcher) -> @core.Any = "%identity"
 
 ///|
 /// Close the watcher
@@ -24,7 +24,7 @@ pub fn FSWatcher::on(
 ) -> Self {
   self
   .as_any()
-  ._call("on", [@nostd.any(event), @nostd.any(@js.from_fn2(listener))])
+  ._call("on", [@core.any(event), @core.any(@js.from_fn2(listener))])
   .cast()
 }
 
@@ -38,47 +38,46 @@ pub fn watch(
   encoding? : String,
   listener? : (String, String) -> Unit,
 ) -> FSWatcher {
-  let fs : @nostd.Any = fs_module() |> @nostd.any
+  let fs : @core.Any = fs_module() |> @core.any
   let has_options = not(persistent is None) ||
     not(recursive is None) ||
     not(encoding is None)
   if has_options {
-    let map : Map[String, @nostd.Any] = {
+    let map : Map[String, @core.Any] = {
       let m = Map::new()
       match persistent {
-        Some(p) => m.set("persistent", @nostd.any(p))
+        Some(p) => m.set("persistent", @core.any(p))
         None => ()
       }
       match recursive {
-        Some(r) => m.set("recursive", @nostd.any(r))
+        Some(r) => m.set("recursive", @core.any(r))
         None => ()
       }
       match encoding {
-        Some(e) => m.set("encoding", @nostd.any(e))
+        Some(e) => m.set("encoding", @core.any(e))
         None => ()
       }
       m
     }
-    let options : @nostd.Any = @mbtconv.from_map(map) |> @nostd.any
+    let options : @core.Any = @mbtconv.from_map(map) |> @core.any
     match listener {
       Some(l) =>
         fs
         ._call("watch", [
-          @nostd.any(filename),
+          @core.any(filename),
           options,
-          @nostd.any(@js.from_fn2(l)),
+          @core.any(@js.from_fn2(l)),
         ])
         .cast()
-      None =>
-        fs._call("watch", [@nostd.any(filename), options]).cast()
+      None => fs._call("watch", [@core.any(filename), options]).cast()
     }
   } else {
     match listener {
       Some(l) =>
         fs
-        ._call("watch", [@nostd.any(filename), @nostd.any(@js.from_fn2(l))])
+        ._call("watch", [@core.any(filename), @core.any(@js.from_fn2(l))])
         .cast()
-      None => fs._call("watch", [@nostd.any(filename)]).cast()
+      None => fs._call("watch", [@core.any(filename)]).cast()
     }
   }
 }

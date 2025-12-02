@@ -5,11 +5,11 @@
 pub type TypedArray
 
 ///|
-pub fn TypedArray::as_any(self : TypedArray) -> @nostd.Any = "%identity"
+pub fn TypedArray::as_any(self : TypedArray) -> @core.Any = "%identity"
 
 ///|
 /// JS との橋渡し用ヘルパー
-// pub fn TypedArray::_get(self : TypedArray, key : String) -> @nostd.Any {
+// pub fn TypedArray::_get(self : TypedArray, key : String) -> @core.Any {
 //   self.as_any()._get(key)
 // }
 
@@ -17,13 +17,13 @@ pub fn TypedArray::as_any(self : TypedArray) -> @nostd.Any = "%identity"
 // pub fn TypedArray::_call(
 //   self : TypedArray,
 //   key : String,
-//   args : Array[@nostd.Any],
-// ) -> @nostd.Any {
+//   args : Array[@core.Any],
+// ) -> @core.Any {
 //   self.as_any()._call(key, args)
 // }
 
 ///|
-// pub fn TypedArray::call0(self : TypedArray, key : String) -> @nostd.Any {
+// pub fn TypedArray::call0(self : TypedArray, key : String) -> @core.Any {
 //   self.as_any().call0(key)
 // }
 
@@ -31,9 +31,9 @@ pub fn TypedArray::as_any(self : TypedArray) -> @nostd.Any = "%identity"
 // pub fn TypedArray::call2(
 //   self : TypedArray,
 //   key : String,
-//   arg1 : @nostd.Any,
-//   arg2 : @nostd.Any,
-// ) -> @nostd.Any {
+//   arg1 : @core.Any,
+//   arg2 : @core.Any,
+// ) -> @core.Any {
 //   self.as_any().call2(key, arg1, arg2)
 // }
 
@@ -61,8 +61,8 @@ pub fn TypedArray::slice(
 ) -> TypedArray {
   match end {
     Some(e) =>
-      self.as_any()._call("slice", [@nostd.any(start), @nostd.any(e)]).cast()
-    None => self.as_any()._call("slice", [@nostd.any(start)]).cast()
+      self.as_any()._call("slice", [@core.any(start), @core.any(e)]).cast()
+    None => self.as_any()._call("slice", [@core.any(start)]).cast()
   }
 }
 
@@ -74,8 +74,8 @@ pub fn TypedArray::subarray(
 ) -> TypedArray {
   match end {
     Some(e) =>
-      self.as_any()._call("subarray", [@nostd.any(begin), @nostd.any(e)]).cast()
-    None => self.as_any()._call("subarray", [@nostd.any(begin)]).cast()
+      self.as_any()._call("subarray", [@core.any(begin), @core.any(e)]).cast()
+    None => self.as_any()._call("subarray", [@core.any(begin)]).cast()
   }
 }
 
@@ -87,7 +87,7 @@ pub fn TypedArray::indexOf(
 ) -> Int {
   self
   .as_any()
-  ._call("indexOf", [@nostd.any(search_element), @nostd.any(from_index)])
+  ._call("indexOf", [@core.any(search_element), @core.any(from_index)])
   .cast()
 }
 
@@ -99,7 +99,7 @@ pub fn TypedArray::lastIndexOf(
 ) -> Int {
   self
   .as_any()
-  ._call("lastIndexOf", [@nostd.any(search_element), @nostd.any(from_index)])
+  ._call("lastIndexOf", [@core.any(search_element), @core.any(from_index)])
   .cast()
 }
 
@@ -114,16 +114,12 @@ pub fn TypedArray::copyWithin(
     Some(e) =>
       self
       .as_any()
-      ._call("copyWithin", [
-        @nostd.any(target),
-        @nostd.any(start),
-        @nostd.any(e),
-      ])
+      ._call("copyWithin", [@core.any(target), @core.any(start), @core.any(e)])
       .cast()
     None =>
       self
       .as_any()
-      ._call("copyWithin", [@nostd.any(target), @nostd.any(start)])
+      ._call("copyWithin", [@core.any(target), @core.any(start)])
       .cast()
   }
 }
@@ -140,7 +136,7 @@ pub fn TypedArray::sort(self : TypedArray) -> TypedArray {
 
 ///|
 pub fn TypedArray::join(self : TypedArray, separator? : String = ",") -> String {
-  self.as_any()._call("join", [@nostd.any(separator)]).cast()
+  self.as_any()._call("join", [@core.any(separator)]).cast()
 }
 
 ///|
@@ -168,9 +164,9 @@ pub fn TypedArray::set(
   array : Array[UInt],
   offset? : Int = 0,
 ) -> Unit {
-  let arr : @nostd.Any = @nostd.any(array) |> @nostd.any
-  let self_any : @nostd.Any = self.as_any() |> @nostd.any
-  self_any._call("set", [arr, @nostd.any(offset)]) |> ignore
+  let arr : @core.Any = @core.any(array) |> @core.any
+  let self_any : @core.Any = self.as_any() |> @core.any
+  self_any._call("set", [arr, @core.any(offset)]) |> ignore
 }
 
 ///|
@@ -184,10 +180,10 @@ pub fn TypedArray::fill(
     Some(e) =>
       self
       .as_any()
-      ._call("fill", [@nostd.any(value), @nostd.any(start), @nostd.any(e)])
+      ._call("fill", [@core.any(value), @core.any(start), @core.any(e)])
       .cast()
     None =>
-      self.as_any()._call("fill", [@nostd.any(value), @nostd.any(start)]).cast()
+      self.as_any()._call("fill", [@core.any(value), @core.any(start)]).cast()
   }
 }
 
@@ -199,6 +195,6 @@ pub fn TypedArray::includes(
 ) -> Bool {
   self
   .as_any()
-  ._call("includes", [@nostd.any(search_element), @nostd.any(from_index)])
+  ._call("includes", [@core.any(search_element), @core.any(from_index)])
   .cast()
 }

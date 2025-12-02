@@ -5,13 +5,13 @@
 pub type Window
 
 ///|
-pub fn Window::as_any(self : Window) -> @nostd.Any = "%identity"
+pub fn Window::as_any(self : Window) -> @core.Any = "%identity"
 
 ///|
 pub fn Window::as_event_target(self : Window) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Window with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for Window with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -32,7 +32,7 @@ pub fn Window::document(self : Self) -> Document {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/navigator
 ///
 /// For typed access to Navigator methods, use the `mizchi/js/browser/navigator` package.
-pub fn Window::navigator(self : Self) -> @nostd.Any {
+pub fn Window::navigator(self : Self) -> @core.Any {
   self.as_any()._get("navigator").cast()
 }
 
@@ -41,7 +41,7 @@ pub fn Window::navigator(self : Self) -> @nostd.Any {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/location
 ///
 /// For typed access to Location methods, use the `mizchi/js/browser/location` package.
-pub fn Window::location(self : Self) -> @nostd.Any {
+pub fn Window::location(self : Self) -> @core.Any {
   self.as_any()._get("location").cast()
 }
 
@@ -49,7 +49,7 @@ pub fn Window::location(self : Self) -> @nostd.Any {
 /// Returns the localStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 #alias(local_storage)
-pub fn Window::localStorage(self : Self) -> @nostd.Any {
+pub fn Window::localStorage(self : Self) -> @core.Any {
   self.as_any()._get("localStorage").cast()
 }
 
@@ -57,14 +57,14 @@ pub fn Window::localStorage(self : Self) -> @nostd.Any {
 /// Returns the sessionStorage object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage
 #alias(session_storage)
-pub fn Window::sessionStorage(self : Self) -> @nostd.Any {
+pub fn Window::sessionStorage(self : Self) -> @core.Any {
   self.as_any()._get("sessionStorage").cast()
 }
 
 ///|
 /// Returns the console object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/console
-pub fn Window::console(self : Self) -> @nostd.Any {
+pub fn Window::console(self : Self) -> @core.Any {
   self.as_any()._get("console").cast()
 }
 
@@ -110,7 +110,7 @@ pub fn Window::outerHeight(self : Self) -> Int {
 ///|
 /// Returns the screen object
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/screen
-pub fn Window::screen(self : Self) -> @nostd.Any {
+pub fn Window::screen(self : Self) -> @core.Any {
   self.as_any()._get("screen").cast()
 }
 
@@ -126,14 +126,14 @@ pub fn Window::devicePixelRatio(self : Self) -> Double {
 /// Displays an alert dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
 pub fn Window::alert(self : Self, message : String) -> Unit {
-  self.as_any()._call("alert", [@nostd.any(message)]) |> ignore
+  self.as_any()._call("alert", [@core.any(message)]) |> ignore
 }
 
 ///|
 /// Displays a confirm dialog
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 pub fn Window::confirm(self : Self, message : String) -> Bool {
-  self.as_any()._call("confirm", [@nostd.any(message)]).cast()
+  self.as_any()._call("confirm", [@core.any(message)]).cast()
 }
 
 ///|
@@ -144,12 +144,12 @@ pub fn Window::prompt(
   message : String,
   default? : String,
 ) -> String? {
-  let v : @nostd.Any = match default {
+  let v : @core.Any = match default {
     Some(d) =>
-      self.as_any()._call("prompt", [@nostd.any(message), @nostd.any(d)]).cast()
-    None => self.as_any()._call("prompt", [@nostd.any(message)]).cast()
+      self.as_any()._call("prompt", [@core.any(message), @core.any(d)]).cast()
+    None => self.as_any()._call("prompt", [@core.any(message)]).cast()
   }
-  v |> @nostd.identity_option()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -161,18 +161,18 @@ pub fn Window::open(
   target? : String,
   features? : String,
 ) -> Window? {
-  let v : @nostd.Any = match (url, target, features) {
+  let v : @core.Any = match (url, target, features) {
     (Some(u), Some(t), Some(f)) =>
       self
       .as_any()
-      ._call("open", [@nostd.any(u), @nostd.any(t), @nostd.any(f)])
+      ._call("open", [@core.any(u), @core.any(t), @core.any(f)])
       .cast()
     (Some(u), Some(t), None) =>
-      self.as_any()._call("open", [@nostd.any(u), @nostd.any(t)]).cast()
-    (Some(u), None, _) => self.as_any()._call("open", [@nostd.any(u)]).cast()
+      self.as_any()._call("open", [@core.any(u), @core.any(t)]).cast()
+    (Some(u), None, _) => self.as_any()._call("open", [@core.any(u)]).cast()
     (None, _, _) => self.as_any()._call("open", []).cast()
   }
-  v |> @nostd.identity_option
+  v |> @core.identity_option
 }
 
 ///|
@@ -187,7 +187,7 @@ pub fn Window::close(self : Self) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
 #alias(scroll_to)
 pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
-  self.as_any()._call("scrollTo", [@nostd.any(x), @nostd.any(y)]) |> ignore
+  self.as_any()._call("scrollTo", [@core.any(x), @core.any(y)]) |> ignore
 }
 
 ///|
@@ -195,7 +195,7 @@ pub fn Window::scrollTo(self : Self, x : Int, y : Int) -> Unit {
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollBy
 #alias(scroll_by)
 pub fn Window::scrollBy(self : Self, x : Int, y : Int) -> Unit {
-  self.as_any()._call("scrollBy", [@nostd.any(x), @nostd.any(y)]) |> ignore
+  self.as_any()._call("scrollBy", [@core.any(x), @core.any(y)]) |> ignore
 }
 
 ///|
@@ -225,7 +225,7 @@ pub fn Window::setTimeout(
 ) -> Int {
   self
   .as_any()
-  ._call("setTimeout", [@nostd.any(@js.from_fn0(handler)), @nostd.any(delay)])
+  ._call("setTimeout", [@core.any(@js.from_fn0(handler)), @core.any(delay)])
   .cast()
 }
 
@@ -234,7 +234,7 @@ pub fn Window::setTimeout(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearTimeout
 #alias(clear_timeout)
 pub fn Window::clearTimeout(self : Self, id : Int) -> Unit {
-  self.as_any()._call("clearTimeout", [@nostd.any(id)]) |> ignore
+  self.as_any()._call("clearTimeout", [@core.any(id)]) |> ignore
 }
 
 ///|
@@ -248,7 +248,7 @@ pub fn Window::setInterval(
 ) -> Int {
   self
   .as_any()
-  ._call("setInterval", [@nostd.any(@js.from_fn0(handler)), @nostd.any(delay)])
+  ._call("setInterval", [@core.any(@js.from_fn0(handler)), @core.any(delay)])
   .cast()
 }
 
@@ -257,7 +257,7 @@ pub fn Window::setInterval(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval
 #alias(clear_interval)
 pub fn Window::clearInterval(self : Self, id : Int) -> Unit {
-  self.as_any()._call("clearInterval", [@nostd.any(id)]) |> ignore
+  self.as_any()._call("clearInterval", [@core.any(id)]) |> ignore
 }
 
 ///|
@@ -270,7 +270,7 @@ pub fn Window::requestAnimationFrame(
 ) -> Int {
   self
   .as_any()
-  ._call("requestAnimationFrame", [@nostd.any(@js.any(callback))])
+  ._call("requestAnimationFrame", [@core.any(@js.any(callback))])
   .cast()
 }
 
@@ -279,7 +279,7 @@ pub fn Window::requestAnimationFrame(
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame
 #alias(cancel_animation_frame)
 pub fn Window::cancelAnimationFrame(self : Self, id : Int) -> Unit {
-  self.as_any()._call("cancelAnimationFrame", [@nostd.any(id)]) |> ignore
+  self.as_any()._call("cancelAnimationFrame", [@core.any(id)]) |> ignore
 }
 
 ///|
@@ -292,8 +292,8 @@ pub async fn Window::fetch(
 ) -> @http.Response {
   let promise : @js.Promise[@http.Response] = match init {
     Some(i) =>
-      self.as_any()._call("fetch", [@nostd.any(input), @nostd.any(i)]).cast()
-    None => self.as_any()._call("fetch", [@nostd.any(input)]).cast()
+      self.as_any()._call("fetch", [@core.any(input), @core.any(i)]).cast()
+    None => self.as_any()._call("fetch", [@core.any(input)]).cast()
   }
   promise.wait()
 }
@@ -302,9 +302,9 @@ pub async fn Window::fetch(
 /// Returns a selection object representing selected text
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/getSelection
 #alias(get_selection)
-pub fn Window::getSelection(self : Self) -> @nostd.Any? {
-  let v : @nostd.Any = self.as_any()._call("getSelection", []).cast()
-  v |> @nostd.identity_option
+pub fn Window::getSelection(self : Self) -> @core.Any? {
+  let v : @core.Any = self.as_any()._call("getSelection", []).cast()
+  v |> @core.identity_option
 }
 
 ///|
@@ -315,12 +315,12 @@ pub fn Window::getComputedStyle(
   self : Self,
   element : Element,
   pseudo_elt? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   match pseudo_elt {
     Some(p) =>
       self
       .as_any()
-      ._call("getComputedStyle", [element.as_any(), @nostd.any(p)])
+      ._call("getComputedStyle", [element.as_any(), @core.any(p)])
       .cast()
     None => self.as_any()._call("getComputedStyle", [element.as_any()]).cast()
   }
@@ -330,8 +330,8 @@ pub fn Window::getComputedStyle(
 /// Returns a media query list
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
-pub fn Window::matchMedia(self : Self, query : String) -> @nostd.Any {
-  self.as_any()._call("matchMedia", [@nostd.any(query)]).cast()
+pub fn Window::matchMedia(self : Self, query : String) -> @core.Any {
+  self.as_any()._call("matchMedia", [@core.any(query)]).cast()
 }
 
 ///|
@@ -340,24 +340,24 @@ pub fn Window::matchMedia(self : Self, query : String) -> @nostd.Any {
 #alias(post_message)
 pub fn Window::postMessage(
   self : Self,
-  message : @nostd.Any,
+  message : @core.Any,
   target_origin : String,
-  transfer? : Array[@nostd.Any],
+  transfer? : Array[@core.Any],
 ) -> Unit {
   match transfer {
     Some(t) =>
       self
       .as_any()
       ._call("postMessage", [
-        @nostd.any(message),
-        @nostd.any(target_origin),
-        @nostd.any(@nostd.any(t)),
+        @core.any(message),
+        @core.any(target_origin),
+        @core.any(@core.any(t)),
       ])
       |> ignore
     None =>
       self
       .as_any()
-      ._call("postMessage", [@nostd.any(message), @nostd.any(target_origin)])
+      ._call("postMessage", [@core.any(message), @core.any(target_origin)])
       |> ignore
   }
 }

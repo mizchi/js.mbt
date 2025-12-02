@@ -12,7 +12,7 @@
 pub type Ignore
 
 ///|
-pub extern "js" fn Ignore::as_any(self : Ignore) -> @nostd.Any =
+pub extern "js" fn Ignore::as_any(self : Ignore) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -21,7 +21,7 @@ pub extern "js" fn Ignore::as_any(self : Ignore) -> @nostd.Any =
 pub type TestResult
 
 ///|
-pub extern "js" fn TestResult::as_any(self : TestResult) -> @nostd.Any =
+pub extern "js" fn TestResult::as_any(self : TestResult) -> @core.Any =
   #| (x) => x
 
 ///| FFI Functions
@@ -31,7 +31,7 @@ extern "js" fn ffi_ignore() -> Ignore =
   #| () => require('ignore')()
 
 ///|
-extern "js" fn ffi_ignore_with_options(options : @nostd.Any) -> Ignore =
+extern "js" fn ffi_ignore_with_options(options : @core.Any) -> Ignore =
   #| (options) => require('ignore')(options)
 
 ///|
@@ -39,11 +39,11 @@ extern "js" fn ffi_add(ig : Ignore, pattern : String) -> Ignore =
   #| (ig, pattern) => ig.add(pattern)
 
 ///|
-extern "js" fn ffi_add_array(ig : Ignore, patterns : @nostd.Any) -> Ignore =
+extern "js" fn ffi_add_array(ig : Ignore, patterns : @core.Any) -> Ignore =
   #| (ig, patterns) => ig.add(patterns)
 
 ///|
-extern "js" fn ffi_filter(ig : Ignore, paths : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_filter(ig : Ignore, paths : @core.Any) -> @core.Any =
   #| (ig, paths) => ig.filter(paths)
 
 ///|
@@ -51,7 +51,7 @@ extern "js" fn ffi_ignores(ig : Ignore, pathname : String) -> Bool =
   #| (ig, pathname) => ig.ignores(pathname)
 
 ///|
-extern "js" fn ffi_create_filter(ig : Ignore) -> @nostd.Any =
+extern "js" fn ffi_create_filter(ig : Ignore) -> @core.Any =
   #| (ig) => ig.createFilter()
 
 ///|
@@ -73,7 +73,7 @@ extern "js" fn ffi_test_result_unignored(result : TestResult) -> Bool =
   #| (result) => result.unignored
 
 ///|
-extern "js" fn ffi_test_result_rule(result : TestResult) -> @nostd.Any =
+extern "js" fn ffi_test_result_rule(result : TestResult) -> @core.Any =
   #| (result) => result.rule
 
 ///| Constructor
@@ -84,12 +84,12 @@ pub fn ignore_module(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore {
   if ignorecase is None && allowRelativePaths is None {
     return ffi_ignore()
   }
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if ignorecase is Some(v) {
-    options["ignorecase"] = @nostd.any(v)
+    options["ignorecase"] = @core.any(v)
   }
   if allowRelativePaths is Some(v) {
-    options["allowRelativePaths"] = @nostd.any(v)
+    options["allowRelativePaths"] = @core.any(v)
   }
   ffi_ignore_with_options(options)
 }
@@ -105,7 +105,7 @@ pub fn Ignore::add(self : Ignore, pattern : String) -> Ignore {
 ///|
 /// Add multiple patterns
 pub fn Ignore::addPatterns(self : Ignore, patterns : Array[String]) -> Ignore {
-  ffi_add_array(self, @nostd.any(patterns))
+  ffi_add_array(self, @core.any(patterns))
 }
 
 ///|
@@ -118,7 +118,7 @@ pub fn Ignore::addFromContent(self : Ignore, content : String) -> Ignore {
 ///|
 /// Filter paths, returning only non-ignored paths
 pub fn Ignore::filter(self : Ignore, paths : Array[String]) -> Array[String] {
-  ffi_filter(self, @nostd.any(paths)).cast()
+  ffi_filter(self, @core.any(paths)).cast()
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn Ignore::ignores(self : Ignore, pathname : String) -> Bool {
 
 ///|
 /// Create a filter function for use with Array.filter
-pub fn Ignore::createFilter(self : Ignore) -> @nostd.Any {
+pub fn Ignore::createFilter(self : Ignore) -> @core.Any {
   ffi_create_filter(self)
 }
 
@@ -155,7 +155,7 @@ pub fn TestResult::unignored(self : TestResult) -> Bool {
 
 ///|
 /// Get the matching rule (if any)
-pub fn TestResult::rule(self : TestResult) -> @nostd.Any {
+pub fn TestResult::rule(self : TestResult) -> @core.Any {
   ffi_test_result_rule(self)
 }
 

@@ -1,5 +1,5 @@
 ///|
-extern "js" fn process_module() -> @nostd.Any =
+extern "js" fn process_module() -> @core.Any =
   #| () => require("node:process")
 
 ///|
@@ -7,16 +7,16 @@ extern "js" fn process_module() -> @nostd.Any =
 pub type Process
 
 ///|
-pub fn Process::as_any(self : Process) -> @nostd.Any = "%identity"
+pub fn Process::as_any(self : Process) -> @core.Any = "%identity"
 
 ///|
 pub fn process() -> Process {
-  @nostd.identity(process_module())
+  @core.identity(process_module())
 }
 
 ///|
-fn process_any() -> @nostd.Any {
-  @nostd.any(process_module())
+fn process_any() -> @core.Any {
+  @core.any(process_module())
 }
 
 ///|
@@ -60,13 +60,13 @@ pub fn isTTY() -> Bool {
 ///|
 /// JS: process.chdir(path)
 pub fn chdir(path : String) -> Unit {
-  process_any()["chdir"]._invoke([@nostd.any(path)]) |> ignore
+  process_any()["chdir"]._invoke([@core.any(path)]) |> ignore
 }
 
 ///|
 /// JS: process.exit(code)
 pub fn exit(code : Int) -> Unit {
-  process_any()["exit"]._invoke([@nostd.any(code)]) |> ignore
+  process_any()["exit"]._invoke([@core.any(code)]) |> ignore
 }
 
 ///|
@@ -99,16 +99,12 @@ pub fn stderr() -> @tty.WriteStream {
 ///|
 /// JS: process.on(sig, listener)
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
-  process_any()._call("on", [
-    @nostd.any(sig),
-    @nostd.any(@js.from_fn0(listener)),
-  ])
+  process_any()._call("on", [@core.any(sig), @core.any(@js.from_fn0(listener))])
   |> ignore
 }
 
 ///|
 /// JS: process.nextTick(callback)
 pub fn nextTick(callback : () -> Unit) -> Unit {
-  process_any()._call("nextTick", [@nostd.any(@js.from_fn0(callback))])
-  |> ignore
+  process_any()._call("nextTick", [@core.any(@js.from_fn0(callback))]) |> ignore
 }

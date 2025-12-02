@@ -1,5 +1,5 @@
 ///|
-extern "js" fn url_module() -> @nostd.Any =
+extern "js" fn url_module() -> @core.Any =
   #| () => require("node:url")
 
 ///|
@@ -11,11 +11,11 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
     Some(w) =>
       url_module
       ._call("fileURLToPath", [
-        @nostd.any(url),
-        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
+        @core.any(url),
+        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }).cast(),
       ])
       .cast()
-    None => url_module._call("fileURLToPath", [@nostd.any(url)]).cast()
+    None => url_module._call("fileURLToPath", [@core.any(url)]).cast()
   }
 }
 
@@ -23,13 +23,13 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 /// Convert a file URL object to a file path
 #alias(file_url_to_path_from_url)
 pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
-  let url_module : @nostd.Any = @nostd.any(url_module())
+  let url_module : @core.Any = @core.any(url_module())
   match windows {
     Some(w) =>
       url_module
       ._call("fileURLToPath", [
         url.as_any(),
-        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }),
+        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }),
       ])
       .cast()
     None => url_module._call("fileURLToPath", [url.as_any()]).cast()
@@ -45,25 +45,25 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
     Some(w) =>
       url_module
       ._call("pathToFileURL", [
-        @nostd.any(path),
-        @mbtconv.from_option_map({ "windows": Some(@nostd.any(w)) }).cast(),
+        @core.any(path),
+        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }).cast(),
       ])
       .cast()
-    None => url_module._call("pathToFileURL", [@nostd.any(path)]).cast()
+    None => url_module._call("pathToFileURL", [@core.any(path)]).cast()
   }
 }
 
 ///|
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
-pub fn urlToHttpOptions(url : @weburl.URL) -> @nostd.Any {
-  let url_module : @nostd.Any = @nostd.any(url_module())
+pub fn urlToHttpOptions(url : @weburl.URL) -> @core.Any {
+  let url_module : @core.Any = @core.any(url_module())
   url_module._call("urlToHttpOptions", [url.as_any()]).cast()
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
-  let url_module : @nostd.Any = @nostd.any(url_module())
+  let url_module : @core.Any = @core.any(url_module())
   url_module._call("format", [url.as_any()]).cast()
 }

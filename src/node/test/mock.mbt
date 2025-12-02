@@ -8,7 +8,7 @@
 pub type MockTracker
 
 ///|
-pub fn MockTracker::as_any(self : MockTracker) -> @nostd.Any = "%identity"
+pub fn MockTracker::as_any(self : MockTracker) -> @core.Any = "%identity"
 
 ///|
 /// MockFunctionContext - tracks mock function calls
@@ -16,12 +16,12 @@ pub fn MockTracker::as_any(self : MockTracker) -> @nostd.Any = "%identity"
 pub type MockFunctionContext
 
 ///|
-pub fn MockFunctionContext::as_any(self : MockFunctionContext) -> @nostd.Any = "%identity"
+pub fn MockFunctionContext::as_any(self : MockFunctionContext) -> @core.Any = "%identity"
 
 ///|
 /// Get the global mock tracker
 pub fn mock() -> MockTracker {
-  @nostd.any(nodetest())["mock"].cast()
+  @core.any(nodetest())["mock"].cast()
 }
 
 ///|
@@ -29,14 +29,14 @@ pub fn mock() -> MockTracker {
 /// mock.fn([original[, implementation]][, options])
 pub fn MockTracker::fn_(
   self : MockTracker,
-  original? : @nostd.Any,
-  implementation? : @nostd.Any,
-) -> @nostd.Any {
+  original? : @core.Any,
+  implementation? : @core.Any,
+) -> @core.Any {
   match (original, implementation) {
     (Some(orig), Some(imp)) =>
-      self.as_any()._call("fn", [@nostd.any(orig), @nostd.any(imp)]).cast()
-    (Some(orig), None) => self.as_any()._call("fn", [@nostd.any(orig)]).cast()
-    (None, Some(imp)) => self.as_any()._call("fn", [@nostd.any(imp)]).cast()
+      self.as_any()._call("fn", [@core.any(orig), @core.any(imp)]).cast()
+    (Some(orig), None) => self.as_any()._call("fn", [@core.any(orig)]).cast()
+    (None, Some(imp)) => self.as_any()._call("fn", [@core.any(imp)]).cast()
     (None, None) => self.as_any()._call("fn", []).cast()
   }
 }
@@ -46,24 +46,24 @@ pub fn MockTracker::fn_(
 /// mock.method(object, methodName[, implementation][, options])
 pub fn MockTracker::method_(
   self : MockTracker,
-  object : @nostd.Any,
+  object : @core.Any,
   methodName : String,
-  implementation? : @nostd.Any,
-) -> @nostd.Any {
+  implementation? : @core.Any,
+) -> @core.Any {
   match implementation {
     Some(imp) =>
       self
       .as_any()
       ._call("method", [
-        @nostd.any(object),
-        @nostd.any(methodName),
-        @nostd.any(imp),
+        @core.any(object),
+        @core.any(methodName),
+        @core.any(imp),
       ])
       .cast()
     None =>
       self
       .as_any()
-      ._call("method", [@nostd.any(object), @nostd.any(methodName)])
+      ._call("method", [@core.any(object), @core.any(methodName)])
       .cast()
   }
 }
@@ -73,24 +73,24 @@ pub fn MockTracker::method_(
 /// mock.getter(object, methodName[, implementation][, options])
 pub fn MockTracker::getter_(
   self : MockTracker,
-  object : @nostd.Any,
+  object : @core.Any,
   methodName : String,
-  implementation? : @nostd.Any,
-) -> @nostd.Any {
+  implementation? : @core.Any,
+) -> @core.Any {
   match implementation {
     Some(imp) =>
       self
       .as_any()
       ._call("getter", [
-        @nostd.any(object),
-        @nostd.any(methodName),
-        @nostd.any(imp),
+        @core.any(object),
+        @core.any(methodName),
+        @core.any(imp),
       ])
       .cast()
     None =>
       self
       .as_any()
-      ._call("getter", [@nostd.any(object), @nostd.any(methodName)])
+      ._call("getter", [@core.any(object), @core.any(methodName)])
       .cast()
   }
 }
@@ -100,24 +100,24 @@ pub fn MockTracker::getter_(
 /// mock.setter(object, methodName[, implementation][, options])
 pub fn MockTracker::setter_(
   self : MockTracker,
-  object : @nostd.Any,
+  object : @core.Any,
   methodName : String,
-  implementation? : @nostd.Any,
-) -> @nostd.Any {
+  implementation? : @core.Any,
+) -> @core.Any {
   match implementation {
     Some(imp) =>
       self
       .as_any()
       ._call("setter", [
-        @nostd.any(object),
-        @nostd.any(methodName),
-        @nostd.any(imp),
+        @core.any(object),
+        @core.any(methodName),
+        @core.any(imp),
       ])
       .cast()
     None =>
       self
       .as_any()
-      ._call("setter", [@nostd.any(object), @nostd.any(methodName)])
+      ._call("setter", [@core.any(object), @core.any(methodName)])
       .cast()
   }
 }
@@ -128,17 +128,17 @@ pub fn MockTracker::setter_(
 pub fn MockTracker::module_(
   self : MockTracker,
   specifier : String,
-  defaultExport? : @nostd.Any,
-  namedExports? : @nostd.Any,
+  defaultExport? : @core.Any,
+  namedExports? : @core.Any,
 ) -> Unit {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if defaultExport is Some(exp) {
     options._set("defaultExport", exp)
   }
   if namedExports is Some(exp) {
     options._set("namedExports", exp)
   }
-  self.as_any()._call("module", [@nostd.any(specifier), @nostd.any(options)])
+  self.as_any()._call("module", [@core.any(specifier), @core.any(options)])
   |> ignore
 }
 
@@ -147,24 +147,24 @@ pub fn MockTracker::module_(
 /// mock.property(object, propertyName[, value])
 pub fn MockTracker::property_(
   self : MockTracker,
-  object : @nostd.Any,
+  object : @core.Any,
   propertyName : String,
-  value? : @nostd.Any,
-) -> @nostd.Any {
+  value? : @core.Any,
+) -> @core.Any {
   match value {
     Some(val) =>
       self
       .as_any()
       ._call("property", [
-        @nostd.any(object),
-        @nostd.any(propertyName),
-        @nostd.any(val),
+        @core.any(object),
+        @core.any(propertyName),
+        @core.any(val),
       ])
       .cast()
     None =>
       self
       .as_any()
-      ._call("property", [@nostd.any(object), @nostd.any(propertyName)])
+      ._call("property", [@core.any(object), @core.any(propertyName)])
       .cast()
   }
 }
@@ -188,7 +188,7 @@ pub fn MockTracker::restoreAll(self : MockTracker) -> Unit {
 /// Get the calls array
 pub fn MockFunctionContext::calls(
   self : MockFunctionContext,
-) -> Array[@nostd.Any] {
+) -> Array[@core.Any] {
   self.as_any()["calls"].cast()
 }
 
@@ -202,9 +202,9 @@ pub fn MockFunctionContext::callCount(self : MockFunctionContext) -> Int {
 /// Change mock implementation
 pub fn MockFunctionContext::mockImplementation(
   self : MockFunctionContext,
-  implementation : @nostd.Any,
+  implementation : @core.Any,
 ) -> Unit {
-  self.as_any()._call("mockImplementation", [@nostd.any(implementation)])
+  self.as_any()._call("mockImplementation", [@core.any(implementation)])
   |> ignore
 }
 
@@ -212,7 +212,7 @@ pub fn MockFunctionContext::mockImplementation(
 /// Set implementation for a single call
 pub fn MockFunctionContext::mockImplementationOnce(
   self : MockFunctionContext,
-  implementation : @nostd.Any,
+  implementation : @core.Any,
   onCall? : Int,
 ) -> Unit {
   match onCall {
@@ -220,14 +220,12 @@ pub fn MockFunctionContext::mockImplementationOnce(
       self
       .as_any()
       ._call("mockImplementationOnce", [
-        @nostd.any(implementation),
-        @nostd.any(call),
+        @core.any(implementation),
+        @core.any(call),
       ])
       |> ignore
     None =>
-      self
-      .as_any()
-      ._call("mockImplementationOnce", [@nostd.any(implementation)])
+      self.as_any()._call("mockImplementationOnce", [@core.any(implementation)])
       |> ignore
   }
 }
@@ -246,6 +244,6 @@ pub fn MockFunctionContext::restore(self : MockFunctionContext) -> Unit {
 
 ///|
 /// Get the mock context from a mocked function
-pub fn get_mock_context(func : @nostd.Any) -> MockFunctionContext {
-  @nostd.any(func)["mock"].cast()
+pub fn get_mock_context(func : @core.Any) -> MockFunctionContext {
+  @core.any(func)["mock"].cast()
 }

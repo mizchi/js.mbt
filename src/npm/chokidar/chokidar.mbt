@@ -41,17 +41,14 @@ pub fn EventName::to_string(self : EventName) -> String {
 pub type FSWatcher
 
 ///|
-pub extern "js" fn FSWatcher::as_any(self : FSWatcher) -> @nostd.Any =
+pub extern "js" fn FSWatcher::as_any(self : FSWatcher) -> @core.Any =
   #| (x) => x
 
 ///| Core API Functions - FFI
 
 ///|
 /// FFI: watch
-extern "js" fn ffi_watch(
-  paths : @nostd.Any,
-  options : @nostd.Any,
-) -> @nostd.Any =
+extern "js" fn ffi_watch(paths : @core.Any, options : @core.Any) -> @core.Any =
   #| (paths, options) => {
   #|   const chokidar = require('chokidar');
   #|   return chokidar.watch(paths, options);
@@ -62,9 +59,9 @@ extern "js" fn ffi_watch(
 ///|
 /// Internal implementation for watch
 fn watch_impl(
-  paths : @nostd.Any,
+  paths : @core.Any,
   persistent? : Bool,
-  ignored? : @nostd.Any,
+  ignored? : @core.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -74,54 +71,54 @@ fn watch_impl(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @nostd.Any,
+  awaitWriteFinish? : @core.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
-  let options = @nostd.Object::new()
+  let options = @core.Object::new()
   if persistent is Some(v) {
-    options["persistent"] = @nostd.any(v)
+    options["persistent"] = @core.any(v)
   }
   if ignored is Some(v) {
     options["ignored"] = v
   }
   if ignoreInitial is Some(v) {
-    options["ignoreInitial"] = @nostd.any(v)
+    options["ignoreInitial"] = @core.any(v)
   }
   if followSymlinks is Some(v) {
-    options["followSymlinks"] = @nostd.any(v)
+    options["followSymlinks"] = @core.any(v)
   }
   if cwd is Some(v) {
-    options["cwd"] = @nostd.any(v)
+    options["cwd"] = @core.any(v)
   }
   if disableGlobbing is Some(v) {
-    options["disableGlobbing"] = @nostd.any(v)
+    options["disableGlobbing"] = @core.any(v)
   }
   if usePolling is Some(v) {
-    options["usePolling"] = @nostd.any(v)
+    options["usePolling"] = @core.any(v)
   }
   if interval is Some(v) {
-    options["interval"] = @nostd.any(v)
+    options["interval"] = @core.any(v)
   }
   if binaryInterval is Some(v) {
-    options["binaryInterval"] = @nostd.any(v)
+    options["binaryInterval"] = @core.any(v)
   }
   if alwaysStat is Some(v) {
-    options["alwaysStat"] = @nostd.any(v)
+    options["alwaysStat"] = @core.any(v)
   }
   if depth is Some(v) {
-    options["depth"] = @nostd.any(v)
+    options["depth"] = @core.any(v)
   }
   if awaitWriteFinish is Some(v) {
     options["awaitWriteFinish"] = v
   }
   if ignorePermissionErrors is Some(v) {
-    options["ignorePermissionErrors"] = @nostd.any(v)
+    options["ignorePermissionErrors"] = @core.any(v)
   }
   if atomic_ is Some(v) {
-    options["atomic"] = @nostd.any(v)
+    options["atomic"] = @core.any(v)
   }
-  @nostd.identity(ffi_watch(paths, options))
+  @core.identity(ffi_watch(paths, options))
 }
 
 ///|
@@ -131,7 +128,7 @@ fn watch_impl(
 pub fn watch(
   path : String,
   persistent? : Bool,
-  ignored? : @nostd.Any,
+  ignored? : @core.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -141,12 +138,12 @@ pub fn watch(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @nostd.Any,
+  awaitWriteFinish? : @core.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
   watch_impl(
-    @nostd.any(path),
+    @core.any(path),
     persistent?,
     ignored?,
     ignoreInitial?,
@@ -171,7 +168,7 @@ pub fn watch(
 pub fn watch_paths(
   paths : Array[String],
   persistent? : Bool,
-  ignored? : @nostd.Any,
+  ignored? : @core.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -181,12 +178,12 @@ pub fn watch_paths(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @nostd.Any,
+  awaitWriteFinish? : @core.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher {
   watch_impl(
-    paths |> @nostd.identity,
+    paths |> @core.identity,
     persistent?,
     ignored?,
     ignoreInitial?,
@@ -210,7 +207,7 @@ pub fn watch_paths(
 /// Add a file or directory to watch
 /// JS: watcher.add(path)
 pub fn FSWatcher::add(self : FSWatcher, path : String) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("add", [@nostd.any(path)]))
+  @core.identity(self.as_any()._call("add", [@core.any(path)]))
 }
 
 ///|
@@ -220,14 +217,14 @@ pub fn FSWatcher::add_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("add", [paths |> @nostd.identity]))
+  @core.identity(self.as_any()._call("add", [paths |> @core.identity]))
 }
 
 ///|
 /// Stop watching a file or directory
 /// JS: watcher.unwatch(path)
 pub fn FSWatcher::unwatch(self : FSWatcher, path : String) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("unwatch", [@nostd.any(path)]))
+  @core.identity(self.as_any()._call("unwatch", [@core.any(path)]))
 }
 
 ///|
@@ -237,14 +234,14 @@ pub fn FSWatcher::unwatch_paths(
   self : FSWatcher,
   paths : Array[String],
 ) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("unwatch", [paths |> @nostd.identity]))
+  @core.identity(self.as_any()._call("unwatch", [paths |> @core.identity]))
 }
 
 ///|
 /// Close the watcher and remove all listeners
 /// JS: watcher.close()
 pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
-  let promise : @nostd.Promise[Unit] = @nostd.identity(
+  let promise : @core.Promise[Unit] = @core.identity(
     self.as_any()._call("close", []),
   )
   promise.wait()
@@ -253,7 +250,7 @@ pub async fn FSWatcher::close(self : FSWatcher) -> Unit {
 ///|
 /// Get object of watched paths
 /// JS: watcher.getWatched()
-pub fn FSWatcher::getWatched(self : FSWatcher) -> @nostd.Any {
+pub fn FSWatcher::getWatched(self : FSWatcher) -> @core.Any {
   self.as_any()._call("getWatched", [])
 }
 
@@ -265,9 +262,9 @@ pub fn FSWatcher::getWatched(self : FSWatcher) -> @nostd.Any {
 pub fn FSWatcher::on(
   self : FSWatcher,
   event : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("on", [@nostd.any(event), callback]))
+  @core.identity(self.as_any()._call("on", [@core.any(event), callback]))
 }
 
 ///|
@@ -276,9 +273,9 @@ pub fn FSWatcher::on(
 pub fn FSWatcher::off(
   self : FSWatcher,
   event : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> FSWatcher {
-  @nostd.identity(self.as_any()._call("off", [@nostd.any(event), callback]))
+  @core.identity(self.as_any()._call("off", [@core.any(event), callback]))
 }
 
 ///| Typed Event Handlers
@@ -288,9 +285,9 @@ pub fn FSWatcher::off(
 /// Callback receives: (path: String, stats?: fs.Stats)
 pub fn FSWatcher::on_add(
   self : FSWatcher,
-  callback : (String, @nostd.Any) -> Unit,
+  callback : (String, @core.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("add", @nostd.from_fn2(callback))
+  self.on("add", @core.from_fn2(callback))
 }
 
 ///|
@@ -298,9 +295,9 @@ pub fn FSWatcher::on_add(
 /// Callback receives: (path: String, stats?: fs.Stats)
 pub fn FSWatcher::on_change(
   self : FSWatcher,
-  callback : (String, @nostd.Any) -> Unit,
+  callback : (String, @core.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("change", @nostd.from_fn2(callback))
+  self.on("change", @core.from_fn2(callback))
 }
 
 ///|
@@ -308,9 +305,9 @@ pub fn FSWatcher::on_change(
 /// Callback receives: (path: String, stats?: fs.Stats)
 pub fn FSWatcher::on_add_dir(
   self : FSWatcher,
-  callback : (String, @nostd.Any) -> Unit,
+  callback : (String, @core.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("addDir", callback |> @nostd.from_fn2)
+  self.on("addDir", callback |> @core.from_fn2)
 }
 
 ///|
@@ -320,7 +317,7 @@ pub fn FSWatcher::on_unlink(
   self : FSWatcher,
   callback : (String) -> Unit,
 ) -> FSWatcher {
-  self.on("unlink", callback |> @nostd.from_fn1)
+  self.on("unlink", callback |> @core.from_fn1)
 }
 
 ///|
@@ -330,7 +327,7 @@ pub fn FSWatcher::on_unlink_dir(
   self : FSWatcher,
   callback : (String) -> Unit,
 ) -> FSWatcher {
-  self.on("unlinkDir", callback |> @nostd.from_fn1)
+  self.on("unlinkDir", callback |> @core.from_fn1)
 }
 
 ///|
@@ -340,7 +337,7 @@ pub fn FSWatcher::on_ready(
   self : FSWatcher,
   callback : () -> Unit,
 ) -> FSWatcher {
-  self.on("ready", @nostd.identity(callback))
+  self.on("ready", @core.identity(callback))
 }
 
 ///|
@@ -348,9 +345,9 @@ pub fn FSWatcher::on_ready(
 /// Callback receives: (error: Error)
 pub fn FSWatcher::on_error(
   self : FSWatcher,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("error", callback |> @nostd.from_fn1)
+  self.on("error", callback |> @core.from_fn1)
 }
 
 ///|
@@ -358,9 +355,9 @@ pub fn FSWatcher::on_error(
 /// Callback receives: (eventName: String, path: String, stats?: fs.Stats)
 pub fn FSWatcher::on_all_raw(
   self : FSWatcher,
-  callback : (String, String, @nostd.Any) -> Unit,
+  callback : (String, String, @core.Any) -> Unit,
 ) -> FSWatcher {
-  self.on("all", callback |> @nostd.from_fn3)
+  self.on("all", callback |> @core.from_fn3)
 }
 
 ///|
@@ -368,12 +365,12 @@ pub fn FSWatcher::on_all_raw(
 /// Callback receives: (eventName: EventName, path: String, stats?: fs.Stats)
 pub fn FSWatcher::on_all(
   self : FSWatcher,
-  callback : (EventName, String, @nostd.Any) -> Unit,
+  callback : (EventName, String, @core.Any) -> Unit,
 ) -> FSWatcher {
-  let wrapped = fn(event_str : String, path : String, stats : @nostd.Any) {
+  let wrapped = fn(event_str : String, path : String, stats : @core.Any) {
     if EventName::from_string(event_str) is Some(event) {
       callback(event, path, stats)
     }
   }
-  self.on("all", wrapped |> @nostd.from_fn3)
+  self.on("all", wrapped |> @core.from_fn3)
 }

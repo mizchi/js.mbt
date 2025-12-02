@@ -2,139 +2,139 @@
 package "mizchi/js/npm/vue"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
+  "mizchi/js/core"
 )
 
 // Values
 #alias(c)
-fn[T] component((T) -> VNode, T, children? : Array[&VueNode], key? : String) -> VNode
+pub fn[T] component((T) -> VNode, T, children? : Array[&VueNode], key? : String) -> VNode
 
-fn[T] computed(() -> T) -> Ref[T]
+pub fn[T] computed(() -> T) -> Ref[T]
 
-fn[T] computedWritable(() -> T, (T) -> Unit) -> Ref[T]
+pub fn[T] computedWritable(() -> T, (T) -> Unit) -> Ref[T]
 
-fn createApp(@nostd.Any, props? : @nostd.Any) -> @nostd.Any
+pub fn createApp(@core.Any, props? : @core.Any) -> @core.Any
 
-async fn dynamic_import() -> Unit
+pub async fn dynamic_import() -> Unit
 
-fn fragment(Array[&VueNode], key? : String) -> VNode
+pub fn fragment(Array[&VueNode], key? : String) -> VNode
 
 #alias(get_current_instance)
-fn getCurrentInstance() -> @nostd.Any?
+pub fn getCurrentInstance() -> @core.Any?
 
-fn h(String, Array[&VueNode], props? : Map[String, @nostd.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
+pub fn h(String, Array[&VueNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
 
-fn init_vue_api(@nostd.Any, global_key? : String) -> Unit
+pub fn init_vue_api(@core.Any, global_key? : String) -> Unit
 
-fn init_vue_ssr(@nostd.Any) -> Unit
+pub fn init_vue_ssr(@core.Any) -> Unit
 
-fn[T] inject(String, default_value? : T) -> T
+pub fn[T] inject(String, default_value? : T) -> T
 
-fn isReactive(@nostd.Any) -> Bool
+pub fn isReactive(@core.Any) -> Bool
 
-fn isReadonly(@nostd.Any) -> Bool
+pub fn isReadonly(@core.Any) -> Bool
 
-fn isRef(@nostd.Any) -> Bool
+pub fn isRef(@core.Any) -> Bool
 
-fn[T] markRaw(T) -> T
+pub fn[T] markRaw(T) -> T
 
-fn mount(@nostd.Any, @dom.Element) -> Unit
+pub fn mount(@core.Any, @dom.Element) -> Unit
 
 #alias(next_tick)
-async fn nextTick() -> Unit
+pub async fn nextTick() -> Unit
 
 #alias(next_tick_with_callback)
-fn nextTickCallback(() -> Unit) -> Unit
+pub fn nextTickCallback(() -> Unit) -> Unit
 
 #alias(on_activated)
-fn onActivated(() -> Unit) -> Unit
+pub fn onActivated(() -> Unit) -> Unit
 
 #alias(on_before_mount)
-fn onBeforeMount(() -> Unit) -> Unit
+pub fn onBeforeMount(() -> Unit) -> Unit
 
 #alias(on_before_unmount)
-fn onBeforeUnmount(() -> Unit) -> Unit
+pub fn onBeforeUnmount(() -> Unit) -> Unit
 
 #alias(on_before_update)
-fn onBeforeUpdate(() -> Unit) -> Unit
+pub fn onBeforeUpdate(() -> Unit) -> Unit
 
 #alias(on_deactivated)
-fn onDeactivated(() -> Unit) -> Unit
+pub fn onDeactivated(() -> Unit) -> Unit
 
 #alias(on_error_captured)
-fn onErrorCaptured((@nostd.Any, @nostd.Any, String) -> Bool?) -> Unit
+pub fn onErrorCaptured((@core.Any, @core.Any, String) -> Bool?) -> Unit
 
 #alias(on_mounted)
-fn onMounted(() -> Unit) -> Unit
+pub fn onMounted(() -> Unit) -> Unit
 
 #alias(on_unmounted)
-fn onUnmounted(() -> Unit) -> Unit
+pub fn onUnmounted(() -> Unit) -> Unit
 
 #alias(on_updated)
-fn onUpdated(() -> Unit) -> Unit
+pub fn onUpdated(() -> Unit) -> Unit
 
-fn[T] provide(String, T) -> Unit
+pub fn[T] provide(String, T) -> Unit
 
-fn[T] reactive(T) -> T
+pub fn[T] reactive(T) -> T
 
-fn[T] readonly_(T) -> T
+pub fn[T] readonly_(T) -> T
 
 #alias(create_ref)
-fn[T] ref_(T) -> Ref[T]
+pub fn[T] ref_(T) -> Ref[T]
 
-fn render(VNode, @dom.Element) -> Unit
+pub fn render(VNode, @dom.Element) -> Unit
 
-async fn renderToStaticMarkup(VNode) -> String
+pub async fn renderToStaticMarkup(VNode) -> String
 
-fn renderToStream(VNode) -> @nostd.Any
+pub fn renderToStream(VNode) -> @core.Any
 
-async fn renderToString(VNode) -> String
+pub async fn renderToString(VNode) -> String
 
-fn[T] shallowReactive(T) -> T
+pub fn[T] shallowReactive(T) -> T
 
-fn[T] shallowReadonly(T) -> T
+pub fn[T] shallowReadonly(T) -> T
 
-fn[T] shallowRef(T) -> Ref[T]
+pub fn[T] shallowRef(T) -> Ref[T]
 
-fn[T] toRaw(T) -> T
+pub fn[T] toRaw(T) -> T
 
-fn[T] toRef(@nostd.Any, String) -> Ref[T]
+pub fn[T] toRef(@core.Any, String) -> Ref[T]
 
-fn toRefs(@nostd.Any) -> @nostd.Any
+pub fn toRefs(@core.Any) -> @core.Any
 
-fn[T] triggerRef(Ref[T]) -> Unit
+pub fn[T] triggerRef(Ref[T]) -> Unit
 
-fn[T] unref(Ref[T]) -> T
+pub fn[T] unref(Ref[T]) -> T
 
 #alias(use_attrs)
-fn useAttrs() -> @nostd.Any
+pub fn useAttrs() -> @core.Any
 
 #alias(use_slots)
-fn useSlots() -> @nostd.Any
+pub fn useSlots() -> @core.Any
 
-fn[T] watch(Ref[T], (T, T) -> Unit, immediate? : Bool, deep? : Bool) -> () -> Unit
+pub fn[T] watch(Ref[T], (T, T) -> Unit, immediate? : Bool, deep? : Bool) -> () -> Unit
 
-fn watchEffect(() -> Unit, flush? : String) -> () -> Unit
+pub fn watchEffect(() -> Unit, flush? : String) -> () -> Unit
 
-fn watchPostEffect(() -> Unit) -> () -> Unit
+pub fn watchPostEffect(() -> Unit) -> () -> Unit
 
-fn watchSyncEffect(() -> Unit) -> () -> Unit
+pub fn watchSyncEffect(() -> Unit) -> () -> Unit
 
 // Errors
 
 // Types and methods
 pub(all) struct Ref[T] {
-  value : @nostd.Any
+  value : @core.Any
 }
-fn[T] Ref::as_any(Self[T]) -> @nostd.Any
-fn[T] Ref::get_value(Self[T]) -> T
-fn[T] Ref::set_value(Self[T], T) -> Unit
+pub fn[T] Ref::as_any(Self[T]) -> @core.Any
+pub fn[T] Ref::get_value(Self[T]) -> T
+pub fn[T] Ref::set_value(Self[T], T) -> Unit
 
 #external
 pub type VNode
-fn VNode::as_any(Self) -> @nostd.Any
-impl VueNode for VNode
+pub fn VNode::as_any(Self) -> @core.Any
+pub impl VueNode for VNode
 
 // Type aliases
 pub type Component[T] = (T) -> VNode
@@ -143,12 +143,12 @@ pub type WatchStopHandle = () -> Unit
 
 // Traits
 pub trait VueNode {
-  to_vue_node(Self) -> @nostd.Any
+  to_vue_node(Self) -> @core.Any
 }
-impl VueNode for Bool
-impl VueNode for Int
-impl VueNode for Double
-impl VueNode for String
-impl[T : VueNode] VueNode for T?
-impl[T : VueNode] VueNode for Array[T]
+pub impl VueNode for Bool
+pub impl VueNode for Int
+pub impl VueNode for Double
+pub impl VueNode for String
+pub impl[T : VueNode] VueNode for T?
+pub impl[T : VueNode] VueNode for Array[T]
 

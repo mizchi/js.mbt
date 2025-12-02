@@ -4,65 +4,65 @@ package "mizchi/js/web/http"
 import(
   "mizchi/js"
   "mizchi/js/builtins/typedarray"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/streams"
   "moonbitlang/async/js_async"
 )
 
 // Values
-async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : &@js.JsImpl, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js_async.AbortSignal) -> Response
+pub async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : @core.Any, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js_async.AbortSignal) -> Response
 
-async fn fetch_request(Request) -> Response
+pub async fn fetch_request(Request) -> Response
 
 // Errors
 
 // Types and methods
 #external
 pub type FormData
-fn FormData::append(Self, String, String) -> Unit
-fn FormData::as_any(Self) -> @nostd.Any
-fn FormData::delete(Self, String) -> Unit
-fn FormData::get(Self, String) -> String
+pub fn FormData::append(Self, String, String) -> Unit
+pub fn FormData::as_any(Self) -> @core.Any
+pub fn FormData::delete(Self, String) -> Unit
+pub fn FormData::get(Self, String) -> String
 
 #external
 pub type Headers
-fn Headers::as_any(Self) -> @nostd.Any
+pub fn Headers::as_any(Self) -> @core.Any
 
 pub(all) struct Request {
   bodyUsed : Bool
   url : String
   credentials : String
 }
-async fn Request::arraybuffer(Self) -> @js.ArrayBuffer
-fn Request::as_any(Self) -> @nostd.Any
-async fn Request::blob(Self) -> @blob.Blob
-async fn Request::bytes(Self) -> @typedarray.Uint8Array
-fn Request::clone(Self) -> Self
-async fn Request::json(Self) -> @nostd.Any
-fn Request::method_(Self) -> String
-fn Request::new(String) -> Self
-fn Request::new_with_init(String, RequestInit) -> Self
-async fn Request::text(Self) -> String
+pub async fn Request::arraybuffer(Self) -> @js.ArrayBuffer
+pub fn Request::as_any(Self) -> @core.Any
+pub async fn Request::blob(Self) -> @blob.Blob
+pub async fn Request::bytes(Self) -> @typedarray.Uint8Array
+pub fn Request::clone(Self) -> Self
+pub async fn Request::json(Self) -> @core.Any
+pub fn Request::method_(Self) -> String
+pub fn Request::new(String) -> Self
+pub fn Request::new_with_init(String, RequestInit) -> Self
+pub async fn Request::text(Self) -> String
 
 pub struct RequestInit {
   // private fields
 }
-fn RequestInit::as_any(Self) -> @nostd.Any
-fn RequestInit::get_body(Self) -> @nostd.Any?
-fn RequestInit::get_cache(Self) -> String?
-fn RequestInit::get_credentials(Self) -> String?
-fn RequestInit::get_headers(Self) -> Headers?
-fn RequestInit::get_integrity(Self) -> String?
-fn RequestInit::get_keepalive(Self) -> Bool?
-fn RequestInit::get_method(Self) -> String?
-fn RequestInit::get_mode(Self) -> String?
-fn RequestInit::get_priority(Self) -> String?
-fn RequestInit::get_redirect(Self) -> String?
-fn RequestInit::get_referrer(Self) -> String?
-fn RequestInit::get_referrerPolicy(Self) -> String?
-fn RequestInit::get_signal(Self) -> @js_async.AbortSignal?
-fn RequestInit::new(http_method? : String, headers? : Headers, body? : &@js.JsImpl, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
+pub fn RequestInit::as_any(Self) -> @core.Any
+pub fn RequestInit::get_body(Self) -> @core.Any?
+pub fn RequestInit::get_cache(Self) -> String?
+pub fn RequestInit::get_credentials(Self) -> String?
+pub fn RequestInit::get_headers(Self) -> Headers?
+pub fn RequestInit::get_integrity(Self) -> String?
+pub fn RequestInit::get_keepalive(Self) -> Bool?
+pub fn RequestInit::get_method(Self) -> String?
+pub fn RequestInit::get_mode(Self) -> String?
+pub fn RequestInit::get_priority(Self) -> String?
+pub fn RequestInit::get_redirect(Self) -> String?
+pub fn RequestInit::get_referrer(Self) -> String?
+pub fn RequestInit::get_referrerPolicy(Self) -> String?
+pub fn RequestInit::get_signal(Self) -> @js_async.AbortSignal?
+pub fn RequestInit::new(http_method? : String, headers? : Headers, body? : @core.Any, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
 
 pub(all) struct Response {
   ok : Bool
@@ -70,21 +70,21 @@ pub(all) struct Response {
   statusText : String
   redirected : Bool
 }
-fn Response::as_any(Self) -> @nostd.Any
-fn Response::body(Self) -> @streams.ReadableStream?
-async fn Response::bytes(Self) -> @typedarray.Uint8Array
-fn Response::clone(Self) -> Self
-fn Response::error() -> Self
+pub fn Response::as_any(Self) -> @core.Any
+pub fn Response::body(Self) -> @streams.ReadableStream?
+pub async fn Response::bytes(Self) -> @typedarray.Uint8Array
+pub fn Response::clone(Self) -> Self
+pub fn Response::error() -> Self
 #alias(form_data)
-async fn Response::formData(Self) -> FormData
-fn Response::html(String, Int) -> Self
-async fn Response::json(Self) -> @nostd.Any
-fn Response::json_(&@js.JsImpl, options? : &@js.JsImpl) -> Self
-fn Response::new(body? : String, status? : Int, statusText? : String, headers? : &@js.JsImpl) -> Self
-fn Response::redirect(String, status? : Int) -> Self
-async fn Response::text(Self) -> String
-fn Response::text_(String, Int) -> Self
-fn Response::type_(Self) -> String
+pub async fn Response::formData(Self) -> FormData
+pub fn Response::html(String, Int) -> Self
+pub async fn Response::json(Self) -> @core.Any
+pub fn Response::json_(@core.Any, options? : @core.Any) -> Self
+pub fn Response::new(body? : String, status? : Int, statusText? : String, headers? : @core.Any) -> Self
+pub fn Response::redirect(String, status? : Int) -> Self
+pub async fn Response::text(Self) -> String
+pub fn Response::text_(String, Int) -> Self
+pub fn Response::type_(Self) -> String
 
 // Type aliases
 

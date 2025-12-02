@@ -2,47 +2,47 @@
 package "mizchi/js/npm/dotenv"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn config(path? : String, encoding? : String, debug? : Bool, override_existing? : Bool, quiet? : Bool) -> DotenvConfigOutput
+pub fn config(path? : String, encoding? : String, debug? : Bool, override_existing? : Bool, quiet? : Bool) -> DotenvConfigOutput
 
 #alias(config_paths)
-fn configPaths(Array[String]) -> DotenvConfigOutput
+pub fn configPaths(Array[String]) -> DotenvConfigOutput
 
 #alias(delete_env)
-fn deleteEnv(String) -> Unit
+pub fn deleteEnv(String) -> Unit
 
 #alias(get_env)
-fn getEnv(String) -> String?
+pub fn getEnv(String) -> String?
 
-fn parse(String) -> DotenvParseOutput
+pub fn parse(String) -> DotenvParseOutput
 
 #alias(parse_with_options)
-fn parseWithOptions(String, debug? : Bool) -> DotenvParseOutput
+pub fn parseWithOptions(String, debug? : Bool) -> DotenvParseOutput
 
-fn populate(@nostd.Any, @nostd.Any, override_existing? : Bool) -> Unit
+pub fn populate(@core.Any, @core.Any, override_existing? : Bool) -> Unit
 
 #alias(process_env)
-fn processEnv() -> @nostd.Any
+pub fn processEnv() -> @core.Any
 
 #alias(set_env)
-fn setEnv(String, String) -> Unit
+pub fn setEnv(String, String) -> Unit
 
 // Errors
 
 // Types and methods
 pub struct DotenvConfigOutput {
-  parsed : @nostd.Any?
-  error : @nostd.Any?
+  parsed : @core.Any?
+  error : @core.Any?
 }
 
 #external
 pub type DotenvParseOutput
-fn DotenvParseOutput::as_any(Self) -> @nostd.Any
-fn DotenvParseOutput::get_(Self, String) -> String?
-fn DotenvParseOutput::keys(Self) -> Array[String]
+pub fn DotenvParseOutput::as_any(Self) -> @core.Any
+pub fn DotenvParseOutput::get_(Self, String) -> String?
+pub fn DotenvParseOutput::keys(Self) -> Array[String]
 
 // Type aliases
 

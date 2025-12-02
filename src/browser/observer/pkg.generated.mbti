@@ -2,9 +2,8 @@
 package "mizchi/js/browser/observer"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -14,12 +13,12 @@ import(
 // Types and methods
 #external
 pub type IntersectionObserver
-fn IntersectionObserver::as_any(Self) -> @nostd.Any
-fn IntersectionObserver::disconnect(Self) -> Unit
-fn IntersectionObserver::new((@nostd.Any?, Self) -> Unit, options? : @nostd.Any) -> Self
-fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
-fn IntersectionObserver::take_records(Self) -> @nostd.Any
-fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
+pub fn IntersectionObserver::as_any(Self) -> @core.Any
+pub fn IntersectionObserver::disconnect(Self) -> Unit
+pub fn IntersectionObserver::new((@core.Any?, Self) -> Unit, options? : @core.Any) -> Self
+pub fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
+pub fn IntersectionObserver::take_records(Self) -> @core.Any
+pub fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct IntersectionObserverEntry {
   target : @dom.Element
@@ -30,45 +29,45 @@ pub(all) struct IntersectionObserverEntry {
   isIntersecting : Bool
   time : Double
 }
-fn IntersectionObserverEntry::as_any(Self) -> @nostd.Any
+pub fn IntersectionObserverEntry::as_any(Self) -> @core.Any
 
 #external
 pub type MutationObserver
-fn MutationObserver::as_any(Self) -> @nostd.Any
-fn MutationObserver::disconnect(Self) -> Unit
-fn MutationObserver::new((@nostd.Any?, Self) -> Unit) -> Self
-fn MutationObserver::observe(Self, @dom.Element, @nostd.Any) -> Unit
-fn MutationObserver::take_records(Self) -> @nostd.Any
+pub fn MutationObserver::as_any(Self) -> @core.Any
+pub fn MutationObserver::disconnect(Self) -> Unit
+pub fn MutationObserver::new((@core.Any?, Self) -> Unit) -> Self
+pub fn MutationObserver::observe(Self, @dom.Element, @core.Any) -> Unit
+pub fn MutationObserver::take_records(Self) -> @core.Any
 
 pub(all) struct MutationRecord {
   mutationType : String
   target : @dom.Node
   addedNodes : Array[@dom.Node]
   removedNodes : Array[@dom.Node]
-  previousSibling : @js.Nullable[@dom.Node]
-  nextSibling : @js.Nullable[@dom.Node]
-  attributeName : @js.Nullable[String]
-  oldValue : @js.Nullable[String]
+  previousSibling : @core.Nullable[@dom.Node]
+  nextSibling : @core.Nullable[@dom.Node]
+  attributeName : @core.Nullable[String]
+  oldValue : @core.Nullable[String]
 }
-fn MutationRecord::as_any(Self) -> @nostd.Any
-fn MutationRecord::mutation_type(Self) -> String
+pub fn MutationRecord::as_any(Self) -> @core.Any
+pub fn MutationRecord::mutation_type(Self) -> String
 
 #external
 pub type ResizeObserver
-fn ResizeObserver::as_any(Self) -> @nostd.Any
-fn ResizeObserver::disconnect(Self) -> Unit
-fn ResizeObserver::new((@nostd.Any?, Self) -> Unit) -> Self
-fn ResizeObserver::observe(Self, @dom.Element) -> Unit
-fn ResizeObserver::observe_with_options(Self, @dom.Element, @nostd.Any) -> Unit
-fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
+pub fn ResizeObserver::as_any(Self) -> @core.Any
+pub fn ResizeObserver::disconnect(Self) -> Unit
+pub fn ResizeObserver::new((@core.Any?, Self) -> Unit) -> Self
+pub fn ResizeObserver::observe(Self, @dom.Element) -> Unit
+pub fn ResizeObserver::observe_with_options(Self, @dom.Element, @core.Any) -> Unit
+pub fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @nostd.Any
-  contentBoxSize : @nostd.Any
+  borderBoxSize : @core.Any
+  contentBoxSize : @core.Any
 }
-fn ResizeObserverEntry::as_any(Self) -> @nostd.Any
+pub fn ResizeObserverEntry::as_any(Self) -> @core.Any
 
 // Type aliases
 

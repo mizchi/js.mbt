@@ -5,7 +5,7 @@
 pub type CryptoKey
 
 ///|
-pub fn CryptoKey::as_any(self : CryptoKey) -> @nostd.Any = "%identity"
+pub fn CryptoKey::as_any(self : CryptoKey) -> @core.Any = "%identity"
 
 ///|
 /// CryptoKeyPair - returned by generateKey for asymmetric algorithms
@@ -16,7 +16,7 @@ pub(all) struct CryptoKeyPair {
 }
 
 ///|
-pub fn CryptoKeyPair::as_any(self : CryptoKeyPair) -> @nostd.Any = "%identity"
+pub fn CryptoKeyPair::as_any(self : CryptoKeyPair) -> @core.Any = "%identity"
 
 ///|
 /// SubtleCrypto Type
@@ -25,17 +25,17 @@ pub fn CryptoKeyPair::as_any(self : CryptoKeyPair) -> @nostd.Any = "%identity"
 pub type SubtleCrypto
 
 ///|
-pub fn SubtleCrypto::as_any(self : SubtleCrypto) -> @nostd.Any = "%identity"
+pub fn SubtleCrypto::as_any(self : SubtleCrypto) -> @core.Any = "%identity"
 
 ///|
 /// SubtleCrypto - Encryption/Decryption
 pub async fn SubtleCrypto::encrypt(
   self : Self,
-  algorithm : @nostd.Any,
-  key : @nostd.Any,
-  data : @nostd.Any,
+  algorithm : @core.Any,
+  key : @core.Any,
+  data : @core.Any,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
     ._call("encrypt", [algorithm, key, data])
     .cast()
@@ -45,11 +45,11 @@ pub async fn SubtleCrypto::encrypt(
 ///|
 pub async fn SubtleCrypto::decrypt(
   self : Self,
-  algorithm : @nostd.Any,
-  key : @nostd.Any,
-  data : @nostd.Any,
+  algorithm : @core.Any,
+  key : @core.Any,
+  data : @core.Any,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
     ._call("decrypt", [algorithm, key, data])
     .cast()
@@ -60,11 +60,11 @@ pub async fn SubtleCrypto::decrypt(
 /// SubtleCrypto - Signing/Verification
 pub async fn SubtleCrypto::sign(
   self : Self,
-  algorithm : @nostd.Any,
-  key : @nostd.Any,
-  data : @nostd.Any,
+  algorithm : @core.Any,
+  key : @core.Any,
+  data : @core.Any,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
     ._call("sign", [algorithm, key, data])
     .cast()
@@ -74,12 +74,12 @@ pub async fn SubtleCrypto::sign(
 ///|
 pub async fn SubtleCrypto::verify(
   self : Self,
-  algorithm : @nostd.Any,
-  key : @nostd.Any,
-  signature : @nostd.Any,
-  data : @nostd.Any,
+  algorithm : @core.Any,
+  key : @core.Any,
+  signature : @core.Any,
+  data : @core.Any,
 ) -> Bool {
-  let promise : @nostd.Promise[Bool] = self
+  let promise : @core.Promise[Bool] = self
     .as_any()
     ._call("verify", [algorithm, key, signature, data])
     .cast()
@@ -91,11 +91,11 @@ pub async fn SubtleCrypto::verify(
 pub async fn SubtleCrypto::digest(
   self : Self,
   algorithm : String,
-  data : @nostd.Any,
+  data : @core.Any,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
-    ._call("digest", [@nostd.any(algorithm), data])
+    ._call("digest", [@core.any(algorithm), data])
     .cast()
   promise.wait()
 }
@@ -106,16 +106,16 @@ pub async fn SubtleCrypto::digest(
 #alias(generate_key)
 pub async fn SubtleCrypto::generateKey(
   self : Self,
-  algorithm : @nostd.Any,
+  algorithm : @core.Any,
   extractable : Bool,
   key_usages : Array[String],
-) -> @nostd.Any {
-  let promise : @nostd.Promise[@nostd.Any] = self
+) -> @core.Any {
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("generateKey", [
       algorithm,
-      @nostd.any(extractable),
-      @nostd.any(key_usages),
+      @core.any(extractable),
+      @core.any(key_usages),
     ])
     .cast()
   promise.wait()
@@ -125,20 +125,20 @@ pub async fn SubtleCrypto::generateKey(
 #alias(derive_key)
 pub async fn SubtleCrypto::deriveKey(
   self : Self,
-  algorithm : @nostd.Any,
-  base_key : @nostd.Any,
-  derived_key_type : @nostd.Any,
+  algorithm : @core.Any,
+  base_key : @core.Any,
+  derived_key_type : @core.Any,
   extractable : Bool,
   key_usages : Array[String],
 ) -> CryptoKey {
-  let promise : @nostd.Promise[CryptoKey] = self
+  let promise : @core.Promise[CryptoKey] = self
     .as_any()
     ._call("deriveKey", [
       algorithm,
       base_key,
       derived_key_type,
-      @nostd.any(extractable),
-      @nostd.any(key_usages),
+      @core.any(extractable),
+      @core.any(key_usages),
     ])
     .cast()
   promise.wait()
@@ -148,13 +148,13 @@ pub async fn SubtleCrypto::deriveKey(
 #alias(derive_bits)
 pub async fn SubtleCrypto::deriveBits(
   self : Self,
-  algorithm : @nostd.Any,
-  base_key : @nostd.Any,
+  algorithm : @core.Any,
+  base_key : @core.Any,
   length : Int,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
-    ._call("deriveBits", [algorithm, base_key, @nostd.any(length)])
+    ._call("deriveBits", [algorithm, base_key, @core.any(length)])
     .cast()
   promise.wait()
 }
@@ -165,19 +165,19 @@ pub async fn SubtleCrypto::deriveBits(
 pub async fn SubtleCrypto::importKey(
   self : Self,
   format : String,
-  key_data : @nostd.Any,
-  algorithm : @nostd.Any,
+  key_data : @core.Any,
+  algorithm : @core.Any,
   extractable : Bool,
   key_usages : Array[String],
 ) -> CryptoKey {
-  let promise : @nostd.Promise[CryptoKey] = self
+  let promise : @core.Promise[CryptoKey] = self
     .as_any()
     ._call("importKey", [
-      @nostd.any(format),
+      @core.any(format),
       key_data,
       algorithm,
-      @nostd.any(extractable),
-      @nostd.any(key_usages),
+      @core.any(extractable),
+      @core.any(key_usages),
     ])
     .cast()
   promise.wait()
@@ -188,11 +188,11 @@ pub async fn SubtleCrypto::importKey(
 pub async fn SubtleCrypto::exportKey(
   self : Self,
   format : String,
-  key : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @nostd.Promise[@nostd.Any] = self
+  key : @core.Any,
+) -> @core.Any {
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
-    ._call("exportKey", [@nostd.any(format), key])
+    ._call("exportKey", [@core.any(format), key])
     .cast()
   promise.wait()
 }
@@ -203,13 +203,13 @@ pub async fn SubtleCrypto::exportKey(
 pub async fn SubtleCrypto::wrapKey(
   self : Self,
   format : String,
-  key : @nostd.Any,
-  wrapping_key : @nostd.Any,
-  wrap_algorithm : @nostd.Any,
+  key : @core.Any,
+  wrapping_key : @core.Any,
+  wrap_algorithm : @core.Any,
 ) -> @js.ArrayBuffer {
-  let promise : @nostd.Promise[@js.ArrayBuffer] = self
+  let promise : @core.Promise[@js.ArrayBuffer] = self
     .as_any()
-    ._call("wrapKey", [@nostd.any(format), key, wrapping_key, wrap_algorithm])
+    ._call("wrapKey", [@core.any(format), key, wrapping_key, wrap_algorithm])
     .cast()
   promise.wait()
 }
@@ -219,23 +219,23 @@ pub async fn SubtleCrypto::wrapKey(
 pub async fn SubtleCrypto::unwrapKey(
   self : Self,
   format : String,
-  wrapped_key : @nostd.Any,
-  unwrapping_key : @nostd.Any,
-  unwrap_algorithm : @nostd.Any,
-  unwrapped_key_algorithm : @nostd.Any,
+  wrapped_key : @core.Any,
+  unwrapping_key : @core.Any,
+  unwrap_algorithm : @core.Any,
+  unwrapped_key_algorithm : @core.Any,
   extractable : Bool,
   key_usages : Array[String],
 ) -> CryptoKey {
-  let promise : @nostd.Promise[CryptoKey] = self
+  let promise : @core.Promise[CryptoKey] = self
     .as_any()
     ._call("unwrapKey", [
-      @nostd.any(format),
+      @core.any(format),
       wrapped_key,
       unwrapping_key,
       unwrap_algorithm,
       unwrapped_key_algorithm,
-      @nostd.any(extractable),
-      @nostd.any(key_usages),
+      @core.any(extractable),
+      @core.any(key_usages),
     ])
     .cast()
   promise.wait()
@@ -249,7 +249,7 @@ pub(all) struct Crypto {
 }
 
 ///|
-pub fn Crypto::as_any(self : Crypto) -> @nostd.Any = "%identity"
+pub fn Crypto::as_any(self : Crypto) -> @core.Any = "%identity"
 
 ///|
 /// Crypto::getRandomValues()
@@ -258,7 +258,7 @@ pub fn Crypto::getRandomValues(
   self : Self,
   array : @typedarray.Uint8Array,
 ) -> @typedarray.Uint8Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -268,7 +268,7 @@ pub fn Crypto::getRandomValuesU16(
   self : Self,
   array : @typedarray.Uint16Array,
 ) -> @typedarray.Uint16Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -278,7 +278,7 @@ pub fn Crypto::getRandomValuesU32(
   self : Self,
   array : @typedarray.Uint32Array,
 ) -> @typedarray.Uint32Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -288,7 +288,7 @@ pub fn Crypto::getRandomValuesI8(
   self : Self,
   array : @typedarray.Int8Array,
 ) -> @typedarray.Int8Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -298,7 +298,7 @@ pub fn Crypto::getRandomValuesI16(
   self : Self,
   array : @typedarray.Int16Array,
 ) -> @typedarray.Int16Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -308,7 +308,7 @@ pub fn Crypto::getRandomValuesI32(
   self : Self,
   array : @typedarray.Int32Array,
 ) -> @typedarray.Int32Array {
-  self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+  self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 }
 
 ///|
@@ -318,7 +318,7 @@ pub fn Crypto::getRandomValuesI32(
 //   self : Self,
 //   array : @typedarray.Uint8ClampedArray,
 // ) -> @typedarray.Uint8ClampedArray {
-//   self.as_any()._call("getRandomValues", [@nostd.any(array)]).cast()
+//   self.as_any()._call("getRandomValues", [@core.any(array)]).cast()
 // }
 
 ///|
@@ -333,7 +333,7 @@ pub fn Crypto::randomUUID(self : Self) -> String {
 
 ///|
 /// Global Crypto Access
-extern "js" fn ffi_get_crypto() -> @nostd.Any =
+extern "js" fn ffi_get_crypto() -> @core.Any =
   #|() => globalThis.crypto
 
 ///|

@@ -7,17 +7,17 @@
 pub type Session
 
 ///|
-pub fn Session::as_any(self : Session) -> @nostd.Any = "%identity"
+pub fn Session::as_any(self : Session) -> @core.Any = "%identity"
 
 ///|
-pub fn Session::to_any(self : Session) -> @nostd.Any = "%identity"
+pub fn Session::to_any(self : Session) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Session with as_any(self) -> @nostd.Any {
+pub impl @event.EventTargetImpl for Session with as_any(self) -> @core.Any {
   self.to_any()
 }
 
@@ -57,12 +57,12 @@ pub fn Session::post(
   params : @js.Object?,
   callback : (@js.Object?, @js.Object) -> Unit,
 ) -> Unit {
-  let cb : @nostd.Any = callback |> @nostd.any
+  let cb : @core.Any = callback |> @core.any
   match params {
     Some(p) =>
-      self.to_any()._call("post", [@nostd.any(method_), @nostd.any(p), cb])
+      self.to_any()._call("post", [@core.any(method_), @core.any(p), cb])
       |> ignore
-    None => self.to_any()._call("post", [@nostd.any(method_), cb]) |> ignore
+    None => self.to_any()._call("post", [@core.any(method_), cb]) |> ignore
   }
 }
 
@@ -104,17 +104,17 @@ extern "js" fn ffi_close() -> Unit =
 
 ///|
 pub fn url() -> String? {
-  let result : @nostd.Any = ffi_url()
-  let is_undef : Bool = @nostd.identity(@nostd.typeof_(result) == "undefined")
+  let result : @core.Any = ffi_url()
+  let is_undef : Bool = @core.identity(@core.typeof_(result) == "undefined")
   if is_undef {
     None
   } else {
-    Some(@nostd.identity(result))
+    Some(@core.identity(result))
   }
 }
 
 ///|
-extern "js" fn ffi_url() -> @nostd.Any =
+extern "js" fn ffi_url() -> @core.Any =
   #| () => require('node:inspector').url()
 
 ///|
@@ -131,10 +131,10 @@ extern "js" fn ffi_wait_for_debugger() -> Unit =
 pub type Console
 
 ///|
-pub fn Console::as_any(self : Console) -> @nostd.Any = "%identity"
+pub fn Console::as_any(self : Console) -> @core.Any = "%identity"
 
 ///|
-pub fn Console::to_any(self : Console) -> @nostd.Any = "%identity"
+pub fn Console::to_any(self : Console) -> @core.Any = "%identity"
 
 ///|
 pub fn console() -> Console {

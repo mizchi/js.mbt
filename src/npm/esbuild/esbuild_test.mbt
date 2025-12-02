@@ -31,10 +31,10 @@ test "Loader enum to_string" {
 ///|
 test "esbuild module exists" {
   let es = esbuild()
-  @nostd.typeof_(es.as_any()._get("build")) |> assert_eq("function")
-  @nostd.typeof_(es.as_any()._get("transform")) |> assert_eq("function")
-  @nostd.typeof_(es.as_any()._get("buildSync")) |> assert_eq("function")
-  @nostd.typeof_(es.as_any()._get("transformSync")) |> assert_eq("function")
+  @core.typeof_(es.as_any()._get("build")) |> assert_eq("function")
+  @core.typeof_(es.as_any()._get("transform")) |> assert_eq("function")
+  @core.typeof_(es.as_any()._get("buildSync")) |> assert_eq("function")
+  @core.typeof_(es.as_any()._get("transformSync")) |> assert_eq("function")
 }
 
 ///|
@@ -121,7 +121,7 @@ async test "build with write=false" {
   // Create a temp file first
   @fs.write_file_sync(
     "/tmp/esbuild_test_entry.js",
-    "export const x = 42;" |> @nostd.any,
+    "export const x = 42;" |> @core.any,
   )
   let result = es.build(
     entry_points=["/tmp/esbuild_test_entry.js"],
@@ -143,7 +143,7 @@ async test "build with minify" {
   let es = esbuild()
   @fs.write_file_sync(
     "/tmp/esbuild_minify_test.js",
-    "export function longFunctionName() { return 1 + 2 + 3; }" |> @nostd.any,
+    "export function longFunctionName() { return 1 + 2 + 3; }" |> @core.any,
   )
   let result = es.build(
     entry_points=["/tmp/esbuild_minify_test.js"],

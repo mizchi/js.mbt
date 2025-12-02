@@ -2,7 +2,7 @@
   "import": [
     "moonbitlang/async",
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/npm/puppeteer",
     "mizchi/js/builtins/global"

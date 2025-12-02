@@ -2,75 +2,74 @@
 package "mizchi/js/web/event"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "moonbitlang/async/js_async"
 )
 
 // Values
-fn event_source_closed() -> Int
+pub fn event_source_closed() -> Int
 
-fn event_source_connecting() -> Int
+pub fn event_source_connecting() -> Int
 
-fn event_source_open() -> Int
+pub fn event_source_open() -> Int
 
-fn get_event_data(@nostd.Any) -> String
+pub fn get_event_data(@core.Any) -> String
 
-fn get_event_origin(@nostd.Any) -> String
+pub fn get_event_origin(@core.Any) -> String
 
-fn get_last_event_id(@nostd.Any) -> String
+pub fn get_last_event_id(@core.Any) -> String
 
 // Errors
 
 // Types and methods
 #external
 pub type Event
-fn Event::as_any(Self) -> @nostd.Any
-fn Event::bubbles(Self) -> Bool
-fn Event::cancelable(Self) -> Bool
-fn Event::currentTarget(Self) -> EventTarget?
-fn Event::defaultPrevented(Self) -> Bool
-fn Event::new(String, bubbles? : Bool, cancelable? : Bool) -> Self
-fn Event::preventDefault(Self) -> Unit
-fn Event::stopImmediatePropagation(Self) -> Unit
-fn Event::stopPropagation(Self) -> Unit
-fn Event::target(Self) -> EventTarget?
-fn Event::type_(Self) -> String
+pub fn Event::as_any(Self) -> @core.Any
+pub fn Event::bubbles(Self) -> Bool
+pub fn Event::cancelable(Self) -> Bool
+pub fn Event::currentTarget(Self) -> EventTarget?
+pub fn Event::defaultPrevented(Self) -> Bool
+pub fn Event::new(String, bubbles? : Bool, cancelable? : Bool) -> Self
+pub fn Event::preventDefault(Self) -> Unit
+pub fn Event::stopImmediatePropagation(Self) -> Unit
+pub fn Event::stopPropagation(Self) -> Unit
+pub fn Event::target(Self) -> EventTarget?
+pub fn Event::type_(Self) -> String
 
 pub(all) struct EventSource {
   url : String
   readyState : Int
   withCredentials : Bool
 }
-fn EventSource::as_any(Self) -> @nostd.Any
-fn EventSource::as_event_target(Self) -> EventTarget
-fn EventSource::close(Self) -> Unit
-fn EventSource::new(String, withCredentials? : Bool) -> Self
-fn EventSource::set_onerror(Self, (@nostd.Any) -> Unit) -> Unit
-fn EventSource::set_onmessage(Self, (@nostd.Any) -> Unit) -> Unit
-fn EventSource::set_onopen(Self, (@nostd.Any) -> Unit) -> Unit
-impl EventTargetImpl for EventSource
+pub fn EventSource::as_any(Self) -> @core.Any
+pub fn EventSource::as_event_target(Self) -> EventTarget
+pub fn EventSource::close(Self) -> Unit
+pub fn EventSource::new(String, withCredentials? : Bool) -> Self
+pub fn EventSource::set_onerror(Self, (@core.Any) -> Unit) -> Unit
+pub fn EventSource::set_onmessage(Self, (@core.Any) -> Unit) -> Unit
+pub fn EventSource::set_onopen(Self, (@core.Any) -> Unit) -> Unit
+pub impl EventTargetImpl for EventSource
 
 #external
 pub type EventTarget
 #alias(add_event_listener)
-fn EventTarget::addEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
-fn EventTarget::as_any(Self) -> @nostd.Any
+pub fn EventTarget::addEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
+pub fn EventTarget::as_any(Self) -> @core.Any
 #alias(dispatch_event)
-fn EventTarget::dispatchEvent(Self, Event) -> Bool
-fn EventTarget::off(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit
-fn EventTarget::on(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
+pub fn EventTarget::dispatchEvent(Self, Event) -> Bool
+pub fn EventTarget::off(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn EventTarget::on(Self, String, (@core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 #alias(remove_event_listener)
-fn EventTarget::removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit
-impl EventTargetImpl for EventTarget
+pub fn EventTarget::removeEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit
+pub impl EventTargetImpl for EventTarget
 
 // Type aliases
 
 // Traits
 pub(open) trait EventTargetImpl {
-  as_any(Self) -> @nostd.Any
-  addEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
-  removeEventListener(Self, String, (@nostd.Any) -> Unit, capture? : Bool) -> Unit = _
+  as_any(Self) -> @core.Any
+  addEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
+  removeEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit = _
   dispatchEvent(Self, Event) -> Bool = _
 }
 

@@ -3,29 +3,29 @@ package "mizchi/js/npm/react_dom_client"
 
 import(
   "mizchi/js/browser/dom"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/react"
 )
 
 // Values
-async fn dynamic_import() -> ReactDOMClient
+pub async fn dynamic_import() -> ReactDOMClient
 
 // Errors
 
 // Types and methods
 #external
 pub type ReactDOMClient
-fn ReactDOMClient::as_any(Self) -> @nostd.Any
+pub fn ReactDOMClient::as_any(Self) -> @core.Any
 #alias(create_root)
-fn ReactDOMClient::createRoot(Self, &@dom.ElementImpl) -> ReactDOMRoot
+pub fn ReactDOMClient::createRoot(Self, &@dom.ElementImpl) -> ReactDOMRoot
 #alias(hydrate_root)
-fn ReactDOMClient::hydrateRoot(Self, &@dom.ElementImpl, @react.Element) -> ReactDOMRoot
+pub fn ReactDOMClient::hydrateRoot(Self, &@dom.ElementImpl, @react.Element) -> ReactDOMRoot
 
 #external
 pub type ReactDOMRoot
-fn ReactDOMRoot::as_any(Self) -> @nostd.Any
-fn ReactDOMRoot::render(Self, @react.Element) -> Unit
-fn ReactDOMRoot::unmount(Self) -> Unit
+pub fn ReactDOMRoot::as_any(Self) -> @core.Any
+pub fn ReactDOMRoot::render(Self, @react.Element) -> Unit
+pub fn ReactDOMRoot::unmount(Self) -> Unit
 
 // Type aliases
 

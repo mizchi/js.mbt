@@ -4,7 +4,7 @@
 pub type Text
 
 ///|
-pub fn Text::as_any(self : Text) -> @nostd.Any = "%identity"
+pub fn Text::as_any(self : Text) -> @core.Any = "%identity"
 
 ///|
 pub fn Text::as_event_target(self : Text) -> @event.EventTarget = "%identity"

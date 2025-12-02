@@ -1,13 +1,13 @@
 // ///|
-// extern "js" fn ffi_is_error(value : @nostd.Any) -> Bool =
+// extern "js" fn ffi_is_error(value : @core.Any) -> Bool =
 //   #| (value) => Error.isError(value)
 
 // ///|
-// extern "js" fn ffi_new_error(args : Array[@nostd.Any]) -> JsError =
+// extern "js" fn ffi_new_error(args : Array[@core.Any]) -> JsError =
 //   #| (args) => new Error(...args)
 
 // ///|
-// extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
+// extern "js" fn ffi_get(obj : @core.Any, key : String) -> @core.Any =
 //   #| (obj, key) => obj[key]
 
 // ///|
@@ -20,10 +20,10 @@
 // }
 
 // ///|
-// pub fn JsError::to_any(self : JsError) -> @nostd.Any = "%identity"
+// pub fn JsError::to_any(self : JsError) -> @core.Any = "%identity"
 
 // ///|
-// pub fn JsError::as_any(self : JsError) -> @nostd.Any = "%identity"
+// pub fn JsError::as_any(self : JsError) -> @core.Any = "%identity"
 
 // ///|
 // pub impl Show for JsError with output(self, logger) {
@@ -37,20 +37,20 @@
 
 // ///|
 // /// JS: Error.isError(value)
-// pub fn JsError::isError(val : @nostd.Any) -> Bool {
-//   ffi_is_error(val |> @nostd.identity)
+// pub fn JsError::isError(val : @core.Any) -> Bool {
+//   ffi_is_error(val |> @core.identity)
 // }
 
 // ///|
 // /// Create a new JavaScript Error object.
 // pub fn JsError::new(message : String, cause? : JsError) -> JsError {
-//   let args : Array[@nostd.Any] = if cause is Some(cause) {
+//   let args : Array[@core.Any] = if cause is Some(cause) {
 //     [
-//       @nostd.any(message).cast(),
-//       @nostd.from_entries([("cause", cause.to_any())]).cast(),
+//       @core.any(message).cast(),
+//       @core.from_entries([("cause", cause.to_any())]).cast(),
 //     ]
 //   } else {
-//     [@nostd.any(message).cast()]
+//     [@core.any(message).cast()]
 //   }
 //   ffi_new_error(args)
 // }
@@ -79,11 +79,11 @@
 //   /// Generic JavaScript Error including custom errors
 //   Error(JsError)
 //   /// Non-error value thrown
-//   Value(@nostd.Any)
+//   Value(@core.Any)
 // }
 
 // ///|
-// pub fn ThrowError::to_any(self : ThrowError) -> @nostd.Any = "%identity"
+// pub fn ThrowError::to_any(self : ThrowError) -> @core.Any = "%identity"
 
 // ///|
 // pub impl Show for ThrowError with output(self, logger) {
@@ -120,29 +120,29 @@
 // /// let throw_error = ThrowError::from(js_error)
 // /// // Returns ThrowError::TypeError(...)
 // /// ```
-// pub fn ThrowError::from(value : @nostd.Any) -> ThrowError {
-//   let global = @nostd.global_this()
+// pub fn ThrowError::from(value : @core.Any) -> ThrowError {
+//   let global = @core.global_this()
 
 //   // Check specific error types first (most specific to least specific)
-//   if @nostd.instanceof_(value, ffi_get(global, "TypeError")) {
-//     ThrowError::TypeError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "RangeError")) {
-//     ThrowError::RangeError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "ReferenceError")) {
-//     ThrowError::ReferenceError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "SyntaxError")) {
-//     ThrowError::SyntaxError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "URIError")) {
-//     ThrowError::URIError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "EvalError")) {
-//     ThrowError::EvalError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "AggregateError")) {
-//     ThrowError::AggregateError(@nostd.identity(value))
-//   } else if @nostd.instanceof_(value, ffi_get(global, "SuppressedError")) {
-//     ThrowError::SuppressedError(@nostd.identity(value))
-//   } else if JsError::isError(@nostd.any(value)) {
+//   if @core.instanceof_(value, ffi_get(global, "TypeError")) {
+//     ThrowError::TypeError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "RangeError")) {
+//     ThrowError::RangeError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "ReferenceError")) {
+//     ThrowError::ReferenceError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "SyntaxError")) {
+//     ThrowError::SyntaxError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "URIError")) {
+//     ThrowError::URIError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "EvalError")) {
+//     ThrowError::EvalError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "AggregateError")) {
+//     ThrowError::AggregateError(@core.identity(value))
+//   } else if @core.instanceof_(value, ffi_get(global, "SuppressedError")) {
+//     ThrowError::SuppressedError(@core.identity(value))
+//   } else if JsError::isError(@core.any(value)) {
 //     // Generic Error or custom error types
-//     ThrowError::Error(@nostd.identity(value))
+//     ThrowError::Error(@core.identity(value))
 //   } else {
 //     // Non-error value thrown
 //     ThrowError::Value(value)

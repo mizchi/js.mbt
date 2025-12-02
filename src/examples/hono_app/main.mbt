@@ -72,7 +72,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
     [
       h("head", [
         h("title", [props.title]),
-        h("meta", [], props={ "charset": @nostd.any("UTF-8") }),
+        h("meta", [], props={ "charset": @core.any("UTF-8") }),
         style_component(),
       ]),
       h(
@@ -86,19 +86,19 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                 h(
                   "a",
                   ["Home"],
-                  props={ "href": @nostd.any("/") },
+                  props={ "href": @core.any("/") },
                   class=nav_link_style,
                 ),
                 h(
                   "a",
                   ["About"],
-                  props={ "href": @nostd.any("/about") },
+                  props={ "href": @core.any("/about") },
                   class=nav_link_style,
                 ),
                 h(
                   "a",
                   ["Auth"],
-                  props={ "href": @nostd.any("/auth") },
+                  props={ "href": @core.any("/auth") },
                   class=nav_link_style,
                 ),
                 match props.user {
@@ -146,16 +146,16 @@ pub fn create_app() -> App {
         h("p", ["A fast, lightweight web framework with CSS-in-JS"]),
         h("h2", ["Pages"]),
         h("ul", [
-          h("li", [h("a", ["About"], props={ "href": @nostd.any("/about") })]),
-          h("li", [h("a", ["Auth Demo"], props={ "href": @nostd.any("/auth") })]),
+          h("li", [h("a", ["About"], props={ "href": @core.any("/about") })]),
+          h("li", [h("a", ["Auth Demo"], props={ "href": @core.any("/auth") })]),
         ]),
         h("h2", ["API Endpoints"]),
         h("ul", [
           h("li", [
-            h("a", ["API Hello"], props={ "href": @nostd.any("/api/hello") }),
+            h("a", ["API Hello"], props={ "href": @core.any("/api/hello") }),
           ]),
           h("li", [
-            h("a", ["Health Check"], props={ "href": @nostd.any("/health") }),
+            h("a", ["Health Check"], props={ "href": @core.any("/health") }),
           ]),
         ]),
       ],
@@ -195,13 +195,13 @@ pub fn create_app() -> App {
                 h(
                   "button",
                   ["Logout"],
-                  props={ "type": @nostd.any("submit") },
+                  props={ "type": @core.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @nostd.any("POST"),
-                "action": @nostd.any("/auth/logout"),
+                "method": @core.any("POST"),
+                "action": @core.any("/auth/logout"),
               },
             ),
           ]
@@ -213,21 +213,21 @@ pub fn create_app() -> App {
               "form",
               [
                 h("input", [], props={
-                  "type": @nostd.any("text"),
-                  "name": @nostd.any("username"),
-                  "placeholder": @nostd.any("Username"),
-                  "required": @nostd.any(true),
+                  "type": @core.any("text"),
+                  "name": @core.any("username"),
+                  "placeholder": @core.any("Username"),
+                  "required": @core.any(true),
                 }),
                 h(
                   "button",
                   ["Login"],
-                  props={ "type": @nostd.any("submit") },
+                  props={ "type": @core.any("submit") },
                   class=button_style,
                 ),
               ],
               props={
-                "method": @nostd.any("POST"),
-                "action": @nostd.any("/auth/login"),
+                "method": @core.any("POST"),
+                "action": @core.any("/auth/login"),
               },
             ),
           ]
@@ -237,7 +237,7 @@ pub fn create_app() -> App {
   })
   // Login handler
   .post("/auth/login", async fn(c) {
-    let body = ffi_parse_body(c |> @nostd.identity).wait()
+    let body = ffi_parse_body(c |> @core.identity).wait()
     let username : String = body._get("username").cast()
     if username.length() > 0 {
       set_cookie(c, "user", username, path="/", httpOnly=true, maxAge=3600)
@@ -248,7 +248,7 @@ pub fn create_app() -> App {
         user: None,
         children: [
           h("div", ["Username is required"], class=error_style),
-          h("a", ["Back to login"], props={ "href": @nostd.any("/auth") }),
+          h("a", ["Back to login"], props={ "href": @core.any("/auth") }),
         ],
       })
       c.html_jsx(content, status=400)
@@ -278,7 +278,7 @@ pub fn create_app() -> App {
       children: [
         h("h1", ["404 - Page Not Found"]),
         h("p", ["The page you are looking for does not exist."]),
-        h("a", ["Go Home"], props={ "href": @nostd.any("/") }),
+        h("a", ["Go Home"], props={ "href": @core.any("/") }),
       ],
     })
     c.html_jsx(content, status=404)
@@ -286,17 +286,17 @@ pub fn create_app() -> App {
 }
 
 ///|
-extern "js" fn ffi_parse_body(c : @nostd.Any) -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_parse_body(c : @core.Any) -> @js.Promise[@core.Any] =
   #|(c) => c.req.parseBody()
 
 ///|
 /// Serve the Hono app using @hono/node-server
 fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @nostd.identity, port)
+  ffi_serve(app |> @core.identity, port)
 }
 
 ///|
-extern "js" fn ffi_serve(app : @nostd.Any, port : Int) -> Unit =
+extern "js" fn ffi_serve(app : @core.Any, port : Int) -> Unit =
   #|(app, port) => {
   #|  const { serve } = require('@hono/node-server');
   #|  serve({ fetch: app.fetch, port });

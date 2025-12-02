@@ -31,9 +31,9 @@ test "yaml load nested object" {
 
 ///|
 test "yaml dump simple object" {
-  let obj = @nostd.Object::new()
-  obj["name"] = @nostd.any("Charlie")
-  obj["age"] = @nostd.any(35)
+  let obj = @core.Object::new()
+  obj["name"] = @core.any("Charlie")
+  obj["age"] = @core.any(35)
   let yaml_str = @js_yaml.dump(obj)
   // YAML output contains the key-value pairs
   inspect(yaml_str.contains("name: Charlie"), content="true")
@@ -49,8 +49,8 @@ test "yaml loadObject convenience" {
 
 ///|
 test "yaml dumpObject convenience" {
-  let obj = @nostd.Object::new()
-  obj["foo"] = @nostd.any("bar")
+  let obj = @core.Object::new()
+  obj["foo"] = @core.any("bar")
   let yaml_str = @js_yaml.dump(obj)
   inspect(yaml_str.contains("foo: bar"), content="true")
 }
@@ -82,9 +82,9 @@ test "yaml loadAll multi-document" {
 
 ///|
 test "yaml dump with options" {
-  let obj = @nostd.Object::new()
-  obj["a"] = @nostd.any(1)
-  obj["b"] = @nostd.any(2)
+  let obj = @core.Object::new()
+  obj["a"] = @core.any(1)
+  obj["b"] = @core.any(2)
   let yaml_str = @js_yaml.dump(obj, indent=4, sortKeys=true)
   // Should contain the keys with 4-space indent
   inspect(yaml_str.contains("a: 1"), content="true")
@@ -105,7 +105,7 @@ test "yaml load boolean values" {
 test "yaml load null value" {
   let yaml_str = "value: null"
   let result = @js_yaml.load(yaml_str)
-  inspect(@nostd.is_nullish(result["value"]), content="true")
+  inspect(@core.is_nullish(result["value"]), content="true")
 }
 
 ///|

@@ -2,11 +2,11 @@
 package "mizchi/js/browser/location"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn location() -> Location
+pub fn location() -> Location
 
 // Errors
 
@@ -22,11 +22,11 @@ pub(all) struct Location {
   mut hash : String
   origin : String
 }
-fn Location::as_any(Self) -> @nostd.Any
-fn Location::assign(Self, String) -> Unit
-fn Location::reload(Self) -> Unit
-fn Location::replace(Self, String) -> Unit
-fn Location::to_string(Self) -> String
+pub fn Location::as_any(Self) -> @core.Any
+pub fn Location::assign(Self, String) -> Unit
+pub fn Location::reload(Self) -> Unit
+pub fn Location::replace(Self, String) -> Unit
+pub fn Location::to_string(Self) -> String
 
 // Type aliases
 

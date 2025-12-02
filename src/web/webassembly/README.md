@@ -28,7 +28,7 @@ fn main {
   let module = @webassembly.WebAssembly_Module::new(bytes)
   
   // Instantiate the module
-  let imports = @nostd.Object::new()
+  let imports = @core.Object::new()
   let instance = @webassembly.WebAssembly_Instance::new(module, imports)
   
   // Access exports

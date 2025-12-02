@@ -14,7 +14,7 @@
 pub type Volume
 
 ///|
-pub extern "js" fn Volume::as_any(self : Volume) -> @nostd.Any =
+pub extern "js" fn Volume::as_any(self : Volume) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -23,7 +23,7 @@ pub extern "js" fn Volume::as_any(self : Volume) -> @nostd.Any =
 pub type MemFS
 
 ///|
-pub extern "js" fn MemFS::as_any(self : MemFS) -> @nostd.Any =
+pub extern "js" fn MemFS::as_any(self : MemFS) -> @core.Any =
   #| (x) => x
 
 ///|
@@ -32,7 +32,7 @@ pub extern "js" fn MemFS::as_any(self : MemFS) -> @nostd.Any =
 pub type Dirent
 
 ///|
-pub extern "js" fn Dirent::as_any(self : Dirent) -> @nostd.Any =
+pub extern "js" fn Dirent::as_any(self : Dirent) -> @core.Any =
   #| (x) => x
 
 // ============================================================
@@ -40,7 +40,7 @@ pub extern "js" fn Dirent::as_any(self : Dirent) -> @nostd.Any =
 // ============================================================
 
 ///|
-extern "js" fn memfs_module() -> @nostd.Any =
+extern "js" fn memfs_module() -> @core.Any =
   #| () => require('memfs')
 
 // ============================================================
@@ -52,13 +52,13 @@ extern "js" fn memfs_module() -> @nostd.Any =
 pub fn createVolume() -> Volume {
   let mod = memfs_module()
   let volume_class = mod["Volume"]
-  @nostd.new(volume_class, []).cast()
+  @core.new(volume_class, []).cast()
 }
 
 ///|
 /// Create a Volume from JSON object
 /// JSON format: { "/path/to/file": "content", ... }
-pub fn createVolumeFromJSON(json : @nostd.Any) -> Volume {
+pub fn createVolumeFromJSON(json : @core.Any) -> Volume {
   let mod = memfs_module()
   mod["Volume"]._call("fromJSON", [json]).cast()
 }
@@ -76,7 +76,7 @@ pub fn createFsFromVolume(vol : Volume) -> MemFS {
 
 ///|
 /// Export Volume to JSON
-pub fn Volume::toJSON(self : Volume) -> @nostd.Any {
+pub fn Volume::toJSON(self : Volume) -> @core.Any {
   self.as_any()._call("toJSON", [])
 }
 
@@ -101,7 +101,7 @@ pub fn memfs() -> (Volume, MemFS) {
 ///|
 /// Create memfs from initial files
 /// files format: { "/path": "content", ... }
-pub fn memfsFromJSON(files : @nostd.Any) -> (Volume, MemFS) {
+pub fn memfsFromJSON(files : @core.Any) -> (Volume, MemFS) {
   let vol = createVolumeFromJSON(files)
   let fs = createFsFromVolume(vol)
   (vol, fs)
@@ -116,20 +116,20 @@ pub fn memfsFromJSON(files : @nostd.Any) -> (Volume, MemFS) {
 pub fn MemFS::readFileSync(self : MemFS, path : String) -> String {
   self
   .as_any()
-  ._call("readFileSync", [@nostd.any(path), @nostd.any("utf8")])
+  ._call("readFileSync", [@core.any(path), @core.any("utf8")])
   .cast()
 }
 
 ///|
 /// Read file content as buffer
-pub fn MemFS::readFileSyncBuffer(self : MemFS, path : String) -> @nostd.Any {
-  self.as_any()._call("readFileSync", [@nostd.any(path)])
+pub fn MemFS::readFileSyncBuffer(self : MemFS, path : String) -> @core.Any {
+  self.as_any()._call("readFileSync", [@core.any(path)])
 }
 
 ///|
 /// Write string content to file
 pub fn MemFS::writeFileSync(self : MemFS, path : String, data : String) -> Unit {
-  self.as_any()._call("writeFileSync", [@nostd.any(path), @nostd.any(data)])
+  self.as_any()._call("writeFileSync", [@core.any(path), @core.any(data)])
   |> ignore
 }
 
@@ -140,14 +140,14 @@ pub fn MemFS::appendFileSync(
   path : String,
   data : String,
 ) -> Unit {
-  self.as_any()._call("appendFileSync", [@nostd.any(path), @nostd.any(data)])
+  self.as_any()._call("appendFileSync", [@core.any(path), @core.any(data)])
   |> ignore
 }
 
 ///|
 /// Check if path exists
 pub fn MemFS::existsSync(self : MemFS, path : String) -> Bool {
-  self.as_any()._call("existsSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("existsSync", [@core.any(path)]).cast()
 }
 
 ///|
@@ -158,11 +158,11 @@ pub fn MemFS::mkdirSync(
   recursive? : Bool = false,
 ) -> Unit {
   if recursive {
-    let opts = @nostd.Object::new()
-    opts["recursive"] = @nostd.any(true)
-    self.as_any()._call("mkdirSync", [@nostd.any(path), opts]) |> ignore
+    let opts = @core.Object::new()
+    opts["recursive"] = @core.any(true)
+    self.as_any()._call("mkdirSync", [@core.any(path), opts]) |> ignore
   } else {
-    self.as_any()._call("mkdirSync", [@nostd.any(path)]) |> ignore
+    self.as_any()._call("mkdirSync", [@core.any(path)]) |> ignore
   }
 }
 
@@ -174,24 +174,24 @@ pub fn MemFS::rmdirSync(
   recursive? : Bool = false,
 ) -> Unit {
   if recursive {
-    let opts = @nostd.Object::new()
-    opts["recursive"] = @nostd.any(true)
-    self.as_any()._call("rmdirSync", [@nostd.any(path), opts]) |> ignore
+    let opts = @core.Object::new()
+    opts["recursive"] = @core.any(true)
+    self.as_any()._call("rmdirSync", [@core.any(path), opts]) |> ignore
   } else {
-    self.as_any()._call("rmdirSync", [@nostd.any(path)]) |> ignore
+    self.as_any()._call("rmdirSync", [@core.any(path)]) |> ignore
   }
 }
 
 ///|
 /// Read directory contents
 pub fn MemFS::readdirSync(self : MemFS, path : String) -> Array[String] {
-  self.as_any()._call("readdirSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("readdirSync", [@core.any(path)]).cast()
 }
 
 ///|
 /// Delete file
 pub fn MemFS::unlinkSync(self : MemFS, path : String) -> Unit {
-  self.as_any()._call("unlinkSync", [@nostd.any(path)]) |> ignore
+  self.as_any()._call("unlinkSync", [@core.any(path)]) |> ignore
 }
 
 ///|
@@ -201,55 +201,52 @@ pub fn MemFS::renameSync(
   old_path : String,
   new_path : String,
 ) -> Unit {
-  self
-  .as_any()
-  ._call("renameSync", [@nostd.any(old_path), @nostd.any(new_path)])
+  self.as_any()._call("renameSync", [@core.any(old_path), @core.any(new_path)])
   |> ignore
 }
 
 ///|
 /// Get file/directory stats
 pub fn MemFS::statSync(self : MemFS, path : String) -> @fs.Stat {
-  self.as_any()._call("statSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("statSync", [@core.any(path)]).cast()
 }
 
 ///|
 /// Get file/directory stats (don't follow symlinks)
 pub fn MemFS::lstatSync(self : MemFS, path : String) -> @fs.Stat {
-  self.as_any()._call("lstatSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("lstatSync", [@core.any(path)]).cast()
 }
 
 ///|
 /// Copy file
 pub fn MemFS::copyFileSync(self : MemFS, src : String, dest : String) -> Unit {
-  self.as_any()._call("copyFileSync", [@nostd.any(src), @nostd.any(dest)])
+  self.as_any()._call("copyFileSync", [@core.any(src), @core.any(dest)])
   |> ignore
 }
 
 ///|
 /// Resolve real path
 pub fn MemFS::realpathSync(self : MemFS, path : String) -> String {
-  self.as_any()._call("realpathSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("realpathSync", [@core.any(path)]).cast()
 }
 
 ///|
 /// Create symbolic link
 pub fn MemFS::symlinkSync(self : MemFS, target : String, path : String) -> Unit {
-  self.as_any()._call("symlinkSync", [@nostd.any(target), @nostd.any(path)])
+  self.as_any()._call("symlinkSync", [@core.any(target), @core.any(path)])
   |> ignore
 }
 
 ///|
 /// Read symbolic link target
 pub fn MemFS::readlinkSync(self : MemFS, path : String) -> String {
-  self.as_any()._call("readlinkSync", [@nostd.any(path)]).cast()
+  self.as_any()._call("readlinkSync", [@core.any(path)]).cast()
 }
 
 ///|
 /// Change file mode
 pub fn MemFS::chmodSync(self : MemFS, path : String, mode : Int) -> Unit {
-  self.as_any()._call("chmodSync", [@nostd.any(path), @nostd.any(mode)])
-  |> ignore
+  self.as_any()._call("chmodSync", [@core.any(path), @core.any(mode)]) |> ignore
 }
 
 // ============================================================
@@ -260,8 +257,8 @@ pub fn MemFS::chmodSync(self : MemFS, path : String, mode : Int) -> Unit {
 /// Read file content as string (async)
 pub async fn MemFS::readFile(self : MemFS, path : String) -> String {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[String] = promises
-    ._call("readFile", [@nostd.any(path), @nostd.any("utf8")])
+  let promise : @core.Promise[String] = promises
+    ._call("readFile", [@core.any(path), @core.any("utf8")])
     .cast()
   promise.wait()
 }
@@ -274,8 +271,8 @@ pub async fn MemFS::writeFile(
   data : String,
 ) -> Unit {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[Unit] = promises
-    ._call("writeFile", [@nostd.any(path), @nostd.any(data)])
+  let promise : @core.Promise[Unit] = promises
+    ._call("writeFile", [@core.any(path), @core.any(data)])
     .cast()
   promise.wait()
 }
@@ -289,15 +286,15 @@ pub async fn MemFS::mkdir(
 ) -> Unit {
   let promises = self.as_any()["promises"]
   if recursive {
-    let opts = @nostd.Object::new()
-    opts["recursive"] = @nostd.any(true)
-    let promise : @nostd.Promise[Unit] = promises
-      ._call("mkdir", [@nostd.any(path), opts])
+    let opts = @core.Object::new()
+    opts["recursive"] = @core.any(true)
+    let promise : @core.Promise[Unit] = promises
+      ._call("mkdir", [@core.any(path), opts])
       .cast()
     promise.wait()
   } else {
-    let promise : @nostd.Promise[Unit] = promises
-      ._call("mkdir", [@nostd.any(path)])
+    let promise : @core.Promise[Unit] = promises
+      ._call("mkdir", [@core.any(path)])
       .cast()
     promise.wait()
   }
@@ -307,8 +304,8 @@ pub async fn MemFS::mkdir(
 /// Read directory contents (async)
 pub async fn MemFS::readdir(self : MemFS, path : String) -> Array[String] {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[@nostd.Any] = promises
-    ._call("readdir", [@nostd.any(path)])
+  let promise : @core.Promise[@core.Any] = promises
+    ._call("readdir", [@core.any(path)])
     .cast()
   promise.wait().cast()
 }
@@ -317,8 +314,8 @@ pub async fn MemFS::readdir(self : MemFS, path : String) -> Array[String] {
 /// Delete file (async)
 pub async fn MemFS::unlink(self : MemFS, path : String) -> Unit {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[Unit] = promises
-    ._call("unlink", [@nostd.any(path)])
+  let promise : @core.Promise[Unit] = promises
+    ._call("unlink", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -327,8 +324,8 @@ pub async fn MemFS::unlink(self : MemFS, path : String) -> Unit {
 /// Remove directory (async)
 pub async fn MemFS::rmdir(self : MemFS, path : String) -> Unit {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[Unit] = promises
-    ._call("rmdir", [@nostd.any(path)])
+  let promise : @core.Promise[Unit] = promises
+    ._call("rmdir", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -337,8 +334,8 @@ pub async fn MemFS::rmdir(self : MemFS, path : String) -> Unit {
 /// Get file/directory stats (async)
 pub async fn MemFS::stat(self : MemFS, path : String) -> @fs.Stat {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[@fs.Stat] = promises
-    ._call("stat", [@nostd.any(path)])
+  let promise : @core.Promise[@fs.Stat] = promises
+    ._call("stat", [@core.any(path)])
     .cast()
   promise.wait()
 }
@@ -351,8 +348,8 @@ pub async fn MemFS::rename(
   new_path : String,
 ) -> Unit {
   let promises = self.as_any()["promises"]
-  let promise : @nostd.Promise[Unit] = promises
-    ._call("rename", [@nostd.any(old_path), @nostd.any(new_path)])
+  let promise : @core.Promise[Unit] = promises
+    ._call("rename", [@core.any(old_path), @core.any(new_path)])
     .cast()
   promise.wait()
 }

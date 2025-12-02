@@ -2,101 +2,101 @@
 package "mizchi/js/npm/msw"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn arrayBufferResponse(@nostd.Any, status? : Int) -> HttpResponse
+pub fn arrayBufferResponse(@core.Any, status? : Int) -> HttpResponse
 
-fn errorResponse() -> HttpResponse
+pub fn errorResponse() -> HttpResponse
 
-fn htmlResponse(String, status? : Int) -> HttpResponse
+pub fn htmlResponse(String, status? : Int) -> HttpResponse
 
-fn httpAll(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpAll(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpDelete(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpDelete(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpGet(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpGet(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpHead(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpHead(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpOptions(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpOptions(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpPatch(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpPatch(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-fn jsonResponse(@nostd.Any, status? : Int) -> HttpResponse
+pub fn jsonResponse(@core.Any, status? : Int) -> HttpResponse
 
-fn mockError(String, Int, String) -> RequestHandler
+pub fn mockError(String, Int, String) -> RequestHandler
 
-fn mockGet(String, @nostd.Any) -> RequestHandler
+pub fn mockGet(String, @core.Any) -> RequestHandler
 
-fn mockPost(String, @nostd.Any) -> RequestHandler
+pub fn mockPost(String, @core.Any) -> RequestHandler
 
-fn setupServer(Array[RequestHandler]) -> SetupServer
+pub fn setupServer(Array[RequestHandler]) -> SetupServer
 
-fn setupWorker(Array[RequestHandler]) -> SetupWorker
+pub fn setupWorker(Array[RequestHandler]) -> SetupWorker
 
-fn textResponse(String, status? : Int) -> HttpResponse
+pub fn textResponse(String, status? : Int) -> HttpResponse
 
-fn xmlResponse(String, status? : Int) -> HttpResponse
+pub fn xmlResponse(String, status? : Int) -> HttpResponse
 
 // Errors
 
 // Types and methods
 #external
 pub type HttpResponse
-fn HttpResponse::as_any(Self) -> @nostd.Any
+pub fn HttpResponse::as_any(Self) -> @core.Any
 
 #external
 pub type RequestHandler
-fn RequestHandler::as_any(Self) -> @nostd.Any
+pub fn RequestHandler::as_any(Self) -> @core.Any
 
 #external
 pub type RequestInfo
-fn RequestInfo::as_any(Self) -> @nostd.Any
+pub fn RequestInfo::as_any(Self) -> @core.Any
 
 #external
 pub type ResponseResolverInfo
-fn ResponseResolverInfo::as_any(Self) -> @nostd.Any
-fn ResponseResolverInfo::cookies(Self) -> @nostd.Any
-fn ResponseResolverInfo::getParam(Self, String) -> String
-fn ResponseResolverInfo::headers(Self) -> @nostd.Any
-fn ResponseResolverInfo::httpMethod(Self) -> String
-fn ResponseResolverInfo::json(Self) -> @nostd.Promise[@nostd.Any]
-fn ResponseResolverInfo::params(Self) -> @nostd.Any
-fn ResponseResolverInfo::request(Self) -> @nostd.Any
-fn ResponseResolverInfo::text(Self) -> @nostd.Promise[String]
-fn ResponseResolverInfo::url(Self) -> String
+pub fn ResponseResolverInfo::as_any(Self) -> @core.Any
+pub fn ResponseResolverInfo::cookies(Self) -> @core.Any
+pub fn ResponseResolverInfo::getParam(Self, String) -> String
+pub fn ResponseResolverInfo::headers(Self) -> @core.Any
+pub fn ResponseResolverInfo::httpMethod(Self) -> String
+pub fn ResponseResolverInfo::json(Self) -> @core.Promise[@core.Any]
+pub fn ResponseResolverInfo::params(Self) -> @core.Any
+pub fn ResponseResolverInfo::request(Self) -> @core.Any
+pub fn ResponseResolverInfo::text(Self) -> @core.Promise[String]
+pub fn ResponseResolverInfo::url(Self) -> String
 
 #external
 pub type SetupServer
-fn SetupServer::as_any(Self) -> @nostd.Any
-fn SetupServer::close(Self) -> Unit
-fn SetupServer::listHandlers(Self) -> @nostd.Any
-fn SetupServer::listen(Self, onUnhandledRequest? : String) -> Unit
-fn SetupServer::resetHandlers(Self) -> Unit
-fn SetupServer::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
-fn SetupServer::restoreHandlers(Self) -> Unit
-fn SetupServer::useHandlers(Self, Array[RequestHandler]) -> Unit
+pub fn SetupServer::as_any(Self) -> @core.Any
+pub fn SetupServer::close(Self) -> Unit
+pub fn SetupServer::listHandlers(Self) -> @core.Any
+pub fn SetupServer::listen(Self, onUnhandledRequest? : String) -> Unit
+pub fn SetupServer::resetHandlers(Self) -> Unit
+pub fn SetupServer::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
+pub fn SetupServer::restoreHandlers(Self) -> Unit
+pub fn SetupServer::useHandlers(Self, Array[RequestHandler]) -> Unit
 
 #external
 pub type SetupWorker
-fn SetupWorker::as_any(Self) -> @nostd.Any
-fn SetupWorker::listHandlers(Self) -> @nostd.Any
-fn SetupWorker::resetHandlers(Self) -> Unit
-fn SetupWorker::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
-fn SetupWorker::restoreHandlers(Self) -> Unit
-async fn SetupWorker::start(Self, serviceWorkerUrl? : String, quiet? : Bool, onUnhandledRequest? : String) -> Unit
-fn SetupWorker::stop(Self) -> Unit
-fn SetupWorker::useHandlers(Self, Array[RequestHandler]) -> Unit
+pub fn SetupWorker::as_any(Self) -> @core.Any
+pub fn SetupWorker::listHandlers(Self) -> @core.Any
+pub fn SetupWorker::resetHandlers(Self) -> Unit
+pub fn SetupWorker::resetHandlersWith(Self, Array[RequestHandler]) -> Unit
+pub fn SetupWorker::restoreHandlers(Self) -> Unit
+pub async fn SetupWorker::start(Self, serviceWorkerUrl? : String, quiet? : Bool, onUnhandledRequest? : String) -> Unit
+pub fn SetupWorker::stop(Self) -> Unit
+pub fn SetupWorker::useHandlers(Self, Array[RequestHandler]) -> Unit
 
 #external
 pub type StartOptions
-fn StartOptions::as_any(Self) -> @nostd.Any
+pub fn StartOptions::as_any(Self) -> @core.Any
 
 // Type aliases
 

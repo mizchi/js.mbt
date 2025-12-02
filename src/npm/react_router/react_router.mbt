@@ -2,15 +2,15 @@
 /// Dynamic import for react-router module
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_react_router() -> @js.Promise[@nostd.Any] =
+extern "js" fn import_react_router() -> @js.Promise[@core.Any] =
   #|() => import("react-router")
 
 ///|
 /// Internal FFI to create React element with component
 extern "js" fn ffi_create_element(
-  tag : @nostd.Any,
-  props : @nostd.Any,
-  children : @nostd.Any,
+  tag : @core.Any,
+  props : @core.Any,
+  children : @core.Any,
 ) -> @react.Element =
   #|(tag, props, children) => {
   #|  return __ReactApi.createElement(tag, props, ...children)
@@ -23,7 +23,7 @@ extern "js" fn ffi_create_element(
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @nostd.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
+  if @core.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @global.global_this()._set("__ReactRouterApi", v)
   }
@@ -70,17 +70,17 @@ pub(all) enum Route {
 }
 
 ///|
-pub fn Route::as_any(self : Route) -> @nostd.Any {
+pub fn Route::as_any(self : Route) -> @core.Any {
   match self {
     Route::Component(path~, component~) => {
-      let obj = @nostd.Object::new()
-      obj._set("path", path |> @nostd.any)
+      let obj = @core.Object::new()
+      obj._set("path", path |> @core.any)
       obj._set("Component", component |> @js.any)
       obj
     }
     Route::Element(path~, element~) => {
-      let obj = @nostd.Object::new()
-      obj._set("path", path |> @nostd.any)
+      let obj = @core.Object::new()
+      obj._set("path", path |> @core.any)
       obj._set("element", element |> @js.any)
       obj
     }
@@ -91,7 +91,7 @@ pub fn Route::as_any(self : Route) -> @nostd.Any {
 /// Creates a browser router with the given routes
 /// https://reactrouter.com/en/main/routers/create-browser-router
 pub fn create_browser_router(routes : Array[Route]) -> Router {
-  let create_fn : (Array[@nostd.Any]) -> Router = @global.global_this()
+  let create_fn : (Array[@core.Any]) -> Router = @global.global_this()
     ._get("__ReactRouterApi")
     ._get("createBrowserRouter")
     .cast()
@@ -114,19 +114,19 @@ pub fn create_memory_router(
   routes : Array[Route],
   options? : MemoryRouterOptions,
 ) -> Router {
-  let create_fn : (Array[@nostd.Any], @nostd.Any) -> Router = @global.global_this()
+  let create_fn : (Array[@core.Any], @core.Any) -> Router = @global.global_this()
     ._get("__ReactRouterApi")
     ._get("createMemoryRouter")
     .cast()
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   match options {
     Some(o) => {
       match o.initial_entries {
-        Some(entries) => opts._set("initialEntries", @nostd.any(entries))
+        Some(entries) => opts._set("initialEntries", @core.any(entries))
         None => ()
       }
       match o.initial_index {
-        Some(idx) => opts._set("initialIndex", idx |> @nostd.any)
+        Some(idx) => opts._set("initialIndex", idx |> @core.any)
         None => ()
       }
     }
@@ -164,13 +164,13 @@ pub fn link(
 pub type Params
 
 ///|
-pub fn Params::as_any(self : Params) -> @nostd.Any = "%identity"
+pub fn Params::as_any(self : Params) -> @core.Any = "%identity"
 
 ///|
 /// Get a parameter value by name
 pub fn Params::get(self : Self, name : String) -> String? {
   let val = self.as_any()._get(name)
-  if @nostd.is_undefined(val) || @nostd.is_null(val) {
+  if @core.is_undefined(val) || @core.is_null(val) {
     None
   } else {
     Some(val.cast())
@@ -184,12 +184,12 @@ pub(all) struct Location {
   pathname : String
   search : String
   hash : String
-  state : @nostd.Any
+  state : @core.Any
   key : String
 }
 
 ///|
-pub fn Location::as_any(self : Location) -> @nostd.Any = "%identity"
+pub fn Location::as_any(self : Location) -> @core.Any = "%identity"
 
 ///|
 /// Hook: Returns the current location object
@@ -215,29 +215,29 @@ pub fn useParams() -> Params {
 
 ///|
 /// NavigateFunction type for programmatic navigation
-pub(all) struct NavigateFunction((@nostd.Any, @nostd.Any?) -> Unit)
+pub(all) struct NavigateFunction((@core.Any, @core.Any?) -> Unit)
 
 ///|
 /// NavigateOptions for navigate function
 pub(all) struct NavigateOptions {
   replace : Bool?
-  state : @nostd.Any?
+  state : @core.Any?
   relative : String? // "route" | "path"
 }
 
 ///|
-pub fn NavigateOptions::as_any(self : NavigateOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn NavigateOptions::as_any(self : NavigateOptions) -> @core.Any {
+  let obj = @core.Object::new()
   match self.replace {
-    Some(r) => obj._set("replace", r |> @nostd.any)
+    Some(r) => obj._set("replace", r |> @core.any)
     None => ()
   }
   match self.state {
-    Some(s) => obj._set("state", s |> @nostd.any)
+    Some(s) => obj._set("state", s |> @core.any)
     None => ()
   }
   match self.relative {
-    Some(r) => obj._set("relative", r |> @nostd.any)
+    Some(r) => obj._set("relative", r |> @core.any)
     None => ()
   }
   obj
@@ -260,7 +260,7 @@ pub fn NavigateFunction::to(
   self : NavigateFunction,
   path : String,
   replace? : Bool,
-  state? : @nostd.Any,
+  state? : @core.Any,
   relative? : String,
 ) -> Unit {
   if replace is None && state is None && relative is None {
@@ -296,7 +296,7 @@ pub fn useSearchParams() -> (
   @url.URLSearchParams,
   (@url.URLSearchParams) -> Unit,
 ) {
-  let hook : () -> Array[@nostd.Any] = @global.global_this()
+  let hook : () -> Array[@core.Any] = @global.global_this()
     ._get("__ReactRouterApi")
     ._get("useSearchParams")
     .cast()
@@ -312,22 +312,22 @@ pub(all) struct Match {
   params : Params
   pathname : String
   pathnameBase : String
-  pattern : @nostd.Any
+  pattern : @core.Any
 }
 
 ///|
-pub fn Match::as_any(self : Match) -> @nostd.Any = "%identity"
+pub fn Match::as_any(self : Match) -> @core.Any = "%identity"
 
 ///|
 /// Hook: Returns match data if the current location matches the given path pattern
 /// https://reactrouter.com/en/main/hooks/use-match
 pub fn useMatch(pattern : String) -> Match? {
-  let hook : (String) -> @nostd.Any = @global.global_this()
+  let hook : (String) -> @core.Any = @global.global_this()
     ._get("__ReactRouterApi")
     ._get("useMatch")
     .cast()
   let result = hook(pattern)
-  if @nostd.is_null(result) {
+  if @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -347,10 +347,10 @@ pub(all) struct NavLinkRenderProps {
 }
 
 ///|
-pub fn NavLinkRenderProps::as_any(self : NavLinkRenderProps) -> @nostd.Any = "%identity"
+pub fn NavLinkRenderProps::as_any(self : NavLinkRenderProps) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn get_nav_link() -> @nostd.Any =
+extern "js" fn get_nav_link() -> @core.Any =
   #| () => __ReactRouterApi.NavLink
 
 ///|
@@ -363,8 +363,8 @@ pub fn nav_link(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @nostd.Object::new()
-  props._set("to", to |> @nostd.any)
+  let props = @core.Object::new()
+  props._set("to", to |> @core.any)
   match (class_name, active_class_name) {
     (Some(base), Some(active)) =>
       props._set(
@@ -377,7 +377,7 @@ pub fn nav_link(
           }
         }),
       )
-    (Some(base), None) => props._set("className", base |> @nostd.any)
+    (Some(base), None) => props._set("className", base |> @core.any)
     (None, Some(active)) =>
       props._set(
         "className",
@@ -391,16 +391,12 @@ pub fn nav_link(
       )
     (None, None) => ()
   }
-  let children_arr : Array[@nostd.Any] = children.map(fn(c) {
-    c.to_react_node()
-  })
-  let children_js : @nostd.Any = children_arr.map(fn(c) -> @nostd.Any {
-      c.cast()
-    })
-    |> @nostd.any
+  let children_arr : Array[@core.Any] = children.map(fn(c) { c.to_react_node() })
+  let children_js : @core.Any = children_arr.map(fn(c) -> @core.Any { c.cast() })
+    |> @core.any
   props._set("children", children_js)
-  let empty : Array[@nostd.Any] = []
-  ffi_create_element(nav_link_component, props, @nostd.any(empty))
+  let empty : Array[@core.Any] = []
+  ffi_create_element(nav_link_component, props, @core.any(empty))
 }
 
 ///|
@@ -410,11 +406,11 @@ pub fn nav_link_render(
   render~ : (NavLinkRenderProps) -> @react.Element,
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
-  let props = @nostd.Object::new()
-  props._set("to", to |> @nostd.any)
+  let props = @core.Object::new()
+  props._set("to", to |> @core.any)
   props._set("children", @js.from_fn1(render))
-  let empty : Array[@nostd.Any] = []
-  ffi_create_element(nav_link_component, props, @nostd.any(empty))
+  let empty : Array[@core.Any] = []
+  ffi_create_element(nav_link_component, props, @core.any(empty))
 }
 
 // =============================================================================
@@ -422,7 +418,7 @@ pub fn nav_link_render(
 // =============================================================================
 
 ///|
-extern "js" fn get_outlet() -> @nostd.Any =
+extern "js" fn get_outlet() -> @core.Any =
   #| () => __ReactRouterApi.Outlet
 
 ///|
@@ -430,8 +426,8 @@ extern "js" fn get_outlet() -> @nostd.Any =
 /// https://reactrouter.com/en/main/components/outlet
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
-  let empty : Array[@nostd.Any] = []
-  ffi_create_element(outlet_component, @nostd.null(), @nostd.any(empty))
+  let empty : Array[@core.Any] = []
+  ffi_create_element(outlet_component, @core.null(), @core.any(empty))
 }
 
 // =============================================================================
@@ -442,31 +438,31 @@ pub fn outlet() -> @react.Element {
 pub struct NavigateProps {
   to : String
   replace : Bool?
-  state : @nostd.Any?
+  state : @core.Any?
   relative : String?
 }
 
 ///|
-pub fn NavigateProps::as_any(self : NavigateProps) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj._set("to", self.to |> @nostd.any)
+pub fn NavigateProps::as_any(self : NavigateProps) -> @core.Any {
+  let obj = @core.Object::new()
+  obj._set("to", self.to |> @core.any)
   match self.replace {
-    Some(r) => obj._set("replace", r |> @nostd.any)
+    Some(r) => obj._set("replace", r |> @core.any)
     None => ()
   }
   match self.state {
-    Some(s) => obj._set("state", s |> @nostd.any)
+    Some(s) => obj._set("state", s |> @core.any)
     None => ()
   }
   match self.relative {
-    Some(r) => obj._set("relative", r |> @nostd.any)
+    Some(r) => obj._set("relative", r |> @core.any)
     None => ()
   }
   obj
 }
 
 ///|
-extern "js" fn get_navigate_component() -> (@nostd.Any) -> @react.Element =
+extern "js" fn get_navigate_component() -> (@core.Any) -> @react.Element =
   #| () => __ReactRouterApi.Navigate
 
 ///|
@@ -475,7 +471,7 @@ extern "js" fn get_navigate_component() -> (@nostd.Any) -> @react.Element =
 pub fn navigate(
   to~ : String,
   replace? : Bool,
-  state? : @nostd.Any,
+  state? : @core.Any,
   relative? : String,
 ) -> @react.Element {
   let nav_component = get_navigate_component()

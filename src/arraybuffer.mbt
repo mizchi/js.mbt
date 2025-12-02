@@ -16,13 +16,13 @@ pub(all) struct ArrayBuffer {
 }
 
 ///|
-pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @nostd.Any = "%identity"
+pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_array_buffer(
   byte_length : Int,
   max_byte_length : Int?,
-) -> @nostd.Any =
+) -> @core.Any =
   #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
@@ -35,7 +35,7 @@ pub fn ArrayBuffer::new(
 
 ///|
 pub fn ArrayBuffer::resize(self : ArrayBuffer, new_byte_length : Int) -> Unit {
-  self.to_any()._call("resize", [@nostd.any(new_byte_length)]) |> ignore
+  self.to_any()._call("resize", [@core.any(new_byte_length)]) |> ignore
 }
 
 ///|
@@ -46,13 +46,13 @@ pub fn ArrayBuffer::slice(
 ) -> ArrayBuffer {
   match end {
     Some(e) =>
-      self.to_any()._call("slice", [@nostd.any(begin), @nostd.any(e)]).cast()
-    None => self.to_any()._call("slice", [@nostd.any(begin)]).cast()
+      self.to_any()._call("slice", [@core.any(begin), @core.any(e)]).cast()
+    None => self.to_any()._call("slice", [@core.any(begin)]).cast()
   }
 }
 
 ///|
-pub extern "js" fn ArrayBuffer::isView(arg : @nostd.Any) -> Bool =
+pub extern "js" fn ArrayBuffer::isView(arg : @core.Any) -> Bool =
   #| (arg) => ArrayBuffer.isView(arg)
 
 ///|
@@ -62,7 +62,7 @@ pub(all) struct SharedArrayBuffer {
 }
 
 ///|
-pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @nostd.Any = "%identity"
+pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @core.Any = "%identity"
 
 ///|
 pub extern "js" fn SharedArrayBuffer::new(

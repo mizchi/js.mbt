@@ -22,7 +22,7 @@ test "runInNewContext basic execution" {
 ///|
 /// Test runInNewContext with context object
 test "runInNewContext with context" {
-  let context = @nostd.from_entries([("x", @nostd.any(42))]).cast()
+  let context = @core.from_entries([("x", @core.any(42))]).cast()
   let result = runInNewContext("x * 2", contextObject=context)
   inspect(result, content="84")
 }
@@ -31,21 +31,21 @@ test "runInNewContext with context" {
 /// Test createContext
 test "createContext creates context" {
   let context = createContext()
-  inspect(context |> @nostd.typeof_, content="object")
+  inspect(context |> @core.typeof_, content="object")
 }
 
 ///|
 /// Test createContext with object
 test "createContext with initial object" {
-  let obj = @nostd.from_entries([("foo", @nostd.any("bar"))]).cast()
+  let obj = @core.from_entries([("foo", @core.any("bar"))]).cast()
   let context = createContext(contextObject=obj)
-  inspect(context |> @nostd.typeof_, content="object")
+  inspect(context |> @core.typeof_, content="object")
 }
 
 ///|
 /// Test isContext
 test "isContext on regular object" {
-  let obj = @nostd.from_entries([("foo", @nostd.any("bar"))]).cast()
+  let obj = @core.from_entries([("foo", @core.any("bar"))]).cast()
   let result = isContext(obj)
   inspect(result, content="false")
 }
@@ -62,7 +62,7 @@ test "isContext on contextified object" {
 /// Test runInContext
 test "runInContext basic execution" {
   let context = createContext(
-    contextObject=@nostd.from_entries([("x", @nostd.any(10))]).cast(),
+    contextObject=@core.from_entries([("x", @core.any(10))]).cast(),
   )
   let result = runInContext("x * 3", context)
   inspect(result, content="30")
@@ -72,7 +72,7 @@ test "runInContext basic execution" {
 /// Test Script class creation
 test "Script creation" {
   let script = Script::new("1 + 1")
-  inspect(script |> @nostd.any |> @nostd.typeof_, content="object")
+  inspect(script |> @core.any |> @core.typeof_, content="object")
 }
 
 ///|
@@ -87,10 +87,7 @@ test "Script runInThisContext" {
 /// Test Script::runInNewContext
 test "Script runInNewContext" {
   let script = Script::new("a + b")
-  let context = @nostd.from_entries([
-    ("a", @nostd.any(10)),
-    ("b", @nostd.any(20)),
-  ]).cast()
+  let context = @core.from_entries([("a", @core.any(10)), ("b", @core.any(20))]).cast()
   let result = script.runInNewContext(contextObject=context)
   inspect(result, content="30")
 }
@@ -100,10 +97,7 @@ test "Script runInNewContext" {
 test "Script runInContext" {
   let script = Script::new("x * y")
   let context = createContext(
-    contextObject=@nostd.from_entries([
-      ("x", @nostd.any(5)),
-      ("y", @nostd.any(6)),
-    ]).cast(),
+    contextObject=@core.from_entries([("x", @core.any(5)), ("y", @core.any(6))]).cast(),
   )
   let result = script.runInContext(context)
   inspect(result, content="30")
@@ -114,10 +108,10 @@ test "Script runInContext" {
 test "Script reuse" {
   let script = Script::new("value * 2")
   let ctx1 = createContext(
-    contextObject=@nostd.from_entries([("value", @nostd.any(5))]).cast(),
+    contextObject=@core.from_entries([("value", @core.any(5))]).cast(),
   )
   let ctx2 = createContext(
-    contextObject=@nostd.from_entries([("value", @nostd.any(10))]).cast(),
+    contextObject=@core.from_entries([("value", @core.any(10))]).cast(),
   )
   let result1 = script.runInContext(ctx1)
   let result2 = script.runInContext(ctx2)
@@ -129,14 +123,14 @@ test "Script reuse" {
 /// Test compileFunction
 test "compileFunction basic" {
   let func = compileFunction("return a + b;", params=["a", "b"])
-  inspect(func |> @nostd.typeof_, content="function")
+  inspect(func |> @core.typeof_, content="function")
 }
 
 ///|
 /// Test compileFunction execution
 test "compileFunction execution" {
   let func = compileFunction("return x * 2;", params=["x"])
-  let result = func._invoke([5 |> @nostd.any])
+  let result = func._invoke([5 |> @core.any])
   inspect(result, content="10")
 }
 

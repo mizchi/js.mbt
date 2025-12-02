@@ -37,9 +37,7 @@ test "useCallback" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(0)
-    let on_click = useCallback(fn() { set_count(count + 1) }, [
-      @nostd.any(count),
-    ])
+    let on_click = useCallback(fn() { set_count(count + 1) }, [@core.any(count)])
     @react_element.div([
       @react_element.span(["Count: \{count}"]),
       @react_element.button(on_click=_ => on_click(), ["increment"]),
@@ -103,7 +101,7 @@ test "useMemo" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = useState(1)
-    let doubled = useMemo(fn() { count * 2 }, [@nostd.any(count)])
+    let doubled = useMemo(fn() { count * 2 }, [@core.any(count)])
     @react_element.div([
       @react_element.span(["Doubled: \{doubled}"]),
       @react_element.button(on_click=_ => set_count(count + 1), ["increment"]),
@@ -128,7 +126,7 @@ test "useRef with Some" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let r : ReactRef[@dom.HTMLDivElement] = useRef(
-      Some(@nostd.identity(@nostd.Object::new())),
+      Some(@core.identity(@core.Object::new())),
     )
     @react_element.div(ref_=r, ["Ref test"])
   }
@@ -213,12 +211,12 @@ test "ReactRef::set_current" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (msg, set_msg) = useState("initial")
-    let r : ReactRef[@nostd.Any] = useRef(None)
+    let r : ReactRef[@core.Any] = useRef(None)
     let on_click : @dom.MouseEventHandler = _ => {
-      r.set_current(Some(@nostd.identity("custom value")))
+      r.set_current(Some(@core.identity("custom value")))
       match r.get_current() {
         Some(v) => {
-          let s : String = @nostd.identity(v)
+          let s : String = @core.identity(v)
           set_msg(s)
         }
         None => ()

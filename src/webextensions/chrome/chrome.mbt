@@ -43,7 +43,7 @@ fn Storage::new() -> Storage {
 /// Add listener for storage changes
 pub fn Storage::on_changed(
   self : Storage,
-  callback : (@nostd.Any, String) -> Unit,
+  callback : (@core.Any, String) -> Unit,
 ) -> Unit {
   ignore(self)
   @storage.on_changed(callback)
@@ -63,7 +63,7 @@ fn Runtime::new() -> Runtime {
 
 ///|
 /// Get the extension's manifest
-pub fn Runtime::get_manifest(self : Runtime) -> @nostd.Any {
+pub fn Runtime::get_manifest(self : Runtime) -> @core.Any {
   ignore(self)
   @runtime.get_manifest()
 }
@@ -79,8 +79,8 @@ pub fn Runtime::get_url(self : Runtime, path : String) -> String {
 /// Send a message to other parts of the extension
 pub async fn Runtime::send_message(
   self : Runtime,
-  message : @nostd.Any,
-) -> @nostd.Any {
+  message : @core.Any,
+) -> @core.Any {
   ignore(self)
   @runtime.send_message(message)
 }
@@ -89,7 +89,7 @@ pub async fn Runtime::send_message(
 /// Listen for messages
 pub fn Runtime::on_message(
   self : Runtime,
-  callback : (@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool,
+  callback : (@core.Any, @core.Any, (@core.Any) -> Unit) -> Bool,
 ) -> Unit {
   ignore(self)
   @runtime.on_message(callback)
@@ -116,7 +116,7 @@ pub fn Runtime::on_connect(
 /// Listen for extension install/update
 pub fn Runtime::on_installed(
   self : Runtime,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   ignore(self)
   @runtime.on_installed(callback)
@@ -186,7 +186,7 @@ pub async fn Tabs::get_current(self : Tabs) -> @tabs.Tab? {
 /// Get tab by ID
 // pub async fn Tabs::get(self : Tabs, tab_id : Int) -> @tabs.Tab {
 //   // ignore(self)
-//   (self |> @nostd.any)._get(tab_id)
+//   (self |> @core.any)._get(tab_id)
 // }
 
 ///|
@@ -247,8 +247,8 @@ pub async fn Tabs::duplicate(self : Tabs, tab_id : Int) -> @tabs.Tab {
 pub async fn Tabs::send_message(
   self : Tabs,
   tab_id : Int,
-  message : @nostd.Any,
-) -> @nostd.Any {
+  message : @core.Any,
+) -> @core.Any {
   ignore(self)
   @tabs.send_message(tab_id, message)
 }
@@ -264,7 +264,7 @@ pub fn Tabs::on_created(self : Tabs, callback : (@tabs.Tab) -> Unit) -> Unit {
 /// Listen for tab removal
 pub fn Tabs::on_removed(
   self : Tabs,
-  callback : (Int, @nostd.Any) -> Unit,
+  callback : (Int, @core.Any) -> Unit,
 ) -> Unit {
   ignore(self)
   @tabs.on_removed(callback)
@@ -274,7 +274,7 @@ pub fn Tabs::on_removed(
 /// Listen for tab updates
 pub fn Tabs::on_updated(
   self : Tabs,
-  callback : (Int, @nostd.Any, @tabs.Tab) -> Unit,
+  callback : (Int, @core.Any, @tabs.Tab) -> Unit,
 ) -> Unit {
   ignore(self)
   @tabs.on_updated(callback)
@@ -282,7 +282,7 @@ pub fn Tabs::on_updated(
 
 ///|
 /// Listen for tab activation
-pub fn Tabs::on_activated(self : Tabs, callback : (@nostd.Any) -> Unit) -> Unit {
+pub fn Tabs::on_activated(self : Tabs, callback : (@core.Any) -> Unit) -> Unit {
   ignore(self)
   @tabs.on_activated(callback)
 }

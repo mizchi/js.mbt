@@ -2,14 +2,14 @@
 package "mizchi/js/node/stream_promises"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/stream"
 )
 
 // Values
-async fn finished(@nostd.Any) -> Unit
+pub async fn finished(@core.Any) -> Unit
 
-async fn pipeline(Array[@nostd.Any]) -> @stream.Stream
+pub async fn pipeline(Array[@core.Any]) -> @stream.Stream
 
 // Errors
 

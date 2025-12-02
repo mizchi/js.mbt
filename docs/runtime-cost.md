@@ -33,10 +33,10 @@ This document analyzes the bundle size overhead when using various MoonBit built
 These use `%identity` and produce no runtime code:
 
 ```moonbit
-pub fn[T] from_array(arr : Array[T]) -> @nostd.Any = "%identity"
+pub fn[T] from_array(arr : Array[T]) -> @core.Any = "%identity"
 ```
 
-- `Array[T]` → `@nostd.Any` - MoonBit arrays are JS arrays at runtime
+- `Array[T]` → `@core.Any` - MoonBit arrays are JS arrays at runtime
 - `Array[(String, Any)]` → Object - Tuples compile to `{_0, _1}` objects, simple iteration
 
 ### Minimal (<1KB overhead)
@@ -70,12 +70,12 @@ These types include full data structure implementations:
 2. **Build objects manually** instead of using `Map`:
    ```moonbit
    // Good: ~0B overhead
-   let obj = @nostd.Object::new()
-   obj["name"] = @nostd.any("Alice")
-   obj["age"] = @nostd.any(30)
+   let obj = @core.Object::new()
+   obj["name"] = @core.any("Alice")
+   obj["age"] = @core.any(30)
 
    // Bad: ~6KB overhead (Map implementation included)
-   let map : Map[String, @nostd.Any] = { "name": @nostd.any("Alice"), "age": @nostd.any(30) }
+   let map : Map[String, @core.Any] = { "name": @core.any("Alice"), "age": @core.any(30) }
    from_map(map)
    ```
 

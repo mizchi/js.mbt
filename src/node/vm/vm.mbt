@@ -1,6 +1,6 @@
 ///|
 /// node:vm module
-extern "js" fn vm_module() -> @nostd.Any =
+extern "js" fn vm_module() -> @core.Any =
   #| () => require("node:vm")
 
 ///|
@@ -16,7 +16,7 @@ extern "js" fn vm_module() -> @nostd.Any =
 pub type Script
 
 ///|
-pub fn Script::as_any(self : Script) -> @nostd.Any = "%identity"
+pub fn Script::as_any(self : Script) -> @core.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
@@ -34,14 +34,14 @@ pub fn Script::new(
   let vm = vm_module()
   let script_constructor = vm._get("Script")
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
-    "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "cachedData": cachedData.map(fn(x) { @core.any(x) }),
+    "produceCachedData": produceCachedData.map(fn(x) { @core.any(x) }),
   })
-  @nostd.new(script_constructor, [@nostd.any(code), @nostd.identity(options)])
-  |> @nostd.identity
+  @core.new(script_constructor, [@core.any(code), @core.identity(options)])
+  |> @core.identity
 }
 
 ///|
@@ -54,14 +54,14 @@ pub fn Script::runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
   })
   self.as_any()._call("runInThisContext", [options]).cast()
 }
@@ -70,7 +70,7 @@ pub fn Script::runInThisContext(
 /// Run script in new context
 pub fn Script::runInNewContext(
   self : Script,
-  contextObject? : @nostd.Any,
+  contextObject? : @core.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -80,21 +80,21 @@ pub fn Script::runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
-    "contextName": contextName.map(fn(x) { @nostd.any(x) }),
-    "contextOrigin": contextOrigin.map(fn(x) { @nostd.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
+    "contextName": contextName.map(fn(x) { @core.any(x) }),
+    "contextOrigin": contextOrigin.map(fn(x) { @core.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
   })
   match contextObject {
     Some(ctx) =>
-      self.as_any()._call("runInNewContext", [@nostd.any(ctx), options]).cast()
+      self.as_any()._call("runInNewContext", [@core.any(ctx), options]).cast()
     None => self.as_any()._call("runInNewContext", [options]).cast()
   }
 }
@@ -103,25 +103,25 @@ pub fn Script::runInNewContext(
 /// Run script in context
 pub fn Script::runInContext(
   self : Script,
-  contextifiedObject : @nostd.Any,
+  contextifiedObject : @core.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
   })
   self
   .as_any()
-  ._call("runInContext", [@nostd.any(contextifiedObject), options])
+  ._call("runInContext", [@core.any(contextifiedObject), options])
   .cast()
 }
 
@@ -134,13 +134,13 @@ pub fn Script::createCachedData(self : Script) -> @buffer.Buffer {
 ///|
 /// Get cachedDataRejected property
 pub fn Script::cachedDataRejected(self : Script) -> Bool? {
-  self.as_any()["cachedDataRejected"] |> @nostd.identity_option
+  self.as_any()["cachedDataRejected"] |> @core.identity_option
 }
 
 ///|
 /// Get sourceMapURL property
 pub fn Script::sourceMapURL(self : Script) -> String? {
-  self.as_any()["sourceMapURL"] |> @nostd.identity_option
+  self.as_any()["sourceMapURL"] |> @core.identity_option
 }
 
 ///| Module functions
@@ -155,24 +155,24 @@ pub fn runInThisContext(
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
   })
-  @nostd.any(vm)._call("runInThisContext", [@nostd.any(code), options]).cast()
+  @core.any(vm)._call("runInThisContext", [@core.any(code), options]).cast()
 }
 
 ///|
 /// Compile and run code in new context
 pub fn runInNewContext(
   code : String,
-  contextObject? : @nostd.Any,
+  contextObject? : @core.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
@@ -182,28 +182,26 @@ pub fn runInNewContext(
   contextName? : String,
   contextOrigin? : String,
   microtaskMode? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
-    "contextName": contextName.map(fn(x) { @nostd.any(x) }),
-    "contextOrigin": contextOrigin.map(fn(x) { @nostd.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
+    "contextName": contextName.map(fn(x) { @core.any(x) }),
+    "contextOrigin": contextOrigin.map(fn(x) { @core.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
   })
   match contextObject {
     Some(ctx) =>
-      @nostd.any(vm)
-      ._call("runInNewContext", [@nostd.any(code), @nostd.any(ctx), options])
+      @core.any(vm)
+      ._call("runInNewContext", [@core.any(code), @core.any(ctx), options])
       .cast()
     None =>
-      @nostd.any(vm)
-      ._call("runInNewContext", [@nostd.any(code), options])
-      .cast()
+      @core.any(vm)._call("runInNewContext", [@core.any(code), options]).cast()
   }
 }
 
@@ -211,27 +209,27 @@ pub fn runInNewContext(
 /// Run code in context
 pub fn runInContext(
   code : String,
-  contextifiedObject : @nostd.Any,
+  contextifiedObject : @core.Any,
   filename? : String,
   lineOffset? : Int,
   columnOffset? : Int,
   displayErrors? : Bool,
   timeout? : Int,
   breakOnSigint? : Bool,
-) -> @nostd.Any {
+) -> @core.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @nostd.any(x) }),
-    "timeout": timeout.map(fn(x) { @nostd.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
+    "timeout": timeout.map(fn(x) { @core.any(x) }),
+    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
   })
-  @nostd.any(vm)
+  @core.any(vm)
   ._call("runInContext", [
-    @nostd.any(code),
-    @nostd.any(contextifiedObject),
+    @core.any(code),
+    @core.any(contextifiedObject),
     options,
   ])
   .cast()
@@ -240,29 +238,29 @@ pub fn runInContext(
 ///|
 /// Create a new context
 pub fn createContext(
-  contextObject? : @nostd.Any,
+  contextObject? : @core.Any,
   name? : String,
   origin? : String,
   microtaskMode? : String,
-) -> @nostd.Any {
+) -> @core.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
-    "name": name.map(fn(x) { @nostd.any(x) }),
-    "origin": origin.map(fn(x) { @nostd.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @nostd.any(x) }),
+    "name": name.map(fn(x) { @core.any(x) }),
+    "origin": origin.map(fn(x) { @core.any(x) }),
+    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
   })
   match contextObject {
     Some(ctx) =>
-      @nostd.any(vm)._call("createContext", [@nostd.any(ctx), options]).cast()
-    None => @nostd.any(vm)._call("createContext", [options]).cast()
+      @core.any(vm)._call("createContext", [@core.any(ctx), options]).cast()
+    None => @core.any(vm)._call("createContext", [options]).cast()
   }
 }
 
 ///|
 /// Check if object is a context
-pub fn isContext(object : @nostd.Any) -> Bool {
+pub fn isContext(object : @core.Any) -> Bool {
   let vm = vm_module()
-  @nostd.any(vm)._call("isContext", [@nostd.any(object)]).cast()
+  @core.any(vm)._call("isContext", [@core.any(object)]).cast()
 }
 
 ///|
@@ -275,33 +273,27 @@ pub fn compileFunction(
   columnOffset? : Int,
   cachedData? : @buffer.Buffer,
   produceCachedData? : Bool,
-  parsingContext? : @nostd.Any,
-  contextExtensions? : Array[@nostd.Any],
-) -> @nostd.Any {
+  parsingContext? : @core.Any,
+  contextExtensions? : Array[@core.Any],
+) -> @core.Any {
   let vm = vm_module()
   let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @nostd.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @nostd.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @nostd.any(x) }),
-    "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
-    "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
-    "parsingContext": parsingContext.map(fn(x) { @nostd.any(x) }),
-    "contextExtensions": contextExtensions.map(fn(x) { @nostd.any(x) }),
+    "filename": filename.map(fn(x) { @core.any(x) }),
+    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
+    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
+    "cachedData": cachedData.map(fn(x) { @core.any(x) }),
+    "produceCachedData": produceCachedData.map(fn(x) { @core.any(x) }),
+    "parsingContext": parsingContext.map(fn(x) { @core.any(x) }),
+    "contextExtensions": contextExtensions.map(fn(x) { @core.any(x) }),
   })
   match params {
     Some(p) => {
-      let params_js = @nostd.any(p.map(fn(s) { s }))
-      @nostd.any(vm)
-      ._call("compileFunction", [
-        @nostd.any(code),
-        @nostd.any(params_js),
-        options,
-      ])
+      let params_js = @core.any(p.map(fn(s) { s }))
+      @core.any(vm)
+      ._call("compileFunction", [@core.any(code), @core.any(params_js), options])
       .cast()
     }
     None =>
-      @nostd.any(vm)
-      ._call("compileFunction", [@nostd.any(code), options])
-      .cast()
+      @core.any(vm)._call("compileFunction", [@core.any(code), options]).cast()
   }
 }

@@ -1,5 +1,13 @@
 {
-  "supported-targets": ["js"],
-  "import": ["mizchi/js", "mizchi/js/nostd", "mizchi/js/node/stream"],
-  "test-import": ["moonbitlang/async"]
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/node/stream"
+  ],
+  "test-import": [
+    "moonbitlang/async"
+  ]
 }

@@ -1,7 +1,7 @@
 ///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
-  let v : @nostd.Any = @nostd.identity(show)
+  let v : @core.Any = @core.identity(show)
   assert_true(is_builtin_trait(v))
 }
 
@@ -25,23 +25,23 @@ fn Point::x2(self : Self) -> Int {
 
 ///|
 /// [Test Helper] Creates a plain JS object with x and y properties.
-/// Used to test @nostd.identity casting JS objects to MoonBit structs.
-extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @nostd.Any =
+/// Used to test @core.identity casting JS objects to MoonBit structs.
+extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @core.Any =
   #|(x, y) => ({ x: x, y: y })
 
 ///|
 test "from builtin struct" {
   let p = Point::{ x: 10, y: 20 }
-  let v : @nostd.Any = @nostd.any(p)
-  assert_eq(@nostd.identity(v._get("x")), 10)
-  assert_eq(@nostd.identity(v._get("y")), 20)
+  let v : @core.Any = @core.any(p)
+  assert_eq(@core.identity(v._get("x")), 10)
+  assert_eq(@core.identity(v._get("y")), 20)
   inspect(p, content="{x: 10, y: 20}")
 }
 
 ///|
 test "identity to struct" {
-  let v : @nostd.Any = test_ffi_point_new(5, 15)
-  let p : Point = @nostd.identity(v)
+  let v : @core.Any = test_ffi_point_new(5, 15)
+  let p : Point = @core.identity(v)
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
@@ -51,10 +51,10 @@ test "identity to struct" {
 ///|
 test "from_fn2 converts 2-arg function to Js" {
   let add = fn(a : Int, b : Int) -> Int { a + b }
-  let js_add : @nostd.Any = @nostd.from_fn2(add)
-  assert_eq(@nostd.typeof_(js_add), "function")
-  let result = js_add._invoke([@nostd.any(5), @nostd.any(3)])
-  assert_eq(@nostd.identity(result), 8)
+  let js_add : @core.Any = @core.from_fn2(add)
+  assert_eq(@core.typeof_(js_add), "function")
+  let result = js_add._invoke([@core.any(5), @core.any(3)])
+  assert_eq(@core.identity(result), 8)
 }
 
 ///| Global Objects
@@ -62,8 +62,8 @@ test "from_fn2 converts 2-arg function to Js" {
 ///|
 test "globalThis" {
   let global = @global.global_this()
-  assert_true(@nostd.is_object(global))
-  assert_false(@nostd.is_null(global))
+  assert_true(@core.is_object(global))
+  assert_false(@core.is_null(global))
 }
 
 ///| URI Encoding
@@ -114,7 +114,7 @@ test "encode_uri_component and decode_uri_component" {
 test "JSON::stringify" {
   let arr : Array[Int] = [1] |> identity
   arr |> inspect(content="[1]")
-  JSON::stringify(arr |> @nostd.any, space=2)
+  JSON::stringify(arr |> @core.any, space=2)
   |> inspect(
     content=(
       #|[
@@ -122,10 +122,10 @@ test "JSON::stringify" {
       #|]
     ),
   )
-  let v : @nostd.Any = @nostd.from_entries([
-    ("key1", @nostd.any(123)),
-    ("key2", @nostd.any(456)),
-    ("key3", @nostd.any(789)),
+  let v : @core.Any = @core.from_entries([
+    ("key1", @core.any(123)),
+    ("key2", @core.any(456)),
+    ("key3", @core.any(789)),
   ]).cast()
   JSON::stringify(v, space=2)
   |> inspect(
@@ -142,38 +142,38 @@ test "JSON::stringify" {
 ///|
 test "from_fn0 converts 0-arg function to Js" {
   let greet = fn() -> String { "Hello" }
-  let js_greet : @nostd.Any = @nostd.from_fn0(greet)
-  assert_eq(@nostd.typeof_(js_greet), "function")
+  let js_greet : @core.Any = @core.from_fn0(greet)
+  assert_eq(@core.typeof_(js_greet), "function")
   let result = js_greet._invoke([])
-  assert_eq(@nostd.identity(result), "Hello")
+  assert_eq(@core.identity(result), "Hello")
 }
 
 ///|
 test "from_fn1 converts 1-arg function to Js" {
   let double = fn(x : Int) -> Int { x * 2 }
-  let js_double : @nostd.Any = @nostd.from_fn1(double)
-  assert_eq(@nostd.typeof_(js_double), "function")
-  let result = js_double._invoke([@nostd.any(5)])
-  assert_eq(@nostd.identity(result), 10)
+  let js_double : @core.Any = @core.from_fn1(double)
+  assert_eq(@core.typeof_(js_double), "function")
+  let result = js_double._invoke([@core.any(5)])
+  assert_eq(@core.identity(result), 10)
 }
 
 ///|
 test "from_fn3 converts 3-arg function to Js" {
   let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
-  let js_add3 : @nostd.Any = @nostd.from_fn3(add3)
-  assert_eq(@nostd.typeof_(js_add3), "function")
-  let result = js_add3._invoke([@nostd.any(1), @nostd.any(2), @nostd.any(3)])
-  assert_eq(@nostd.identity(result), 6)
+  let js_add3 : @core.Any = @core.from_fn3(add3)
+  assert_eq(@core.typeof_(js_add3), "function")
+  let result = js_add3._invoke([@core.any(1), @core.any(2), @core.any(3)])
+  assert_eq(@core.identity(result), 6)
 }
 
 ///|
 test "JsImpl for Option types" {
   let some_val : Int? = Some(42)
   let none_val : Int? = None
-  let js_some : @nostd.Any = @nostd.any(some_val)
-  let js_none : @nostd.Any = @nostd.any(none_val)
-  assert_eq(@nostd.identity(js_some), 42)
-  assert_true(@nostd.is_undefined(js_none))
+  let js_some : @core.Any = @core.any(some_val)
+  let js_none : @core.Any = @core.any(none_val)
+  assert_eq(@core.identity(js_some), 42)
+  assert_true(@core.is_undefined(js_none))
 }
 
 ///| ThrowError Tests - JavaScript Built-in Error Types
@@ -183,7 +183,7 @@ test "JsImpl for Option types" {
 test "throwable catches TypeError" {
   let mut caught_type_error = false
   throwable(fn() {
-    let null_val = @nostd.null()
+    let null_val = @core.null()
     // Calling a method on null will throw TypeError
     null_val._call("toString", []) |> ignore
   }) catch {
@@ -199,7 +199,7 @@ test "throwable catches TypeError" {
 //   let mut caught_range_error = false
 //   throwable(fn() {
 //     // Creating array with invalid length throws RangeError
-//     let arr = @nostd.any(([] : Array[Int]))
+//     let arr = @core.any(([] : Array[Int]))
 //     arr.set("length", -1)
 //   }) catch {
 //     ThrowError::RangeError(_) => caught_range_error = true
@@ -244,7 +244,7 @@ test "throwable catches TypeError" {
 //   throwable(fn() {
 //     // Accessing undefined variable throws ReferenceError
 //     let code = "nonExistentVariable"
-//     @global.global_this().call1("eval", @nostd.any(code)) |> ignore
+//     @global.global_this().call1("eval", @core.any(code)) |> ignore
 //   }) catch {
 //     ThrowError::ReferenceError(_) => caught_reference_error = true
 //     _ => assert_true(false) // Should not catch other error types
@@ -259,7 +259,7 @@ test "throwable catches TypeError" {
 //   throwable(fn() {
 //     // Create EvalError manually since it's rarely thrown naturally
 //     let eval_error_cls = @global.global_this()._get("EvalError")
-//     let err = @nostd.new(eval_error_cls, [@nostd.any("Eval error message")])
+//     let err = @core.new(eval_error_cls, [@core.any("Eval error message")])
 //     throw_(err)
 //   }) catch {
 //     ThrowError::EvalError(_) => caught_eval_error = true
@@ -279,7 +279,7 @@ test "throwable catches TypeError" {
 //       JsError::new("Error 2").as_any(),
 //     ])
 //     let agg_error_cls = @global.global_this()._get("AggregateError")
-//     let agg_err = @nostd.new(agg_error_cls, [errors, any("Multiple errors")])
+//     let agg_err = @core.new(agg_error_cls, [errors, any("Multiple errors")])
 //     throw_(agg_err)
 //   }) catch {
 //     ThrowError::AggregateError(_) => caught_aggregate_error = true
@@ -312,11 +312,11 @@ test "throwable catches TypeError" {
 //   let mut caught_value = false
 //   throwable(fn() {
 //     // Throw a non-Error value (string)
-//     throw_(@nostd.any("custom error string"))
+//     throw_(@core.any("custom error string"))
 //   }) catch {
 //     ThrowError::Value(val) => {
 //       caught_value = true
-//       assert_eq(@nostd.identity(val), "custom error string")
+//       assert_eq(@core.identity(val), "custom error string")
 //     }
 //     _ => assert_true(false) // Should not catch other error types
 //   }
@@ -341,7 +341,7 @@ test "throwable catches TypeError" {
 // /// Test ThrowError Show trait implementation
 // test "ThrowError Show trait works for all variants" {
 //   // Test TypeError
-//   throwable(fn() { @nostd.null()._call("toString", []) |> ignore }) catch {
+//   throwable(fn() { @core.null()._call("toString", []) |> ignore }) catch {
 //     ThrowError::TypeError(err) => {
 //       let msg = err.to_string()
 //       assert_true(msg.length() > 0)
@@ -362,7 +362,7 @@ test "throwable catches TypeError" {
 //   }
 
 //   // Test Value variant - direct to_string on ThrowError
-//   throwable(fn() { throw_(@nostd.any(42)) }) catch {
+//   throwable(fn() { throw_(@core.any(42)) }) catch {
 //     err => {
 //       // Test ThrowError's to_string() implementation
 //       let msg = err.to_string()
@@ -376,8 +376,8 @@ test "throwable catches TypeError" {
 // ///|
 // test "call_self_throwable success" {
 //   let parse_int = @global.global_this()._get("parseInt")
-//   let result = throwable(fn() { parse_int._invoke([@nostd.any("42")]) })
-//   let num : Int = @nostd.identity(result)
+//   let result = throwable(fn() { parse_int._invoke([@core.any("42")]) })
+//   let num : Int = @core.identity(result)
 //   assert_eq(num, 42)
 // }
 
@@ -385,7 +385,7 @@ test "throwable catches TypeError" {
 // test "call_self_throwable with error" {
 //   // Create a function that throws
 //   let throw_fn = @global.global_this()._call("eval", [
-//     @nostd.any("(function() { throw new Error('test'); })"),
+//     @core.any("(function() { throw new Error('test'); })"),
 //   ])
 //   let result = try? throwable(fn() { throw_fn._invoke([]) })
 //   assert_true(result is Err(_))
@@ -398,13 +398,13 @@ test "throwable catches TypeError" {
 //   let suppressed_error_cls = @global.global_this()._get("SuppressedError")
 //   let err1 = JsError::new("Error 1")
 //   let err2 = JsError::new("Error 2")
-//   let suppressed_err = @nostd.new(suppressed_error_cls, [
-//     err1 |> @nostd.any,
-//     err2 |> @nostd.any,
-//     @nostd.any("Suppressed error message"),
+//   let suppressed_err = @core.new(suppressed_error_cls, [
+//     err1 |> @core.any,
+//     err2 |> @core.any,
+//     @core.any("Suppressed error message"),
 //   ])
 //   // Check instanceof
-//   assert_true(@nostd.instanceof_(suppressed_err, suppressed_error_cls))
+//   assert_true(@core.instanceof_(suppressed_err, suppressed_error_cls))
 //   // Check ThrowError::from
 //   let throw_err = ThrowError::from(suppressed_err)
 //   inspect(throw_err, content="Suppressed error message")
@@ -412,9 +412,9 @@ test "throwable catches TypeError" {
 
 // ///|
 // test "from_entries and to_string" {
-//   let obj : @nostd.Any = @nostd.from_entries([
-//     ("name", @nostd.any("Alice")),
-//     ("age", @nostd.any(30)),
+//   let obj : @core.Any = @core.from_entries([
+//     ("name", @core.any("Alice")),
+//     ("age", @core.any(30)),
 //   ]).cast()
 //   inspect(
 //     JSON::stringify(obj),

@@ -3,7 +3,7 @@
 pub type ReactTestingLibrary
 
 ///|
-pub fn ReactTestingLibrary::as_any(self : ReactTestingLibrary) -> @nostd.Any = "%identity"
+pub fn ReactTestingLibrary::as_any(self : ReactTestingLibrary) -> @core.Any = "%identity"
 
 ///|
 fn testing_library() -> ReactTestingLibrary {
@@ -29,7 +29,7 @@ pub fn fireEvent() -> @testing_library.FireEvent {
 pub type RenderResult
 
 ///|
-pub fn RenderResult::as_any(self : RenderResult) -> @nostd.Any = "%identity"
+pub fn RenderResult::as_any(self : RenderResult) -> @core.Any = "%identity"
 
 ///|
 /// JS: render(element, options?)
@@ -74,7 +74,7 @@ pub fn RenderResult::unmount(self : RenderResult) -> Unit {
 
 ///|
 /// JS: result.asFragment()
-pub fn RenderResult::asFragment(self : RenderResult) -> @nostd.Any {
+pub fn RenderResult::asFragment(self : RenderResult) -> @core.Any {
   self.as_any()["asFragment"]._invoke([])
 }
 
@@ -87,14 +87,14 @@ pub fn cleanup() -> Unit {
 
 ///|
 /// JS: act(callback)
-pub fn act(callback : () -> Unit) -> @nostd.Any {
+pub fn act(callback : () -> Unit) -> @core.Any {
   let rtl = testing_library()
-  rtl.as_any()["act"]._invoke([@nostd.any(callback)])
+  rtl.as_any()["act"]._invoke([@core.any(callback)])
 }
 
 ///|
 /// JS: configure(options)
-pub fn configure(options : @nostd.Any) -> Unit {
+pub fn configure(options : @core.Any) -> Unit {
   let rtl = testing_library()
   rtl.as_any()["configure"]._invoke([options]) |> ignore
 }
@@ -105,18 +105,18 @@ pub fn configure(options : @nostd.Any) -> Unit {
 pub type RenderHookResult
 
 ///|
-pub fn RenderHookResult::as_any(self : RenderHookResult) -> @nostd.Any = "%identity"
+pub fn RenderHookResult::as_any(self : RenderHookResult) -> @core.Any = "%identity"
 
 ///|
 /// JS: renderHook(hook, options?)
-pub fn renderHook(hook : @nostd.Any) -> RenderHookResult {
+pub fn renderHook(hook : @core.Any) -> RenderHookResult {
   let rtl = testing_library()
   rtl.as_any()["renderHook"]._invoke([hook]).cast()
 }
 
 ///|
 /// JS: result.result
-pub fn RenderHookResult::result(self : RenderHookResult) -> @nostd.Any {
+pub fn RenderHookResult::result(self : RenderHookResult) -> @core.Any {
   self.as_any()["result"]
 }
 
@@ -124,7 +124,7 @@ pub fn RenderHookResult::result(self : RenderHookResult) -> @nostd.Any {
 /// JS: result.rerender(props)
 pub fn RenderHookResult::rerender(
   self : RenderHookResult,
-  props : @nostd.Any,
+  props : @core.Any,
 ) -> Unit {
   self.as_any()["rerender"]._invoke([props]) |> ignore
 }

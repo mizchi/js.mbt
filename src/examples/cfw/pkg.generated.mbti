@@ -8,9 +8,9 @@ import(
 )
 
 // Values
-fn get_fetch_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
+pub fn get_fetch_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
 
-fn get_kv_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
+pub fn get_kv_handler() -> (@cloudflare.CloudflareRequest, @cloudflare.CloudflareEnv, @cloudflare.CloudflareContext) -> @js.Promise[@http.Response]
 
 // Errors
 

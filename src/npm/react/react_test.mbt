@@ -2,8 +2,8 @@
 
 ///|
 fn render_to_string(element : Element) -> String {
-  let react_dom_server : @nostd.Any = @node.require("react-dom/server")
-  let element_js : @nostd.Any = element.as_any().cast()
+  let react_dom_server : @core.Any = @node.require("react-dom/server")
+  let element_js : @core.Any = element.as_any().cast()
   react_dom_server._get("renderToString")._invoke([element_js]).cast()
 }
 
@@ -21,8 +21,8 @@ test "React createElement" {
   let with_attrs = @react.createElement(
     "button",
     props={
-      "className": @nostd.any("my-button"),
-      "onClick": @nostd.identity(
+      "className": @core.any("my-button"),
+      "onClick": @core.identity(
         @js.from_fn0(fn() { @js.log("Button clicked") }),
       ),
     },
@@ -291,7 +291,7 @@ test "ReactNode conditional rendering in for expression" {
 }
 
 ///|
-extern "js" fn load_lazy_component_stub() -> @nostd.Promise[@nostd.Any] =
+extern "js" fn load_lazy_component_stub() -> @core.Promise[@core.Any] =
   #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
 
 ///|
@@ -307,7 +307,7 @@ test "lazy_ with Unit" {
 }
 
 ///|
-extern "js" fn load_lazy_typed_component_stub() -> @nostd.Promise[@nostd.Any] =
+extern "js" fn load_lazy_typed_component_stub() -> @core.Promise[@core.Any] =
   #|() => Promise.resolve({ default: (props) => globalThis.__ReactApi.createElement("div", null, "Hello, " + props.v) })
 
 ///|
@@ -355,8 +355,8 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
   let reader = stream.getReader()
 
   // Read first chunk
-  let result : @nostd.Any = reader.read()
-  let done : Bool = @nostd.identity(result._get("done"))
+  let result : @core.Any = reader.read()
+  let done : Bool = @core.identity(result._get("done"))
 
   // Should have at least one chunk
   inspect(done, content="false")
@@ -374,8 +374,8 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
 
   // Read all chunks
   while true {
-    let result : @nostd.Any = reader.read()
-    let done : Bool = @nostd.identity(result._get("done"))
+    let result : @core.Any = reader.read()
+    let done : Bool = @core.identity(result._get("done"))
     if done {
       break
     }
@@ -404,8 +404,8 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
 
   // Read all chunks
   while true {
-    let result : @nostd.Any = reader.read()
-    let done : Bool = @nostd.identity(result._get("done"))
+    let result : @core.Any = reader.read()
+    let done : Bool = @core.identity(result._get("done"))
     if done {
       break
     }
@@ -482,7 +482,7 @@ test "error_boundary structure with throwing component" {
   // Note: SSR with renderToString doesn't support ErrorBoundary
   // ErrorBoundary only works on client-side rendering
   // Here we just verify the element structure is valid
-  // let type_of : String = @nostd.typeof_(el |> @nostd.identity)
+  // let type_of : String = @core.typeof_(el |> @core.identity)
   // assert_eq(type_of, "object") // React element is an object
 }
 
@@ -608,7 +608,7 @@ test "component: argument children passed to React.createElement" {
 }
 
 ///|
-extern "js" fn get_props_children(props : @nostd.Any) -> @react.Element =
+extern "js" fn get_props_children(props : @core.Any) -> @react.Element =
   #| (props) => props.children
 
 ///|
@@ -616,7 +616,7 @@ test "component: children argument becomes props.children in React" {
   init_react()
   // Component that accesses props.children via FFI and renders them
   let wrapper : @react.Component[Unit] = fn(props) {
-    let props_any : @nostd.Any = @nostd.identity(props)
+    let props_any : @core.Any = @core.identity(props)
     let children = get_props_children(props_any)
     // Render children directly - React handles this
     @react.createElement("div", [

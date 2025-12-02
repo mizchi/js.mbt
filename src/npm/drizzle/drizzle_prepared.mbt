@@ -7,7 +7,7 @@
 pub type PreparedQuery
 
 ///|
-pub fn PreparedQuery::as_any(self : PreparedQuery) -> @nostd.Any = "%identity"
+pub fn PreparedQuery::as_any(self : PreparedQuery) -> @core.Any = "%identity"
 
 // ============ Prepared Statements ============
 
@@ -17,28 +17,28 @@ pub fn QueryBuilder::prepare(
   self : QueryBuilder,
   name : String,
 ) -> PreparedQuery {
-  self.call1("prepare", @nostd.any(name)) |> @nostd.identity
+  self.call1("prepare", @core.any(name)) |> @core.identity
 }
 
 ///|
 extern "js" fn ffi_prepared_execute(
   pq : PreparedQuery,
-  params : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  params : @core.Any,
+) -> @js.Promise[@core.Any] =
   #| (pq, params) => pq.execute(params)
 
 ///|
 extern "js" fn ffi_prepared_execute_no_params(
   pq : PreparedQuery,
-) -> @js.Promise[@nostd.Any] =
+) -> @js.Promise[@core.Any] =
   #| (pq) => pq.execute()
 
 ///|
 /// Execute a prepared query with parameters
 pub async fn PreparedQuery::execute(
   self : PreparedQuery,
-  params? : @nostd.Any,
-) -> @nostd.Any {
+  params? : @core.Any,
+) -> @core.Any {
   match params {
     Some(p) => ffi_prepared_execute(self, p).wait()
     None => ffi_prepared_execute_no_params(self).wait()
@@ -49,13 +49,13 @@ pub async fn PreparedQuery::execute(
 /// Execute a prepared query and get typed array result
 pub async fn[T] PreparedQuery::execute_array(
   self : PreparedQuery,
-  params? : @nostd.Any,
+  params? : @core.Any,
 ) -> Array[T] {
   let result = match params {
     Some(p) => ffi_prepared_execute(self, p).wait()
     None => ffi_prepared_execute_no_params(self).wait()
   }
-  @nostd.identity(result)
+  @core.identity(result)
 }
 
 // ============ Raw SQL Helpers ============
@@ -64,7 +64,7 @@ pub async fn[T] PreparedQuery::execute_array(
 /// Create SQL template with placeholders
 /// Usage: sql_template(["SELECT * FROM users WHERE id = ", ""], [user_id])
 #alias(sql_template)
-pub fn sqlTemplate(strings : Array[String], values : Array[@nostd.Any]) -> SQL {
+pub fn sqlTemplate(strings : Array[String], values : Array[@core.Any]) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   // drizzle's sql is a tagged template function
   // We simulate it by calling sql.raw with the built string
@@ -77,7 +77,7 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@nostd.Any]) -> SQL {
   }
   // Use sql.raw for raw SQL with placeholders
   let raw_fn = sql_fn._get("raw")
-  @nostd.any(raw_fn)._invoke([@nostd.any(result)]).cast()
+  @core.any(raw_fn)._invoke([@core.any(result)]).cast()
 }
 
 ///|
@@ -86,15 +86,15 @@ pub fn sqlTemplate(strings : Array[String], values : Array[@nostd.Any]) -> SQL {
 pub fn sqlRaw(query : String) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
   let raw_fn = sql_fn._get("raw")
-  @nostd.any(raw_fn)._invoke([@nostd.any(query)]).cast()
+  @core.any(raw_fn)._invoke([@core.any(query)]).cast()
 }
 
 ///|
 /// Create a placeholder for prepared statement parameters
-pub fn placeholder(name : String) -> @nostd.Any {
+pub fn placeholder(name : String) -> @core.Any {
   let sql_fn = drizzle_orm()._get("sql")
   let placeholder_fn = sql_fn._get("placeholder")
-  @nostd.any(placeholder_fn)._invoke([@nostd.any(name)]).cast()
+  @core.any(placeholder_fn)._invoke([@core.any(name)]).cast()
 }
 
 // ============ SQL Operators for Expressions ============
@@ -102,13 +102,13 @@ pub fn placeholder(name : String) -> @nostd.Any {
 ///|
 /// SQL addition
 #alias(sql_add)
-pub fn sqlAdd(left : @nostd.Any, right : @nostd.Any) -> SQL {
+pub fn sqlAdd(left : @core.Any, right : @core.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
-  @nostd.any(sql_fn)
+  @core.any(sql_fn)
   ._invoke([
-    @nostd.any(@nostd.any(["", " + ", ""])),
-    @nostd.any(left),
-    @nostd.any(right),
+    @core.any(@core.any(["", " + ", ""])),
+    @core.any(left),
+    @core.any(right),
   ])
   .cast()
 }
@@ -116,13 +116,13 @@ pub fn sqlAdd(left : @nostd.Any, right : @nostd.Any) -> SQL {
 ///|
 /// SQL subtraction
 #alias(sql_sub)
-pub fn sqlSub(left : @nostd.Any, right : @nostd.Any) -> SQL {
+pub fn sqlSub(left : @core.Any, right : @core.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
-  @nostd.any(sql_fn)
+  @core.any(sql_fn)
   ._invoke([
-    @nostd.any(@nostd.any(["", " - ", ""])),
-    @nostd.any(left),
-    @nostd.any(right),
+    @core.any(@core.any(["", " - ", ""])),
+    @core.any(left),
+    @core.any(right),
   ])
   .cast()
 }
@@ -130,13 +130,13 @@ pub fn sqlSub(left : @nostd.Any, right : @nostd.Any) -> SQL {
 ///|
 /// SQL multiplication
 #alias(sql_mul)
-pub fn sqlMul(left : @nostd.Any, right : @nostd.Any) -> SQL {
+pub fn sqlMul(left : @core.Any, right : @core.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
-  @nostd.any(sql_fn)
+  @core.any(sql_fn)
   ._invoke([
-    @nostd.any(@nostd.any(["", " * ", ""])),
-    @nostd.any(left),
-    @nostd.any(right),
+    @core.any(@core.any(["", " * ", ""])),
+    @core.any(left),
+    @core.any(right),
   ])
   .cast()
 }
@@ -144,13 +144,13 @@ pub fn sqlMul(left : @nostd.Any, right : @nostd.Any) -> SQL {
 ///|
 /// SQL division
 #alias(sql_div)
-pub fn sqlDiv(left : @nostd.Any, right : @nostd.Any) -> SQL {
+pub fn sqlDiv(left : @core.Any, right : @core.Any) -> SQL {
   let sql_fn = drizzle_orm()._get("sql")
-  @nostd.any(sql_fn)
+  @core.any(sql_fn)
   ._invoke([
-    @nostd.any(@nostd.any(["", " / ", ""])),
-    @nostd.any(left),
-    @nostd.any(right),
+    @core.any(@core.any(["", " / ", ""])),
+    @core.any(left),
+    @core.any(right),
   ])
   .cast()
 }
@@ -159,8 +159,8 @@ pub fn sqlDiv(left : @nostd.Any, right : @nostd.Any) -> SQL {
 
 ///|
 /// Create a subquery alias
-pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @nostd.Any {
-  self.call1("as", @nostd.any(name))
+pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @core.Any {
+  self.call1("as", @core.any(name))
 }
 
 // ============ GROUP BY / HAVING ============
@@ -168,7 +168,7 @@ pub fn QueryBuilder::as_(self : QueryBuilder, name : String) -> @nostd.Any {
 ///|
 extern "js" fn ffi_group_by(
   qb : QueryBuilder,
-  columns : @nostd.Any,
+  columns : @core.Any,
 ) -> QueryBuilder =
   #| (qb, columns) => qb.groupBy(...columns)
 
@@ -179,7 +179,7 @@ pub fn QueryBuilder::groupBy(
   self : QueryBuilder,
   columns : Array[Column],
 ) -> QueryBuilder {
-  ffi_group_by(self, @nostd.any(columns.map(fn(c) { c.as_any() })))
+  ffi_group_by(self, @core.any(columns.map(fn(c) { c.as_any() })))
 }
 
 ///|
@@ -188,7 +188,7 @@ pub fn QueryBuilder::having(
   self : QueryBuilder,
   condition : SQL,
 ) -> QueryBuilder {
-  self.call1("having", @nostd.any(condition.as_any())) |> @nostd.identity
+  self.call1("having", @core.any(condition.as_any())) |> @core.identity
 }
 
 // ============ UNION / INTERSECT / EXCEPT ============
@@ -199,7 +199,7 @@ pub fn QueryBuilder::union(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("union", @nostd.any(other.as_any())) |> @nostd.identity
+  self.call1("union", @core.any(other.as_any())) |> @core.identity
 }
 
 ///|
@@ -209,7 +209,7 @@ pub fn QueryBuilder::unionAll(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("unionAll", @nostd.any(other.as_any())) |> @nostd.identity
+  self.call1("unionAll", @core.any(other.as_any())) |> @core.identity
 }
 
 ///|
@@ -218,7 +218,7 @@ pub fn QueryBuilder::intersect(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("intersect", @nostd.any(other.as_any())) |> @nostd.identity
+  self.call1("intersect", @core.any(other.as_any())) |> @core.identity
 }
 
 ///|
@@ -227,7 +227,7 @@ pub fn QueryBuilder::except(
   self : QueryBuilder,
   other : QueryBuilder,
 ) -> QueryBuilder {
-  self.call1("except", @nostd.any(other.as_any())) |> @nostd.identity
+  self.call1("except", @core.any(other.as_any())) |> @core.identity
 }
 
 // ============ ON CONFLICT (Upsert) ============
@@ -236,13 +236,13 @@ pub fn QueryBuilder::except(
 /// ON CONFLICT DO NOTHING
 #alias(on_conflict_do_nothing)
 pub fn QueryBuilder::onConflictDoNothing(self : QueryBuilder) -> QueryBuilder {
-  self.call0("onConflictDoNothing") |> @nostd.identity
+  self.call0("onConflictDoNothing") |> @core.identity
 }
 
 ///|
 extern "js" fn ffi_on_conflict_do_update(
   qb : QueryBuilder,
-  config : @nostd.Any,
+  config : @core.Any,
 ) -> QueryBuilder =
   #| (qb, config) => qb.onConflictDoUpdate(config)
 
@@ -252,10 +252,10 @@ extern "js" fn ffi_on_conflict_do_update(
 pub fn QueryBuilder::onConflictDoUpdate(
   self : QueryBuilder,
   target : Array[Column],
-  set_values : @nostd.Any,
+  set_values : @core.Any,
 ) -> QueryBuilder {
-  let config = @nostd.Object::new()
-  config._set("target", @nostd.any(target.map(fn(c) { c.as_any() })))
+  let config = @core.Object::new()
+  config._set("target", @core.any(target.map(fn(c) { c.as_any() })))
   config._set("set", set_values)
   ffi_on_conflict_do_update(self, config)
 }

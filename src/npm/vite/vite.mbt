@@ -12,7 +12,7 @@
 pub type ViteDevServer
 
 ///|
-pub fn ViteDevServer::to_any(self : ViteDevServer) -> @nostd.Any = "%identity"
+pub fn ViteDevServer::to_any(self : ViteDevServer) -> @core.Any = "%identity"
 
 ///|
 /// DevEnvironment - development environment instance
@@ -20,7 +20,7 @@ pub fn ViteDevServer::to_any(self : ViteDevServer) -> @nostd.Any = "%identity"
 pub type DevEnvironment
 
 ///|
-pub fn DevEnvironment::to_any(self : DevEnvironment) -> @nostd.Any = "%identity"
+pub fn DevEnvironment::to_any(self : DevEnvironment) -> @core.Any = "%identity"
 
 ///|
 /// ModuleGraph - tracks import relationships between modules
@@ -28,7 +28,7 @@ pub fn DevEnvironment::to_any(self : DevEnvironment) -> @nostd.Any = "%identity"
 pub type ModuleGraph
 
 ///|
-pub fn ModuleGraph::to_any(self : ModuleGraph) -> @nostd.Any = "%identity"
+pub fn ModuleGraph::to_any(self : ModuleGraph) -> @core.Any = "%identity"
 
 ///|
 /// ModuleNode - represents a module in the graph
@@ -36,7 +36,7 @@ pub fn ModuleGraph::to_any(self : ModuleGraph) -> @nostd.Any = "%identity"
 pub type ModuleNode
 
 ///|
-pub fn ModuleNode::to_any(self : ModuleNode) -> @nostd.Any = "%identity"
+pub fn ModuleNode::to_any(self : ModuleNode) -> @core.Any = "%identity"
 
 ///|
 /// HotChannel - communication channel with runtime
@@ -44,7 +44,7 @@ pub fn ModuleNode::to_any(self : ModuleNode) -> @nostd.Any = "%identity"
 pub type HotChannel
 
 ///|
-pub fn HotChannel::to_any(self : HotChannel) -> @nostd.Any = "%identity"
+pub fn HotChannel::to_any(self : HotChannel) -> @core.Any = "%identity"
 
 ///|
 /// PluginContainer - plugin pipeline container
@@ -52,8 +52,7 @@ pub fn HotChannel::to_any(self : HotChannel) -> @nostd.Any = "%identity"
 pub type PluginContainer
 
 ///|
-pub fn PluginContainer::to_any(self : PluginContainer) -> @nostd.Any =
-  "%identity"
+pub fn PluginContainer::to_any(self : PluginContainer) -> @core.Any = "%identity"
 
 ///|
 /// ModuleRunner - runs modules in target runtime
@@ -61,7 +60,7 @@ pub fn PluginContainer::to_any(self : PluginContainer) -> @nostd.Any =
 pub type ModuleRunner
 
 ///|
-pub fn ModuleRunner::to_any(self : ModuleRunner) -> @nostd.Any = "%identity"
+pub fn ModuleRunner::to_any(self : ModuleRunner) -> @core.Any = "%identity"
 
 ///|
 /// TransformResult - result of module transformation
@@ -69,8 +68,7 @@ pub fn ModuleRunner::to_any(self : ModuleRunner) -> @nostd.Any = "%identity"
 pub type TransformResult
 
 ///|
-pub fn TransformResult::to_any(self : TransformResult) -> @nostd.Any =
-  "%identity"
+pub fn TransformResult::to_any(self : TransformResult) -> @core.Any = "%identity"
 
 ///|
 /// FetchResult - result of module fetch
@@ -78,13 +76,13 @@ pub fn TransformResult::to_any(self : TransformResult) -> @nostd.Any =
 pub type FetchResult
 
 ///|
-pub fn FetchResult::to_any(self : FetchResult) -> @nostd.Any = "%identity"
+pub fn FetchResult::to_any(self : FetchResult) -> @core.Any = "%identity"
 
 ///| ViteDevServer FFI
 
 ///|
 extern "js" fn ffi_create_server(
-  config : @nostd.Any,
+  config : @core.Any,
 ) -> @js.Promise[ViteDevServer] =
   #| (config) => require('vite').createServer(config)
 
@@ -93,7 +91,7 @@ extern "js" fn ffi_server_print_urls(server : ViteDevServer) -> Unit =
   #| (server) => server.printUrls()
 
 ///|
-extern "js" fn ffi_server_resolved_urls(server : ViteDevServer) -> @nostd.Any =
+extern "js" fn ffi_server_resolved_urls(server : ViteDevServer) -> @core.Any =
   #| (server) => server.resolvedUrls
 
 ///|
@@ -108,7 +106,7 @@ extern "js" fn ffi_server_close(server : ViteDevServer) -> @js.Promise[Unit] =
   #| (server) => server.close()
 
 ///|
-extern "js" fn ffi_server_environments(server : ViteDevServer) -> @nostd.Any =
+extern "js" fn ffi_server_environments(server : ViteDevServer) -> @core.Any =
   #| (server) => server.environments
 
 ///|
@@ -202,11 +200,11 @@ extern "js" fn ffi_node_type(node : ModuleNode) -> String =
   #| (node) => node.type
 
 ///|
-extern "js" fn ffi_node_importers(node : ModuleNode) -> @nostd.Any =
+extern "js" fn ffi_node_importers(node : ModuleNode) -> @core.Any =
   #| (node) => Array.from(node.importers)
 
 ///|
-extern "js" fn ffi_node_imported_modules(node : ModuleNode) -> @nostd.Any =
+extern "js" fn ffi_node_imported_modules(node : ModuleNode) -> @core.Any =
   #| (node) => Array.from(node.importedModules)
 
 ///| ModuleRunner FFI
@@ -215,7 +213,7 @@ extern "js" fn ffi_node_imported_modules(node : ModuleNode) -> @nostd.Any =
 extern "js" fn ffi_runner_import(
   runner : ModuleRunner,
   url : String,
-) -> @js.Promise[@nostd.Any] =
+) -> @js.Promise[@core.Any] =
   #| (runner, url) => runner.import(url)
 
 ///|
@@ -237,7 +235,7 @@ extern "js" fn ffi_result_code(result : TransformResult) -> String =
   #| (result) => result.code
 
 ///|
-extern "js" fn ffi_result_map(result : TransformResult) -> @nostd.Any =
+extern "js" fn ffi_result_map(result : TransformResult) -> @core.Any =
   #| (result) => result.map
 
 ///|
@@ -247,14 +245,14 @@ extern "js" fn ffi_result_etag(result : TransformResult) -> String? =
 ///| HotChannel FFI
 
 ///|
-extern "js" fn ffi_hot_send(channel : HotChannel, payload : @nostd.Any) -> Unit =
+extern "js" fn ffi_hot_send(channel : HotChannel, payload : @core.Any) -> Unit =
   #| (channel, payload) => channel.send(payload)
 
 ///|
 extern "js" fn ffi_hot_on(
   channel : HotChannel,
   event : String,
-  handler : @nostd.Any,
+  handler : @core.Any,
 ) -> Unit =
   #| (channel, event, handler) => channel.on(event, handler)
 
@@ -262,7 +260,7 @@ extern "js" fn ffi_hot_on(
 extern "js" fn ffi_hot_off(
   channel : HotChannel,
   event : String,
-  handler : @nostd.Any,
+  handler : @core.Any,
 ) -> Unit =
   #| (channel, event, handler) => channel.off(event, handler)
 
@@ -270,8 +268,8 @@ extern "js" fn ffi_hot_off(
 
 ///|
 /// Create a new Vite dev server with config object
-pub async fn createServerWithConfig(config : @nostd.Any) -> ViteDevServer {
-  ffi_create_server(config |> @nostd.any).wait()
+pub async fn createServerWithConfig(config : @core.Any) -> ViteDevServer {
+  ffi_create_server(config |> @core.any).wait()
 }
 
 ///|
@@ -282,30 +280,30 @@ pub async fn createServer(
   mode? : String,
   logLevel? : String,
   clearScreen? : Bool,
-  server? : @nostd.Any,
-  plugins? : @nostd.Any,
+  server? : @core.Any,
+  plugins? : @core.Any,
 ) -> ViteDevServer {
-  let cfg = @nostd.Object::new()
+  let cfg = @core.Object::new()
   if root is Some(v) {
-    cfg["root"] = @nostd.any(v)
+    cfg["root"] = @core.any(v)
   }
   if base is Some(v) {
-    cfg["base"] = @nostd.any(v)
+    cfg["base"] = @core.any(v)
   }
   if mode is Some(v) {
-    cfg["mode"] = @nostd.any(v)
+    cfg["mode"] = @core.any(v)
   }
   if logLevel is Some(v) {
-    cfg["logLevel"] = @nostd.any(v)
+    cfg["logLevel"] = @core.any(v)
   }
   if clearScreen is Some(v) {
-    cfg["clearScreen"] = @nostd.any(v)
+    cfg["clearScreen"] = @core.any(v)
   }
   if server is Some(v) {
-    cfg["server"] = @nostd.any(v)
+    cfg["server"] = @core.any(v)
   }
   if plugins is Some(v) {
-    cfg["plugins"] = @nostd.any(v)
+    cfg["plugins"] = @core.any(v)
   }
   ffi_create_server(cfg).wait()
 }
@@ -333,13 +331,13 @@ pub fn ViteDevServer::printUrls(self : ViteDevServer) -> Unit {
 
 ///|
 /// Get the resolved URLs
-pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @nostd.Any {
+pub fn ViteDevServer::resolvedUrls(self : ViteDevServer) -> @core.Any {
   ffi_server_resolved_urls(self)
 }
 
 ///|
 /// Get all environments
-pub fn ViteDevServer::environments(self : ViteDevServer) -> @nostd.Any {
+pub fn ViteDevServer::environments(self : ViteDevServer) -> @core.Any {
   ffi_server_environments(self)
 }
 
@@ -478,13 +476,13 @@ pub fn ModuleNode::moduleType(self : ModuleNode) -> String {
 ///|
 /// Get modules that import this module
 pub fn ModuleNode::importers(self : ModuleNode) -> Array[ModuleNode] {
-  @nostd.identity(ffi_node_importers(self))
+  @core.identity(ffi_node_importers(self))
 }
 
 ///|
 /// Get modules imported by this module
 pub fn ModuleNode::importedModules(self : ModuleNode) -> Array[ModuleNode] {
-  @nostd.identity(ffi_node_imported_modules(self))
+  @core.identity(ffi_node_imported_modules(self))
 }
 
 ///| ModuleRunner Methods
@@ -494,7 +492,7 @@ pub fn ModuleNode::importedModules(self : ModuleNode) -> Array[ModuleNode] {
 pub async fn ModuleRunner::importModule(
   self : ModuleRunner,
   url : String,
-) -> @nostd.Any {
+) -> @core.Any {
   ffi_runner_import(self, url).wait()
 }
 
@@ -526,7 +524,7 @@ pub fn TransformResult::code(self : TransformResult) -> String {
 
 ///|
 /// Get the source map
-pub fn TransformResult::map(self : TransformResult) -> @nostd.Any {
+pub fn TransformResult::map(self : TransformResult) -> @core.Any {
   ffi_result_map(self)
 }
 
@@ -540,7 +538,7 @@ pub fn TransformResult::etag(self : TransformResult) -> String? {
 
 ///|
 /// Send a payload to the client
-pub fn HotChannel::send(self : HotChannel, payload : @nostd.Any) -> Unit {
+pub fn HotChannel::send(self : HotChannel, payload : @core.Any) -> Unit {
   ffi_hot_send(self, payload)
 }
 
@@ -549,7 +547,7 @@ pub fn HotChannel::send(self : HotChannel, payload : @nostd.Any) -> Unit {
 pub fn HotChannel::on(
   self : HotChannel,
   event : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
   ffi_hot_on(self, event, @js.from_fn1(handler))
 }
@@ -559,7 +557,7 @@ pub fn HotChannel::on(
 pub fn HotChannel::off(
   self : HotChannel,
   event : String,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
   ffi_hot_off(self, event, @js.from_fn1(handler))
 }

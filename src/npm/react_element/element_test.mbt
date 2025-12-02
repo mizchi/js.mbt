@@ -4,8 +4,8 @@
 fn get_render_to_string() -> (@react.Element) -> String {
   // Initialize React API
   @react.init_react_api(@node.require("react"))
-  let react_dom_server : @nostd.Any = @node.require("react-dom/server").cast()
-  let render_fn : @nostd.Any = react_dom_server["renderToString"]
+  let react_dom_server : @core.Any = @node.require("react-dom/server").cast()
+  let render_fn : @core.Any = react_dom_server["renderToString"]
   fn(element : @react.Element) -> String {
     render_fn._invoke([element.as_any()]).cast()
   }
@@ -212,9 +212,9 @@ test "svg element with path" {
 ///|
 test "custom props with @js.Object" {
   let render_to_string = get_render_to_string()
-  let custom_props = @nostd.Object::new()
-  custom_props._set("data-testid", "my-div" |> @nostd.any)
-  custom_props._set("aria-label", "Main content" |> @nostd.any)
+  let custom_props = @core.Object::new()
+  custom_props._set("data-testid", "my-div" |> @core.any)
+  custom_props._set("aria-label", "Main content" |> @core.any)
   let element = div(props=custom_props, ["Content"])
   let html = render_to_string(element)
   inspect(
@@ -294,8 +294,8 @@ test "textarea with rows, columns, and spellcheck" {
 ///|
 test "input with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @nostd.Object::new()
-  custom_props._set("data-custom", "value" |> @nostd.any)
+  let custom_props = @core.Object::new()
+  custom_props._set("data-custom", "value" |> @core.any)
   let element = input(props=custom_props, type_="text")
   let html = render_to_string(element)
   inspect(
@@ -309,8 +309,8 @@ test "input with custom props" {
 ///|
 test "textarea with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @nostd.Object::new()
-  custom_props._set("data-test", "textarea" |> @nostd.any)
+  let custom_props = @core.Object::new()
+  custom_props._set("data-test", "textarea" |> @core.any)
   let element = textarea(props=custom_props, [])
   let html = render_to_string(element)
   inspect(
@@ -346,8 +346,8 @@ test "uncovered HTML elements" {
 ///|
 test "p element with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @nostd.Object::new()
-  custom_props._set("data-paragraph", "test" |> @nostd.any)
+  let custom_props = @core.Object::new()
+  custom_props._set("data-paragraph", "test" |> @core.any)
   let element = p(props=custom_props, ["Paragraph with props"])
   let html = render_to_string(element)
   inspect(
@@ -361,8 +361,8 @@ test "p element with custom props" {
 ///|
 test "ul with custom props" {
   let render_to_string = get_render_to_string()
-  let custom_props = @nostd.Object::new()
-  custom_props._set("data-list", "custom" |> @nostd.any)
+  let custom_props = @core.Object::new()
+  custom_props._set("data-list", "custom" |> @core.any)
   let element = ul(props=custom_props, [li(["Item"])])
   let html = render_to_string(element)
   inspect(

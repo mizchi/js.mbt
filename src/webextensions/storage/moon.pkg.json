@@ -1,3 +1,7 @@
 {
-  "import": ["mizchi/js", "mizchi/js/webextensions", "mizchi/js/nostd"]
+  "import": [
+    "mizchi/js",
+    "mizchi/js/webextensions",
+    "mizchi/js/core"
+  ]
 }

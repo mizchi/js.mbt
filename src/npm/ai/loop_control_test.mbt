@@ -31,10 +31,10 @@ test "step_count_is should stop at max steps" {
 }
 
 ///|
-fn make_tool_call(name : String, id : String) -> @nostd.Any {
-  @nostd.from_entries([
-    ("toolName", @nostd.any(name)),
-    ("toolCallId", @nostd.any(id)),
+fn make_tool_call(name : String, id : String) -> @core.Any {
+  @core.from_entries([
+    ("toolName", @core.any(name)),
+    ("toolCallId", @core.any(id)),
   ]).cast()
 }
 
@@ -230,7 +230,7 @@ test "PrepareStepResult::with_active_tools should set tools" {
 
 ///|
 test "PrepareStepResult::with_messages should set messages" {
-  let msg : @nostd.Any = @nostd.from_entries([("role", "user" |> @nostd.any)]).cast()
+  let msg : @core.Any = @core.from_entries([("role", "user" |> @core.any)]).cast()
   let result = @ai.PrepareStepResult::with_messages([msg])
   assert_true(result.model is None)
   guard result.messages is Some(msgs)
@@ -241,19 +241,19 @@ test "PrepareStepResult::with_messages should set messages" {
 test "PrepareStepResult::as_any with empty" {
   let result = @ai.PrepareStepResult::empty()
   let js_obj = result.as_any()
-  assert_true(@nostd.is_undefined(js_obj._get("model")))
-  assert_true(@nostd.is_undefined(js_obj._get("activeTools")))
-  assert_true(@nostd.is_undefined(js_obj._get("messages")))
-  assert_true(@nostd.is_undefined(js_obj._get("system")))
-  assert_true(@nostd.is_undefined(js_obj._get("maxTokens")))
-  assert_true(@nostd.is_undefined(js_obj._get("temperature")))
+  assert_true(@core.is_undefined(js_obj._get("model")))
+  assert_true(@core.is_undefined(js_obj._get("activeTools")))
+  assert_true(@core.is_undefined(js_obj._get("messages")))
+  assert_true(@core.is_undefined(js_obj._get("system")))
+  assert_true(@core.is_undefined(js_obj._get("maxTokens")))
+  assert_true(@core.is_undefined(js_obj._get("temperature")))
 }
 
 ///|
 test "PrepareStepResult::as_any with active_tools" {
   let result = @ai.PrepareStepResult::with_active_tools(["tool1", "tool2"])
   let js_obj = result.as_any()
-  let tools_arr : Array[String] = @nostd.identity(js_obj._get("activeTools"))
+  let tools_arr : Array[String] = @core.identity(js_obj._get("activeTools"))
   assert_eq(tools_arr.length(), 2)
   assert_eq(tools_arr[0], "tool1")
 }
@@ -288,6 +288,6 @@ test "StopCondition::as_any creates JS function" {
   let condition = @ai.step_count_is(5)
   let js_fn = condition.as_any()
   // The result should be a function
-  assert_false(@nostd.is_undefined(js_fn))
-  assert_false(@nostd.is_null(js_fn))
+  assert_false(@core.is_undefined(js_fn))
+  assert_false(@core.is_null(js_fn))
 }

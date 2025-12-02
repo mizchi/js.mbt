@@ -2,201 +2,201 @@
 package "mizchi/js/npm/hono"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/better_auth"
   "mizchi/js/web/http"
 )
 
 // Values
-fn[T] context_provider(HonoContext[T], Array[&HonoNode], value~ : T) -> JSXNode
+pub fn[T] context_provider(HonoContext[T], Array[&HonoNode], value~ : T) -> JSXNode
 
-fn cors(origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> CorsMiddleware
+pub fn cors(origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> CorsMiddleware
 
-fn[T] create_context(T?) -> HonoContext[T]
+pub fn[T] create_context(T?) -> HonoContext[T]
 
-fn css(String) -> CssClass
+pub fn css(String) -> CssClass
 
-fn cx(Array[CssClass]) -> CssClass
+pub fn cx(Array[CssClass]) -> CssClass
 
-fn[Env, ExecutionContext] delete_cookie(Context[Env, ExecutionContext], String, path? : String, secure? : Bool, domain? : String) -> String?
+pub fn[Env, ExecutionContext] delete_cookie(Context[Env, ExecutionContext], String, path? : String, secure? : Bool, domain? : String) -> String?
 
-fn fragment(Array[&HonoNode], key? : String) -> JSXNode
+pub fn fragment(Array[&HonoNode], key? : String) -> JSXNode
 
-fn[Env, ExecutionContext] get_all_cookies(Context[Env, ExecutionContext]) -> Map[String, String]
+pub fn[Env, ExecutionContext] get_all_cookies(Context[Env, ExecutionContext]) -> Map[String, String]
 
-fn[Env, ExecutionContext] get_cookie(Context[Env, ExecutionContext], String, prefix? : String) -> String?
+pub fn[Env, ExecutionContext] get_cookie(Context[Env, ExecutionContext], String, prefix? : String) -> String?
 
-async fn[Env, ExecutionContext] get_signed_cookie(Context[Env, ExecutionContext], String, String) -> String?
+pub async fn[Env, ExecutionContext] get_signed_cookie(Context[Env, ExecutionContext], String, String) -> String?
 
-fn hc(String) -> HonoClient
+pub fn hc(String) -> HonoClient
 
-fn html(String) -> HtmlEscapedString
+pub fn html(String) -> HtmlEscapedString
 
 #alias(h)
-fn jsx(String, Array[&HonoNode], props? : Map[String, @nostd.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
+pub fn jsx(String, Array[&HonoNode], props? : Map[String, @core.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
 
-fn[T] jsx_component((T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
+pub fn[T] jsx_component((T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
 
-fn jwt_decode(String) -> JwtDecoded
+pub fn jwt_decode(String) -> JwtDecoded
 
-async fn jwt_sign(@nostd.Any, String, alg? : JwtAlgorithm) -> String
+pub async fn jwt_sign(@core.Any, String, alg? : JwtAlgorithm) -> String
 
-async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
+pub async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
 
-async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @nostd.Any
+pub async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @core.Any
 
-fn keyframes(String) -> CssClass
+pub fn keyframes(String) -> CssClass
 
-fn[T] memo((T) -> JSXNode) -> (T) -> JSXNode
+pub fn[T] memo((T) -> JSXNode) -> (T) -> JSXNode
 
-fn[Env, ExecutionContext] mount_auth(Hono[Env, ExecutionContext], @better_auth.Auth) -> Hono[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] mount_auth(Hono[Env, ExecutionContext], @better_auth.Auth) -> Hono[Env, ExecutionContext]
 
-fn raw(String) -> JSXNode
+pub fn raw(String) -> JSXNode
 
-fn render_to_readable_stream(JSXNode) -> @nostd.Any
+pub fn render_to_readable_stream(JSXNode) -> @core.Any
 
-fn render_to_string(JSXNode) -> String
+pub fn render_to_string(JSXNode) -> String
 
-fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @nostd.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+pub fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @core.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
-async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @nostd.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
+pub async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @core.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
-fn style_component(nonce? : String) -> JSXNode
+pub fn style_component(nonce? : String) -> JSXNode
 
-fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
+pub fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
 
-fn[Env, ExecutionContext] toHonoHandler(@better_auth.Auth) -> async (Context[Env, ExecutionContext]) -> @http.Response
+pub fn[Env, ExecutionContext] toHonoHandler(@better_auth.Auth) -> async (Context[Env, ExecutionContext]) -> @http.Response
 
-fn[T] use_context(HonoContext[T]) -> T
+pub fn[T] use_context(HonoContext[T]) -> T
 
 // Errors
 
 // Types and methods
 pub type ClientEndpoint
-fn ClientEndpoint::as_any(Self) -> @nostd.Any
-async fn ClientEndpoint::delete_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
-async fn ClientEndpoint::get_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
-async fn ClientEndpoint::patch_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
-async fn ClientEndpoint::post_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
-async fn ClientEndpoint::put_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> ClientResponse
-fn ClientEndpoint::url_(Self, query? : @nostd.Any, form? : @nostd.Any, json? : @nostd.Any, param? : @nostd.Any, header? : @nostd.Any, init? : @nostd.Any) -> String
+pub fn ClientEndpoint::as_any(Self) -> @core.Any
+pub async fn ClientEndpoint::delete_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> ClientResponse
+pub async fn ClientEndpoint::get_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> ClientResponse
+pub async fn ClientEndpoint::patch_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> ClientResponse
+pub async fn ClientEndpoint::post_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> ClientResponse
+pub async fn ClientEndpoint::put_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> ClientResponse
+pub fn ClientEndpoint::url_(Self, query? : @core.Any, form? : @core.Any, json? : @core.Any, param? : @core.Any, header? : @core.Any, init? : @core.Any) -> String
 
 pub type ClientResponse
 #alias(array_buffer)
-async fn ClientResponse::arrayBuffer(Self) -> @nostd.Any
-fn ClientResponse::as_any(Self) -> @nostd.Any
-async fn ClientResponse::blob(Self) -> @nostd.Any
-fn ClientResponse::headers(Self) -> @nostd.Any
-async fn ClientResponse::json(Self) -> @nostd.Any
-fn ClientResponse::ok(Self) -> Bool
-fn ClientResponse::status(Self) -> Int
-async fn ClientResponse::text(Self) -> String
+pub async fn ClientResponse::arrayBuffer(Self) -> @core.Any
+pub fn ClientResponse::as_any(Self) -> @core.Any
+pub async fn ClientResponse::blob(Self) -> @core.Any
+pub fn ClientResponse::headers(Self) -> @core.Any
+pub async fn ClientResponse::json(Self) -> @core.Any
+pub fn ClientResponse::ok(Self) -> Bool
+pub fn ClientResponse::status(Self) -> Int
+pub async fn ClientResponse::text(Self) -> String
 
 pub(all) struct Context[Env, ExecutionContext] {
   req : HonoRequest
   env : Env
   executionCtx : ExecutionContext
 }
-fn[Env, ExecutionContext] Context::as_any(Self[Env, ExecutionContext]) -> @nostd.Any
-fn[Env, ExecutionContext] Context::body(Self[Env, ExecutionContext], String, status? : Int, headers? : @nostd.Any) -> @http.Response
+pub fn[Env, ExecutionContext] Context::as_any(Self[Env, ExecutionContext]) -> @core.Any
+pub fn[Env, ExecutionContext] Context::body(Self[Env, ExecutionContext], String, status? : Int, headers? : @core.Any) -> @http.Response
 #alias(execution_ctx)
-fn[Env, ExecutionContext] Context::executionCtx(Self[Env, ExecutionContext]) -> ExecutionContext
+pub fn[Env, ExecutionContext] Context::executionCtx(Self[Env, ExecutionContext]) -> ExecutionContext
 #alias(get_value)
-fn[Env, ExecutionContext] Context::getValue(Self[Env, ExecutionContext], String) -> @nostd.Any
-fn[Env, ExecutionContext] Context::header(Self[Env, ExecutionContext], String, String) -> Unit
-fn[Env, ExecutionContext] Context::html(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
-fn[Env, ExecutionContext] Context::html_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
-fn[Env, ExecutionContext, T] Context::json(Self[Env, ExecutionContext], T, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext] Context::getValue(Self[Env, ExecutionContext], String) -> @core.Any
+pub fn[Env, ExecutionContext] Context::header(Self[Env, ExecutionContext], String, String) -> Unit
+pub fn[Env, ExecutionContext] Context::html(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext] Context::html_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext, T] Context::json(Self[Env, ExecutionContext], T, status? : Int) -> @http.Response
 #alias(not_found)
-fn[Env, ExecutionContext] Context::notFound(Self[Env, ExecutionContext]) -> @http.Response
-fn[Env, ExecutionContext] Context::redirect(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
-fn[Env, ExecutionContext] Context::render(Self[Env, ExecutionContext], String) -> @http.Response
-fn[Env, ExecutionContext] Context::res(Self[Env, ExecutionContext]) -> @http.Response
-fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, @nostd.Any) -> Unit
+pub fn[Env, ExecutionContext] Context::notFound(Self[Env, ExecutionContext]) -> @http.Response
+pub fn[Env, ExecutionContext] Context::redirect(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext] Context::render(Self[Env, ExecutionContext], String) -> @http.Response
+pub fn[Env, ExecutionContext] Context::res(Self[Env, ExecutionContext]) -> @http.Response
+pub fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, @core.Any) -> Unit
 #alias(set_renderer)
-fn[Env, ExecutionContext] Context::setRenderer(Self[Env, ExecutionContext], (String) -> @http.Response) -> Unit
-fn[Env, ExecutionContext] Context::status(Self[Env, ExecutionContext], Int) -> Unit
-async fn[Env, ExecutionContext] Context::stream_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
-fn[Env, ExecutionContext] Context::text(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
-fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @nostd.Any
+pub fn[Env, ExecutionContext] Context::setRenderer(Self[Env, ExecutionContext], (String) -> @http.Response) -> Unit
+pub fn[Env, ExecutionContext] Context::status(Self[Env, ExecutionContext], Int) -> Unit
+pub async fn[Env, ExecutionContext] Context::stream_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext] Context::text(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
+pub fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @core.Any
 
 #external
 pub type CorsMiddleware
-fn CorsMiddleware::as_any(Self) -> @nostd.Any
+pub fn CorsMiddleware::as_any(Self) -> @core.Any
 
 #external
 pub type CssClass
-fn CssClass::as_any(Self) -> @nostd.Any
-fn CssClass::to_string(Self) -> String
-impl CssClassName for CssClass
+pub fn CssClass::as_any(Self) -> @core.Any
+pub fn CssClass::to_string(Self) -> String
+pub impl CssClassName for CssClass
 
 #external
 pub type Hono[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::all(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::as_any(Self[Env, ExecutionContext]) -> @nostd.Any
+pub fn[Env, ExecutionContext] Hono::all(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::as_any(Self[Env, ExecutionContext]) -> @core.Any
 #alias(base_path)
-fn[Env, ExecutionContext] Hono::basePath(Self[Env, ExecutionContext], String) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::cors(Self[Env, ExecutionContext], String, origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::cors_all(Self[Env, ExecutionContext], origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::delete(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @nostd.Promise[@http.Response]
-fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::basePath(Self[Env, ExecutionContext], String) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::cors(Self[Env, ExecutionContext], String, origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::cors_all(Self[Env, ExecutionContext], origin? : String, allowMethods? : Array[String], allowHeaders? : Array[String], maxAge? : Int, credentials? : Bool, exposeHeaders? : Array[String]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::delete(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Request) -> @core.Promise[@http.Response]
+pub fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContext]
 #alias(not_found)
-fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 #alias(on_error)
-fn[Env, ExecutionContext] Hono::onError(Self[Env, ExecutionContext], (@nostd.Any, Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::options(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::patch(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::post(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::put(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::route(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]) -> Self[Env, ExecutionContext]
-fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::onError(Self[Env, ExecutionContext], (@core.Any, Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::options(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::patch(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::post(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::put(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::route(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::use_(Self[Env, ExecutionContext], String, (Context[Env, ExecutionContext], () -> @core.Promise[@http.Response]) -> @core.Promise[@http.Response]) -> Self[Env, ExecutionContext]
+pub fn[Env, ExecutionContext] Hono::useall(Self[Env, ExecutionContext], (Context[Env, ExecutionContext], () -> @core.Promise[@http.Response]) -> @core.Promise[@http.Response]) -> Self[Env, ExecutionContext]
 
 pub type HonoClient
-fn HonoClient::as_any(Self) -> @nostd.Any
-fn HonoClient::path(Self, String) -> ClientEndpoint
+pub fn HonoClient::as_any(Self) -> @core.Any
+pub fn HonoClient::path(Self, String) -> ClientEndpoint
 
 #external
 pub type HonoContext[T]
-fn[T] HonoContext::as_any(Self[T]) -> @nostd.Any
+pub fn[T] HonoContext::as_any(Self[T]) -> @core.Any
 
 pub(all) struct HonoRequest {
   url : String
   bodyUsed : Bool
 }
 #alias(array_buffer)
-async fn HonoRequest::arrayBuffer(Self) -> @nostd.Any
-fn HonoRequest::as_any(Self) -> @nostd.Any
-async fn HonoRequest::blob(Self) -> @nostd.Any
+pub async fn HonoRequest::arrayBuffer(Self) -> @core.Any
+pub fn HonoRequest::as_any(Self) -> @core.Any
+pub async fn HonoRequest::blob(Self) -> @core.Any
 #alias(form_data)
-async fn HonoRequest::formData(Self) -> @http.FormData
-fn HonoRequest::header(Self, String) -> String?
-async fn HonoRequest::json(Self) -> @nostd.Any
-fn HonoRequest::method_(Self) -> String
-fn HonoRequest::param(Self, String) -> String?
+pub async fn HonoRequest::formData(Self) -> @http.FormData
+pub fn HonoRequest::header(Self, String) -> String?
+pub async fn HonoRequest::json(Self) -> @core.Any
+pub fn HonoRequest::method_(Self) -> String
+pub fn HonoRequest::param(Self, String) -> String?
 #alias(param_all)
-fn HonoRequest::paramAll(Self) -> @nostd.Any
+pub fn HonoRequest::paramAll(Self) -> @core.Any
 #alias(parse_body)
-async fn HonoRequest::parseBody(Self, options? : @nostd.Any) -> @nostd.Any
-fn HonoRequest::path(Self) -> String
-fn HonoRequest::query(Self, String) -> String?
+pub async fn HonoRequest::parseBody(Self, options? : @core.Any) -> @core.Any
+pub fn HonoRequest::path(Self) -> String
+pub fn HonoRequest::query(Self, String) -> String?
 #alias(query_all)
-fn HonoRequest::queryAll(Self) -> @nostd.Any
-async fn HonoRequest::text(Self) -> String
+pub fn HonoRequest::queryAll(Self) -> @core.Any
+pub async fn HonoRequest::text(Self) -> String
 
 #external
 pub type HtmlEscapedString
-fn HtmlEscapedString::as_any(Self) -> @nostd.Any
-impl HonoNode for HtmlEscapedString
+pub fn HtmlEscapedString::as_any(Self) -> @core.Any
+pub impl HonoNode for HtmlEscapedString
 
 #external
 pub type JSXNode
-fn JSXNode::as_any(Self) -> @nostd.Any
-impl HonoNode for JSXNode
+pub fn JSXNode::as_any(Self) -> @core.Any
+pub impl HonoNode for JSXNode
 
 pub(all) enum JwtAlgorithm {
   HS256
@@ -215,8 +215,8 @@ pub(all) enum JwtAlgorithm {
 }
 
 pub struct JwtDecoded {
-  header : @nostd.Any
-  payload : @nostd.Any
+  header : @core.Any
+  payload : @core.Any
 }
 
 pub(all) struct JwtPayload {
@@ -228,27 +228,27 @@ pub(all) struct JwtPayload {
   iat : Int?
   jti : String?
 }
-fn JwtPayload::default() -> Self
+pub fn JwtPayload::default() -> Self
 
 // Type aliases
 pub type FC[T] = (T) -> JSXNode
 
 pub type Handler[Env, ExecutionContext] = async (Context[Env, ExecutionContext]) -> @http.Response
 
-pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @nostd.Promise[@http.Response]) -> @nostd.Promise[@http.Response]
+pub type Middleware[Env, ExecutionContext] = (Context[Env, ExecutionContext], () -> @core.Promise[@http.Response]) -> @core.Promise[@http.Response]
 
 // Traits
 pub trait CssClassName {
-  value(Self) -> @nostd.Any
+  value(Self) -> @core.Any
 }
-impl CssClassName for String
+pub impl CssClassName for String
 
 pub trait HonoNode {
-  toHonoNode(Self) -> @nostd.Any
+  toHonoNode(Self) -> @core.Any
 }
-impl HonoNode for Bool
-impl HonoNode for Int
-impl HonoNode for Double
-impl HonoNode for String
-impl[T : HonoNode] HonoNode for Array[T]
+pub impl HonoNode for Bool
+pub impl HonoNode for Int
+pub impl HonoNode for Double
+pub impl HonoNode for String
+pub impl[T : HonoNode] HonoNode for Array[T]
 

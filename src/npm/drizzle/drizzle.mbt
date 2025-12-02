@@ -2,70 +2,70 @@
 /// https://orm.drizzle.team/
 
 // ============ Row Builder ============
-// Helper for building row data without exposing @nostd.Any
+// Helper for building row data without exposing @core.Any
 
 ///|
 /// Row builder for constructing insert/update data
 pub struct Row {
-  priv obj : @nostd.Any
+  priv obj : @core.Any
 }
 
 ///|
 /// Create a new empty row
 pub fn Row::new() -> Row {
-  { obj: @nostd.Object::new() }
+  { obj: @core.Object::new() }
 }
 
 ///|
 /// Set a string value
 pub fn Row::str(self : Row, key : String, value : String) -> Row {
-  self.obj._set(key, value |> @nostd.any)
+  self.obj._set(key, value |> @core.any)
   self
 }
 
 ///|
 /// Set an integer value
 pub fn Row::int(self : Row, key : String, value : Int) -> Row {
-  self.obj._set(key, value |> @nostd.any)
+  self.obj._set(key, value |> @core.any)
   self
 }
 
 ///|
 /// Set a double value
 pub fn Row::double(self : Row, key : String, value : Double) -> Row {
-  self.obj._set(key, value |> @nostd.any)
+  self.obj._set(key, value |> @core.any)
   self
 }
 
 ///|
 /// Set a boolean value
 pub fn Row::bool(self : Row, key : String, value : Bool) -> Row {
-  self.obj._set(key, value |> @nostd.any)
+  self.obj._set(key, value |> @core.any)
   self
 }
 
 ///|
 /// Set a null value
 pub fn Row::null(self : Row, key : String) -> Row {
-  self.obj._set(key, @nostd.null())
+  self.obj._set(key, @core.null())
   self
 }
 
 ///|
 /// Set any JsImpl value
-pub fn Row::set_(self : Row, key : String, value : @nostd.Any) -> Row {
-  @nostd.any(self.obj)[key] = value
+pub fn Row::set_(self : Row, key : String, value : @core.Any) -> Row {
+  @core.any(self.obj)[key] = value
   self
 }
 
 ///|
 /// Build the row data (returns the underlying JS object)
-pub fn Row::build(self : Row) -> @nostd.Any {
+pub fn Row::build(self : Row) -> @core.Any {
   self.obj
 }
 
 ///|
-pub fn Row::as_any(self : Row) -> @nostd.Any {
+pub fn Row::as_any(self : Row) -> @core.Any {
   self.obj
 }
 
@@ -73,19 +73,19 @@ pub fn Row::as_any(self : Row) -> @nostd.Any {
 
 ///|
 /// Create an array of rows for batch insert
-pub fn rows(items : Array[Row]) -> @nostd.Any {
-  @nostd.any(items.map(fn(r) { r.obj }))
+pub fn rows(items : Array[Row]) -> @core.Any {
+  @core.any(items.map(fn(r) { r.obj }))
 }
 
 // Internal helpers for other files in this package
 
 ///|
-fn drizzle_pg_core() -> @nostd.Any {
+fn drizzle_pg_core() -> @core.Any {
   @node.require("drizzle-orm/pg-core")
 }
 
 ///|
-fn drizzle_orm() -> @nostd.Any {
+fn drizzle_orm() -> @core.Any {
   @node.require("drizzle-orm")
 }
 
@@ -95,7 +95,7 @@ fn drizzle_orm() -> @nostd.Any {
 pub type DrizzleDB
 
 ///|
-pub fn DrizzleDB::as_any(self : DrizzleDB) -> @nostd.Any = "%identity"
+pub fn DrizzleDB::as_any(self : DrizzleDB) -> @core.Any = "%identity"
 
 ///|
 /// Query builder
@@ -103,22 +103,22 @@ pub fn DrizzleDB::as_any(self : DrizzleDB) -> @nostd.Any = "%identity"
 pub type QueryBuilder
 
 ///|
-pub fn QueryBuilder::as_any(self : QueryBuilder) -> @nostd.Any = "%identity"
+pub fn QueryBuilder::as_any(self : QueryBuilder) -> @core.Any = "%identity"
 
 // Internal helper for method calls
 
 ///|
-fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @nostd.Any {
-  @nostd.any(self)._call(name, []).cast()
+fn QueryBuilder::call0(self : QueryBuilder, name : String) -> @core.Any {
+  @core.any(self)._call(name, []).cast()
 }
 
 ///|
 fn QueryBuilder::call1(
   self : QueryBuilder,
   name : String,
-  arg : @nostd.Any,
-) -> @nostd.Any {
-  @nostd.any(self)._call(name, [arg]).cast()
+  arg : @core.Any,
+) -> @core.Any {
+  @core.any(self)._call(name, [arg]).cast()
 }
 
 ///|
@@ -127,11 +127,11 @@ fn QueryBuilder::call1(
 pub type Table
 
 ///|
-pub fn Table::as_any(self : Table) -> @nostd.Any = "%identity"
+pub fn Table::as_any(self : Table) -> @core.Any = "%identity"
 
 ///|
 /// Get a column from a table by name
-pub fn Table::get(self : Table, name : String) -> @nostd.Any {
+pub fn Table::get(self : Table, name : String) -> @core.Any {
   self.as_any()._get(name)
 }
 
@@ -141,18 +141,18 @@ pub fn Table::get(self : Table, name : String) -> @nostd.Any {
 pub type Column
 
 ///|
-pub fn Column::as_any(self : Column) -> @nostd.Any = "%identity"
+pub fn Column::as_any(self : Column) -> @core.Any = "%identity"
 
 // Internal helper for method calls
 
 ///|
-fn Column::call0(self : Column, name : String) -> @nostd.Any {
-  @nostd.any(self)._call(name, []).cast()
+fn Column::call0(self : Column, name : String) -> @core.Any {
+  @core.any(self)._call(name, []).cast()
 }
 
 ///|
-fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @nostd.Any {
-  @nostd.any(self)._call(name, [arg]).cast()
+fn Column::call1(self : Column, name : String, arg : @core.Any) -> @core.Any {
+  @core.any(self)._call(name, [arg]).cast()
 }
 
 ///|
@@ -161,7 +161,7 @@ fn Column::call1(self : Column, name : String, arg : @nostd.Any) -> @nostd.Any {
 pub type SQL
 
 ///|
-pub fn SQL::as_any(self : SQL) -> @nostd.Any = "%identity"
+pub fn SQL::as_any(self : SQL) -> @core.Any = "%identity"
 
 // ============ Database Creation ============
 
@@ -176,41 +176,41 @@ pub fn drizzle(connection_string : String) -> DrizzleDB {
 }
 
 ///|
-extern "js" fn ffi_drizzle_with_pool(pool : @nostd.Any) -> DrizzleDB =
+extern "js" fn ffi_drizzle_with_pool(pool : @core.Any) -> DrizzleDB =
   #| (pool) => require("drizzle-orm/node-postgres").drizzle(pool)
 
 ///|
 /// Create a Drizzle instance with pg Pool
 #alias(drizzle_with_pool)
-pub fn drizzleWithPool(pool : @nostd.Any) -> DrizzleDB {
+pub fn drizzleWithPool(pool : @core.Any) -> DrizzleDB {
   ffi_drizzle_with_pool(pool)
 }
 
 ///|
 /// Create a Drizzle instance with config object
 #alias(drizzle_with_config)
-pub fn drizzleWithConfig(config : @nostd.Any) -> DrizzleDB {
+pub fn drizzleWithConfig(config : @core.Any) -> DrizzleDB {
   ffi_drizzle_with_pool(config)
 }
 
 // ============ Cloudflare D1 ============
 
 ///|
-extern "js" fn ffi_drizzle_d1(d1_database : @nostd.Any) -> DrizzleDB =
+extern "js" fn ffi_drizzle_d1(d1_database : @core.Any) -> DrizzleDB =
   #| (d1) => require("drizzle-orm/d1").drizzle(d1)
 
 ///|
 /// Create a Drizzle instance with Cloudflare D1 database binding
 /// Usage: drizzleD1(env.DB) where env.DB is D1Database from Cloudflare Workers
 #alias(drizzle_d1)
-pub fn drizzleD1(d1_database : @nostd.Any) -> DrizzleDB {
+pub fn drizzleD1(d1_database : @core.Any) -> DrizzleDB {
   ffi_drizzle_d1(d1_database)
 }
 
 ///|
 extern "js" fn ffi_drizzle_d1_with_schema(
-  d1_database : @nostd.Any,
-  schema : @nostd.Any,
+  d1_database : @core.Any,
+  schema : @core.Any,
 ) -> DrizzleDB =
   #| (d1, schema) => require("drizzle-orm/d1").drizzle(d1, { schema })
 
@@ -218,8 +218,8 @@ extern "js" fn ffi_drizzle_d1_with_schema(
 /// Create a Drizzle instance with D1 and schema for relational queries
 #alias(drizzle_d1_with_schema)
 pub fn drizzleD1WithSchema(
-  d1_database : @nostd.Any,
-  schema : @nostd.Any,
+  d1_database : @core.Any,
+  schema : @core.Any,
 ) -> DrizzleDB {
   ffi_drizzle_d1_with_schema(d1_database, schema)
 }
@@ -227,13 +227,13 @@ pub fn drizzleD1WithSchema(
 // ============ Schema Definition ============
 
 ///|
-extern "js" fn ffi_pg_table(name : String, columns : @nostd.Any) -> Table =
+extern "js" fn ffi_pg_table(name : String, columns : @core.Any) -> Table =
   #| (name, columns) => require("drizzle-orm/pg-core").pgTable(name, columns)
 
 ///|
 /// Create a PostgreSQL table
 #alias(pg_table)
-pub fn pgTable(name : String, columns : @nostd.Any) -> Table {
+pub fn pgTable(name : String, columns : @core.Any) -> Table {
   ffi_pg_table(name, columns)
 }
 
@@ -241,8 +241,8 @@ pub fn pgTable(name : String, columns : @nostd.Any) -> Table {
 /// Create a PostgreSQL table from a Map of column definitions
 #alias(pg_table_from_map)
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
-  let obj = @nostd.Object::new()
-  columns.each(fn(key, col) { obj._set(key, col.as_any() |> @nostd.any) })
+  let obj = @core.Object::new()
+  columns.each(fn(key, col) { obj._set(key, col.as_any() |> @core.any) })
   pgTable(name, obj)
 }
 
@@ -506,14 +506,14 @@ pub fn Column::unique(self : Column) -> Column {
 }
 
 ///|
-extern "js" fn ffi_default_value(col : Column, value : @nostd.Any) -> Column =
+extern "js" fn ffi_default_value(col : Column, value : @core.Any) -> Column =
   #| (col, value) => col.default(value)
 
 ///|
 /// Set default value (accepts any value)
 #alias(default_value)
-pub fn Column::defaultValue(self : Column, value : @nostd.Any) -> Column {
-  ffi_default_value(self, @nostd.identity(value))
+pub fn Column::defaultValue(self : Column, value : @core.Any) -> Column {
+  ffi_default_value(self, @core.identity(value))
 }
 
 ///|
@@ -557,16 +557,13 @@ extern "js" fn ffi_select(db : DrizzleDB) -> QueryBuilder =
 ///|
 extern "js" fn ffi_select_fields(
   db : DrizzleDB,
-  fields : @nostd.Any,
+  fields : @core.Any,
 ) -> QueryBuilder =
   #| (db, fields) => db.select(fields)
 
 ///|
 /// Start a SELECT query
-pub fn DrizzleDB::select(
-  self : DrizzleDB,
-  fields? : @nostd.Any,
-) -> QueryBuilder {
+pub fn DrizzleDB::select(self : DrizzleDB, fields? : @core.Any) -> QueryBuilder {
   match fields {
     Some(f) => ffi_select_fields(self, f)
     None => ffi_select(self)
@@ -640,35 +637,32 @@ pub fn QueryBuilder::filter(
 }
 
 ///|
-extern "js" fn ffi_values(qb : QueryBuilder, data : @nostd.Any) -> QueryBuilder =
+extern "js" fn ffi_values(qb : QueryBuilder, data : @core.Any) -> QueryBuilder =
   #| (qb, data) => qb.values(data)
 
 ///|
 /// VALUES for INSERT (accepts any value)
 pub fn QueryBuilder::values(
   self : QueryBuilder,
-  data : @nostd.Any,
+  data : @core.Any,
 ) -> QueryBuilder {
-  ffi_values(self, @nostd.identity(data))
+  ffi_values(self, @core.identity(data))
 }
 
 ///|
-extern "js" fn ffi_set(qb : QueryBuilder, data : @nostd.Any) -> QueryBuilder =
+extern "js" fn ffi_set(qb : QueryBuilder, data : @core.Any) -> QueryBuilder =
   #| (qb, data) => qb.set(data)
 
 ///|
 /// SET for UPDATE (accepts any value)
-pub fn QueryBuilder::set(
-  self : QueryBuilder,
-  data : @nostd.Any,
-) -> QueryBuilder {
-  ffi_set(self, @nostd.identity(data))
+pub fn QueryBuilder::set(self : QueryBuilder, data : @core.Any) -> QueryBuilder {
+  ffi_set(self, @core.identity(data))
 }
 
 ///|
 extern "js" fn ffi_order_by(
   qb : QueryBuilder,
-  columns : Array[@nostd.Any],
+  columns : Array[@core.Any],
 ) -> QueryBuilder =
   #| (qb, columns) => qb.orderBy(...columns)
 
@@ -677,7 +671,7 @@ extern "js" fn ffi_order_by(
 #alias(order_by)
 pub fn QueryBuilder::orderBy(
   self : QueryBuilder,
-  columns : Array[@nostd.Any],
+  columns : Array[@core.Any],
 ) -> QueryBuilder {
   ffi_order_by(self, columns)
 }
@@ -752,81 +746,81 @@ pub fn QueryBuilder::innerJoin(
 
 ///|
 /// Execute the query and return promise
-extern "js" fn ffi_query_then(qb : QueryBuilder) -> @js.Promise[@nostd.Any] =
+extern "js" fn ffi_query_then(qb : QueryBuilder) -> @js.Promise[@core.Any] =
   #| (qb) => qb
 
 ///|
 /// Execute the query
-pub async fn QueryBuilder::execute(self : QueryBuilder) -> @nostd.Any {
+pub async fn QueryBuilder::execute(self : QueryBuilder) -> @core.Any {
   ffi_query_then(self).wait()
 }
 
 ///|
 /// Execute and get typed array result
 pub async fn[T] QueryBuilder::execute_array(self : QueryBuilder) -> Array[T] {
-  ffi_query_then(self).wait() |> @nostd.identity
+  ffi_query_then(self).wait() |> @core.identity
 }
 
 // ============ SQL Operators ============
 
 ///|
-extern "js" fn ffi_eq(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_eq(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").eq(column, value)
 
 ///|
 /// Equal comparison (accepts any value)
-pub fn eq(column : Column, value : @nostd.Any) -> SQL {
-  ffi_eq(column, @nostd.identity(value))
+pub fn eq(column : Column, value : @core.Any) -> SQL {
+  ffi_eq(column, @core.identity(value))
 }
 
 ///|
-extern "js" fn ffi_ne(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_ne(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").ne(column, value)
 
 ///|
 /// Not equal comparison (accepts any value)
-pub fn ne(column : Column, value : @nostd.Any) -> SQL {
-  ffi_ne(column, @nostd.identity(value))
+pub fn ne(column : Column, value : @core.Any) -> SQL {
+  ffi_ne(column, @core.identity(value))
 }
 
 ///|
-extern "js" fn ffi_gt(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_gt(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gt(column, value)
 
 ///|
 /// Greater than comparison (accepts any value)
-pub fn gt(column : Column, value : @nostd.Any) -> SQL {
-  ffi_gt(column, @nostd.identity(value))
+pub fn gt(column : Column, value : @core.Any) -> SQL {
+  ffi_gt(column, @core.identity(value))
 }
 
 ///|
-extern "js" fn ffi_gte(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_gte(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gte(column, value)
 
 ///|
 /// Greater than or equal comparison (accepts any value)
-pub fn gte(column : Column, value : @nostd.Any) -> SQL {
-  ffi_gte(column, @nostd.identity(value))
+pub fn gte(column : Column, value : @core.Any) -> SQL {
+  ffi_gte(column, @core.identity(value))
 }
 
 ///|
-extern "js" fn ffi_lt(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_lt(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lt(column, value)
 
 ///|
 /// Less than comparison (accepts any value)
-pub fn lt(column : Column, value : @nostd.Any) -> SQL {
-  ffi_lt(column, @nostd.identity(value))
+pub fn lt(column : Column, value : @core.Any) -> SQL {
+  ffi_lt(column, @core.identity(value))
 }
 
 ///|
-extern "js" fn ffi_lte(column : Column, value : @nostd.Any) -> SQL =
+extern "js" fn ffi_lte(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lte(column, value)
 
 ///|
 /// Less than or equal comparison (accepts any value)
-pub fn lte(column : Column, value : @nostd.Any) -> SQL {
-  ffi_lte(column, @nostd.identity(value))
+pub fn lte(column : Column, value : @core.Any) -> SQL {
+  ffi_lte(column, @core.identity(value))
 }
 
 ///|
@@ -872,34 +866,34 @@ pub fn isNotNull(column : Column) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_in_array(column : Column, values : Array[@nostd.Any]) -> SQL =
+extern "js" fn ffi_in_array(column : Column, values : Array[@core.Any]) -> SQL =
   #| (column, values) => require("drizzle-orm").inArray(column, values)
 
 ///|
 /// IN comparison
-pub fn inArray(column : Column, values : Array[@nostd.Any]) -> SQL {
+pub fn inArray(column : Column, values : Array[@core.Any]) -> SQL {
   ffi_in_array(column, values)
 }
 
 ///|
 extern "js" fn ffi_not_in_array(
   column : Column,
-  values : Array[@nostd.Any],
+  values : Array[@core.Any],
 ) -> SQL =
   #| (column, values) => require("drizzle-orm").notInArray(column, values)
 
 ///|
 /// NOT IN comparison
 #alias(not_in_array)
-pub fn notInArray(column : Column, values : Array[@nostd.Any]) -> SQL {
+pub fn notInArray(column : Column, values : Array[@core.Any]) -> SQL {
   ffi_not_in_array(column, values)
 }
 
 ///|
 extern "js" fn ffi_between(
   column : Column,
-  min_val : @nostd.Any,
-  max_val : @nostd.Any,
+  min_val : @core.Any,
+  max_val : @core.Any,
 ) -> SQL =
   #| (column, min, max) => require("drizzle-orm").between(column, min, max)
 
@@ -907,10 +901,10 @@ extern "js" fn ffi_between(
 /// BETWEEN comparison (accepts any values)
 pub fn between(
   column : Column,
-  min_val : @nostd.Any,
-  max_val : @nostd.Any,
+  min_val : @core.Any,
+  max_val : @core.Any,
 ) -> SQL {
-  ffi_between(column, @nostd.identity(min_val), @nostd.identity(max_val))
+  ffi_between(column, @core.identity(min_val), @core.identity(max_val))
 }
 
 ///|
@@ -1005,22 +999,22 @@ pub fn min_(column : Column) -> SQL {
 // ============ Ordering ============
 
 ///|
-extern "js" fn ffi_asc(column : Column) -> @nostd.Any =
+extern "js" fn ffi_asc(column : Column) -> @core.Any =
   #| (column) => require("drizzle-orm").asc(column)
 
 ///|
 /// Ascending order
-pub fn asc(column : Column) -> @nostd.Any {
+pub fn asc(column : Column) -> @core.Any {
   ffi_asc(column)
 }
 
 ///|
-extern "js" fn ffi_desc(column : Column) -> @nostd.Any =
+extern "js" fn ffi_desc(column : Column) -> @core.Any =
   #| (column) => require("drizzle-orm").desc(column)
 
 ///|
 /// Descending order
-pub fn desc(column : Column) -> @nostd.Any {
+pub fn desc(column : Column) -> @core.Any {
   ffi_desc(column)
 }
 

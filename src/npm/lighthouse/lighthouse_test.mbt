@@ -43,7 +43,7 @@ test "lighthouse - flags serialization" {
 
 ///|
 test "lighthouse - desktop config" {
-  let config : @nostd.Any = desktop_config() |> @nostd.any
+  let config : @core.Any = desktop_config() |> @core.any
   let settings = config["settings"]
   let form_factor : String = settings["formFactor"].cast()
   inspect(form_factor, content="desktop")
@@ -56,7 +56,7 @@ test "lighthouse - desktop config" {
 
 ///|
 test "lighthouse - mobile config" {
-  let config : @nostd.Any = mobile_config() |> @nostd.any
+  let config : @core.Any = mobile_config() |> @core.any
   let settings = config["settings"]
   let form_factor : String = settings["formFactor"].cast()
   inspect(form_factor, content="mobile")

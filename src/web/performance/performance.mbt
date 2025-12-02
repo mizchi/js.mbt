@@ -9,7 +9,7 @@ pub(all) struct Performance {
 }
 
 ///|
-pub fn Performance::as_any(self : Performance) -> @nostd.Any = "%identity"
+pub fn Performance::as_any(self : Performance) -> @core.Any = "%identity"
 
 ///|
 /// PerformanceEntry represents a single performance metric
@@ -21,12 +21,12 @@ pub(all) struct PerformanceEntry {
 }
 
 ///|
-pub fn PerformanceEntry::as_any(self : PerformanceEntry) -> @nostd.Any = "%identity"
+pub fn PerformanceEntry::as_any(self : PerformanceEntry) -> @core.Any = "%identity"
 
 ///|
 /// Get the Performance object from globalThis
 pub fn performance() -> Performance {
-  @nostd.global_this()["performance"].cast()
+  @core.global_this()["performance"].cast()
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn Performance::now(self : Performance) -> Double {
 /// JS: performance.mark(name)
 /// Creates a timestamp in the browser's performance entry buffer with the given name
 pub fn Performance::mark(self : Performance, name : String) -> PerformanceEntry {
-  self.as_any()._call("mark", [@nostd.any(name)]).cast()
+  self.as_any()._call("mark", [@core.any(name)]).cast()
 }
 
 ///|
@@ -56,11 +56,11 @@ pub fn Performance::measure(
   match (startMark, endMark) {
     (Some(start), Some(end)) =>
       s
-      ._call("measure", [@nostd.any(name), @nostd.any(start), @nostd.any(end)])
+      ._call("measure", [@core.any(name), @core.any(start), @core.any(end)])
       .cast()
     (Some(start), None) =>
-      s._call("measure", [@nostd.any(name), @nostd.any(start)]).cast()
-    (None, _) => s._call("measure", [@nostd.any(name)]).cast()
+      s._call("measure", [@core.any(name), @core.any(start)]).cast()
+    (None, _) => s._call("measure", [@core.any(name)]).cast()
   }
 }
 
@@ -78,7 +78,7 @@ pub fn Performance::getEntriesByType(
   self : Performance,
   entryType : String,
 ) -> Array[PerformanceEntry] {
-  self.as_any()._call("getEntriesByType", [@nostd.any(entryType)]).cast()
+  self.as_any()._call("getEntriesByType", [@core.any(entryType)]).cast()
 }
 
 ///|
@@ -88,7 +88,7 @@ pub fn Performance::getEntriesByName(
   self : Performance,
   name : String,
 ) -> Array[PerformanceEntry] {
-  self.as_any()._call("getEntriesByName", [@nostd.any(name)]).cast()
+  self.as_any()._call("getEntriesByName", [@core.any(name)]).cast()
 }
 
 ///|
@@ -97,7 +97,7 @@ pub fn Performance::getEntriesByName(
 pub fn Performance::clearMarks(self : Performance, name? : String) -> Unit {
   let s = self.as_any()
   match name {
-    Some(n) => s._call("clearMarks", [@nostd.any(n)]) |> ignore
+    Some(n) => s._call("clearMarks", [@core.any(n)]) |> ignore
     None => s._call("clearMarks", []) |> ignore
   }
 }
@@ -108,7 +108,7 @@ pub fn Performance::clearMarks(self : Performance, name? : String) -> Unit {
 pub fn Performance::clearMeasures(self : Performance, name? : String) -> Unit {
   let s = self.as_any()
   match name {
-    Some(n) => s._call("clearMeasures", [@nostd.any(n)]) |> ignore
+    Some(n) => s._call("clearMeasures", [@core.any(n)]) |> ignore
     None => s._call("clearMeasures", []) |> ignore
   }
 }

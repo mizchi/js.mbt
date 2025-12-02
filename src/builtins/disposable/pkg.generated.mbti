@@ -1,0 +1,38 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/disposable"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type AsyncDisposableStack
+pub fn[T] AsyncDisposableStack::adopt(Self, T, (T) -> Unit) -> T
+pub fn AsyncDisposableStack::defer_(Self, () -> Unit) -> Unit
+pub async fn AsyncDisposableStack::disposeAsync(Self) -> Unit
+pub fn AsyncDisposableStack::disposed(Self) -> Bool
+pub fn AsyncDisposableStack::move_(Self) -> Self
+pub fn AsyncDisposableStack::new() -> Self
+pub fn AsyncDisposableStack::to_any(Self) -> @core.Any
+pub fn[T] AsyncDisposableStack::use_(Self, T) -> T
+
+#external
+pub type DisposableStack
+pub fn[T] DisposableStack::adopt(Self, T, (T) -> Unit) -> T
+pub fn DisposableStack::defer_(Self, () -> Unit) -> Unit
+pub fn DisposableStack::dispose(Self) -> Unit
+pub fn DisposableStack::disposed(Self) -> Bool
+pub fn DisposableStack::move_(Self) -> Self
+pub fn DisposableStack::new() -> Self
+pub fn DisposableStack::to_any(Self) -> @core.Any
+pub fn[T] DisposableStack::use_(Self, T) -> T
+
+// Type aliases
+
+// Traits
+

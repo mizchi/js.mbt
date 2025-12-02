@@ -3,7 +3,7 @@ package "mizchi/js/web/streams"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -15,69 +15,69 @@ pub(all) struct CompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
-fn CompressionStream::as_any(Self) -> @nostd.Any
-fn CompressionStream::new(String) -> Self
+pub fn CompressionStream::as_any(Self) -> @core.Any
+pub fn CompressionStream::new(String) -> Self
 
 pub(all) struct DecompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
-fn DecompressionStream::as_any(Self) -> @nostd.Any
-fn DecompressionStream::new(String) -> Self
+pub fn DecompressionStream::as_any(Self) -> @core.Any
+pub fn DecompressionStream::new(String) -> Self
 
 #external
 pub type ReadableStream
-fn ReadableStream::as_any(Self) -> @nostd.Any
-async fn ReadableStream::cancel(Self, reason? : @nostd.Any) -> Unit
+pub fn ReadableStream::as_any(Self) -> @core.Any
+pub async fn ReadableStream::cancel(Self, reason? : @core.Any) -> Unit
 #alias(get_reader)
-fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
-fn ReadableStream::locked(Self) -> Bool
-fn ReadableStream::new(@nostd.Any) -> Self
+pub fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
+pub fn ReadableStream::locked(Self) -> Bool
+pub fn ReadableStream::new(@core.Any) -> Self
 #alias(pipe_through)
-fn ReadableStream::pipeThrough(Self, @nostd.Any, options? : @nostd.Any) -> Self
+pub fn ReadableStream::pipeThrough(Self, @core.Any, options? : @core.Any) -> Self
 #alias(pipe_to)
-async fn ReadableStream::pipeTo(Self, WritableStream, options? : @nostd.Any) -> Unit
-fn ReadableStream::tee(Self) -> (Self, Self)
+pub async fn ReadableStream::pipeTo(Self, WritableStream, options? : @core.Any) -> Unit
+pub fn ReadableStream::tee(Self) -> (Self, Self)
 
 #external
 pub type ReadableStreamDefaultReader
-fn ReadableStreamDefaultReader::as_any(Self) -> @nostd.Any
-async fn ReadableStreamDefaultReader::cancel(Self, reason? : @nostd.Any) -> Unit
-fn ReadableStreamDefaultReader::closed(Self) -> @js.Promise[Unit]
-async fn ReadableStreamDefaultReader::read(Self) -> @nostd.Any
+pub fn ReadableStreamDefaultReader::as_any(Self) -> @core.Any
+pub async fn ReadableStreamDefaultReader::cancel(Self, reason? : @core.Any) -> Unit
+pub fn ReadableStreamDefaultReader::closed(Self) -> @js.Promise[Unit]
+pub async fn ReadableStreamDefaultReader::read(Self) -> @core.Any
 #alias(release_lock)
-fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
+pub fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
 
 #external
 pub type TransformStream
-fn TransformStream::as_any(Self) -> @nostd.Any
-fn TransformStream::new(@nostd.Any) -> Self
+pub fn TransformStream::as_any(Self) -> @core.Any
+pub fn TransformStream::new(@core.Any) -> Self
 #alias(newIdentity)
-fn TransformStream::new_identity() -> Self
-fn TransformStream::readable(Self) -> ReadableStream
-fn TransformStream::writable(Self) -> WritableStream
+pub fn TransformStream::new_identity() -> Self
+pub fn TransformStream::readable(Self) -> ReadableStream
+pub fn TransformStream::writable(Self) -> WritableStream
 
 #external
 pub type WritableStream
-async fn WritableStream::abort(Self, reason? : @nostd.Any) -> Unit
-fn WritableStream::as_any(Self) -> @nostd.Any
-async fn WritableStream::close(Self) -> Unit
+pub async fn WritableStream::abort(Self, reason? : @core.Any) -> Unit
+pub fn WritableStream::as_any(Self) -> @core.Any
+pub async fn WritableStream::close(Self) -> Unit
 #alias(get_writer)
-fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
-fn WritableStream::locked(Self) -> Bool
-fn WritableStream::new(@nostd.Any) -> Self
+pub fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
+pub fn WritableStream::locked(Self) -> Bool
+pub fn WritableStream::new(@core.Any) -> Self
 
 #external
 pub type WritableStreamDefaultWriter
-async fn WritableStreamDefaultWriter::abort(Self, reason? : @nostd.Any) -> Unit
-fn WritableStreamDefaultWriter::as_any(Self) -> @nostd.Any
-async fn WritableStreamDefaultWriter::close(Self) -> Unit
-fn WritableStreamDefaultWriter::closed(Self) -> @js.Promise[Unit]
-fn WritableStreamDefaultWriter::desiredSize(Self) -> @nostd.Any
-fn WritableStreamDefaultWriter::ready(Self) -> @js.Promise[Unit]
+pub async fn WritableStreamDefaultWriter::abort(Self, reason? : @core.Any) -> Unit
+pub fn WritableStreamDefaultWriter::as_any(Self) -> @core.Any
+pub async fn WritableStreamDefaultWriter::close(Self) -> Unit
+pub fn WritableStreamDefaultWriter::closed(Self) -> @js.Promise[Unit]
+pub fn WritableStreamDefaultWriter::desiredSize(Self) -> @core.Any
+pub fn WritableStreamDefaultWriter::ready(Self) -> @js.Promise[Unit]
 #alias(release_lock)
-fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
-async fn WritableStreamDefaultWriter::write(Self, @nostd.Any) -> Unit
+pub fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
+pub async fn WritableStreamDefaultWriter::write(Self, @core.Any) -> Unit
 
 // Type aliases
 

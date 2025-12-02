@@ -2,392 +2,175 @@
 package "mizchi/js"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/builtins/symbol"
+  "mizchi/js/core"
   "moonbitlang/async/js_async"
-  "moonbitlang/core/bigint"
 )
 
 // Values
-fn any(&JsImpl) -> Any
+pub fn[T] any(T) -> @core.Any
 
-fn array_from(Any) -> Array[Any]
+pub fn array_from(@core.Any) -> Array[@core.Any]
 
-async fn dispose_async(&JsImpl) -> Unit
+pub async fn dispose_async(@core.Any) -> Unit
 
-fn[T : JsImpl] from_array(Array[T]) -> Any
+pub fn[A] from_fn0(() -> A) -> @core.Any
 
-fn[R] from_fn0(() -> R) -> Any
+pub fn[A, B] from_fn1((A) -> B) -> @core.Any
 
-fn[A, R] from_fn1((A) -> R) -> Any
+pub fn[A, B, C] from_fn2((A, B) -> C) -> @core.Any
 
-fn[A, B, R] from_fn2((A, B) -> R) -> Any
+pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @core.Any
 
-fn[A, B, C, R] from_fn3((A, B, C) -> R) -> Any
+pub fn[A, B] identity(A) -> B
 
-#deprecated
-fn from_json(Json) -> Any
+pub fn[T] is_builtin_trait(T) -> Bool
 
-#deprecated
-fn from_map(Map[String, Any]) -> Any
+pub fn[T] log(T) -> Unit
 
-fn[A : JsImpl] from_option(A?) -> Any
+pub fn[T, U] log2(T, U) -> Unit
 
-#deprecated
-fn from_option_map(Map[String, Any?]) -> Any
+pub fn[R] promisify0(async () -> R) -> () -> Promise[R]
 
-#deprecated
-fn from_option_map_or_undefined(Map[String, Any?]) -> Any
+pub fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
 
-fn globalThis() -> Any
+pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
 
-fn[A, B] identity(A) -> B
+pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
 
-fn[A] identity_option(Any) -> A?
+pub fn run_async(async () -> Unit noraise) -> Unit
 
-fn[T : JsImpl] instanceof_(T, T) -> Bool
+pub async fn sleep(Int) -> Unit noraise
 
-fn[T : JsImpl] is_array(T) -> Bool
+pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
-fn[T] is_builtin_trait(T) -> Bool
+pub fn symbol(String) -> @symbol.Symbol
 
-fn[T : JsImpl] is_null(T) -> Bool
+pub fn throw_(@core.Any) -> Unit
 
-fn[T : JsImpl] is_nullish(T) -> Bool
+pub fn[T] throwable(() -> T raise?) -> T raise ThrowError
 
-fn[T : JsImpl] is_object(T) -> Bool
-
-fn[T : JsImpl] is_undefined(T) -> Bool
-
-fn[T] log(T) -> Unit
-
-fn[T, U] log2(T, U) -> Unit
-
-fn new_(Any, Array[Any]) -> Any
-
-fn null_() -> Any
-
-fn[R] promisify0(async () -> R) -> () -> Promise[R]
-
-fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
-
-fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
-
-fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
-
-fn run_async(async () -> Unit noraise) -> Unit
-
-async fn[X] run_promise((@js_async.AbortSignal) -> Promise[X]) -> X
-
-async fn sleep(Int) -> Unit noraise
-
-fn structuredClone(Any) -> Any
-
-async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
-
-fn symbol(String) -> Symbol
-
-fn throw_(&JsImpl) -> Unit
-
-fn[T] throwable(() -> T raise?) -> T raise ThrowError
-
-fn[T : JsImpl] typeof_(T) -> String
-
-fn undefined() -> Any
-
-fn[T] unsafe_any(T) -> Any
+pub fn typeof_(@core.Any) -> String
 
 // Errors
-pub suberror ThrowError {
-  TypeError(JsError)
-  RangeError(JsError)
-  ReferenceError(JsError)
-  SyntaxError(JsError)
-  URIError(JsError)
-  EvalError(JsError)
-  AggregateError(JsError)
-  SuppressedError(JsError)
-  Error(JsError)
-  Value(Any)
-}
-fn ThrowError::from_js(Any) -> Self
-impl JsImpl for ThrowError
-impl Show for ThrowError
+pub suberror ThrowError @core.Any
+pub impl Show for ThrowError
 
 // Types and methods
-#external
-pub type Any
-fn[T] Any::cast(Self) -> T
-#alias("_[_]")
-fn Any::get_property(Self, &PropertyKey) -> Self
-#alias("_[_]=_")
-fn Any::set_property(Self, &PropertyKey, &JsImpl) -> Unit
-impl JsImpl for Any
-impl Eq for Any
-impl Show for Any
-impl ToJson for Any
-
-#external
-pub type ArrayBuffer
-#alias(byte_length)
-fn ArrayBuffer::byteLength(Self) -> UInt
-#alias(is_view)
-fn ArrayBuffer::isView(Any) -> Bool
-#alias(max_byte_length)
-fn ArrayBuffer::maxByteLength(Self) -> UInt
-fn ArrayBuffer::new(UInt, max_byte_length? : UInt) -> Self
-fn ArrayBuffer::resizable(Self) -> Bool
-fn ArrayBuffer::resize(Self, UInt) -> Unit
-fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl JsImpl for ArrayBuffer
-
-#external
-pub type AsyncDisposableStack
-fn[T : JsImpl] AsyncDisposableStack::adopt(Self, T, (T) -> Unit) -> T
-fn AsyncDisposableStack::defer_(Self, () -> Unit) -> Unit
-async fn AsyncDisposableStack::disposeAsync(Self) -> Unit
-fn AsyncDisposableStack::disposed(Self) -> Bool
-fn AsyncDisposableStack::move_(Self) -> Self
-fn AsyncDisposableStack::new() -> Self
-fn[T : JsImpl] AsyncDisposableStack::use_(Self, T) -> T
-impl JsImpl for AsyncDisposableStack
+pub(all) struct ArrayBuffer {
+  byteLength : Int
+  maxByteLength : Int
+  resizable : Bool
+}
+pub fn ArrayBuffer::isView(@core.Any) -> Bool
+pub fn ArrayBuffer::new(Int, max_byte_length? : Int) -> Self
+pub fn ArrayBuffer::resize(Self, Int) -> Unit
+pub fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
+pub fn ArrayBuffer::to_any(Self) -> @core.Any
 
 #external
 pub(all) type AsyncIterator[T]
-async fn[T] AsyncIterator::next(Self[T]) -> T?
-impl[T] JsImpl for AsyncIterator[T]
-
-#external
-pub type DisposableStack
-fn[T : JsImpl] DisposableStack::adopt(Self, T, (T) -> Unit) -> T
-fn DisposableStack::defer_(Self, () -> Unit) -> Unit
-fn DisposableStack::dispose(Self) -> Unit
-fn DisposableStack::disposed(Self) -> Bool
-fn DisposableStack::move_(Self) -> Self
-fn DisposableStack::new() -> Self
-fn[T : JsImpl] DisposableStack::use_(Self, T) -> T
-impl JsImpl for DisposableStack
-
-#external
-pub type Function
-fn Function::apply(Self, Any, Array[Any]) -> Any
-fn Function::bind(Self, Any) -> Any
-fn Function::length(Self) -> Any
-fn Function::name(Self) -> String
-fn Function::to_string(Self) -> String
-impl JsImpl for Function
+pub async fn[T] AsyncIterator::next(Self[T]) -> T?
+pub fn[T] AsyncIterator::to_any(Self[T]) -> @core.Any
 
 #external
 pub type JSON
-fn JSON::parse(String, reviver? : Any?) -> Any raise ThrowError
-fn JSON::stringify(&JsImpl, replacer? : Any, space? : Int) -> String
+pub fn JSON::parse(String, reviver? : @core.Any?) -> @core.Any raise ThrowError
+pub fn JSON::stringify(@core.Any, replacer? : @core.Any, space? : Int) -> String
 
 #external
 pub type JsArray
-fn[T] JsArray::as_builtin_array(Self) -> Array[T]
-fn[T] JsArray::from(Array[T]) -> Self
-fn[T : JsImpl] JsArray::isArray(T) -> Bool
-fn JsArray::new() -> Any
-fn JsArray::push(Self, &JsImpl) -> Unit
-fn JsArray::to_string(Self) -> String
-impl JsImpl for JsArray
+pub fn JsArray::as_any(Self) -> @core.Any
+pub fn[T] JsArray::as_builtin_array(Self) -> Array[T]
+pub fn[T] JsArray::from(Array[T]) -> @core.Any
+pub fn JsArray::isArray(@core.Any) -> Bool
+pub fn JsArray::to_string(Self) -> String
 
 pub(all) struct JsError {
   message : String
   stack : String
 }
-fn JsError::isError(&JsImpl) -> Bool
-fn JsError::new(String, cause? : Self) -> Self
-impl JsImpl for JsError
-impl Show for JsError
+pub fn JsError::isError(@core.Any) -> Bool
+pub fn JsError::new(String, cause? : Self) -> Self
 
 #external
 pub(all) type JsIterator[T]
-fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
-fn[T] JsIterator::from(Any) -> Self[T]
-fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
-fn[T] JsIterator::next(Self[T]) -> T?
-fn[T] JsIterator::take(Self[T], Int) -> Self[T]
-fn[T] JsIterator::toArray(Self[T]) -> Array[T]
-impl[T] JsImpl for JsIterator[T]
+pub fn[T] JsIterator::as_any(Self[T]) -> @core.Any
+pub fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
+pub fn[T] JsIterator::from(@core.Any) -> Self[T]
+pub fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
+pub fn[T] JsIterator::next(Self[T]) -> T?
+pub fn[T] JsIterator::take(Self[T], Int) -> Self[T]
+pub fn[T] JsIterator::toArray(Self[T]) -> Array[T]
+pub fn[T] JsIterator::to_any(Self[T]) -> @core.Any
 
 #external
 pub type JsString
-fn JsString::fromCharCode(Array[Int]) -> String
-fn JsString::fromCodePoint(Array[Int]) -> String
-impl JsImpl for JsString
+pub fn JsString::fromCharCode(Array[Int]) -> String
+pub fn JsString::fromCodePoint(Array[Int]) -> String
+pub fn JsString::to_any(Self) -> @core.Any
 
 #external
 pub type JsTimer
 
 #external
-pub type Nullable[T]
-fn[T] Nullable::is_null(Self[T]) -> Bool
-fn[T] Nullable::to_option(Self[T]) -> T?
-
-#external
-pub type Nullish[T]
-fn[T] Nullish::to_option(Self[T]) -> T?
-
-#external
 pub type Object
-fn Object::assign(&JsImpl, &JsImpl) -> Any
-fn Object::create(&JsImpl) -> Any
-fn Object::defineProperties(&JsImpl, Any) -> Any
-fn Object::defineProperty(&JsImpl, &PropertyKey, value? : Any, writable? : Bool, enumerable? : Bool, configurable? : Bool, get? : () -> Any, set? : (Any) -> Unit) -> Any
-fn Object::entries(&JsImpl) -> Array[(String, Any)]
-fn Object::freeze(&JsImpl) -> Any
-fn Object::getOwnPropertyDescriptor(&JsImpl, &PropertyKey) -> PropertyDescriptor?
-fn Object::getOwnPropertyDescriptors(@nostd.Any) -> Any
-fn Object::getOwnPropertyNames(&JsImpl) -> Array[String]
-fn Object::getOwnPropertySymbols(&JsImpl) -> Array[Symbol]
-fn[T : JsImpl] Object::groupBy(Array[T], (T, Int) -> String) -> Any
-fn Object::hasOwnProperty(Self, &PropertyKey) -> Bool
-fn Object::isExtensible(Self) -> Bool
-fn Object::isExtensible_static(&JsImpl) -> Bool
-fn Object::isFrozen(&JsImpl) -> Bool
-fn Object::isPrototypeOf(Self, Any) -> Bool
-fn Object::isSealed(&JsImpl) -> Bool
-fn Object::is_(&JsImpl, &JsImpl) -> Bool
-fn Object::keys(&JsImpl) -> Array[String]
-fn Object::new() -> Any
-fn Object::preventExtensions(&JsImpl) -> Any
-fn Object::propertyIsEnumerable(Self, &PropertyKey) -> Bool
-fn Object::seal(&JsImpl) -> Any
-fn Object::to_string(Self) -> String
-fn Object::values(&JsImpl) -> Array[Any]
-impl JsImpl for Object
+pub fn Object::assign(@core.Any, @core.Any) -> @core.Any
+pub fn Object::keys(@core.Any) -> Array[String]
+pub fn Object::new() -> @core.Any
+pub fn Object::to_any(Self) -> @core.Any
 
 #external
 pub type Promise[T]
-fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
-fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
-fn[T] Promise::any(Array[Self[T]]) -> Self[T]
-fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
-fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
-fn[A] Promise::from_async(async () -> A) -> Self[A]
-fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
-fn[T] Promise::race(Array[Self[T]]) -> Self[T]
-fn Promise::reject(Any) -> Self[Any]
-fn[A] Promise::resolve(A) -> Self[A]
-fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
-async fn[T] Promise::wait(Self[T]) -> T
-fn[T] Promise::withResolvers() -> Resolvers[T]
+pub fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
+pub fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
+pub fn[T] Promise::any(Array[Self[T]]) -> Self[T]
+pub fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
+pub fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+pub fn[A] Promise::from_async(async () -> A) -> Self[A]
+pub fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+pub fn[T] Promise::race(Array[Self[T]]) -> Self[T]
+pub fn Promise::reject(@core.Any) -> Self[@core.Any]
+pub fn[A] Promise::resolve(A) -> Self[A]
+pub fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
+pub fn[T] Promise::to_any(Self[T]) -> @core.Any
+pub async fn[T] Promise::wait(Self[T]) -> T
+pub fn[T] Promise::withResolvers() -> PromiseResolvers[T]
 
-pub(all) struct PropertyDescriptor {
-  value : Any?
-  writable : Bool?
-  enumerable : Bool?
-  configurable : Bool?
-  get : (() -> Any)?
-  set : ((Any) -> Unit)?
-}
-
-pub(all) struct Resolvers[T] {
+pub(all) struct PromiseResolvers[T] {
   promise : Promise[T]
   resolve : (T) -> Unit
   reject : (Error) -> Unit
 }
-fn[T] Resolvers::reject(Self[T], Error) -> Unit
-fn[T] Resolvers::resolve(Self[T], T) -> Unit
+pub fn[T] PromiseResolvers::reject(Self[T], Error) -> Unit
+pub fn[T] PromiseResolvers::resolve(Self[T], T) -> Unit
 
 pub(all) struct SettledResult[T] {
   status : String
   value : T?
-  reason : Nullable[Any]
+  reason : @core.Nullable[@core.Any]
 }
-impl[T] JsImpl for SettledResult[T]
+pub fn[T] SettledResult::to_any(Self[T]) -> @core.Any
 
-#external
-pub type SharedArrayBuffer
-#alias(byte_length)
-fn SharedArrayBuffer::byteLength(Self) -> UInt
-fn SharedArrayBuffer::new(UInt) -> Self
-fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-impl JsImpl for SharedArrayBuffer
-
-#external
-pub type Symbol
-fn Symbol::asyncDispose() -> Self
-fn Symbol::asyncIterator() -> Self
-fn Symbol::dispose() -> Self
-fn Symbol::for_(String) -> Self
-fn Symbol::iterator() -> Self
-fn Symbol::toStringTag() -> Self
-impl JsImpl for Symbol
-impl PropertyKey for Symbol
-
-#external
-pub type Union2[A, B]
-fn[A, B] Union2::from(@nostd.Any) -> Self[A, B]
-fn[A, B] Union2::to0(Self[A, B]) -> A
-fn[A, B] Union2::to1(Self[A, B]) -> B
-impl[A, B] JsImpl for Union2[A, B]
-
-#external
-pub type Union3[A, B, C]
-fn[A, B, C] Union3::from(@nostd.Any) -> Self[A, B, C]
-fn[A, B, C] Union3::to0(Self[A, B, C]) -> A
-fn[A, B, C] Union3::to1(Self[A, B, C]) -> B
-fn[A, B, C] Union3::to2(Self[A, B, C]) -> C
-impl[A, B, C] JsImpl for Union3[A, B, C]
-
-#external
-pub type Union4[A, B, C, D]
-fn[A, B, C, D] Union4::from(@nostd.Any) -> Self[A, B, C, D]
-fn[A, B, C, D] Union4::to0(Self[A, B, C, D]) -> A
-fn[A, B, C, D] Union4::to1(Self[A, B, C, D]) -> B
-fn[A, B, C, D] Union4::to2(Self[A, B, C, D]) -> C
-fn[A, B, C, D] Union4::to3(Self[A, B, C, D]) -> D
-impl[A, B, C, D] JsImpl for Union4[A, B, C, D]
-
-#external
-pub type Union5[A, B, C, D, E]
-fn[A, B, C, D, E] Union5::from(@nostd.Any) -> Self[A, B, C, D, E]
-fn[A, B, C, D, E] Union5::to0(Self[A, B, C, D, E]) -> A
-fn[A, B, C, D, E] Union5::to1(Self[A, B, C, D, E]) -> B
-fn[A, B, C, D, E] Union5::to2(Self[A, B, C, D, E]) -> C
-fn[A, B, C, D, E] Union5::to3(Self[A, B, C, D, E]) -> D
-fn[A, B, C, D, E] Union5::to4(Self[A, B, C, D, E]) -> E
-impl[A, B, C, D, E] JsImpl for Union5[A, B, C, D, E]
+pub(all) struct SharedArrayBuffer {
+  byteLength : Int
+}
+pub fn SharedArrayBuffer::new(Int) -> Self
+pub fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
+pub fn SharedArrayBuffer::to_any(Self) -> @core.Any
 
 // Type aliases
 pub using @js_async {type AbortController}
 
 pub using @js_async {type AbortSignal}
 
-// Traits
-#deprecated
-pub(open) trait JsImpl {
-  as_any(Self) -> Any = _
-  get(Self, &PropertyKey) -> Any = _
-  set(Self, &PropertyKey, &JsImpl) -> Unit = _
-  call(Self, &PropertyKey, Array[&JsImpl]) -> Any = _
-  call0(Self, &PropertyKey) -> Any = _
-  call1(Self, &PropertyKey, &JsImpl) -> Any = _
-  call2(Self, &PropertyKey, &JsImpl, &JsImpl) -> Any = _
-  call_throwable(Self, &PropertyKey, Array[&JsImpl]) -> Any raise ThrowError = _
-  call_self(Self, Array[&JsImpl]) -> Any = _
-  call_self0(Self) -> Any = _
-  call_self_throwable(Self, Array[&JsImpl]) -> Any raise ThrowError = _
-  delete(Self, &PropertyKey) -> Unit = _
-  hasOwnProperty(Self, &PropertyKey) -> Bool = _
-}
-impl JsImpl for Unit
-impl JsImpl for Bool
-impl JsImpl for Int
-impl JsImpl for UInt
-impl JsImpl for Float
-impl JsImpl for Double
-impl JsImpl for String
-impl[T] JsImpl for T?
-impl JsImpl for @bigint.BigInt
-impl JsImpl for Array[&JsImpl]
-impl JsImpl for Json
-impl JsImpl for Map[String, &JsImpl]
+pub using @core {type Any}
 
-pub trait PropertyKey {
-  to_key(Self) -> Any
-}
-impl PropertyKey for Int
-impl PropertyKey for String
+pub using @core {type Nullable}
+
+pub using @core {type Nullish}
+
+pub using @symbol {type Symbol}
+
+// Traits
 

@@ -136,19 +136,19 @@ async test "Node HTTP: HTTP server handles simple request" {
 ///|
 async test "Node HTTP: status_codes returns status code map" {
   let codes = @http.status_codes()
-  inspect(@nostd.typeof_(codes), content="object")
+  inspect(@core.typeof_(codes), content="object")
 
   // Check some common status codes
-  let code200 : String = @nostd.identity(codes._get("200"))
+  let code200 : String = @core.identity(codes._get("200"))
   inspect(code200, content="OK")
-  let code404 : String = @nostd.identity(codes._get("404"))
+  let code404 : String = @core.identity(codes._get("404"))
   inspect(code404, content="Not Found")
-  let code500 : String = @nostd.identity(codes._get("500"))
+  let code500 : String = @core.identity(codes._get("500"))
   inspect(code500, content="Internal Server Error")
 }
 
 ///|
 async test "Node HTTP: globalAgent exists" {
   let agent = @http.globalAgent()
-  inspect(@nostd.typeof_(agent), content="object")
+  inspect(@core.typeof_(agent), content="object")
 }

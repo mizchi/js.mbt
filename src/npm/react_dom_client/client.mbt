@@ -22,7 +22,7 @@ pub async fn dynamic_import() -> ReactDOMClient {
 }
 
 ///|
-pub fn ReactDOMClient::as_any(self : ReactDOMClient) -> @nostd.Any = "%identity"
+pub fn ReactDOMClient::as_any(self : ReactDOMClient) -> @core.Any = "%identity"
 
 ///|
 #alias(create_root)
@@ -34,11 +34,11 @@ pub fn ReactDOMClient::createRoot(
 }
 
 ///|
-pub fn ReactDOMRoot::as_any(self : ReactDOMRoot) -> @nostd.Any = "%identity"
+pub fn ReactDOMRoot::as_any(self : ReactDOMRoot) -> @core.Any = "%identity"
 
 ///|
 pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit {
-  let vdom_js : @nostd.Any = vdom.as_any().cast()
+  let vdom_js : @core.Any = vdom.as_any().cast()
   self.as_any()._call("render", [vdom_js]) |> ignore
 }
 
@@ -52,7 +52,7 @@ pub fn ReactDOMClient::hydrateRoot(
   dom_node : &@dom.ElementImpl,
   react_node : @react.Element,
 ) -> ReactDOMRoot {
-  let react_node_js : @nostd.Any = react_node.as_any().cast()
+  let react_node_js : @core.Any = react_node.as_any().cast()
   self.as_any()._call("hydrateRoot", [dom_node.as_any(), react_node_js]).cast()
 }
 

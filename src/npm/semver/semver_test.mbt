@@ -100,9 +100,9 @@ test "major, minor, patch" {
 test "prerelease" {
   let result = prerelease("1.2.3-alpha.1")
   // prerelease returns JS array or null
-  assert_true(@nostd.is_array(result))
+  assert_true(@core.is_array(result))
   let null_result = prerelease("1.2.3")
-  assert_true(@nostd.is_null(null_result))
+  assert_true(@core.is_null(null_result))
 }
 
 ///|

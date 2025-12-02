@@ -7,7 +7,7 @@ pub type DurableObjectNamespace
 ///|
 pub fn DurableObjectNamespace::as_any(
   self : DurableObjectNamespace,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// Get a Durable Object stub by ID
@@ -15,7 +15,7 @@ pub fn DurableObjectNamespace::get(
   self : DurableObjectNamespace,
   id : DurableObjectId,
 ) -> DurableObjectStub {
-  @nostd.any(self)._call("get", [@nostd.any(id)]).cast()
+  @core.any(self)._call("get", [@core.any(id)]).cast()
 }
 
 ///|
@@ -24,7 +24,7 @@ pub fn DurableObjectNamespace::get_by_id_string(
   self : DurableObjectNamespace,
   id : String,
 ) -> DurableObjectStub {
-  @nostd.any(self)._call("get", [@nostd.any(id)]).cast()
+  @core.any(self)._call("get", [@core.any(id)]).cast()
 }
 
 ///|
@@ -33,7 +33,7 @@ pub fn DurableObjectNamespace::get_by_name(
   self : DurableObjectNamespace,
   name : String,
 ) -> DurableObjectStub {
-  @nostd.any(self)._call("get", [@nostd.any(self.id_from_name(name))]).cast()
+  @core.any(self)._call("get", [@core.any(self.id_from_name(name))]).cast()
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn DurableObjectNamespace::get_by_name(
 pub fn DurableObjectNamespace::new_unique_id(
   self : DurableObjectNamespace,
 ) -> DurableObjectId {
-  @nostd.any(self)._call("newUniqueId", []).cast()
+  @core.any(self)._call("newUniqueId", []).cast()
 }
 
 ///|
@@ -50,7 +50,7 @@ pub fn DurableObjectNamespace::new_unique_id_with_options(
   self : DurableObjectNamespace,
   options : DurableObjectIdOptions,
 ) -> DurableObjectId {
-  @nostd.any(self)._call("newUniqueId", [options.to_js()]).cast()
+  @core.any(self)._call("newUniqueId", [options.to_js()]).cast()
 }
 
 ///|
@@ -59,7 +59,7 @@ pub fn DurableObjectNamespace::id_from_name(
   self : DurableObjectNamespace,
   name : String,
 ) -> DurableObjectId {
-  @nostd.any(self)._call("idFromName", [@nostd.any(name)]).cast()
+  @core.any(self)._call("idFromName", [@core.any(name)]).cast()
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn DurableObjectNamespace::id_from_string(
   self : DurableObjectNamespace,
   id : String,
 ) -> DurableObjectId {
-  @nostd.any(self)._call("idFromString", [@nostd.any(id)]).cast()
+  @core.any(self)._call("idFromString", [@core.any(id)]).cast()
 }
 
 ///|
@@ -80,10 +80,10 @@ pub(all) struct DurableObjectIdOptions {
 ///|
 pub fn DurableObjectIdOptions::to_js(
   self : DurableObjectIdOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.jurisdiction is Some(v) {
-    obj["jurisdiction"] = @nostd.any(v)
+    obj["jurisdiction"] = @core.any(v)
   }
   obj
 }
@@ -95,12 +95,12 @@ pub(all) struct DurableObjectId {
 }
 
 ///|
-pub fn DurableObjectId::as_any(self : DurableObjectId) -> @nostd.Any = "%identity"
+pub fn DurableObjectId::as_any(self : DurableObjectId) -> @core.Any = "%identity"
 
 ///|
 /// Convert ID to string
 pub fn DurableObjectId::to_string(self : DurableObjectId) -> String {
-  @nostd.any(self)._call("toString", []).cast()
+  @core.any(self)._call("toString", []).cast()
 }
 
 ///|
@@ -109,7 +109,7 @@ pub fn DurableObjectId::equals(
   self : DurableObjectId,
   other : DurableObjectId,
 ) -> Bool {
-  @nostd.any(self)._call("equals", [@nostd.any(other)]).cast()
+  @core.any(self)._call("equals", [@core.any(other)]).cast()
 }
 
 ///|
@@ -120,15 +120,15 @@ pub(all) struct DurableObjectStub {
 }
 
 ///|
-pub fn DurableObjectStub::as_any(self : DurableObjectStub) -> @nostd.Any = "%identity"
+pub fn DurableObjectStub::as_any(self : DurableObjectStub) -> @core.Any = "%identity"
 
 ///|
 /// Send a fetch request to the Durable Object
 pub async fn DurableObjectStub::fetch(
   self : DurableObjectStub,
-  request : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+  request : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [request])
     .cast()
   promise.wait()
@@ -138,10 +138,10 @@ pub async fn DurableObjectStub::fetch(
 /// Send a fetch request with init options
 pub async fn DurableObjectStub::fetch_with_init(
   self : DurableObjectStub,
-  request : @nostd.Any,
-  init : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+  request : @core.Any,
+  init : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [request, init])
     .cast()
   promise.wait()
@@ -152,9 +152,9 @@ pub async fn DurableObjectStub::fetch_with_init(
 pub async fn DurableObjectStub::fetch_url(
   self : DurableObjectStub,
   url : String,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
-    ._call("fetch", [@nostd.any(url)])
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
+    ._call("fetch", [@core.any(url)])
     .cast()
   promise.wait()
 }
@@ -164,10 +164,10 @@ pub async fn DurableObjectStub::fetch_url(
 pub async fn DurableObjectStub::fetch_url_with_init(
   self : DurableObjectStub,
   url : String,
-  init : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
-    ._call("fetch", [@nostd.any(url), init])
+  init : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
+    ._call("fetch", [@core.any(url), init])
     .cast()
   promise.wait()
 }
@@ -180,24 +180,24 @@ pub(all) struct DurableObjectState {
 }
 
 ///|
-pub fn DurableObjectState::as_any(self : DurableObjectState) -> @nostd.Any = "%identity"
+pub fn DurableObjectState::as_any(self : DurableObjectState) -> @core.Any = "%identity"
 
 ///|
 /// Wait until a promise completes before confirming writes
 pub fn DurableObjectState::wait_until(
   self : DurableObjectState,
-  promise : @nostd.Any,
+  promise : @core.Any,
 ) -> Unit {
-  @nostd.any(self)._call("waitUntil", [promise]).cast()
+  @core.any(self)._call("waitUntil", [promise]).cast()
 }
 
 ///|
 /// Block concurrent requests until callback completes
 pub async fn DurableObjectState::block_concurrency_while(
   self : DurableObjectState,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("blockConcurrencyWhile", [callback])
     .cast()
   promise.wait()
@@ -209,16 +209,16 @@ pub async fn DurableObjectState::block_concurrency_while(
 pub type DurableObjectStorage
 
 ///|
-pub fn DurableObjectStorage::as_any(self : DurableObjectStorage) -> @nostd.Any = "%identity"
+pub fn DurableObjectStorage::as_any(self : DurableObjectStorage) -> @core.Any = "%identity"
 
 ///|
 /// Get a value from storage
 pub async fn DurableObjectStorage::get(
   self : DurableObjectStorage,
   key : String,
-) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = @nostd.any(self)
-    ._call("get", [@nostd.any(key)])
+) -> @core.Any? {
+  let promise : @js.Promise[@core.Any?] = @core.any(self)
+    ._call("get", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -229,9 +229,9 @@ pub async fn DurableObjectStorage::get_with_options(
   self : DurableObjectStorage,
   key : String,
   options : DurableObjectGetOptions,
-) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = @nostd.any(self)
-    ._call("get", [@nostd.any(key), options.to_js()])
+) -> @core.Any? {
+  let promise : @js.Promise[@core.Any?] = @core.any(self)
+    ._call("get", [@core.any(key), options.to_js()])
     .cast()
   promise.wait()
 }
@@ -241,9 +241,9 @@ pub async fn DurableObjectStorage::get_with_options(
 pub async fn DurableObjectStorage::get_multiple(
   self : DurableObjectStorage,
   keys : Array[String],
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
-    ._call("get", [@nostd.any(keys)])
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
+    ._call("get", [@core.any(keys)])
     .cast()
   promise.wait()
 }
@@ -254,9 +254,9 @@ pub async fn DurableObjectStorage::get_multiple_with_options(
   self : DurableObjectStorage,
   keys : Array[String],
   options : DurableObjectGetOptions,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
-    ._call("get", [@nostd.any(keys), options.to_js()])
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
+    ._call("get", [@core.any(keys), options.to_js()])
     .cast()
   promise.wait()
 }
@@ -266,10 +266,10 @@ pub async fn DurableObjectStorage::get_multiple_with_options(
 pub async fn DurableObjectStorage::put(
   self : DurableObjectStorage,
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("put", [@nostd.any(key), value])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("put", [@core.any(key), value])
     .cast()
   promise.wait()
 }
@@ -279,11 +279,11 @@ pub async fn DurableObjectStorage::put(
 pub async fn DurableObjectStorage::put_with_options(
   self : DurableObjectStorage,
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("put", [@nostd.any(key), value, options.to_js()])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("put", [@core.any(key), value, options.to_js()])
     .cast()
   promise.wait()
 }
@@ -292,9 +292,9 @@ pub async fn DurableObjectStorage::put_with_options(
 /// Put multiple values into storage
 pub async fn DurableObjectStorage::put_multiple(
   self : DurableObjectStorage,
-  entries : @nostd.Any,
+  entries : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("put", [entries])
     .cast()
   promise.wait()
@@ -304,10 +304,10 @@ pub async fn DurableObjectStorage::put_multiple(
 /// Put multiple values with options
 pub async fn DurableObjectStorage::put_multiple_with_options(
   self : DurableObjectStorage,
-  entries : @nostd.Any,
+  entries : @core.Any,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("put", [entries, options.to_js()])
     .cast()
   promise.wait()
@@ -319,8 +319,8 @@ pub async fn DurableObjectStorage::delete(
   self : DurableObjectStorage,
   key : String,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @nostd.any(self)
-    ._call("delete", [@nostd.any(key)])
+  let promise : @js.Promise[Bool] = @core.any(self)
+    ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -332,8 +332,8 @@ pub async fn DurableObjectStorage::delete_with_options(
   key : String,
   options : DurableObjectPutOptions,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @nostd.any(self)
-    ._call("delete", [@nostd.any(key), options.to_js()])
+  let promise : @js.Promise[Bool] = @core.any(self)
+    ._call("delete", [@core.any(key), options.to_js()])
     .cast()
   promise.wait()
 }
@@ -344,8 +344,8 @@ pub async fn DurableObjectStorage::delete_multiple(
   self : DurableObjectStorage,
   keys : Array[String],
 ) -> Int {
-  let promise : @js.Promise[Int] = @nostd.any(self)
-    ._call("delete", [@nostd.any(keys)])
+  let promise : @js.Promise[Int] = @core.any(self)
+    ._call("delete", [@core.any(keys)])
     .cast()
   promise.wait()
 }
@@ -357,8 +357,8 @@ pub async fn DurableObjectStorage::delete_multiple_with_options(
   keys : Array[String],
   options : DurableObjectPutOptions,
 ) -> Int {
-  let promise : @js.Promise[Int] = @nostd.any(self)
-    ._call("delete", [@nostd.any(keys), options.to_js()])
+  let promise : @js.Promise[Int] = @core.any(self)
+    ._call("delete", [@core.any(keys), options.to_js()])
     .cast()
   promise.wait()
 }
@@ -368,7 +368,7 @@ pub async fn DurableObjectStorage::delete_multiple_with_options(
 pub async fn DurableObjectStorage::delete_all(
   self : DurableObjectStorage,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [])
     .cast()
   promise.wait()
@@ -380,7 +380,7 @@ pub async fn DurableObjectStorage::delete_all_with_options(
   self : DurableObjectStorage,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [options.to_js()])
     .cast()
   promise.wait()
@@ -390,8 +390,8 @@ pub async fn DurableObjectStorage::delete_all_with_options(
 /// List keys in storage
 pub async fn DurableObjectStorage::list(
   self : DurableObjectStorage,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("list", [])
     .cast()
   promise.wait()
@@ -402,8 +402,8 @@ pub async fn DurableObjectStorage::list(
 pub async fn DurableObjectStorage::list_with_options(
   self : DurableObjectStorage,
   options : DurableObjectListOptions,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("list", [options.to_js()])
     .cast()
   promise.wait()
@@ -413,9 +413,9 @@ pub async fn DurableObjectStorage::list_with_options(
 /// Execute a transaction
 pub async fn DurableObjectStorage::transaction(
   self : DurableObjectStorage,
-  closure : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+  closure : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("transaction", [closure])
     .cast()
   promise.wait()
@@ -426,9 +426,7 @@ pub async fn DurableObjectStorage::transaction(
 pub async fn DurableObjectStorage::get_alarm(
   self : DurableObjectStorage,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @nostd.any(self)
-    ._call("getAlarm", [])
-    .cast()
+  let promise : @js.Promise[Int?] = @core.any(self)._call("getAlarm", []).cast()
   promise.wait()
 }
 
@@ -438,7 +436,7 @@ pub async fn DurableObjectStorage::get_alarm_with_options(
   self : DurableObjectStorage,
   options : DurableObjectGetAlarmOptions,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @nostd.any(self)
+  let promise : @js.Promise[Int?] = @core.any(self)
     ._call("getAlarm", [options.to_js()])
     .cast()
   promise.wait()
@@ -450,8 +448,8 @@ pub async fn DurableObjectStorage::set_alarm(
   self : DurableObjectStorage,
   scheduled_time : Int,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("setAlarm", [@nostd.any(scheduled_time)])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("setAlarm", [@core.any(scheduled_time)])
     .cast()
   promise.wait()
 }
@@ -463,8 +461,8 @@ pub async fn DurableObjectStorage::set_alarm_with_options(
   scheduled_time : Int,
   options : DurableObjectSetAlarmOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("setAlarm", [@nostd.any(scheduled_time), options.to_js()])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("setAlarm", [@core.any(scheduled_time), options.to_js()])
     .cast()
   promise.wait()
 }
@@ -474,7 +472,7 @@ pub async fn DurableObjectStorage::set_alarm_with_options(
 pub async fn DurableObjectStorage::delete_alarm(
   self : DurableObjectStorage,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [])
     .cast()
   promise.wait()
@@ -486,7 +484,7 @@ pub async fn DurableObjectStorage::delete_alarm_with_options(
   self : DurableObjectStorage,
   options : DurableObjectSetAlarmOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [options.to_js()])
     .cast()
   promise.wait()
@@ -495,7 +493,7 @@ pub async fn DurableObjectStorage::delete_alarm_with_options(
 ///|
 /// Sync storage to disk
 pub async fn DurableObjectStorage::sync(self : DurableObjectStorage) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)._call("sync", []).cast()
+  let promise : @js.Promise[Unit] = @core.any(self)._call("sync", []).cast()
   promise.wait()
 }
 
@@ -509,13 +507,13 @@ pub(all) struct DurableObjectGetOptions {
 ///|
 pub fn DurableObjectGetOptions::to_js(
   self : DurableObjectGetOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.allowConcurrency is Some(v) {
-    obj["allowConcurrency"] = @nostd.any(v)
+    obj["allowConcurrency"] = @core.any(v)
   }
   if self.noCache is Some(v) {
-    obj["noCache"] = @nostd.any(v)
+    obj["noCache"] = @core.any(v)
   }
   obj
 }
@@ -531,16 +529,16 @@ pub(all) struct DurableObjectPutOptions {
 ///|
 pub fn DurableObjectPutOptions::to_js(
   self : DurableObjectPutOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.allowConcurrency is Some(v) {
-    obj["allowConcurrency"] = @nostd.any(v)
+    obj["allowConcurrency"] = @core.any(v)
   }
   if self.allowUnconfirmed is Some(v) {
-    obj["allowUnconfirmed"] = @nostd.any(v)
+    obj["allowUnconfirmed"] = @core.any(v)
   }
   if self.noCache is Some(v) {
-    obj["noCache"] = @nostd.any(v)
+    obj["noCache"] = @core.any(v)
   }
   obj
 }
@@ -561,31 +559,31 @@ pub(all) struct DurableObjectListOptions {
 ///|
 pub fn DurableObjectListOptions::to_js(
   self : DurableObjectListOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.start is Some(v) {
-    obj["start"] = @nostd.any(v)
+    obj["start"] = @core.any(v)
   }
   if self.startAfter is Some(v) {
-    obj["startAfter"] = @nostd.any(v)
+    obj["startAfter"] = @core.any(v)
   }
   if self.end is Some(v) {
-    obj["end"] = @nostd.any(v)
+    obj["end"] = @core.any(v)
   }
   if self.prefix is Some(v) {
-    obj["prefix"] = @nostd.any(v)
+    obj["prefix"] = @core.any(v)
   }
   if self.reverse is Some(v) {
-    obj["reverse"] = @nostd.any(v)
+    obj["reverse"] = @core.any(v)
   }
   if self.limit is Some(v) {
-    obj["limit"] = @nostd.any(v)
+    obj["limit"] = @core.any(v)
   }
   if self.allowConcurrency is Some(v) {
-    obj["allowConcurrency"] = @nostd.any(v)
+    obj["allowConcurrency"] = @core.any(v)
   }
   if self.noCache is Some(v) {
-    obj["noCache"] = @nostd.any(v)
+    obj["noCache"] = @core.any(v)
   }
   obj
 }
@@ -599,10 +597,10 @@ pub(all) struct DurableObjectGetAlarmOptions {
 ///|
 pub fn DurableObjectGetAlarmOptions::to_js(
   self : DurableObjectGetAlarmOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.allowConcurrency is Some(v) {
-    obj["allowConcurrency"] = @nostd.any(v)
+    obj["allowConcurrency"] = @core.any(v)
   }
   obj
 }
@@ -617,13 +615,13 @@ pub(all) struct DurableObjectSetAlarmOptions {
 ///|
 pub fn DurableObjectSetAlarmOptions::to_js(
   self : DurableObjectSetAlarmOptions,
-) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+) -> @core.Any {
+  let obj = @core.Object::new()
   if self.allowConcurrency is Some(v) {
-    obj["allowConcurrency"] = @nostd.any(v)
+    obj["allowConcurrency"] = @core.any(v)
   }
   if self.allowUnconfirmed is Some(v) {
-    obj["allowUnconfirmed"] = @nostd.any(v)
+    obj["allowUnconfirmed"] = @core.any(v)
   }
   obj
 }
@@ -636,16 +634,16 @@ pub type DurableObjectTransaction
 ///|
 pub fn DurableObjectTransaction::as_any(
   self : DurableObjectTransaction,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// Get a value in transaction
 pub async fn DurableObjectTransaction::get(
   self : DurableObjectTransaction,
   key : String,
-) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = @nostd.any(self)
-    ._call("get", [@nostd.any(key)])
+) -> @core.Any? {
+  let promise : @js.Promise[@core.Any?] = @core.any(self)
+    ._call("get", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -655,9 +653,9 @@ pub async fn DurableObjectTransaction::get(
 pub async fn DurableObjectTransaction::get_multiple(
   self : DurableObjectTransaction,
   keys : Array[String],
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
-    ._call("get", [@nostd.any(keys)])
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
+    ._call("get", [@core.any(keys)])
     .cast()
   promise.wait()
 }
@@ -667,10 +665,10 @@ pub async fn DurableObjectTransaction::get_multiple(
 pub async fn DurableObjectTransaction::put(
   self : DurableObjectTransaction,
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("put", [@nostd.any(key), value])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("put", [@core.any(key), value])
     .cast()
   promise.wait()
 }
@@ -679,9 +677,9 @@ pub async fn DurableObjectTransaction::put(
 /// Put multiple values in transaction
 pub async fn DurableObjectTransaction::put_multiple(
   self : DurableObjectTransaction,
-  entries : @nostd.Any,
+  entries : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("put", [entries])
     .cast()
   promise.wait()
@@ -693,8 +691,8 @@ pub async fn DurableObjectTransaction::delete(
   self : DurableObjectTransaction,
   key : String,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @nostd.any(self)
-    ._call("delete", [@nostd.any(key)])
+  let promise : @js.Promise[Bool] = @core.any(self)
+    ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -705,8 +703,8 @@ pub async fn DurableObjectTransaction::delete_multiple(
   self : DurableObjectTransaction,
   keys : Array[String],
 ) -> Int {
-  let promise : @js.Promise[Int] = @nostd.any(self)
-    ._call("delete", [@nostd.any(keys)])
+  let promise : @js.Promise[Int] = @core.any(self)
+    ._call("delete", [@core.any(keys)])
     .cast()
   promise.wait()
 }
@@ -716,7 +714,7 @@ pub async fn DurableObjectTransaction::delete_multiple(
 pub async fn DurableObjectTransaction::delete_all(
   self : DurableObjectTransaction,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [])
     .cast()
   promise.wait()
@@ -726,8 +724,8 @@ pub async fn DurableObjectTransaction::delete_all(
 /// List keys in transaction
 pub async fn DurableObjectTransaction::list(
   self : DurableObjectTransaction,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("list", [])
     .cast()
   promise.wait()
@@ -738,8 +736,8 @@ pub async fn DurableObjectTransaction::list(
 pub async fn DurableObjectTransaction::list_with_options(
   self : DurableObjectTransaction,
   options : DurableObjectListOptions,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = @nostd.any(self)
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = @core.any(self)
     ._call("list", [options.to_js()])
     .cast()
   promise.wait()
@@ -750,7 +748,7 @@ pub async fn DurableObjectTransaction::list_with_options(
 pub fn DurableObjectTransaction::rollback(
   self : DurableObjectTransaction,
 ) -> Unit {
-  @nostd.any(self)._call("rollback", []).cast()
+  @core.any(self)._call("rollback", []).cast()
 }
 
 ///|
@@ -758,9 +756,7 @@ pub fn DurableObjectTransaction::rollback(
 pub async fn DurableObjectTransaction::get_alarm(
   self : DurableObjectTransaction,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @nostd.any(self)
-    ._call("getAlarm", [])
-    .cast()
+  let promise : @js.Promise[Int?] = @core.any(self)._call("getAlarm", []).cast()
   promise.wait()
 }
 
@@ -770,8 +766,8 @@ pub async fn DurableObjectTransaction::set_alarm(
   self : DurableObjectTransaction,
   scheduled_time : Int,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
-    ._call("setAlarm", [@nostd.any(scheduled_time)])
+  let promise : @js.Promise[Unit] = @core.any(self)
+    ._call("setAlarm", [@core.any(scheduled_time)])
     .cast()
   promise.wait()
 }
@@ -781,7 +777,7 @@ pub async fn DurableObjectTransaction::set_alarm(
 pub async fn DurableObjectTransaction::delete_alarm(
   self : DurableObjectTransaction,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @nostd.any(self)
+  let promise : @js.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [])
     .cast()
   promise.wait()

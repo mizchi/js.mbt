@@ -13,28 +13,28 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 }
 
 ///|
-pub fn ParseArgsOption::as_any(self : ParseArgsOption) -> @nostd.Any {
+pub fn ParseArgsOption::as_any(self : ParseArgsOption) -> @core.Any {
   match self {
     Boolean(short~, ..) =>
       @mbtconv.from_map({
-        "type": @nostd.any("boolean"),
-        "short": @nostd.any(short),
+        "type": @core.any("boolean"),
+        "short": @core.any(short),
       })
     String(short~, multiple~, default~, ..) =>
       @mbtconv.from_option_map({
-        "type": Some(@nostd.any("string")),
-        "short": Some(@nostd.any(short)),
-        "multiple": Some(@nostd.any(multiple)),
-        "default": default.map(fn(x) { @nostd.any(x) }),
+        "type": Some(@core.any("string")),
+        "short": Some(@core.any(short)),
+        "multiple": Some(@core.any(multiple)),
+        "default": default.map(fn(x) { @core.any(x) }),
       })
   }
 }
 
 ///|
 pub(all) struct ParseArgsResult {
-  values : Map[String, @nostd.Any]
+  values : Map[String, @core.Any]
   positionals : Array[String]
-  tokens : Array[@nostd.Any]?
+  tokens : Array[@core.Any]?
 }
 
 ///|
@@ -45,24 +45,24 @@ pub fn parseArgs(
   allow_positionals? : Bool = false,
   // tokens?: Bool = false,
 ) -> ParseArgsResult {
-  let opts_obj : @nostd.Any = if options.is_empty() {
-    @nostd.any(@nostd.Object::new())
+  let opts_obj : @core.Any = if options.is_empty() {
+    @core.any(@core.Object::new())
   } else {
-    let o : @nostd.Any = @nostd.any(@nostd.Object::new())
+    let o : @core.Any = @core.any(@core.Object::new())
     for opt in options {
       o[opt.key()] = opt.as_any()
     }
     o
   }
-  let result : @nostd.Any = @mbtconv.from_map({
-    "args": @nostd.any(args),
+  let result : @core.Any = @mbtconv.from_map({
+    "args": @core.any(args),
     "options": opts_obj,
-    "allowPositionals": @nostd.any(allow_positionals),
+    "allowPositionals": @core.any(allow_positionals),
   })
   // result["tokens"] = tokens
-  let r : @nostd.Any = util().as_any()["parseArgs"]._invoke([result])
-  let values : Map[String, @nostd.Any] = {}
-  let result_keys : Array[String] = @nostd.Object::keys(r["values"])
+  let r : @core.Any = util().as_any()["parseArgs"]._invoke([result])
+  let values : Map[String, @core.Any] = {}
+  let result_keys : Array[String] = @core.Object::keys(r["values"])
   for k in result_keys {
     values[k] = r["values"][k].cast()
   }

@@ -9,16 +9,16 @@
 pub type MutationObserver
 
 ///|
-pub fn MutationObserver::as_any(self : MutationObserver) -> @nostd.Any = "%identity"
+pub fn MutationObserver::as_any(self : MutationObserver) -> @core.Any = "%identity"
 
 ///|
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
 pub fn MutationObserver::new(
-  callback : (@nostd.Any?, MutationObserver) -> Unit,
+  callback : (@core.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @global.global_this()._get("MutationObserver")
-  @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
+  @core.new(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|
@@ -27,9 +27,9 @@ pub fn MutationObserver::new(
 pub fn MutationObserver::observe(
   self : Self,
   target : @dom.Element,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> Unit {
-  self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
+  self.as_any()._call("observe", [@core.any(target), @core.any(options)])
   |> ignore
 }
 
@@ -43,7 +43,7 @@ pub fn MutationObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending mutation records
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/takeRecords
-pub fn MutationObserver::take_records(self : Self) -> @nostd.Any {
+pub fn MutationObserver::take_records(self : Self) -> @core.Any {
   self.as_any()._call("takeRecords", []).cast()
 }
 
@@ -62,7 +62,7 @@ pub(all) struct MutationRecord {
 }
 
 ///|
-pub fn MutationRecord::as_any(self : MutationRecord) -> @nostd.Any = "%identity"
+pub fn MutationRecord::as_any(self : MutationRecord) -> @core.Any = "%identity"
 
 ///|
 /// Get the type of mutation
@@ -77,19 +77,19 @@ pub fn MutationRecord::mutation_type(self : Self) -> String {
 pub type IntersectionObserver
 
 ///|
-pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @nostd.Any = "%identity"
+pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @core.Any = "%identity"
 
 ///|
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
 pub fn IntersectionObserver::new(
-  callback : (@nostd.Any?, IntersectionObserver) -> Unit,
-  options? : @nostd.Any,
+  callback : (@core.Any?, IntersectionObserver) -> Unit,
+  options? : @core.Any,
 ) -> IntersectionObserver {
   let ctor = @global.global_this()._get("IntersectionObserver")
   match options {
-    Some(opts) => @nostd.new(ctor, [callback |> @js.from_fn2, opts]).cast()
-    None => @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
+    Some(opts) => @core.new(ctor, [callback |> @js.from_fn2, opts]).cast()
+    None => @core.new(ctor, [callback |> @js.from_fn2]).cast()
   }
 }
 
@@ -100,7 +100,7 @@ pub fn IntersectionObserver::observe(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.as_any()._call("observe", [@nostd.any(target)]) |> ignore
+  self.as_any()._call("observe", [@core.any(target)]) |> ignore
 }
 
 ///|
@@ -110,7 +110,7 @@ pub fn IntersectionObserver::unobserve(
   self : Self,
   target : @dom.Element,
 ) -> Unit {
-  self.as_any()._call("unobserve", [@nostd.any(target)]) |> ignore
+  self.as_any()._call("unobserve", [@core.any(target)]) |> ignore
 }
 
 ///|
@@ -123,7 +123,7 @@ pub fn IntersectionObserver::disconnect(self : Self) -> Unit {
 ///|
 /// Returns all pending intersection records
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords
-pub fn IntersectionObserver::take_records(self : Self) -> @nostd.Any {
+pub fn IntersectionObserver::take_records(self : Self) -> @core.Any {
   self.as_any()._call("takeRecords", []).cast()
 }
 
@@ -143,7 +143,7 @@ pub(all) struct IntersectionObserverEntry {
 ///|
 pub fn IntersectionObserverEntry::as_any(
   self : IntersectionObserverEntry,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// ResizeObserver observes size changes
@@ -152,23 +152,23 @@ pub fn IntersectionObserverEntry::as_any(
 pub type ResizeObserver
 
 ///|
-pub fn ResizeObserver::as_any(self : ResizeObserver) -> @nostd.Any = "%identity"
+pub fn ResizeObserver::as_any(self : ResizeObserver) -> @core.Any = "%identity"
 
 ///|
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
 pub fn ResizeObserver::new(
-  callback : (@nostd.Any?, ResizeObserver) -> Unit,
+  callback : (@core.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @global.global_this()._get("ResizeObserver")
-  @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
+  @core.new(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|
 /// Starts observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/observe
 pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
-  self.as_any()._call("observe", [@nostd.any(target)]) |> ignore
+  self.as_any()._call("observe", [@core.any(target)]) |> ignore
 }
 
 ///|
@@ -176,9 +176,9 @@ pub fn ResizeObserver::observe(self : Self, target : @dom.Element) -> Unit {
 pub fn ResizeObserver::observe_with_options(
   self : Self,
   target : @dom.Element,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> Unit {
-  self.as_any()._call("observe", [@nostd.any(target), @nostd.any(options)])
+  self.as_any()._call("observe", [@core.any(target), @core.any(options)])
   |> ignore
 }
 
@@ -186,7 +186,7 @@ pub fn ResizeObserver::observe_with_options(
 /// Stops observing a target element
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/unobserve
 pub fn ResizeObserver::unobserve(self : Self, target : @dom.Element) -> Unit {
-  self.as_any()._call("unobserve", [@nostd.any(target)]) |> ignore
+  self.as_any()._call("unobserve", [@core.any(target)]) |> ignore
 }
 
 ///|
@@ -202,9 +202,9 @@ pub fn ResizeObserver::disconnect(self : Self) -> Unit {
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @nostd.Any
-  contentBoxSize : @nostd.Any
+  borderBoxSize : @core.Any
+  contentBoxSize : @core.Any
 }
 
 ///|
-pub fn ResizeObserverEntry::as_any(self : ResizeObserverEntry) -> @nostd.Any = "%identity"
+pub fn ResizeObserverEntry::as_any(self : ResizeObserverEntry) -> @core.Any = "%identity"

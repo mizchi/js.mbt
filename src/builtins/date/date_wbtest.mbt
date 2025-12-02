@@ -107,8 +107,8 @@ test "Date integrates with Any properly" {
   let val = date.as_any()
 
   // Should convert to Any without being null or undefined
-  inspect(@nostd.is_null(val), content="false")
-  inspect(@nostd.is_undefined(val), content="false")
+  inspect(@core.is_null(val), content="false")
+  inspect(@core.is_undefined(val), content="false")
 }
 
 ///|

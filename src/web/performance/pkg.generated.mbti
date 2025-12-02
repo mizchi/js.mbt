@@ -2,11 +2,11 @@
 package "mizchi/js/web/performance"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn performance() -> Performance
+pub fn performance() -> Performance
 
 // Errors
 
@@ -14,15 +14,15 @@ fn performance() -> Performance
 pub(all) struct Performance {
   timeOrigin : Double
 }
-fn Performance::as_any(Self) -> @nostd.Any
-fn Performance::clearMarks(Self, name? : String) -> Unit
-fn Performance::clearMeasures(Self, name? : String) -> Unit
-fn Performance::getEntries(Self) -> Array[PerformanceEntry]
-fn Performance::getEntriesByName(Self, String) -> Array[PerformanceEntry]
-fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
-fn Performance::mark(Self, String) -> PerformanceEntry
-fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
-fn Performance::now(Self) -> Double
+pub fn Performance::as_any(Self) -> @core.Any
+pub fn Performance::clearMarks(Self, name? : String) -> Unit
+pub fn Performance::clearMeasures(Self, name? : String) -> Unit
+pub fn Performance::getEntries(Self) -> Array[PerformanceEntry]
+pub fn Performance::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+pub fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+pub fn Performance::mark(Self, String) -> PerformanceEntry
+pub fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
+pub fn Performance::now(Self) -> Double
 
 pub(all) struct PerformanceEntry {
   name : String
@@ -30,22 +30,22 @@ pub(all) struct PerformanceEntry {
   startTime : Double
   duration : Double
 }
-fn PerformanceEntry::as_any(Self) -> @nostd.Any
+pub fn PerformanceEntry::as_any(Self) -> @core.Any
 
 #external
 pub type PerformanceObserver
-fn PerformanceObserver::as_any(Self) -> @nostd.Any
-fn PerformanceObserver::disconnect(Self) -> Unit
-fn PerformanceObserver::new((PerformanceObserverEntryList, Self) -> Unit) -> Self
-fn PerformanceObserver::observe(Self, @nostd.Any) -> Unit
-fn PerformanceObserver::takeRecords(Self) -> Array[PerformanceEntry]
+pub fn PerformanceObserver::as_any(Self) -> @core.Any
+pub fn PerformanceObserver::disconnect(Self) -> Unit
+pub fn PerformanceObserver::new((PerformanceObserverEntryList, Self) -> Unit) -> Self
+pub fn PerformanceObserver::observe(Self, @core.Any) -> Unit
+pub fn PerformanceObserver::takeRecords(Self) -> Array[PerformanceEntry]
 
 #external
 pub type PerformanceObserverEntryList
-fn PerformanceObserverEntryList::as_any(Self) -> @nostd.Any
-fn PerformanceObserverEntryList::getEntries(Self) -> Array[PerformanceEntry]
-fn PerformanceObserverEntryList::getEntriesByName(Self, String) -> Array[PerformanceEntry]
-fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+pub fn PerformanceObserverEntryList::as_any(Self) -> @core.Any
+pub fn PerformanceObserverEntryList::getEntries(Self) -> Array[PerformanceEntry]
+pub fn PerformanceObserverEntryList::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+pub fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[PerformanceEntry]
 
 // Type aliases
 

@@ -17,7 +17,7 @@ npm install chokidar
 ```moonbit
 // Watch a file or directory
 let watcher = @chokidar.watch(
-  @nostd.Any("src"),
+  @core.Any("src"),
   ignoreInitial?=Some(true),
   persistent?=Some(true)
 )
@@ -41,7 +41,7 @@ let _ = watcher.on("unlink", @js.from_fn1(fn(path) {
 ```moonbit
 // Watch multiple files or directories
 let watcher = @chokidar.watch(
-  @nostd.any([@nostd.Any("src"), @nostd.Any("tests")]),
+  @core.any([@core.Any("src"), @core.Any("tests")]),
   persistent?=Some(true)
 )
 ```
@@ -51,15 +51,15 @@ let watcher = @chokidar.watch(
 ```moonbit
 // Ignore dotfiles
 let watcher = @chokidar.watch(
-  @nostd.Any("."),
-  ignored?=Some(@nostd.Any("/(^|[\/\\])\\../")),
+  @core.Any("."),
+  ignored?=Some(@core.Any("/(^|[\/\\])\\../")),
   ignoreInitial?=Some(true)
 )
 
 // Ignore node_modules
 let watcher = @chokidar.watch(
-  @nostd.Any("."),
-  ignored?=Some(@nostd.Any("node_modules")),
+  @core.Any("."),
+  ignored?=Some(@core.Any("node_modules")),
   persistent?=Some(true)
 )
 ```
@@ -67,13 +67,13 @@ let watcher = @chokidar.watch(
 ### Add/Remove Watched Paths
 
 ```moonbit
-let watcher = @chokidar.watch(@nostd.Any("src"))
+let watcher = @chokidar.watch(@core.Any("src"))
 
 // Add more paths
-let _ = watcher.add(@nostd.Any("tests"))
+let _ = watcher.add(@core.Any("tests"))
 
 // Stop watching specific paths
-let _ = watcher.unwatch(@nostd.Any("tests"))
+let _ = watcher.unwatch(@core.Any("tests"))
 ```
 
 ### Close Watcher
@@ -102,9 +102,9 @@ Create a file system watcher with options:
 
 ```moonbit
 pub fn watch(
-  paths : @nostd.Any,
+  paths : @core.Any,
   persistent? : Bool,
-  ignored? : @nostd.Any,
+  ignored? : @core.Any,
   ignoreInitial? : Bool,
   followSymlinks? : Bool,
   cwd? : String,
@@ -114,7 +114,7 @@ pub fn watch(
   binaryInterval? : Int,
   alwaysStat? : Bool,
   depth? : Int,
-  awaitWriteFinish? : @nostd.Any,
+  awaitWriteFinish? : @core.Any,
   ignorePermissionErrors? : Bool,
   atomic_? : Bool,
 ) -> FSWatcher
@@ -145,12 +145,12 @@ pub fn watch(
 Add files or directories to watch:
 
 ```moonbit
-pub fn FSWatcher::add(self : FSWatcher, paths : @nostd.Any) -> FSWatcher
+pub fn FSWatcher::add(self : FSWatcher, paths : @core.Any) -> FSWatcher
 ```
 
 **Example:**
 ```moonbit
-let _ = watcher.add(@nostd.Any("new-folder"))
+let _ = watcher.add(@core.Any("new-folder"))
 ```
 
 #### unwatch
@@ -158,12 +158,12 @@ let _ = watcher.add(@nostd.Any("new-folder"))
 Stop watching files or directories:
 
 ```moonbit
-pub fn FSWatcher::unwatch(self : FSWatcher, paths : @nostd.Any) -> FSWatcher
+pub fn FSWatcher::unwatch(self : FSWatcher, paths : @core.Any) -> FSWatcher
 ```
 
 **Example:**
 ```moonbit
-let _ = watcher.unwatch(@nostd.Any("old-folder"))
+let _ = watcher.unwatch(@core.Any("old-folder"))
 ```
 
 #### close
@@ -188,7 +188,7 @@ pub async fn FSWatcher::close(self : FSWatcher) -> Unit
 Get object mapping watched directories to their contents:
 
 ```moonbit
-pub fn FSWatcher::getWatched(self : FSWatcher) -> @nostd.Any
+pub fn FSWatcher::getWatched(self : FSWatcher) -> @core.Any
 ```
 
 **Example:**
@@ -204,7 +204,7 @@ Listen for file system events:
 pub fn FSWatcher::on(
   self : FSWatcher,
   event : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> FSWatcher
 ```
 
@@ -234,7 +234,7 @@ Remove event listener:
 pub fn FSWatcher::off(
   self : FSWatcher,
   event : String,
-  callback : @nostd.Any,
+  callback : @core.Any,
 ) -> FSWatcher
 ```
 
@@ -246,10 +246,10 @@ Wait for file writes to complete before emitting events:
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @nostd.Any("downloads"),
+  @core.Any("downloads"),
   awaitWriteFinish?=Some(@js.from_map({
-    "stabilityThreshold": @nostd.any(2000),
-    "pollInterval": @nostd.any(100)
+    "stabilityThreshold": @core.any(2000),
+    "pollInterval": @core.any(100)
   })),
   ignoreInitial?=Some(true)
 )
@@ -261,7 +261,7 @@ Force polling mode (useful for network drives):
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @nostd.Any("/network/share"),
+  @core.Any("/network/share"),
   usePolling?=Some(true),
   interval?=Some(1000)
 )
@@ -273,7 +273,7 @@ Watch only up to a certain depth:
 
 ```moonbit
 let watcher = @chokidar.watch(
-  @nostd.Any("src"),
+  @core.Any("src"),
   depth?=Some(2),
   ignoreInitial?=Some(true)
 )
@@ -282,7 +282,7 @@ let watcher = @chokidar.watch(
 ### Error Handling
 
 ```moonbit
-let watcher = @chokidar.watch(@nostd.Any("src"))
+let watcher = @chokidar.watch(@core.Any("src"))
 
 let _ = watcher.on("error", @js.from_fn1(fn(error) {
   println("Watcher error: \{error}")
@@ -299,13 +299,13 @@ let _ = watcher.on("ready", @js.from_fn0(fn() {
 fn main {
   // Create watcher with options
   let watcher = @chokidar.watch(
-    @nostd.any([@nostd.Any("src"), @nostd.Any("lib")]),
-    ignored?=Some(@nostd.Any("/(^|[\/\\])\\../")),
+    @core.any([@core.Any("src"), @core.Any("lib")]),
+    ignored?=Some(@core.Any("/(^|[\/\\])\\../")),
     persistent?=Some(true),
     ignoreInitial?=Some(true),
     awaitWriteFinish?=Some(@js.from_map({
-      "stabilityThreshold": @nostd.any(1000),
-      "pollInterval": @nostd.any(100)
+      "stabilityThreshold": @core.any(1000),
+      "pollInterval": @core.any(100)
     }))
   )
 
@@ -328,7 +328,7 @@ fn main {
     }))
 
   // Add more paths later
-  let _ = watcher.add(@nostd.Any("tests"))
+  let _ = watcher.add(@core.Any("tests"))
 
   // Get watched paths
   let watched = watcher.getWatched()

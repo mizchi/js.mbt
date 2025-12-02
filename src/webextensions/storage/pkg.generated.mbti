@@ -2,39 +2,38 @@
 package "mizchi/js/webextensions/storage"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn local_storage() -> StorageArea
+pub fn local_storage() -> StorageArea
 
-fn on_changed((@nostd.Any, String) -> Unit) -> Unit
+pub fn on_changed((@core.Any, String) -> Unit) -> Unit
 
-fn session_storage() -> StorageArea
+pub fn session_storage() -> StorageArea
 
-fn sync_storage() -> StorageArea
+pub fn sync_storage() -> StorageArea
 
 // Errors
 
 // Types and methods
 #external
 pub type StorageArea
-fn StorageArea::as_any(Self) -> @nostd.Any
-async fn StorageArea::clear(Self) -> Unit
-async fn StorageArea::get(Self, @nostd.Any) -> @nostd.Any
-async fn StorageArea::get_all(Self) -> @nostd.Any
-async fn StorageArea::get_item(Self, String) -> @nostd.Any
-async fn StorageArea::remove(Self, @nostd.Any) -> Unit
-async fn StorageArea::remove_item(Self, String) -> Unit
-async fn StorageArea::set(Self, @nostd.Any) -> Unit
-async fn StorageArea::set_item(Self, String, @nostd.Any) -> Unit
+pub fn StorageArea::as_any(Self) -> @core.Any
+pub async fn StorageArea::clear(Self) -> Unit
+pub async fn StorageArea::get(Self, @core.Any) -> @core.Any
+pub async fn StorageArea::get_all(Self) -> @core.Any
+pub async fn StorageArea::get_item(Self, String) -> @core.Any
+pub async fn StorageArea::remove(Self, @core.Any) -> Unit
+pub async fn StorageArea::remove_item(Self, String) -> Unit
+pub async fn StorageArea::set(Self, @core.Any) -> Unit
+pub async fn StorageArea::set_item(Self, String, @core.Any) -> Unit
 
 pub struct StorageChange {
-  old_value : @nostd.Any
-  new_value : @nostd.Any
+  old_value : @core.Any
+  new_value : @core.Any
 }
-fn StorageChange::from_any(@nostd.Any) -> Self
+pub fn StorageChange::from_any(@core.Any) -> Self
 
 // Type aliases
 

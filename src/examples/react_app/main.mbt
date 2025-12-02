@@ -77,7 +77,7 @@ fn use_myctx() -> MyContextProps {
 ///|
 fn ctx_consumer(_ : Unit) -> @react.Element {
   let ctx_value = use_myctx()
-  createElement("div", props={ "className": @nostd.any("context-value") }, [
+  createElement("div", props={ "className": @core.any("context-value") }, [
     "Context value: \{ctx_value.v}",
   ])
 }
@@ -100,7 +100,7 @@ fn counter(_ : Unit) -> @react.Element {
       dispatch(CounterAction::Increment)
       log("Counter clicked: \{count + 1}")
     },
-    [@nostd.any(count)],
+    [@core.any(count)],
   )
   createElement("button", props={ "onClick": on_click |> identity }, [
     "Count: \{count}",
@@ -122,7 +122,7 @@ fn async_counter(_ : Unit) -> @react.Element {
       sleep(500)
       @react.startTransition(() => dispatch(Increment))
     }),
-    [@nostd.any(count)],
+    [@core.any(count)],
   )
   button(on_click~, [
     "Async Count: \{count}",
@@ -146,13 +146,13 @@ fn app(props : AppProps) -> @react.Element {
   let textarea_ref : @react.ReactRef[@dom.HTMLTextAreaElement] = @react.useRef(
     None,
   )
-  let handler = useCallback(_ => set_cnt(cnt + 1), [@nostd.any(cnt)])
+  let handler = useCallback(_ => set_cnt(cnt + 1), [@core.any(cnt)])
   useEffect(
     () => {
       log("mounted with x = \{props.x}")
       () => log("unmounted")
     },
-    [@nostd.any(cnt), @nostd.any(textarea_ref)],
+    [@core.any(cnt), @core.any(textarea_ref)],
   )
   useEffect(
     () => {
@@ -175,7 +175,7 @@ fn app(props : AppProps) -> @react.Element {
       set_text(value)
       log("Textarea changed: \{value}")
     },
-    [@nostd.any(input_text)],
+    [@core.any(input_text)],
   )
   guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [
@@ -194,9 +194,9 @@ fn app(props : AppProps) -> @react.Element {
             id="my-textarea",
             on_change~,
             props={
-              let obj = @nostd.Object::new()
-              obj["rows"] = 4 |> @nostd.identity
-              obj["cols"] = 40 |> @nostd.identity
+              let obj = @core.Object::new()
+              obj["rows"] = 4 |> @core.identity
+              obj["cols"] = 40 |> @core.identity
               obj
             },
             ref_=textarea_ref,

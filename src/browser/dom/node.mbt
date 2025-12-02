@@ -3,7 +3,7 @@
 pub type Node
 
 ///|
-pub fn Node::as_any(self : Node) -> @nostd.Any = "%identity"
+pub fn Node::as_any(self : Node) -> @core.Any = "%identity"
 
 ///|
 pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
@@ -11,14 +11,14 @@ pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
 ///|
 
 ///|
-pub impl NodeImpl for Node with as_any(self) -> @nostd.Any {
+pub impl NodeImpl for Node with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
 /// Node_ trait - base interface for DOM tree nodes
 pub(open) trait NodeImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _
@@ -50,40 +50,40 @@ impl NodeImpl with nodeName(self) -> String {
 
 ///|
 impl NodeImpl with parentNode(self) -> Node? {
-  let v : @nostd.Any = self.as_any()._get("parentNode").cast()
-  @nostd.identity_option(v)
+  let v : @core.Any = self.as_any()._get("parentNode").cast()
+  @core.identity_option(v)
 }
 
 ///|
 /// Returns a static array of child nodes.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 impl NodeImpl with childNodes(self) -> Array[Node] {
-  let arr : @nostd.Any = self.as_any()._get("childNodes").cast()
-  @js.array_from(arr).map(v => @nostd.identity(v))
+  let arr : @core.Any = self.as_any()._get("childNodes").cast()
+  @js.array_from(arr).map(v => @core.identity(v))
 }
 
 ///|
 impl NodeImpl with firstChild(self) -> Node? {
-  let v : @nostd.Any = self.as_any()._get("firstChild").cast()
-  @nostd.identity_option(v)
+  let v : @core.Any = self.as_any()._get("firstChild").cast()
+  @core.identity_option(v)
 }
 
 ///|
 impl NodeImpl with lastChild(self) -> Node? {
-  let v : @nostd.Any = self.as_any()._get("lastChild").cast()
-  @nostd.identity_option(v)
+  let v : @core.Any = self.as_any()._get("lastChild").cast()
+  @core.identity_option(v)
 }
 
 ///|
 impl NodeImpl with previousSibling(self) -> Node? {
-  let v : @nostd.Any = self.as_any()._get("previousSibling").cast()
-  @nostd.identity_option(v)
+  let v : @core.Any = self.as_any()._get("previousSibling").cast()
+  @core.identity_option(v)
 }
 
 ///|
 impl NodeImpl with nextSibling(self) -> Node? {
-  let v : @nostd.Any = self.as_any()._get("nextSibling").cast()
-  @nostd.identity_option(v)
+  let v : @core.Any = self.as_any()._get("nextSibling").cast()
+  @core.identity_option(v)
 }
 
 ///|
@@ -107,7 +107,7 @@ impl NodeImpl with insertBefore(self, new_node : Node, ref_node : Node?) -> Node
     None =>
       self
       .as_any()
-      ._call("insertBefore", [new_node.as_any(), @nostd.null()])
+      ._call("insertBefore", [new_node.as_any(), @core.null()])
       .cast()
   }
 }
@@ -122,14 +122,14 @@ impl NodeImpl with replaceChild(self, new_child : Node, old_child : Node) -> Nod
 
 ///|
 impl NodeImpl with cloneNode(self, deep) {
-  self.as_any()._call("cloneNode", [@nostd.any(deep)]).cast()
+  self.as_any()._call("cloneNode", [@core.any(deep)]).cast()
 }
 
 ///|
 impl NodeImpl with contains(self, other : Node?) {
   match other {
     Some(node) => self.as_any()._call("contains", [node.as_any()]).cast()
-    None => self.as_any()._call("contains", [@nostd.null()]).cast()
+    None => self.as_any()._call("contains", [@core.null()]).cast()
   }
 }
 
@@ -145,5 +145,5 @@ impl NodeImpl with textContent(self) -> String {
 
 ///|
 impl NodeImpl with setTextContent(self, content) -> Unit {
-  self.as_any()._set("textContent", @nostd.any(content)) |> ignore
+  self.as_any()._set("textContent", @core.any(content)) |> ignore
 }

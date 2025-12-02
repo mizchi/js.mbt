@@ -29,7 +29,7 @@ fn main {
   })
   
   let target = @dom.document().body()
-  let config = @nostd.Object::new()
+  let config = @core.Object::new()
   config.set("childList", true)
   config.set("subtree", true)
   mutation_observer.observe(target, config)

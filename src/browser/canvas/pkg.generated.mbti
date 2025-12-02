@@ -2,19 +2,19 @@
 package "mizchi/js/browser/canvas"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
   "mizchi/js/builtins/typedarray"
+  "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/worker"
 )
 
 // Values
 #alias(create_image_bitmap)
-fn createImageBitmap(&@js.JsImpl) -> ImageBitmap
+pub fn createImageBitmap(@core.Any) -> ImageBitmap
 
 #alias(create_image_bitmap_rect)
-async fn createImageBitmapRect(&@js.JsImpl, Int, Int, Int, Int) -> ImageBitmap
+pub async fn createImageBitmapRect(@core.Any, Int, Int, Int, Int) -> ImageBitmap
 
 // Errors
 
@@ -29,81 +29,79 @@ pub(all) struct CanvasRenderingContext2D {
   mut textBaseline : String
   mut globalAlpha : Double
 }
-fn CanvasRenderingContext2D::arc(Self, Double, Double, Double, Double, Double, counterclockwise? : Bool) -> Unit
-fn CanvasRenderingContext2D::arcTo(Self, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::arc(Self, Double, Double, Double, Double, Double, counterclockwise? : Bool) -> Unit
+pub fn CanvasRenderingContext2D::arcTo(Self, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::as_any(Self) -> @core.Any
 #alias(begin_path)
-fn CanvasRenderingContext2D::beginPath(Self) -> Unit
-fn CanvasRenderingContext2D::bezierCurveTo(Self, Double, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::beginPath(Self) -> Unit
+pub fn CanvasRenderingContext2D::bezierCurveTo(Self, Double, Double, Double, Double, Double, Double) -> Unit
 #alias(clear_rect)
-fn CanvasRenderingContext2D::clearRect(Self, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::clip(Self) -> Unit
+pub fn CanvasRenderingContext2D::clearRect(Self, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::clip(Self) -> Unit
 #alias(close_path)
-fn CanvasRenderingContext2D::closePath(Self) -> Unit
-fn CanvasRenderingContext2D::createImageData(Self, Int, Int) -> ImageData
-fn CanvasRenderingContext2D::drawImage(Self, &@js.JsImpl, Double, Double) -> Unit
-fn CanvasRenderingContext2D::drawImageScaled(Self, &@js.JsImpl, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::drawImageSub(Self, &@js.JsImpl, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::fill(Self) -> Unit
+pub fn CanvasRenderingContext2D::closePath(Self) -> Unit
+pub fn CanvasRenderingContext2D::createImageData(Self, Int, Int) -> ImageData
+pub fn CanvasRenderingContext2D::drawImage(Self, @core.Any, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::drawImageScaled(Self, @core.Any, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::drawImageSub(Self, @core.Any, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::fill(Self) -> Unit
 #alias(fill_rect)
-fn CanvasRenderingContext2D::fillRect(Self, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::fillText(Self, String, Double, Double, max_width? : Double) -> Unit
-fn CanvasRenderingContext2D::getImageData(Self, Double, Double, Double, Double) -> ImageData
+pub fn CanvasRenderingContext2D::fillRect(Self, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::fillText(Self, String, Double, Double, max_width? : Double) -> Unit
+pub fn CanvasRenderingContext2D::getImageData(Self, Double, Double, Double, Double) -> ImageData
 #alias(line_to)
-fn CanvasRenderingContext2D::lineTo(Self, Double, Double) -> Unit
-fn CanvasRenderingContext2D::measureText(Self, String) -> TextMetrics
+pub fn CanvasRenderingContext2D::lineTo(Self, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::measureText(Self, String) -> TextMetrics
 #alias(move_to)
-fn CanvasRenderingContext2D::moveTo(Self, Double, Double) -> Unit
-fn CanvasRenderingContext2D::putImageData(Self, ImageData, Double, Double) -> Unit
-fn CanvasRenderingContext2D::quadraticCurveTo(Self, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::rect(Self, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::resetTransform(Self) -> Unit
-fn CanvasRenderingContext2D::restore(Self) -> Unit
-fn CanvasRenderingContext2D::rotate(Self, Double) -> Unit
-fn CanvasRenderingContext2D::save(Self) -> Unit
-fn CanvasRenderingContext2D::scale(Self, Double, Double) -> Unit
-fn CanvasRenderingContext2D::setTransform(Self, Double, Double, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::stroke(Self) -> Unit
+pub fn CanvasRenderingContext2D::moveTo(Self, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::putImageData(Self, ImageData, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::quadraticCurveTo(Self, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::rect(Self, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::resetTransform(Self) -> Unit
+pub fn CanvasRenderingContext2D::restore(Self) -> Unit
+pub fn CanvasRenderingContext2D::rotate(Self, Double) -> Unit
+pub fn CanvasRenderingContext2D::save(Self) -> Unit
+pub fn CanvasRenderingContext2D::scale(Self, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::setTransform(Self, Double, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::stroke(Self) -> Unit
 #alias(stroke_rect)
-fn CanvasRenderingContext2D::strokeRect(Self, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::strokeText(Self, String, Double, Double, max_width? : Double) -> Unit
-fn CanvasRenderingContext2D::transform(Self, Double, Double, Double, Double, Double, Double) -> Unit
-fn CanvasRenderingContext2D::translate(Self, Double, Double) -> Unit
-impl @js.JsImpl for CanvasRenderingContext2D
+pub fn CanvasRenderingContext2D::strokeRect(Self, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::strokeText(Self, String, Double, Double, max_width? : Double) -> Unit
+pub fn CanvasRenderingContext2D::transform(Self, Double, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::translate(Self, Double, Double) -> Unit
 
 pub(all) struct ImageBitmap {
   width : Int
   height : Int
 }
-fn ImageBitmap::close(Self) -> Unit
-impl @js.JsImpl for ImageBitmap
-impl @worker.Transferable for ImageBitmap
+pub fn ImageBitmap::as_any(Self) -> @core.Any
+pub fn ImageBitmap::close(Self) -> Unit
+pub impl @worker.Transferable for ImageBitmap
 
 pub(all) struct ImageData {
   width : Int
   height : Int
   data : @typedarray.Uint8Array
 }
-fn ImageData::from_data(@typedarray.Uint8Array, Int, Int) -> Self
-fn ImageData::new(Int, Int) -> Self
-impl @js.JsImpl for ImageData
+pub fn ImageData::from_data(@typedarray.Uint8Array, Int, Int) -> Self
+pub fn ImageData::new(Int, Int) -> Self
 
 #external
 pub type OffscreenCanvas
-async fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @blob.Blob
-fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
-fn OffscreenCanvas::height(Self) -> Int
-fn OffscreenCanvas::new(Int, Int) -> Self
-fn OffscreenCanvas::setHeight(Self, Int) -> Unit
-fn OffscreenCanvas::setWidth(Self, Int) -> Unit
-fn OffscreenCanvas::transferToImageBitmap(Self) -> ImageBitmap
-fn OffscreenCanvas::width(Self) -> Int
-impl @js.JsImpl for OffscreenCanvas
-impl @worker.Transferable for OffscreenCanvas
+pub fn OffscreenCanvas::as_any(Self) -> @core.Any
+pub async fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @blob.Blob
+pub fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
+pub fn OffscreenCanvas::height(Self) -> Int
+pub fn OffscreenCanvas::new(Int, Int) -> Self
+pub fn OffscreenCanvas::setHeight(Self, Int) -> Unit
+pub fn OffscreenCanvas::setWidth(Self, Int) -> Unit
+pub fn OffscreenCanvas::transferToImageBitmap(Self) -> ImageBitmap
+pub fn OffscreenCanvas::width(Self) -> Int
+pub impl @worker.Transferable for OffscreenCanvas
 
 pub(all) struct TextMetrics {
   width : Double
 }
-impl @js.JsImpl for TextMetrics
 
 // Type aliases
 

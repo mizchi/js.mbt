@@ -9,7 +9,7 @@
 pub type CDPSession
 
 ///|
-pub fn CDPSession::to_any(self : CDPSession) -> @nostd.Any = "%identity"
+pub fn CDPSession::to_any(self : CDPSession) -> @core.Any = "%identity"
 
 ///| Page methods (CDP)
 
@@ -21,7 +21,7 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
   let promise : @js.Promise[CDPSession] = self
     .to_any()
     ._call("createCDPSession", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -33,7 +33,7 @@ pub async fn Page::createCDPSession(self : Page) -> CDPSession {
 /// See: https://pptr.dev/api/puppeteer.cdpsession.detach
 pub async fn CDPSession::detach(self : CDPSession) -> Unit {
   let promise : @js.Promise[Unit] = self.to_any()._call("detach", [])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }
 
@@ -52,12 +52,12 @@ pub fn CDPSession::id(self : CDPSession) -> String {
 pub async fn CDPSession::send(
   self : CDPSession,
   method_ : String,
-  params : @nostd.Any,
-) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self
+  params : @core.Any,
+) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("send", [@nostd.any(method_), @nostd.any(params)])
-    |> @nostd.identity
+    ._call("send", [@core.any(method_), @core.any(params)])
+    |> @core.identity
   promise.wait()
 }
 
@@ -68,10 +68,10 @@ pub async fn CDPSession::send_simple(
   self : CDPSession,
   method_ : String,
 ) -> Unit {
-  let promise : @js.Promise[@nostd.Any] = self
+  let promise : @js.Promise[@core.Any] = self
     .to_any()
-    ._call("send", [@nostd.any(method_)])
-    |> @nostd.identity
+    ._call("send", [@core.any(method_)])
+    |> @core.identity
   let _ = promise.wait()
 
 }

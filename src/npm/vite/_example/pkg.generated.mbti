@@ -2,9 +2,9 @@
 package "mizchi/js/npm/vite/_example"
 
 // Values
-fn config_example() -> Unit
+pub fn config_example() -> Unit
 
-fn plugin_example() -> Unit
+pub fn plugin_example() -> Unit
 
 // Errors
 

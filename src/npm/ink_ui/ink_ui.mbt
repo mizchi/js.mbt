@@ -11,13 +11,13 @@
 pub type InkUI
 
 ///|
-pub fn InkUI::as_any(self : InkUI) -> @nostd.Any = "%identity"
+pub fn InkUI::as_any(self : InkUI) -> @core.Any = "%identity"
 
 ///|
 /// Dynamic import for @inkjs/ui module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_ink_ui_internal() -> @nostd.Promise[InkUI] =
+extern "js" fn import_ink_ui_internal() -> @core.Promise[InkUI] =
   #| () => import("@inkjs/ui")
 
 ///|
@@ -43,12 +43,12 @@ pub fn InkUI::text_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["TextInput"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if placeholder is Some(p) {
-    props["placeholder"] = @nostd.any(p)
+    props["placeholder"] = @core.any(p)
   }
   if default_value is Some(v) {
-    props["defaultValue"] = @nostd.any(v)
+    props["defaultValue"] = @core.any(v)
   }
   if on_submit is Some(f) {
     props["onSubmit"] = ffi_wrap_string_callback(f)
@@ -57,9 +57,9 @@ pub fn InkUI::text_input(
     props["onChange"] = ffi_wrap_string_callback(f)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
@@ -74,15 +74,15 @@ pub fn InkUI::email_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["EmailInput"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if placeholder is Some(p) {
-    props["placeholder"] = @nostd.any(p)
+    props["placeholder"] = @core.any(p)
   }
   if default_value is Some(v) {
-    props["defaultValue"] = @nostd.any(v)
+    props["defaultValue"] = @core.any(v)
   }
   if domains is Some(d) {
-    props["domains"] = @nostd.any(d)
+    props["domains"] = @core.any(d)
   }
   if on_submit is Some(f) {
     props["onSubmit"] = ffi_wrap_string_callback(f)
@@ -91,9 +91,9 @@ pub fn InkUI::email_input(
     props["onChange"] = ffi_wrap_string_callback(f)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
@@ -107,12 +107,12 @@ pub fn InkUI::password_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["PasswordInput"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if placeholder is Some(p) {
-    props["placeholder"] = @nostd.any(p)
+    props["placeholder"] = @core.any(p)
   }
   if mask is Some(m) {
-    props["mask"] = @nostd.any(m)
+    props["mask"] = @core.any(m)
   }
   if on_submit is Some(f) {
     props["onSubmit"] = ffi_wrap_string_callback(f)
@@ -121,9 +121,9 @@ pub fn InkUI::password_input(
     props["onChange"] = ffi_wrap_string_callback(f)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
@@ -135,7 +135,7 @@ pub fn InkUI::confirm_input(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["ConfirmInput"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if on_confirm is Some(f) {
     props["onConfirm"] = ffi_wrap_unit_callback(f)
   }
@@ -143,9 +143,9 @@ pub fn InkUI::confirm_input(
     props["onCancel"] = ffi_wrap_unit_callback(f)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 // ============================================================
@@ -160,10 +160,10 @@ pub(all) struct SelectOption {
 }
 
 ///|
-fn SelectOption::as_any(self : SelectOption) -> @nostd.Any {
-  let obj = @nostd.Object::new()
-  obj["label"] = @nostd.any(self.label)
-  obj["value"] = @nostd.any(self.value)
+fn SelectOption::as_any(self : SelectOption) -> @core.Any {
+  let obj = @core.Object::new()
+  obj["label"] = @core.any(self.label)
+  obj["value"] = @core.any(self.value)
   obj
 }
 
@@ -178,22 +178,22 @@ pub fn InkUI::select(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["Select"]
-  let props = @nostd.Object::new()
-  let opts_arr = @nostd.any(options.map(fn(o) { o.as_any() }))
+  let props = @core.Object::new()
+  let opts_arr = @core.any(options.map(fn(o) { o.as_any() }))
   props["options"] = opts_arr
   if on_change is Some(f) {
     props["onChange"] = ffi_wrap_string_callback(f)
   }
   if default_value is Some(v) {
-    props["defaultValue"] = @nostd.any(v)
+    props["defaultValue"] = @core.any(v)
   }
   if visible_option_count is Some(c) {
-    props["visibleOptionCount"] = @nostd.any(c)
+    props["visibleOptionCount"] = @core.any(c)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
@@ -207,22 +207,22 @@ pub fn InkUI::multi_select(
   is_disabled? : Bool,
 ) -> @react.Element {
   let component = self.as_any()["MultiSelect"]
-  let props = @nostd.Object::new()
-  let opts_arr = @nostd.any(options.map(fn(o) { o.as_any() }))
+  let props = @core.Object::new()
+  let opts_arr = @core.any(options.map(fn(o) { o.as_any() }))
   props["options"] = opts_arr
   if on_change is Some(f) {
     props["onChange"] = ffi_wrap_string_array_callback(f)
   }
   if default_value is Some(v) {
-    props["defaultValue"] = @nostd.any(v)
+    props["defaultValue"] = @core.any(v)
   }
   if visible_option_count is Some(c) {
-    props["visibleOptionCount"] = @nostd.any(c)
+    props["visibleOptionCount"] = @core.any(c)
   }
   if is_disabled is Some(d) {
-    props["isDisabled"] = @nostd.any(d)
+    props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 // ============================================================
@@ -233,20 +233,20 @@ pub fn InkUI::multi_select(
 /// Spinner component - Loading indicator
 pub fn InkUI::spinner(self : InkUI, label? : String) -> @react.Element {
   let component = self.as_any()["Spinner"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if label is Some(l) {
-    props["label"] = @nostd.any(l)
+    props["label"] = @core.any(l)
   }
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
 /// ProgressBar component - Progress indicator (0-100)
 pub fn InkUI::progress_bar(self : InkUI, value : Int) -> @react.Element {
   let component = self.as_any()["ProgressBar"]
-  let props = @nostd.Object::new()
-  props["value"] = @nostd.any(value)
-  ffi_create_element(component, props, @nostd.undefined()).cast()
+  let props = @core.Object::new()
+  props["value"] = @core.any(value)
+  ffi_create_element(component, props, @core.undefined()).cast()
 }
 
 ///|
@@ -284,11 +284,11 @@ pub fn InkUI::badge(
   color? : BadgeColor,
 ) -> @react.Element {
   let component = self.as_any()["Badge"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   if color is Some(c) {
-    props["color"] = @nostd.any(c.to_string())
+    props["color"] = @core.any(c.to_string())
   }
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -319,9 +319,9 @@ pub fn InkUI::status_message(
   variant : StatusVariant,
 ) -> @react.Element {
   let component = self.as_any()["StatusMessage"]
-  let props = @nostd.Object::new()
-  props["variant"] = @nostd.any(variant.to_string())
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let props = @core.Object::new()
+  props["variant"] = @core.any(variant.to_string())
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -334,12 +334,12 @@ pub fn InkUI::alert(
   title? : String,
 ) -> @react.Element {
   let component = self.as_any()["Alert"]
-  let props = @nostd.Object::new()
-  props["variant"] = @nostd.any(variant.to_string())
+  let props = @core.Object::new()
+  props["variant"] = @core.any(variant.to_string())
   if title is Some(t) {
-    props["title"] = @nostd.any(t)
+    props["title"] = @core.any(t)
   }
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -354,8 +354,8 @@ pub fn InkUI::unordered_list(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["UnorderedList"]
-  let props = @nostd.Object::new()
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let props = @core.Object::new()
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -366,8 +366,8 @@ pub fn InkUI::unordered_list_item(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["UnorderedList"]["Item"]
-  let props = @nostd.Object::new()
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let props = @core.Object::new()
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -378,8 +378,8 @@ pub fn InkUI::ordered_list(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["OrderedList"]
-  let props = @nostd.Object::new()
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let props = @core.Object::new()
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -390,8 +390,8 @@ pub fn InkUI::ordered_list_item(
   children : Array[&@react.ReactNode],
 ) -> @react.Element {
   let component = self.as_any()["OrderedList"]["Item"]
-  let props = @nostd.Object::new()
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let props = @core.Object::new()
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
@@ -405,7 +405,7 @@ pub fn InkUI::ordered_list_item(
 pub type Theme
 
 ///|
-pub fn Theme::as_any(self : Theme) -> @nostd.Any = "%identity"
+pub fn Theme::as_any(self : Theme) -> @core.Any = "%identity"
 
 ///|
 /// Get the default theme
@@ -421,15 +421,15 @@ pub fn InkUI::theme_provider(
   theme : Theme,
 ) -> @react.Element {
   let component = self.as_any()["ThemeProvider"]
-  let props = @nostd.Object::new()
+  let props = @core.Object::new()
   props["theme"] = theme.as_any()
-  let children_arr = @nostd.any(children.map(fn(c) { c.to_react_node() }))
+  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
   ffi_create_element(component, props, children_arr).cast()
 }
 
 ///|
 /// Extend the default theme with custom values
-pub fn InkUI::extend_theme(self : InkUI, extension : @nostd.Any) -> Theme {
+pub fn InkUI::extend_theme(self : InkUI, extension : @core.Any) -> Theme {
   let extend_fn = self.as_any()["extendTheme"]
   extend_fn._invoke([extension]).cast()
 }
@@ -440,10 +440,10 @@ pub fn InkUI::extend_theme(self : InkUI, extension : @nostd.Any) -> Theme {
 
 ///|
 extern "js" fn ffi_create_element(
-  tag : @nostd.Any,
-  props : @nostd.Any,
-  children : @nostd.Any,
-) -> @nostd.Any =
+  tag : @core.Any,
+  props : @core.Any,
+  children : @core.Any,
+) -> @core.Any =
   #|(tag, props, children) => {
   #|  const React = require('react');
   #|  if (children === undefined) {
@@ -453,15 +453,15 @@ extern "js" fn ffi_create_element(
   #|}
 
 ///|
-extern "js" fn ffi_wrap_string_callback(f : (String) -> Unit) -> @nostd.Any =
+extern "js" fn ffi_wrap_string_callback(f : (String) -> Unit) -> @core.Any =
   #|(f) => f
 
 ///|
-extern "js" fn ffi_wrap_unit_callback(f : () -> Unit) -> @nostd.Any =
+extern "js" fn ffi_wrap_unit_callback(f : () -> Unit) -> @core.Any =
   #|(f) => f
 
 ///|
 extern "js" fn ffi_wrap_string_array_callback(
   f : (Array[String]) -> Unit,
-) -> @nostd.Any =
+) -> @core.Any =
   #|(f) => (arr) => f(Array.from(arr))

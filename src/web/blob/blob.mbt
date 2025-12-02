@@ -6,7 +6,7 @@ pub(all) struct Blob {
 }
 
 ///|
-pub fn Blob::as_any(self : Blob) -> @nostd.Any = "%identity"
+pub fn Blob::as_any(self : Blob) -> @core.Any = "%identity"
 
 ///|
 /// Get the content type of the Blob
@@ -17,20 +17,17 @@ pub fn Blob::contentType(self : Self) -> String {
 
 ///|
 /// Create a new Blob from array of data
-extern "js" fn ffi_new_blob(
-  data : @nostd.Any,
-  options : @nostd.Any,
-) -> @nostd.Any =
+extern "js" fn ffi_new_blob(data : @core.Any, options : @core.Any) -> @core.Any =
   #|(data, options) => new Blob(data, options)
 
 ///|
 /// Create a new Blob
-pub fn Blob::new(data : Array[@nostd.Any], content_type? : String) -> Blob {
-  let js_data = @nostd.any(data)
+pub fn Blob::new(data : Array[@core.Any], content_type? : String) -> Blob {
+  let js_data = @core.any(data)
   ffi_new_blob(
-    @nostd.any(js_data),
+    @core.any(js_data),
     @mbtconv.from_option_map({
-      "type": content_type.map(fn(x) { @nostd.any(x) }),
+      "type": content_type.map(fn(x) { @core.any(x) }),
     }).cast(),
   ).cast()
 }
@@ -64,30 +61,24 @@ pub fn Blob::slice(
   let js = self.as_any()
   match (start, end, content_type) {
     (None, None, None) => js._call("slice", []).cast()
-    (Some(s), None, None) => js._call("slice", [@nostd.any(s)]).cast()
+    (Some(s), None, None) => js._call("slice", [@core.any(s)]).cast()
     (Some(s), Some(e), None) =>
-      js._call("slice", [@nostd.any(s), @nostd.any(e)]).cast()
+      js._call("slice", [@core.any(s), @core.any(e)]).cast()
     (Some(s), Some(e), Some(ct)) =>
-      js._call("slice", [@nostd.any(s), @nostd.any(e), @nostd.any(ct)]).cast()
+      js._call("slice", [@core.any(s), @core.any(e), @core.any(ct)]).cast()
     (None, Some(e), ct) =>
       match ct {
         Some(t) =>
-          js
-          ._call("slice", [@nostd.any(0), @nostd.any(e), @nostd.any(t)])
-          .cast()
-        None => js._call("slice", [@nostd.any(0), @nostd.any(e)]).cast()
+          js._call("slice", [@core.any(0), @core.any(e), @core.any(t)]).cast()
+        None => js._call("slice", [@core.any(0), @core.any(e)]).cast()
       }
     (Some(s), None, Some(ct)) => {
       let size = self.size
-      js
-      ._call("slice", [@nostd.any(s), @nostd.any(size), @nostd.any(ct)])
-      .cast()
+      js._call("slice", [@core.any(s), @core.any(size), @core.any(ct)]).cast()
     }
     (None, None, Some(ct)) => {
       let size = self.size
-      js
-      ._call("slice", [@nostd.any(0), @nostd.any(size), @nostd.any(ct)])
-      .cast()
+      js._call("slice", [@core.any(0), @core.any(size), @core.any(ct)]).cast()
     }
   }
 }

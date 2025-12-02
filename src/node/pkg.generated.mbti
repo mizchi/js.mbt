@@ -2,43 +2,42 @@
 package "mizchi/js/node"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/buffer"
   "mizchi/js/node/process"
-  "mizchi/js/nostd"
 )
 
 // Values
-fn clearImmediate(Immediate) -> Unit
+pub fn clearImmediate(Immediate) -> Unit
 
-fn import_meta_dirname() -> String
+pub fn import_meta_dirname() -> String
 
-fn import_meta_filename() -> String
+pub fn import_meta_filename() -> String
 
-fn import_meta_resolve(String) -> Unit
+pub fn import_meta_resolve(String) -> Unit
 
-fn import_meta_url() -> String
+pub fn import_meta_url() -> String
 
-fn module_() -> @nostd.Any
+pub fn module_() -> @core.Any
 
-fn process() -> @process.Process
+pub fn process() -> @process.Process
 
-fn require(String) -> @nostd.Any
+pub fn require(String) -> @core.Any
 
-fn require_cache() -> @js.Object
+pub fn require_cache() -> @core.Any
 
-fn require_main() -> String
+pub fn require_main() -> String
 
-fn require_resolve(String) -> Unit
+pub fn require_resolve(String) -> Unit
 
-fn setImmediate(() -> Unit) -> Immediate
+pub fn setImmediate(() -> Unit) -> Immediate
 
 // Errors
 
 // Types and methods
 #external
 pub type Immediate
-fn Immediate::as_any(Self) -> @nostd.Any
+pub fn Immediate::as_any(Self) -> @core.Any
 
 // Type aliases
 pub using @buffer {type Buffer}

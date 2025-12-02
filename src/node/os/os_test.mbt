@@ -100,7 +100,7 @@ test "uptime returns positive number" {
 ///|
 test "userinfo returns object" {
   let info = @os.userInfo()
-  assert_true(@nostd.type_of(info.to_any()) == "object")
+  assert_true(@core.type_of(info.to_any()) == "object")
 }
 
 ///|
@@ -136,7 +136,7 @@ test "devNull returns device path" {
 ///|
 test "network_interfaces returns object" {
   let interfaces = @os.networkInterfaces()
-  assert_true(@nostd.typeof_(interfaces) == "object")
+  assert_true(@core.typeof_(interfaces) == "object")
 }
 
 ///|

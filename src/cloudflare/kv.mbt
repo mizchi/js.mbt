@@ -5,13 +5,13 @@
 pub type KVNamespace
 
 ///|
-pub fn KVNamespace::as_any(self : KVNamespace) -> @nostd.Any = "%identity"
+pub fn KVNamespace::as_any(self : KVNamespace) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn KVNamespace::get_impl(
   self : Self,
   key : String,
-  options : @nostd.Any?,
+  options : @core.Any?,
 ) -> @js.Promise[String?] =
   #| async (self, key, options) => {
   #|   const result = options === undefined ? await self._get(key) : await self._get(key, options);
@@ -32,8 +32,8 @@ pub async fn KVNamespace::get(
   } else {
     Some(
       @mbtconv.from_option_map({
-        "type": type_.map(fn(x) { @nostd.any(x) }),
-        "cacheTtl": cacheTtl.map(fn(x) { @nostd.any(x) }),
+        "type": type_.map(fn(x) { @core.any(x) }),
+        "cacheTtl": cacheTtl.map(fn(x) { @core.any(x) }),
       }).cast(),
     )
   }
@@ -45,33 +45,33 @@ pub async fn KVNamespace::get(
 pub async fn KVNamespace::get_array_buffer(
   self : Self,
   key : String,
-) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("arrayBuffer"))])
-  let promise : @js.Promise[@nostd.Any?] = self
+) -> @core.Any? {
+  let opts_js = @core.from_entries([("type", @core.any("arrayBuffer"))])
+  let promise : @js.Promise[@core.Any?] = self
     .as_any()
-    ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
+    ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
   promise.wait()
 }
 
 ///|
 /// Get a value as JSON
-pub async fn KVNamespace::get_json(self : Self, key : String) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("json"))])
-  let promise : @js.Promise[@nostd.Any?] = self
+pub async fn KVNamespace::get_json(self : Self, key : String) -> @core.Any? {
+  let opts_js = @core.from_entries([("type", @core.any("json"))])
+  let promise : @js.Promise[@core.Any?] = self
     .as_any()
-    ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
+    ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
   promise.wait()
 }
 
 ///|
 /// Get a value as stream
-pub async fn KVNamespace::get_stream(self : Self, key : String) -> @nostd.Any? {
-  let opts_js = @nostd.from_entries([("type", @nostd.any("stream"))])
-  let promise : @js.Promise[@nostd.Any?] = self
+pub async fn KVNamespace::get_stream(self : Self, key : String) -> @core.Any? {
+  let opts_js = @core.from_entries([("type", @core.any("stream"))])
+  let promise : @js.Promise[@core.Any?] = self
     .as_any()
-    ._call("get", [@nostd.any(key), @nostd.any(opts_js)])
+    ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
   promise.wait()
 }
@@ -85,12 +85,12 @@ pub async fn KVNamespace::get_with_metadata(
   cacheTtl? : Int,
 ) -> KVValueWithMetadata {
   let opts_js = @mbtconv.from_option_map({
-    "type": Some(@nostd.any(type_.unwrap_or("text"))),
-    "cacheTtl": cacheTtl.map(fn(x) { @nostd.any(x) }),
+    "type": Some(@core.any(type_.unwrap_or("text"))),
+    "cacheTtl": cacheTtl.map(fn(x) { @core.any(x) }),
   })
   let promise : @js.Promise[KVValueWithMetadata] = self
     .as_any()
-    ._call("getWithMetadata", [@nostd.any(key), @nostd.any(opts_js)])
+    ._call("getWithMetadata", [@core.any(key), @core.any(opts_js)])
     .cast()
   promise.wait()
 }
@@ -103,21 +103,21 @@ pub async fn KVNamespace::put(
   value : String,
   expiration? : Int,
   expirationTtl? : Int,
-  metadata? : @nostd.Any,
+  metadata? : @core.Any,
 ) -> Unit {
   let promise : @js.Promise[Unit] = if expiration is None &&
     expirationTtl is None &&
     metadata is None {
-    self.as_any()._call("put", [@nostd.any(key), @nostd.any(value)]).cast()
+    self.as_any()._call("put", [@core.any(key), @core.any(value)]).cast()
   } else {
     let opts = @mbtconv.from_option_map({
-      "expiration": expiration.map(fn(x) { @nostd.any(x) }),
-      "expirationTtl": expirationTtl.map(fn(x) { @nostd.any(x) }),
-      "metadata": metadata.map(fn(x) { @nostd.any(x) }),
+      "expiration": expiration.map(fn(x) { @core.any(x) }),
+      "expirationTtl": expirationTtl.map(fn(x) { @core.any(x) }),
+      "metadata": metadata.map(fn(x) { @core.any(x) }),
     })
     self
     .as_any()
-    ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts)])
+    ._call("put", [@core.any(key), @core.any(value), @core.any(opts)])
     .cast()
   }
   promise.wait()
@@ -129,12 +129,12 @@ pub async fn KVNamespace::put_with_metadata(
   self : Self,
   key : String,
   value : String,
-  metadata : @nostd.Any,
+  metadata : @core.Any,
 ) -> Unit {
-  let opts_js = @nostd.from_entries([("metadata", @nostd.any(metadata))])
+  let opts_js = @core.from_entries([("metadata", @core.any(metadata))])
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("put", [@nostd.any(key), @nostd.any(value), @nostd.any(opts_js)])
+    ._call("put", [@core.any(key), @core.any(value), @core.any(opts_js)])
     .cast()
   promise.wait()
 }
@@ -144,7 +144,7 @@ pub async fn KVNamespace::put_with_metadata(
 pub async fn KVNamespace::delete(self : Self, key : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("delete", [@nostd.any(key)])
+    ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -163,11 +163,11 @@ pub async fn KVNamespace::list(
     self.as_any()._call("list", []).cast()
   } else {
     let opts = @mbtconv.from_option_map({
-      "prefix": prefix.map(fn(x) { @nostd.any(x) }),
-      "limit": limit.map(fn(x) { @nostd.any(x) }),
-      "cursor": cursor.map(fn(x) { @nostd.any(x) }),
+      "prefix": prefix.map(fn(x) { @core.any(x) }),
+      "limit": limit.map(fn(x) { @core.any(x) }),
+      "cursor": cursor.map(fn(x) { @core.any(x) }),
     })
-    self.as_any()._call("list", [@nostd.any(opts)]).cast()
+    self.as_any()._call("list", [@core.any(opts)]).cast()
   }
   promise.wait()
 }
@@ -181,25 +181,25 @@ pub(all) struct KVListResult {
 }
 
 ///|
-pub fn KVListResult::as_any(self : KVListResult) -> @nostd.Any = "%identity"
+pub fn KVListResult::as_any(self : KVListResult) -> @core.Any = "%identity"
 
 ///|
 /// Key information in list result
 pub(all) struct KVKey {
   name : String
   expiration : Int?
-  metadata : @nostd.Any?
+  metadata : @core.Any?
 }
 
 ///|
-pub fn KVKey::as_any(self : KVKey) -> @nostd.Any = "%identity"
+pub fn KVKey::as_any(self : KVKey) -> @core.Any = "%identity"
 
 ///|
 /// Value with metadata from getWithMetadata
 pub(all) struct KVValueWithMetadata {
-  value : @nostd.Any?
-  metadata : @nostd.Any?
+  value : @core.Any?
+  metadata : @core.Any?
 }
 
 ///|
-pub fn KVValueWithMetadata::as_any(self : KVValueWithMetadata) -> @nostd.Any = "%identity"
+pub fn KVValueWithMetadata::as_any(self : KVValueWithMetadata) -> @core.Any = "%identity"

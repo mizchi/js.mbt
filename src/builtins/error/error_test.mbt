@@ -10,17 +10,17 @@
 //   let error = JsError::new("Test error")
 //   assert_eq(error.message, "Test error")
 //   assert_true(JsError::isError(error.to_any()))
-//   let error_val : @nostd.Any = @nostd.identity(error)
-//   assert_true(@nostd.is_object(error_val))
-//   assert_eq(@nostd.identity(error_val._get("message")), "Test error")
+//   let error_val : @core.Any = @core.identity(error)
+//   assert_true(@core.is_object(error_val))
+//   assert_eq(@core.identity(error_val._get("message")), "Test error")
 // }
 
 // ///|
 // test "JsError with cause" {
 //   let cause_error = JsError::new("Cause error")
 //   let error_with_cause = JsError::new("Main error", cause=cause_error)
-//   let error_with_cause_val : @nostd.Any = @nostd.identity(error_with_cause)
-//   assert_eq(@nostd.identity(error_with_cause_val._get("message")), "Main error")
+//   let error_with_cause_val : @core.Any = @core.identity(error_with_cause)
+//   assert_eq(@core.identity(error_with_cause_val._get("message")), "Main error")
 // }
 
 // ///|
@@ -34,7 +34,7 @@
 // ///|
 // test "ThrowError from call_throwable" {
 //   let v = try? @js.throwable(fn() {
-//     @nostd.global_this()._call("nonexistentMethod", [])
+//     @core.global_this()._call("nonexistentMethod", [])
 //   })
 //   match v {
 //     Err(ThrowError::Error(e)) | Err(ThrowError::TypeError(e)) =>
@@ -78,7 +78,7 @@
 // test "ThrowError::from with TypeError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testTypeError = new TypeError('Type error')"),
+//     @core.any("globalThis.testTypeError = new TypeError('Type error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testTypeError")
@@ -93,7 +93,7 @@
 // test "ThrowError::from with RangeError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testRangeError = new RangeError('Range error')"),
+//     @core.any("globalThis.testRangeError = new RangeError('Range error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testRangeError")
@@ -108,7 +108,7 @@
 // test "ThrowError::from with ReferenceError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testRefError = new ReferenceError('Ref error')"),
+//     @core.any("globalThis.testRefError = new ReferenceError('Ref error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testRefError")
@@ -123,7 +123,7 @@
 // test "ThrowError::from with SyntaxError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
+//     @core.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testSyntaxError")
@@ -138,7 +138,7 @@
 // test "ThrowError::from with URIError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testURIError = new URIError('URI error')"),
+//     @core.any("globalThis.testURIError = new URIError('URI error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testURIError")
@@ -153,7 +153,7 @@
 // test "ThrowError::from with EvalError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testEvalError = new EvalError('Eval error')"),
+//     @core.any("globalThis.testEvalError = new EvalError('Eval error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testEvalError")
@@ -168,7 +168,7 @@
 // test "ThrowError::from with AggregateError" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
+//     @core.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testAggError")
@@ -183,7 +183,7 @@
 // test "ThrowError::from with generic Error" {
 //   let global = @global.global_this()
 //   global._call("eval", [
-//     @nostd.any("globalThis.testGenericError = new Error('Generic error')"),
+//     @core.any("globalThis.testGenericError = new Error('Generic error')"),
 //   ])
 //   |> ignore
 //   let js_error = global._get("testGenericError")
@@ -196,7 +196,7 @@
 
 // ///|
 // test "ThrowError::from with non-error value" {
-//   let value = @nostd.any("plain string value")
+//   let value = @core.any("plain string value")
 //   let throw_error = ThrowError::from(value)
 //   match throw_error {
 //     ThrowError::Value(_) => inspect(true, content="true")

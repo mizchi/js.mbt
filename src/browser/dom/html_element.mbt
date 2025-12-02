@@ -1,7 +1,7 @@
 ///|
 /// HTMLElement trait - base interface for HTML elements
 pub(open) trait HTMLElementImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   innerText(Self) -> String = _
   setInnerText(Self, String) -> Unit = _
   innerHTML(Self) -> String = _
@@ -17,7 +17,7 @@ pub(open) trait HTMLElementImpl {
 pub type HTMLElement
 
 ///|
-pub fn HTMLElement::as_any(self : HTMLElement) -> @nostd.Any = "%identity"
+pub fn HTMLElement::as_any(self : HTMLElement) -> @core.Any = "%identity"
 
 ///|
 pub fn HTMLElement::as_event_target(self : HTMLElement) -> @event.EventTarget = "%identity"
@@ -31,12 +31,12 @@ pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 ///|
 
 ///|
-pub impl ElementImpl for HTMLElement with as_any(self) -> @nostd.Any {
+pub impl ElementImpl for HTMLElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
 ///|
-pub impl HTMLElementImpl for HTMLElement with as_any(self) -> @nostd.Any {
+pub impl HTMLElementImpl for HTMLElement with as_any(self) -> @core.Any {
   self.as_any()
 }
 
@@ -47,7 +47,7 @@ impl HTMLElementImpl with innerText(self) -> String {
 
 ///|
 impl HTMLElementImpl with setInnerText(self, text) -> Unit {
-  self.as_any()._set("innerText", @nostd.any(text)) |> ignore
+  self.as_any()._set("innerText", @core.any(text)) |> ignore
 }
 
 ///|
@@ -57,7 +57,7 @@ impl HTMLElementImpl with innerHTML(self) -> String {
 
 ///|
 impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
-  self.as_any()._set("innerHTML", @nostd.any(html)) |> ignore
+  self.as_any()._set("innerHTML", @core.any(html)) |> ignore
 }
 
 ///|
@@ -67,7 +67,7 @@ impl HTMLElementImpl with outerHTML(self) -> String {
 
 ///|
 impl HTMLElementImpl with setOuterHTML(self, html) -> Unit {
-  self.as_any()._set("outerHTML", @nostd.any(html)) |> ignore
+  self.as_any()._set("outerHTML", @core.any(html)) |> ignore
 }
 
 ///|

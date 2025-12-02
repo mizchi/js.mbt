@@ -1,13 +1,13 @@
 ///|
 test "ReadableStream basic properties" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   assert_eq(stream.locked(), false)
 }
 
 ///|
 test "ReadableStream get_reader locks stream" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   let reader = stream.get_reader()
   defer reader.release_lock()
@@ -16,7 +16,7 @@ test "ReadableStream get_reader locks stream" {
 
 ///|
 test "ReadableStream tee creates two branches" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   let (branch1, branch2) = stream.tee()
   assert_eq(branch1.locked(), false)
@@ -25,14 +25,14 @@ test "ReadableStream tee creates two branches" {
 
 ///|
 test "WritableStream basic properties" {
-  let sink = @nostd.Object::new()
+  let sink = @core.Object::new()
   let stream = WritableStream::new(sink)
   assert_eq(stream.locked(), false)
 }
 
 ///|
 test "WritableStream get_writer locks stream" {
-  let sink = @nostd.Object::new()
+  let sink = @core.Object::new()
   let stream = WritableStream::new(sink)
   let writer = stream.get_writer()
   defer writer.release_lock()
@@ -41,7 +41,7 @@ test "WritableStream get_writer locks stream" {
 
 ///|
 test "ReadableStreamDefaultReader releaseLock unlocks stream" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   let reader = stream.get_reader()
   assert_eq(stream.locked(), true)
@@ -51,7 +51,7 @@ test "ReadableStreamDefaultReader releaseLock unlocks stream" {
 
 ///|
 test "WritableStreamDefaultWriter releaseLock unlocks stream" {
-  let sink = @nostd.Object::new()
+  let sink = @core.Object::new()
   let stream = WritableStream::new(sink)
   let writer = stream.get_writer()
   assert_eq(stream.locked(), true)
@@ -61,7 +61,7 @@ test "WritableStreamDefaultWriter releaseLock unlocks stream" {
 
 ///|
 test "ReadableStream getReader alias" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   let reader = stream.getReader()
   defer reader.release_lock()
@@ -70,7 +70,7 @@ test "ReadableStream getReader alias" {
 
 ///|
 test "WritableStream getWriter alias" {
-  let sink = @nostd.Object::new()
+  let sink = @core.Object::new()
   let stream = WritableStream::new(sink)
   let writer = stream.getWriter()
   defer writer.release_lock()
@@ -79,7 +79,7 @@ test "WritableStream getWriter alias" {
 
 ///|
 test "ReadableStreamDefaultReader releaseLock alias" {
-  let source = @nostd.Object::new()
+  let source = @core.Object::new()
   let stream = ReadableStream::new(source)
   let reader = stream.get_reader()
   reader.releaseLock()
@@ -88,7 +88,7 @@ test "ReadableStreamDefaultReader releaseLock alias" {
 
 ///|
 test "WritableStreamDefaultWriter releaseLock alias" {
-  let sink = @nostd.Object::new()
+  let sink = @core.Object::new()
   let stream = WritableStream::new(sink)
   let writer = stream.get_writer()
   writer.releaseLock()
@@ -106,7 +106,7 @@ test "TransformStream identity creates readable and writable" {
 
 ///|
 test "TransformStream with transformer" {
-  let transformer = @nostd.Object::new()
+  let transformer = @core.Object::new()
   let transform = TransformStream::new(transformer)
   let readable = transform.readable()
   let writable = transform.writable()

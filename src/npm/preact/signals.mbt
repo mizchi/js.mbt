@@ -10,7 +10,7 @@ pub(all) struct Signal[T] {
 }
 
 ///|
-pub fn[T] Signal::as_any(self : Signal[T]) -> @nostd.Any = "%identity"
+pub fn[T] Signal::as_any(self : Signal[T]) -> @core.Any = "%identity"
 
 ///|
 /// Get the current value of a signal
@@ -27,15 +27,15 @@ pub fn[T] Signal::subscribe(
   self : Signal[T],
   callback : (T) -> Unit,
 ) -> () -> Unit {
-  let wrapped : (@nostd.Any) -> Unit = fn(v) { callback(v.cast()) }
+  let wrapped : (@core.Any) -> Unit = fn(v) { callback(v.cast()) }
   ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
 ///|
 extern "js" fn ffi_signal_subscribe(
-  signal : @nostd.Any,
-  callback : (@nostd.Any) -> Unit,
-) -> @nostd.Any =
+  signal : @core.Any,
+  callback : (@core.Any) -> Unit,
+) -> @core.Any =
   #|(s, cb) => s.subscribe(cb)
 
 ///|
@@ -46,7 +46,7 @@ pub(all) struct ReadonlySignal[T] {
 }
 
 ///|
-pub fn[T] ReadonlySignal::as_any(self : ReadonlySignal[T]) -> @nostd.Any = "%identity"
+pub fn[T] ReadonlySignal::as_any(self : ReadonlySignal[T]) -> @core.Any = "%identity"
 
 ///|
 /// Get the current value of a readonly signal
@@ -66,7 +66,7 @@ pub fn[T] ReadonlySignal::subscribe(
   self : ReadonlySignal[T],
   callback : (T) -> Unit,
 ) -> () -> Unit {
-  let wrapped : (@nostd.Any) -> Unit = fn(v) { callback(v.cast()) }
+  let wrapped : (@core.Any) -> Unit = fn(v) { callback(v.cast()) }
   ffi_signal_subscribe(self.as_any(), wrapped).cast()
 }
 
@@ -74,23 +74,23 @@ pub fn[T] ReadonlySignal::subscribe(
 /// Create a new signal with an initial value
 #alias(create_signal)
 pub fn[T] signal(initial : T) -> Signal[T] {
-  ffi_signal(@nostd.any(initial)).cast()
+  ffi_signal(@core.any(initial)).cast()
 }
 
 ///|
-extern "js" fn ffi_signal(initial : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_signal(initial : @core.Any) -> @core.Any =
   #|(v) => globalThis.__PreactSignals.signal(v)
 
 ///|
 /// Create a computed signal from a function
 #alias(create_computed)
 pub fn[T] computed(fn_ : () -> T) -> ReadonlySignal[T] {
-  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
-  ffi_computed(@nostd.any(wrapped)).cast()
+  let wrapped : () -> @core.Any = fn() { @core.any(fn_()) }
+  ffi_computed(@core.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_computed(fn_ : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_computed(fn_ : @core.Any) -> @core.Any =
   #|(fn) => globalThis.__PreactSignals.computed(fn)
 
 ///|
@@ -98,47 +98,47 @@ extern "js" fn ffi_computed(fn_ : @nostd.Any) -> @nostd.Any =
 /// Returns a dispose function to stop the effect
 #alias(create_effect)
 pub fn effect(fn_ : () -> Unit) -> () -> Unit {
-  ffi_effect(@nostd.any(fn_)).cast()
+  ffi_effect(@core.any(fn_)).cast()
 }
 
 ///|
 /// Effect with cleanup function
 #alias(create_effect_with_cleanup)
 pub fn effectWithCleanup(fn_ : () -> () -> Unit) -> () -> Unit {
-  ffi_effect(@nostd.any(fn_)).cast()
+  ffi_effect(@core.any(fn_)).cast()
 }
 
 ///|
-extern "js" fn ffi_effect(fn_ : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_effect(fn_ : @core.Any) -> @core.Any =
   #|(fn) => globalThis.__PreactSignals.effect(fn)
 
 ///|
 /// Batch multiple signal updates together
 #alias(batch_updates)
 pub fn batch(fn_ : () -> Unit) -> Unit {
-  ffi_batch(@nostd.any(fn_))
+  ffi_batch(@core.any(fn_))
 }
 
 ///|
-extern "js" fn ffi_batch(fn_ : @nostd.Any) -> Unit =
+extern "js" fn ffi_batch(fn_ : @core.Any) -> Unit =
   #|(fn) => globalThis.__PreactSignals.batch(fn)
 
 ///|
 /// Untracked read - read signals without subscribing
 pub fn[T] untracked(fn_ : () -> T) -> T {
-  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
-  ffi_untracked(@nostd.any(wrapped)).cast()
+  let wrapped : () -> @core.Any = fn() { @core.any(fn_()) }
+  ffi_untracked(@core.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_untracked(fn_ : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_untracked(fn_ : @core.Any) -> @core.Any =
   #|(fn) => globalThis.__PreactSignals.untracked(fn)
 
 ///|
 /// Initialize the Preact Signals API
-pub fn init_preact_signals(signals : @nostd.Any) -> Unit {
-  if @nostd.is_nullish(@nostd.global_this()["__PreactSignals"]) {
-    @nostd.global_this()["__PreactSignals"] = signals
+pub fn init_preact_signals(signals : @core.Any) -> Unit {
+  if @core.is_nullish(@core.global_this()["__PreactSignals"]) {
+    @core.global_this()["__PreactSignals"] = signals
   }
 }
 
@@ -146,32 +146,32 @@ pub fn init_preact_signals(signals : @nostd.Any) -> Unit {
 /// useSignal hook - Create a signal that persists across renders
 #alias(use_signal)
 pub fn[T] useSignal(initial : T) -> Signal[T] {
-  ffi_use_signal(@nostd.any(initial)).cast()
+  ffi_use_signal(@core.any(initial)).cast()
 }
 
 ///|
-extern "js" fn ffi_use_signal(initial : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_use_signal(initial : @core.Any) -> @core.Any =
   #|(v) => globalThis.__PreactSignals.useSignal(v)
 
 ///|
 /// useComputed hook - Create a computed signal in a component
 #alias(use_computed)
 pub fn[T] useComputed(fn_ : () -> T) -> ReadonlySignal[T] {
-  let wrapped : () -> @nostd.Any = fn() { @nostd.any(fn_()) }
-  ffi_use_computed(@nostd.any(wrapped)).cast()
+  let wrapped : () -> @core.Any = fn() { @core.any(fn_()) }
+  ffi_use_computed(@core.any(wrapped)).cast()
 }
 
 ///|
-extern "js" fn ffi_use_computed(fn_ : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_use_computed(fn_ : @core.Any) -> @core.Any =
   #|(fn) => globalThis.__PreactSignals.useComputed(fn)
 
 ///|
 /// useSignalEffect hook - Run an effect that tracks signal dependencies
 #alias(use_signal_effect)
 pub fn useSignalEffect(fn_ : () -> Unit) -> Unit {
-  ffi_use_signal_effect(@nostd.any(fn_))
+  ffi_use_signal_effect(@core.any(fn_))
 }
 
 ///|
-extern "js" fn ffi_use_signal_effect(fn_ : @nostd.Any) -> Unit =
+extern "js" fn ffi_use_signal_effect(fn_ : @core.Any) -> Unit =
   #|(fn) => globalThis.__PreactSignals.useSignalEffect(fn)

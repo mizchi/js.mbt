@@ -9,7 +9,7 @@ pub fn renderToString(vnode : VNode) -> String {
 }
 
 ///|
-extern "js" fn ffi_render_to_string(vnode : @nostd.Any) -> String =
+extern "js" fn ffi_render_to_string(vnode : @core.Any) -> String =
   #|(v) => globalThis.__PreactSSR.renderToString(v)
 
 ///|
@@ -20,14 +20,14 @@ pub async fn renderToStringAsync(vnode : VNode) -> String {
 
 ///|
 extern "js" fn ffi_render_to_string_async(
-  vnode : @nostd.Any,
-) -> @nostd.Promise[String] =
+  vnode : @core.Any,
+) -> @core.Promise[String] =
   #|(v) => globalThis.__PreactSSR.renderToStringAsync(v)
 
 ///|
 /// Initialize the Preact SSR API
-pub fn init_preact_ssr(ssr : @nostd.Any) -> Unit {
-  if @nostd.is_nullish(@nostd.global_this()["__PreactSSR"]) {
-    @nostd.global_this()["__PreactSSR"] = ssr
+pub fn init_preact_ssr(ssr : @core.Any) -> Unit {
+  if @core.is_nullish(@core.global_this()["__PreactSSR"]) {
+    @core.global_this()["__PreactSSR"] = ssr
   }
 }

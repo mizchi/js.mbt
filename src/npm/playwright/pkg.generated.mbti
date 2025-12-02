@@ -2,195 +2,195 @@
 package "mizchi/js/npm/playwright"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn chromium() -> BrowserType
+pub fn chromium() -> BrowserType
 
-fn firefox() -> BrowserType
+pub fn firefox() -> BrowserType
 
-fn webkit() -> BrowserType
+pub fn webkit() -> BrowserType
 
 // Errors
 
 // Types and methods
 #external
 pub type Browser
-fn Browser::as_any(Self) -> @nostd.Any
-async fn Browser::close(Self) -> Unit
-fn Browser::close_with_error_callback(Self, (Error) -> Unit) -> Unit
-fn Browser::contexts(Self) -> Array[BrowserContext]
-fn Browser::isConnected(Self) -> Bool
-async fn Browser::newContext(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, geolocation? : (Double, Double), permissions? : Array[String], colorScheme? : String, reducedMotion? : String, forcedColors? : String, acceptDownloads? : Bool, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> BrowserContext
-async fn Browser::newPage(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, colorScheme? : String, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> Page
-fn Browser::version(Self) -> String
+pub async fn Browser::close(Self) -> Unit
+pub fn Browser::close_with_error_callback(Self, (Error) -> Unit) -> Unit
+pub fn Browser::contexts(Self) -> Array[BrowserContext]
+pub fn Browser::isConnected(Self) -> Bool
+pub async fn Browser::newContext(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, geolocation? : (Double, Double), permissions? : Array[String], colorScheme? : String, reducedMotion? : String, forcedColors? : String, acceptDownloads? : Bool, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> BrowserContext
+pub async fn Browser::newPage(Self, viewport? : (Int, Int), userAgent? : String, locale? : String, timezoneId? : String, ignoreHTTPSErrors? : Bool, javaScriptEnabled? : Bool, bypassCSP? : Bool, offline? : Bool, colorScheme? : String, deviceScaleFactor? : Double, isMobile? : Bool, hasTouch? : Bool) -> Page
+pub fn Browser::to_any(Self) -> @core.Any
+pub fn Browser::version(Self) -> String
 
 #external
 pub type BrowserContext
-async fn BrowserContext::addCookies(Self, @nostd.Any) -> Unit
-fn BrowserContext::as_any(Self) -> @nostd.Any
-async fn BrowserContext::clearCookies(Self) -> Unit
-async fn BrowserContext::clearPermissions(Self) -> Unit
-async fn BrowserContext::close(Self) -> Unit
-fn BrowserContext::close_with_error_callback(Self, (Error) -> Unit) -> Unit
-async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @nostd.Any
-async fn BrowserContext::grantPermissions(Self, Array[String], origin? : String) -> Unit
-async fn BrowserContext::newPage(Self) -> Page
-fn BrowserContext::pages(Self) -> Array[Page]
-fn BrowserContext::setDefaultNavigationTimeout(Self, Int) -> Unit
-fn BrowserContext::setDefaultTimeout(Self, Int) -> Unit
-async fn BrowserContext::setGeolocation(Self, Double, Double, accuracy? : Double) -> Unit
-async fn BrowserContext::setOffline(Self, Bool) -> Unit
+pub async fn BrowserContext::addCookies(Self, @core.Any) -> Unit
+pub async fn BrowserContext::clearCookies(Self) -> Unit
+pub async fn BrowserContext::clearPermissions(Self) -> Unit
+pub async fn BrowserContext::close(Self) -> Unit
+pub fn BrowserContext::close_with_error_callback(Self, (Error) -> Unit) -> Unit
+pub async fn BrowserContext::cookies(Self, urls? : Array[String]) -> @core.Any
+pub async fn BrowserContext::grantPermissions(Self, Array[String], origin? : String) -> Unit
+pub async fn BrowserContext::newPage(Self) -> Page
+pub fn BrowserContext::pages(Self) -> Array[Page]
+pub fn BrowserContext::setDefaultNavigationTimeout(Self, Int) -> Unit
+pub fn BrowserContext::setDefaultTimeout(Self, Int) -> Unit
+pub async fn BrowserContext::setGeolocation(Self, Double, Double, accuracy? : Double) -> Unit
+pub async fn BrowserContext::setOffline(Self, Bool) -> Unit
+pub fn BrowserContext::to_any(Self) -> @core.Any
 
 #external
 pub type BrowserType
-fn BrowserType::as_any(Self) -> @nostd.Any
-async fn BrowserType::launch(Self, headless? : Bool, args? : Array[String], channel? : String, chromiumSandbox? : Bool, devtools? : Bool, downloadsPath? : String, executablePath? : String, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool, slowMo? : Int, timeout? : Int) -> Browser
-async fn BrowserType::launchPersistentContext(Self, String, headless? : Bool, args? : Array[String], channel? : String, slowMo? : Int, timeout? : Int) -> BrowserContext
-fn BrowserType::name(Self) -> String
+pub async fn BrowserType::launch(Self, headless? : Bool, args? : Array[String], channel? : String, chromiumSandbox? : Bool, devtools? : Bool, downloadsPath? : String, executablePath? : String, handleSIGHUP? : Bool, handleSIGINT? : Bool, handleSIGTERM? : Bool, slowMo? : Int, timeout? : Int) -> Browser
+pub async fn BrowserType::launchPersistentContext(Self, String, headless? : Bool, args? : Array[String], channel? : String, slowMo? : Int, timeout? : Int) -> BrowserContext
+pub fn BrowserType::name(Self) -> String
+pub fn BrowserType::to_any(Self) -> @core.Any
 
 #external
 pub type Frame
-fn Frame::as_any(Self) -> @nostd.Any
-fn Frame::childFrames(Self) -> Array[Self]
-async fn Frame::content(Self) -> String
-async fn Frame::goto(Self, String, timeout? : Int, waitUntil? : String) -> Response?
-fn Frame::isDetached(Self) -> Bool
-fn Frame::locator(Self, String) -> Locator
-fn Frame::name(Self) -> String
-fn Frame::parentFrame(Self) -> Self?
-async fn Frame::title(Self) -> String
-fn Frame::url(Self) -> String
+pub fn Frame::childFrames(Self) -> Array[Self]
+pub async fn Frame::content(Self) -> String
+pub async fn Frame::goto(Self, String, timeout? : Int, waitUntil? : String) -> Response?
+pub fn Frame::isDetached(Self) -> Bool
+pub fn Frame::locator(Self, String) -> Locator
+pub fn Frame::name(Self) -> String
+pub fn Frame::parentFrame(Self) -> Self?
+pub async fn Frame::title(Self) -> String
+pub fn Frame::to_any(Self) -> @core.Any
+pub fn Frame::url(Self) -> String
 
 #external
 pub type Locator
-async fn Locator::allInnerTexts(Self) -> Array[String]
-async fn Locator::allTextContents(Self) -> Array[String]
-fn Locator::as_any(Self) -> @nostd.Any
-async fn Locator::blur(Self, timeout? : Int) -> Unit
-async fn Locator::boundingBox(Self, timeout? : Int) -> @nostd.Any
-async fn Locator::check(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::clear(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::click(Self, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
-async fn Locator::count(Self) -> Int
-async fn Locator::dblclick(Self, timeout? : Int, force? : Bool) -> Unit
-async fn Locator::evaluate(Self, String, arg? : @nostd.Any, timeout? : Int) -> @nostd.Any
-async fn Locator::evaluateAll(Self, String, arg? : @nostd.Any) -> @nostd.Any
-async fn Locator::fill(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-fn Locator::filter(Self, has? : Self, hasNot? : Self, hasText? : String, hasNotText? : String) -> Self
-fn Locator::first(Self) -> Self
-async fn Locator::focus(Self, timeout? : Int) -> Unit
-async fn Locator::getAttribute(Self, String, timeout? : Int) -> String?
-fn Locator::getByLabel(Self, String, exact? : Bool) -> Self
-fn Locator::getByPlaceholder(Self, String, exact? : Bool) -> Self
-fn Locator::getByRole(Self, String, name? : String, exact? : Bool) -> Self
-fn Locator::getByTestId(Self, String) -> Self
-fn Locator::getByText(Self, String, exact? : Bool) -> Self
-async fn Locator::hover(Self, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
-async fn Locator::innerHTML(Self, timeout? : Int) -> String
-async fn Locator::innerText(Self, timeout? : Int) -> String
-async fn Locator::inputValue(Self, timeout? : Int) -> String
-async fn Locator::isChecked(Self, timeout? : Int) -> Bool
-async fn Locator::isDisabled(Self, timeout? : Int) -> Bool
-async fn Locator::isEditable(Self, timeout? : Int) -> Bool
-async fn Locator::isEnabled(Self, timeout? : Int) -> Bool
-async fn Locator::isHidden(Self, timeout? : Int) -> Bool
-async fn Locator::isVisible(Self, timeout? : Int) -> Bool
-fn Locator::last(Self) -> Self
-fn Locator::locator(Self, String) -> Self
-fn Locator::nth(Self, Int) -> Self
-async fn Locator::press(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::screenshot(Self, path? : String, type_? : String, quality? : Int, omitBackground? : Bool, timeout? : Int, scale? : String) -> @nostd.Any
-async fn Locator::scrollIntoViewIfNeeded(Self, timeout? : Int) -> Unit
-async fn Locator::selectOption(Self, @nostd.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
-async fn Locator::setChecked(Self, Bool, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::textContent(Self, timeout? : Int) -> String?
-async fn Locator::type_(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::uncheck(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Locator::waitFor(Self, state? : String, timeout? : Int) -> Unit
+pub async fn Locator::allInnerTexts(Self) -> Array[String]
+pub async fn Locator::allTextContents(Self) -> Array[String]
+pub async fn Locator::blur(Self, timeout? : Int) -> Unit
+pub async fn Locator::boundingBox(Self, timeout? : Int) -> @core.Any
+pub async fn Locator::check(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::clear(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::click(Self, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+pub async fn Locator::count(Self) -> Int
+pub async fn Locator::dblclick(Self, timeout? : Int, force? : Bool) -> Unit
+pub async fn Locator::evaluate(Self, String, arg? : @core.Any, timeout? : Int) -> @core.Any
+pub async fn Locator::evaluateAll(Self, String, arg? : @core.Any) -> @core.Any
+pub async fn Locator::fill(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub fn Locator::filter(Self, has? : Self, hasNot? : Self, hasText? : String, hasNotText? : String) -> Self
+pub fn Locator::first(Self) -> Self
+pub async fn Locator::focus(Self, timeout? : Int) -> Unit
+pub async fn Locator::getAttribute(Self, String, timeout? : Int) -> String?
+pub fn Locator::getByLabel(Self, String, exact? : Bool) -> Self
+pub fn Locator::getByPlaceholder(Self, String, exact? : Bool) -> Self
+pub fn Locator::getByRole(Self, String, name? : String, exact? : Bool) -> Self
+pub fn Locator::getByTestId(Self, String) -> Self
+pub fn Locator::getByText(Self, String, exact? : Bool) -> Self
+pub async fn Locator::hover(Self, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+pub async fn Locator::innerHTML(Self, timeout? : Int) -> String
+pub async fn Locator::innerText(Self, timeout? : Int) -> String
+pub async fn Locator::inputValue(Self, timeout? : Int) -> String
+pub async fn Locator::isChecked(Self, timeout? : Int) -> Bool
+pub async fn Locator::isDisabled(Self, timeout? : Int) -> Bool
+pub async fn Locator::isEditable(Self, timeout? : Int) -> Bool
+pub async fn Locator::isEnabled(Self, timeout? : Int) -> Bool
+pub async fn Locator::isHidden(Self, timeout? : Int) -> Bool
+pub async fn Locator::isVisible(Self, timeout? : Int) -> Bool
+pub fn Locator::last(Self) -> Self
+pub fn Locator::locator(Self, String) -> Self
+pub fn Locator::nth(Self, Int) -> Self
+pub async fn Locator::press(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::screenshot(Self, path? : String, type_? : String, quality? : Int, omitBackground? : Bool, timeout? : Int, scale? : String) -> @core.Any
+pub async fn Locator::scrollIntoViewIfNeeded(Self, timeout? : Int) -> Unit
+pub async fn Locator::selectOption(Self, @core.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+pub async fn Locator::setChecked(Self, Bool, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::textContent(Self, timeout? : Int) -> String?
+pub fn Locator::to_any(Self) -> @core.Any
+pub async fn Locator::type_(Self, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::uncheck(Self, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Locator::waitFor(Self, state? : String, timeout? : Int) -> Unit
 
 #external
 pub type Page
-async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @nostd.Any
-async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @nostd.Any
-fn Page::as_any(Self) -> @nostd.Any
-async fn Page::bringToFront(Self) -> Unit
-async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
-async fn Page::close(Self, runBeforeUnload? : Bool) -> Unit
-fn Page::close_with_error_callback(Self, (Error) -> Unit) -> Unit
-async fn Page::content(Self) -> String
-async fn Page::dblclick(Self, String, timeout? : Int, force? : Bool) -> Unit
-async fn Page::evaluate(Self, String, arg? : @nostd.Any) -> @nostd.Any
-async fn Page::evaluateHandle(Self, String, arg? : @nostd.Any) -> @nostd.Any
-async fn Page::exposeFunction(Self, String, @nostd.Any) -> Unit
-async fn Page::fill(Self, String, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Page::focus(Self, String, timeout? : Int) -> Unit
-fn Page::getByAltText(Self, String, exact? : Bool) -> Locator
-fn Page::getByLabel(Self, String, exact? : Bool) -> Locator
-fn Page::getByPlaceholder(Self, String, exact? : Bool) -> Locator
-fn Page::getByRole(Self, String, name? : String, exact? : Bool) -> Locator
-fn Page::getByTestId(Self, String) -> Locator
-fn Page::getByText(Self, String, exact? : Bool) -> Locator
-fn Page::getByTitle(Self, String, exact? : Bool) -> Locator
-async fn Page::goBack(Self, timeout? : Int, waitUntil? : String) -> Response?
-async fn Page::goForward(Self, timeout? : Int, waitUntil? : String) -> Response?
-async fn Page::goto(Self, String, timeout? : Int, waitUntil? : String, referer? : String) -> Response?
-async fn Page::hover(Self, String, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
-fn Page::isClosed(Self) -> Bool
-fn Page::locator(Self, String) -> Locator
-async fn Page::pdf(Self, path? : String, scale? : Double, displayHeaderFooter? : Bool, headerTemplate? : String, footerTemplate? : String, printBackground? : Bool, landscape? : Bool, pageRanges? : String, format? : String, width? : String, height? : String, margin? : @nostd.Any, preferCSSPageSize? : Bool) -> @nostd.Any
-async fn Page::press(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Page::reload(Self, timeout? : Int, waitUntil? : String) -> Response?
-async fn Page::screenshot(Self, path? : String, type_? : String, quality? : Int, fullPage? : Bool, clip? : @nostd.Any, omitBackground? : Bool, timeout? : Int, scale? : String) -> @nostd.Any
-async fn Page::selectOption(Self, String, @nostd.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
-async fn Page::setContent(Self, String, timeout? : Int, waitUntil? : String) -> Unit
-fn Page::setDefaultNavigationTimeout(Self, Int) -> Unit
-fn Page::setDefaultTimeout(Self, Int) -> Unit
-async fn Page::setExtraHTTPHeaders(Self, @nostd.Any) -> Unit
-async fn Page::setViewportSize(Self, Int, Int) -> Unit
-async fn Page::title(Self) -> String
-async fn Page::type_(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
-async fn Page::uncheck(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
-fn Page::url(Self) -> String
-fn Page::viewportSize(Self) -> (Int, Int)?
-async fn Page::waitForFunction(Self, String, arg? : @nostd.Any, polling? : Int, timeout? : Int) -> @nostd.Any
-async fn Page::waitForLoadState(Self, state? : String, timeout? : Int) -> Unit
-async fn Page::waitForNavigation(Self, timeout? : Int, url? : String, waitUntil? : String) -> Response?
-async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @nostd.Any
-async fn Page::waitForTimeout(Self, Int) -> Unit
-async fn Page::waitForURL(Self, String, timeout? : Int, waitUntil? : String) -> Unit
+pub async fn Page::addScriptTag(Self, url? : String, path? : String, content? : String, type_? : String) -> @core.Any
+pub async fn Page::addStyleTag(Self, url? : String, path? : String, content? : String) -> @core.Any
+pub async fn Page::bringToFront(Self) -> Unit
+pub async fn Page::check(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Page::click(Self, String, button? : String, clickCount? : Int, delay? : Int, force? : Bool, modifiers? : Array[String], noWaitAfter? : Bool, position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+pub async fn Page::close(Self, runBeforeUnload? : Bool) -> Unit
+pub fn Page::close_with_error_callback(Self, (Error) -> Unit) -> Unit
+pub async fn Page::content(Self) -> String
+pub async fn Page::dblclick(Self, String, timeout? : Int, force? : Bool) -> Unit
+pub async fn Page::evaluate(Self, String, arg? : @core.Any) -> @core.Any
+pub async fn Page::evaluateHandle(Self, String, arg? : @core.Any) -> @core.Any
+pub async fn Page::exposeFunction(Self, String, @core.Any) -> Unit
+pub async fn Page::fill(Self, String, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Page::focus(Self, String, timeout? : Int) -> Unit
+pub fn Page::getByAltText(Self, String, exact? : Bool) -> Locator
+pub fn Page::getByLabel(Self, String, exact? : Bool) -> Locator
+pub fn Page::getByPlaceholder(Self, String, exact? : Bool) -> Locator
+pub fn Page::getByRole(Self, String, name? : String, exact? : Bool) -> Locator
+pub fn Page::getByTestId(Self, String) -> Locator
+pub fn Page::getByText(Self, String, exact? : Bool) -> Locator
+pub fn Page::getByTitle(Self, String, exact? : Bool) -> Locator
+pub async fn Page::goBack(Self, timeout? : Int, waitUntil? : String) -> Response?
+pub async fn Page::goForward(Self, timeout? : Int, waitUntil? : String) -> Response?
+pub async fn Page::goto(Self, String, timeout? : Int, waitUntil? : String, referer? : String) -> Response?
+pub async fn Page::hover(Self, String, force? : Bool, modifiers? : Array[String], position? : (Double, Double), timeout? : Int, trial? : Bool) -> Unit
+pub fn Page::isClosed(Self) -> Bool
+pub fn Page::locator(Self, String) -> Locator
+pub async fn Page::pdf(Self, path? : String, scale? : Double, displayHeaderFooter? : Bool, headerTemplate? : String, footerTemplate? : String, printBackground? : Bool, landscape? : Bool, pageRanges? : String, format? : String, width? : String, height? : String, margin? : @core.Any, preferCSSPageSize? : Bool) -> @core.Any
+pub async fn Page::press(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Page::reload(Self, timeout? : Int, waitUntil? : String) -> Response?
+pub async fn Page::screenshot(Self, path? : String, type_? : String, quality? : Int, fullPage? : Bool, clip? : @core.Any, omitBackground? : Bool, timeout? : Int, scale? : String) -> @core.Any
+pub async fn Page::selectOption(Self, String, @core.Any, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Array[String]
+pub async fn Page::setContent(Self, String, timeout? : Int, waitUntil? : String) -> Unit
+pub fn Page::setDefaultNavigationTimeout(Self, Int) -> Unit
+pub fn Page::setDefaultTimeout(Self, Int) -> Unit
+pub async fn Page::setExtraHTTPHeaders(Self, @core.Any) -> Unit
+pub async fn Page::setViewportSize(Self, Int, Int) -> Unit
+pub async fn Page::title(Self) -> String
+pub fn Page::to_any(Self) -> @core.Any
+pub async fn Page::type_(Self, String, String, delay? : Int, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub async fn Page::uncheck(Self, String, force? : Bool, noWaitAfter? : Bool, timeout? : Int) -> Unit
+pub fn Page::url(Self) -> String
+pub fn Page::viewportSize(Self) -> (Int, Int)?
+pub async fn Page::waitForFunction(Self, String, arg? : @core.Any, polling? : Int, timeout? : Int) -> @core.Any
+pub async fn Page::waitForLoadState(Self, state? : String, timeout? : Int) -> Unit
+pub async fn Page::waitForNavigation(Self, timeout? : Int, url? : String, waitUntil? : String) -> Response?
+pub async fn Page::waitForSelector(Self, String, state? : String, timeout? : Int, strict? : Bool) -> @core.Any
+pub async fn Page::waitForTimeout(Self, Int) -> Unit
+pub async fn Page::waitForURL(Self, String, timeout? : Int, waitUntil? : String) -> Unit
 
 #external
 pub type Request
-async fn Request::allHeaders(Self) -> @nostd.Any
-fn Request::as_any(Self) -> @nostd.Any
-fn Request::headers(Self) -> @nostd.Any
-fn Request::isNavigationRequest(Self) -> Bool
-fn Request::method_(Self) -> String
-fn Request::postData(Self) -> String?
-fn Request::postDataJSON(Self) -> @nostd.Any
-fn Request::resourceType(Self) -> String
-async fn Request::response(Self) -> Response?
-fn Request::url(Self) -> String
+pub async fn Request::allHeaders(Self) -> @core.Any
+pub fn Request::headers(Self) -> @core.Any
+pub fn Request::isNavigationRequest(Self) -> Bool
+pub fn Request::method_(Self) -> String
+pub fn Request::postData(Self) -> String?
+pub fn Request::postDataJSON(Self) -> @core.Any
+pub fn Request::resourceType(Self) -> String
+pub async fn Request::response(Self) -> Response?
+pub fn Request::to_any(Self) -> @core.Any
+pub fn Request::url(Self) -> String
 
 #external
 pub type Response
-async fn Response::allHeaders(Self) -> @nostd.Any
-fn Response::as_any(Self) -> @nostd.Any
-async fn Response::body(Self) -> @nostd.Any
-fn Response::frame(Self) -> Frame
-fn Response::fromCache(Self) -> Bool
-fn Response::fromServiceWorker(Self) -> Bool
-fn Response::headers(Self) -> @nostd.Any
-async fn Response::json(Self) -> @nostd.Any
-fn Response::ok(Self) -> Bool
-fn Response::request(Self) -> Request
-fn Response::status(Self) -> Int
-fn Response::statusText(Self) -> String
-async fn Response::text(Self) -> String
-fn Response::url(Self) -> String
+pub async fn Response::allHeaders(Self) -> @core.Any
+pub async fn Response::body(Self) -> @core.Any
+pub fn Response::frame(Self) -> Frame
+pub fn Response::fromCache(Self) -> Bool
+pub fn Response::fromServiceWorker(Self) -> Bool
+pub fn Response::headers(Self) -> @core.Any
+pub async fn Response::json(Self) -> @core.Any
+pub fn Response::ok(Self) -> Bool
+pub fn Response::request(Self) -> Request
+pub fn Response::status(Self) -> Int
+pub fn Response::statusText(Self) -> String
+pub async fn Response::text(Self) -> String
+pub fn Response::to_any(Self) -> @core.Any
+pub fn Response::url(Self) -> String
 
 // Type aliases
 

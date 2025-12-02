@@ -3,7 +3,7 @@ package "mizchi/js/node/buffer"
 
 import(
   "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -13,49 +13,50 @@ import(
 // Types and methods
 #external
 pub type Buffer
-fn Buffer::alloc(Int, fill? : @nostd.Any, encoding? : String) -> Self
+pub fn Buffer::alloc(Int, fill? : @core.Any, encoding? : String) -> Self
 #alias(alloc_unsafe)
-fn Buffer::allocUnsafe(Int) -> Self
-fn Buffer::as_any(Self) -> @nostd.Any
-fn Buffer::buffer(Self) -> @js.ArrayBuffer
+pub fn Buffer::allocUnsafe(Int) -> Self
+pub fn Buffer::as_any(Self) -> @core.Any
+pub fn Buffer::buffer(Self) -> @js.ArrayBuffer
 #alias(byte_length)
-fn Buffer::byteLength(String, encoding? : String) -> Int
+pub fn Buffer::byteLength(String, encoding? : String) -> Int
 #alias(byte_offset)
-fn Buffer::byteOffset(Self) -> Int
-fn Buffer::compare(Self, Self) -> Int
-fn Buffer::compare_with(Self, Self, target_start? : Int, target_end? : Int, source_start? : Int, source_end? : Int) -> Int
-fn Buffer::concat(Array[Self], total_length? : Int) -> Self
-fn Buffer::copy(Self, Self, target_start? : Int, source_start? : Int, source_end? : Int) -> Int
-fn Buffer::equals(Self, Self) -> Bool
-fn Buffer::fill(Self, @nostd.Any, offset? : Int, end? : Int, encoding? : String) -> Self
-fn Buffer::from_array(Array[Int]) -> Self
-fn Buffer::from_arraybuffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
-fn Buffer::from_buffer(Self) -> Self
-fn Buffer::from_string(String, encoding? : String) -> Self
-fn Buffer::includes(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Bool
+pub fn Buffer::byteOffset(Self) -> Int
+pub fn Buffer::compare(Self, Self) -> Int
+pub fn Buffer::compare_with(Self, Self, target_start? : Int, target_end? : Int, source_start? : Int, source_end? : Int) -> Int
+pub fn Buffer::concat(Array[Self], total_length? : Int) -> Self
+pub fn Buffer::copy(Self, Self, target_start? : Int, source_start? : Int, source_end? : Int) -> Int
+pub fn Buffer::equals(Self, Self) -> Bool
+pub fn Buffer::fill(Self, @core.Any, offset? : Int, end? : Int, encoding? : String) -> Self
+pub fn Buffer::from_array(Array[Int]) -> Self
+pub fn Buffer::from_arraybuffer(@js.ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Buffer::from_buffer(Self) -> Self
+pub fn Buffer::from_string(String, encoding? : String) -> Self
+pub fn Buffer::includes(Self, @core.Any, byte_offset? : Int, encoding? : String) -> Bool
 #alias(index_of)
-fn Buffer::indexOf(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Int
+pub fn Buffer::indexOf(Self, @core.Any, byte_offset? : Int, encoding? : String) -> Int
 #alias(is_buffer)
-fn Buffer::isBuffer(@nostd.Any) -> Bool
+pub fn Buffer::isBuffer(@core.Any) -> Bool
 #alias(is_encoding)
-fn Buffer::isEncoding(String) -> Bool
+pub fn Buffer::isEncoding(String) -> Bool
 #alias(last_index_of)
-fn Buffer::lastIndexOf(Self, @nostd.Any, byte_offset? : Int, encoding? : String) -> Int
-fn Buffer::length(Self) -> Int
-fn Buffer::slice(Self, start? : Int, end? : Int) -> Self
-fn Buffer::subarray(Self, start? : Int, end? : Int) -> Self
+pub fn Buffer::lastIndexOf(Self, @core.Any, byte_offset? : Int, encoding? : String) -> Int
+pub fn Buffer::length(Self) -> Int
+pub fn Buffer::slice(Self, start? : Int, end? : Int) -> Self
+pub fn Buffer::subarray(Self, start? : Int, end? : Int) -> Self
 #alias(to_json)
-fn Buffer::toJSON(Self) -> BufferJSON
+pub fn Buffer::toJSON(Self) -> BufferJSON
 #alias(to_string)
-fn Buffer::toString(Self, encoding? : String, start? : Int, end? : Int) -> String
-fn Buffer::write(Self, String, offset? : Int, length? : Int, encoding? : String) -> Int
+pub fn Buffer::toString(Self, encoding? : String, start? : Int, end? : Int) -> String
+pub fn Buffer::write(Self, String, offset? : Int, length? : Int, encoding? : String) -> Int
 
 #external
 pub type BufferJSON
-fn BufferJSON::as_any(Self) -> @nostd.Any
-fn BufferJSON::data(Self) -> Array[Int]
-fn BufferJSON::type_(Self) -> String
+pub fn BufferJSON::as_any(Self) -> @core.Any
+pub fn BufferJSON::data(Self) -> Array[Int]
+pub fn BufferJSON::type_(Self) -> String
 
 // Type aliases
 
 // Traits
+

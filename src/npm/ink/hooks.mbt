@@ -8,12 +8,12 @@
 ///|
 /// App context returned by useApp hook
 pub(all) struct UseAppResult {
-  exit_fn : @nostd.Any
+  exit_fn : @core.Any
 }
 
 ///|
 /// Exit the app with optional error
-pub fn UseAppResult::exit(self : UseAppResult, error? : @nostd.Any) -> Unit {
+pub fn UseAppResult::exit(self : UseAppResult, error? : @core.Any) -> Unit {
   match error {
     Some(e) => self.exit_fn._invoke([e]) |> ignore
     None => self.exit_fn._invoke([]) |> ignore
@@ -67,7 +67,7 @@ pub(all) struct KeyInfo {
 }
 
 ///|
-fn KeyInfo::from_any(raw : @nostd.Any) -> KeyInfo {
+fn KeyInfo::from_any(raw : @core.Any) -> KeyInfo {
   {
     up_arrow: raw["upArrow"].cast(),
     down_arrow: raw["downArrow"].cast(),
@@ -103,8 +103,8 @@ pub fn Ink::useInput(
 ) -> Unit {
   let use_input = self.as_any()["useInput"]
   let wrapped_handler = ffi_wrap_input_handler(fn(
-    input : @nostd.Any,
-    key : @nostd.Any,
+    input : @core.Any,
+    key : @core.Any,
   ) {
     let input_str : String = input.cast()
     let key_info = KeyInfo::from_any(key)
@@ -112,9 +112,9 @@ pub fn Ink::useInput(
   })
   match options {
     Some(opts) => {
-      let opts_obj = @nostd.Object::new()
+      let opts_obj = @core.Object::new()
       if opts.is_active is Some(active) {
-        opts_obj["isActive"] = @nostd.any(active)
+        opts_obj["isActive"] = @core.any(active)
       }
       use_input._invoke([wrapped_handler, opts_obj]) |> ignore
     }
@@ -124,8 +124,8 @@ pub fn Ink::useInput(
 
 ///|
 extern "js" fn ffi_wrap_input_handler(
-  f : (@nostd.Any, @nostd.Any) -> Unit,
-) -> @nostd.Any =
+  f : (@core.Any, @core.Any) -> Unit,
+) -> @core.Any =
   #|(f) => f
 
 // ============================================================
@@ -156,15 +156,15 @@ pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
   let use_focus = self.as_any()["useFocus"]
   let result = match options {
     Some(opts) => {
-      let opts_obj = @nostd.Object::new()
+      let opts_obj = @core.Object::new()
       if opts.auto_focus is Some(af) {
-        opts_obj["autoFocus"] = @nostd.any(af)
+        opts_obj["autoFocus"] = @core.any(af)
       }
       if opts.is_active is Some(active) {
-        opts_obj["isActive"] = @nostd.any(active)
+        opts_obj["isActive"] = @core.any(active)
       }
       if opts.id is Some(id) {
-        opts_obj["id"] = @nostd.any(id)
+        opts_obj["id"] = @core.any(id)
       }
       use_focus._invoke([opts_obj])
     }
@@ -180,7 +180,7 @@ pub fn Ink::useFocus(self : Ink, options? : UseFocusOptions) -> UseFocusResult {
 ///|
 /// Focus manager for programmatic focus control
 pub(all) struct UseFocusManagerResult {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
@@ -217,7 +217,7 @@ pub fn UseFocusManagerResult::focus(
   self : UseFocusManagerResult,
   id : String,
 ) -> Unit {
-  self.raw["focus"]._invoke([@nostd.any(id)]) |> ignore
+  self.raw["focus"]._invoke([@core.any(id)]) |> ignore
 }
 
 ///|
@@ -236,17 +236,17 @@ pub fn Ink::useFocusManager(self : Ink) -> UseFocusManagerResult {
 /// Stdin result returned by useStdin hook
 pub(all) struct UseStdinResult {
   /// Standard input stream
-  stdin : @nostd.Any
+  stdin : @core.Any
   /// Whether stdin is in raw mode
   is_raw_mode_supported : Bool
   /// Set raw mode
-  set_raw_mode_fn : @nostd.Any
+  set_raw_mode_fn : @core.Any
 }
 
 ///|
 /// Set raw mode on stdin
 pub fn UseStdinResult::setRawMode(self : UseStdinResult, value : Bool) -> Unit {
-  self.set_raw_mode_fn._invoke([@nostd.any(value)]) |> ignore
+  self.set_raw_mode_fn._invoke([@core.any(value)]) |> ignore
 }
 
 ///|
@@ -269,15 +269,15 @@ pub fn Ink::useStdin(self : Ink) -> UseStdinResult {
 /// Stdout result returned by useStdout hook
 pub(all) struct UseStdoutResult {
   /// Standard output stream
-  stdout : @nostd.Any
+  stdout : @core.Any
   /// Write to stdout
-  write_fn : @nostd.Any
+  write_fn : @core.Any
 }
 
 ///|
 /// Write to stdout
 pub fn UseStdoutResult::write(self : UseStdoutResult, data : String) -> Unit {
-  self.write_fn._invoke([@nostd.any(data)]) |> ignore
+  self.write_fn._invoke([@core.any(data)]) |> ignore
 }
 
 ///|
@@ -296,15 +296,15 @@ pub fn Ink::useStdout(self : Ink) -> UseStdoutResult {
 /// Stderr result returned by useStderr hook
 pub(all) struct UseStderrResult {
   /// Standard error stream
-  stderr : @nostd.Any
+  stderr : @core.Any
   /// Write to stderr
-  write_fn : @nostd.Any
+  write_fn : @core.Any
 }
 
 ///|
 /// Write to stderr
 pub fn UseStderrResult::write(self : UseStderrResult, data : String) -> Unit {
-  self.write_fn._invoke([@nostd.any(data)]) |> ignore
+  self.write_fn._invoke([@core.any(data)]) |> ignore
 }
 
 ///|

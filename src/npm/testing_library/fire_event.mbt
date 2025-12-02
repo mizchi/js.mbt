@@ -4,7 +4,7 @@
 pub type FireEvent
 
 ///|
-pub fn FireEvent::as_any(self : FireEvent) -> @nostd.Any = "%identity"
+pub fn FireEvent::as_any(self : FireEvent) -> @core.Any = "%identity"
 
 ///|
 /// JS: fireEvent.click(target)
@@ -23,7 +23,7 @@ pub fn FireEvent::dblClick(self : FireEvent, target : ScreenResult) -> Bool {
 pub fn FireEvent::change(
   self : FireEvent,
   target : ScreenResult,
-  event : @nostd.Any,
+  event : @core.Any,
 ) -> Bool {
   self.as_any()._call("change", [target.as_element().as_any(), event]).cast()
 }
@@ -33,7 +33,7 @@ pub fn FireEvent::change(
 pub fn FireEvent::input(
   self : FireEvent,
   target : ScreenResult,
-  event : @nostd.Any,
+  event : @core.Any,
 ) -> Bool {
   self.as_any()._call("input", [target.as_element().as_any(), event]).cast()
 }
@@ -61,7 +61,7 @@ pub fn FireEvent::blur(self : FireEvent, target : ScreenResult) -> Bool {
 pub fn FireEvent::keyDown(
   self : FireEvent,
   target : ScreenResult,
-  event : @nostd.Any,
+  event : @core.Any,
 ) -> Bool {
   self.as_any()._call("keyDown", [target.as_element().as_any(), event]).cast()
 }
@@ -71,7 +71,7 @@ pub fn FireEvent::keyDown(
 pub fn FireEvent::keyUp(
   self : FireEvent,
   target : ScreenResult,
-  event : @nostd.Any,
+  event : @core.Any,
 ) -> Bool {
   self.as_any()._call("keyUp", [target.as_element().as_any(), event]).cast()
 }
@@ -81,7 +81,7 @@ pub fn FireEvent::keyUp(
 pub fn FireEvent::keyPress(
   self : FireEvent,
   target : ScreenResult,
-  event : @nostd.Any,
+  event : @core.Any,
 ) -> Bool {
   self.as_any()._call("keyPress", [target.as_element().as_any(), event]).cast()
 }

@@ -83,8 +83,8 @@ pub async fn sleep(ms : Int) -> Unit noraise {
 ///|
 /// Async dispose (Symbol.asyncDispose)
 /// Usage: defer value |> dispose_async
-pub async fn dispose_async(value : @nostd.Any) -> Unit {
-  let dispose_fn : @nostd.Any = ffi_get_dyn(
+pub async fn dispose_async(value : @core.Any) -> Unit {
+  let dispose_fn : @core.Any = ffi_get_dyn(
     value,
     @symbol.Symbol::asyncDispose() |> identity,
   )

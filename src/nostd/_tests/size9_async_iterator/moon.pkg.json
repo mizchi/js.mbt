@@ -1,8 +1,0 @@
-{
-  "is-main": true,
-  "import": [
-    "mizchi/js/nostd",
-    "moonbitlang/async"
-  ],
-  "warn-list": "-9"
-}

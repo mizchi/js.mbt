@@ -55,7 +55,7 @@ fn handle_any_of(
   if non_null.length() == 1 && variants.length() == 2 {
     json_type_to_moonbit_ctx(non_null[0], ctx, root_name) + "?"
   } else {
-    "@nostd.Any"
+    "@core.Any"
   }
 }
 
@@ -66,9 +66,9 @@ fn handle_object_type(
   ctx : CodegenContext?,
   root_name : String,
 ) -> String {
-  guard ctx is Some(context) else { return "@nostd.Any" }
+  guard ctx is Some(context) else { return "@core.Any" }
   let props = schema.properties()
-  guard not(@nostd.is_undefined(props)) else { return "@nostd.Any" }
+  guard not(@core.is_undefined(props)) else { return "@core.Any" }
   // Build type name from path: Root_field1_field2
   let type_name = build_type_name(root_name, context.current_path)
   let path = context.current_path.copy()
@@ -96,10 +96,10 @@ fn handle_type(
       match schema.items() {
         Some(items) =>
           "Array[" + json_type_to_moonbit_ctx(items, ctx, root_name) + "]"
-        None => "Array[@nostd.Any]"
+        None => "Array[@core.Any]"
       }
     "object" => handle_object_type(schema, ctx, root_name)
-    _ => "@nostd.Any"
+    _ => "@core.Any"
   }
 }
 
@@ -124,12 +124,12 @@ fn json_type_to_moonbit_ctx(
   }
   // 4. Check for const
   if schema.const_value() is Some(_) {
-    return "@nostd.Any"
+    return "@core.Any"
   }
   // 5. Handle regular type
   match schema.type_() {
     Some(t) => handle_type(schema, t, ctx, root_name)
-    None => "@nostd.Any"
+    None => "@core.Any"
   }
 }
 
@@ -163,9 +163,9 @@ fn generate_struct_ctx(
   code = code + ctx.struct_prefix + "struct " + ctx.type_prefix + name + " {\n"
   // Get properties
   let props = schema.properties()
-  if not(@nostd.is_undefined(props)) {
+  if not(@core.is_undefined(props)) {
     let required = schema.required()
-    let keys : Array[String] = @object.Object::keys(props) |> @nostd.identity
+    let keys : Array[String] = @object.Object::keys(props) |> @core.identity
     for key in keys {
       let prop_schema = JsonSchema::from_any(props._get(key))
       let field_name = to_snake_case(key)
@@ -289,8 +289,8 @@ pub fn generate_all_types(
   let types : Array[GeneratedType] = []
   // Generate definitions first
   let defs = schema.definitions()
-  if not(@nostd.is_undefined(defs)) && not(@nostd.is_null(defs)) {
-    let keys : Array[String] = @object.Object::keys(defs) |> @nostd.identity
+  if not(@core.is_undefined(defs)) && not(@core.is_null(defs)) {
+    let keys : Array[String] = @object.Object::keys(defs) |> @core.identity
     for key in keys {
       let def_schema = JsonSchema::from_any(defs._get(key))
       let code = generate_struct(

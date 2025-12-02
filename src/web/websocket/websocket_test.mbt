@@ -13,15 +13,15 @@ test "WebSocketReadyState::from_int and to_int" {
 
 ///|
 test "get_close_code extracts code from event" {
-  let event : @nostd.Any = @nostd.from_entries([("code", @nostd.any(1000))]).cast()
+  let event : @core.Any = @core.from_entries([("code", @core.any(1000))]).cast()
   let code = get_close_code(event)
   inspect(code, content="1000")
 }
 
 ///|
 test "get_close_reason extracts reason from event" {
-  let event : @nostd.Any = @nostd.from_entries([
-    ("reason", @nostd.any("Normal closure")),
+  let event : @core.Any = @core.from_entries([
+    ("reason", @core.any("Normal closure")),
   ]).cast()
   let reason = get_close_reason(event)
   inspect(reason, content="Normal closure")
@@ -29,7 +29,7 @@ test "get_close_reason extracts reason from event" {
 
 ///|
 test "get_close_was_clean extracts wasClean from event" {
-  let event : @nostd.Any = @nostd.from_entries([("wasClean", @nostd.any(true))]).cast()
+  let event : @core.Any = @core.from_entries([("wasClean", @core.any(true))]).cast()
   let was_clean = get_close_was_clean(event)
   inspect(was_clean, content="true")
 }

@@ -5,19 +5,19 @@
 
 ///|
 /// JS: globalThis
-pub extern "js" fn global_this() -> @nostd.Any =
+pub extern "js" fn global_this() -> @core.Any =
   #| () => globalThis
 
 ///|
 /// JS: undefined
-pub extern "js" fn undefined() -> @nostd.Any =
+pub extern "js" fn undefined() -> @core.Any =
   #| () => undefined
 
 ///| Type Checking
 
 ///|
 /// JS: isNaN(v)
-pub extern "js" fn is_nan(v : @nostd.Any) -> Bool =
+pub extern "js" fn is_nan(v : @core.Any) -> Bool =
   #| (v) => isNaN(v)
 
 ///|
@@ -28,11 +28,11 @@ pub extern "js" fn is_finite(v : Double) -> Bool =
 ///| Number Parsing
 
 ///|
-extern "js" fn ffi_parse_int(string : String, radix : Int) -> @nostd.Any =
+extern "js" fn ffi_parse_int(string : String, radix : Int) -> @core.Any =
   #| (string, radix) => parseInt(string, radix)
 
 ///|
-extern "js" fn ffi_parse_float(string : String) -> @nostd.Any =
+extern "js" fn ffi_parse_float(string : String) -> @core.Any =
   #| (string) => parseFloat(string)
 
 ///|
@@ -45,7 +45,7 @@ pub fn parse_int(string : String, radix? : Int = 10) -> Int? {
   if is_nan(result) {
     None
   } else {
-    Some(@nostd.identity(result))
+    Some(@core.identity(result))
   }
 }
 
@@ -59,7 +59,7 @@ pub fn parse_float(string : String) -> Double? {
   if is_nan(result) {
     None
   } else {
-    Some(@nostd.identity(result))
+    Some(@core.identity(result))
   }
 }
 
@@ -116,5 +116,5 @@ pub extern "js" fn decode_uri_component(encoded_str : String) -> String =
 ///|
 /// Dynamic import (ES modules)
 /// Note: Returns a Promise<Module>
-pub extern "js" fn dynamic_import(module_name : String) -> @nostd.Any =
+pub extern "js" fn dynamic_import(module_name : String) -> @core.Any =
   #| (moduleName) => import(moduleName)

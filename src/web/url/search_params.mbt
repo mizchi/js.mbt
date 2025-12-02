@@ -4,11 +4,11 @@ pub(all) struct URLSearchParams {
 }
 
 ///|
-pub fn URLSearchParams::as_any(self : URLSearchParams) -> @nostd.Any = "%identity"
+pub fn URLSearchParams::as_any(self : URLSearchParams) -> @core.Any = "%identity"
 
 ///|
 impl Eq for URLSearchParams with equal(self, other) {
-  @nostd.equal(self.as_any(), other.as_any())
+  @core.equal(self.as_any(), other.as_any())
 }
 
 ///|
@@ -18,7 +18,7 @@ impl Show for URLSearchParams with output(self, logger) {
 
 ///|
 pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
-  self.as_any()._call("get", [@nostd.any(name)]) |> @nostd.identity_option
+  self.as_any()._call("get", [@core.any(name)]) |> @core.identity_option
 }
 
 ///|
@@ -27,12 +27,12 @@ pub fn URLSearchParams::getAll(
   self : URLSearchParams,
   name : String,
 ) -> Array[String] {
-  self.as_any()._call("getAll", [@nostd.any(name)]).cast()
+  self.as_any()._call("getAll", [@core.any(name)]).cast()
 }
 
 ///|
 pub fn URLSearchParams::has(self : URLSearchParams, name : String) -> Bool {
-  self.as_any()._call("has", [@nostd.any(name)]).cast()
+  self.as_any()._call("has", [@core.any(name)]).cast()
 }
 
 ///|
@@ -41,7 +41,7 @@ pub fn URLSearchParams::set(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("set", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("set", [@core.any(name), @core.any(value)]) |> ignore
 }
 
 ///|
@@ -50,12 +50,12 @@ pub fn URLSearchParams::append(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("append", [@nostd.any(name), @nostd.any(value)]) |> ignore
+  self.as_any()._call("append", [@core.any(name), @core.any(value)]) |> ignore
 }
 
 ///|
 pub fn URLSearchParams::delete(self : URLSearchParams, name : String) -> Unit {
-  self.as_any()._call("delete", [@nostd.any(name)]) |> ignore
+  self.as_any()._call("delete", [@core.any(name)]) |> ignore
 }
 
 ///|

@@ -3,86 +3,87 @@ package "mizchi/js/node/fs_promises"
 
 import(
   "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/buffer"
-  "mizchi/js/nostd"
   "moonbitlang/async/js_async"
 )
 
 // Values
-async fn access(String, mode? : Int) -> Unit
+pub async fn access(String, mode? : Int) -> Unit
 
-async fn appendFile(String, String, encoding? : String) -> Unit
+pub async fn appendFile(String, String, encoding? : String) -> Unit
 
-async fn chmod(String, Int) -> Unit
+pub async fn chmod(String, Int) -> Unit
 
-async fn chown(String, Int, Int) -> Unit
+pub async fn chown(String, Int, Int) -> Unit
 
-async fn copyFile(String, String) -> Unit
+pub async fn copyFile(String, String) -> Unit
 
-async fn cp(String, String, recursive? : Bool) -> Unit
+pub async fn cp(String, String, recursive? : Bool) -> Unit
 
-fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[String]
+pub fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[String]
 
-fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[Dirent]
+pub fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[Dirent]
 
-async fn mkdir(String, recursive? : Bool) -> Unit
+pub async fn mkdir(String, recursive? : Bool) -> Unit
 
-async fn open(String) -> FileHandle
+pub async fn open(String) -> FileHandle
 
 #alias(read_file)
-async fn readFile(String, encoding? : String) -> String
+pub async fn readFile(String, encoding? : String) -> String
 
-async fn read_file_as_buffer(String) -> @buffer.Buffer
+pub async fn read_file_as_buffer(String) -> @buffer.Buffer
 
-async fn read_file_as_string(String, encoding? : String) -> String
+pub async fn read_file_as_string(String, encoding? : String) -> String
 
-async fn readdir(String) -> Array[String]
+pub async fn readdir(String) -> Array[String]
 
-async fn readlink(String) -> String
+pub async fn readlink(String) -> String
 
-async fn realpath(String) -> String
+pub async fn realpath(String) -> String
 
-async fn rename(String, String) -> Unit
+pub async fn rename(String, String) -> Unit
 
-async fn rm(String, recursive? : Bool, force? : Bool) -> Unit
+pub async fn rm(String, recursive? : Bool, force? : Bool) -> Unit
 
-async fn rmdir(String, recursive? : Bool) -> Unit
+pub async fn rmdir(String, recursive? : Bool) -> Unit
 
-async fn stat(String) -> Stat
+pub async fn stat(String) -> Stat
 
-async fn symlink(String, String, type_? : String) -> Unit
+pub async fn symlink(String, String, type_? : String) -> Unit
 
-async fn truncate(String, len? : Int) -> Unit
+pub async fn truncate(String, len? : Int) -> Unit
 
-async fn unlink(String) -> Unit
+pub async fn unlink(String) -> Unit
 
 #alias(write_file)
-async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js_async.AbortSignal) -> Unit
+pub async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js_async.AbortSignal) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type Dirent
-fn Dirent::as_any(Self) -> @nostd.Any
+pub fn Dirent::as_any(Self) -> @core.Any
 #alias(is_directory)
-fn Dirent::isDirectory(Self) -> Bool
+pub fn Dirent::isDirectory(Self) -> Bool
 #alias(is_file)
-fn Dirent::isFile(Self) -> Bool
-fn Dirent::name(Self) -> String
+pub fn Dirent::isFile(Self) -> Bool
+pub fn Dirent::name(Self) -> String
 
 #external
 pub type FileHandle
-fn FileHandle::as_any(Self) -> @nostd.Any
+pub fn FileHandle::as_any(Self) -> @core.Any
 
 #external
 pub type Stat
-fn Stat::as_any(Self) -> @nostd.Any
-fn Stat::isDirectory(Self) -> Bool
-fn Stat::isFile(Self) -> Bool
-fn Stat::mtime_ms(Self) -> Float
-fn Stat::size(Self) -> Int
+pub fn Stat::as_any(Self) -> @core.Any
+pub fn Stat::isDirectory(Self) -> Bool
+pub fn Stat::isFile(Self) -> Bool
+pub fn Stat::mtime_ms(Self) -> Float
+pub fn Stat::size(Self) -> Int
 
 // Type aliases
 
 // Traits
+

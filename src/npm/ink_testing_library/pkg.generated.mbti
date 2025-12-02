@@ -2,48 +2,48 @@
 package "mizchi/js/npm/ink_testing_library"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/react"
 )
 
 // Values
-async fn dynamic_import() -> InkTestingLibrary
+pub async fn dynamic_import() -> InkTestingLibrary
 
 // Errors
 
 // Types and methods
 #external
 pub type InkTestingLibrary
-fn InkTestingLibrary::as_any(Self) -> @nostd.Any
-fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
+pub fn InkTestingLibrary::as_any(Self) -> @core.Any
+pub fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
 
 #external
 pub type RenderResult
-fn RenderResult::as_any(Self) -> @nostd.Any
-fn RenderResult::frames(Self) -> Array[String]
-fn RenderResult::lastFrame(Self) -> String?
-fn RenderResult::rerender(Self, @react.Element) -> Unit
-fn RenderResult::stderr(Self) -> Stderr
-fn RenderResult::stdin(Self) -> Stdin
-fn RenderResult::stdout(Self) -> Stdout
-fn RenderResult::unmount(Self) -> Unit
+pub fn RenderResult::as_any(Self) -> @core.Any
+pub fn RenderResult::frames(Self) -> Array[String]
+pub fn RenderResult::lastFrame(Self) -> String?
+pub fn RenderResult::rerender(Self, @react.Element) -> Unit
+pub fn RenderResult::stderr(Self) -> Stderr
+pub fn RenderResult::stdin(Self) -> Stdin
+pub fn RenderResult::stdout(Self) -> Stdout
+pub fn RenderResult::unmount(Self) -> Unit
 
 #external
 pub type Stderr
-fn Stderr::as_any(Self) -> @nostd.Any
-fn Stderr::frames(Self) -> Array[String]
-fn Stderr::lastFrame(Self) -> String?
+pub fn Stderr::as_any(Self) -> @core.Any
+pub fn Stderr::frames(Self) -> Array[String]
+pub fn Stderr::lastFrame(Self) -> String?
 
 #external
 pub type Stdin
-fn Stdin::as_any(Self) -> @nostd.Any
-fn Stdin::write(Self, String) -> Unit
+pub fn Stdin::as_any(Self) -> @core.Any
+pub fn Stdin::write(Self, String) -> Unit
 
 #external
 pub type Stdout
-fn Stdout::as_any(Self) -> @nostd.Any
-fn Stdout::frames(Self) -> Array[String]
-fn Stdout::lastFrame(Self) -> String?
+pub fn Stdout::as_any(Self) -> @core.Any
+pub fn Stdout::frames(Self) -> Array[String]
+pub fn Stdout::lastFrame(Self) -> String?
 
 // Type aliases
 

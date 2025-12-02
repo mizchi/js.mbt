@@ -1,0 +1,17 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/core/_tests/size19_to_any_option"
+
+// Values
+
+// Errors
+
+// Types and methods
+pub struct Point {
+  x : Int
+  y : Int
+}
+
+// Type aliases
+
+// Traits
+

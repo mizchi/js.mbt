@@ -1,6 +1,6 @@
 ///|
 /// node:net module
-extern "js" fn net_module() -> @nostd.Any =
+extern "js" fn net_module() -> @core.Any =
   #| () => require("node:net")
 
 ///|
@@ -9,7 +9,7 @@ extern "js" fn net_module() -> @nostd.Any =
 pub type AddressInfo
 
 ///|
-pub fn AddressInfo::as_any(self : AddressInfo) -> @nostd.Any = "%identity"
+pub fn AddressInfo::as_any(self : AddressInfo) -> @core.Any = "%identity"
 
 ///|
 /// Get the port number
@@ -36,7 +36,7 @@ pub fn AddressInfo::family(self : AddressInfo) -> String {
 pub type Socket
 
 ///|
-pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
+pub fn Socket::as_any(self : Socket) -> @core.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
@@ -44,7 +44,7 @@ pub fn Socket::as_any(self : Socket) -> @nostd.Any = "%identity"
 ///|
 /// Socket is a Duplex stream
 pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
-  @nostd.identity(self)
+  @core.identity(self)
 }
 
 ///|
@@ -52,15 +52,15 @@ pub fn Socket::as_duplex(self : Socket) -> @stream.Duplex {
 pub fn Socket::connect(self : Socket, port : Int, host? : String) -> Socket {
   match host {
     Some(h) =>
-      self.as_any()._call("connect", [@nostd.any(port), @nostd.any(h)]).cast()
-    None => self.as_any()._call("connect", [@nostd.any(port)]).cast()
+      self.as_any()._call("connect", [@core.any(port), @core.any(h)]).cast()
+    None => self.as_any()._call("connect", [@core.any(port)]).cast()
   }
 }
 
 ///|
 /// Write data to the socket
 pub fn Socket::write(self : Socket, data : String) -> Bool {
-  self.as_any()._call("write", [@nostd.any(data)]).cast()
+  self.as_any()._call("write", [@core.any(data)]).cast()
 }
 
 ///|
@@ -90,49 +90,49 @@ pub fn Socket::resume_(self : Socket) -> Socket {
 ///|
 /// Set the socket encoding
 pub fn Socket::setEncoding(self : Socket, encoding : String) -> Socket {
-  self.as_any()._call("setEncoding", [@nostd.any(encoding)]).cast()
+  self.as_any()._call("setEncoding", [@core.any(encoding)]).cast()
 }
 
 ///|
 /// Set keep alive
 pub fn Socket::setKeepAlive(self : Socket, enable : Bool) -> Socket {
-  self.as_any()._call("setKeepAlive", [@nostd.any(enable)]).cast()
+  self.as_any()._call("setKeepAlive", [@core.any(enable)]).cast()
 }
 
 ///|
 /// Set no delay (disable Nagle algorithm)
 pub fn Socket::setNoDelay(self : Socket, noDelay : Bool) -> Socket {
-  self.as_any()._call("setNoDelay", [@nostd.any(noDelay)]).cast()
+  self.as_any()._call("setNoDelay", [@core.any(noDelay)]).cast()
 }
 
 ///|
 /// Set timeout
 pub fn Socket::setTimeout(self : Socket, timeout : Int) -> Socket {
-  self.as_any()._call("setTimeout", [@nostd.any(timeout)]).cast()
+  self.as_any()._call("setTimeout", [@core.any(timeout)]).cast()
 }
 
 ///|
 /// Get the remote address
 pub fn Socket::remoteAddress(self : Socket) -> String? {
-  self.as_any()["remoteAddress"] |> @nostd.identity_option
+  self.as_any()["remoteAddress"] |> @core.identity_option
 }
 
 ///|
 /// Get the remote port
 pub fn Socket::remotePort(self : Socket) -> Int? {
-  self.as_any()["remotePort"] |> @nostd.identity_option
+  self.as_any()["remotePort"] |> @core.identity_option
 }
 
 ///|
 /// Get the local address
 pub fn Socket::localAddress(self : Socket) -> String? {
-  self.as_any()["localAddress"] |> @nostd.identity_option
+  self.as_any()["localAddress"] |> @core.identity_option
 }
 
 ///|
 /// Get the local port
 pub fn Socket::localPort(self : Socket) -> Int? {
-  self.as_any()["localPort"] |> @nostd.identity_option
+  self.as_any()["localPort"] |> @core.identity_option
 }
 
 ///|
@@ -160,7 +160,7 @@ pub fn Socket::bytesWritten(self : Socket) -> Int {
 pub type Server
 
 ///|
-pub fn Server::as_any(self : Server) -> @nostd.Any = "%identity"
+pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for compatibility
@@ -180,8 +180,8 @@ pub fn Server::listen(
       self
       .as_any()
       ._call("once", [
-        @nostd.any("listening"),
-        @nostd.any(@js.from_fn1(fn(_ : @nostd.Any) { cb() })),
+        @core.any("listening"),
+        @core.any(@js.from_fn1(fn(_ : @core.Any) { cb() })),
       ])
       |> ignore
     None => ()
@@ -192,20 +192,20 @@ pub fn Server::listen(
     (Some(h), Some(b)) =>
       self
       .as_any()
-      ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
+      ._call("listen", [@core.any(port), @core.any(h), @core.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(h)]).cast()
+      self.as_any()._call("listen", [@core.any(port), @core.any(h)]).cast()
     (None, Some(b)) =>
-      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(b)]).cast()
-    (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
+      self.as_any()._call("listen", [@core.any(port), @core.any(b)]).cast()
+    (None, None) => self.as_any()._call("listen", [@core.any(port)]).cast()
   }
 }
 
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.as_any()._call("close", []) |> @nostd.identity
+  self.as_any()._call("close", []) |> @core.identity
 }
 
 ///|
@@ -213,7 +213,7 @@ pub fn Server::close(self : Server) -> Server {
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> AddressInfo? {
   let result = self.as_any()._call("address", [])
-  if @nostd.is_null(result) {
+  if @core.is_null(result) {
     None
   } else {
     Some(result.cast())
@@ -229,13 +229,13 @@ pub fn Server::listening(self : Server) -> Bool {
 ///|
 /// Get max connections
 pub fn Server::maxConnections(self : Server) -> Int? {
-  self.as_any()._get("maxConnections") |> @nostd.identity_option
+  self.as_any()._get("maxConnections") |> @core.identity_option
 }
 
 ///|
 /// Set max connections
 pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
-  self.as_any()._set("maxConnections", @nostd.any(max))
+  self.as_any()._set("maxConnections", @core.any(max))
 }
 
 ///| Module functions
@@ -246,9 +246,9 @@ pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
     Some(h) =>
       net_module()
-      ._call("createConnection", [@nostd.any(port), @nostd.any(h)])
+      ._call("createConnection", [@core.any(port), @core.any(h)])
       .cast()
-    None => net_module()._call("createConnection", [@nostd.any(port)]).cast()
+    None => net_module()._call("createConnection", [@core.any(port)]).cast()
   }
 }
 
@@ -273,12 +273,12 @@ pub fn createServer(
     keepAlive is Some(_) ||
     keepAliveInitialDelay is Some(_)
   if has_options {
-    let opts : @nostd.Any = @mbtconv.from_option_map({
-      "allowHalfOpen": allowHalfOpen.map(fn(x) { @nostd.any(x) }),
-      "pauseOnConnect": pauseOnConnect.map(fn(x) { @nostd.any(x) }),
-      "noDelay": noDelay.map(fn(x) { @nostd.any(x) }),
-      "keepAlive": keepAlive.map(fn(x) { @nostd.any(x) }),
-      "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @nostd.any(x) }),
+    let opts : @core.Any = @mbtconv.from_option_map({
+      "allowHalfOpen": allowHalfOpen.map(fn(x) { @core.any(x) }),
+      "pauseOnConnect": pauseOnConnect.map(fn(x) { @core.any(x) }),
+      "noDelay": noDelay.map(fn(x) { @core.any(x) }),
+      "keepAlive": keepAlive.map(fn(x) { @core.any(x) }),
+      "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @core.any(x) }),
     }).cast()
     net_module()._call("createServer", [opts]).cast()
   } else {
@@ -289,17 +289,17 @@ pub fn createServer(
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module()._call("isIPv4", [@nostd.any(input)]).cast()
+  net_module()._call("isIPv4", [@core.any(input)]).cast()
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module()._call("isIPv6", [@nostd.any(input)]).cast()
+  net_module()._call("isIPv6", [@core.any(input)]).cast()
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module()._call("isIP", [@nostd.any(input)]).cast()
+  net_module()._call("isIP", [@core.any(input)]).cast()
 }

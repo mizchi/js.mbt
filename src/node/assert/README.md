@@ -47,8 +47,8 @@ Add to your `moon.pkg.json`:
 ```moonbit
 test "basic assertions" {
   @assert.ok(true)
-  @assert.equal(@nostd.any(42), @nostd.any(42))
-  @assert.strictEqual(@nostd.any("hello"), @nostd.any("hello"))
+  @assert.equal(@core.any(42), @core.any(42))
+  @assert.strictEqual(@core.any("hello"), @core.any("hello"))
 }
 
 test "error assertions" {

@@ -8,21 +8,21 @@ fn init_jsdom() -> Unit {
 
 ///|
 fn get_react_dom() -> ReactDOM {
-  @node.require("react-dom") |> @nostd.identity
+  @node.require("react-dom") |> @core.identity
 }
 
 ///|
 test "createPortal exists on ReactDOM" {
   init_jsdom()
   let react_dom = get_react_dom()
-  @nostd.typeof_(react_dom.as_any()["createPortal"]) |> assert_eq("function")
+  @core.typeof_(react_dom.as_any()["createPortal"]) |> assert_eq("function")
 }
 
 ///|
 test "flushSync exists on ReactDOM" {
   init_jsdom()
   let react_dom = get_react_dom()
-  @nostd.typeof_(react_dom.as_any()["flushSync"]) |> assert_eq("function")
+  @core.typeof_(react_dom.as_any()["flushSync"]) |> assert_eq("function")
 }
 
 ///|
@@ -40,8 +40,8 @@ test "createPortal returns React element" {
   let portal_content = @react_element.div(id="modal", ["Modal Content"])
   let portal = react_dom.createPortal(portal_content, portal_target)
   // Verify portal is a valid React element
-  @nostd.typeof_(portal.as_any()) |> assert_eq("object")
-  @nostd.is_null(portal.as_any()) |> assert_eq(false)
+  @core.typeof_(portal.as_any()) |> assert_eq("object")
+  @core.is_null(portal.as_any()) |> assert_eq(false)
   // Cleanup
   body.as_node().removeChild(portal_target.as_node()) |> ignore
 }
@@ -64,7 +64,7 @@ test "createPortal with key" {
     key="my-portal-key",
   )
   // Verify portal is created
-  @nostd.typeof_(portal.as_any()) |> assert_eq("object")
+  @core.typeof_(portal.as_any()) |> assert_eq("object")
   // Cleanup
   body.as_node().removeChild(portal_target.as_node()) |> ignore
 }

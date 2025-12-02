@@ -64,7 +64,7 @@ let browser = launch(
 - `timeout`: Maximum time in ms to wait for browser to start (default: 30000)
 - `userDataDir`: Path to user data directory (for profiles, cookies, etc.)
 - `dumpio`: Pipe browser stdout/stderr to process output
-- `env`: Custom environment variables as `@nostd.Any` object
+- `env`: Custom environment variables as `@core.Any` object
 - `pipe`: Connect via pipe instead of WebSocket (Chrome only)
 - `ignoreDefaultArgs`: Skip Puppeteer's default arguments
 - `waitForInitialPage`: Wait for initial page before resolving (default: true)
@@ -162,9 +162,9 @@ let cookies = page.cookies()!
 
 // Set cookies
 let cookie = @js.from_map({
-  "name": @nostd.any("session"),
-  "value": @nostd.any("abc123"),
-  "domain": @nostd.any(".example.com")
+  "name": @core.any("session"),
+  "value": @core.any("abc123"),
+  "domain": @core.any(".example.com")
 })
 page.setCookie([cookie])!
 ```
@@ -205,7 +205,7 @@ page.on("request", fn(req: HTTPRequest) {
   }
   let overrides = @js.from_map({
     "headers": @js.from_map({
-      "User-Agent": @nostd.any("Custom User Agent")
+      "User-Agent": @core.any("Custom User Agent")
     })
   })
   req.continue_with(overrides)!
@@ -215,9 +215,9 @@ page.on("request", fn(req: HTTPRequest) {
 page.on("request", fn(req: HTTPRequest) {
   if req.url().contains("/api/data") {
     let response = @js.from_map({
-      "status": @nostd.any(200),
-      "contentType": @nostd.any("application/json"),
-      "body": @nostd.any("{\"mock\": true}")
+      "status": @core.any(200),
+      "contentType": @core.any("application/json"),
+      "body": @core.any("{\"mock\": true}")
     })
     req.respond(response)!
   } else {
@@ -269,7 +269,7 @@ println("CSS coverage entries: \{cssCoverage.length()}")
 ```moonbit
 // Start JS coverage with anonymous scripts reporting
 let options = @js.from_map({
-  "reportAnonymousScripts": @nostd.any(true)
+  "reportAnonymousScripts": @core.any(true)
 })
 coverage.startJSCoverage_with(options)!
 ```
@@ -288,7 +288,7 @@ println("Session ID: \{sessionId}")
 
 // Send CDP commands
 let params = @js.from_map({
-  "enabled": @nostd.any(true)
+  "enabled": @core.any(true)
 })
 session.send("Network.enable", params)!
 
@@ -306,7 +306,7 @@ session.send_simple("Network.enable")!
 
 // Set user agent override
 let uaParams = @js.from_map({
-  "userAgent": @nostd.any("Custom User Agent")
+  "userAgent": @core.any("Custom User Agent")
 })
 session.send("Network.setUserAgentOverride", uaParams)!
 

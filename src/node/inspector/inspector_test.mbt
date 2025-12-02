@@ -2,8 +2,8 @@
 /// Test Session creation
 test "Session::new creates session" {
   let session = Session::new()
-  let session_js : @nostd.Any = session.as_any().cast()
-  inspect(@nostd.typeof_(session_js), content="object")
+  let session_js : @core.Any = session.as_any().cast()
+  inspect(@core.typeof_(session_js), content="object")
 }
 
 ///|
@@ -12,8 +12,8 @@ test "Session connect and disconnect" {
   let session = Session::new()
   session.connect()
   session.disconnect()
-  let session_js : @nostd.Any = session.as_any().cast()
-  inspect(@nostd.typeof_(session_js), content="object")
+  let session_js : @core.Any = session.as_any().cast()
+  inspect(@core.typeof_(session_js), content="object")
 }
 
 ///|
@@ -30,6 +30,6 @@ test "url returns string or undefined" {
 /// Test console function
 test "console returns Console instance" {
   let inspector_console = console()
-  let console_js : @nostd.Any = @nostd.any(inspector_console)
-  inspect(@nostd.typeof_(console_js), content="object")
+  let console_js : @core.Any = @core.any(inspector_console)
+  inspect(@core.typeof_(console_js), content="object")
 }

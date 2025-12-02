@@ -1,23 +1,23 @@
 /// https://nodejs.org/api/events.html#emittereventnames
 
 ///|
-extern "js" fn event_emitter_constructor() -> @nostd.Any =
+extern "js" fn event_emitter_constructor() -> @core.Any =
   #| () => require("events").EventEmitter
 
 ///|
 /// EventEmitter trait for Node.js event emitter pattern
 // pub(open) trait EventEmitterImpl {
-//   to_any(Self) -> @nostd.Any
-//   on(Self, String, (@nostd.Any) -> Unit) -> Unit = _
-//   on2(Self, String, (@nostd.Any?, @nostd.Any) -> Unit) -> Unit = _
-//   once(Self, String, (@nostd.Any) -> Unit) -> Unit = _
+//   to_any(Self) -> @core.Any
+//   on(Self, String, (@core.Any) -> Unit) -> Unit = _
+//   on2(Self, String, (@core.Any?, @core.Any) -> Unit) -> Unit = _
+//   once(Self, String, (@core.Any) -> Unit) -> Unit = _
 //   eventNames(Self) -> Array[String] = _
 //   listenerCount(Self, String) -> Int = _
-//   listeners(Self, event? : String) -> Array[(@nostd.Any) -> Unit] = _
-//   off(Self, String, (@nostd.Any) -> Unit) -> Unit = _
-//   removeListener(Self, String, (@nostd.Any) -> Unit) -> Unit = _
+//   listeners(Self, event? : String) -> Array[(@core.Any) -> Unit] = _
+//   off(Self, String, (@core.Any) -> Unit) -> Unit = _
+//   removeListener(Self, String, (@core.Any) -> Unit) -> Unit = _
 //   removeAllListeners(Self) -> Unit = _
-//   emit(Self, String, @nostd.Any) -> Unit = _
+//   emit(Self, String, @core.Any) -> Unit = _
 // }
 
 ///|
@@ -25,11 +25,11 @@ extern "js" fn event_emitter_constructor() -> @nostd.Any =
 pub fn EventEmitter::on(
   self : Self,
   name : String,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   self
   .to_any()
-  ._call("on", [@nostd.any(name), @nostd.any(callback |> @js.from_fn1)])
+  ._call("on", [@core.any(name), @core.any(callback |> @js.from_fn1)])
   .cast()
 }
 
@@ -37,11 +37,11 @@ pub fn EventEmitter::on(
 pub fn EventEmitter::on2(
   self : Self,
   name : String,
-  callback : (@nostd.Any?, @nostd.Any) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   self
   .to_any()
-  ._call("on", [@nostd.any(name), @nostd.any(callback |> @js.from_fn2)])
+  ._call("on", [@core.any(name), @core.any(callback |> @js.from_fn2)])
   .cast()
 }
 
@@ -49,11 +49,11 @@ pub fn EventEmitter::on2(
 pub fn EventEmitter::once(
   self : Self,
   name : String,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   self
   .to_any()
-  ._call("once", [@nostd.any(name), @nostd.any(callback |> @js.from_fn1)])
+  ._call("once", [@core.any(name), @core.any(callback |> @js.from_fn1)])
   .cast()
 }
 
@@ -64,17 +64,16 @@ pub fn EventEmitter::eventNames(self : Self) -> Array[String] {
 
 ///|
 pub fn EventEmitter::listenerCount(self : Self, eventName : String) -> Int {
-  self.to_any()._call("listenerCount", [@nostd.any(eventName)]).cast()
+  self.to_any()._call("listenerCount", [@core.any(eventName)]).cast()
 }
 
 ///|
 pub fn EventEmitter::listeners(
   self : Self,
   event? : String,
-) -> Array[(@nostd.Any) -> Unit] {
+) -> Array[(@core.Any) -> Unit] {
   match event {
-    Some(name) =>
-      self.to_any()._call("listenerCount", [@nostd.any(name)]).cast()
+    Some(name) => self.to_any()._call("listenerCount", [@core.any(name)]).cast()
     None => self.to_any()._call("listenerCount", []).cast()
   }
 }
@@ -83,11 +82,11 @@ pub fn EventEmitter::listeners(
 pub fn EventEmitter::off(
   self : Self,
   name : String,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   self
   .to_any()
-  ._call("off", [@nostd.any(name), @nostd.any(callback |> @js.from_fn1)])
+  ._call("off", [@core.any(name), @core.any(callback |> @js.from_fn1)])
   .cast()
 }
 
@@ -95,13 +94,13 @@ pub fn EventEmitter::off(
 pub fn EventEmitter::removeListener(
   self : Self,
   name : String,
-  callback : (@nostd.Any) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
   self
   .to_any()
   ._call("removeListener", [
-    @nostd.any(name),
-    @nostd.any(callback |> @js.from_fn1),
+    @core.any(name),
+    @core.any(callback |> @js.from_fn1),
   ])
   .cast()
 }
@@ -116,9 +115,9 @@ pub fn EventEmitter::removeAllListeners(self : Self) -> Unit {
 pub fn EventEmitter::emit(
   self : Self,
   name : String,
-  payload : @nostd.Any,
+  payload : @core.Any,
 ) -> Unit {
-  self.to_any()._call("emit", [@nostd.any(name), @nostd.any(payload)]).cast()
+  self.to_any()._call("emit", [@core.any(name), @core.any(payload)]).cast()
 }
 
 ///|
@@ -127,15 +126,15 @@ pub fn EventEmitter::emit(
 pub type EventEmitter
 
 ///|
-pub fn EventEmitter::as_any(self : EventEmitter) -> @nostd.Any = "%identity"
+pub fn EventEmitter::as_any(self : EventEmitter) -> @core.Any = "%identity"
 
 ///|
-pub fn EventEmitter::to_any(self : EventEmitter) -> @nostd.Any = "%identity"
+pub fn EventEmitter::to_any(self : EventEmitter) -> @core.Any = "%identity"
 
 ///|
 // impl EventEmitterImpl for EventEmitter with to_any(self) { self.to_any() }
 
 ///|
 pub fn EventEmitter::new() -> EventEmitter {
-  @nostd.new(event_emitter_constructor(), []).cast()
+  @core.new(event_emitter_constructor(), []).cast()
 }

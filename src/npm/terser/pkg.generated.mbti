@@ -2,13 +2,13 @@
 package "mizchi/js/npm/terser"
 
 // Values
-async fn minify(String, options? : MinifyOptions) -> MinifyResult
+pub async fn minify(String, options? : MinifyOptions) -> MinifyResult
 
-async fn minify_simple(String) -> String
+pub async fn minify_simple(String) -> String
 
-fn minify_simple_sync(String) -> String
+pub fn minify_simple_sync(String) -> String
 
-fn minify_sync(String, options? : MinifyOptions) -> MinifyResult
+pub fn minify_sync(String, options? : MinifyOptions) -> MinifyResult
 
 // Errors
 
@@ -21,7 +21,7 @@ pub(all) struct MinifyOptions {
   keep_fnames : Bool
   keep_classnames : Bool
 }
-fn MinifyOptions::default() -> Self
+pub fn MinifyOptions::default() -> Self
 
 pub struct MinifyResult {
   code : String

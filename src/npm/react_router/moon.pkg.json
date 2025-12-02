@@ -4,7 +4,7 @@
   ],
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/npm/react",
     "mizchi/js/web/url",
     "mizchi/js/builtins/global"

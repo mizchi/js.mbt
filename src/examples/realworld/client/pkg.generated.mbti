@@ -2,25 +2,26 @@
 package "mizchi/js/examples/realworld/client"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/npm/better_auth"
 )
 
 // Values
-fn create_api_client(String) -> ApiClient
+pub fn create_api_client(String) -> ApiClient
 
-fn create_auth_client(String) -> @better_auth.AuthClient
+pub fn create_auth_client(String) -> @better_auth.AuthClient
 
 // Errors
 
 // Types and methods
 #external
 pub type ApiClient
-fn ApiClient::as_any(Self) -> @nostd.Any
-async fn ApiClient::add_todo(Self, String) -> Unit
-async fn ApiClient::delete_todo(Self, Int) -> Unit
-async fn ApiClient::fetch_todos(Self) -> Array[@nostd.Any]
+pub async fn ApiClient::add_todo(Self, String) -> Unit
+pub fn ApiClient::as_any(Self) -> @core.Any
+pub async fn ApiClient::delete_todo(Self, Int) -> Unit
+pub async fn ApiClient::fetch_todos(Self) -> Array[@core.Any]
 
 // Type aliases
 
 // Traits
+

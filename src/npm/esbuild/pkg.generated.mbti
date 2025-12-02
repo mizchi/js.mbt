@@ -2,36 +2,36 @@
 package "mizchi/js/npm/esbuild"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn esbuild() -> Esbuild
+pub fn esbuild() -> Esbuild
 
 // Errors
 
 // Types and methods
 #external
 pub(all) type BuildResult
-fn BuildResult::as_any(Self) -> @nostd.Any
-fn BuildResult::errors(Self) -> Array[Message]
-fn BuildResult::output_files(Self) -> Array[OutputFile]
-fn BuildResult::warnings(Self) -> Array[Message]
+pub fn BuildResult::as_any(Self) -> @core.Any
+pub fn BuildResult::errors(Self) -> Array[Message]
+pub fn BuildResult::output_files(Self) -> Array[OutputFile]
+pub fn BuildResult::warnings(Self) -> Array[Message]
 
 #external
 pub type Esbuild
-fn Esbuild::as_any(Self) -> @nostd.Any
-async fn Esbuild::build(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
-fn Esbuild::build_sync(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
-async fn Esbuild::transform(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
-fn Esbuild::transform_sync(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
+pub fn Esbuild::as_any(Self) -> @core.Any
+pub async fn Esbuild::build(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
+pub fn Esbuild::build_sync(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
+pub async fn Esbuild::transform(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
+pub fn Esbuild::transform_sync(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
 
 pub(all) enum Format {
   Iife
   Cjs
   Esm
 }
-fn Format::to_string(Self) -> String
+pub fn Format::to_string(Self) -> String
 
 pub(all) enum Loader {
   Js
@@ -47,33 +47,33 @@ pub(all) enum Loader {
   File
   Copy
 }
-fn Loader::to_string(Self) -> String
+pub fn Loader::to_string(Self) -> String
 
 #external
 pub(all) type Message
-fn Message::as_any(Self) -> @nostd.Any
-fn Message::text(Self) -> String
+pub fn Message::as_any(Self) -> @core.Any
+pub fn Message::text(Self) -> String
 
 #external
 pub(all) type OutputFile
-fn OutputFile::as_any(Self) -> @nostd.Any
-fn OutputFile::contents(Self) -> @nostd.Any
-fn OutputFile::path(Self) -> String
-fn OutputFile::text(Self) -> String
+pub fn OutputFile::as_any(Self) -> @core.Any
+pub fn OutputFile::contents(Self) -> @core.Any
+pub fn OutputFile::path(Self) -> String
+pub fn OutputFile::text(Self) -> String
 
 pub(all) enum Platform {
   Browser
   Node
   Neutral
 }
-fn Platform::to_string(Self) -> String
+pub fn Platform::to_string(Self) -> String
 
 #external
 pub(all) type TransformResult
-fn TransformResult::as_any(Self) -> @nostd.Any
-fn TransformResult::code(Self) -> String
-fn TransformResult::map(Self) -> String
-fn TransformResult::warnings(Self) -> Array[Message]
+pub fn TransformResult::as_any(Self) -> @core.Any
+pub fn TransformResult::code(Self) -> String
+pub fn TransformResult::map(Self) -> String
+pub fn TransformResult::warnings(Self) -> Array[Message]
 
 // Type aliases
 

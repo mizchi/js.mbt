@@ -2,43 +2,42 @@
 package "mizchi/js/npm/testing_library_vue"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/dom"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/npm/testing_library"
   "mizchi/js/npm/vue"
 )
 
 // Values
-fn cleanup() -> Unit
+pub fn cleanup() -> Unit
 
-fn configure(@nostd.Any) -> Unit
+pub fn configure(@core.Any) -> Unit
 
 #alias(fire_event)
-fn fireEvent() -> @testing_library.FireEvent
+pub fn fireEvent() -> @testing_library.FireEvent
 
-fn render(@vue.VNode) -> RenderResult
+pub fn render(@vue.VNode) -> RenderResult
 
-fn renderWithProps(@vue.VNode, @nostd.Any) -> RenderResult
+pub fn renderWithProps(@vue.VNode, @core.Any) -> RenderResult
 
-fn screen() -> @testing_library.Screen
+pub fn screen() -> @testing_library.Screen
 
-async fn waitFor(() -> Unit) -> Unit
+pub async fn waitFor(() -> Unit) -> Unit
 
-async fn waitForElementToBeRemoved(() -> @nostd.Any) -> Unit
+pub async fn waitForElementToBeRemoved(() -> @core.Any) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type RenderResult
-fn RenderResult::as_any(Self) -> @nostd.Any
-fn RenderResult::baseElement(Self) -> @dom.HTMLElement
-fn RenderResult::container(Self) -> @dom.HTMLElement
-fn RenderResult::debug(Self) -> Unit
-fn RenderResult::html(Self) -> String
-fn RenderResult::rerender(Self, @nostd.Any) -> Unit
-fn RenderResult::unmount(Self) -> Unit
+pub fn RenderResult::as_any(Self) -> @core.Any
+pub fn RenderResult::baseElement(Self) -> @dom.HTMLElement
+pub fn RenderResult::container(Self) -> @dom.HTMLElement
+pub fn RenderResult::debug(Self) -> Unit
+pub fn RenderResult::html(Self) -> String
+pub fn RenderResult::rerender(Self, @core.Any) -> Unit
+pub fn RenderResult::unmount(Self) -> Unit
 
 #external
 pub type VueTestingLibrary

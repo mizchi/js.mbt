@@ -3,7 +3,7 @@
 pub type Stat
 
 ///|
-pub fn Stat::as_any(self : Stat) -> @nostd.Any = "%identity"
+pub fn Stat::as_any(self : Stat) -> @core.Any = "%identity"
 
 ///|
 pub fn Stat::isFile(self : Self) -> Bool {

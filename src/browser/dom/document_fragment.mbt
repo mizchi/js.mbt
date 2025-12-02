@@ -5,7 +5,7 @@
 pub type DocumentFragment
 
 ///|
-pub fn DocumentFragment::as_any(self : DocumentFragment) -> @nostd.Any = "%identity"
+pub fn DocumentFragment::as_any(self : DocumentFragment) -> @core.Any = "%identity"
 
 ///|
 pub fn DocumentFragment::as_event_target(

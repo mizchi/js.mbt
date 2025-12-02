@@ -2,7 +2,7 @@
 package "mizchi/js/npm/source_map"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -14,7 +14,7 @@ pub(all) struct GeneratedPosition {
   line : Int
   column : Int
 }
-fn GeneratedPosition::new(Int, Int) -> Self
+pub fn GeneratedPosition::new(Int, Int) -> Self
 
 pub(all) struct Mapping {
   generated : GeneratedPosition
@@ -29,28 +29,28 @@ pub(all) struct OriginalPosition {
   column : Int?
   name : String?
 }
-fn OriginalPosition::is_found(Self) -> Bool
-impl Show for OriginalPosition
+pub fn OriginalPosition::is_found(Self) -> Bool
+pub impl Show for OriginalPosition
 
 #external
 pub type SourceMapConsumer
-fn SourceMapConsumer::as_any(Self) -> @nostd.Any
-fn SourceMapConsumer::destroy(Self) -> Unit
-fn SourceMapConsumer::eachMapping(Self, (Mapping) -> Unit) -> Unit
-async fn SourceMapConsumer::from_json(String) -> Self
-async fn SourceMapConsumer::from_raw(@nostd.Any) -> Self
-fn SourceMapConsumer::originalPositionFor(Self, Int, Int) -> OriginalPosition
-fn SourceMapConsumer::sourceContentFor(Self, String) -> String?
-fn SourceMapConsumer::sources(Self) -> Array[String]
+pub fn SourceMapConsumer::as_any(Self) -> @core.Any
+pub fn SourceMapConsumer::destroy(Self) -> Unit
+pub fn SourceMapConsumer::eachMapping(Self, (Mapping) -> Unit) -> Unit
+pub async fn SourceMapConsumer::from_json(String) -> Self
+pub async fn SourceMapConsumer::from_raw(@core.Any) -> Self
+pub fn SourceMapConsumer::originalPositionFor(Self, Int, Int) -> OriginalPosition
+pub fn SourceMapConsumer::sourceContentFor(Self, String) -> String?
+pub fn SourceMapConsumer::sources(Self) -> Array[String]
 
 #external
 pub type SourceMapGenerator
-fn SourceMapGenerator::addMapping(Self, GeneratedPosition, original? : GeneratedPosition, source? : String, name? : String) -> Unit
-fn SourceMapGenerator::as_any(Self) -> @nostd.Any
-fn SourceMapGenerator::new(file? : String, sourceRoot? : String) -> Self
-fn SourceMapGenerator::setSourceContent(Self, String, String) -> Unit
-fn SourceMapGenerator::toJSON(Self) -> String
-fn SourceMapGenerator::toObject(Self) -> @nostd.Any
+pub fn SourceMapGenerator::addMapping(Self, GeneratedPosition, original? : GeneratedPosition, source? : String, name? : String) -> Unit
+pub fn SourceMapGenerator::as_any(Self) -> @core.Any
+pub fn SourceMapGenerator::new(file? : String, sourceRoot? : String) -> Self
+pub fn SourceMapGenerator::setSourceContent(Self, String, String) -> Unit
+pub fn SourceMapGenerator::toJSON(Self) -> String
+pub fn SourceMapGenerator::toObject(Self) -> @core.Any
 
 // Type aliases
 

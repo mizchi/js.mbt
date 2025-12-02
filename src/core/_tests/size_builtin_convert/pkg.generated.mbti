@@ -1,0 +1,29 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/core/_tests/size_builtin_convert"
+
+import(
+  "mizchi/js/core"
+  "moonbitlang/core/hashset"
+  "moonbitlang/core/immut/array"
+  "moonbitlang/core/immut/hashmap"
+)
+
+// Values
+pub fn[T] from_immut_array(@array.T[T]) -> @core.Any
+
+pub fn[V] from_immut_map(@hashmap.HashMap[String, V]) -> @core.Any
+
+pub fn from_json(Json) -> @core.Any
+
+pub fn from_map(Map[String, @core.Any]) -> @core.Any
+
+pub fn[T] from_set(@hashset.HashSet[T]) -> @core.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

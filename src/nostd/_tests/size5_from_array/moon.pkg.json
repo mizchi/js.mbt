@@ -1,7 +1,0 @@
-{
-  "is-main": true,
-  "import": [
-    "mizchi/js/nostd"
-  ],
-  "warn-list": "-9"
-}

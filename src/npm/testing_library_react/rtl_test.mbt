@@ -44,10 +44,10 @@ test "RenderResult methods" {
   let result = @testing_library_react.render(@react.component(comp, ()))
   // Test container
   let container = result.container()
-  @nostd.typeof_(container |> @nostd.any) |> assert_eq("object")
+  @core.typeof_(container |> @core.any) |> assert_eq("object")
   // Test baseElement
   let base = result.baseElement()
-  @nostd.typeof_(base |> @nostd.any) |> assert_eq("object")
+  @core.typeof_(base |> @core.any) |> assert_eq("object")
   let comp2 = (_props : Unit) => @react_element.div(["Rerendered Content"])
   result.rerender(@react.component(comp2, ()))
   @testing_library_react.expect(
@@ -183,7 +183,7 @@ test "fireEvent change on input" {
   let comp = (_props : Unit) => {
     let (value, set_value) = @react.use_state("")
     let on_change : @dom.ChangeEventHandler = e => {
-      let target : @nostd.Any = e.as_any()._get("target")
+      let target : @core.Any = e.as_any()._get("target")
       let new_value : String = target._get("value").cast()
       set_value(new_value)
     }
@@ -197,8 +197,8 @@ test "fireEvent change on input" {
     "Type here",
   )
   // Create event object using from_map
-  let event : @nostd.Any = @nostd.from_entries([
-    ("target", @nostd.from_entries([("value", @nostd.any("hello"))])),
+  let event : @core.Any = @core.from_entries([
+    ("target", @core.from_entries([("value", @core.any("hello"))])),
   ])
   @testing_library_react.fireEvent().change(input_el, event) |> ignore
   @testing_library_react.expect(
@@ -212,14 +212,14 @@ test "fireEvent submit on form" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
-    let on_submit = fn(e : @nostd.Any) {
+    let on_submit = fn(e : @core.Any) {
       e._call("preventDefault", []) |> ignore
       set_submitted(true)
     }
     @react_element.div([
       @react_element.form(
         [@react_element.button(["Submit"], type_="submit")],
-        on_submit=@nostd.identity(on_submit),
+        on_submit=@core.identity(on_submit),
         id="test-form",
       ),
       if submitted {
@@ -237,7 +237,7 @@ test "fireEvent submit on form" {
     .container()
     .querySelector("form")
     .unwrap()
-    |> @nostd.identity
+    |> @core.identity
   @testing_library_react.fireEvent().submit(form_el) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Form submitted"),
@@ -250,12 +250,12 @@ test "fireEvent focus and blur on input" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (focused, set_focused) = @react.use_state(false)
-    let on_focus = fn(_e : @nostd.Any) { set_focused(true) }
-    let on_blur = fn(_e : @nostd.Any) { set_focused(false) }
+    let on_focus = fn(_e : @core.Any) { set_focused(true) }
+    let on_blur = fn(_e : @core.Any) { set_focused(false) }
     @react_element.div([
       @react_element.input(
-        on_focus=@nostd.identity(on_focus),
-        on_blur=@nostd.identity(on_blur),
+        on_focus=@core.identity(on_focus),
+        on_blur=@core.identity(on_blur),
         placeholder="Focus me",
       ),
       @react_element.div([if focused { "Focused" } else { "Not focused" }]),
@@ -281,13 +281,13 @@ test "fireEvent keyDown on input" {
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (key, set_key) = @react.use_state("")
-    let on_keydown = fn(e : @nostd.Any) {
+    let on_keydown = fn(e : @core.Any) {
       let k : String = e._get("key").cast()
       set_key("Key: \{k}")
     }
     @react_element.div([
       @react_element.input(
-        on_keydown=@nostd.identity(on_keydown),
+        on_keydown=@core.identity(on_keydown),
         placeholder="Press a key",
       ),
       @react_element.div([if key == "" { "No key pressed" } else { key }]),
@@ -297,7 +297,7 @@ test "fireEvent keyDown on input" {
   let input_el = @testing_library_react.screen().getByPlaceholderText(
     "Press a key",
   )
-  let event : @nostd.Any = @nostd.from_entries([("key", @nostd.any("Enter"))]).cast()
+  let event : @core.Any = @core.from_entries([("key", @core.any("Enter"))]).cast()
   @testing_library_react.fireEvent().keyDown(input_el, event) |> ignore
   @testing_library_react.expect(
     @testing_library_react.screen().getByText("Key: Enter"),
@@ -310,8 +310,8 @@ test "configure function exists" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
-  let config = @nostd.Object::new()
-  let config_any : @nostd.Any = config.cast()
+  let config = @core.Object::new()
+  let config_any : @core.Any = config.cast()
   configure(config_any)
 }
 
@@ -326,7 +326,7 @@ test "renderHook: useState" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let hook_result = result.result()
   // result.current is the hook return value
   let current = hook_result["current"]
@@ -344,7 +344,7 @@ test "renderHook: useState with updates" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   // Get initial state
   let current1 = result.result()["current"]
   let state1 : Int = current1.cast()
@@ -369,7 +369,7 @@ test "renderHook: useEffect" {
     )
     count
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let count : Int = current.cast()
   // After useEffect runs, count should be 1
@@ -383,12 +383,12 @@ test "renderHook: useCallback" {
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(0)
-    @react.useCallback(fn() { count * 2 }, [@nostd.any(count)])
+    @react.useCallback(fn() { count * 2 }, [@core.any(count)])
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   // callback is a function
-  @nostd.typeof_(current) |> assert_eq("function")
+  @core.typeof_(current) |> assert_eq("function")
 }
 
 ///|
@@ -398,9 +398,9 @@ test "renderHook: useMemo" {
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(5)
-    @react.useMemo(fn() { count * 2 }, [@nostd.any(count)])
+    @react.useMemo(fn() { count * 2 }, [@core.any(count)])
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let doubled : Int = current.cast()
   assert_eq(doubled, 10)
@@ -412,11 +412,11 @@ test "renderHook: useRef" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   // ref has a current property
   let ref_current = current["current"]
-  let value : Int = @nostd.identity(ref_current)
+  let value : Int = @core.identity(ref_current)
   assert_eq(value, 42)
 }
 
@@ -427,7 +427,7 @@ test "renderHook: useContext" {
   defer @testing_library_react.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let value : Int = current.cast()
   assert_eq(value, 100)
@@ -443,7 +443,7 @@ test "renderHook: useReducer" {
     let (state, _dispatch) = @react.use_reducer(reducer, 0)
     state
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let state : Int = current.cast()
   assert_eq(state, 0)
@@ -462,13 +462,13 @@ test "renderHook: rerender method" {
     let (count, _set_count) = @react.use_state(10)
     count * multiplier_ref.val
   }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   let current1 = result.result()["current"]
   let value1 : Int = current1.cast()
   assert_eq(value1, 20)
   // Change multiplier and rerender
   multiplier_ref.val = 3
-  result.rerender(@nostd.undefined())
+  result.rerender(@core.undefined())
   let current2 = result.result()["current"]
   let value2 : Int = current2.cast()
   assert_eq(value2, 30)
@@ -480,10 +480,10 @@ test "renderHook: unmount method" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.use_state(0) }
-  let result = renderHook(@nostd.identity(hook))
+  let result = renderHook(@core.identity(hook))
   // Verify hook is mounted
   let current = result.result()["current"]
-  @nostd.typeof_(current) |> assert_eq("object")
+  @core.typeof_(current) |> assert_eq("object")
   // Unmount should not throw
   result.unmount()
 }
@@ -603,7 +603,7 @@ fn child_component(_props : ChildProps) -> @react.Element {
   let ref_val : @react.ReactRef[@dom.HTMLDivElement] = @react.use_ref(None)
   @react.use_imperative_handle(
     ref_val,
-    fn() -> @dom.HTMLDivElement { @nostd.Object::new() |> @nostd.identity },
+    fn() -> @dom.HTMLDivElement { @core.Object::new() |> @core.identity },
     [],
   )
   @react_element.div(["Child"], ref_=ref_val)

@@ -82,7 +82,7 @@ fn main {
     d.env_set("DENO_TEST_2", "value2")
     let env_obj = d.env_toObject()
     // env_obj contains all environment variables
-    assert_true(@nostd.typeof_(env_obj) == "object")
+    assert_true(@core.typeof_(env_obj) == "object")
     d.env_delete("DENO_TEST_1")
     d.env_delete("DENO_TEST_2")
   })
@@ -136,7 +136,7 @@ fn main {
     let stat = d.stat(test_file)
 
     // Check that stat returns an object
-    assert_true(@nostd.typeof_(stat) == "object")
+    assert_true(@core.typeof_(stat) == "object")
     d.remove(test_file)
   })
 
@@ -182,10 +182,10 @@ fn main {
     // Create binary data using @encoding.TextEncoder
     let encoder = @encoding.TextEncoder::new()
     let arr = encoder.encode("binary test data")
-    let arr_nostd : @nostd.Any = arr.as_any().cast()
+    let arr_nostd : @core.Any = arr.as_any().cast()
     d.writeFile(test_file, arr_nostd)
     let data = d.readFile(test_file)
-    assert_true(@nostd.typeof_(data.as_any()) == "object")
+    assert_true(@core.typeof_(data.as_any()) == "object")
     d.remove(test_file)
   })
 
@@ -242,13 +242,13 @@ fn main {
   // Test network interfaces
   d.test_async("network interfaces", async fn(_ctx) {
     let interfaces = d.networkInterfaces()
-    assert_true(@nostd.typeof_(interfaces) == "object")
+    assert_true(@core.typeof_(interfaces) == "object")
   })
 
   // Test system memory info
   d.test_async("system memory info", async fn(_ctx) {
     let mem_info = d.systemMemoryInfo()
-    assert_true(@nostd.typeof_(mem_info) == "object")
+    assert_true(@core.typeof_(mem_info) == "object")
   })
 
   // Test uid/gid (Unix only)
@@ -343,7 +343,7 @@ fn main {
     let test_file = "test_lstat.txt"
     d.writeTextFile(test_file, "lstat test")
     let stat = d.lstat(test_file)
-    assert_true(@nostd.typeof_(stat) == "object")
+    assert_true(@core.typeof_(stat) == "object")
     d.remove(test_file)
   })
 
@@ -365,7 +365,7 @@ fn main {
     d.writeTextFile(test_dir + "/file1.txt", "content1")
     d.writeTextFile(test_dir + "/file2.txt", "content2")
     let entries = d.readDir(test_dir)
-    assert_true(@nostd.typeof_(entries) == "object")
+    assert_true(@core.typeof_(entries) == "object")
     d.remove(test_dir, recursive=true)
   })
 
@@ -500,8 +500,8 @@ fn main {
     let worker = create_inline_worker(worker_code)
 
     // Set up message handler and wait for response
-    let result = worker_round_trip(worker, @nostd.any(21))
-    let value : Int = @nostd.identity(result)
+    let result = worker_round_trip(worker, @core.any(21))
+    let value : Int = @core.identity(result)
     assert_eq(value, 42)
     worker.terminate()
   })
@@ -514,12 +514,12 @@ fn main {
       #|  self.postMessage({ sum: a + b, product: a * b });
       #|};
     let worker = create_inline_worker(worker_code)
-    let msg = @nostd.Object::new()
-    msg._set("a", 3 |> @nostd.any)
-    msg._set("b", 4 |> @nostd.any)
-    let result = worker_round_trip(worker, @nostd.any(msg))
-    let sum : Int = @nostd.identity(result._get("sum"))
-    let product : Int = @nostd.identity(result._get("product"))
+    let msg = @core.Object::new()
+    msg._set("a", 3 |> @core.any)
+    msg._set("b", 4 |> @core.any)
+    let result = worker_round_trip(worker, @core.any(msg))
+    let sum : Int = @core.identity(result._get("sum"))
+    let product : Int = @core.identity(result._get("product"))
     assert_eq(sum, 7)
     assert_eq(product, 12)
     worker.terminate()
@@ -532,8 +532,8 @@ fn main {
       #|  self.postMessage("Hello, " + e.data + "!");
       #|};
     let worker = create_inline_worker(worker_code)
-    let result = worker_round_trip(worker, @nostd.any("World"))
-    let text : String = @nostd.identity(result)
+    let result = worker_round_trip(worker, @core.any("World"))
+    let text : String = @core.identity(result)
     assert_eq(text, "Hello, World!")
     worker.terminate()
   })
@@ -582,14 +582,14 @@ fn main {
     guard @webgpu.gpu() is Some(gpu) else { return }
     guard gpu.requestAdapter() is Some(adapter) else { return }
     guard adapter.requestDevice() is Some(device) else { return }
-    @js.log("device type: " + @nostd.typeof_(device.as_any()))
+    @js.log("device type: " + @core.typeof_(device.as_any()))
     let buffer = device.createBuffer(
       256,
       @webgpu.BUFFER_USAGE_COPY_DST | @webgpu.BUFFER_USAGE_MAP_READ,
       label="test buffer",
     )
-    @js.log("buffer type: " + @nostd.typeof_(buffer.as_any()))
-    if @nostd.is_undefined(buffer.as_any()) {
+    @js.log("buffer type: " + @core.typeof_(buffer.as_any()))
+    if @core.is_undefined(buffer.as_any()) {
       @js.log("WebGPU: buffer is undefined, skipping")
       device.destroy()
       return
@@ -610,8 +610,8 @@ fn main {
       #|@compute @workgroup_size(1)
       #|fn main() {}
     let shader = device.createShaderModule(shader_code, label="test shader")
-    @js.log("shader type: " + @nostd.typeof_(shader.as_any()))
-    if @nostd.is_undefined(shader.as_any()) {
+    @js.log("shader type: " + @core.typeof_(shader.as_any()))
+    if @core.is_undefined(shader.as_any()) {
       @js.log("WebGPU: shader is undefined, skipping")
       device.destroy()
       return
@@ -627,8 +627,8 @@ fn main {
     guard gpu.requestAdapter() is Some(adapter) else { return }
     guard adapter.requestDevice() is Some(device) else { return }
     let encoder = device.createCommandEncoder(label="test encoder")
-    @js.log("encoder type: " + @nostd.typeof_(encoder.as_any()))
-    if @nostd.is_undefined(encoder.as_any()) {
+    @js.log("encoder type: " + @core.typeof_(encoder.as_any()))
+    if @core.is_undefined(encoder.as_any()) {
       @js.log("WebGPU: encoder is undefined, skipping")
       device.destroy()
       return
@@ -655,8 +655,8 @@ extern "js" fn create_inline_worker(code : String) -> @worker.Worker =
 /// Send message to worker and wait for response (Promise-based)
 extern "js" fn worker_round_trip_ffi(
   worker : @worker.Worker,
-  message : @nostd.Any,
-) -> @js.Promise[@nostd.Any] =
+  message : @core.Any,
+) -> @js.Promise[@core.Any] =
   #| (worker, message) => {
   #|   return new Promise((resolve) => {
   #|     worker.onmessage = (e) => resolve(e.data);
@@ -667,7 +667,7 @@ extern "js" fn worker_round_trip_ffi(
 ///|
 async fn worker_round_trip(
   worker : @worker.Worker,
-  message : @nostd.Any,
-) -> @nostd.Any {
+  message : @core.Any,
+) -> @core.Any {
   worker_round_trip_ffi(worker, message).wait()
 }

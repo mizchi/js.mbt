@@ -2,13 +2,13 @@
 package "mizchi/js/npm/puppeteer/_example"
 
 // Values
-fn cdp_example() -> Unit
+pub fn cdp_example() -> Unit
 
-fn coverage_example() -> Unit
+pub fn coverage_example() -> Unit
 
-fn element_example() -> Unit
+pub fn element_example() -> Unit
 
-fn screenshot_example() -> Unit
+pub fn screenshot_example() -> Unit
 
 // Errors
 

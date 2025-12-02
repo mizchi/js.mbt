@@ -13,7 +13,7 @@
 extern "js" fn test_ffi_db_run(
   db : DrizzleDB,
   sql : SQL,
-) -> @js.Promise[@nostd.Any] =
+) -> @js.Promise[@core.Any] =
   #| (db, sql) => db.run(sql)
 
 // Schema definition for tests using Map
@@ -60,10 +60,10 @@ async test "drizzle libsql - create table and insert" {
     .str("name", "Alice")
     .str("email", "alice@example.com")
     .int("age", 30)
-  let _ = db.insert(users).values(@nostd.any(insert_data.as_any())).execute()
+  let _ = db.insert(users).values(@core.any(insert_data.as_any())).execute()
 
   // Query users
-  let result : Array[@nostd.Any] = db.select().from(users).execute_array()
+  let result : Array[@core.Any] = db.select().from(users).execute_array()
   inspect(result.length(), content="1")
 }
 
@@ -95,19 +95,19 @@ async test "drizzle libsql - multiple inserts and select" {
     .int("age", 35)
   let _ = db
     .insert(users)
-    .values(@nostd.any(rows([user1, user2, user3])))
+    .values(@core.any(rows([user1, user2, user3])))
     .execute()
 
   // Select all
-  let all_users : Array[@nostd.Any] = db.select().from(users).execute_array()
+  let all_users : Array[@core.Any] = db.select().from(users).execute_array()
   inspect(all_users.length(), content="3")
 
   // Select with filter
-  let age_col : Column = users.get("age") |> @nostd.identity
-  let older_users : Array[@nostd.Any] = db
+  let age_col : Column = users.get("age") |> @core.identity
+  let older_users : Array[@core.Any] = db
     .select()
     .from(users)
-    .filter(gt(age_col, @nostd.any(28)))
+    .filter(gt(age_col, @core.any(28)))
     .execute_array()
   inspect(older_users.length(), content="2")
 }
@@ -125,22 +125,22 @@ async test "drizzle libsql - update and delete" {
   ).wait()
   let users = get_users_table_with_email()
   let user = Row::new().str("name", "Alice").int("age", 30)
-  let _ = db.insert(users).values(@nostd.any(user.as_any())).execute()
+  let _ = db.insert(users).values(@core.any(user.as_any())).execute()
 
   // Update
-  let name_col : Column = users.get("name") |> @nostd.identity
+  let name_col : Column = users.get("name") |> @core.identity
   let update_data = Row::new().int("age", 31)
   let _ = db
     .update(users)
-    .set(@nostd.any(update_data.as_any()))
-    .filter(eq(name_col, @nostd.any("Alice")))
+    .set(@core.any(update_data.as_any()))
+    .filter(eq(name_col, @core.any("Alice")))
     .execute()
 
   // Verify update
-  let result : Array[@nostd.Any] = db
+  let result : Array[@core.Any] = db
     .select()
     .from(users)
-    .filter(eq(name_col, @nostd.any("Alice")))
+    .filter(eq(name_col, @core.any("Alice")))
     .execute_array()
   inspect(result.length(), content="1")
   let updated_user = result[0]
@@ -148,10 +148,10 @@ async test "drizzle libsql - update and delete" {
   inspect(age, content="31")
 
   // Delete
-  let _ = db.delete(users).filter(eq(name_col, @nostd.any("Alice"))).execute()
+  let _ = db.delete(users).filter(eq(name_col, @core.any("Alice"))).execute()
 
   // Verify delete
-  let after_delete : Array[@nostd.Any] = db.select().from(users).execute_array()
+  let after_delete : Array[@core.Any] = db.select().from(users).execute_array()
   inspect(after_delete.length(), content="0")
 }
 
@@ -170,14 +170,14 @@ async test "drizzle libsql - order by and limit" {
   let u1 = Row::new().str("name", "User20").int("age", 20)
   let u2 = Row::new().str("name", "User30").int("age", 30)
   let u3 = Row::new().str("name", "User35").int("age", 35)
-  let _ = db.insert(users).values(@nostd.any(rows([u1, u2, u3]))).execute()
+  let _ = db.insert(users).values(@core.any(rows([u1, u2, u3]))).execute()
 
   // Select without orderBy first to verify data
-  let all : Array[@nostd.Any] = db.select().from(users).execute_array()
+  let all : Array[@core.Any] = db.select().from(users).execute_array()
   inspect(all.length(), content="3")
 
   // Limit only (without orderBy)
-  let limited : Array[@nostd.Any] = db
+  let limited : Array[@core.Any] = db
     .select()
     .from(users)
     .limit(2)
@@ -202,15 +202,15 @@ async test "drizzle libsql - SQL operators" {
   let charlie = Row::new().str("name", "Charlie").int("age", 35)
   let _ = db
     .insert(users)
-    .values(@nostd.any(rows([alice, bob, charlie])))
+    .values(@core.any(rows([alice, bob, charlie])))
     .execute()
 
   // Simple test - lt operator (which is similar to gt that works)
-  let age_col : Column = users.get("age") |> @nostd.identity
-  let lt_result : Array[@nostd.Any] = db
+  let age_col : Column = users.get("age") |> @core.identity
+  let lt_result : Array[@core.Any] = db
     .select()
     .from(users)
-    .filter(lt(age_col, @nostd.any(32)))
+    .filter(lt(age_col, @core.any(32)))
     .execute_array()
   inspect(lt_result.length(), content="2") // Alice(30), Bob(25)
 }

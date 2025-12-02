@@ -16,7 +16,7 @@ pub type Expect
 
 ///|
 /// Cached chai expect function (set up with vitest plugins)
-let chai_expect : Ref[@nostd.Any?] = Ref::new(None)
+let chai_expect : Ref[@core.Any?] = Ref::new(None)
 
 ///|
 /// Setup chai with @vitest/expect plugins.
@@ -28,19 +28,18 @@ pub fn setup_standalone() -> Unit {
   let chai = @node.require("chai")
   let vitest_expect = @node.require("@vitest/expect")
   // use() plugins
-  let use_fn = @nostd.any(chai)["use"]
-  use_fn._invoke([@nostd.any(vitest_expect)["JestAsymmetricMatchers"]])
-  |> ignore
-  use_fn._invoke([@nostd.any(vitest_expect)["JestChaiExpect"]]) |> ignore
-  use_fn._invoke([@nostd.any(vitest_expect)["JestExtend"]]) |> ignore
-  chai_expect.val = Some(@nostd.any(chai)["expect"])
+  let use_fn = @core.any(chai)["use"]
+  use_fn._invoke([@core.any(vitest_expect)["JestAsymmetricMatchers"]]) |> ignore
+  use_fn._invoke([@core.any(vitest_expect)["JestChaiExpect"]]) |> ignore
+  use_fn._invoke([@core.any(vitest_expect)["JestExtend"]]) |> ignore
+  chai_expect.val = Some(@core.any(chai)["expect"])
 }
 
 ///|
 /// JS: expect(actual)
 /// Creates an expectation object for making assertions.
 /// NOTE: Call setup() once before using this function.
-pub fn expect(actual : @nostd.Any) -> Expect {
+pub fn expect(actual : @core.Any) -> Expect {
   guard chai_expect.val is Some(expect_fn) else {
     abort("vitest.setup() must be called before using expect()")
   }
@@ -50,7 +49,7 @@ pub fn expect(actual : @nostd.Any) -> Expect {
 ///|
 /// JS: expect.not - negates the following assertion
 pub fn Expect::not_(self : Expect) -> Expect {
-  @nostd.any(self)["not"].cast()
+  @core.any(self)["not"].cast()
 }
 
 // ============================================================
@@ -60,22 +59,22 @@ pub fn Expect::not_(self : Expect) -> Expect {
 ///|
 /// JS: expect(actual).toBe(expected)
 /// Strict equality check using Object.is
-pub fn Expect::toBe(self : Expect, expected : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toBe", [expected]) |> ignore
+pub fn Expect::toBe(self : Expect, expected : @core.Any) -> Unit {
+  @core.any(self)._call("toBe", [expected]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toEqual(expected)
 /// Deep equality check
-pub fn Expect::toEqual(self : Expect, expected : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toEqual", [expected]) |> ignore
+pub fn Expect::toEqual(self : Expect, expected : @core.Any) -> Unit {
+  @core.any(self)._call("toEqual", [expected]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toStrictEqual(expected)
 /// Deep equality with type checking (undefined vs missing properties)
-pub fn Expect::toStrictEqual(self : Expect, expected : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toStrictEqual", [expected]) |> ignore
+pub fn Expect::toStrictEqual(self : Expect, expected : @core.Any) -> Unit {
+  @core.any(self)._call("toStrictEqual", [expected]) |> ignore
 }
 
 // ============================================================
@@ -86,56 +85,56 @@ pub fn Expect::toStrictEqual(self : Expect, expected : @nostd.Any) -> Unit {
 /// JS: expect(actual).toBeDefined()
 /// Asserts value is not undefined
 pub fn Expect::toBeDefined(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeDefined", []) |> ignore
+  @core.any(self)._call("toBeDefined", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeUndefined()
 /// Asserts value is undefined
 pub fn Expect::toBeUndefined(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeUndefined", []) |> ignore
+  @core.any(self)._call("toBeUndefined", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeNull()
 /// Asserts value is null
 pub fn Expect::toBeNull(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeNull", []) |> ignore
+  @core.any(self)._call("toBeNull", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeTruthy()
 /// Asserts value is truthy (not false, 0, '', null, undefined, NaN)
 pub fn Expect::toBeTruthy(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeTruthy", []) |> ignore
+  @core.any(self)._call("toBeTruthy", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeFalsy()
 /// Asserts value is falsy (false, 0, '', null, undefined, NaN)
 pub fn Expect::toBeFalsy(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeFalsy", []) |> ignore
+  @core.any(self)._call("toBeFalsy", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeNaN()
 /// Asserts value is NaN
 pub fn Expect::toBeNaN(self : Expect) -> Unit {
-  @nostd.any(self)._call("toBeNaN", []) |> ignore
+  @core.any(self)._call("toBeNaN", []) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeTypeOf(type)
 /// Asserts typeof value equals type string
 pub fn Expect::toBeTypeOf(self : Expect, type_ : String) -> Unit {
-  @nostd.any(self)._call("toBeTypeOf", [@nostd.any(type_)]) |> ignore
+  @core.any(self)._call("toBeTypeOf", [@core.any(type_)]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeInstanceOf(ctor)
 /// Asserts value is instance of constructor
-pub fn Expect::toBeInstanceOf(self : Expect, ctor : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toBeInstanceOf", [ctor]) |> ignore
+pub fn Expect::toBeInstanceOf(self : Expect, ctor : @core.Any) -> Unit {
+  @core.any(self)._call("toBeInstanceOf", [ctor]) |> ignore
 }
 
 // ============================================================
@@ -145,25 +144,25 @@ pub fn Expect::toBeInstanceOf(self : Expect, ctor : @nostd.Any) -> Unit {
 ///|
 /// JS: expect(actual).toBeGreaterThan(n)
 pub fn Expect::toBeGreaterThan(self : Expect, n : Double) -> Unit {
-  @nostd.any(self)._call("toBeGreaterThan", [@nostd.any(n)]) |> ignore
+  @core.any(self)._call("toBeGreaterThan", [@core.any(n)]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeGreaterThanOrEqual(n)
 pub fn Expect::toBeGreaterThanOrEqual(self : Expect, n : Double) -> Unit {
-  @nostd.any(self)._call("toBeGreaterThanOrEqual", [@nostd.any(n)]) |> ignore
+  @core.any(self)._call("toBeGreaterThanOrEqual", [@core.any(n)]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeLessThan(n)
 pub fn Expect::toBeLessThan(self : Expect, n : Double) -> Unit {
-  @nostd.any(self)._call("toBeLessThan", [@nostd.any(n)]) |> ignore
+  @core.any(self)._call("toBeLessThan", [@core.any(n)]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toBeLessThanOrEqual(n)
 pub fn Expect::toBeLessThanOrEqual(self : Expect, n : Double) -> Unit {
-  @nostd.any(self)._call("toBeLessThanOrEqual", [@nostd.any(n)]) |> ignore
+  @core.any(self)._call("toBeLessThanOrEqual", [@core.any(n)]) |> ignore
 }
 
 ///|
@@ -176,9 +175,9 @@ pub fn Expect::toBeCloseTo(
 ) -> Unit {
   match num_digits {
     Some(n) =>
-      @nostd.any(self)._call("toBeCloseTo", [@nostd.any(value), @nostd.any(n)])
+      @core.any(self)._call("toBeCloseTo", [@core.any(value), @core.any(n)])
       |> ignore
-    None => @nostd.any(self)._call("toBeCloseTo", [@nostd.any(value)]) |> ignore
+    None => @core.any(self)._call("toBeCloseTo", [@core.any(value)]) |> ignore
   }
 }
 
@@ -190,22 +189,22 @@ pub fn Expect::toBeCloseTo(
 /// JS: expect(actual).toContain(item)
 /// For arrays: checks if array contains item
 /// For strings: checks if string contains substring
-pub fn Expect::toContain(self : Expect, item : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toContain", [item]) |> ignore
+pub fn Expect::toContain(self : Expect, item : @core.Any) -> Unit {
+  @core.any(self)._call("toContain", [item]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toContainEqual(item)
 /// Checks if array contains item with deep equality
-pub fn Expect::toContainEqual(self : Expect, item : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toContainEqual", [item]) |> ignore
+pub fn Expect::toContainEqual(self : Expect, item : @core.Any) -> Unit {
+  @core.any(self)._call("toContainEqual", [item]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toHaveLength(length)
 /// Asserts object has .length property equal to length
 pub fn Expect::toHaveLength(self : Expect, length : Int) -> Unit {
-  @nostd.any(self)._call("toHaveLength", [@nostd.any(length)]) |> ignore
+  @core.any(self)._call("toHaveLength", [@core.any(length)]) |> ignore
 }
 
 ///|
@@ -214,13 +213,12 @@ pub fn Expect::toHaveLength(self : Expect, length : Int) -> Unit {
 pub fn Expect::toHaveProperty(
   self : Expect,
   key : String,
-  value? : @nostd.Any,
+  value? : @core.Any,
 ) -> Unit {
   match value {
     Some(v) =>
-      @nostd.any(self)._call("toHaveProperty", [@nostd.any(key), v]) |> ignore
-    None =>
-      @nostd.any(self)._call("toHaveProperty", [@nostd.any(key)]) |> ignore
+      @core.any(self)._call("toHaveProperty", [@core.any(key), v]) |> ignore
+    None => @core.any(self)._call("toHaveProperty", [@core.any(key)]) |> ignore
   }
 }
 
@@ -228,14 +226,14 @@ pub fn Expect::toHaveProperty(
 /// JS: expect(actual).toMatch(pattern)
 /// For strings: matches against string or regex pattern
 pub fn Expect::toMatch(self : Expect, pattern : String) -> Unit {
-  @nostd.any(self)._call("toMatch", [@nostd.any(pattern)]) |> ignore
+  @core.any(self)._call("toMatch", [@core.any(pattern)]) |> ignore
 }
 
 ///|
 /// JS: expect(actual).toMatchObject(expected)
 /// Checks if object matches subset of properties
-pub fn Expect::toMatchObject(self : Expect, expected : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toMatchObject", [expected]) |> ignore
+pub fn Expect::toMatchObject(self : Expect, expected : @core.Any) -> Unit {
+  @core.any(self)._call("toMatchObject", [expected]) |> ignore
 }
 
 // ============================================================
@@ -247,8 +245,8 @@ pub fn Expect::toMatchObject(self : Expect, expected : @nostd.Any) -> Unit {
 /// Asserts function throws an error
 pub fn Expect::toThrow(self : Expect, expected? : String) -> Unit {
   match expected {
-    Some(e) => @nostd.any(self)._call("toThrow", [@nostd.any(e)]) |> ignore
-    None => @nostd.any(self)._call("toThrow", []) |> ignore
+    Some(e) => @core.any(self)._call("toThrow", [@core.any(e)]) |> ignore
+    None => @core.any(self)._call("toThrow", []) |> ignore
   }
 }
 
@@ -257,16 +255,16 @@ pub fn Expect::toThrow(self : Expect, expected? : String) -> Unit {
 /// Alias for toThrow
 pub fn Expect::toThrowError(self : Expect, expected? : String) -> Unit {
   match expected {
-    Some(e) => @nostd.any(self)._call("toThrowError", [@nostd.any(e)]) |> ignore
-    None => @nostd.any(self)._call("toThrowError", []) |> ignore
+    Some(e) => @core.any(self)._call("toThrowError", [@core.any(e)]) |> ignore
+    None => @core.any(self)._call("toThrowError", []) |> ignore
   }
 }
 
 ///|
 /// JS: expect(actual).toSatisfy(predicate)
 /// Asserts value satisfies custom predicate function
-pub fn Expect::toSatisfy(self : Expect, predicate : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toSatisfy", [predicate]) |> ignore
+pub fn Expect::toSatisfy(self : Expect, predicate : @core.Any) -> Unit {
+  @core.any(self)._call("toSatisfy", [predicate]) |> ignore
 }
 
 // ============================================================
@@ -276,32 +274,31 @@ pub fn Expect::toSatisfy(self : Expect, predicate : @nostd.Any) -> Unit {
 ///|
 /// JS: expect(mock).toHaveBeenCalled()
 pub fn Expect::toHaveBeenCalled(self : Expect) -> Unit {
-  @nostd.any(self)._call("toHaveBeenCalled", []) |> ignore
+  @core.any(self)._call("toHaveBeenCalled", []) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveBeenCalledTimes(amount)
 pub fn Expect::toHaveBeenCalledTimes(self : Expect, amount : Int) -> Unit {
-  @nostd.any(self)._call("toHaveBeenCalledTimes", [@nostd.any(amount)])
-  |> ignore
+  @core.any(self)._call("toHaveBeenCalledTimes", [@core.any(amount)]) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveBeenCalledWith(...args)
 pub fn Expect::toHaveBeenCalledWith(
   self : Expect,
-  args : Array[@nostd.Any],
+  args : Array[@core.Any],
 ) -> Unit {
-  @nostd.any(self)._call("toHaveBeenCalledWith", args) |> ignore
+  @core.any(self)._call("toHaveBeenCalledWith", args) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveBeenLastCalledWith(...args)
 pub fn Expect::toHaveBeenLastCalledWith(
   self : Expect,
-  args : Array[@nostd.Any],
+  args : Array[@core.Any],
 ) -> Unit {
-  @nostd.any(self)._call("toHaveBeenLastCalledWith", args) |> ignore
+  @core.any(self)._call("toHaveBeenLastCalledWith", args) |> ignore
 }
 
 ///|
@@ -309,40 +306,37 @@ pub fn Expect::toHaveBeenLastCalledWith(
 pub fn Expect::toHaveBeenNthCalledWith(
   self : Expect,
   time : Int,
-  args : Array[@nostd.Any],
+  args : Array[@core.Any],
 ) -> Unit {
-  let all_args : Array[@nostd.Any] = [@nostd.any(time)]
+  let all_args : Array[@core.Any] = [@core.any(time)]
   for arg in args {
     all_args.push(arg)
   }
-  @nostd.any(self)._call("toHaveBeenNthCalledWith", all_args) |> ignore
+  @core.any(self)._call("toHaveBeenNthCalledWith", all_args) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveReturned()
 pub fn Expect::toHaveReturned(self : Expect) -> Unit {
-  @nostd.any(self)._call("toHaveReturned", []) |> ignore
+  @core.any(self)._call("toHaveReturned", []) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveReturnedTimes(amount)
 pub fn Expect::toHaveReturnedTimes(self : Expect, amount : Int) -> Unit {
-  @nostd.any(self)._call("toHaveReturnedTimes", [@nostd.any(amount)]) |> ignore
+  @core.any(self)._call("toHaveReturnedTimes", [@core.any(amount)]) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveReturnedWith(value)
-pub fn Expect::toHaveReturnedWith(self : Expect, value : @nostd.Any) -> Unit {
-  @nostd.any(self)._call("toHaveReturnedWith", [value]) |> ignore
+pub fn Expect::toHaveReturnedWith(self : Expect, value : @core.Any) -> Unit {
+  @core.any(self)._call("toHaveReturnedWith", [value]) |> ignore
 }
 
 ///|
 /// JS: expect(mock).toHaveLastReturnedWith(value)
-pub fn Expect::toHaveLastReturnedWith(
-  self : Expect,
-  value : @nostd.Any,
-) -> Unit {
-  @nostd.any(self)._call("toHaveLastReturnedWith", [value]) |> ignore
+pub fn Expect::toHaveLastReturnedWith(self : Expect, value : @core.Any) -> Unit {
+  @core.any(self)._call("toHaveLastReturnedWith", [value]) |> ignore
 }
 
 // ============================================================
@@ -353,12 +347,12 @@ pub fn Expect::toHaveLastReturnedWith(
 /// JS: expect(promise).resolves
 /// Returns new Expect that unwraps promise and asserts on resolved value
 pub fn Expect::resolves(self : Expect) -> Expect {
-  @nostd.any(self)["resolves"].cast()
+  @core.any(self)["resolves"].cast()
 }
 
 ///|
 /// JS: expect(promise).rejects
 /// Returns new Expect that unwraps promise and asserts on rejection reason
 pub fn Expect::rejects(self : Expect) -> Expect {
-  @nostd.any(self)["rejects"].cast()
+  @core.any(self)["rejects"].cast()
 }

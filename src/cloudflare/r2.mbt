@@ -5,7 +5,7 @@
 pub type R2Bucket
 
 ///|
-pub fn R2Bucket::as_any(self : R2Bucket) -> @nostd.Any = "%identity"
+pub fn R2Bucket::as_any(self : R2Bucket) -> @core.Any = "%identity"
 
 ///|
 /// Get an object from R2
@@ -16,40 +16,38 @@ pub async fn R2Bucket::get(
   range? : R2Range,
 ) -> R2Object? {
   let promise : @js.Promise[R2Object?] = if onlyIf is None && range is None {
-    self.as_any()._call("get", [@nostd.any(key)]).cast()
+    self.as_any()._call("get", [@core.any(key)]).cast()
   } else {
-    let onlyIf_js : @nostd.Any? = match onlyIf {
+    let onlyIf_js : @core.Any? = match onlyIf {
       Some(cond) =>
         Some(
           @mbtconv.from_option_map({
-            "etagMatches": cond.etagMatches.map(fn(x) { @nostd.any(x) }),
-            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) {
-              @nostd.any(x)
-            }),
+            "etagMatches": cond.etagMatches.map(fn(x) { @core.any(x) }),
+            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) { @core.any(x) }),
             "uploadedBefore": cond.uploadedBefore.map(fn(x) {
-              @nostd.identity(x)
+              @core.identity(x)
             }),
-            "uploadedAfter": cond.uploadedAfter.map(fn(x) { @nostd.identity(x) }),
+            "uploadedAfter": cond.uploadedAfter.map(fn(x) { @core.identity(x) }),
           }).cast(),
         )
       None => None
     }
-    let range_js : @nostd.Any? = match range {
+    let range_js : @core.Any? = match range {
       Some(r) =>
         Some(
           @mbtconv.from_option_map({
-            "offset": r.offset.map(fn(x) { @nostd.any(x) }),
-            "length": r.length.map(fn(x) { @nostd.any(x) }),
-            "suffix": r.suffix.map(fn(x) { @nostd.any(x) }),
+            "offset": r.offset.map(fn(x) { @core.any(x) }),
+            "length": r.length.map(fn(x) { @core.any(x) }),
+            "suffix": r.suffix.map(fn(x) { @core.any(x) }),
           }).cast(),
         )
       None => None
     }
     let opts = @mbtconv.from_option_map({
-      "onlyIf": onlyIf_js.map(fn(x) { @nostd.any(x) }),
-      "range": range_js.map(fn(x) { @nostd.any(x) }),
+      "onlyIf": onlyIf_js.map(fn(x) { @core.any(x) }),
+      "range": range_js.map(fn(x) { @core.any(x) }),
     })
-    self.as_any()._call("get", [@nostd.any(key), opts]).cast()
+    self.as_any()._call("get", [@core.any(key), opts]).cast()
   }
   promise.wait()
 }
@@ -59,7 +57,7 @@ pub async fn R2Bucket::get(
 pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
   let promise : @js.Promise[R2Object?] = self
     .as_any()
-    ._call("head", [@nostd.any(key)])
+    ._call("head", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -69,9 +67,9 @@ pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
 pub async fn R2Bucket::put(
   self : Self,
   key : String,
-  value : @nostd.Any,
+  value : @core.Any,
   httpMetadata? : R2HttpMetadata,
-  customMetadata? : @nostd.Any,
+  customMetadata? : @core.Any,
   md5? : String,
   sha1? : String,
   sha256? : String,
@@ -85,28 +83,25 @@ pub async fn R2Bucket::put(
     sha256 is None &&
     sha384 is None &&
     sha512 is None {
-    self.as_any()._call("put", [@nostd.any(key), @nostd.any(value)]).cast()
+    self.as_any()._call("put", [@core.any(key), @core.any(value)]).cast()
   } else {
-    let httpMetadata_js : @nostd.Any? = match httpMetadata {
-      Some(meta) => Some(@nostd.any(meta.as_any()))
+    let httpMetadata_js : @core.Any? = match httpMetadata {
+      Some(meta) => Some(@core.any(meta.as_any()))
       None => None
     }
-    let customMetadata_js : @nostd.Any? = customMetadata.map(fn(x) {
-      @nostd.any(x)
+    let customMetadata_js : @core.Any? = customMetadata.map(fn(x) {
+      @core.any(x)
     })
     let opts = @mbtconv.from_option_map({
       "httpMetadata": httpMetadata_js,
       "customMetadata": customMetadata_js,
-      "md5": md5.map(fn(x) { @nostd.any(x) }),
-      "sha1": sha1.map(fn(x) { @nostd.any(x) }),
-      "sha256": sha256.map(fn(x) { @nostd.any(x) }),
-      "sha384": sha384.map(fn(x) { @nostd.any(x) }),
-      "sha512": sha512.map(fn(x) { @nostd.any(x) }),
+      "md5": md5.map(fn(x) { @core.any(x) }),
+      "sha1": sha1.map(fn(x) { @core.any(x) }),
+      "sha256": sha256.map(fn(x) { @core.any(x) }),
+      "sha384": sha384.map(fn(x) { @core.any(x) }),
+      "sha512": sha512.map(fn(x) { @core.any(x) }),
     })
-    self
-    .as_any()
-    ._call("put", [@nostd.any(key), @nostd.any(value), opts])
-    .cast()
+    self.as_any()._call("put", [@core.any(key), @core.any(value), opts]).cast()
   }
   promise.wait()
 }
@@ -116,7 +111,7 @@ pub async fn R2Bucket::put(
 pub async fn R2Bucket::delete(self : Self, key : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("delete", [@nostd.any(key)])
+    ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
 }
@@ -127,15 +122,15 @@ pub async fn R2Bucket::delete_multiple(
   self : Self,
   keys : Array[String],
 ) -> Unit {
-  let keys_js = @nostd.JsArray::new()
+  let keys_js = @core.JsArray::new()
   let mut i = 0
   while i < keys.length() {
-    @nostd.any(keys_js)._call("push", [@nostd.any(keys[i])]) |> ignore
+    @core.any(keys_js)._call("push", [@core.any(keys[i])]) |> ignore
     i = i + 1
   }
   let promise : @js.Promise[Unit] = self
     .as_any()
-    ._call("delete", [@nostd.any(keys_js)])
+    ._call("delete", [@core.any(keys_js)])
     .cast()
   promise.wait()
 }
@@ -159,16 +154,16 @@ pub async fn R2Bucket::list(
     include_ is None {
     self.as_any()._call("list", []).cast()
   } else {
-    let include_js : @nostd.Any? = match include_ {
-      Some(inc) => Some(@nostd.any(@nostd.any(inc)))
+    let include_js : @core.Any? = match include_ {
+      Some(inc) => Some(@core.any(@core.any(inc)))
       None => None
     }
     let opts = @mbtconv.from_option_map({
-      "limit": limit.map(fn(x) { @nostd.any(x) }),
-      "prefix": prefix.map(fn(x) { @nostd.any(x) }),
-      "cursor": cursor.map(fn(x) { @nostd.any(x) }),
-      "delimiter": delimiter.map(fn(x) { @nostd.any(x) }),
-      "startAfter": startAfter.map(fn(x) { @nostd.any(x) }),
+      "limit": limit.map(fn(x) { @core.any(x) }),
+      "prefix": prefix.map(fn(x) { @core.any(x) }),
+      "cursor": cursor.map(fn(x) { @core.any(x) }),
+      "delimiter": delimiter.map(fn(x) { @core.any(x) }),
+      "startAfter": startAfter.map(fn(x) { @core.any(x) }),
       "include": include_js,
     })
     self.as_any()._call("list", [opts]).cast()
@@ -182,7 +177,7 @@ pub async fn R2Bucket::create_multipart_upload(
   self : Self,
   key : String,
   httpMetadata? : R2HttpMetadata,
-  customMetadata? : @nostd.Any,
+  customMetadata? : @core.Any,
   md5? : String,
   sha1? : String,
   sha256? : String,
@@ -196,25 +191,25 @@ pub async fn R2Bucket::create_multipart_upload(
     sha256 is None &&
     sha384 is None &&
     sha512 is None {
-    self.as_any()._call("createMultipartUpload", [@nostd.any(key)]).cast()
+    self.as_any()._call("createMultipartUpload", [@core.any(key)]).cast()
   } else {
-    let httpMetadata_js : @nostd.Any? = match httpMetadata {
-      Some(meta) => Some(@nostd.any(meta.as_any()))
+    let httpMetadata_js : @core.Any? = match httpMetadata {
+      Some(meta) => Some(@core.any(meta.as_any()))
       None => None
     }
-    let customMetadata_js : @nostd.Any? = customMetadata.map(fn(x) {
-      @nostd.any(x)
+    let customMetadata_js : @core.Any? = customMetadata.map(fn(x) {
+      @core.any(x)
     })
     let opts = @mbtconv.from_option_map({
       "httpMetadata": httpMetadata_js,
       "customMetadata": customMetadata_js,
-      "md5": md5.map(fn(x) { @nostd.any(x) }),
-      "sha1": sha1.map(fn(x) { @nostd.any(x) }),
-      "sha256": sha256.map(fn(x) { @nostd.any(x) }),
-      "sha384": sha384.map(fn(x) { @nostd.any(x) }),
-      "sha512": sha512.map(fn(x) { @nostd.any(x) }),
+      "md5": md5.map(fn(x) { @core.any(x) }),
+      "sha1": sha1.map(fn(x) { @core.any(x) }),
+      "sha256": sha256.map(fn(x) { @core.any(x) }),
+      "sha384": sha384.map(fn(x) { @core.any(x) }),
+      "sha512": sha512.map(fn(x) { @core.any(x) }),
     })
-    self.as_any()._call("createMultipartUpload", [@nostd.any(key), opts]).cast()
+    self.as_any()._call("createMultipartUpload", [@core.any(key), opts]).cast()
   }
   promise.wait()
 }
@@ -228,7 +223,7 @@ pub fn R2Bucket::resume_multipart_upload(
 ) -> R2MultipartUpload {
   self
   .as_any()
-  ._call("resumeMultipartUpload", [@nostd.any(key), @nostd.any(upload_id)])
+  ._call("resumeMultipartUpload", [@core.any(key), @core.any(upload_id)])
   .cast()
 }
 
@@ -261,14 +256,14 @@ pub(all) struct R2HttpMetadata {
 }
 
 ///|
-pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @nostd.Any {
+pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @core.Any {
   @mbtconv.from_option_map({
-    "contentType": self.contentType.map(fn(x) { @nostd.any(x) }),
-    "contentLanguage": self.contentLanguage.map(fn(x) { @nostd.any(x) }),
-    "contentDisposition": self.contentDisposition.map(fn(x) { @nostd.any(x) }),
-    "contentEncoding": self.contentEncoding.map(fn(x) { @nostd.any(x) }),
-    "cacheControl": self.cacheControl.map(fn(x) { @nostd.any(x) }),
-    "cacheExpiry": self.cacheExpiry.map(fn(x) { @nostd.identity(x) }),
+    "contentType": self.contentType.map(fn(x) { @core.any(x) }),
+    "contentLanguage": self.contentLanguage.map(fn(x) { @core.any(x) }),
+    "contentDisposition": self.contentDisposition.map(fn(x) { @core.any(x) }),
+    "contentEncoding": self.contentEncoding.map(fn(x) { @core.any(x) }),
+    "cacheControl": self.cacheControl.map(fn(x) { @core.any(x) }),
+    "cacheExpiry": self.cacheExpiry.map(fn(x) { @core.identity(x) }),
   }).cast()
 }
 
@@ -278,7 +273,7 @@ pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @nostd.Any {
 pub type R2Object
 
 ///|
-pub fn R2Object::as_any(self : R2Object) -> @nostd.Any = "%identity"
+pub fn R2Object::as_any(self : R2Object) -> @core.Any = "%identity"
 
 ///|
 /// Get object key
@@ -306,19 +301,19 @@ pub fn R2Object::etag(self : Self) -> String {
 
 ///|
 /// Get object HTTP metadata
-pub fn R2Object::http_metadata(self : Self) -> @nostd.Any {
+pub fn R2Object::http_metadata(self : Self) -> @core.Any {
   self.as_any()["httpMetadata"].cast()
 }
 
 ///|
 /// Get object custom metadata
-pub fn R2Object::custom_metadata(self : Self) -> @nostd.Any {
+pub fn R2Object::custom_metadata(self : Self) -> @core.Any {
   self.as_any()["customMetadata"].cast()
 }
 
 ///|
 /// Get object uploaded time
-pub fn R2Object::uploaded(self : Self) -> @nostd.Any {
+pub fn R2Object::uploaded(self : Self) -> @core.Any {
   self.as_any()["uploaded"].cast()
 }
 
@@ -341,8 +336,8 @@ pub async fn R2Object::text(self : Self) -> String {
 
 ///|
 /// Get object body as JSON
-pub async fn R2Object::json(self : Self) -> @nostd.Any {
-  let promise : @js.Promise[@nostd.Any] = self.as_any()._call("json", []).cast()
+pub async fn R2Object::json(self : Self) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.as_any()._call("json", []).cast()
   promise.wait()
 }
 
@@ -367,8 +362,8 @@ pub fn R2Object::body_used(self : Self) -> Bool {
 
 ///|
 /// Write object to a writable stream
-pub fn R2Object::write_http_metadata(self : Self, headers : @nostd.Any) -> Unit {
-  self.as_any()._call("writeHttpMetadata", [@nostd.any(headers)]).cast()
+pub fn R2Object::write_http_metadata(self : Self, headers : @core.Any) -> Unit {
+  self.as_any()._call("writeHttpMetadata", [@core.any(headers)]).cast()
 }
 
 ///|
@@ -381,7 +376,7 @@ pub(all) struct R2Objects {
 }
 
 ///|
-pub fn R2Objects::as_any(self : R2Objects) -> @nostd.Any = "%identity"
+pub fn R2Objects::as_any(self : R2Objects) -> @core.Any = "%identity"
 
 ///|
 /// R2 Multipart Upload
@@ -389,7 +384,7 @@ pub fn R2Objects::as_any(self : R2Objects) -> @nostd.Any = "%identity"
 pub type R2MultipartUpload
 
 ///|
-pub fn R2MultipartUpload::as_any(self : R2MultipartUpload) -> @nostd.Any = "%identity"
+pub fn R2MultipartUpload::as_any(self : R2MultipartUpload) -> @core.Any = "%identity"
 
 ///|
 /// Get upload key
@@ -408,11 +403,11 @@ pub fn R2MultipartUpload::uploadId(self : Self) -> String {
 pub async fn R2MultipartUpload::upload_part(
   self : Self,
   part_number : Int,
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> R2UploadedPart {
   let promise : @js.Promise[R2UploadedPart] = self
     .as_any()
-    ._call("uploadPart", [@nostd.any(part_number), @nostd.any(value)])
+    ._call("uploadPart", [@core.any(part_number), @core.any(value)])
     .cast()
   promise.wait()
 }
@@ -430,16 +425,15 @@ pub async fn R2MultipartUpload::complete(
   self : Self,
   parts : Array[R2UploadedPart],
 ) -> R2Object {
-  let parts_js = @nostd.JsArray::new()
+  let parts_js = @core.JsArray::new()
   let mut i = 0
   while i < parts.length() {
-    @nostd.any(parts_js)._call("push", [@nostd.any(parts[i].as_any())])
-    |> ignore
+    @core.any(parts_js)._call("push", [@core.any(parts[i].as_any())]) |> ignore
     i = i + 1
   }
   let promise : @js.Promise[R2Object] = self
     .as_any()
-    ._call("complete", [@nostd.any(parts_js)])
+    ._call("complete", [@core.any(parts_js)])
     .cast()
   promise.wait()
 }
@@ -452,9 +446,9 @@ pub(all) struct R2UploadedPart {
 }
 
 ///|
-pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @nostd.Any {
+pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @core.Any {
   @mbtconv.from_map({
-    "partNumber": @nostd.any(self.partNumber),
-    "etag": @nostd.any(self.etag),
+    "partNumber": @core.any(self.partNumber),
+    "etag": @core.any(self.etag),
   }).cast()
 }

@@ -2,64 +2,64 @@
 package "mizchi/js/npm/execa"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-async fn execa(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, shell? : Bool, options? : @nostd.Any) -> ExecaResult
+pub async fn execa(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @core.Any, shell? : Bool, options? : @core.Any) -> ExecaResult
 
-async fn execaCommand(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
+pub async fn execaCommand(String, cwd? : String, input? : String, timeout? : Int, env? : @core.Any, options? : @core.Any) -> ExecaResult
 
-fn execaCommandSync(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
+pub fn execaCommandSync(String, cwd? : String, input? : String, timeout? : Int, env? : @core.Any, options? : @core.Any) -> ExecaResult
 
-async fn execaNode(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
+pub async fn execaNode(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @core.Any, options? : @core.Any) -> ExecaResult
 
-fn execaSync(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, shell? : Bool, options? : @nostd.Any) -> ExecaResult
+pub fn execaSync(String, args? : Array[String], cwd? : String, input? : String, timeout? : Int, env? : @core.Any, shell? : Bool, options? : @core.Any) -> ExecaResult
 
-fn options(cwd? : String, env? : @nostd.Any, input? : String, stdin? : String, stdout? : String, stderr? : String, all? : Bool, lines? : Bool, shell? : Bool, timeout? : Int, maxBuffer? : Int, killSignal? : String, preferLocal? : Bool, reject? : Bool, cleanup? : Bool, detached? : Bool, encoding? : String, stripFinalNewline? : Bool, windowsHide? : Bool) -> @nostd.Any
+pub fn options(cwd? : String, env? : @core.Any, input? : String, stdin? : String, stdout? : String, stderr? : String, all? : Bool, lines? : Bool, shell? : Bool, timeout? : Int, maxBuffer? : Int, killSignal? : String, preferLocal? : Bool, reject? : Bool, cleanup? : Bool, detached? : Bool, encoding? : String, stripFinalNewline? : Bool, windowsHide? : Bool) -> @core.Any
 
-async fn shell(String, cwd? : String, input? : String, timeout? : Int, env? : @nostd.Any, options? : @nostd.Any) -> ExecaResult
+pub async fn shell(String, cwd? : String, input? : String, timeout? : Int, env? : @core.Any, options? : @core.Any) -> ExecaResult
 
-fn subprocess(String, Array[String], options? : @nostd.Any) -> Subprocess
+pub fn subprocess(String, Array[String], options? : @core.Any) -> Subprocess
 
 // Errors
 
 // Types and methods
 #external
 pub type ExecaError
-fn ExecaError::command(Self) -> String
-fn ExecaError::exitCode(Self) -> Int?
-fn ExecaError::message(Self) -> String
-fn ExecaError::originalMessage(Self) -> String?
-fn ExecaError::shortMessage(Self) -> String
-fn ExecaError::stderr(Self) -> String
-fn ExecaError::stdout(Self) -> String
+pub fn ExecaError::command(Self) -> String
+pub fn ExecaError::exitCode(Self) -> Int?
+pub fn ExecaError::message(Self) -> String
+pub fn ExecaError::originalMessage(Self) -> String?
+pub fn ExecaError::shortMessage(Self) -> String
+pub fn ExecaError::stderr(Self) -> String
+pub fn ExecaError::stdout(Self) -> String
 
 #external
 pub type ExecaResult
-fn ExecaResult::all(Self) -> String?
-fn ExecaResult::command(Self) -> String
-fn ExecaResult::escapedCommand(Self) -> String
-fn ExecaResult::exitCode(Self) -> Int
-fn ExecaResult::failed(Self) -> Bool
-fn ExecaResult::killed(Self) -> Bool
-fn ExecaResult::pid(Self) -> Int?
-fn ExecaResult::signal(Self) -> String?
-fn ExecaResult::signalDescription(Self) -> String?
-fn ExecaResult::stderr(Self) -> String
-fn ExecaResult::stderrLines(Self) -> Array[String]
-fn ExecaResult::stdout(Self) -> String
-fn ExecaResult::stdoutLines(Self) -> Array[String]
-fn ExecaResult::timedOut(Self) -> Bool
+pub fn ExecaResult::all(Self) -> String?
+pub fn ExecaResult::command(Self) -> String
+pub fn ExecaResult::escapedCommand(Self) -> String
+pub fn ExecaResult::exitCode(Self) -> Int
+pub fn ExecaResult::failed(Self) -> Bool
+pub fn ExecaResult::killed(Self) -> Bool
+pub fn ExecaResult::pid(Self) -> Int?
+pub fn ExecaResult::signal(Self) -> String?
+pub fn ExecaResult::signalDescription(Self) -> String?
+pub fn ExecaResult::stderr(Self) -> String
+pub fn ExecaResult::stderrLines(Self) -> Array[String]
+pub fn ExecaResult::stdout(Self) -> String
+pub fn ExecaResult::stdoutLines(Self) -> Array[String]
+pub fn ExecaResult::timedOut(Self) -> Bool
 
 #external
 pub type Subprocess
-fn Subprocess::kill(Self, signal? : String) -> Unit
-fn Subprocess::pid(Self) -> Int
-fn Subprocess::stderr(Self) -> @nostd.Any
-fn Subprocess::stdin(Self) -> @nostd.Any
-fn Subprocess::stdout(Self) -> @nostd.Any
-async fn Subprocess::wait(Self) -> ExecaResult
+pub fn Subprocess::kill(Self, signal? : String) -> Unit
+pub fn Subprocess::pid(Self) -> Int
+pub fn Subprocess::stderr(Self) -> @core.Any
+pub fn Subprocess::stdin(Self) -> @core.Any
+pub fn Subprocess::stdout(Self) -> @core.Any
+pub async fn Subprocess::wait(Self) -> ExecaResult
 
 // Type aliases
 

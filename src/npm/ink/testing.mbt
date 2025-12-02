@@ -7,7 +7,7 @@
 pub type InkTestingLibrary
 
 ///|
-pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @nostd.Any = "%identity"
+pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @core.Any = "%identity"
 
 ///|
 /// Dynamic import for ink-testing-library module (internal)
@@ -36,7 +36,7 @@ pub async fn dynamic_import_testing_library() -> InkTestingLibrary {
 pub type RenderResult
 
 ///|
-pub fn RenderResult::as_any(self : RenderResult) -> @nostd.Any = "%identity"
+pub fn RenderResult::as_any(self : RenderResult) -> @core.Any = "%identity"
 
 ///|
 /// Get the last rendered frame as a string
@@ -101,13 +101,13 @@ pub fn RenderResult::stderr(self : RenderResult) -> StreamOutput {
 ///|
 /// Mock stdin for sending input to components
 pub(all) struct StdinMock {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
 /// Write data to stdin
 pub fn StdinMock::write(self : StdinMock, data : String) -> Unit {
-  self.raw["write"]._invoke([@nostd.any(data)]) |> ignore
+  self.raw["write"]._invoke([@core.any(data)]) |> ignore
 }
 
 // ============================================================
@@ -117,7 +117,7 @@ pub fn StdinMock::write(self : StdinMock, data : String) -> Unit {
 ///|
 /// Mock stream output for stdout/stderr
 pub(all) struct StreamOutput {
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|

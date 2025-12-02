@@ -2,99 +2,99 @@
 package "mizchi/js/node/stream"
 
 import(
-  "mizchi/js"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/streams"
 )
 
 // Values
-fn addAbortSignal(@nostd.Any, @nostd.Any) -> @nostd.Any
+pub fn addAbortSignal(@core.Any, @core.Any) -> @core.Any
 
-fn compose(Array[@nostd.Any]) -> @nostd.Any
+pub fn compose(Array[@core.Any]) -> @core.Any
 
-fn finished(@nostd.Any, callback? : @nostd.Any) -> @nostd.Any
+pub fn finished(@core.Any, callback? : @core.Any) -> @core.Any
 
-fn getDefaultHighWaterMark(Bool) -> Int
+pub fn getDefaultHighWaterMark(Bool) -> Int
 
-fn isErrored(@nostd.Any) -> Bool
+pub fn isErrored(@core.Any) -> Bool
 
-fn isReadable(@nostd.Any) -> Bool
+pub fn isReadable(@core.Any) -> Bool
 
-fn isWritable(@nostd.Any) -> Bool
+pub fn isWritable(@core.Any) -> Bool
 
-fn pipeline(Array[@nostd.Any], callback? : @nostd.Any) -> @nostd.Any
+pub fn pipeline(Array[@core.Any], callback? : @core.Any) -> @core.Any
 
-fn setDefaultHighWaterMark(Bool, Int) -> Unit
+pub fn setDefaultHighWaterMark(Bool, Int) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type Duplex
-fn Duplex::allowHalfOpen(Self) -> Bool
-fn Duplex::as_any(Self) -> @nostd.Any
-fn Duplex::from(@nostd.Any) -> Self
-fn Duplex::fromWeb(@nostd.Any) -> Self
-fn Duplex::toWeb(Self) -> @nostd.Any
+pub fn Duplex::allowHalfOpen(Self) -> Bool
+pub fn Duplex::as_any(Self) -> @core.Any
+pub fn Duplex::from(@core.Any) -> Self
+pub fn Duplex::fromWeb(@core.Any) -> Self
+pub fn Duplex::toWeb(Self) -> @core.Any
 
 #external
 pub type PassThrough
-fn PassThrough::as_any(Self) -> @nostd.Any
+pub fn PassThrough::as_any(Self) -> @core.Any
 
 #external
 pub type Readable
-fn Readable::as_any(Self) -> @nostd.Any
-fn Readable::closed(Self) -> Bool
-fn Readable::destroy(Self, error? : @nostd.Any) -> Self
-fn Readable::errored(Self) -> @nostd.Any
-fn Readable::from(@nostd.Any) -> Self
-fn Readable::fromWeb(@streams.ReadableStream) -> Self
-fn Readable::isPaused(Self) -> Bool
-fn Readable::pause(Self) -> Self
-fn Readable::pipe(Self, Writable) -> Writable
-fn Readable::read(Self, size? : Int) -> @nostd.Any
-fn Readable::readable(Self) -> Bool
-fn Readable::readableEncoding(Self) -> @nostd.Any
-fn Readable::readableEnded(Self) -> Bool
-fn Readable::readableFlowing(Self) -> @nostd.Any
-fn Readable::readableHighWaterMark(Self) -> Int
-fn Readable::readableLength(Self) -> Int
-fn Readable::readableObjectMode(Self) -> Bool
-fn Readable::resume_(Self) -> Self
-fn Readable::setEncoding(Self, String) -> Self
-fn Readable::toWeb(Self) -> @streams.ReadableStream
-fn Readable::unpipe(Self, destination? : Writable) -> Self
-fn Readable::unshift(Self, @nostd.Any, encoding? : String) -> Unit
+pub fn Readable::as_any(Self) -> @core.Any
+pub fn Readable::closed(Self) -> Bool
+pub fn Readable::destroy(Self, error? : @core.Any) -> Self
+pub fn Readable::errored(Self) -> @core.Any
+pub fn Readable::from(@core.Any) -> Self
+pub fn Readable::fromWeb(@streams.ReadableStream) -> Self
+pub fn Readable::isPaused(Self) -> Bool
+pub fn Readable::pause(Self) -> Self
+pub fn Readable::pipe(Self, Writable) -> Writable
+pub fn Readable::read(Self, size? : Int) -> @core.Any
+pub fn Readable::readable(Self) -> Bool
+pub fn Readable::readableEncoding(Self) -> @core.Any
+pub fn Readable::readableEnded(Self) -> Bool
+pub fn Readable::readableFlowing(Self) -> @core.Any
+pub fn Readable::readableHighWaterMark(Self) -> Int
+pub fn Readable::readableLength(Self) -> Int
+pub fn Readable::readableObjectMode(Self) -> Bool
+pub fn Readable::resume_(Self) -> Self
+pub fn Readable::setEncoding(Self, String) -> Self
+pub fn Readable::toWeb(Self) -> @streams.ReadableStream
+pub fn Readable::unpipe(Self, destination? : Writable) -> Self
+pub fn Readable::unshift(Self, @core.Any, encoding? : String) -> Unit
 
 #external
 pub type Stream
-fn Stream::as_any(Self) -> @nostd.Any
+pub fn Stream::as_any(Self) -> @core.Any
 
 #external
 pub type Transform
-fn Transform::as_any(Self) -> @nostd.Any
+pub fn Transform::as_any(Self) -> @core.Any
 
 #external
 pub type Writable
-fn Writable::as_any(Self) -> @nostd.Any
-fn Writable::closed(Self) -> Bool
-fn Writable::cork(Self) -> Unit
-fn Writable::destroy(Self, error? : @nostd.Any) -> Self
-fn Writable::end(Self, chunk? : @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Self
-fn Writable::errored(Self) -> @nostd.Any
-fn Writable::fromWeb(@streams.WritableStream) -> Self
-fn Writable::setDefaultEncoding(Self, String) -> Self
-fn Writable::toWeb(Self) -> @streams.WritableStream
-fn Writable::uncork(Self) -> Unit
-fn Writable::writable(Self) -> Bool
-fn Writable::writableCorked(Self) -> Int
-fn Writable::writableEnded(Self) -> Bool
-fn Writable::writableFinished(Self) -> Bool
-fn Writable::writableHighWaterMark(Self) -> Int
-fn Writable::writableLength(Self) -> Int
-fn Writable::writableObjectMode(Self) -> Bool
-fn Writable::write(Self, @nostd.Any, encoding? : String, callback? : @nostd.Any) -> Bool
+pub fn Writable::as_any(Self) -> @core.Any
+pub fn Writable::closed(Self) -> Bool
+pub fn Writable::cork(Self) -> Unit
+pub fn Writable::destroy(Self, error? : @core.Any) -> Self
+pub fn Writable::end(Self, chunk? : @core.Any, encoding? : String, callback? : @core.Any) -> Self
+pub fn Writable::errored(Self) -> @core.Any
+pub fn Writable::fromWeb(@streams.WritableStream) -> Self
+pub fn Writable::setDefaultEncoding(Self, String) -> Self
+pub fn Writable::toWeb(Self) -> @streams.WritableStream
+pub fn Writable::uncork(Self) -> Unit
+pub fn Writable::writable(Self) -> Bool
+pub fn Writable::writableCorked(Self) -> Int
+pub fn Writable::writableEnded(Self) -> Bool
+pub fn Writable::writableFinished(Self) -> Bool
+pub fn Writable::writableHighWaterMark(Self) -> Int
+pub fn Writable::writableLength(Self) -> Int
+pub fn Writable::writableObjectMode(Self) -> Bool
+pub fn Writable::write(Self, @core.Any, encoding? : String, callback? : @core.Any) -> Bool
 
 // Type aliases
 
 // Traits
+

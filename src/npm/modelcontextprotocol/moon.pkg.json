@@ -2,7 +2,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/web/http",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/mbtconv"
   ]
 }

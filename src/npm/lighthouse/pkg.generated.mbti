@@ -2,56 +2,56 @@
 package "mizchi/js/npm/lighthouse"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/npm/puppeteer"
 )
 
 // Values
-let accessibility_only : Array[String]
+pub let accessibility_only : Array[String]
 
-let all_categories : Array[String]
+pub let all_categories : Array[String]
 
-fn desktop_config() -> @nostd.Any
+pub fn desktop_config() -> @core.Any
 
-fn mobile_config() -> @nostd.Any
+pub fn mobile_config() -> @core.Any
 
-let performance_only : Array[String]
+pub let performance_only : Array[String]
 
-async fn run(String, page? : @puppeteer.Page, flags? : LighthouseFlags, config? : @nostd.Any) -> RunnerResult
+pub async fn run(String, page? : @puppeteer.Page, flags? : LighthouseFlags, config? : @core.Any) -> RunnerResult
 
-async fn run_with_port(String, Int, flags? : LighthouseFlags, config? : @nostd.Any) -> RunnerResult
+pub async fn run_with_port(String, Int, flags? : LighthouseFlags, config? : @core.Any) -> RunnerResult
 
 // Errors
 
 // Types and methods
 #external
 pub type Audit
-fn Audit::description(Self) -> String
-fn Audit::displayValue(Self) -> String?
-fn Audit::id(Self) -> String
-fn Audit::numericUnit(Self) -> String?
-fn Audit::numericValue(Self) -> Double?
-fn Audit::score(Self) -> Double?
-fn Audit::scoreDisplayMode(Self) -> String
-fn Audit::title(Self) -> String
-impl @js.JsImpl for Audit
+pub fn Audit::description(Self) -> String
+pub fn Audit::displayValue(Self) -> String?
+pub fn Audit::id(Self) -> String
+pub fn Audit::numericUnit(Self) -> String?
+pub fn Audit::numericValue(Self) -> Double?
+pub fn Audit::score(Self) -> Double?
+pub fn Audit::scoreDisplayMode(Self) -> String
+pub fn Audit::title(Self) -> String
+pub fn Audit::to_any(Self) -> @core.Any
 
 #external
 pub type Categories
-fn Categories::accessibility(Self) -> Category?
-fn Categories::bestPractices(Self) -> Category?
-fn Categories::performance(Self) -> Category?
-fn Categories::pwa(Self) -> Category?
-fn Categories::seo(Self) -> Category?
-impl @js.JsImpl for Categories
+pub fn Categories::accessibility(Self) -> Category?
+pub fn Categories::bestPractices(Self) -> Category?
+pub fn Categories::performance(Self) -> Category?
+pub fn Categories::pwa(Self) -> Category?
+pub fn Categories::seo(Self) -> Category?
+pub fn Categories::to_any(Self) -> @core.Any
 
 #external
 pub type Category
-fn Category::id(Self) -> String
-fn Category::score(Self) -> Double
-fn Category::scorePercent(Self) -> Int
-fn Category::title(Self) -> String
-impl @js.JsImpl for Category
+pub fn Category::id(Self) -> String
+pub fn Category::score(Self) -> Double
+pub fn Category::scorePercent(Self) -> Int
+pub fn Category::title(Self) -> String
+pub fn Category::to_any(Self) -> @core.Any
 
 pub(all) struct LighthouseFlags {
   logLevel : String?
@@ -61,35 +61,35 @@ pub(all) struct LighthouseFlags {
   onlyAudits : Array[String]?
   port : Int?
   formFactor : String?
-  screenEmulation : @nostd.Any?
-  throttling : @nostd.Any?
+  screenEmulation : @core.Any?
+  throttling : @core.Any?
   throttlingMethod : String?
-  extraHeaders : @nostd.Any?
+  extraHeaders : @core.Any?
   maxWaitForLoad : Int?
   disableStorageReset : Bool?
 }
-fn LighthouseFlags::new(logLevel? : String, output? : String, onlyCategories? : Array[String], skipAudits? : Array[String], onlyAudits? : Array[String], port? : Int, formFactor? : String, screenEmulation? : @nostd.Any, throttling? : @nostd.Any, throttlingMethod? : String, extraHeaders? : @nostd.Any, maxWaitForLoad? : Int, disableStorageReset? : Bool) -> Self
-impl @js.JsImpl for LighthouseFlags
+pub fn LighthouseFlags::new(logLevel? : String, output? : String, onlyCategories? : Array[String], skipAudits? : Array[String], onlyAudits? : Array[String], port? : Int, formFactor? : String, screenEmulation? : @core.Any, throttling? : @core.Any, throttlingMethod? : String, extraHeaders? : @core.Any, maxWaitForLoad? : Int, disableStorageReset? : Bool) -> Self
+pub fn LighthouseFlags::to_any(Self) -> @core.Any
 
 #external
 pub type LighthouseResult
-fn LighthouseResult::audit(Self, String) -> Audit?
-fn LighthouseResult::audits(Self) -> @nostd.Any
-fn LighthouseResult::categories(Self) -> Categories
-fn LighthouseResult::fetchTime(Self) -> String
-fn LighthouseResult::finalDisplayedUrl(Self) -> String
-fn LighthouseResult::finalUrl(Self) -> String
-fn LighthouseResult::lighthouseVersion(Self) -> String
-fn LighthouseResult::requestedUrl(Self) -> String
-fn LighthouseResult::userAgent(Self) -> String
-impl @js.JsImpl for LighthouseResult
+pub fn LighthouseResult::audit(Self, String) -> Audit?
+pub fn LighthouseResult::audits(Self) -> @core.Any
+pub fn LighthouseResult::categories(Self) -> Categories
+pub fn LighthouseResult::fetchTime(Self) -> String
+pub fn LighthouseResult::finalDisplayedUrl(Self) -> String
+pub fn LighthouseResult::finalUrl(Self) -> String
+pub fn LighthouseResult::lighthouseVersion(Self) -> String
+pub fn LighthouseResult::requestedUrl(Self) -> String
+pub fn LighthouseResult::to_any(Self) -> @core.Any
+pub fn LighthouseResult::userAgent(Self) -> String
 
 #external
 pub type RunnerResult
-fn RunnerResult::artifacts(Self) -> @nostd.Any
-fn RunnerResult::lhr(Self) -> LighthouseResult
-fn RunnerResult::report(Self) -> String
-impl @js.JsImpl for RunnerResult
+pub fn RunnerResult::artifacts(Self) -> @core.Any
+pub fn RunnerResult::lhr(Self) -> LighthouseResult
+pub fn RunnerResult::report(Self) -> String
+pub fn RunnerResult::to_any(Self) -> @core.Any
 
 // Type aliases
 

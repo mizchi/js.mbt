@@ -36,7 +36,7 @@ pub fn OutputStrategy::to_string(self : OutputStrategy) -> String {
 /// Result from generateObject call
 pub(all) struct GenerateObjectResult {
   /// The generated object (type depends on schema)
-  object : @nostd.Any
+  object : @core.Any
   /// The finish reason
   finish_reason : FinishReason
   /// Token usage
@@ -48,20 +48,20 @@ pub(all) struct GenerateObjectResult {
   /// Provider metadata
   provider_metadata : ProviderMetadata?
   /// Raw result object
-  raw : @nostd.Any
+  raw : @core.Any
 }
 
 ///|
 pub fn GenerateObjectResult::from_any(
-  value : @nostd.Any,
+  value : @core.Any,
 ) -> GenerateObjectResult {
   // Parse warnings array
   let warnings_raw = value._get("warnings")
-  let warnings : Array[CallWarning] = if @nostd.is_undefined(warnings_raw) ||
-    @nostd.is_null(warnings_raw) {
+  let warnings : Array[CallWarning] = if @core.is_undefined(warnings_raw) ||
+    @core.is_null(warnings_raw) {
     []
   } else {
-    let arr : Array[@nostd.Any] = @nostd.identity(warnings_raw)
+    let arr : Array[@core.Any] = @core.identity(warnings_raw)
     arr.map(CallWarning::from_any)
   }
   {
@@ -80,7 +80,7 @@ pub fn GenerateObjectResult::from_any(
 ///|
 /// Get the generated object as typed value
 pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
-  @nostd.identity(self.object)
+  @core.identity(self.object)
 }
 
 // ============================================================
@@ -94,7 +94,7 @@ pub fn[T] GenerateObjectResult::get_object(self : GenerateObjectResult) -> T {
 pub async fn generateObject(
   model~ : Model,
   /// JSON schema for the output object
-  schema~ : @nostd.Any,
+  schema~ : @core.Any,
   /// Schema name (helps LLM understand expected output)
   schema_name? : String,
   /// Schema description
@@ -116,51 +116,51 @@ pub async fn generateObject(
   /// Maximum retries
   max_retries? : Int,
   /// Abort signal
-  abort_signal? : @nostd.Any,
+  abort_signal? : @core.Any,
 ) -> GenerateObjectResult {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   opts._set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
   let json_schema_fn = ai_module()._get("jsonSchema")
   let wrapped_schema = json_schema_fn._invoke([schema])
   opts._set("schema", wrapped_schema)
   if schema_name is Some(n) {
-    opts._set("schemaName", n |> @nostd.any)
+    opts._set("schemaName", n |> @core.any)
   }
   if schema_description is Some(d) {
-    opts._set("schemaDescription", d |> @nostd.any)
+    opts._set("schemaDescription", d |> @core.any)
   }
   if output is Some(o) {
-    opts._set("output", o.to_string() |> @nostd.any)
+    opts._set("output", o.to_string() |> @core.any)
   }
   if enum_values is Some(vals) {
-    opts._set("enum", vals |> @nostd.any)
+    opts._set("enum", vals |> @core.any)
   }
   if prompt is Some(p) {
-    opts._set("prompt", p |> @nostd.any)
+    opts._set("prompt", p |> @core.any)
   }
   if system is Some(s) {
-    opts._set("system", s |> @nostd.any)
+    opts._set("system", s |> @core.any)
   }
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
+    opts._set("messages", msgs.map(_.as_any()) |> @core.any)
   }
   if max_tokens is Some(t) {
-    opts._set("maxTokens", t |> @nostd.any)
+    opts._set("maxTokens", t |> @core.any)
   }
   if temperature is Some(t) {
-    opts._set("temperature", t |> @nostd.any)
+    opts._set("temperature", t |> @core.any)
   }
   if max_retries is Some(r) {
-    opts._set("maxRetries", r |> @nostd.any)
+    opts._set("maxRetries", r |> @core.any)
   }
   if abort_signal is Some(s) {
     opts._set("abortSignal", s)
   }
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("generateObject")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
 }
@@ -172,7 +172,7 @@ pub async fn generateObject(
 pub async fn generateObjectWithZod(
   model~ : Model,
   /// Zod schema object (from @zod)
-  zod_schema~ : @nostd.Any,
+  zod_schema~ : @core.Any,
   /// Schema name (helps LLM understand expected output)
   schema_name? : String,
   /// Schema description
@@ -188,34 +188,34 @@ pub async fn generateObjectWithZod(
   /// Temperature for randomness
   temperature? : Double,
 ) -> GenerateObjectResult {
-  let opts = @nostd.Object::new()
+  let opts = @core.Object::new()
   opts._set("model", model.as_any())
   opts._set("schema", zod_schema)
   if schema_name is Some(n) {
-    opts._set("schemaName", n |> @nostd.any)
+    opts._set("schemaName", n |> @core.any)
   }
   if schema_description is Some(d) {
-    opts._set("schemaDescription", d |> @nostd.any)
+    opts._set("schemaDescription", d |> @core.any)
   }
   if prompt is Some(p) {
-    opts._set("prompt", p |> @nostd.any)
+    opts._set("prompt", p |> @core.any)
   }
   if system is Some(s) {
-    opts._set("system", s |> @nostd.any)
+    opts._set("system", s |> @core.any)
   }
   if messages is Some(msgs) {
-    opts._set("messages", msgs.map(_.as_any()) |> @nostd.any)
+    opts._set("messages", msgs.map(_.as_any()) |> @core.any)
   }
   if max_tokens is Some(t) {
-    opts._set("maxTokens", t |> @nostd.any)
+    opts._set("maxTokens", t |> @core.any)
   }
   if temperature is Some(t) {
-    opts._set("temperature", t |> @nostd.any)
+    opts._set("temperature", t |> @core.any)
   }
-  let promise : @js.Promise[@nostd.Any] = ai_module()
+  let promise : @js.Promise[@core.Any] = ai_module()
     ._get("generateObject")
     ._invoke([opts])
-    |> @nostd.identity
+    |> @core.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
 }

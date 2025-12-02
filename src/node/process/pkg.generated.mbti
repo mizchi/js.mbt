@@ -3,53 +3,53 @@ package "mizchi/js/node/process"
 
 import(
   "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/tty"
-  "mizchi/js/nostd"
 )
 
 // Values
-fn argv() -> Array[String]
+pub fn argv() -> Array[String]
 
-fn chdir(String) -> Unit
+pub fn chdir(String) -> Unit
 
-fn cwd() -> String
+pub fn cwd() -> String
 
-fn env() -> ProcessEnv
+pub fn env() -> ProcessEnv
 
-fn exit(Int) -> Unit
+pub fn exit(Int) -> Unit
 
-fn exitCode() -> Int
+pub fn exitCode() -> Int
 
-fn isTTY() -> Bool
+pub fn isTTY() -> Bool
 
-fn nextTick(() -> Unit) -> Unit
+pub fn nextTick(() -> Unit) -> Unit
 
-fn on(String, () -> Unit) -> Unit
+pub fn on(String, () -> Unit) -> Unit
 
-fn process() -> Process
+pub fn process() -> Process
 
-fn stderr() -> @tty.WriteStream
+pub fn stderr() -> @tty.WriteStream
 
-fn stdin() -> @tty.ReadStream
+pub fn stdin() -> @tty.ReadStream
 
-fn stdout() -> @tty.WriteStream
+pub fn stdout() -> @tty.WriteStream
 
-fn version() -> String
+pub fn version() -> String
 
-fn versions() -> @js.Object
+pub fn versions() -> @js.Object
 
 // Errors
 
 // Types and methods
 #external
 pub type Process
-fn Process::as_any(Self) -> @nostd.Any
+pub fn Process::as_any(Self) -> @core.Any
 
 #external
 pub type ProcessEnv
-fn ProcessEnv::as_any(Self) -> @nostd.Any
-fn ProcessEnv::get(Self, String) -> String?
-fn ProcessEnv::has(Self, String) -> Bool
+pub fn ProcessEnv::as_any(Self) -> @core.Any
+pub fn ProcessEnv::get(Self, String) -> String?
+pub fn ProcessEnv::has(Self, String) -> Bool
 
 // Type aliases
 

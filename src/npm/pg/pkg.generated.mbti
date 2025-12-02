@@ -2,7 +2,7 @@
 package "mizchi/js/npm/pg"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
@@ -12,47 +12,47 @@ import(
 // Types and methods
 #external
 pub type Client
-fn Client::as_any(Self) -> @nostd.Any
-async fn Client::connect(Self) -> Unit
-async fn Client::end(Self) -> Unit
+pub fn Client::as_any(Self) -> @core.Any
+pub async fn Client::connect(Self) -> Unit
+pub async fn Client::end(Self) -> Unit
 #alias(end_sync)
-fn Client::endSync(Self) -> @nostd.Promise[Unit]
+pub fn Client::endSync(Self) -> @core.Promise[Unit]
 #alias(new_client)
-fn Client::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @nostd.Any, statement_timeout? : Int, query_timeout? : Int, connection_timeout_millis? : Int, application_name? : String) -> Self
-async fn Client::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
+pub fn Client::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @core.Any, statement_timeout? : Int, query_timeout? : Int, connection_timeout_millis? : Int, application_name? : String) -> Self
+pub async fn Client::query(Self, String, params? : Array[@core.Any]) -> QueryResult
 
 #external
 pub type Pool
-fn Pool::as_any(Self) -> @nostd.Any
-async fn Pool::connect(Self) -> PoolClient
-async fn Pool::end(Self) -> Unit
+pub fn Pool::as_any(Self) -> @core.Any
+pub async fn Pool::connect(Self) -> PoolClient
+pub async fn Pool::end(Self) -> Unit
 #alias(end_sync)
-fn Pool::endSync(Self) -> @nostd.Promise[Unit]
+pub fn Pool::endSync(Self) -> @core.Promise[Unit]
 #alias(idle_count)
-fn Pool::idleCount(Self) -> Int
+pub fn Pool::idleCount(Self) -> Int
 #alias(new_pool)
-fn Pool::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @nostd.Any, max? : Int, min? : Int, idle_timeout_millis? : Int, connection_timeout_millis? : Int, max_lifetime_seconds? : Int, allow_exit_on_idle? : Bool) -> Self
-async fn Pool::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
+pub fn Pool::new(connection_string? : String, user? : String, password? : String, host? : String, port? : Int, database? : String, ssl? : @core.Any, max? : Int, min? : Int, idle_timeout_millis? : Int, connection_timeout_millis? : Int, max_lifetime_seconds? : Int, allow_exit_on_idle? : Bool) -> Self
+pub async fn Pool::query(Self, String, params? : Array[@core.Any]) -> QueryResult
 #alias(total_count)
-fn Pool::totalCount(Self) -> Int
+pub fn Pool::totalCount(Self) -> Int
 #alias(waiting_count)
-fn Pool::waitingCount(Self) -> Int
+pub fn Pool::waitingCount(Self) -> Int
 
 #external
 pub type PoolClient
-fn PoolClient::as_any(Self) -> @nostd.Any
-async fn PoolClient::query(Self, String, params? : Array[@nostd.Any]) -> QueryResult
-fn PoolClient::release(Self, destroy? : Bool) -> Unit
+pub fn PoolClient::as_any(Self) -> @core.Any
+pub async fn PoolClient::query(Self, String, params? : Array[@core.Any]) -> QueryResult
+pub fn PoolClient::release(Self, destroy? : Bool) -> Unit
 
 #external
 pub type QueryResult
-fn QueryResult::as_any(Self) -> @nostd.Any
-fn QueryResult::command(Self) -> String
-fn QueryResult::fields(Self) -> @nostd.Any
+pub fn QueryResult::as_any(Self) -> @core.Any
+pub fn QueryResult::command(Self) -> String
+pub fn QueryResult::fields(Self) -> @core.Any
 #alias(row_count)
-fn QueryResult::rowCount(Self) -> Int
-fn QueryResult::rows(Self) -> @nostd.Any
-fn[T] QueryResult::rows_array(Self) -> Array[T]
+pub fn QueryResult::rowCount(Self) -> Int
+pub fn QueryResult::rows(Self) -> @core.Any
+pub fn[T] QueryResult::rows_array(Self) -> Array[T]
 
 // Type aliases
 

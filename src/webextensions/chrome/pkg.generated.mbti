@@ -2,14 +2,14 @@
 package "mizchi/js/webextensions/chrome"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/webextensions/runtime"
   "mizchi/js/webextensions/storage"
   "mizchi/js/webextensions/tabs"
 )
 
 // Values
-fn chrome() -> Chrome
+pub fn chrome() -> Chrome
 
 // Errors
 
@@ -23,42 +23,41 @@ pub(all) struct Chrome {
 pub(all) struct Runtime {
   id : String
 }
-fn Runtime::connect(Self, name? : String) -> @runtime.Port
-fn Runtime::get_manifest(Self) -> @nostd.Any
-async fn Runtime::get_platform_info(Self) -> @runtime.PlatformInfo
-fn Runtime::get_url(Self, String) -> String
-fn Runtime::on_connect(Self, (@runtime.Port) -> Unit) -> Unit
-fn Runtime::on_installed(Self, (@nostd.Any) -> Unit) -> Unit
-fn Runtime::on_message(Self, (@nostd.Any, @nostd.Any, (@nostd.Any) -> Unit) -> Bool) -> Unit
-fn Runtime::on_startup(Self, () -> Unit) -> Unit
-async fn Runtime::open_options_page(Self) -> Unit
-fn Runtime::reload(Self) -> Unit
-async fn Runtime::send_message(Self, @nostd.Any) -> @nostd.Any
+pub fn Runtime::connect(Self, name? : String) -> @runtime.Port
+pub fn Runtime::get_manifest(Self) -> @core.Any
+pub async fn Runtime::get_platform_info(Self) -> @runtime.PlatformInfo
+pub fn Runtime::get_url(Self, String) -> String
+pub fn Runtime::on_connect(Self, (@runtime.Port) -> Unit) -> Unit
+pub fn Runtime::on_installed(Self, (@core.Any) -> Unit) -> Unit
+pub fn Runtime::on_message(Self, (@core.Any, @core.Any, (@core.Any) -> Unit) -> Bool) -> Unit
+pub fn Runtime::on_startup(Self, () -> Unit) -> Unit
+pub async fn Runtime::open_options_page(Self) -> Unit
+pub fn Runtime::reload(Self) -> Unit
+pub async fn Runtime::send_message(Self, @core.Any) -> @core.Any
 
 pub(all) struct Storage {
   local_area : @storage.StorageArea
   sync_area : @storage.StorageArea
   session_area : @storage.StorageArea
 }
-fn Storage::on_changed(Self, (@nostd.Any, String) -> Unit) -> Unit
+pub fn Storage::on_changed(Self, (@core.Any, String) -> Unit) -> Unit
 
 pub(all) struct Tabs {
   // private fields
 }
-async fn Tabs::create(Self, options? : @tabs.CreateOptions) -> @tabs.Tab
-async fn Tabs::duplicate(Self, Int) -> @tabs.Tab
-async fn Tabs::get(Self, Int) -> @tabs.Tab
-async fn Tabs::get_current(Self) -> @tabs.Tab?
-fn Tabs::on_activated(Self, (@nostd.Any) -> Unit) -> Unit
-fn Tabs::on_created(Self, (@tabs.Tab) -> Unit) -> Unit
-fn Tabs::on_removed(Self, (Int, @nostd.Any) -> Unit) -> Unit
-fn Tabs::on_updated(Self, (Int, @nostd.Any, @tabs.Tab) -> Unit) -> Unit
-async fn Tabs::query(Self, options? : @tabs.QueryOptions) -> Array[@tabs.Tab]
-async fn Tabs::reload(Self, Int, bypass_cache? : Bool) -> Unit
-async fn Tabs::remove(Self, Array[Int]) -> Unit
-async fn Tabs::remove_tab(Self, Int) -> Unit
-async fn Tabs::send_message(Self, Int, @nostd.Any) -> @nostd.Any
-async fn Tabs::update(Self, Int, @tabs.UpdateOptions) -> @tabs.Tab
+pub async fn Tabs::create(Self, options? : @tabs.CreateOptions) -> @tabs.Tab
+pub async fn Tabs::duplicate(Self, Int) -> @tabs.Tab
+pub async fn Tabs::get_current(Self) -> @tabs.Tab?
+pub fn Tabs::on_activated(Self, (@core.Any) -> Unit) -> Unit
+pub fn Tabs::on_created(Self, (@tabs.Tab) -> Unit) -> Unit
+pub fn Tabs::on_removed(Self, (Int, @core.Any) -> Unit) -> Unit
+pub fn Tabs::on_updated(Self, (Int, @core.Any, @tabs.Tab) -> Unit) -> Unit
+pub async fn Tabs::query(Self, options? : @tabs.QueryOptions) -> Array[@tabs.Tab]
+pub async fn Tabs::reload(Self, Int, bypass_cache? : Bool) -> Unit
+pub async fn Tabs::remove(Self, Array[Int]) -> Unit
+pub async fn Tabs::remove_tab(Self, Int) -> Unit
+pub async fn Tabs::send_message(Self, Int, @core.Any) -> @core.Any
+pub async fn Tabs::update(Self, Int, @tabs.UpdateOptions) -> @tabs.Tab
 
 // Type aliases
 

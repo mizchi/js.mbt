@@ -4,17 +4,17 @@ package "mizchi/js/web/webassembly"
 import(
   "mizchi/js"
   "mizchi/js/builtins/typedarray"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn compile(@typedarray.Uint8Array) -> @nostd.Any
+pub fn compile(@typedarray.Uint8Array) -> @core.Any
 
-fn instantiate_bytes(@typedarray.Uint8Array, @nostd.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
+pub fn instantiate_bytes(@typedarray.Uint8Array, @core.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
 
-fn instantiate_module(WebAssemblyModule, @nostd.Any?) -> WebAssemblyInstance
+pub fn instantiate_module(WebAssemblyModule, @core.Any?) -> WebAssemblyInstance
 
-fn validate(@typedarray.Uint8Array) -> Bool
+pub fn validate(@typedarray.Uint8Array) -> Bool
 
 // Errors
 
@@ -38,37 +38,37 @@ pub(all) struct TableDescriptor {
 
 #external
 pub type WebAssemblyGlobal
-fn WebAssemblyGlobal::as_any(Self) -> @nostd.Any
-fn WebAssemblyGlobal::new(GlobalDescriptor, @nostd.Any) -> Self
-fn WebAssemblyGlobal::set_value(Self, @nostd.Any) -> Unit
-fn WebAssemblyGlobal::value(Self) -> @nostd.Any
+pub fn WebAssemblyGlobal::as_any(Self) -> @core.Any
+pub fn WebAssemblyGlobal::new(GlobalDescriptor, @core.Any) -> Self
+pub fn WebAssemblyGlobal::set_value(Self, @core.Any) -> Unit
+pub fn WebAssemblyGlobal::value(Self) -> @core.Any
 
 #external
 pub type WebAssemblyInstance
-fn WebAssemblyInstance::as_any(Self) -> @nostd.Any
-fn WebAssemblyInstance::exports(Self) -> @nostd.Any
-fn WebAssemblyInstance::from_module(WebAssemblyModule, @nostd.Any?) -> Self
+pub fn WebAssemblyInstance::as_any(Self) -> @core.Any
+pub fn WebAssemblyInstance::exports(Self) -> @core.Any
+pub fn WebAssemblyInstance::from_module(WebAssemblyModule, @core.Any?) -> Self
 
 #external
 pub type WebAssemblyMemory
-fn WebAssemblyMemory::as_any(Self) -> @nostd.Any
-fn WebAssemblyMemory::buffer(Self) -> @js.ArrayBuffer
-fn WebAssemblyMemory::grow(Self, Int) -> Int
-fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
+pub fn WebAssemblyMemory::as_any(Self) -> @core.Any
+pub fn WebAssemblyMemory::buffer(Self) -> @js.ArrayBuffer
+pub fn WebAssemblyMemory::grow(Self, Int) -> Int
+pub fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
 
 #external
 pub type WebAssemblyModule
-fn WebAssemblyModule::as_any(Self) -> @nostd.Any
-fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
-fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
+pub fn WebAssemblyModule::as_any(Self) -> @core.Any
+pub fn WebAssemblyModule::from_buffer(@js.ArrayBuffer) -> Self
+pub fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
 
 #external
 pub type WebAssemblyTable
-fn WebAssemblyTable::as_any(Self) -> @nostd.Any
-fn WebAssemblyTable::grow(Self, Int, @nostd.Any) -> Int
-fn WebAssemblyTable::length(Self) -> Int
-fn WebAssemblyTable::new(TableDescriptor) -> Self
-fn WebAssemblyTable::set(Self, Int, @nostd.Any) -> Unit
+pub fn WebAssemblyTable::as_any(Self) -> @core.Any
+pub fn WebAssemblyTable::grow(Self, Int, @core.Any) -> Int
+pub fn WebAssemblyTable::length(Self) -> Int
+pub fn WebAssemblyTable::new(TableDescriptor) -> Self
+pub fn WebAssemblyTable::set(Self, Int, @core.Any) -> Unit
 
 // Type aliases
 

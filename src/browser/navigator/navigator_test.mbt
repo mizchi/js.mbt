@@ -2,7 +2,7 @@
 #skip("navigator not available in JSDOM")
 test "navigator global function returns Navigator" {
   let nav = navigator()
-  assert_eq(@nostd.typeof_(nav.as_any()), "object")
+  assert_eq(@core.typeof_(nav.as_any()), "object")
 }
 
 ///|

@@ -1,7 +1,7 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/web/http",
     "mizchi/js/web/url",
@@ -9,5 +9,7 @@
     "mizchi/js/node",
     "mizchi/js/npm/better_auth"
   ],
-  "test-import": ["moonbitlang/async"]
+  "test-import": [
+    "moonbitlang/async"
+  ]
 }

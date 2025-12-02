@@ -2,62 +2,62 @@
 package "mizchi/js/node/zlib"
 
 import(
-  "mizchi/js"
+  "mizchi/js/core"
 )
 
 // Values
-fn brotli_compress(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn brotli_compress(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn brotli_decompress(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn brotli_decompress(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn create_brotli_compress(ZlibOptions) -> BrotliCompress
+pub fn create_brotli_compress(ZlibOptions) -> BrotliCompress
 
-fn create_brotli_decompress(ZlibOptions) -> BrotliDecompress
+pub fn create_brotli_decompress(ZlibOptions) -> BrotliDecompress
 
-fn create_deflate(ZlibOptions) -> Deflate
+pub fn create_deflate(ZlibOptions) -> Deflate
 
-fn create_gunzip(ZlibOptions) -> Gunzip
+pub fn create_gunzip(ZlibOptions) -> Gunzip
 
-fn create_gzip(ZlibOptions) -> Gzip
+pub fn create_gzip(ZlibOptions) -> Gzip
 
-fn create_inflate(ZlibOptions) -> Inflate
+pub fn create_inflate(ZlibOptions) -> Inflate
 
-fn deflate(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn deflate(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn gunzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn gunzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn gzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn gzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn inflate(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn inflate(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-fn unzip(@js.Object, ZlibOptions, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn unzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type BrotliCompress
-fn BrotliCompress::as_any(Self) -> @nostd.Any
+pub fn BrotliCompress::as_any(Self) -> @core.Any
 
 #external
 pub type BrotliDecompress
-fn BrotliDecompress::as_any(Self) -> @nostd.Any
+pub fn BrotliDecompress::as_any(Self) -> @core.Any
 
 #external
 pub type Deflate
-fn Deflate::as_any(Self) -> @nostd.Any
+pub fn Deflate::as_any(Self) -> @core.Any
 
 #external
 pub type Gunzip
-fn Gunzip::as_any(Self) -> @nostd.Any
+pub fn Gunzip::as_any(Self) -> @core.Any
 
 #external
 pub type Gzip
-fn Gzip::as_any(Self) -> @nostd.Any
+pub fn Gzip::as_any(Self) -> @core.Any
 
 #external
 pub type Inflate
-fn Inflate::as_any(Self) -> @nostd.Any
+pub fn Inflate::as_any(Self) -> @core.Any
 
 pub struct ZlibOptions {
   level : Int?
@@ -66,9 +66,10 @@ pub struct ZlibOptions {
   strategy : Int?
   window_bits : Int?
 }
-fn ZlibOptions::as_any(Self) -> @nostd.Any
-fn ZlibOptions::new() -> Self
+pub fn ZlibOptions::as_any(Self) -> @core.Any
+pub fn ZlibOptions::new() -> Self
 
 // Type aliases
 
 // Traits
+

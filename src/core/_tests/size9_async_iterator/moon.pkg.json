@@ -1,0 +1,8 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js/core",
+    "moonbitlang/async"
+  ],
+  "warn-list": "-9"
+}

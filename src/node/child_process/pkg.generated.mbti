@@ -3,70 +3,72 @@ package "mizchi/js/node/child_process"
 
 import(
   "mizchi/js"
+  "mizchi/js/core"
   "mizchi/js/node/events"
-  "mizchi/js/nostd"
   "mizchi/js/web/streams"
   "moonbitlang/async/js_async"
 )
 
 // Values
-fn exec(String, (@js.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @nostd.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn exec(String, (@core.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file)
-fn execFile(String, Array[String], (@js.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @nostd.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn execFile(String, Array[String], (@core.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
-fn execFileSync(String, args? : Array[String], cwd? : String, env? : @nostd.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
+pub fn execFileSync(String, args? : Array[String], cwd? : String, env? : @core.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
 
 #alias(exec_sync)
-fn execSync(String, cwd? : String, env? : @nostd.Any, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @js.ThrowError
+pub fn execSync(String, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @js.ThrowError
 
-fn fork(String, args? : Array[String], cwd? : String, env? : @nostd.Any, silent? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn fork(String, args? : Array[String], cwd? : String, env? : @core.Any, silent? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
-fn spawn(String, args? : Array[String], cwd? : String, env? : @nostd.Any, shell? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn spawn(String, args? : Array[String], cwd? : String, env? : @core.Any, shell? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(spawn_sync)
-fn spawnSync(String, args? : Array[String], cwd? : String, env? : @nostd.Any, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @js.ThrowError
+pub fn spawnSync(String, args? : Array[String], cwd? : String, env? : @core.Any, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @js.ThrowError
 
 // Errors
 
 // Types and methods
 #external
 pub type ChildProcess
-fn ChildProcess::as_any(Self) -> @nostd.Any
-fn ChildProcess::as_event_emitter(Self) -> @events.EventEmitter
-fn ChildProcess::disconnect(Self) -> Unit
-fn ChildProcess::exitCode(Self) -> Int
-fn ChildProcess::kill(Self, signal? : String) -> Bool
-fn ChildProcess::killed(Self) -> Bool
-fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
-fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
-fn ChildProcess::on_error(Self, (@js.JsError) -> Unit) -> Unit
-fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
-fn ChildProcess::on_message(Self, (@nostd.Any, @nostd.Any?) -> Unit) -> Unit
-fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
-fn ChildProcess::on_stderr_data(Self, (@nostd.Any) -> Unit) -> Unit
-fn ChildProcess::on_stdout_data(Self, (@nostd.Any) -> Unit) -> Unit
-fn ChildProcess::pid(Self) -> Int
-fn ChildProcess::ref_(Self) -> Unit
-fn ChildProcess::send(Self, @nostd.Any) -> Bool
-fn ChildProcess::signalCode(Self) -> String
-fn ChildProcess::stderr(Self) -> @streams.ReadableStream
-fn ChildProcess::stdin(Self) -> @streams.WritableStream
-fn ChildProcess::stdout(Self) -> @streams.ReadableStream
-fn ChildProcess::unref(Self) -> Unit
-impl @events.EventEmitterImpl for ChildProcess
+pub fn ChildProcess::as_any(Self) -> @core.Any
+pub fn ChildProcess::as_event_emitter(Self) -> @events.EventEmitter
+pub fn ChildProcess::disconnect(Self) -> Unit
+pub fn ChildProcess::exitCode(Self) -> Int
+pub fn ChildProcess::kill(Self, signal? : String) -> Bool
+pub fn ChildProcess::killed(Self) -> Bool
+pub fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
+pub fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
+pub fn ChildProcess::on_error(Self, (@js.JsError) -> Unit) -> Unit
+pub fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
+pub fn ChildProcess::on_message(Self, (@core.Any, @core.Any?) -> Unit) -> Unit
+pub fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit
+pub fn ChildProcess::on_stderr_data(Self, (@core.Any) -> Unit) -> Unit
+pub fn ChildProcess::on_stdout_data(Self, (@core.Any) -> Unit) -> Unit
+pub fn ChildProcess::pid(Self) -> Int
+pub fn ChildProcess::ref_(Self) -> Unit
+pub fn ChildProcess::send(Self, @core.Any) -> Bool
+pub fn ChildProcess::signalCode(Self) -> String
+pub fn ChildProcess::stderr(Self) -> @streams.ReadableStream
+pub fn ChildProcess::stdin(Self) -> @streams.WritableStream
+pub fn ChildProcess::stdout(Self) -> @streams.ReadableStream
+pub fn ChildProcess::to_any(Self) -> @core.Any
+pub fn ChildProcess::to_event_emitter(Self) -> @events.EventEmitter
+pub fn ChildProcess::unref(Self) -> Unit
 
 #external
 pub type SpawnSyncResult
-fn SpawnSyncResult::as_any(Self) -> @nostd.Any
-fn SpawnSyncResult::error(Self) -> @nostd.Any
-fn SpawnSyncResult::pid(Self) -> Int
-fn SpawnSyncResult::signal(Self) -> String?
-fn SpawnSyncResult::status(Self) -> Int?
-fn SpawnSyncResult::stderr(Self) -> @streams.ReadableStream
-fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
+pub fn SpawnSyncResult::as_any(Self) -> @core.Any
+pub fn SpawnSyncResult::error(Self) -> @core.Any
+pub fn SpawnSyncResult::pid(Self) -> Int
+pub fn SpawnSyncResult::signal(Self) -> String?
+pub fn SpawnSyncResult::status(Self) -> Int?
+pub fn SpawnSyncResult::stderr(Self) -> @streams.ReadableStream
+pub fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
 
 // Type aliases
 
 // Traits
+

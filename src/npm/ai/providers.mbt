@@ -21,16 +21,16 @@ pub fn OpenAIOptions::default() -> OpenAIOptions {
 
 ///|
 /// Convert OpenAI options to JS object
-pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @core.Any {
+  let obj = @core.Object::new()
   if self.api_key is Some(key) {
-    obj._set("apiKey", key |> @nostd.any)
+    obj._set("apiKey", key |> @core.any)
   }
   if self.base_url is Some(url) {
-    obj._set("baseURL", url |> @nostd.any)
+    obj._set("baseURL", url |> @core.any)
   }
   if self.organization is Some(org) {
-    obj._set("organization", org |> @nostd.any)
+    obj._set("organization", org |> @core.any)
   }
   obj
 }
@@ -41,14 +41,14 @@ pub fn OpenAIOptions::as_any(self : OpenAIOptions) -> @nostd.Any {
 pub type OpenAIProvider
 
 ///|
-pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @nostd.Any = "%identity"
+pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @core.Any = "%identity"
 
 ///|
 /// Load the OpenAI provider module
 /// Returns the default openai provider function from @ai-sdk/openai
 pub fn OpenAIProvider::require() -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
-  pkg._get("openai") |> @nostd.identity
+  pkg._get("openai") |> @core.identity
 }
 
 ///|
@@ -56,14 +56,14 @@ pub fn OpenAIProvider::require() -> OpenAIProvider {
 pub fn OpenAIProvider::create(options : OpenAIOptions) -> OpenAIProvider {
   let pkg = @node.require("@ai-sdk/openai")
   let create_fn = pkg._get("createOpenAI")
-  create_fn._invoke([options.as_any()]) |> @nostd.identity
+  create_fn._invoke([options.as_any()]) |> @core.identity
 }
 
 ///|
 /// Create an OpenAI model instance
 /// Example: openai.model("gpt-4o")
 pub fn OpenAIProvider::model(self : OpenAIProvider, model_id : String) -> Model {
-  self.as_any()._invoke([model_id |> @js.any]) |> @nostd.identity
+  self.as_any()._invoke([model_id |> @js.any]) |> @core.identity
 }
 
 ///|
@@ -95,13 +95,13 @@ pub fn AnthropicOptions::default() -> AnthropicOptions {
 
 ///|
 /// Convert Anthropic options to JS object
-pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @core.Any {
+  let obj = @core.Object::new()
   if self.api_key is Some(key) {
-    obj._set("apiKey", key |> @nostd.any)
+    obj._set("apiKey", key |> @core.any)
   }
   if self.base_url is Some(url) {
-    obj._set("baseURL", url |> @nostd.any)
+    obj._set("baseURL", url |> @core.any)
   }
   obj
 }
@@ -112,14 +112,14 @@ pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @nostd.Any {
 pub type AnthropicProvider
 
 ///|
-pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @nostd.Any = "%identity"
+pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @core.Any = "%identity"
 
 ///|
 /// Load the Anthropic provider module
 /// Returns the default anthropic provider function from @ai-sdk/anthropic
 pub fn AnthropicProvider::require() -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
-  pkg._get("anthropic") |> @nostd.identity
+  pkg._get("anthropic") |> @core.identity
 }
 
 ///|
@@ -129,7 +129,7 @@ pub fn AnthropicProvider::create(
 ) -> AnthropicProvider {
   let pkg = @node.require("@ai-sdk/anthropic")
   let create_fn = pkg._get("createAnthropic")
-  create_fn._invoke([options.as_any()]) |> @nostd.identity
+  create_fn._invoke([options.as_any()]) |> @core.identity
 }
 
 ///|
@@ -139,7 +139,7 @@ pub fn AnthropicProvider::model(
   self : AnthropicProvider,
   model_id : String,
 ) -> Model {
-  self.as_any()._invoke([model_id |> @js.any]) |> @nostd.identity
+  self.as_any()._invoke([model_id |> @js.any]) |> @core.identity
 }
 
 ///|
@@ -174,13 +174,13 @@ pub fn GoogleOptions::default() -> GoogleOptions {
 
 ///|
 /// Convert Google options to JS object
-pub fn GoogleOptions::as_any(self : GoogleOptions) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn GoogleOptions::as_any(self : GoogleOptions) -> @core.Any {
+  let obj = @core.Object::new()
   if self.api_key is Some(key) {
-    obj._set("apiKey", key |> @nostd.any)
+    obj._set("apiKey", key |> @core.any)
   }
   if self.base_url is Some(url) {
-    obj._set("baseURL", url |> @nostd.any)
+    obj._set("baseURL", url |> @core.any)
   }
   obj
 }
@@ -191,14 +191,14 @@ pub fn GoogleOptions::as_any(self : GoogleOptions) -> @nostd.Any {
 pub type GoogleProvider
 
 ///|
-pub fn GoogleProvider::as_any(self : GoogleProvider) -> @nostd.Any = "%identity"
+pub fn GoogleProvider::as_any(self : GoogleProvider) -> @core.Any = "%identity"
 
 ///|
 /// Load the Google Generative AI provider module
 /// Returns the default google provider function from @ai-sdk/google
 pub fn GoogleProvider::require() -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
-  pkg._get("google") |> @nostd.identity
+  pkg._get("google") |> @core.identity
 }
 
 ///|
@@ -206,14 +206,14 @@ pub fn GoogleProvider::require() -> GoogleProvider {
 pub fn GoogleProvider::create(options : GoogleOptions) -> GoogleProvider {
   let pkg = @node.require("@ai-sdk/google")
   let create_fn = pkg._get("createGoogleGenerativeAI")
-  create_fn._invoke([options.as_any()]) |> @nostd.identity
+  create_fn._invoke([options.as_any()]) |> @core.identity
 }
 
 ///|
 /// Create a Google Generative AI model instance
 /// Example: google.model("gemini-2.0-flash")
 pub fn GoogleProvider::model(self : GoogleProvider, model_id : String) -> Model {
-  self.as_any()._invoke([model_id |> @js.any]) |> @nostd.identity
+  self.as_any()._invoke([model_id |> @js.any]) |> @core.identity
 }
 
 ///|

@@ -68,7 +68,7 @@ pub fn[T] MockValues::reset(self : MockValues[T]) -> Unit {
 
 ///|
 /// Load the test module from ai/test
-pub fn require_test() -> @nostd.Any {
+pub fn require_test() -> @core.Any {
   @node.require("ai/test")
 }
 
@@ -81,40 +81,40 @@ pub fn mock_id() -> MockId {
 ///|
 /// Get mockValues function from ai/test (JS version)
 /// Returns a function that returns values in order, then the last value
-pub fn mock_values_js(values : Array[@nostd.Any]) -> @nostd.Any {
+pub fn mock_values_js(values : Array[@core.Any]) -> @core.Any {
   let test_module = require_test()
-  let mock_values_fn : @nostd.Any = test_module._get("mockValues").cast()
+  let mock_values_fn : @core.Any = test_module._get("mockValues").cast()
   // Call mockValues(...values) using the spread pattern
   @reflect.apply(
     mock_values_fn,
-    @nostd.null(),
-    values.map(fn(v) -> @nostd.Any { v.cast() }),
+    @core.null(),
+    values.map(fn(v) -> @core.Any { v.cast() }),
   ).cast()
 }
 
 ///|
 /// Convert array to async iterable (JS)
-pub fn convert_array_to_async_iterable(arr : Array[@nostd.Any]) -> @nostd.Any {
+pub fn convert_array_to_async_iterable(arr : Array[@core.Any]) -> @core.Any {
   let test_module = require_test()
-  test_module._get("convertArrayToAsyncIterable")._invoke([arr |> @nostd.any])
+  test_module._get("convertArrayToAsyncIterable")._invoke([arr |> @core.any])
 }
 
 ///|
 /// Convert array to readable stream (JS)
-pub fn convert_array_to_readable_stream(arr : Array[@nostd.Any]) -> @nostd.Any {
+pub fn convert_array_to_readable_stream(arr : Array[@core.Any]) -> @core.Any {
   let test_module = require_test()
-  test_module._get("convertArrayToReadableStream")._invoke([arr |> @nostd.any])
+  test_module._get("convertArrayToReadableStream")._invoke([arr |> @core.any])
 }
 
 ///|
 /// Convert readable stream to array (JS)
 pub async fn convert_readable_stream_to_array(
-  stream : @nostd.Any,
-) -> Array[@nostd.Any] {
+  stream : @core.Any,
+) -> Array[@core.Any] {
   let test_module = require_test()
-  let promise : @js.Promise[Array[@nostd.Any]] = test_module
+  let promise : @js.Promise[Array[@core.Any]] = test_module
     ._get("convertReadableStreamToArray")
     ._invoke([stream])
-    |> @nostd.identity
+    |> @core.identity
   promise.wait()
 }

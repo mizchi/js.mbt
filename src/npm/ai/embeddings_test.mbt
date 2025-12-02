@@ -2,7 +2,7 @@
 
 ///|
 test "embedding usage from_any" {
-  let raw = @nostd.from_entries([("tokens", 100 |> @nostd.any)]).cast()
+  let raw = @core.from_entries([("tokens", 100 |> @core.any)]).cast()
   let usage = @ai.EmbeddingUsage::from_any(raw)
   assert_eq(usage.tokens, 100)
 }
@@ -10,9 +10,9 @@ test "embedding usage from_any" {
 ///|
 test "embed result from_any" {
   let embedding_arr : Array[Double] = [0.1, 0.2, 0.3, 0.4, 0.5]
-  let raw = @nostd.from_entries([
-    ("embedding", embedding_arr |> @nostd.any |> @nostd.any),
-    ("usage", @nostd.from_entries([("tokens", 50 |> @nostd.any)]).cast()),
+  let raw = @core.from_entries([
+    ("embedding", embedding_arr |> @core.any |> @core.any),
+    ("usage", @core.from_entries([("tokens", 50 |> @core.any)]).cast()),
   ]).cast()
   let result = @ai.EmbedResult::from_any(raw)
   assert_eq(result.embedding.length(), 5)
@@ -23,10 +23,10 @@ test "embed result from_any" {
 test "embed many result from_any" {
   let emb1 : Array[Double] = [0.1, 0.2, 0.3]
   let emb2 : Array[Double] = [0.4, 0.5, 0.6]
-  let embeddings_arr = [emb1 |> @nostd.any, emb2 |> @nostd.any]
-  let raw = @nostd.from_entries([
-    ("embeddings", embeddings_arr |> @nostd.any |> @nostd.any),
-    ("usage", @nostd.from_entries([("tokens", 100 |> @nostd.any)]).cast()),
+  let embeddings_arr = [emb1 |> @core.any, emb2 |> @core.any]
+  let raw = @core.from_entries([
+    ("embeddings", embeddings_arr |> @core.any |> @core.any),
+    ("usage", @core.from_entries([("tokens", 100 |> @core.any)]).cast()),
   ]).cast()
   let result = @ai.EmbedManyResult::from_any(raw)
   assert_eq(result.embeddings.length(), 2)
@@ -82,12 +82,12 @@ test "cosine similarity normalized" {
 #skip
 async test "embed with mock" {
   // This test requires actual API key, so skip by default
-  let model : @ai.EmbeddingModel = @nostd.identity(
+  let model : @ai.EmbeddingModel = @core.identity(
     @node.require("@ai-sdk/openai")
     ._get("openai")
     ._invoke([])
     ._get("textEmbeddingModel")
-    ._invoke(["text-embedding-3-small" |> @nostd.any]),
+    ._invoke(["text-embedding-3-small" |> @core.any]),
   )
   let result = @ai.embed(model~, value="Hello, world!")
   @js.log("Embedding dimension: " + result.embedding.length().to_string())

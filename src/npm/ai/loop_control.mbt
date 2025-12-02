@@ -8,7 +8,7 @@ pub(all) struct StopConditionContext {
   /// Current step number (1-indexed)
   step_number : Int
   /// Messages in the conversation
-  messages : Array[@nostd.Any]
+  messages : Array[@core.Any]
   /// Tool calls made in this step
   tool_calls : Array[ToolCall]
   /// Finish reason of this step
@@ -85,7 +85,7 @@ pub(all) struct PrepareStepContext {
   /// Current step number (1-indexed)
   step_number : Int
   /// Messages in the conversation so far
-  messages : Array[@nostd.Any]
+  messages : Array[@core.Any]
   /// Previous step results (if any)
   steps : Array[StepResult]
 }
@@ -99,7 +99,7 @@ pub(all) struct PrepareStepResult {
   /// Override active tools for this step
   active_tools : Array[String]?
   /// Override messages for this step
-  messages : Array[@nostd.Any]?
+  messages : Array[@core.Any]?
   /// Override system prompt for this step
   system : String?
   /// Override max tokens for this step
@@ -138,7 +138,7 @@ pub fn PrepareStepResult::with_active_tools(
 ///|
 /// Create PrepareStepResult with messages override
 pub fn PrepareStepResult::with_messages(
-  messages : Array[@nostd.Any],
+  messages : Array[@core.Any],
 ) -> PrepareStepResult {
   { ..PrepareStepResult::empty(), messages: Some(messages) }
 }
@@ -149,42 +149,42 @@ pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
 
 ///|
 /// Convert PrepareStepResult to JS options object
-pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @nostd.Any {
-  let obj = @nostd.Object::new()
+pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @core.Any {
+  let obj = @core.Object::new()
   if self.model is Some(m) {
     obj._set("model", m.as_any())
   }
   if self.active_tools is Some(tools) {
-    obj._set("activeTools", tools |> @nostd.any)
+    obj._set("activeTools", tools |> @core.any)
   }
   if self.messages is Some(msgs) {
-    obj._set("messages", msgs |> @nostd.any)
+    obj._set("messages", msgs |> @core.any)
   }
   if self.system is Some(s) {
-    obj._set("system", s |> @nostd.any)
+    obj._set("system", s |> @core.any)
   }
   if self.max_tokens is Some(t) {
-    obj._set("maxTokens", t |> @nostd.any)
+    obj._set("maxTokens", t |> @core.any)
   }
   if self.temperature is Some(t) {
-    obj._set("temperature", t |> @nostd.any)
+    obj._set("temperature", t |> @core.any)
   }
   obj
 }
 
 ///|
 /// Convert StopCondition to JS function for AI SDK
-pub fn StopCondition::as_any(self : StopCondition) -> @nostd.Any {
+pub fn StopCondition::as_any(self : StopCondition) -> @core.Any {
   let StopCondition(f) = self
-  @js.from_fn1(fn(ctx_raw : @nostd.Any) -> Bool {
+  @js.from_fn1(fn(ctx_raw : @core.Any) -> Bool {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
-    let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
+    let messages : Array[@core.Any] = @core.identity(ctx_raw._get("messages"))
     let tool_calls_raw = ctx_raw._get("toolCalls")
-    let tool_calls : Array[ToolCall] = if @nostd.is_undefined(tool_calls_raw) ||
-      @nostd.is_null(tool_calls_raw) {
+    let tool_calls : Array[ToolCall] = if @core.is_undefined(tool_calls_raw) ||
+      @core.is_null(tool_calls_raw) {
       []
     } else {
-      let arr : Array[@nostd.Any] = @nostd.identity(tool_calls_raw)
+      let arr : Array[@core.Any] = @core.identity(tool_calls_raw)
       arr.map(ToolCall::from_any)
     }
     let finish_reason = FinishReason::from_string(
@@ -202,24 +202,22 @@ pub fn StopCondition::as_any(self : StopCondition) -> @nostd.Any {
 
 ///|
 /// Convert PrepareStep callback to JS function for AI SDK
-pub fn PrepareStep::as_any(self : PrepareStep) -> @nostd.Any {
+pub fn PrepareStep::as_any(self : PrepareStep) -> @core.Any {
   let PrepareStep(f) = self
-  let promisified = @js.promisify1(async fn(
-    ctx_raw : @nostd.Any,
-  ) -> @nostd.Any {
+  let promisified = @js.promisify1(async fn(ctx_raw : @core.Any) -> @core.Any {
     let step_number : Int = ctx_raw._get("stepNumber").cast()
-    let messages : Array[@nostd.Any] = @nostd.identity(ctx_raw._get("messages"))
+    let messages : Array[@core.Any] = @core.identity(ctx_raw._get("messages"))
     let steps_raw = ctx_raw._get("steps")
-    let steps : Array[StepResult] = if @nostd.is_undefined(steps_raw) ||
-      @nostd.is_null(steps_raw) {
+    let steps : Array[StepResult] = if @core.is_undefined(steps_raw) ||
+      @core.is_null(steps_raw) {
       []
     } else {
-      let arr : Array[@nostd.Any] = @nostd.identity(steps_raw)
+      let arr : Array[@core.Any] = @core.identity(steps_raw)
       arr.map(StepResult::from_any)
     }
     let ctx : PrepareStepContext = { step_number, messages, steps }
     let result = f(ctx)
     result.as_any()
   })
-  @nostd.identity(promisified)
+  @core.identity(promisified)
 }

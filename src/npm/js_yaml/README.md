@@ -23,7 +23,7 @@ fn main {
   println("Age: " + age.to_string())
 
   // Serialize to YAML
-  let new_obj = @nostd.Object::new()
+  let new_obj = @core.Object::new()
   new_obj["key"] = "value"
   let yaml_output = @js_yaml.dump_object(new_obj)
   println(yaml_output)

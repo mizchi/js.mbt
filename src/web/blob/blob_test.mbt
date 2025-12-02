@@ -8,7 +8,7 @@
 ///|
 /// Test Blob constructor with string
 test "Blob new creates blob from string" {
-  let blob = Blob::new([@nostd.any("Hello, World!")], content_type="text/plain")
+  let blob = Blob::new([@core.any("Hello, World!")], content_type="text/plain")
   inspect(blob.size > 0, content="true")
 }
 
@@ -16,7 +16,7 @@ test "Blob new creates blob from string" {
 /// Test Blob constructor with multiple parts
 test "Blob new creates blob from multiple parts" {
   let blob = Blob::new(
-    [@nostd.any("Hello"), @nostd.any(" "), @nostd.any("World!")],
+    [@core.any("Hello"), @core.any(" "), @core.any("World!")],
     content_type="text/plain",
   )
   inspect(blob.size > 0, content="true")
@@ -27,21 +27,21 @@ test "Blob new creates blob from multiple parts" {
 ///|
 /// Test Blob size property
 test "Blob size returns correct size" {
-  let blob = Blob::new([@nostd.any("Hello")])
+  let blob = Blob::new([@core.any("Hello")])
   inspect(blob.size == 5, content="true")
 }
 
 ///|
 /// Test Blob type property
 test "Blob content_type returns MIME type" {
-  let blob = Blob::new([@nostd.any("test")], content_type="text/plain")
+  let blob = Blob::new([@core.any("test")], content_type="text/plain")
   inspect(blob.contentType() == "text/plain", content="true")
 }
 
 ///|
 /// Test Blob type property when not specified
 test "Blob content_type returns empty string when not specified" {
-  let blob = Blob::new([@nostd.any("test")])
+  let blob = Blob::new([@core.any("test")])
   inspect(blob.contentType() == "", content="true")
 }
 
@@ -52,7 +52,7 @@ test "Blob content_type returns empty string when not specified" {
 test "Blob text returns content as string" {
   @js.run_async(async fn() noraise {
     try {
-      let blob = Blob::new([@nostd.any("Hello, Blob!")])
+      let blob = Blob::new([@core.any("Hello, Blob!")])
       let text = blob.text()
       inspect(text == "Hello, Blob!", content="true")
     } catch {
@@ -66,7 +66,7 @@ test "Blob text returns content as string" {
 test "Blob array_buffer returns ArrayBuffer" {
   @js.run_async(async fn() noraise {
     try {
-      let blob = Blob::new([@nostd.any("test")])
+      let blob = Blob::new([@core.any("test")])
       let buffer = blob.array_buffer()
       inspect(buffer.byteLength > 0, content="true")
     } catch {
@@ -78,7 +78,7 @@ test "Blob array_buffer returns ArrayBuffer" {
 ///|
 /// Test Blob slice without parameters
 test "Blob slice without parameters returns copy" {
-  let blob = Blob::new([@nostd.any("Hello, World!")])
+  let blob = Blob::new([@core.any("Hello, World!")])
   let sliced = blob.slice()
   inspect(sliced.size == blob.size, content="true")
 }
@@ -86,7 +86,7 @@ test "Blob slice without parameters returns copy" {
 ///|
 /// Test Blob slice with start parameter
 test "Blob slice with start returns substring" {
-  let blob = Blob::new([@nostd.any("Hello, World!")])
+  let blob = Blob::new([@core.any("Hello, World!")])
   let sliced = blob.slice(start=7)
   inspect(sliced.size == 6, content="true")
 }
@@ -94,7 +94,7 @@ test "Blob slice with start returns substring" {
 ///|
 /// Test Blob slice with start and end parameters
 test "Blob slice with start and end returns range" {
-  let blob = Blob::new([@nostd.any("Hello, World!")])
+  let blob = Blob::new([@core.any("Hello, World!")])
   let sliced = blob.slice(start=0, end=5)
   inspect(sliced.size == 5, content="true")
 }
@@ -102,7 +102,7 @@ test "Blob slice with start and end returns range" {
 ///|
 /// Test Blob slice with content type
 test "Blob slice with content_type sets MIME type" {
-  let blob = Blob::new([@nostd.any("Hello")])
+  let blob = Blob::new([@core.any("Hello")])
   let sliced = blob.slice(content_type="text/plain")
   inspect(sliced.contentType() == "text/plain", content="true")
 }
@@ -110,9 +110,9 @@ test "Blob slice with content_type sets MIME type" {
 ///|
 /// Test Blob stream method
 test "Blob stream returns ReadableStream" {
-  let blob = Blob::new([@nostd.any("test")])
+  let blob = Blob::new([@core.any("test")])
   let stream = blob.stream()
-  inspect(@nostd.typeof_(stream.as_any().cast()) == "object", content="true")
+  inspect(@core.typeof_(stream.as_any().cast()) == "object", content="true")
 }
 
 ///| Integration Tests
@@ -124,7 +124,7 @@ test "Blob handles binary data" {
   uint8.set_at(0, 72) // 'H'
   uint8.set_at(1, 105) // 'i'
   uint8.set_at(2, 33) // '!'
-  let blob = Blob::new([@nostd.any(uint8)])
+  let blob = Blob::new([@core.any(uint8)])
   inspect(blob.size == 3, content="true")
 }
 
@@ -133,7 +133,7 @@ test "Blob handles binary data" {
 test "Blob slice and text work together" {
   @js.run_async(async fn() noraise {
     try {
-      let blob = Blob::new([@nostd.any("Hello, World!")])
+      let blob = Blob::new([@core.any("Hello, World!")])
       let sliced = blob.slice(start=0, end=5)
       let text = sliced.text()
       inspect(text == "Hello", content="true")

@@ -2,62 +2,62 @@
 package "mizchi/js/npm/memfs"
 
 import(
+  "mizchi/js/core"
   "mizchi/js/node/fs"
-  "mizchi/js/nostd"
 )
 
 // Values
-fn createFsFromVolume(Volume) -> MemFS
+pub fn createFsFromVolume(Volume) -> MemFS
 
-fn createVolume() -> Volume
+pub fn createVolume() -> Volume
 
-fn createVolumeFromJSON(@nostd.Any) -> Volume
+pub fn createVolumeFromJSON(@core.Any) -> Volume
 
-fn memfs() -> (Volume, MemFS)
+pub fn memfs() -> (Volume, MemFS)
 
-fn memfsFromJSON(@nostd.Any) -> (Volume, MemFS)
+pub fn memfsFromJSON(@core.Any) -> (Volume, MemFS)
 
 // Errors
 
 // Types and methods
 #external
 pub type Dirent
-fn Dirent::as_any(Self) -> @nostd.Any
+pub fn Dirent::as_any(Self) -> @core.Any
 
 #external
 pub type MemFS
-fn MemFS::appendFileSync(Self, String, String) -> Unit
-fn MemFS::as_any(Self) -> @nostd.Any
-fn MemFS::chmodSync(Self, String, Int) -> Unit
-fn MemFS::copyFileSync(Self, String, String) -> Unit
-fn MemFS::existsSync(Self, String) -> Bool
-fn MemFS::lstatSync(Self, String) -> @fs.Stat
-async fn MemFS::mkdir(Self, String, recursive? : Bool) -> Unit
-fn MemFS::mkdirSync(Self, String, recursive? : Bool) -> Unit
-async fn MemFS::readFile(Self, String) -> String
-fn MemFS::readFileSync(Self, String) -> String
-fn MemFS::readFileSyncBuffer(Self, String) -> @nostd.Any
-async fn MemFS::readdir(Self, String) -> Array[String]
-fn MemFS::readdirSync(Self, String) -> Array[String]
-fn MemFS::readlinkSync(Self, String) -> String
-fn MemFS::realpathSync(Self, String) -> String
-async fn MemFS::rename(Self, String, String) -> Unit
-fn MemFS::renameSync(Self, String, String) -> Unit
-async fn MemFS::rmdir(Self, String) -> Unit
-fn MemFS::rmdirSync(Self, String, recursive? : Bool) -> Unit
-async fn MemFS::stat(Self, String) -> @fs.Stat
-fn MemFS::statSync(Self, String) -> @fs.Stat
-fn MemFS::symlinkSync(Self, String, String) -> Unit
-async fn MemFS::unlink(Self, String) -> Unit
-fn MemFS::unlinkSync(Self, String) -> Unit
-async fn MemFS::writeFile(Self, String, String) -> Unit
-fn MemFS::writeFileSync(Self, String, String) -> Unit
+pub fn MemFS::appendFileSync(Self, String, String) -> Unit
+pub fn MemFS::as_any(Self) -> @core.Any
+pub fn MemFS::chmodSync(Self, String, Int) -> Unit
+pub fn MemFS::copyFileSync(Self, String, String) -> Unit
+pub fn MemFS::existsSync(Self, String) -> Bool
+pub fn MemFS::lstatSync(Self, String) -> @fs.Stat
+pub async fn MemFS::mkdir(Self, String, recursive? : Bool) -> Unit
+pub fn MemFS::mkdirSync(Self, String, recursive? : Bool) -> Unit
+pub async fn MemFS::readFile(Self, String) -> String
+pub fn MemFS::readFileSync(Self, String) -> String
+pub fn MemFS::readFileSyncBuffer(Self, String) -> @core.Any
+pub async fn MemFS::readdir(Self, String) -> Array[String]
+pub fn MemFS::readdirSync(Self, String) -> Array[String]
+pub fn MemFS::readlinkSync(Self, String) -> String
+pub fn MemFS::realpathSync(Self, String) -> String
+pub async fn MemFS::rename(Self, String, String) -> Unit
+pub fn MemFS::renameSync(Self, String, String) -> Unit
+pub async fn MemFS::rmdir(Self, String) -> Unit
+pub fn MemFS::rmdirSync(Self, String, recursive? : Bool) -> Unit
+pub async fn MemFS::stat(Self, String) -> @fs.Stat
+pub fn MemFS::statSync(Self, String) -> @fs.Stat
+pub fn MemFS::symlinkSync(Self, String, String) -> Unit
+pub async fn MemFS::unlink(Self, String) -> Unit
+pub fn MemFS::unlinkSync(Self, String) -> Unit
+pub async fn MemFS::writeFile(Self, String, String) -> Unit
+pub fn MemFS::writeFileSync(Self, String, String) -> Unit
 
 #external
 pub type Volume
-fn Volume::as_any(Self) -> @nostd.Any
-fn Volume::reset(Self) -> Unit
-fn Volume::toJSON(Self) -> @nostd.Any
+pub fn Volume::as_any(Self) -> @core.Any
+pub fn Volume::reset(Self) -> Unit
+pub fn Volume::toJSON(Self) -> @core.Any
 
 // Type aliases
 

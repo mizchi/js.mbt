@@ -2,9 +2,8 @@
 package "mizchi/js/browser/dom"
 
 import(
-  "mizchi/js"
   "mizchi/js/browser/history"
-  "mizchi/js/nostd"
+  "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/event"
   "mizchi/js/web/http"
@@ -13,29 +12,29 @@ import(
 
 // Values
 #alias(css_escape)
-fn cssEscape(String) -> String
+pub fn cssEscape(String) -> String
 
 #alias(css_supports)
-fn cssSupports(String, String) -> Bool
+pub fn cssSupports(String, String) -> Bool
 
 #alias(css_supports_condition)
-fn cssSupportsCondition(String) -> Bool
+pub fn cssSupportsCondition(String) -> Bool
 
-fn css_style_from_val(@nostd.Any) -> CSSStyleDeclaration
+pub fn css_style_from_val(@core.Any) -> CSSStyleDeclaration
 
 #alias(custom_elements)
-fn customElements() -> CustomElementRegistry
+pub fn customElements() -> CustomElementRegistry
 
-fn document() -> Document
+pub fn document() -> Document
 
 #alias(match_media)
-fn matchMedia(String) -> MediaQueryList
+pub fn matchMedia(String) -> MediaQueryList
 
-async fn requestAnimationFrame(() -> Unit raise) -> Unit noraise
+pub async fn requestAnimationFrame(() -> Unit raise) -> Unit noraise
 
-async fn wait_animation_frame() -> Unit noraise
+pub async fn wait_animation_frame() -> Unit noraise
 
-fn window() -> Window
+pub fn window() -> Window
 
 // Errors
 
@@ -45,69 +44,69 @@ pub(all) struct AnimationEvent {
   elapsedTime : Double
   pseudoElement : String
 }
-fn AnimationEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for AnimationEvent
-impl Show for AnimationEvent
+pub fn AnimationEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for AnimationEvent
+pub impl Show for AnimationEvent
 
 #external
 pub type BeforeUnloadEvent
-fn BeforeUnloadEvent::as_any(Self) -> @nostd.Any
+pub fn BeforeUnloadEvent::as_any(Self) -> @core.Any
 #alias(return_value)
-fn BeforeUnloadEvent::returnValue(Self) -> String
+pub fn BeforeUnloadEvent::returnValue(Self) -> String
 #alias(set_return_value)
-fn BeforeUnloadEvent::setReturnValue(Self, String) -> Unit
-impl EventImpl for BeforeUnloadEvent
+pub fn BeforeUnloadEvent::setReturnValue(Self, String) -> Unit
+pub impl EventImpl for BeforeUnloadEvent
 
 #external
 pub type CSSRule
-fn CSSRule::as_any(Self) -> @nostd.Any
-fn CSSRule::css_text(Self) -> String
-fn CSSRule::parent_rule(Self) -> Self?
-fn CSSRule::parent_stylesheet(Self) -> CSSStyleSheet?
-fn CSSRule::rule_type(Self) -> Int
-fn CSSRule::set_css_text(Self, String) -> Unit
+pub fn CSSRule::as_any(Self) -> @core.Any
+pub fn CSSRule::css_text(Self) -> String
+pub fn CSSRule::parent_rule(Self) -> Self?
+pub fn CSSRule::parent_stylesheet(Self) -> CSSStyleSheet?
+pub fn CSSRule::rule_type(Self) -> Int
+pub fn CSSRule::set_css_text(Self, String) -> Unit
 
 pub(all) struct CSSStyleDeclaration {
   mut cssText : String
   length : Int
   parentRule : CSSRule?
 }
-fn CSSStyleDeclaration::as_any(Self) -> @nostd.Any
-fn CSSStyleDeclaration::get_property_priority(Self, String) -> String
-fn CSSStyleDeclaration::get_property_value(Self, String) -> String
-fn CSSStyleDeclaration::remove_property(Self, String) -> String
-fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
-fn CSSStyleDeclaration::set_property_priority(Self, String, String, String) -> Unit
+pub fn CSSStyleDeclaration::as_any(Self) -> @core.Any
+pub fn CSSStyleDeclaration::get_property_priority(Self, String) -> String
+pub fn CSSStyleDeclaration::get_property_value(Self, String) -> String
+pub fn CSSStyleDeclaration::remove_property(Self, String) -> String
+pub fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
+pub fn CSSStyleDeclaration::set_property_priority(Self, String, String, String) -> Unit
 
 #external
 pub type CSSStyleSheet
-fn CSSStyleSheet::as_any(Self) -> @nostd.Any
-fn CSSStyleSheet::cssRules(Self) -> @nostd.Any
-fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
-fn CSSStyleSheet::disabled(Self) -> Bool
-fn CSSStyleSheet::href(Self) -> String?
-fn CSSStyleSheet::insertRule(Self, String) -> Int
-fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
-fn CSSStyleSheet::media(Self) -> @nostd.Any
-fn CSSStyleSheet::ownerNode(Self) -> @nostd.Any?
-fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
-fn CSSStyleSheet::title(Self) -> String?
+pub fn CSSStyleSheet::as_any(Self) -> @core.Any
+pub fn CSSStyleSheet::cssRules(Self) -> @core.Any
+pub fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
+pub fn CSSStyleSheet::disabled(Self) -> Bool
+pub fn CSSStyleSheet::href(Self) -> String?
+pub fn CSSStyleSheet::insertRule(Self, String) -> Int
+pub fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
+pub fn CSSStyleSheet::media(Self) -> @core.Any
+pub fn CSSStyleSheet::ownerNode(Self) -> @core.Any?
+pub fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
+pub fn CSSStyleSheet::title(Self) -> String?
 
 pub(all) struct ChangeEvent {
 }
-fn ChangeEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for ChangeEvent
-impl Show for ChangeEvent
+pub fn ChangeEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for ChangeEvent
+pub impl Show for ChangeEvent
 
 pub(all) struct ClipboardData(DataTransfer)
 #deprecated
-fn ClipboardData::inner(Self) -> DataTransfer
+pub fn ClipboardData::inner(Self) -> DataTransfer
 
 pub(all) struct ClipboardEvent {
   clipboardData : ClipboardData?
 }
-fn ClipboardEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for ClipboardEvent
+pub fn ClipboardEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for ClipboardEvent
 
 pub struct CustomElementCallbacks {
   onConnected : () -> Unit
@@ -115,17 +114,17 @@ pub struct CustomElementCallbacks {
   onAdopted : () -> Unit
   onAttributeChanged : (String, String?, String?, String?) -> Unit
 }
-fn CustomElementCallbacks::new(onConnected? : () -> Unit, onDisconnected? : () -> Unit, onAdopted? : () -> Unit, onAttributeChanged? : (String, String?, String?, String?) -> Unit) -> Self
+pub fn CustomElementCallbacks::new(onConnected? : () -> Unit, onDisconnected? : () -> Unit, onAdopted? : () -> Unit, onAttributeChanged? : (String, String?, String?, String?) -> Unit) -> Self
 
 #external
 pub type CustomElementRegistry
-fn CustomElementRegistry::as_any(Self) -> @nostd.Any
-fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
-fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
-fn CustomElementRegistry::get(Self, String) -> @nostd.Any?
-fn CustomElementRegistry::getName(Self, @nostd.Any) -> String?
-fn CustomElementRegistry::upgrade(Self, Node) -> Unit
-async fn CustomElementRegistry::whenDefined(Self, String) -> Unit
+pub fn CustomElementRegistry::as_any(Self) -> @core.Any
+pub fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
+pub fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
+pub fn CustomElementRegistry::get(Self, String) -> @core.Any?
+pub fn CustomElementRegistry::getName(Self, @core.Any) -> String?
+pub fn CustomElementRegistry::upgrade(Self, Node) -> Unit
+pub async fn CustomElementRegistry::whenDefined(Self, String) -> Unit
 
 pub(all) struct DOMRect {
   x : Double
@@ -137,7 +136,7 @@ pub(all) struct DOMRect {
   bottom : Double
   left : Double
 }
-fn DOMRect::as_any(Self) -> @nostd.Any
+pub fn DOMRect::as_any(Self) -> @core.Any
 
 pub(all) struct DOMRectReadOnly {
   x : Double
@@ -149,229 +148,229 @@ pub(all) struct DOMRectReadOnly {
   bottom : Double
   left : Double
 }
-fn DOMRectReadOnly::as_any(Self) -> @nostd.Any
+pub fn DOMRectReadOnly::as_any(Self) -> @core.Any
 
 pub(all) struct DataTransfer {
   mut dropEffect : String
   mut effectAllowed : String
-  items : @nostd.Any
-  files : @nostd.Any
-  types : @nostd.Any
+  items : @core.Any
+  files : @core.Any
+  types : @core.Any
 }
-fn DataTransfer::as_any(Self) -> @nostd.Any
-fn DataTransfer::clearData(Self, String) -> Unit
-fn DataTransfer::getData(Self, String) -> String
-fn DataTransfer::get_files(Self) -> Array[@nostd.Any]
-fn DataTransfer::get_types(Self) -> Array[String]
-fn DataTransfer::setData(Self, String, String) -> Unit
+pub fn DataTransfer::as_any(Self) -> @core.Any
+pub fn DataTransfer::clearData(Self, String) -> Unit
+pub fn DataTransfer::getData(Self, String) -> String
+pub fn DataTransfer::get_files(Self) -> Array[@core.Any]
+pub fn DataTransfer::get_types(Self) -> Array[String]
+pub fn DataTransfer::setData(Self, String, String) -> Unit
 
 #external
 pub type DataTransferItem
-fn DataTransferItem::as_any(Self) -> @nostd.Any
+pub fn DataTransferItem::as_any(Self) -> @core.Any
 
 #external
 pub type Document
 #alias(active_element)
-fn Document::activeElement(Self) -> Element
+pub fn Document::activeElement(Self) -> Element
 #alias(adopt_node)
-fn Document::adoptNode(Self, Node) -> Node
-fn Document::as_any(Self) -> @nostd.Any
-fn Document::as_event_target(Self) -> @event.EventTarget
-fn Document::as_node(Self) -> Node
-fn Document::body(Self) -> HTMLBodyElement?
+pub fn Document::adoptNode(Self, Node) -> Node
+pub fn Document::as_any(Self) -> @core.Any
+pub fn Document::as_event_target(Self) -> @event.EventTarget
+pub fn Document::as_node(Self) -> Node
+pub fn Document::body(Self) -> HTMLBodyElement?
 #alias(character_set)
-fn Document::characterSet(Self) -> String
+pub fn Document::characterSet(Self) -> String
 #alias(content_type)
-fn Document::contentType(Self) -> String
-fn Document::cookie(Self) -> String
+pub fn Document::contentType(Self) -> String
+pub fn Document::cookie(Self) -> String
 #alias(create_comment)
-fn Document::createComment(Self, String) -> Node
+pub fn Document::createComment(Self, String) -> Node
 #alias(create_document_fragment)
-fn Document::createDocumentFragment(Self) -> DocumentFragment
+pub fn Document::createDocumentFragment(Self) -> DocumentFragment
 #alias(create_element)
-fn Document::createElement(Self, String) -> Element
+pub fn Document::createElement(Self, String) -> Element
 #alias(create_element_ns)
-fn Document::createElementNs(Self, String, String) -> Element
+pub fn Document::createElementNs(Self, String, String) -> Element
 #alias(create_event)
-fn Document::createEvent(Self, String) -> Event
-fn Document::createStylesheet(Self) -> CSSStyleSheet
+pub fn Document::createEvent(Self, String) -> Event
+pub fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
-fn Document::createTextNode(Self, String) -> Text
-fn Document::doctype(Self) -> @nostd.Any?
+pub fn Document::createTextNode(Self, String) -> Text
+pub fn Document::doctype(Self) -> @core.Any?
 #alias(document_element)
-fn Document::documentElement(Self) -> Element
+pub fn Document::documentElement(Self) -> Element
 #alias(document_uri)
-fn Document::documentURI(Self) -> String
-fn Document::domain(Self) -> String
-fn Document::elementFromPoint(Self, Double, Double) -> Element?
-fn Document::elementsFromPoint(Self, Double, Double) -> Array[Element]
+pub fn Document::documentURI(Self) -> String
+pub fn Document::domain(Self) -> String
+pub fn Document::elementFromPoint(Self, Double, Double) -> Element?
+pub fn Document::elementsFromPoint(Self, Double, Double) -> Array[Element]
 #alias(get_element_by_id)
-fn Document::getElementById(Self, String) -> Element?
+pub fn Document::getElementById(Self, String) -> Element?
 #alias(get_elements_by_class_name)
-fn Document::getElementsByClassName(Self, String) -> Array[Element]
+pub fn Document::getElementsByClassName(Self, String) -> Array[Element]
 #alias(get_elements_by_tag_name)
-fn Document::getElementsByTagName(Self, String) -> Array[Element]
-fn Document::head(Self) -> HTMLHeadElement?
+pub fn Document::getElementsByTagName(Self, String) -> Array[Element]
+pub fn Document::head(Self) -> HTMLHeadElement?
 #alias(import_node)
-fn Document::importNode(Self, Node, Bool) -> Node
+pub fn Document::importNode(Self, Node, Bool) -> Node
 #alias(ready_state)
-fn Document::readyState(Self) -> String
-fn Document::referrer(Self) -> String
+pub fn Document::readyState(Self) -> String
+pub fn Document::referrer(Self) -> String
 #alias(set_body)
-fn Document::setBody(Self, HTMLBodyElement) -> Unit
+pub fn Document::setBody(Self, HTMLBodyElement) -> Unit
 #alias(set_title)
-fn Document::setTitle(Self, String) -> Unit
-fn Document::set_cookie(Self, String) -> Unit
-fn Document::styleSheets(Self) -> @nostd.Any
-fn Document::title(Self) -> String
-fn Document::url(Self) -> String
+pub fn Document::setTitle(Self, String) -> Unit
+pub fn Document::set_cookie(Self, String) -> Unit
+pub fn Document::styleSheets(Self) -> @core.Any
+pub fn Document::title(Self) -> String
+pub fn Document::url(Self) -> String
 
 #external
 pub type DocumentFragment
-fn DocumentFragment::as_any(Self) -> @nostd.Any
-fn DocumentFragment::as_event_target(Self) -> @event.EventTarget
-fn DocumentFragment::as_node(Self) -> Node
+pub fn DocumentFragment::as_any(Self) -> @core.Any
+pub fn DocumentFragment::as_event_target(Self) -> @event.EventTarget
+pub fn DocumentFragment::as_node(Self) -> Node
 
 pub(all) struct DragEvent {
-  dataTransfer : @js.Nullable[DataTransfer]
+  dataTransfer : @core.Nullable[DataTransfer]
 }
-fn DragEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for DragEvent
+pub fn DragEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for DragEvent
 
 #external
 pub type Element
-fn Element::as_any(Self) -> @nostd.Any
-fn Element::as_event_target(Self) -> @event.EventTarget
-fn Element::as_node(Self) -> Node
-impl ElementImpl for Element
+pub fn Element::as_any(Self) -> @core.Any
+pub fn Element::as_event_target(Self) -> @event.EventTarget
+pub fn Element::as_node(Self) -> Node
+pub impl ElementImpl for Element
 
 #external
 pub type Event
-fn Event::as_any(Self) -> @nostd.Any
-fn Event::as_event(Self) -> @event.Event
-impl EventImpl for Event
+pub fn Event::as_any(Self) -> @core.Any
+pub fn Event::as_event(Self) -> @event.Event
+pub impl EventImpl for Event
 
 #external
 pub type FocusEvent
-fn FocusEvent::as_any(Self) -> @nostd.Any
-fn FocusEvent::relatedTarget(Self) -> Element?
-impl EventImpl for FocusEvent
+pub fn FocusEvent::as_any(Self) -> @core.Any
+pub fn FocusEvent::relatedTarget(Self) -> Element?
+pub impl EventImpl for FocusEvent
 
 pub(all) struct FormEvent {
   formData : @http.FormData?
 }
-fn FormEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for FormEvent
+pub fn FormEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for FormEvent
 
 pub(all) struct HTMLAnchorElement {
   mut href : String
   mut target : String
 }
-fn HTMLAnchorElement::as_any(Self) -> @nostd.Any
-fn HTMLAnchorElement::as_element(Self) -> Element
-fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
-fn HTMLAnchorElement::as_node(Self) -> Node
-impl ElementImpl for HTMLAnchorElement
-impl HTMLElementImpl for HTMLAnchorElement
+pub fn HTMLAnchorElement::as_any(Self) -> @core.Any
+pub fn HTMLAnchorElement::as_element(Self) -> Element
+pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLAnchorElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLAnchorElement
+pub impl HTMLElementImpl for HTMLAnchorElement
 
 #external
 pub type HTMLBodyElement
-fn HTMLBodyElement::as_any(Self) -> @nostd.Any
-fn HTMLBodyElement::as_element(Self) -> Element
-fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
-fn HTMLBodyElement::as_node(Self) -> Node
-impl ElementImpl for HTMLBodyElement
-impl HTMLElementImpl for HTMLBodyElement
+pub fn HTMLBodyElement::as_any(Self) -> @core.Any
+pub fn HTMLBodyElement::as_element(Self) -> Element
+pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLBodyElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLBodyElement
+pub impl HTMLElementImpl for HTMLBodyElement
 
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
 }
-fn HTMLButtonElement::as_any(Self) -> @nostd.Any
-fn HTMLButtonElement::as_element(Self) -> Element
-fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
-fn HTMLButtonElement::as_node(Self) -> Node
-impl ElementImpl for HTMLButtonElement
-impl HTMLElementImpl for HTMLButtonElement
+pub fn HTMLButtonElement::as_any(Self) -> @core.Any
+pub fn HTMLButtonElement::as_element(Self) -> Element
+pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLButtonElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLButtonElement
+pub impl HTMLElementImpl for HTMLButtonElement
 
 pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 }
-fn HTMLCanvasElement::as_any(Self) -> @nostd.Any
-fn HTMLCanvasElement::as_element(Self) -> Element
-fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
-fn HTMLCanvasElement::as_node(Self) -> Node
-fn HTMLCanvasElement::getContext(Self, String) -> @nostd.Any
-async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
-fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
-impl ElementImpl for HTMLCanvasElement
-impl HTMLElementImpl for HTMLCanvasElement
-impl Show for HTMLCanvasElement
+pub fn HTMLCanvasElement::as_any(Self) -> @core.Any
+pub fn HTMLCanvasElement::as_element(Self) -> Element
+pub fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLCanvasElement::as_node(Self) -> Node
+pub fn HTMLCanvasElement::getContext(Self, String) -> @core.Any
+pub async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
+pub fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
+pub impl ElementImpl for HTMLCanvasElement
+pub impl HTMLElementImpl for HTMLCanvasElement
+pub impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
-fn HTMLDivElement::as_any(Self) -> @nostd.Any
-fn HTMLDivElement::as_element(Self) -> Element
-fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLDivElement::as_html_element(Self) -> HTMLElement
-fn HTMLDivElement::as_node(Self) -> Node
-impl ElementImpl for HTMLDivElement
-impl HTMLElementImpl for HTMLDivElement
+pub fn HTMLDivElement::as_any(Self) -> @core.Any
+pub fn HTMLDivElement::as_element(Self) -> Element
+pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLDivElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLDivElement
+pub impl HTMLElementImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
-fn HTMLElement::as_any(Self) -> @nostd.Any
-fn HTMLElement::as_element(Self) -> Element
-fn HTMLElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLElement::as_node(Self) -> Node
-fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
-fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
-impl ElementImpl for HTMLElement
-impl HTMLElementImpl for HTMLElement
+pub fn HTMLElement::as_any(Self) -> @core.Any
+pub fn HTMLElement::as_element(Self) -> Element
+pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLElement::as_node(Self) -> Node
+pub fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
+pub fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
+pub impl ElementImpl for HTMLElement
+pub impl HTMLElementImpl for HTMLElement
 
 #external
 pub type HTMLFormElement
-fn HTMLFormElement::as_any(Self) -> @nostd.Any
-fn HTMLFormElement::as_element(Self) -> Element
-fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLFormElement::as_html_element(Self) -> HTMLElement
-fn HTMLFormElement::as_node(Self) -> Node
-impl ElementImpl for HTMLFormElement
-impl HTMLElementImpl for HTMLFormElement
+pub fn HTMLFormElement::as_any(Self) -> @core.Any
+pub fn HTMLFormElement::as_element(Self) -> Element
+pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLFormElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLFormElement
+pub impl HTMLElementImpl for HTMLFormElement
 
 #external
 pub type HTMLHeadElement
-fn HTMLHeadElement::as_any(Self) -> @nostd.Any
-fn HTMLHeadElement::as_element(Self) -> Element
-fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
-fn HTMLHeadElement::as_node(Self) -> Node
-impl ElementImpl for HTMLHeadElement
-impl HTMLElementImpl for HTMLHeadElement
+pub fn HTMLHeadElement::as_any(Self) -> @core.Any
+pub fn HTMLHeadElement::as_element(Self) -> Element
+pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLHeadElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLHeadElement
+pub impl HTMLElementImpl for HTMLHeadElement
 
 #external
 pub type HTMLHeadingElement
-fn HTMLHeadingElement::as_any(Self) -> @nostd.Any
-fn HTMLHeadingElement::as_element(Self) -> Element
-fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
-fn HTMLHeadingElement::as_node(Self) -> Node
-impl ElementImpl for HTMLHeadingElement
-impl HTMLElementImpl for HTMLHeadingElement
+pub fn HTMLHeadingElement::as_any(Self) -> @core.Any
+pub fn HTMLHeadingElement::as_element(Self) -> Element
+pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLHeadingElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLHeadingElement
+pub impl HTMLElementImpl for HTMLHeadingElement
 
 #external
 pub type HTMLHtmlElement
-fn HTMLHtmlElement::as_any(Self) -> @nostd.Any
-fn HTMLHtmlElement::as_element(Self) -> Element
-fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
-fn HTMLHtmlElement::as_node(Self) -> Node
-impl ElementImpl for HTMLHtmlElement
-impl HTMLElementImpl for HTMLHtmlElement
+pub fn HTMLHtmlElement::as_any(Self) -> @core.Any
+pub fn HTMLHtmlElement::as_element(Self) -> Element
+pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLHtmlElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLHtmlElement
+pub impl HTMLElementImpl for HTMLHtmlElement
 
 pub(all) struct HTMLIFrameElement {
   mut src : String
@@ -380,28 +379,28 @@ pub(all) struct HTMLIFrameElement {
   mut height : String
   mut name : String
 }
-fn HTMLIFrameElement::as_any(Self) -> @nostd.Any
-fn HTMLIFrameElement::as_element(Self) -> Element
-fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
-fn HTMLIFrameElement::as_node(Self) -> Node
-fn HTMLIFrameElement::contentDocument(Self) -> Document?
-fn HTMLIFrameElement::contentWindow(Self) -> Window?
-impl ElementImpl for HTMLIFrameElement
-impl HTMLElementImpl for HTMLIFrameElement
-impl Show for HTMLIFrameElement
+pub fn HTMLIFrameElement::as_any(Self) -> @core.Any
+pub fn HTMLIFrameElement::as_element(Self) -> Element
+pub fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLIFrameElement::as_node(Self) -> Node
+pub fn HTMLIFrameElement::contentDocument(Self) -> Document?
+pub fn HTMLIFrameElement::contentWindow(Self) -> Window?
+pub impl ElementImpl for HTMLIFrameElement
+pub impl HTMLElementImpl for HTMLIFrameElement
+pub impl Show for HTMLIFrameElement
 
 pub(all) struct HTMLImageElement {
   mut src : String
   mut alt : String
 }
-fn HTMLImageElement::as_any(Self) -> @nostd.Any
-fn HTMLImageElement::as_element(Self) -> Element
-fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLImageElement::as_html_element(Self) -> HTMLElement
-fn HTMLImageElement::as_node(Self) -> Node
-impl ElementImpl for HTMLImageElement
-impl HTMLElementImpl for HTMLImageElement
+pub fn HTMLImageElement::as_any(Self) -> @core.Any
+pub fn HTMLImageElement::as_element(Self) -> Element
+pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLImageElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLImageElement
+pub impl HTMLElementImpl for HTMLImageElement
 
 pub(all) struct HTMLInputElement {
   mut disabled : Bool
@@ -409,90 +408,90 @@ pub(all) struct HTMLInputElement {
   mut placeholder : String
   mut checked : Bool
 }
-fn HTMLInputElement::as_any(Self) -> @nostd.Any
-fn HTMLInputElement::as_element(Self) -> Element
-fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLInputElement::as_html_element(Self) -> HTMLElement
-fn HTMLInputElement::as_node(Self) -> Node
-fn HTMLInputElement::setType(Self, String) -> Unit
-fn HTMLInputElement::type_(Self) -> String
-impl ElementImpl for HTMLInputElement
-impl HTMLElementImpl for HTMLInputElement
+pub fn HTMLInputElement::as_any(Self) -> @core.Any
+pub fn HTMLInputElement::as_element(Self) -> Element
+pub fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLInputElement::as_node(Self) -> Node
+pub fn HTMLInputElement::setType(Self, String) -> Unit
+pub fn HTMLInputElement::type_(Self) -> String
+pub impl ElementImpl for HTMLInputElement
+pub impl HTMLElementImpl for HTMLInputElement
 
 #external
 pub type HTMLLIElement
-fn HTMLLIElement::as_any(Self) -> @nostd.Any
-fn HTMLLIElement::as_element(Self) -> Element
-fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLLIElement::as_html_element(Self) -> HTMLElement
-fn HTMLLIElement::as_node(Self) -> Node
-impl ElementImpl for HTMLLIElement
-impl HTMLElementImpl for HTMLLIElement
+pub fn HTMLLIElement::as_any(Self) -> @core.Any
+pub fn HTMLLIElement::as_element(Self) -> Element
+pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLLIElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLLIElement
+pub impl HTMLElementImpl for HTMLLIElement
 
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
 }
-fn HTMLLabelElement::as_any(Self) -> @nostd.Any
-fn HTMLLabelElement::as_element(Self) -> Element
-fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
-fn HTMLLabelElement::as_node(Self) -> Node
-impl ElementImpl for HTMLLabelElement
-impl HTMLElementImpl for HTMLLabelElement
+pub fn HTMLLabelElement::as_any(Self) -> @core.Any
+pub fn HTMLLabelElement::as_element(Self) -> Element
+pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLLabelElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLLabelElement
+pub impl HTMLElementImpl for HTMLLabelElement
 
 #external
 pub type HTMLOListElement
-fn HTMLOListElement::as_any(Self) -> @nostd.Any
-fn HTMLOListElement::as_element(Self) -> Element
-fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLOListElement::as_html_element(Self) -> HTMLElement
-fn HTMLOListElement::as_node(Self) -> Node
-impl ElementImpl for HTMLOListElement
-impl HTMLElementImpl for HTMLOListElement
+pub fn HTMLOListElement::as_any(Self) -> @core.Any
+pub fn HTMLOListElement::as_element(Self) -> Element
+pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLOListElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLOListElement
+pub impl HTMLElementImpl for HTMLOListElement
 
 pub(all) struct HTMLOptionElement {
   mut value : String
   mut selected : Bool
 }
-fn HTMLOptionElement::as_any(Self) -> @nostd.Any
-fn HTMLOptionElement::as_element(Self) -> Element
-fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
-fn HTMLOptionElement::as_node(Self) -> Node
-impl ElementImpl for HTMLOptionElement
-impl HTMLElementImpl for HTMLOptionElement
+pub fn HTMLOptionElement::as_any(Self) -> @core.Any
+pub fn HTMLOptionElement::as_element(Self) -> Element
+pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLOptionElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLOptionElement
+pub impl HTMLElementImpl for HTMLOptionElement
 
 #external
 pub type HTMLParagraphElement
-fn HTMLParagraphElement::as_any(Self) -> @nostd.Any
-fn HTMLParagraphElement::as_element(Self) -> Element
-fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
-fn HTMLParagraphElement::as_node(Self) -> Node
-impl ElementImpl for HTMLParagraphElement
-impl HTMLElementImpl for HTMLParagraphElement
+pub fn HTMLParagraphElement::as_any(Self) -> @core.Any
+pub fn HTMLParagraphElement::as_element(Self) -> Element
+pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLParagraphElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLParagraphElement
+pub impl HTMLElementImpl for HTMLParagraphElement
 
 pub(all) struct HTMLSelectElement {
   mut value : String
   mut disabled : Bool
 }
-fn HTMLSelectElement::as_any(Self) -> @nostd.Any
-fn HTMLSelectElement::as_element(Self) -> Element
-fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
-fn HTMLSelectElement::as_node(Self) -> Node
-impl ElementImpl for HTMLSelectElement
-impl HTMLElementImpl for HTMLSelectElement
+pub fn HTMLSelectElement::as_any(Self) -> @core.Any
+pub fn HTMLSelectElement::as_element(Self) -> Element
+pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLSelectElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLSelectElement
+pub impl HTMLElementImpl for HTMLSelectElement
 
 #external
 pub type HTMLSpanElement
-fn HTMLSpanElement::as_any(Self) -> @nostd.Any
-fn HTMLSpanElement::as_element(Self) -> Element
-fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
-fn HTMLSpanElement::as_node(Self) -> Node
-impl ElementImpl for HTMLSpanElement
-impl HTMLElementImpl for HTMLSpanElement
+pub fn HTMLSpanElement::as_any(Self) -> @core.Any
+pub fn HTMLSpanElement::as_element(Self) -> Element
+pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLSpanElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLSpanElement
+pub impl HTMLElementImpl for HTMLSpanElement
 
 pub(all) struct HTMLTextAreaElement {
   mut value : String
@@ -502,40 +501,40 @@ pub(all) struct HTMLTextAreaElement {
   mut cols : Int
   mut readOnly : Bool
 }
-fn HTMLTextAreaElement::as_any(Self) -> @nostd.Any
-fn HTMLTextAreaElement::as_element(Self) -> Element
-fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
-fn HTMLTextAreaElement::as_node(Self) -> Node
-impl ElementImpl for HTMLTextAreaElement
-impl HTMLElementImpl for HTMLTextAreaElement
+pub fn HTMLTextAreaElement::as_any(Self) -> @core.Any
+pub fn HTMLTextAreaElement::as_element(Self) -> Element
+pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLTextAreaElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLTextAreaElement
+pub impl HTMLElementImpl for HTMLTextAreaElement
 
 #external
 pub type HTMLUListElement
-fn HTMLUListElement::as_any(Self) -> @nostd.Any
-fn HTMLUListElement::as_element(Self) -> Element
-fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
-fn HTMLUListElement::as_html_element(Self) -> HTMLElement
-fn HTMLUListElement::as_node(Self) -> Node
-impl ElementImpl for HTMLUListElement
-impl HTMLElementImpl for HTMLUListElement
+pub fn HTMLUListElement::as_any(Self) -> @core.Any
+pub fn HTMLUListElement::as_element(Self) -> Element
+pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
+pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
+pub fn HTMLUListElement::as_node(Self) -> Node
+pub impl ElementImpl for HTMLUListElement
+pub impl HTMLElementImpl for HTMLUListElement
 
 pub(all) struct HashChangeEvent {
   oldURL : String
   newURL : String
 }
-fn HashChangeEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for HashChangeEvent
-impl Show for HashChangeEvent
+pub fn HashChangeEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for HashChangeEvent
+pub impl Show for HashChangeEvent
 
 pub(all) struct InputEvent {
-  data : @js.Nullable[String]
-  dataTransfer : @js.Nullable[DataTransfer]
+  data : @core.Nullable[String]
+  dataTransfer : @core.Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }
-fn InputEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for InputEvent
+pub fn InputEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for InputEvent
 
 pub(all) struct KeyboardEvent {
   key : String
@@ -550,30 +549,30 @@ pub(all) struct KeyboardEvent {
   location : Int
   isComposing : Bool
 }
-fn KeyboardEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for KeyboardEvent
-impl Show for KeyboardEvent
+pub fn KeyboardEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for KeyboardEvent
+pub impl Show for KeyboardEvent
 
 pub(all) struct MediaQueryList {
   media : String
   matches : Bool
 }
-fn MediaQueryList::addChangeListener(Self, (Event) -> Unit) -> Unit
-fn MediaQueryList::addListener(Self, (Self) -> Unit) -> Unit
-fn MediaQueryList::as_any(Self) -> @nostd.Any
-fn MediaQueryList::removeChangeListener(Self, (Event) -> Unit) -> Unit
-fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
+pub fn MediaQueryList::addChangeListener(Self, (Event) -> Unit) -> Unit
+pub fn MediaQueryList::addListener(Self, (Self) -> Unit) -> Unit
+pub fn MediaQueryList::as_any(Self) -> @core.Any
+pub fn MediaQueryList::removeChangeListener(Self, (Event) -> Unit) -> Unit
+pub fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
 
 pub(all) struct MessageEvent {
-  data : @nostd.Any
+  data : @core.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
 }
-fn MessageEvent::as_any(Self) -> @nostd.Any
-fn MessageEvent::source(Self) -> Window?
-impl EventImpl for MessageEvent
-impl Show for MessageEvent
+pub fn MessageEvent::as_any(Self) -> @core.Any
+pub fn MessageEvent::source(Self) -> Window?
+pub impl EventImpl for MessageEvent
+pub impl Show for MessageEvent
 
 pub(all) struct MouseEvent {
   clientX : Double
@@ -593,23 +592,23 @@ pub(all) struct MouseEvent {
   altKey : Bool
   metaKey : Bool
 }
-fn MouseEvent::as_any(Self) -> @nostd.Any
-fn MouseEvent::relatedTarget(Self) -> Element?
-impl EventImpl for MouseEvent
-impl Show for MouseEvent
+pub fn MouseEvent::as_any(Self) -> @core.Any
+pub fn MouseEvent::relatedTarget(Self) -> Element?
+pub impl EventImpl for MouseEvent
+pub impl Show for MouseEvent
 
 #external
 pub type Node
-fn Node::as_any(Self) -> @nostd.Any
-fn Node::as_event_target(Self) -> @event.EventTarget
-impl NodeImpl for Node
+pub fn Node::as_any(Self) -> @core.Any
+pub fn Node::as_event_target(Self) -> @event.EventTarget
+pub impl NodeImpl for Node
 
 pub(all) struct PageTransitionEvent {
   persisted : Bool
 }
-fn PageTransitionEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for PageTransitionEvent
-impl Show for PageTransitionEvent
+pub fn PageTransitionEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for PageTransitionEvent
+pub impl Show for PageTransitionEvent
 
 pub(all) struct PointerEvent {
   pointerId : Int
@@ -625,184 +624,184 @@ pub(all) struct PointerEvent {
   pointerType : String
   isPrimary : Bool
 }
-fn PointerEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for PointerEvent
-impl Show for PointerEvent
+pub fn PointerEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for PointerEvent
+pub impl Show for PointerEvent
 
 #external
 pub type PopStateEvent
-fn PopStateEvent::as_any(Self) -> @nostd.Any
-fn PopStateEvent::state(Self) -> @nostd.Any?
-impl EventImpl for PopStateEvent
+pub fn PopStateEvent::as_any(Self) -> @core.Any
+pub fn PopStateEvent::state(Self) -> @core.Any?
+pub impl EventImpl for PopStateEvent
 
 #external
 pub type SVGCircleElement
-fn SVGCircleElement::as_any(Self) -> @nostd.Any
-fn SVGCircleElement::as_element(Self) -> Element
-fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
-fn SVGCircleElement::as_node(Self) -> Node
-fn SVGCircleElement::as_svg_element(Self) -> SVGElement
-fn SVGCircleElement::cx(Self) -> Double
-fn SVGCircleElement::cy(Self) -> Double
-fn SVGCircleElement::r(Self) -> Double
-fn SVGCircleElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGCircleElement::as_any(Self) -> @core.Any
+pub fn SVGCircleElement::as_element(Self) -> Element
+pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGCircleElement::as_node(Self) -> Node
+pub fn SVGCircleElement::as_svg_element(Self) -> SVGElement
+pub fn SVGCircleElement::cx(Self) -> Double
+pub fn SVGCircleElement::cy(Self) -> Double
+pub fn SVGCircleElement::r(Self) -> Double
+pub fn SVGCircleElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGElement
-fn SVGElement::as_any(Self) -> @nostd.Any
-fn SVGElement::as_element(Self) -> Element
-fn SVGElement::as_event_target(Self) -> @event.EventTarget
-fn SVGElement::as_node(Self) -> Node
-fn SVGElement::getAttribute(Self, String) -> String?
-fn SVGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGElement::as_any(Self) -> @core.Any
+pub fn SVGElement::as_element(Self) -> Element
+pub fn SVGElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGElement::as_node(Self) -> Node
+pub fn SVGElement::getAttribute(Self, String) -> String?
+pub fn SVGElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGEllipseElement
-fn SVGEllipseElement::as_any(Self) -> @nostd.Any
-fn SVGEllipseElement::as_element(Self) -> Element
-fn SVGEllipseElement::as_event_target(Self) -> @event.EventTarget
-fn SVGEllipseElement::as_node(Self) -> Node
-fn SVGEllipseElement::as_svg_element(Self) -> SVGElement
-fn SVGEllipseElement::cx(Self) -> Double
-fn SVGEllipseElement::cy(Self) -> Double
-fn SVGEllipseElement::rx(Self) -> Double
-fn SVGEllipseElement::ry(Self) -> Double
-fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGEllipseElement::as_any(Self) -> @core.Any
+pub fn SVGEllipseElement::as_element(Self) -> Element
+pub fn SVGEllipseElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGEllipseElement::as_node(Self) -> Node
+pub fn SVGEllipseElement::as_svg_element(Self) -> SVGElement
+pub fn SVGEllipseElement::cx(Self) -> Double
+pub fn SVGEllipseElement::cy(Self) -> Double
+pub fn SVGEllipseElement::rx(Self) -> Double
+pub fn SVGEllipseElement::ry(Self) -> Double
+pub fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGGElement
-fn SVGGElement::as_any(Self) -> @nostd.Any
-fn SVGGElement::as_element(Self) -> Element
-fn SVGGElement::as_event_target(Self) -> @event.EventTarget
-fn SVGGElement::as_node(Self) -> Node
-fn SVGGElement::as_svg_element(Self) -> SVGElement
-fn SVGGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGGElement::as_any(Self) -> @core.Any
+pub fn SVGGElement::as_element(Self) -> Element
+pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGGElement::as_node(Self) -> Node
+pub fn SVGGElement::as_svg_element(Self) -> SVGElement
+pub fn SVGGElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGImageElement
-fn SVGImageElement::as_any(Self) -> @nostd.Any
-fn SVGImageElement::as_element(Self) -> Element
-fn SVGImageElement::as_event_target(Self) -> @event.EventTarget
-fn SVGImageElement::as_node(Self) -> Node
-fn SVGImageElement::as_svg_element(Self) -> SVGElement
-fn SVGImageElement::height(Self) -> Double
-fn SVGImageElement::href(Self) -> String
-fn SVGImageElement::setAttribute(Self, String, String) -> Unit
-fn SVGImageElement::width(Self) -> Double
-fn SVGImageElement::x(Self) -> Double
-fn SVGImageElement::y(Self) -> Double
+pub fn SVGImageElement::as_any(Self) -> @core.Any
+pub fn SVGImageElement::as_element(Self) -> Element
+pub fn SVGImageElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGImageElement::as_node(Self) -> Node
+pub fn SVGImageElement::as_svg_element(Self) -> SVGElement
+pub fn SVGImageElement::height(Self) -> Double
+pub fn SVGImageElement::href(Self) -> String
+pub fn SVGImageElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGImageElement::width(Self) -> Double
+pub fn SVGImageElement::x(Self) -> Double
+pub fn SVGImageElement::y(Self) -> Double
 
 #external
 pub type SVGLineElement
-fn SVGLineElement::as_any(Self) -> @nostd.Any
-fn SVGLineElement::as_element(Self) -> Element
-fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
-fn SVGLineElement::as_node(Self) -> Node
-fn SVGLineElement::as_svg_element(Self) -> SVGElement
-fn SVGLineElement::setAttribute(Self, String, String) -> Unit
-fn SVGLineElement::x1(Self) -> Double
-fn SVGLineElement::x2(Self) -> Double
-fn SVGLineElement::y1(Self) -> Double
-fn SVGLineElement::y2(Self) -> Double
+pub fn SVGLineElement::as_any(Self) -> @core.Any
+pub fn SVGLineElement::as_element(Self) -> Element
+pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGLineElement::as_node(Self) -> Node
+pub fn SVGLineElement::as_svg_element(Self) -> SVGElement
+pub fn SVGLineElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGLineElement::x1(Self) -> Double
+pub fn SVGLineElement::x2(Self) -> Double
+pub fn SVGLineElement::y1(Self) -> Double
+pub fn SVGLineElement::y2(Self) -> Double
 
 #external
 pub type SVGPathElement
-fn SVGPathElement::as_any(Self) -> @nostd.Any
-fn SVGPathElement::as_element(Self) -> Element
-fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
-fn SVGPathElement::as_node(Self) -> Node
-fn SVGPathElement::as_svg_element(Self) -> SVGElement
-fn SVGPathElement::d(Self) -> String
-fn SVGPathElement::getTotalLength(Self) -> Double
-fn SVGPathElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPathElement::as_any(Self) -> @core.Any
+pub fn SVGPathElement::as_element(Self) -> Element
+pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPathElement::as_node(Self) -> Node
+pub fn SVGPathElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPathElement::d(Self) -> String
+pub fn SVGPathElement::getTotalLength(Self) -> Double
+pub fn SVGPathElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGPolygonElement
-fn SVGPolygonElement::as_any(Self) -> @nostd.Any
-fn SVGPolygonElement::as_element(Self) -> Element
-fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
-fn SVGPolygonElement::as_node(Self) -> Node
-fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
-fn SVGPolygonElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPolygonElement::as_any(Self) -> @core.Any
+pub fn SVGPolygonElement::as_element(Self) -> Element
+pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPolygonElement::as_node(Self) -> Node
+pub fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPolygonElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGPolylineElement
-fn SVGPolylineElement::as_any(Self) -> @nostd.Any
-fn SVGPolylineElement::as_element(Self) -> Element
-fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
-fn SVGPolylineElement::as_node(Self) -> Node
-fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
-fn SVGPolylineElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPolylineElement::as_any(Self) -> @core.Any
+pub fn SVGPolylineElement::as_element(Self) -> Element
+pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPolylineElement::as_node(Self) -> Node
+pub fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPolylineElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGRectElement
-fn SVGRectElement::as_any(Self) -> @nostd.Any
-fn SVGRectElement::as_element(Self) -> Element
-fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
-fn SVGRectElement::as_node(Self) -> Node
-fn SVGRectElement::as_svg_element(Self) -> SVGElement
-fn SVGRectElement::height(Self) -> Double
-fn SVGRectElement::setAttribute(Self, String, String) -> Unit
-fn SVGRectElement::width(Self) -> Double
-fn SVGRectElement::x(Self) -> Double
-fn SVGRectElement::y(Self) -> Double
+pub fn SVGRectElement::as_any(Self) -> @core.Any
+pub fn SVGRectElement::as_element(Self) -> Element
+pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGRectElement::as_node(Self) -> Node
+pub fn SVGRectElement::as_svg_element(Self) -> SVGElement
+pub fn SVGRectElement::height(Self) -> Double
+pub fn SVGRectElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGRectElement::width(Self) -> Double
+pub fn SVGRectElement::x(Self) -> Double
+pub fn SVGRectElement::y(Self) -> Double
 
 #external
 pub type SVGSVGElement
-fn SVGSVGElement::as_any(Self) -> @nostd.Any
-fn SVGSVGElement::as_element(Self) -> Element
-fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
-fn SVGSVGElement::as_node(Self) -> Node
-fn SVGSVGElement::as_svg_element(Self) -> SVGElement
-fn SVGSVGElement::getAttribute(Self, String) -> String?
-fn SVGSVGElement::height(Self) -> Double
-fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
-fn SVGSVGElement::width(Self) -> Double
+pub fn SVGSVGElement::as_any(Self) -> @core.Any
+pub fn SVGSVGElement::as_element(Self) -> Element
+pub fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGSVGElement::as_node(Self) -> Node
+pub fn SVGSVGElement::as_svg_element(Self) -> SVGElement
+pub fn SVGSVGElement::getAttribute(Self, String) -> String?
+pub fn SVGSVGElement::height(Self) -> Double
+pub fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGSVGElement::width(Self) -> Double
 
 #external
 pub type SVGTextElement
-fn SVGTextElement::as_any(Self) -> @nostd.Any
-fn SVGTextElement::as_element(Self) -> Element
-fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
-fn SVGTextElement::as_node(Self) -> Node
-fn SVGTextElement::as_svg_element(Self) -> SVGElement
-fn SVGTextElement::setAttribute(Self, String, String) -> Unit
-fn SVGTextElement::x(Self) -> Double
-fn SVGTextElement::y(Self) -> Double
+pub fn SVGTextElement::as_any(Self) -> @core.Any
+pub fn SVGTextElement::as_element(Self) -> Element
+pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGTextElement::as_node(Self) -> Node
+pub fn SVGTextElement::as_svg_element(Self) -> SVGElement
+pub fn SVGTextElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGTextElement::x(Self) -> Double
+pub fn SVGTextElement::y(Self) -> Double
 
 pub(all) struct ScrollEvent {
 }
-fn ScrollEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for ScrollEvent
-impl Show for ScrollEvent
+pub fn ScrollEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for ScrollEvent
+pub impl Show for ScrollEvent
 
 #external
 pub type ShadowRoot
-fn ShadowRoot::activeElement(Self) -> Element?
-fn ShadowRoot::as_any(Self) -> @nostd.Any
-fn ShadowRoot::as_event_target(Self) -> @event.EventTarget
-fn ShadowRoot::as_node(Self) -> Node
-fn ShadowRoot::delegatesFocus(Self) -> Bool
-fn ShadowRoot::elementFromPoint(Self, Double, Double) -> Element?
-fn ShadowRoot::elementsFromPoint(Self, Double, Double) -> Array[Element]
-fn ShadowRoot::host(Self) -> Element
-fn ShadowRoot::innerHTML(Self) -> String
-fn ShadowRoot::mode(Self) -> String
-fn ShadowRoot::setInnerHTML(Self, String) -> Unit
-fn ShadowRoot::slotAssignment(Self) -> String
+pub fn ShadowRoot::activeElement(Self) -> Element?
+pub fn ShadowRoot::as_any(Self) -> @core.Any
+pub fn ShadowRoot::as_event_target(Self) -> @event.EventTarget
+pub fn ShadowRoot::as_node(Self) -> Node
+pub fn ShadowRoot::delegatesFocus(Self) -> Bool
+pub fn ShadowRoot::elementFromPoint(Self, Double, Double) -> Element?
+pub fn ShadowRoot::elementsFromPoint(Self, Double, Double) -> Array[Element]
+pub fn ShadowRoot::host(Self) -> Element
+pub fn ShadowRoot::innerHTML(Self) -> String
+pub fn ShadowRoot::mode(Self) -> String
+pub fn ShadowRoot::setInnerHTML(Self, String) -> Unit
+pub fn ShadowRoot::slotAssignment(Self) -> String
 
 pub struct ShadowRootInit {
   mode : String
   delegatesFocus : Bool
   slotAssignment : String
 }
-fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
+pub fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
 
 #external
 pub type Text
-fn Text::as_any(Self) -> @nostd.Any
-fn Text::as_event_target(Self) -> @event.EventTarget
-fn Text::as_node(Self) -> Node
+pub fn Text::as_any(Self) -> @core.Any
+pub fn Text::as_event_target(Self) -> @event.EventTarget
+pub fn Text::as_node(Self) -> Node
 
 pub(all) struct Touch {
   identifier : Int
@@ -817,9 +816,9 @@ pub(all) struct Touch {
   rotationAngle : Double
   force : Double
 }
-fn Touch::as_any(Self) -> @nostd.Any
-fn Touch::target(Self) -> Element
-impl Show for Touch
+pub fn Touch::as_any(Self) -> @core.Any
+pub fn Touch::target(Self) -> Element
+pub impl Show for Touch
 
 pub(all) struct TouchEvent {
   touches : Array[Touch]
@@ -830,18 +829,18 @@ pub(all) struct TouchEvent {
   shiftKey : Bool
   metaKey : Bool
 }
-fn TouchEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for TouchEvent
-impl Show for TouchEvent
+pub fn TouchEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for TouchEvent
+pub impl Show for TouchEvent
 
 pub(all) struct TransitionEvent {
   propertyName : String
   elapsedTime : Double
   pseudoElement : String
 }
-fn TransitionEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for TransitionEvent
-impl Show for TransitionEvent
+pub fn TransitionEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for TransitionEvent
+pub impl Show for TransitionEvent
 
 pub(all) struct WheelEvent {
   deltaX : Double
@@ -849,74 +848,74 @@ pub(all) struct WheelEvent {
   deltaZ : Double
   deltaMode : Int
 }
-fn WheelEvent::as_any(Self) -> @nostd.Any
-impl EventImpl for WheelEvent
-impl Show for WheelEvent
+pub fn WheelEvent::as_any(Self) -> @core.Any
+pub impl EventImpl for WheelEvent
+pub impl Show for WheelEvent
 
 #external
 pub type Window
-fn Window::add_beforeunload_listener(Self, (BeforeUnloadEvent) -> Unit) -> Unit
-fn Window::add_hashchange_listener(Self, (HashChangeEvent) -> Unit) -> Unit
-fn Window::add_pagehide_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
-fn Window::add_pageshow_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
-fn Window::add_popstate_listener(Self, (PopStateEvent) -> Unit) -> Unit
-fn Window::alert(Self, String) -> Unit
-fn Window::as_any(Self) -> @nostd.Any
-fn Window::as_event_target(Self) -> @event.EventTarget
+pub fn Window::add_beforeunload_listener(Self, (BeforeUnloadEvent) -> Unit) -> Unit
+pub fn Window::add_hashchange_listener(Self, (HashChangeEvent) -> Unit) -> Unit
+pub fn Window::add_pagehide_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
+pub fn Window::add_pageshow_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
+pub fn Window::add_popstate_listener(Self, (PopStateEvent) -> Unit) -> Unit
+pub fn Window::alert(Self, String) -> Unit
+pub fn Window::as_any(Self) -> @core.Any
+pub fn Window::as_event_target(Self) -> @event.EventTarget
 #alias(cancel_animation_frame)
-fn Window::cancelAnimationFrame(Self, Int) -> Unit
+pub fn Window::cancelAnimationFrame(Self, Int) -> Unit
 #alias(clear_interval)
-fn Window::clearInterval(Self, Int) -> Unit
+pub fn Window::clearInterval(Self, Int) -> Unit
 #alias(clear_timeout)
-fn Window::clearTimeout(Self, Int) -> Unit
-fn Window::close(Self) -> Unit
-fn Window::confirm(Self, String) -> Bool
-fn Window::console(Self) -> @nostd.Any
+pub fn Window::clearTimeout(Self, Int) -> Unit
+pub fn Window::close(Self) -> Unit
+pub fn Window::confirm(Self, String) -> Bool
+pub fn Window::console(Self) -> @core.Any
 #alias(device_pixel_ratio)
-fn Window::devicePixelRatio(Self) -> Double
-fn Window::document(Self) -> Document
-async fn Window::fetch(Self, String, init? : @http.RequestInit) -> @http.Response
+pub fn Window::devicePixelRatio(Self) -> Double
+pub fn Window::document(Self) -> Document
+pub async fn Window::fetch(Self, String, init? : @http.RequestInit) -> @http.Response
 #alias(get_computed_style)
-fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @nostd.Any
+pub fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @core.Any
 #alias(get_selection)
-fn Window::getSelection(Self) -> @nostd.Any?
-fn Window::history(Self) -> @history.History
+pub fn Window::getSelection(Self) -> @core.Any?
+pub fn Window::history(Self) -> @history.History
 #alias(inner_height)
-fn Window::innerHeight(Self) -> Int
+pub fn Window::innerHeight(Self) -> Int
 #alias(inner_width)
-fn Window::innerWidth(Self) -> Int
+pub fn Window::innerWidth(Self) -> Int
 #alias(local_storage)
-fn Window::localStorage(Self) -> @nostd.Any
-fn Window::location(Self) -> @nostd.Any
+pub fn Window::localStorage(Self) -> @core.Any
+pub fn Window::location(Self) -> @core.Any
 #alias(match_media)
-fn Window::matchMedia(Self, String) -> @nostd.Any
-fn Window::navigator(Self) -> @nostd.Any
-fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
+pub fn Window::matchMedia(Self, String) -> @core.Any
+pub fn Window::navigator(Self) -> @core.Any
+pub fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
 #alias(outer_height)
-fn Window::outerHeight(Self) -> Int
+pub fn Window::outerHeight(Self) -> Int
 #alias(outer_width)
-fn Window::outerWidth(Self) -> Int
+pub fn Window::outerWidth(Self) -> Int
 #alias(post_message)
-fn Window::postMessage(Self, @nostd.Any, String, transfer? : Array[@nostd.Any]) -> Unit
-fn Window::prompt(Self, String, default? : String) -> String?
+pub fn Window::postMessage(Self, @core.Any, String, transfer? : Array[@core.Any]) -> Unit
+pub fn Window::prompt(Self, String, default? : String) -> String?
 #alias(request_animation_frame)
-fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
-fn Window::screen(Self) -> @nostd.Any
+pub fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
+pub fn Window::screen(Self) -> @core.Any
 #alias(scroll_by)
-fn Window::scrollBy(Self, Int, Int) -> Unit
+pub fn Window::scrollBy(Self, Int, Int) -> Unit
 #alias(scroll_to)
-fn Window::scrollTo(Self, Int, Int) -> Unit
+pub fn Window::scrollTo(Self, Int, Int) -> Unit
 #alias(scroll_x)
-fn Window::scrollX(Self) -> Double
+pub fn Window::scrollX(Self) -> Double
 #alias(scroll_y)
-fn Window::scrollY(Self) -> Double
+pub fn Window::scrollY(Self) -> Double
 #alias(session_storage)
-fn Window::sessionStorage(Self) -> @nostd.Any
+pub fn Window::sessionStorage(Self) -> @core.Any
 #alias(set_interval)
-fn Window::setInterval(Self, () -> Unit, Int) -> Int
+pub fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
-fn Window::setTimeout(Self, () -> Unit, Int) -> Int
-impl @event.EventTargetImpl for Window
+pub fn Window::setTimeout(Self, () -> Unit, Int) -> Int
+pub impl @event.EventTargetImpl for Window
 
 // Type aliases
 pub type ChangeEventHandler = (ChangeEvent) -> Unit
@@ -929,7 +928,7 @@ pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
 pub(open) trait ElementImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   tagName(Self) -> String = _
   className(Self) -> String = _
   setClassName(Self, String) -> Unit = _
@@ -947,7 +946,7 @@ pub(open) trait ElementImpl {
 }
 
 pub(open) trait EventImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   preventDefault(Self) -> Unit = _
   stopPropagation(Self) -> Unit = _
   stopImmediatePropagation(Self) -> Unit = _
@@ -960,7 +959,7 @@ pub(open) trait EventImpl {
 }
 
 pub(open) trait HTMLElementImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   innerText(Self) -> String = _
   setInnerText(Self, String) -> Unit = _
   innerHTML(Self) -> String = _
@@ -972,7 +971,7 @@ pub(open) trait HTMLElementImpl {
 }
 
 pub(open) trait NodeImpl {
-  as_any(Self) -> @nostd.Any
+  as_any(Self) -> @core.Any
   nodeType(Self) -> Int = _
   nodeName(Self) -> String = _
   parentNode(Self) -> Node? = _

@@ -9,16 +9,16 @@ test "McpServer::new creates server with correct info" {
 ///|
 test "JsonRpcRequest as_any" {
   // Test using from_js and as_any roundtrip instead of direct construction
-  let obj = @nostd.Object::new()
-  obj._set("jsonrpc", "2.0" |> @nostd.any)
-  obj._set("id", "test-123" |> @nostd.any)
-  obj._set("method", "test/method" |> @nostd.any)
-  let request = JsonRpcRequest::from_js(@nostd.identity(obj))
+  let obj = @core.Object::new()
+  obj._set("jsonrpc", "2.0" |> @core.any)
+  obj._set("id", "test-123" |> @core.any)
+  obj._set("method", "test/method" |> @core.any)
+  let request = JsonRpcRequest::from_js(@core.identity(obj))
   match request {
     Some(req) => {
       let result = req.as_any()
-      let jsonrpc : String = @nostd.identity(result._get("jsonrpc"))
-      let method_name : String = @nostd.identity(result._get("method"))
+      let jsonrpc : String = @core.identity(result._get("jsonrpc"))
+      let method_name : String = @core.identity(result._get("method"))
       inspect(jsonrpc, content="2.0")
       inspect(method_name, content="test/method")
     }
@@ -50,8 +50,8 @@ test "Content::resource creates resource content" {
 
 ///|
 test "RequestId conversions" {
-  let js_str : @nostd.Any = @nostd.identity("abc")
+  let js_str : @core.Any = @core.identity("abc")
   inspect(RequestId::from_js(js_str), content="Some(String(\"abc\"))")
-  let js_num : @nostd.Any = @nostd.identity(42)
+  let js_num : @core.Any = @core.identity(42)
   inspect(RequestId::from_js(js_num), content="Some(Number(42))")
 }

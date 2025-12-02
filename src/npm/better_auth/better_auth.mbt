@@ -17,7 +17,7 @@
 pub type Auth
 
 ///|
-pub fn Auth::to_any(self : Auth) -> @nostd.Any = "%identity"
+pub fn Auth::to_any(self : Auth) -> @core.Any = "%identity"
 
 ///|
 /// User type returned from better-auth API
@@ -25,7 +25,7 @@ pub fn Auth::to_any(self : Auth) -> @nostd.Any = "%identity"
 pub type User
 
 ///|
-pub fn User::to_any(self : User) -> @nostd.Any = "%identity"
+pub fn User::to_any(self : User) -> @core.Any = "%identity"
 
 ///|
 /// Get user id
@@ -42,13 +42,13 @@ pub fn User::email(self : User) -> String {
 ///|
 /// Get user name
 pub fn User::name(self : User) -> String? {
-  @nostd.identity_option(self.to_any()["name"])
+  @core.identity_option(self.to_any()["name"])
 }
 
 ///|
 /// Get user image
 pub fn User::image(self : User) -> String? {
-  @nostd.identity_option(self.to_any()["image"])
+  @core.identity_option(self.to_any()["image"])
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn User::updatedAt(self : User) -> String {
 pub type Session
 
 ///|
-pub fn Session::to_any(self : Session) -> @nostd.Any = "%identity"
+pub fn Session::to_any(self : Session) -> @core.Any = "%identity"
 
 ///|
 /// Get session id
@@ -104,13 +104,13 @@ pub fn Session::expiresAt(self : Session) -> String {
 ///|
 /// Get session ipAddress
 pub fn Session::ipAddress(self : Session) -> String? {
-  @nostd.identity_option(self.to_any()["ipAddress"])
+  @core.identity_option(self.to_any()["ipAddress"])
 }
 
 ///|
 /// Get session userAgent
 pub fn Session::userAgent(self : Session) -> String? {
-  @nostd.identity_option(self.to_any()["userAgent"])
+  @core.identity_option(self.to_any()["userAgent"])
 }
 
 ///|
@@ -119,25 +119,25 @@ pub fn Session::userAgent(self : Session) -> String? {
 pub type AuthApi
 
 ///|
-pub fn AuthApi::to_any(self : AuthApi) -> @nostd.Any = "%identity"
+pub fn AuthApi::to_any(self : AuthApi) -> @core.Any = "%identity"
 
 ///|
 /// Get the API from auth instance
 pub fn Auth::api(self : Auth) -> AuthApi {
-  self.to_any()["api"] |> @nostd.identity
+  self.to_any()["api"] |> @core.identity
 }
 
 ///|
 /// Auth handler for HTTP frameworks
-pub fn Auth::handler(self : Auth) -> @nostd.Any {
-  self.to_any()["handler"] |> @nostd.identity
+pub fn Auth::handler(self : Auth) -> @core.Any {
+  self.to_any()["handler"] |> @core.identity
 }
 
 ///|
 /// Provider trait - abstraction for auth providers
 pub trait Provider {
   /// Apply provider configuration to the auth config object
-  apply(Self, @nostd.Any) -> Unit
+  apply(Self, @core.Any) -> Unit
 }
 
 ///|
@@ -148,8 +148,8 @@ pub(all) struct EmailPassword {
 
 ///|
 pub impl Provider for EmailPassword with apply(self, config) {
-  let obj = @nostd.Object::new()
-  obj["enabled"] = @nostd.any(self.enabled)
+  let obj = @core.Object::new()
+  obj["enabled"] = @core.any(self.enabled)
   config._set("emailAndPassword", obj)
 }
 
@@ -163,9 +163,9 @@ pub(all) struct GitHub {
 ///|
 pub impl Provider for GitHub with apply(self, config) {
   let sp = get_or_create_social_providers(config)
-  let obj = @nostd.Object::new()
-  obj["clientId"] = @nostd.any(self.client_id)
-  obj["clientSecret"] = @nostd.any(self.client_secret)
+  let obj = @core.Object::new()
+  obj["clientId"] = @core.any(self.client_id)
+  obj["clientSecret"] = @core.any(self.client_secret)
   sp._set("github", obj)
 }
 
@@ -179,17 +179,17 @@ pub(all) struct Google {
 ///|
 pub impl Provider for Google with apply(self, config) {
   let sp = get_or_create_social_providers(config)
-  let obj = @nostd.Object::new()
-  obj["clientId"] = @nostd.any(self.client_id)
-  obj["clientSecret"] = @nostd.any(self.client_secret)
+  let obj = @core.Object::new()
+  obj["clientId"] = @core.any(self.client_id)
+  obj["clientSecret"] = @core.any(self.client_secret)
   sp._set("google", obj)
 }
 
 ///|
-fn get_or_create_social_providers(config : @nostd.Any) -> @nostd.Any {
+fn get_or_create_social_providers(config : @core.Any) -> @core.Any {
   let existing = config["socialProviders"]
-  if @nostd.is_nullish(existing) {
-    let sp = @nostd.Object::new()
+  if @core.is_nullish(existing) {
+    let sp = @core.Object::new()
     config._set("socialProviders", sp)
     sp
   } else {
@@ -200,27 +200,27 @@ fn get_or_create_social_providers(config : @nostd.Any) -> @nostd.Any {
 ///|
 /// Create a new Auth instance with providers
 pub fn betterAuth(
-  database~ : @nostd.Any,
+  database~ : @core.Any,
   providers~ : Array[&Provider],
   base_url? : String,
   secret? : String,
 ) -> Auth {
-  let config = @nostd.Object::new()
-  config["database"] = @nostd.any(database)
+  let config = @core.Object::new()
+  config["database"] = @core.any(database)
   for provider in providers {
     provider.apply(config)
   }
   if base_url is Some(url) {
-    config["baseURL"] = @nostd.any(url)
+    config["baseURL"] = @core.any(url)
   }
   if secret is Some(s) {
-    config["secret"] = @nostd.any(s)
+    config["secret"] = @core.any(s)
   }
-  ffi_better_auth(config |> @nostd.identity) |> @nostd.identity
+  ffi_better_auth(config |> @core.identity) |> @core.identity
 }
 
 ///|
-extern "js" fn ffi_better_auth(config : @nostd.Any) -> @nostd.Any =
+extern "js" fn ffi_better_auth(config : @core.Any) -> @core.Any =
   #|(config) => {
   #|  const { betterAuth } = require('better-auth');
   #|  return betterAuth(config);
@@ -233,12 +233,12 @@ extern "js" fn ffi_better_auth(config : @nostd.Any) -> @nostd.Any =
 pub type AuthResponse
 
 ///|
-pub fn AuthResponse::to_any(self : AuthResponse) -> @nostd.Any = "%identity"
+pub fn AuthResponse::to_any(self : AuthResponse) -> @core.Any = "%identity"
 
 ///|
 /// Get user from response
 pub fn AuthResponse::user(self : AuthResponse) -> User {
-  self.to_any()["user"] |> @nostd.identity
+  self.to_any()["user"] |> @core.identity
 }
 
 ///|
@@ -251,20 +251,20 @@ pub fn AuthResponse::token(self : AuthResponse) -> String {
 ///|
 /// Check if response has error
 pub fn AuthResponse::hasError(self : AuthResponse) -> Bool {
-  not(@nostd.is_nullish(self.to_any()["error"]))
+  not(@core.is_nullish(self.to_any()["error"]))
 }
 
 ///|
 /// Get error from response if present
-pub fn AuthResponse::error(self : AuthResponse) -> @nostd.Any {
-  self.to_any()["error"] |> @nostd.identity
+pub fn AuthResponse::error(self : AuthResponse) -> @core.Any {
+  self.to_any()["error"] |> @core.identity
 }
 
 ///|
 /// Get error message from response if present
 pub fn AuthResponse::errorMessage(self : AuthResponse) -> String? {
   let err = self.to_any()["error"]
-  if @nostd.is_nullish(err) {
+  if @core.is_nullish(err) {
     None
   } else {
     Some(err["message"].cast())
@@ -281,21 +281,21 @@ pub async fn AuthApi::signUpEmail(
   image? : String,
   callback_url? : String,
 ) -> AuthResponse {
-  let body = @nostd.Object::new()
-  body["name"] = @nostd.any(name)
-  body["email"] = @nostd.any(email)
-  body["password"] = @nostd.any(password)
+  let body = @core.Object::new()
+  body["name"] = @core.any(name)
+  body["email"] = @core.any(email)
+  body["password"] = @core.any(password)
   if image is Some(img) {
-    body["image"] = @nostd.any(img)
+    body["image"] = @core.any(img)
   }
   if callback_url is Some(url) {
-    body["callbackURL"] = @nostd.any(url)
+    body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @nostd.Object::new()
+  let req_obj = @core.Object::new()
   req_obj["body"] = body
   let promise = ffi_call_auth_api_with_catch(
-    self.to_any()["signUpEmail"] |> @nostd.identity,
-    req_obj |> @nostd.identity,
+    self.to_any()["signUpEmail"] |> @core.identity,
+    req_obj |> @core.identity,
   )
   promise.wait()
 }
@@ -308,25 +308,25 @@ pub async fn AuthApi::signInEmail(
   password~ : String,
   remember_me? : Bool,
   callback_url? : String,
-  headers? : @nostd.Any,
+  headers? : @core.Any,
 ) -> AuthResponse {
-  let body = @nostd.Object::new()
-  body["email"] = @nostd.any(email)
-  body["password"] = @nostd.any(password)
+  let body = @core.Object::new()
+  body["email"] = @core.any(email)
+  body["password"] = @core.any(password)
   if remember_me is Some(rm) {
-    body["rememberMe"] = @nostd.any(rm)
+    body["rememberMe"] = @core.any(rm)
   }
   if callback_url is Some(url) {
-    body["callbackURL"] = @nostd.any(url)
+    body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @nostd.Object::new()
+  let req_obj = @core.Object::new()
   req_obj["body"] = body
   if headers is Some(h) {
-    req_obj["headers"] = @nostd.any(h)
+    req_obj["headers"] = @core.any(h)
   }
   let promise = ffi_call_auth_api_with_catch(
-    self.to_any()["signInEmail"] |> @nostd.identity,
-    req_obj |> @nostd.identity,
+    self.to_any()["signInEmail"] |> @core.identity,
+    req_obj |> @core.identity,
   )
   promise.wait()
 }
@@ -337,18 +337,18 @@ pub async fn AuthApi::signInSocial(
   self : AuthApi,
   provider~ : String,
   callback_url? : String,
-) -> @nostd.Any {
-  let body = @nostd.Object::new()
-  body["provider"] = @nostd.any(provider)
+) -> @core.Any {
+  let body = @core.Object::new()
+  body["provider"] = @core.any(provider)
   if callback_url is Some(url) {
-    body["callbackURL"] = @nostd.any(url)
+    body["callbackURL"] = @core.any(url)
   }
-  let req_obj = @nostd.Object::new()
+  let req_obj = @core.Object::new()
   req_obj["body"] = body
-  let promise : @js.Promise[@nostd.Any] = self
-    .to_any()["signInSocial"]
-    ._invoke([req_obj])
-    |> @nostd.identity
+  let promise : @js.Promise[@core.Any] = self.to_any()["signInSocial"]._invoke([
+      req_obj,
+    ])
+    |> @core.identity
   promise.wait()
 }
 
@@ -359,19 +359,18 @@ pub async fn AuthApi::signInSocial(
 pub type SessionResponse
 
 ///|
-pub fn SessionResponse::to_any(self : SessionResponse) -> @nostd.Any =
-  "%identity"
+pub fn SessionResponse::to_any(self : SessionResponse) -> @core.Any = "%identity"
 
 ///|
 /// Get session from response
 pub fn SessionResponse::session(self : SessionResponse) -> Session {
-  self.to_any()["session"] |> @nostd.identity
+  self.to_any()["session"] |> @core.identity
 }
 
 ///|
 /// Get user from response
 pub fn SessionResponse::user(self : SessionResponse) -> User {
-  self.to_any()["user"] |> @nostd.identity
+  self.to_any()["user"] |> @core.identity
 }
 
 ///|
@@ -379,39 +378,37 @@ pub fn SessionResponse::user(self : SessionResponse) -> User {
 /// Returns SessionResponse with { session, user } if authenticated, or null
 pub async fn AuthApi::getSession(
   self : AuthApi,
-  headers : @nostd.Any,
+  headers : @core.Any,
 ) -> SessionResponse? {
-  let req_obj = @nostd.Object::new()
-  req_obj["headers"] = @nostd.any(headers)
-  let promise : @js.Promise[@nostd.Any] = self
-    .to_any()["getSession"]
-    ._invoke([req_obj])
-    |> @nostd.identity
-  let result : @nostd.Any = promise.wait() |> @nostd.any
-  if @nostd.is_nullish(result) || @nostd.is_nullish(result["user"]) {
+  let req_obj = @core.Object::new()
+  req_obj["headers"] = @core.any(headers)
+  let promise : @js.Promise[@core.Any] = self.to_any()["getSession"]._invoke([
+      req_obj,
+    ])
+    |> @core.identity
+  let result : @core.Any = promise.wait() |> @core.any
+  if @core.is_nullish(result) || @core.is_nullish(result["user"]) {
     None
   } else {
-    Some(result |> @nostd.identity)
+    Some(result |> @core.identity)
   }
 }
 
 ///|
 /// Sign out
-pub async fn AuthApi::signOut(self : AuthApi, headers : @nostd.Any) -> Unit {
-  let req_obj = @nostd.Object::new()
-  req_obj["headers"] = @nostd.any(headers)
-  let promise : @js.Promise[Unit] = self
-    .to_any()["signOut"]
-    ._invoke([req_obj])
-    |> @nostd.identity
+pub async fn AuthApi::signOut(self : AuthApi, headers : @core.Any) -> Unit {
+  let req_obj = @core.Object::new()
+  req_obj["headers"] = @core.any(headers)
+  let promise : @js.Promise[Unit] = self.to_any()["signOut"]._invoke([req_obj])
+    |> @core.identity
   promise.wait()
 }
 
 ///|
 /// Helper to call auth API methods and catch errors, converting them to { error: { message } }
 extern "js" fn ffi_call_auth_api_with_catch(
-  fn_ : @nostd.Any,
-  args : @nostd.Any,
+  fn_ : @core.Any,
+  args : @core.Any,
 ) -> @js.Promise[AuthResponse] =
   #|(fn_, args) => {
   #|  return fn_(args).catch(err => {

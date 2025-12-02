@@ -3,18 +3,18 @@
 /// https://github.com/date-fns/date-fns
 
 ///|
-fn date_fns() -> @nostd.Any {
+fn date_fns() -> @core.Any {
   @node.require("date-fns")
 }
 
 ///|
 pub(open) trait DateArgs {
-  to_date(Self) -> @nostd.Any = _
+  to_date(Self) -> @core.Any = _
 }
 
 ///|
 impl DateArgs with to_date(self) {
-  self |> @nostd.identity
+  self |> @core.identity
 }
 
 ///|
@@ -32,7 +32,7 @@ pub impl DateArgs for @date.Date
 /// Format a date using a format string
 /// https://date-fns.org/docs/format
 pub fn format(date : &DateArgs, format_str : String) -> String {
-  date_fns()._call("format", [date.to_date(), format_str |> @nostd.any]).cast()
+  date_fns()._call("format", [date.to_date(), format_str |> @core.any]).cast()
 }
 
 ///|
@@ -78,8 +78,8 @@ pub fn parse(
 ) -> @date.Date {
   date_fns()
   ._call("parse", [
-    date_str |> @nostd.any,
-    format_str |> @nostd.any,
+    date_str |> @core.any,
+    format_str |> @core.any,
     reference.to_date(),
   ])
   .cast()
@@ -89,7 +89,7 @@ pub fn parse(
 /// Parse an ISO 8601 string
 #alias(parse_iso)
 pub fn parseISO(date_str : String) -> @date.Date {
-  date_fns()._call("parseISO", [date_str |> @nostd.any]).cast()
+  date_fns()._call("parseISO", [date_str |> @core.any]).cast()
 }
 
 ///| Comparison
@@ -245,33 +245,33 @@ pub fn add(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @nostd.Object::new()
+  let duration = @core.Object::new()
   match years {
-    Some(v) => duration._set("years", v |> @nostd.any)
+    Some(v) => duration._set("years", v |> @core.any)
     None => ()
   }
   match months {
-    Some(v) => duration._set("months", v |> @nostd.any)
+    Some(v) => duration._set("months", v |> @core.any)
     None => ()
   }
   match weeks {
-    Some(v) => duration._set("weeks", v |> @nostd.any)
+    Some(v) => duration._set("weeks", v |> @core.any)
     None => ()
   }
   match days {
-    Some(v) => duration._set("days", v |> @nostd.any)
+    Some(v) => duration._set("days", v |> @core.any)
     None => ()
   }
   match hours {
-    Some(v) => duration._set("hours", v |> @nostd.any)
+    Some(v) => duration._set("hours", v |> @core.any)
     None => ()
   }
   match minutes {
-    Some(v) => duration._set("minutes", v |> @nostd.any)
+    Some(v) => duration._set("minutes", v |> @core.any)
     None => ()
   }
   match seconds {
-    Some(v) => duration._set("seconds", v |> @nostd.any)
+    Some(v) => duration._set("seconds", v |> @core.any)
     None => ()
   }
   date_fns()._call("add", [date.to_date(), duration]).cast()
@@ -289,33 +289,33 @@ pub fn sub(
   minutes? : Int,
   seconds? : Int,
 ) -> @date.Date {
-  let duration = @nostd.Object::new()
+  let duration = @core.Object::new()
   match years {
-    Some(v) => duration._set("years", v |> @nostd.any)
+    Some(v) => duration._set("years", v |> @core.any)
     None => ()
   }
   match months {
-    Some(v) => duration._set("months", v |> @nostd.any)
+    Some(v) => duration._set("months", v |> @core.any)
     None => ()
   }
   match weeks {
-    Some(v) => duration._set("weeks", v |> @nostd.any)
+    Some(v) => duration._set("weeks", v |> @core.any)
     None => ()
   }
   match days {
-    Some(v) => duration._set("days", v |> @nostd.any)
+    Some(v) => duration._set("days", v |> @core.any)
     None => ()
   }
   match hours {
-    Some(v) => duration._set("hours", v |> @nostd.any)
+    Some(v) => duration._set("hours", v |> @core.any)
     None => ()
   }
   match minutes {
-    Some(v) => duration._set("minutes", v |> @nostd.any)
+    Some(v) => duration._set("minutes", v |> @core.any)
     None => ()
   }
   match seconds {
-    Some(v) => duration._set("seconds", v |> @nostd.any)
+    Some(v) => duration._set("seconds", v |> @core.any)
     None => ()
   }
   date_fns()._call("sub", [date.to_date(), duration]).cast()
@@ -325,70 +325,70 @@ pub fn sub(
 /// Add days
 #alias(add_days)
 pub fn addDays(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("addDays", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("addDays", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Sub days
 #alias(sub_days)
 pub fn subDays(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("subDays", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("subDays", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Add months
 #alias(add_months)
 pub fn addMonths(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("addMonths", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("addMonths", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Sub months
 #alias(sub_months)
 pub fn subMonths(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("subMonths", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("subMonths", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Add years
 #alias(add_years)
 pub fn addYears(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("addYears", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("addYears", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Sub years
 #alias(sub_years)
 pub fn subYears(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("subYears", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("subYears", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Add hours
 #alias(add_hours)
 pub fn addHours(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("addHours", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("addHours", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Sub hours
 #alias(sub_hours)
 pub fn subHours(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("subHours", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("subHours", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Add minutes
 #alias(add_minutes)
 pub fn addMinutes(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("addMinutes", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("addMinutes", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///|
 /// Sub minutes
 #alias(sub_minutes)
 pub fn subMinutes(date : &DateArgs, amount : Int) -> @date.Date {
-  date_fns()._call("subMinutes", [date.to_date(), amount |> @nostd.any]).cast()
+  date_fns()._call("subMinutes", [date.to_date(), amount |> @core.any]).cast()
 }
 
 ///| Getters
@@ -462,42 +462,42 @@ pub fn getTime(date : &DateArgs) -> Int {
 /// Set year
 #alias(set_year)
 pub fn setYear(date : &DateArgs, year : Int) -> @date.Date {
-  date_fns()._call("setYear", [date.to_date(), year |> @nostd.any]).cast()
+  date_fns()._call("setYear", [date.to_date(), year |> @core.any]).cast()
 }
 
 ///|
 /// Set month
 #alias(set_month)
 pub fn setMonth(date : &DateArgs, month : Int) -> @date.Date {
-  date_fns()._call("setMonth", [date.to_date(), month |> @nostd.any]).cast()
+  date_fns()._call("setMonth", [date.to_date(), month |> @core.any]).cast()
 }
 
 ///|
 /// Set date (day of month)
 #alias(set_date)
 pub fn setDate(date : &DateArgs, day : Int) -> @date.Date {
-  date_fns()._call("setDate", [date.to_date(), day |> @nostd.any]).cast()
+  date_fns()._call("setDate", [date.to_date(), day |> @core.any]).cast()
 }
 
 ///|
 /// Set hours
 #alias(set_hours)
 pub fn setHours(date : &DateArgs, hours : Int) -> @date.Date {
-  date_fns()._call("setHours", [date.to_date(), hours |> @nostd.any]).cast()
+  date_fns()._call("setHours", [date.to_date(), hours |> @core.any]).cast()
 }
 
 ///|
 /// Set minutes
 #alias(set_minutes)
 pub fn setMinutes(date : &DateArgs, minutes : Int) -> @date.Date {
-  date_fns()._call("setMinutes", [date.to_date(), minutes |> @nostd.any]).cast()
+  date_fns()._call("setMinutes", [date.to_date(), minutes |> @core.any]).cast()
 }
 
 ///|
 /// Set seconds
 #alias(set_seconds)
 pub fn setSeconds(date : &DateArgs, seconds : Int) -> @date.Date {
-  date_fns()._call("setSeconds", [date.to_date(), seconds |> @nostd.any]).cast()
+  date_fns()._call("setSeconds", [date.to_date(), seconds |> @core.any]).cast()
 }
 
 ///| Start/End of period
@@ -564,11 +564,11 @@ pub fn endOfWeek(date : &DateArgs) -> @date.Date {
 /// Create a new Date from timestamp
 #alias(from_unix_time)
 pub fn fromUnixTime(timestamp : Int) -> @date.Date {
-  date_fns()._call("fromUnixTime", [timestamp |> @nostd.any]).cast()
+  date_fns()._call("fromUnixTime", [timestamp |> @core.any]).cast()
 }
 
 ///|
-extern "js" fn ffi_new_date_from_time(time : Int) -> @nostd.Any =
+extern "js" fn ffi_new_date_from_time(time : Int) -> @core.Any =
   #| (time) => new Date(time)
 
 ///|

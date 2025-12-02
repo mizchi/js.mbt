@@ -12,12 +12,12 @@ pub(all) struct CSSStyleDeclaration {
 }
 
 ///|
-pub fn CSSStyleDeclaration::as_any(self : CSSStyleDeclaration) -> @nostd.Any = "%identity"
+pub fn CSSStyleDeclaration::as_any(self : CSSStyleDeclaration) -> @core.Any = "%identity"
 
 ///|
 /// Returns a CSS style declaration from a Val
-pub fn css_style_from_val(val : @nostd.Any) -> CSSStyleDeclaration {
-  @nostd.identity(val)
+pub fn css_style_from_val(val : @core.Any) -> CSSStyleDeclaration {
+  @core.identity(val)
 }
 
 ///|
@@ -26,7 +26,7 @@ pub fn CSSStyleDeclaration::get_property_value(
   self : Self,
   property : String,
 ) -> String {
-  self.as_any()._call("getPropertyValue", [@nostd.any(property)]).cast()
+  self.as_any()._call("getPropertyValue", [@core.any(property)]).cast()
 }
 
 ///|
@@ -36,7 +36,7 @@ pub fn CSSStyleDeclaration::set_property(
   property : String,
   value : String,
 ) -> Unit {
-  self.as_any()._call("setProperty", [@nostd.any(property), @nostd.any(value)])
+  self.as_any()._call("setProperty", [@core.any(property), @core.any(value)])
   |> ignore
 }
 
@@ -51,9 +51,9 @@ pub fn CSSStyleDeclaration::set_property_priority(
   self
   .as_any()
   ._call("setProperty", [
-    @nostd.any(property),
-    @nostd.any(value),
-    @nostd.any(priority),
+    @core.any(property),
+    @core.any(value),
+    @core.any(priority),
   ])
   |> ignore
 }
@@ -64,7 +64,7 @@ pub fn CSSStyleDeclaration::remove_property(
   self : Self,
   property : String,
 ) -> String {
-  self.as_any()._call("removeProperty", [@nostd.any(property)]).cast()
+  self.as_any()._call("removeProperty", [@core.any(property)]).cast()
 }
 
 ///|
@@ -73,7 +73,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
   self : Self,
   property : String,
 ) -> String {
-  self.as_any()._call("getPropertyPriority", [@nostd.any(property)]).cast()
+  self.as_any()._call("getPropertyPriority", [@core.any(property)]).cast()
 }
 
 ///|
@@ -83,7 +83,7 @@ pub fn CSSStyleDeclaration::get_property_priority(
 pub type CSSRule
 
 ///|
-pub fn CSSRule::as_any(self : CSSRule) -> @nostd.Any = "%identity"
+pub fn CSSRule::as_any(self : CSSRule) -> @core.Any = "%identity"
 
 ///|
 /// Returns the CSS text of the rule
@@ -94,21 +94,21 @@ pub fn CSSRule::css_text(self : Self) -> String {
 ///|
 /// Sets the CSS text of the rule
 pub fn CSSRule::set_css_text(self : Self, text : String) -> Unit {
-  self.as_any()._set("cssText", @nostd.any(text)) |> ignore
+  self.as_any()._set("cssText", @core.any(text)) |> ignore
 }
 
 ///|
 /// Returns the parent rule
 pub fn CSSRule::parent_rule(self : Self) -> CSSRule? {
-  let v : @nostd.Any = self.as_any()._get("parentRule").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("parentRule").cast()
+  v |> @core.identity_option()
 }
 
 ///|
 /// Returns the parent stylesheet
 pub fn CSSRule::parent_stylesheet(self : Self) -> CSSStyleSheet? {
-  let v : @nostd.Any = self.as_any()._get("parentStyleSheet").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("parentStyleSheet").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -124,12 +124,12 @@ pub fn CSSRule::rule_type(self : Self) -> Int {
 pub type CSSStyleSheet
 
 ///|
-pub fn CSSStyleSheet::as_any(self : CSSStyleSheet) -> @nostd.Any = "%identity"
+pub fn CSSStyleSheet::as_any(self : CSSStyleSheet) -> @core.Any = "%identity"
 
 ///|
 /// Returns the CSS rules
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/cssRules
-pub fn CSSStyleSheet::cssRules(self : Self) -> @nostd.Any {
+pub fn CSSStyleSheet::cssRules(self : Self) -> @core.Any {
   self.as_any()._get("cssRules").cast()
 }
 
@@ -137,7 +137,7 @@ pub fn CSSStyleSheet::cssRules(self : Self) -> @nostd.Any {
 /// Inserts a CSS rule
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
 pub fn CSSStyleSheet::insertRule(self : Self, rule : String) -> Int {
-  self.as_any()._call("insertRule", [@nostd.any(rule)]).cast()
+  self.as_any()._call("insertRule", [@core.any(rule)]).cast()
 }
 
 ///|
@@ -147,24 +147,21 @@ pub fn CSSStyleSheet::insertRuleAt(
   rule : String,
   index : Int,
 ) -> Int {
-  self
-  .as_any()
-  ._call("insertRule", [@nostd.any(rule), @nostd.any(index)])
-  .cast()
+  self.as_any()._call("insertRule", [@core.any(rule), @core.any(index)]).cast()
 }
 
 ///|
 /// Deletes a CSS rule at index
 /// https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/deleteRule
 pub fn CSSStyleSheet::deleteRule(self : Self, index : Int) -> Unit {
-  self.as_any()._call("deleteRule", [@nostd.any(index)]) |> ignore
+  self.as_any()._call("deleteRule", [@core.any(index)]) |> ignore
 }
 
 ///|
 /// Returns the owner node
-pub fn CSSStyleSheet::ownerNode(self : Self) -> @nostd.Any? {
-  let v : @nostd.Any = self.as_any()._get("ownerNode").cast()
-  v |> @nostd.identity_option()
+pub fn CSSStyleSheet::ownerNode(self : Self) -> @core.Any? {
+  let v : @core.Any = self.as_any()._get("ownerNode").cast()
+  v |> @core.identity_option()
 }
 
 ///|
@@ -176,26 +173,26 @@ pub fn CSSStyleSheet::disabled(self : Self) -> Bool {
 ///|
 /// Sets whether the stylesheet is disabled
 pub fn CSSStyleSheet::set_disabled(self : Self, disabled : Bool) -> Unit {
-  self.as_any()._set("disabled", @nostd.any(disabled)) |> ignore
+  self.as_any()._set("disabled", @core.any(disabled)) |> ignore
 }
 
 ///|
 /// Returns the stylesheet's href
 pub fn CSSStyleSheet::href(self : Self) -> String? {
-  let v : @nostd.Any = self.as_any()._get("href").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("href").cast()
+  v |> @core.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's title
 pub fn CSSStyleSheet::title(self : Self) -> String? {
-  let v : @nostd.Any = self.as_any()._get("title").cast()
-  v |> @nostd.identity_option()
+  let v : @core.Any = self.as_any()._get("title").cast()
+  v |> @core.identity_option()
 }
 
 ///|
 /// Returns the stylesheet's media
-pub fn CSSStyleSheet::media(self : Self) -> @nostd.Any {
+pub fn CSSStyleSheet::media(self : Self) -> @core.Any {
   self.as_any()._get("media").cast()
 }
 
@@ -208,16 +205,14 @@ pub(all) struct MediaQueryList {
 }
 
 ///|
-pub fn MediaQueryList::as_any(self : MediaQueryList) -> @nostd.Any = "%identity"
+pub fn MediaQueryList::as_any(self : MediaQueryList) -> @core.Any = "%identity"
 
 ///|
 /// Creates a MediaQueryList from window.matchMedia
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
-  @nostd.identity(
-    @global.global_this()._call("matchMedia", [@nostd.any(query)]),
-  )
+  @core.identity(@global.global_this()._call("matchMedia", [@core.any(query)]))
 }
 
 ///|
@@ -227,7 +222,7 @@ pub fn MediaQueryList::addListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.as_any()._call("addListener", [@nostd.any(@js.from_fn1(listener))])
+  self.as_any()._call("addListener", [@core.any(@js.from_fn1(listener))])
   |> ignore
 }
 
@@ -238,7 +233,7 @@ pub fn MediaQueryList::removeListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.as_any()._call("removeListener", [@nostd.any(@js.from_fn1(listener))])
+  self.as_any()._call("removeListener", [@core.any(@js.from_fn1(listener))])
   |> ignore
 }
 
@@ -251,8 +246,8 @@ pub fn MediaQueryList::addChangeListener(
   self
   .as_any()
   ._call("addEventListener", [
-    @nostd.any("change"),
-    @nostd.any(@js.from_fn1(listener)),
+    @core.any("change"),
+    @core.any(@js.from_fn1(listener)),
   ])
   |> ignore
 }
@@ -266,8 +261,8 @@ pub fn MediaQueryList::removeChangeListener(
   self
   .as_any()
   ._call("removeEventListener", [
-    @nostd.any("change"),
-    @nostd.any(@js.from_fn1(listener)),
+    @core.any("change"),
+    @core.any(@js.from_fn1(listener)),
   ])
   |> ignore
 }
@@ -281,7 +276,7 @@ pub fn MediaQueryList::removeChangeListener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @global.global_this()._get("CSS")
-  @nostd.identity(css_obj._call("escape", [@nostd.any(value)]))
+  @core.identity(css_obj._call("escape", [@core.any(value)]))
 }
 
 ///|
@@ -290,7 +285,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @global.global_this()._get("CSS")
-  css_obj._call("supports", [@nostd.any(property), @nostd.any(value)]).cast()
+  css_obj._call("supports", [@core.any(property), @core.any(value)]).cast()
 }
 
 ///|
@@ -298,13 +293,13 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @global.global_this()._get("CSS")
-  @nostd.identity(css_obj._call("supports", [@nostd.any(condition)]))
+  @core.identity(css_obj._call("supports", [@core.any(condition)]))
 }
 
 ///|
 /// Access document stylesheets
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/styleSheets
-pub fn Document::styleSheets(self : Self) -> @nostd.Any {
+pub fn Document::styleSheets(self : Self) -> @core.Any {
   self.as_any()._get("styleSheets").cast()
 }
 

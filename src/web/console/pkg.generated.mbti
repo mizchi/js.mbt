@@ -2,41 +2,41 @@
 package "mizchi/js/web/console"
 
 import(
-  "mizchi/js/nostd"
+  "mizchi/js/core"
 )
 
 // Values
-fn assert_(Bool, @nostd.Any) -> Unit
+pub fn assert_(Bool, @core.Any) -> Unit
 
-fn clear() -> Unit
+pub fn clear() -> Unit
 
-fn count(String) -> Unit
+pub fn count(String) -> Unit
 
-fn countReset(String) -> Unit
+pub fn countReset(String) -> Unit
 
-fn debug(@nostd.Any) -> Unit
+pub fn debug(@core.Any) -> Unit
 
-fn dir(@nostd.Any) -> Unit
+pub fn dir(@core.Any) -> Unit
 
-fn error(@nostd.Any) -> Unit
+pub fn error(@core.Any) -> Unit
 
-fn group(String) -> Unit
+pub fn group(String) -> Unit
 
-fn groupEnd() -> Unit
+pub fn groupEnd() -> Unit
 
-fn info(@nostd.Any) -> Unit
+pub fn info(@core.Any) -> Unit
 
-fn log(@nostd.Any) -> Unit
+pub fn log(@core.Any) -> Unit
 
-fn table(@nostd.Any, Array[String]) -> Unit
+pub fn table(@core.Any, Array[String]) -> Unit
 
-fn time(String) -> Unit
+pub fn time(String) -> Unit
 
-fn timeEnd(String) -> Unit
+pub fn timeEnd(String) -> Unit
 
-fn trace(@nostd.Any) -> Unit
+pub fn trace(@core.Any) -> Unit
 
-fn warn(@nostd.Any) -> Unit
+pub fn warn(@core.Any) -> Unit
 
 // Errors
 

@@ -6,7 +6,7 @@ pub(all) struct Storage {
 }
 
 ///|
-pub fn Storage::as_any(self : Storage) -> @nostd.Any = "%identity"
+pub fn Storage::as_any(self : Storage) -> @core.Any = "%identity"
 
 ///|
 /// Returns the localStorage object
@@ -60,8 +60,8 @@ pub fn Storage::clear(self : Storage) -> Unit {
 /// Returns the key at the specified index
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/key
 pub fn Storage::key(self : Storage, index : Int) -> String? {
-  let result = self.as_any()._call("key", [@nostd.any(index)])
-  if @nostd.is_nullish(result) {
+  let result = self.as_any()._call("key", [@core.any(index)])
+  if @core.is_nullish(result) {
     None
   } else {
     Some(result.cast())

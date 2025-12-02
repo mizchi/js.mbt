@@ -15,7 +15,7 @@ pub type ServiceWorkerContainer
 ///|
 pub fn ServiceWorkerContainer::as_any(
   self : ServiceWorkerContainer,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// ServiceWorkerRegistration - represents a service worker registration
@@ -26,7 +26,7 @@ pub type ServiceWorkerRegistration
 ///|
 pub fn ServiceWorkerRegistration::as_any(
   self : ServiceWorkerRegistration,
-) -> @nostd.Any = "%identity"
+) -> @core.Any = "%identity"
 
 ///|
 /// ServiceWorker - represents a service worker
@@ -35,7 +35,7 @@ pub fn ServiceWorkerRegistration::as_any(
 pub type ServiceWorker
 
 ///|
-pub fn ServiceWorker::as_any(self : ServiceWorker) -> @nostd.Any = "%identity"
+pub fn ServiceWorker::as_any(self : ServiceWorker) -> @core.Any = "%identity"
 
 ///|
 /// RegistrationOptions for register()
@@ -43,7 +43,7 @@ pub fn ServiceWorker::as_any(self : ServiceWorker) -> @nostd.Any = "%identity"
 pub type RegistrationOptions
 
 ///|
-pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @nostd.Any = "%identity"
+pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @core.Any = "%identity"
 
 ///| ServiceWorkerContainer FFI
 
@@ -62,7 +62,7 @@ extern "js" fn ffi_sw_register(
 extern "js" fn ffi_sw_register_with_options(
   container : ServiceWorkerContainer,
   script_url : String,
-  options : @nostd.Any,
+  options : @core.Any,
 ) -> @js.Promise[ServiceWorkerRegistration] =
   #| (container, scriptURL, options) => container.register(scriptURL, options)
 
@@ -82,7 +82,7 @@ extern "js" fn ffi_sw_get_registration_default(
 ///|
 extern "js" fn ffi_sw_get_registrations(
   container : ServiceWorkerContainer,
-) -> @js.Promise[@nostd.Any] =
+) -> @js.Promise[@core.Any] =
   #| (container) => container.getRegistrations()
 
 ///|
@@ -158,15 +158,15 @@ extern "js" fn ffi_worker_state(worker : ServiceWorker) -> String =
 ///|
 extern "js" fn ffi_worker_post_message(
   worker : ServiceWorker,
-  message : @nostd.Any,
+  message : @core.Any,
 ) -> Unit =
   #| (worker, message) => worker.postMessage(message)
 
 ///|
 extern "js" fn ffi_worker_post_message_with_transfer(
   worker : ServiceWorker,
-  message : @nostd.Any,
-  transfer : @nostd.Any,
+  message : @core.Any,
+  transfer : @core.Any,
 ) -> Unit =
   #| (worker, message, transfer) => worker.postMessage(message, transfer)
 
@@ -191,18 +191,18 @@ pub async fn ServiceWorkerContainer::register(
     type_ is Some(_) ||
     update_via_cache is Some(_)
   if has_options {
-    let options = @nostd.Object::new()
-    let o = @nostd.any(options)
+    let options = @core.Object::new()
+    let o = @core.any(options)
     match scope {
-      Some(s) => o._set("scope", @nostd.any(s))
+      Some(s) => o._set("scope", @core.any(s))
       None => ()
     }
     match type_ {
-      Some(t) => o._set("type", @nostd.any(t))
+      Some(t) => o._set("type", @core.any(t))
       None => ()
     }
     match update_via_cache {
-      Some(u) => o._set("updateViaCache", @nostd.any(u))
+      Some(u) => o._set("updateViaCache", @core.any(u))
       None => ()
     }
     ffi_sw_register_with_options(self, script_url, options).wait()
@@ -228,7 +228,7 @@ pub async fn ServiceWorkerContainer::getRegistration(
 pub async fn ServiceWorkerContainer::getRegistrations(
   self : ServiceWorkerContainer,
 ) -> Array[ServiceWorkerRegistration] {
-  @nostd.identity(ffi_sw_get_registrations(self).wait())
+  @core.identity(ffi_sw_get_registrations(self).wait())
 }
 
 ///|
@@ -259,27 +259,27 @@ pub fn ServiceWorkerContainer::startMessages(
 /// Set oncontrollerchange event handler
 pub fn ServiceWorkerContainer::onControllerChange(
   self : ServiceWorkerContainer,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["oncontrollerchange"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["oncontrollerchange"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
 /// Set onmessage event handler
 pub fn ServiceWorkerContainer::onMessage(
   self : ServiceWorkerContainer,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
 /// Set onmessageerror event handler
 pub fn ServiceWorkerContainer::onMessageError(
   self : ServiceWorkerContainer,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessageerror"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onmessageerror"] = @core.any(@js.from_fn1(handler))
 }
 
 ///| ServiceWorkerRegistration Methods
@@ -344,9 +344,9 @@ pub async fn ServiceWorkerRegistration::unregister(
 /// Set onupdatefound event handler
 pub fn ServiceWorkerRegistration::onUpdateFound(
   self : ServiceWorkerRegistration,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onupdatefound"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onupdatefound"] = @core.any(@js.from_fn1(handler))
 }
 
 ///| ServiceWorker Methods
@@ -367,7 +367,7 @@ pub fn ServiceWorker::state(self : ServiceWorker) -> String {
 /// Post a message to the service worker
 pub fn ServiceWorker::postMessage(
   self : ServiceWorker,
-  message : @nostd.Any,
+  message : @core.Any,
 ) -> Unit {
   ffi_worker_post_message(self, message)
 }
@@ -376,26 +376,26 @@ pub fn ServiceWorker::postMessage(
 /// Post a message with transferable objects
 pub fn ServiceWorker::postMessageWithTransfer(
   self : ServiceWorker,
-  message : @nostd.Any,
-  transfer : Array[@nostd.Any],
+  message : @core.Any,
+  transfer : Array[@core.Any],
 ) -> Unit {
-  ffi_worker_post_message_with_transfer(self, message, @nostd.any(transfer))
+  ffi_worker_post_message_with_transfer(self, message, @core.any(transfer))
 }
 
 ///|
 /// Set onstatechange event handler
 pub fn ServiceWorker::onStateChange(
   self : ServiceWorker,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onstatechange"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onstatechange"] = @core.any(@js.from_fn1(handler))
 }
 
 ///|
 /// Set onerror event handler
 pub fn ServiceWorker::onError(
   self : ServiceWorker,
-  handler : (@nostd.Any) -> Unit,
+  handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @nostd.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
 }

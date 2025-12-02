@@ -1,8 +1,10 @@
 {
-  "supported-targets": ["js"],
+  "supported-targets": [
+    "js"
+  ],
   "import": [
     "mizchi/js",
-    "mizchi/js/nostd",
+    "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/npm/react",
     "mizchi/js/npm/react_element",
@@ -10,5 +12,8 @@
     "mizchi/js/npm/global_jsdom",
     "mizchi/js/node"
   ],
-  "test-import": ["mizchi/js/npm/testing_library", "mizchi/js/builtins/global"]
+  "test-import": [
+    "mizchi/js/npm/testing_library",
+    "mizchi/js/builtins/global"
+  ]
 }
