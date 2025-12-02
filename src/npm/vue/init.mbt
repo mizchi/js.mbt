@@ -6,7 +6,7 @@ pub fn init_vue_api(
   global_key? : String = "__VueApi",
 ) -> Unit {
   if @nostd.is_nullish(@global.global_this()._get(global_key)) {
-    @global.global_this().set(global_key, vue)
+    @global.global_this()._set(global_key, vue)
   }
 }
 

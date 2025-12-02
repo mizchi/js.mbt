@@ -25,10 +25,10 @@ pub fn MockTimers::enable(
 ) -> Unit {
   let options = @nostd.Object::new()
   if apis is Some(apis) {
-    options.set("apis", @js.from_array(apis))
+    options._set("apis", @js.from_array(apis))
   }
   if now is Some(now) {
-    options.set("now", now)
+    options._set("now", now |> @nostd.any)
   }
   self.as_any()._call("enable", [@nostd.any(options)]) |> ignore
 }

@@ -8,10 +8,6 @@ pub type JsTimer
 extern "js" fn ffi_is_array(value : @nostd.Any) -> Bool =
   #| (value) => Array.isArray(value)
 
-///|
-extern "js" fn ffi_is_error(value : @nostd.Any) -> Bool =
-  #| (value) => Error.isError(value)
-
 ///| Object Operations
 
 ///|
@@ -49,17 +45,8 @@ extern "js" fn ffi_array_from(value : @nostd.Any) -> Array[Any] =
 ///| Error Handling
 
 ///|
-extern "js" fn ffi_new_error(args : Array[Any]) -> JsError =
-  #| (args) => new Error(...args)
-
-///|
 extern "js" fn ffi_throw(value : Any) -> Unit =
   #| (value) => { throw value }
-
-///|
-/// Get the error type name (constructor name)
-extern "js" fn ffi_get_error_type(error : @nostd.Any) -> String =
-  #| (error) => error?.constructor?.name || ""
 
 ///| Promise Operations
 

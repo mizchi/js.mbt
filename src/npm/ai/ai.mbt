@@ -81,39 +81,39 @@ pub async fn generateText(
   active_tools? : Array[String],
 ) -> GenerateTextResult {
   let opts = @nostd.Object::new()
-  opts.set("model", model.as_any())
+  opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if prompt is Some(p) {
-    opts.set("prompt", p)
+    opts._set("prompt", p |> @nostd.any)
   }
   if system is Some(s) {
-    opts.set("system", s)
+    opts._set("system", s |> @nostd.any)
   }
   if max_tokens is Some(t) {
-    opts.set("maxTokens", t)
+    opts._set("maxTokens", t |> @nostd.any)
   }
   if temperature is Some(t) {
-    opts.set("temperature", t)
+    opts._set("temperature", t |> @nostd.any)
   }
   if tools is Some(t) {
-    opts.set("tools", t.as_any())
+    opts._set("tools", t.as_any())
   }
   if tool_choice is Some(tc) {
-    opts.set("toolChoice", tc.as_any())
+    opts._set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
-    opts.set("maxSteps", ms)
+    opts._set("maxSteps", ms |> @nostd.any)
   }
   if stop_when is Some(sw) {
-    opts.set("stopWhen", sw.as_any())
+    opts._set("stopWhen", sw.as_any())
   }
   if prepare_step is Some(ps) {
-    opts.set("prepareStep", ps.as_any())
+    opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts.set("activeTools", at |> @js.from_array)
+    opts._set("activeTools", at |> @js.from_array)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateText")
@@ -152,39 +152,39 @@ pub fn streamText(
   active_tools? : Array[String],
 ) -> StreamTextResultHandle {
   let opts = @nostd.Object::new()
-  opts.set("model", model.as_any())
+  opts._set("model", model.as_any())
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if prompt is Some(p) {
-    opts.set("prompt", p)
+    opts._set("prompt", p |> @nostd.any)
   }
   if system is Some(s) {
-    opts.set("system", s)
+    opts._set("system", s |> @nostd.any)
   }
   if max_tokens is Some(t) {
-    opts.set("maxTokens", t)
+    opts._set("maxTokens", t |> @nostd.any)
   }
   if temperature is Some(t) {
-    opts.set("temperature", t)
+    opts._set("temperature", t |> @nostd.any)
   }
   if tools is Some(t) {
-    opts.set("tools", t.as_any())
+    opts._set("tools", t.as_any())
   }
   if tool_choice is Some(tc) {
-    opts.set("toolChoice", tc.as_any())
+    opts._set("toolChoice", tc.as_any())
   }
   if max_steps is Some(ms) {
-    opts.set("maxSteps", ms)
+    opts._set("maxSteps", ms |> @nostd.any)
   }
   if stop_when is Some(sw) {
-    opts.set("stopWhen", sw.as_any())
+    opts._set("stopWhen", sw.as_any())
   }
   if prepare_step is Some(ps) {
-    opts.set("prepareStep", ps.as_any())
+    opts._set("prepareStep", ps.as_any())
   }
   if active_tools is Some(at) {
-    opts.set("activeTools", at |> @js.from_array)
+    opts._set("activeTools", at |> @js.from_array)
   }
   let result = ai_module()._get("streamText").call_self([opts])
   @nostd.identity(result)
@@ -257,7 +257,9 @@ pub fn StreamTextResultHandle::textStream(
 pub async fn StreamTextResultHandle::text(
   self : StreamTextResultHandle,
 ) -> String {
-  let promise : @js.Promise[String] = @nostd.identity(self.as_any()._get("text"))
+  let promise : @js.Promise[String] = @nostd.identity(
+    self.as_any()._get("text"),
+  )
   promise.wait()
 }
 
@@ -304,7 +306,7 @@ pub async fn StreamTextResultHandle::steps(
 async test "ai generate_text" {
   let model = anthropic("claude-sonnet-4-20250514")
   let result = generateText(model~, prompt="Say hello in one word") catch {
-    @js.ThrowError::Error(e) => {
+    @js.ThrowError(e) => {
       @js.log(e)
       return
     }

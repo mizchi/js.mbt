@@ -61,9 +61,9 @@ test "build_options with all parameters" {
   let static_ = get_react_dom_static()
   // Create options object similar to what build_options would create
   let opts = @nostd.Object::new()
-  opts.set("bootstrapScriptContent", "console.log('bootstrap')")
-  opts.set("bootstrapScripts", @js.from_array(["/main.js"]))
-  opts.set("identifierPrefix", "test-")
+  opts._set("bootstrapScriptContent", "console.log('bootstrap')" |> @nostd.any)
+  opts._set("bootstrapScripts", @js.from_array(["/main.js"]))
+  opts._set("identifierPrefix", "test-" |> @nostd.any)
   // Verify react-dom/static.prerenderToNodeStream accepts options
   let element : @nostd.Any = @react.component(simple_component, {
       message: "Options Test",

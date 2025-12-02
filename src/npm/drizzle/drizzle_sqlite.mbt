@@ -30,7 +30,7 @@ pub fn drizzleLibsql(connection_url : String) -> DrizzleDB {
 pub fn drizzleLibsqlClient(client : @nostd.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module()._get("drizzle")
   let config = @nostd.Object::new()
-  config.set("client", client)
+  config._set("client", client)
   @nostd.any(drizzle_fn)._invoke([@nostd.any(config)]).cast()
 }
 
@@ -68,7 +68,7 @@ pub fn sqliteTableFromMap(
   columns : Map[String, Column],
 ) -> Table {
   let obj = @nostd.Object::new()
-  columns.each(fn(key, col) { obj.set(key, col.as_any()) })
+  columns.each(fn(key, col) { obj._set(key, col.as_any()) })
   sqliteTable(name, obj)
 }
 
@@ -109,7 +109,7 @@ pub fn sqliteInteger(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("integer")
   let opts = @nostd.Object::new()
   if mode is Some(m) {
-    opts.set("mode", m)
+    opts._set("mode", m |> @nostd.any)
   }
   match name {
     Some(n) => @nostd.any(fn_)._invoke([@nostd.any(n), @nostd.any(opts)]).cast()
@@ -124,7 +124,7 @@ pub fn sqliteText(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("text")
   let opts = @nostd.Object::new()
   if mode is Some(m) {
-    opts.set("mode", m)
+    opts._set("mode", m |> @nostd.any)
   }
   match name {
     Some(n) =>
@@ -160,7 +160,7 @@ pub fn sqliteBlob(name? : String, mode? : String) -> Column {
   let fn_ = drizzle_sqlite_core()._get("blob")
   let opts = @nostd.Object::new()
   if mode is Some(m) {
-    opts.set("mode", m)
+    opts._set("mode", m |> @nostd.any)
   }
   match name {
     Some(n) =>
@@ -196,7 +196,7 @@ pub fn sqliteNumeric(name? : String) -> Column {
 #alias(primary_key_auto_increment)
 pub fn Column::primaryKeyAutoIncrement(self : Column) -> Column {
   let opts = @nostd.Object::new()
-  opts.set("autoIncrement", true)
+  opts._set("autoIncrement", true |> @nostd.any)
   self.call1("primaryKey", opts) |> @nostd.identity
 }
 

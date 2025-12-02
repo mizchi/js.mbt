@@ -152,22 +152,22 @@ pub suberror PrepareStep async (PrepareStepContext) -> PrepareStepResult
 pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @nostd.Any {
   let obj = @nostd.Object::new()
   if self.model is Some(m) {
-    obj.set("model", m.as_any())
+    obj._set("model", m.as_any())
   }
   if self.active_tools is Some(tools) {
-    obj.set("activeTools", tools |> @js.from_array)
+    obj._set("activeTools", tools |> @js.from_array)
   }
   if self.messages is Some(msgs) {
-    obj.set("messages", msgs |> @js.from_array)
+    obj._set("messages", msgs |> @js.from_array)
   }
   if self.system is Some(s) {
-    obj.set("system", s)
+    obj._set("system", s |> @nostd.any)
   }
   if self.max_tokens is Some(t) {
-    obj.set("maxTokens", t)
+    obj._set("maxTokens", t |> @nostd.any)
   }
   if self.temperature is Some(t) {
-    obj.set("temperature", t)
+    obj._set("temperature", t |> @nostd.any)
   }
   obj
 }

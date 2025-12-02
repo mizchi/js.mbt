@@ -259,15 +259,15 @@ test "StopCondition as_any creates JS function" {
   assert_false(@nostd.is_undefined(js_fn))
   // Call it with a mock context
   let ctx = @nostd.Object::new()
-  ctx.set("stepNumber", 2)
+  ctx._set("stepNumber", 2 |> @nostd.any)
   let empty_arr : Array[@nostd.Any] = []
-  ctx.set("messages", empty_arr |> @js.from_array)
-  ctx.set("toolCalls", empty_arr |> @js.from_array)
-  ctx.set("finishReason", "stop")
+  ctx._set("messages", empty_arr |> @js.from_array)
+  ctx._set("toolCalls", empty_arr |> @js.from_array)
+  ctx._set("finishReason", "stop" |> @nostd.any)
   let result1 : Bool = js_fn.call_self([ctx]).cast()
   assert_eq(result1, false)
   // Call with step 3
-  ctx.set("stepNumber", 3)
+  ctx._set("stepNumber", 3 |> @nostd.any)
   let result2 : Bool = js_fn.call_self([ctx]).cast()
   assert_eq(result2, true)
 }

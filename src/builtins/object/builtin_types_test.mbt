@@ -269,7 +269,7 @@ test "Conditional property setting with Option" {
 
   // Set with Some value
   match Some("value1") {
-    Some(v) => obj.set("key1", v)
+    Some(v) => obj._set("key1", v |> @nostd.any)
     None => ()
   }
   assert_eq(@nostd.identity(obj._get("key1")), "value1")
@@ -277,14 +277,15 @@ test "Conditional property setting with Option" {
   // Set with None should not add property
   let v : Int? = None
   match v {
-    Some(val) => obj.set("key2", val)
+    Some(val) => obj._set("key2", val |> @nostd.any)
     None => ()
   }
   assert_true(@nostd.is_undefined(obj._get("key2")))
 
   // Set with undefined value - check before setting
   match Some(@nostd.undefined()) {
-    Some(val) if not(@nostd.is_undefined(val)) => obj.set("key3", val)
+    Some(val) if not(@nostd.is_undefined(val)) =>
+      obj._set("key3", val |> @nostd.any)
     _ => ()
   }
   assert_true(@nostd.is_undefined(obj._get("key3")))
@@ -308,7 +309,8 @@ test "instanceof_" {
 test "JsError Show output" {
   let err = @js.JsError::new("test message")
   // Using inspect triggers Show::output
-  inspect(err, content="test message")
+  inspect(err |> @nostd.any, content="Error: test message")
+  assert_eq(err.message, "test message")
 }
 
 ///|
@@ -335,7 +337,7 @@ test "Object::defineProperty with value" {
   |> ignore
   assert_eq(@nostd.identity(obj._get("name")), "Alice")
   // Should be writable
-  obj.set("name", "Bob")
+  obj._set("name", "Bob" |> @nostd.any)
   assert_eq(@nostd.identity(obj._get("name")), "Bob")
 }
 
@@ -352,7 +354,7 @@ test "Object::defineProperty with non-writable" {
   |> ignore
   assert_eq(@nostd.identity(obj._get("id")), 123)
   // Attempting to write won't work in strict mode, but in non-strict mode it's silently ignored
-  obj.set("id", 456)
+  obj._set("id", 456 |> @nostd.any)
   // Value should still be 123 (write ignored)
   assert_eq(@nostd.identity(obj._get("id")), 123)
 }
@@ -373,7 +375,7 @@ test "Object::defineProperty with getter/setter" {
   // Test getter
   assert_eq(@nostd.identity(obj._get("value")), 0)
   // Test setter
-  obj.set("value", 42)
+  obj._set("value", 42 |> @nostd.any)
   assert_eq(@nostd.identity(obj._get("value")), 42)
   assert_eq(storage.val, 42)
 }
@@ -381,7 +383,7 @@ test "Object::defineProperty with getter/setter" {
 ///|
 test "Object::getOwnPropertyDescriptor" {
   let obj = @nostd.Object::new()
-  obj.set("name", "Alice")
+  obj._set("name", "Alice" |> @nostd.any)
   let desc = Object::getOwnPropertyDescriptor(obj, "name")
   assert_true(desc is Some(_))
   guard desc is Some(d)
@@ -401,8 +403,8 @@ test "Object::getOwnPropertyDescriptor returns None for non-existent" {
 ///|
 test "Object::getOwnPropertyNames" {
   let obj = @nostd.Object::new()
-  obj.set("a", 1)
-  obj.set("b", 2)
+  obj._set("a", 1 |> @nostd.any)
+  obj._set("b", 2 |> @nostd.any)
   Object::defineProperty(obj, "c", value=3 |> @js.any, enumerable=false)
   |> ignore
   let names = Object::getOwnPropertyNames(obj)
@@ -415,8 +417,8 @@ test "Object::getOwnPropertyNames" {
 ///|
 test "Object::getOwnPropertySymbols" {
   let obj = @nostd.Object::new()
-  let sym = @js.symbol("mySymbol")
-  obj.set(sym, "symbol value")
+  let sym = @js.symbol("mySymbol").to_any().cast()
+  obj._set(sym, "symbol value" |> @nostd.any)
   let symbols = Object::getOwnPropertySymbols(obj)
   assert_eq(symbols.length(), 1)
 }
@@ -426,13 +428,13 @@ test "Object::defineProperties" {
   let obj = @nostd.Object::new()
   let props = @nostd.Object::new()
   let x_desc = @nostd.Object::new()
-  x_desc.set("value", 10)
-  x_desc.set("writable", true)
-  props.set("x", x_desc)
+  x_desc._set("value", 10 |> @nostd.any)
+  x_desc._set("writable", true |> @nostd.any)
+  props._set("x", x_desc |> @nostd.any)
   let y_desc = @nostd.Object::new()
-  y_desc.set("value", 20)
-  y_desc.set("writable", true)
-  props.set("y", y_desc)
+  y_desc._set("value", 20 |> @nostd.any)
+  y_desc._set("writable", true |> @nostd.any)
+  props._set("y", y_desc |> @nostd.any)
   Object::defineProperties(obj, props) |> ignore
   assert_eq(@nostd.identity(obj._get("x")), 10)
   assert_eq(@nostd.identity(obj._get("y")), 20)
@@ -460,14 +462,14 @@ test "Object::groupBy basic" {
 ///|
 test "Object::groupBy with objects" {
   let inventory = @nostd.Object::new()
-  inventory.set("name", "apple")
-  inventory.set("type", "fruit")
+  inventory._set("name", "apple" |> @nostd.any)
+  inventory._set("type", "fruit" |> @nostd.any)
   let inventory2 = @nostd.Object::new()
-  inventory2.set("name", "beef")
-  inventory2.set("type", "meat")
+  inventory2._set("name", "beef" |> @nostd.any)
+  inventory2._set("type", "meat" |> @nostd.any)
   let inventory3 = @nostd.Object::new()
-  inventory3.set("name", "banana")
-  inventory3.set("type", "fruit")
+  inventory3._set("name", "banana" |> @nostd.any)
+  inventory3._set("type", "fruit" |> @nostd.any)
   let items = [inventory, inventory2, inventory3]
   let result = Object::groupBy(items, fn(item, _index) {
     item._get("type") |> @nostd.identity

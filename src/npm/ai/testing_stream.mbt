@@ -18,12 +18,12 @@ pub(all) struct SimulateStreamOptions {
 pub fn simulate_readable_stream(options : SimulateStreamOptions) -> @nostd.Any {
   let test_module = require_test()
   let opts = @nostd.Object::new()
-  opts.set("chunks", options.chunks |> @js.from_array)
+  opts._set("chunks", options.chunks |> @nostd.any)
   if options.initial_delay_ms is Some(delay) {
-    opts.set("initialDelayInMs", delay)
+    opts._set("initialDelayInMs", delay |> @nostd.any)
   }
   if options.chunk_delay_ms is Some(delay) {
-    opts.set("chunkDelayInMs", delay)
+    opts._set("chunkDelayInMs", delay |> @nostd.any)
   }
   test_module._get("simulateReadableStream").call_self([opts])
 }

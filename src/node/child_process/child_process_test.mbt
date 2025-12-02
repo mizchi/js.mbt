@@ -1,9 +1,5 @@
 ///|
 /// Child Process Tests
-///
-/// Tests for Node.js child_process module with @types/node compatible API
-
-///| Synchronous Functions Tests
 
 ///|
 /// Test execSync executes command and returns output
@@ -412,29 +408,4 @@ async test "Node Child Process: ChildProcess signalCode returns signal" {
   // signalCode may not be available immediately
   let _signal = proc.signalCode()
   assert_true(true) // Just verify the field exists
-}
-
-///| exec callback with Nullish error handling
-
-///|
-test "Node Child Process: Nullish to_option converts null to None" {
-  // Test that Nullish type works correctly
-  // Create a nullish value using undefined
-  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(
-    @global.undefined(),
-  )
-  let opt = nullish_val.to_option()
-  inspect(opt, content="None")
-}
-
-///|
-test "Node Child Process: Nullish to_option converts value to Some" {
-  // Create a JsError and wrap it as Nullish
-  let err = @js.JsError::new("test error")
-  let nullish_val : @js.Nullish[@js.JsError] = @nostd.identity(err)
-  let opt = nullish_val.to_option()
-  match opt {
-    Some(e) => inspect(e.message, content="test error")
-    None => inspect(false, content="should have Some")
-  }
 }

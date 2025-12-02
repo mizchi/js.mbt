@@ -24,19 +24,19 @@ pub fn to_json_schema_with_options(
 ) -> @nostd.Any {
   let opts = @nostd.Object::new()
   match name {
-    Some(v) => opts.set("name", v)
+    Some(v) => opts._set("name", v |> @nostd.any)
     None => ()
   }
   match io {
-    Some(v) => opts.set("io", v)
+    Some(v) => opts._set("io", v |> @nostd.any)
     None => ()
   }
   match unrepresentable {
-    Some(v) => opts.set("unrepresentable", v)
+    Some(v) => opts._set("unrepresentable", v |> @nostd.any)
     None => ()
   }
   match override_ {
-    Some(v) => opts.set("override", v)
+    Some(v) => opts._set("override", v)
     None => ()
   }
   let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()

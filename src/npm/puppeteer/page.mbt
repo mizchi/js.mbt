@@ -166,32 +166,22 @@ pub fn Page::url(self : Page) -> String {
 
 ///|
 /// Page: Focus on element
-pub async fn Page::focus(
-  self : Page,
-  selector : String,
-) -> Unit raise @js.ThrowError {
+pub async fn Page::focus(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("focus", [@nostd.any(selector)])
     |> @nostd.identity
-  promise.wait() catch {
-    e => raise @js.ThrowError::from(@js.unsafe_any(e))
-  }
+  promise.wait()
 }
 
 ///|
 /// Page: Hover over element
-pub async fn Page::hover(
-  self : Page,
-  selector : String,
-) -> Unit raise @js.ThrowError {
+pub async fn Page::hover(self : Page, selector : String) -> Unit {
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("hover", [@nostd.any(selector)])
     |> @nostd.identity
-  promise.wait() catch {
-    e => raise @js.ThrowError::from(@js.unsafe_any(e))
-  }
+  promise.wait()
 }
 
 ///|
@@ -201,15 +191,13 @@ pub async fn Page::select(
   self : Page,
   selector : String,
   values : Array[String],
-) -> Array[String] raise @js.ThrowError {
+) -> Array[String] {
   let js_values = @js.from_array(values)
   let promise : @js.Promise[Array[String]] = self
     .to_any()
     ._call("select", [@nostd.any(selector), @nostd.any(js_values)])
     |> @nostd.identity
-  promise.wait() catch {
-    e => raise @js.ThrowError::from(@js.unsafe_any(e))
-  }
+  promise.wait()
 }
 
 ///|
@@ -273,16 +261,12 @@ pub(all) struct Cookie {
 ///|
 /// Page: Get cookies
 /// JS: page.cookies()
-pub async fn Page::cookies(
-  self : Page,
-) -> Array[@nostd.Any] raise @js.ThrowError {
+pub async fn Page::cookies(self : Page) -> Array[@nostd.Any] {
   let promise : @js.Promise[Array[@nostd.Any]] = self
     .to_any()
     ._call("cookies", [])
     |> @nostd.identity
-  promise.wait() catch {
-    e => raise @js.ThrowError::from(@js.unsafe_any(e))
-  }
+  promise.wait()
 }
 
 ///|
@@ -317,13 +301,11 @@ pub async fn Page::deleteCookie(
 ///|
 /// Page: Generate PDF with options
 /// JS: page.pdf({ path })
-pub async fn Page::pdf(self : Page, path : String) -> Unit raise @js.ThrowError {
+pub async fn Page::pdf(self : Page, path : String) -> Unit {
   let opts = @nostd.from_entries([("path", @nostd.any(path))])
   let promise : @js.Promise[Unit] = self.to_any()._call("pdf", [opts])
     |> @nostd.identity
-  promise.wait() catch {
-    e => raise @js.ThrowError::from(@js.unsafe_any(e))
-  }
+  promise.wait()
 }
 
 ///| Page methods (navigation history)

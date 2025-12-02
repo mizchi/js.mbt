@@ -380,14 +380,14 @@ pub(all) struct McpServerStdio {
 ///|
 pub fn McpServerStdio::as_any(self : McpServerStdio) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("type", "stdio")
-  obj.set("command", self.command)
-  obj.set("args", self.args |> @js.from_array)
+  obj._set("type", "stdio" |> @nostd.any)
+  obj._set("command", self.command |> @nostd.any)
+  obj._set("args", self.args |> @js.from_array)
   let env_obj = @nostd.Object::new()
   for k, v in self.env {
-    env_obj.set(k, v)
+    env_obj._set(k, v |> @nostd.any)
   }
-  obj.set("env", env_obj)
+  obj._set("env", env_obj)
   obj
 }
 
@@ -401,13 +401,13 @@ pub(all) struct McpServerSse {
 ///|
 pub fn McpServerSse::as_any(self : McpServerSse) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("type", "sse")
-  obj.set("url", self.url)
+  obj._set("type", "sse" |> @nostd.any)
+  obj._set("url", self.url |> @nostd.any)
   let headers_obj = @nostd.Object::new()
   for k, v in self.headers {
-    headers_obj.set(k, v)
+    headers_obj._set(k, v |> @nostd.any)
   }
-  obj.set("headers", headers_obj)
+  obj._set("headers", headers_obj)
   obj
 }
 
@@ -444,18 +444,18 @@ pub(all) struct AgentDefinition {
 ///|
 pub fn AgentDefinition::as_any(self : AgentDefinition) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("description", self.description)
+  obj._set("description", self.description |> @nostd.any)
   if self.allowed_tools is Some(tools) {
-    obj.set("allowedTools", tools |> @js.from_array)
+    obj._set("allowedTools", tools |> @js.from_array)
   }
   if self.disallowed_tools is Some(tools) {
-    obj.set("disallowedTools", tools |> @js.from_array)
+    obj._set("disallowedTools", tools |> @js.from_array)
   }
   if self.system_prompt is Some(prompt) {
-    obj.set("systemPrompt", prompt)
+    obj._set("systemPrompt", prompt |> @nostd.any)
   }
   if self.model is Some(m) {
-    obj.set("model", m.to_string())
+    obj._set("model", m.to_string() |> @nostd.any)
   }
   obj
 }
@@ -514,54 +514,54 @@ pub fn QueryOptions::new() -> QueryOptions {
 pub fn QueryOptions::as_any(self : QueryOptions) -> @nostd.Any {
   let obj = @nostd.Object::new()
   if self.model is Some(m) {
-    obj.set("model", m.to_string())
+    obj._set("model", m.to_string() |> @nostd.any)
   }
   if self.permission_mode is Some(pm) {
-    obj.set("permissionMode", pm.to_string())
+    obj._set("permissionMode", pm.to_string() |> @nostd.any)
   }
   if self.system_prompt is Some(sp) {
-    obj.set("systemPrompt", sp)
+    obj._set("systemPrompt", sp |> @nostd.any)
   }
   if self.cwd is Some(c) {
-    obj.set("cwd", c)
+    obj._set("cwd", c |> @nostd.any)
   }
   if self.max_turns is Some(mt) {
-    obj.set("maxTurns", mt)
+    obj._set("maxTurns", mt |> @nostd.any)
   }
   if self.max_thinking_tokens is Some(mtt) {
-    obj.set("maxThinkingTokens", mtt)
+    obj._set("maxThinkingTokens", mtt |> @nostd.any)
   }
   if self.allowed_tools is Some(tools) {
-    obj.set("allowedTools", tools |> @js.from_array)
+    obj._set("allowedTools", tools |> @js.from_array)
   }
   if self.disallowed_tools is Some(tools) {
-    obj.set("disallowedTools", tools |> @js.from_array)
+    obj._set("disallowedTools", tools |> @js.from_array)
   }
   if self.mcp_servers is Some(servers) {
     let servers_obj = @nostd.Object::new()
     for name, config in servers {
-      servers_obj.set(name, config.as_any())
+      servers_obj._set(name, config.as_any())
     }
-    obj.set("mcpServers", servers_obj)
+    obj._set("mcpServers", servers_obj)
   }
   if self.agents is Some(agents) {
     let agents_obj = @nostd.Object::new()
     for name, agent in agents {
-      agents_obj.set(name, agent.as_any())
+      agents_obj._set(name, agent.as_any())
     }
-    obj.set("agents", agents_obj)
+    obj._set("agents", agents_obj)
   }
   if self.setting_sources is Some(sources) {
-    obj.set(
+    obj._set(
       "settingSources",
       sources.map(fn(s) { s.to_string() |> @js.any }) |> @js.from_array,
     )
   }
   if self.include_partial_messages is Some(ipm) {
-    obj.set("includePartialMessages", ipm)
+    obj._set("includePartialMessages", ipm |> @nostd.any)
   }
   if self.resume_session is Some(r) {
-    obj.set("resume", r)
+    obj._set("resume", r |> @nostd.any)
   }
   obj
 }

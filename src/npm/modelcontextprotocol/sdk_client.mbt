@@ -203,7 +203,8 @@ pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult 
   let types = require_mcp_client_types()
   let schema = types._get("ListResourcesResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let resources : Array[ResourceInfo] = result._get("resources") |> @nostd.identity
+  let resources : Array[ResourceInfo] = result._get("resources")
+    |> @nostd.identity
   { resources, raw: result }
 }
 
@@ -228,7 +229,8 @@ pub async fn SdkClient::read_resource(
   let types = require_mcp_client_types()
   let schema = types._get("ReadResourceResultSchema")
   let result = ffi_client_request(self |> @nostd.any, request, schema).wait()
-  let contents : Array[ContentResult] = result._get("contents") |> @nostd.identity
+  let contents : Array[ContentResult] = result._get("contents")
+    |> @nostd.identity
   { contents, raw: result }
 }
 
@@ -295,9 +297,9 @@ pub async fn SdkClient::get_prompt(
   arguments : @nostd.Any?,
 ) -> GetPromptResult {
   let params = @nostd.Object::new()
-  params.set("name", name)
+  params._set("name", name |> @nostd.any)
   if arguments is Some(args) {
-    params.set("arguments", args)
+    params._set("arguments", args)
   }
   let request = @nostd.identity(
     @mbtconv.from_map({
@@ -332,13 +334,13 @@ pub fn StdioClientTransport::new(
   let stdio_mod = require_stdio_client_transport()
   let transport_class = stdio_mod._get("StdioClientTransport")
   let opts = @nostd.Object::new()
-  opts.set("command", command)
-  opts.set("args", args |> @js.from_array)
+  opts._set("command", command |> @nostd.any)
+  opts._set("args", args |> @js.from_array)
   if env is Some(e) {
-    opts.set("env", e)
+    opts._set("env", e)
   }
   if cwd is Some(c) {
-    opts.set("cwd", c)
+    opts._set("cwd", c |> @nostd.any)
   }
   ffi_construct_client(transport_class, [@nostd.any(opts)]) |> @nostd.identity
 }
@@ -375,7 +377,9 @@ pub fn SdkClient::set_notification_handler(
   .as_any()
   ._get("setNotificationHandler")
   .call_self([
-    @nostd.identity(@nostd.from_entries([("method", method_name |> @nostd.any)])),
+    @nostd.identity(
+      @nostd.from_entries([("method", method_name |> @nostd.any)]),
+    ),
     @nostd.identity(handler),
   ])
   |> ignore

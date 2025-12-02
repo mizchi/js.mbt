@@ -53,21 +53,21 @@ pub fn h(
   let val = @nostd.Object::new()
   if props is Some(props) {
     for k, v in props {
-      val.set(k, v)
+      val._set(k, v)
     }
   }
   if ref_ is Some(ref_) {
-    val.set("ref", ref_.as_any())
+    val._set("ref", ref_.as_any())
   }
   if key is Some(key) {
-    val.set("key", key)
+    val._set("key", key |> @nostd.any)
   }
   if style is Some(style) {
     let style_obj = @nostd.Object::new()
     for k, v in style {
-      style_obj.set(k, v)
+      style_obj._set(k, v |> @nostd.any)
     }
-    val.set("style", style_obj)
+    val._set("style", style_obj)
   }
   @nostd.identity(ffi_h(tag, val, children))
 }
@@ -87,10 +87,10 @@ pub fn[T] component(
   if key is Some(key) {
     if @nostd.is_nullish(val) {
       let obj = @nostd.Object::new()
-      obj.set("key", key)
+      obj._set("key", key |> @nostd.any)
       return ffi_h(tag, obj, children) |> @nostd.identity
     }
-    val.set("key", key)
+    val._set("key", key |> @nostd.any)
   }
   ffi_h(tag, val, children) |> @nostd.identity
 }
@@ -102,7 +102,7 @@ pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
   let children = children.map(_.to_vue_node()) |> @js.from_array
   let val = @nostd.Object::new()
   if key is Some(key) {
-    val.set("key", key)
+    val._set("key", key |> @nostd.any)
   }
   ffi_h(tag, val, children) |> @nostd.identity
 }
@@ -152,8 +152,8 @@ pub fn[T] computed(getter : () -> T) -> Ref[T] {
 /// Vue.computed with getter and setter
 pub fn[T] computedWritable(get : () -> T, set : (T) -> Unit) -> Ref[T] {
   let options = @nostd.Object::new()
-  options.set("get", get |> @js.unsafe_any)
-  options.set("set", set |> @js.unsafe_any)
+  options._set("get", get |> @js.unsafe_any)
+  options._set("set", set |> @js.unsafe_any)
   @nostd.identity(ffi_computed(options))
 }
 

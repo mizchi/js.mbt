@@ -59,28 +59,28 @@ fn build_options(
 ) -> @nostd.Any {
   let opts = @nostd.Object::new()
   if bootstrap_script_content is Some(v) {
-    opts.set("bootstrapScriptContent", v)
+    opts._set("bootstrapScriptContent", v |> @nostd.any)
   }
   if bootstrap_scripts is Some(v) {
-    opts.set("bootstrapScripts", @js.from_array(v))
+    opts._set("bootstrapScripts", @js.from_array(v))
   }
   if bootstrap_modules is Some(v) {
-    opts.set("bootstrapModules", @js.from_array(v))
+    opts._set("bootstrapModules", @js.from_array(v))
   }
   if identifier_prefix is Some(v) {
-    opts.set("identifierPrefix", v)
+    opts._set("identifierPrefix", v |> @nostd.any)
   }
   if namespace_uri is Some(v) {
-    opts.set("namespaceURI", v)
+    opts._set("namespaceURI", v |> @nostd.any)
   }
   if on_error is Some(v) {
-    opts.set("onError", @js.from_fn1(v))
+    opts._set("onError", @js.from_fn1(v))
   }
   if progressive_chunk_size is Some(v) {
-    opts.set("progressiveChunkSize", v)
+    opts._set("progressiveChunkSize", v |> @nostd.any)
   }
   if signal is Some(v) {
-    opts.set("signal", @js.unsafe_any(v))
+    opts._set("signal", @js.unsafe_any(v))
   }
   opts
 }

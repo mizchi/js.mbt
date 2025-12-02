@@ -76,19 +76,19 @@ pub async fn PGlite::createWithOptions(
 ) -> PGlite {
   let opts = @nostd.Object::new()
   match debug {
-    Some(v) => opts.set("debug", v)
+    Some(v) => opts._set("debug", v |> @nostd.any)
     None => ()
   }
   match relaxed_durability {
-    Some(v) => opts.set("relaxedDurability", v)
+    Some(v) => opts._set("relaxedDurability", v |> @nostd.any)
     None => ()
   }
   match username {
-    Some(v) => opts.set("username", v)
+    Some(v) => opts._set("username", v |> @nostd.any)
     None => ()
   }
   match database {
-    Some(v) => opts.set("database", v)
+    Some(v) => opts._set("database", v |> @nostd.any)
     None => ()
   }
   ffi_pglite_create_with_options(data_dir, opts).wait()

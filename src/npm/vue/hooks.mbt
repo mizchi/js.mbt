@@ -12,10 +12,10 @@ pub fn[T] watch(
 ) -> WatchStopHandle {
   let options = @nostd.Object::new()
   if immediate is Some(v) {
-    options.set("immediate", v)
+    options._set("immediate", v |> @nostd.any)
   }
   if deep is Some(v) {
-    options.set("deep", v)
+    options._set("deep", v |> @nostd.any)
   }
   @nostd.identity(
     ffi_watch(source |> @nostd.identity, callback |> @js.unsafe_any, options),
@@ -27,7 +27,7 @@ pub fn[T] watch(
 pub fn watchEffect(effect : () -> Unit, flush? : String) -> WatchStopHandle {
   let options = @nostd.Object::new()
   if flush is Some(v) {
-    options.set("flush", v)
+    options._set("flush", v |> @nostd.any)
   }
   @nostd.identity(ffi_watch_effect(effect |> @js.unsafe_any, options))
 }

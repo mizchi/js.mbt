@@ -515,8 +515,8 @@ fn main {
       #|};
     let worker = create_inline_worker(worker_code)
     let msg = @nostd.Object::new()
-    msg.set("a", 3)
-    msg.set("b", 4)
+    msg._set("a", 3 |> @nostd.any)
+    msg._set("b", 4 |> @nostd.any)
     let result = worker_round_trip(worker, @nostd.any(msg))
     let sum : Int = @nostd.identity(result._get("sum"))
     let product : Int = @nostd.identity(result._get("product"))

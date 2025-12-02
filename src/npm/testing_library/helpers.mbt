@@ -3,7 +3,7 @@
 fn[T] set_opt(obj : @nostd.Any, key : String, val : T?) -> Bool {
   match val {
     Some(v) => {
-      obj.set(key, v)
+      obj._set(key, v |> @nostd.any)
       true
     }
     None => false

@@ -373,7 +373,7 @@ pub fn describe(
 pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   let options = @nostd.Object::new()
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", t |> @nostd.any)
   }
   nodetest().call2("before", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore
@@ -384,7 +384,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
 pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   let options = @nostd.Object::new()
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", t |> @nostd.any)
   }
   nodetest().call2("after", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore
@@ -395,7 +395,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
 pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   let options = @nostd.Object::new()
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", t |> @nostd.any)
   }
   nodetest().call2("beforeEach", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore
@@ -406,7 +406,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
 pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   let options = @nostd.Object::new()
   if timeout is Some(t) {
-    options.set("timeout", t)
+    options._set("timeout", t |> @nostd.any)
   }
   nodetest().call2("afterEach", @js.promisify0(f) |> @js.from_fn0, options)
   |> ignore

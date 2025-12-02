@@ -24,7 +24,7 @@ test "Proxy::new creates proxy object" {
 ///|
 test "Proxy::revocable creates revocable proxy" {
   let target = @nostd.Object::new()
-  target.set("data", "important")
+  target._set("data", "important" |> @nostd.any)
   let revocable = Proxy::revocable(@nostd.any(target))
   let proxy = revocable["proxy"]
   let revoke = revocable["revoke"]
@@ -61,8 +61,8 @@ test "Proxy with target function" {
 ///|
 test "Proxy with get trap" {
   let target = @nostd.Object::new()
-  target.set("x", 10)
-  target.set("y", 20)
+  target._set("x", 10 |> @nostd.any)
+  target._set("y", 20 |> @nostd.any)
   let proxy = Proxy::new(@nostd.any(target), get=fn(_target, prop, _receiver) {
     let key : String = @nostd.identity(prop)
     if key == "x" {
@@ -100,7 +100,7 @@ test "Proxy with set trap" {
 ///|
 test "Proxy with has trap" {
   let target = @nostd.Object::new()
-  target.set("real", "value")
+  target._set("real", "value" |> @nostd.any)
   let proxy = Proxy::new(@nostd.any(target), has=fn(_target, prop) {
     let key : String = @nostd.identity(prop)
     // Always return true for "fake" property
@@ -182,7 +182,7 @@ test "Proxy with construct trap" {
   ) {
     let obj = @nostd.Object::new()
     let first : Int = @nostd.identity(args["0"])
-    obj.set("constructed", first * 100)
+    obj._set("constructed", (first * 100) |> @nostd.any)
     @nostd.any(obj)
   })
   let instance = @nostd.new(proxy.as_any().cast(), [@nostd.any(5)])
@@ -194,8 +194,8 @@ test "Proxy with construct trap" {
 test "Proxy with ownKeys trap" {
   let mut ownkeys_called = false
   let target = @nostd.Object::new()
-  target.set("a", 1)
-  target.set("b", 2)
+  target._set("a", 1 |> @nostd.any)
+  target._set("b", 2 |> @nostd.any)
   let proxy = Proxy::new(
     @nostd.any(target),
     ownKeys=fn(_target) {
@@ -227,7 +227,7 @@ test "Proxy with ownKeys trap" {
 test "Proxy with getPrototypeOf trap" {
   let target = @nostd.Object::new()
   let custom_proto = @nostd.Object::new()
-  custom_proto.set("custom", true)
+  custom_proto._set("custom", true |> @nostd.any)
   let proxy = Proxy::new(@nostd.any(target), getPrototypeOf=fn(_target) {
     @nostd.any(custom_proto)
   })
@@ -287,16 +287,16 @@ test "Proxy with preventExtensions trap" {
 ///|
 test "Proxy with getOwnPropertyDescriptor trap" {
   let target = @nostd.Object::new()
-  target.set("x", 42)
+  target._set("x", 42 |> @nostd.any)
   let proxy = Proxy::new(@nostd.any(target), getOwnPropertyDescriptor=fn(
     _target,
     _prop,
   ) {
     let descriptor = @nostd.Object::new()
-    descriptor.set("value", 999)
-    descriptor.set("writable", true)
-    descriptor.set("enumerable", true)
-    descriptor.set("configurable", true)
+    descriptor._set("value", 999 |> @nostd.any)
+    descriptor._set("writable", true |> @nostd.any)
+    descriptor._set("enumerable", true |> @nostd.any)
+    descriptor._set("configurable", true |> @nostd.any)
     @nostd.any(descriptor)
   })
   let object_class = @global.global_this()._get("Object")
@@ -326,8 +326,8 @@ test "Proxy with defineProperty trap" {
     true
   })
   let descriptor = @nostd.Object::new()
-  descriptor.set("value", 123)
-  descriptor.set("writable", true)
+  descriptor._set("value", 123 |> @nostd.any)
+  descriptor._set("writable", true |> @nostd.any)
   let object_class = @global.global_this()._get("Object")
   let proxy_obj : @js.Object = @nostd.identity(proxy)
   object_class._call("defineProperty", [

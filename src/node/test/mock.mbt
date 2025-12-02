@@ -133,10 +133,10 @@ pub fn MockTracker::module_(
 ) -> Unit {
   let options = @nostd.Object::new()
   if defaultExport is Some(exp) {
-    options.set("defaultExport", exp)
+    options._set("defaultExport", exp)
   }
   if namedExports is Some(exp) {
-    options.set("namedExports", exp)
+    options._set("namedExports", exp)
   }
   self.as_any()._call("module", [@nostd.any(specifier), @nostd.any(options)])
   |> ignore

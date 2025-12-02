@@ -45,13 +45,13 @@ pub fn SdkServer::new(
   // Build capabilities object
   let capabilities = @nostd.Object::new()
   if tools {
-    capabilities.set("tools", @nostd.Object::new())
+    capabilities._set("tools", @nostd.Object::new())
   }
   if resources {
-    capabilities.set("resources", @nostd.Object::new())
+    capabilities._set("resources", @nostd.Object::new())
   }
   if prompts {
-    capabilities.set("prompts", @nostd.Object::new())
+    capabilities._set("prompts", @nostd.Object::new())
   }
   // Build server info
   let server_info = @nostd.identity(

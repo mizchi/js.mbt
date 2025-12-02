@@ -26,67 +26,67 @@ fn[T] common_node(
   on_drop~ : @react.DragEventHandler[T]?,
 ) -> @react.Element {
   if id is Some(id) {
-    props.set("id", id)
+    props._set("id", id |> @nostd.any)
   }
   if class is Some(class) {
-    props.set("className", class)
+    props._set("className", class |> @nostd.any)
   }
   if tab_index is Some(tab_index) {
-    props.set("tabIndex", tab_index)
+    props._set("tabIndex", tab_index |> @nostd.any)
   }
   if style is Some(style) {
     let style_obj = @nostd.Object::new()
     for k, v in style {
-      style_obj.set(k, v)
+      style_obj._set(k, v |> @nostd.any)
     }
-    props.set("style", style_obj)
+    props._set("style", style_obj)
   }
   if ref_ is Some(ref_) {
     let ref_js : @nostd.Any = ref_.as_any().cast()
-    props.set("ref", ref_js)
+    props._set("ref", ref_js)
   }
   if key is Some(key) {
-    props.set("key", key)
+    props._set("key", key |> @nostd.any)
   }
   if on_click is Some(f) {
-    props.set("onClick", f |> @js.from_fn1)
+    props._set("onClick", f |> @js.from_fn1)
   }
   if on_change is Some(f) {
-    props.set("onChange", f |> @js.from_fn1)
+    props._set("onChange", f |> @js.from_fn1)
   }
   if on_keydown is Some(f) {
-    props.set("onKeyDown", f |> @js.from_fn1)
+    props._set("onKeyDown", f |> @js.from_fn1)
   }
   if on_keyup is Some(f) {
-    props.set("onKeyUp", f |> @js.from_fn1)
+    props._set("onKeyUp", f |> @js.from_fn1)
   }
   if on_focus is Some(f) {
-    props.set("onFocus", f |> @js.from_fn1)
+    props._set("onFocus", f |> @js.from_fn1)
   }
   if on_blur is Some(f) {
-    props.set("onBlur", f |> @js.from_fn1)
+    props._set("onBlur", f |> @js.from_fn1)
   }
   // Optimize: avoid array allocation, handle drag handlers directly
   if on_drag is Some(f) {
-    props.set("onDrag", f |> @js.from_fn1)
+    props._set("onDrag", f |> @js.from_fn1)
   }
   if on_dragstart is Some(f) {
-    props.set("onDragStart", f |> @js.from_fn1)
+    props._set("onDragStart", f |> @js.from_fn1)
   }
   if on_dragend is Some(f) {
-    props.set("onDragEnd", f |> @js.from_fn1)
+    props._set("onDragEnd", f |> @js.from_fn1)
   }
   if on_dragleave is Some(f) {
-    props.set("onDragLeave", f |> @js.from_fn1)
+    props._set("onDragLeave", f |> @js.from_fn1)
   }
   if on_dragenter is Some(f) {
-    props.set("onDragEnter", f |> @js.from_fn1)
+    props._set("onDragEnter", f |> @js.from_fn1)
   }
   if on_dragover is Some(f) {
-    props.set("onDragOver", f |> @js.from_fn1)
+    props._set("onDragOver", f |> @js.from_fn1)
   }
   if on_drop is Some(f) {
-    props.set("onDrop", f |> @js.from_fn1)
+    props._set("onDrop", f |> @js.from_fn1)
   }
   let children_js : @nostd.Any = @nostd.any(children.map(_.to_react_node()))
   let props_js : @nostd.Any = props.cast()
@@ -470,22 +470,22 @@ pub fn textarea(
     None => @nostd.Object::new()
   }
   if rows is Some(r) {
-    custom_props.set("rows", r)
+    custom_props._set("rows", r |> @nostd.any)
   }
   if columns is Some(c) {
-    custom_props.set("cols", c)
+    custom_props._set("cols", c |> @nostd.any)
   }
   if spellcheck is Some(s) {
-    custom_props.set("spellCheck", s)
+    custom_props._set("spellCheck", s |> @nostd.any)
   }
   if value is Some(v) {
-    custom_props.set("value", v)
+    custom_props._set("value", v |> @nostd.any)
   }
   if default_value is Some(dv) {
-    custom_props.set("defaultValue", dv)
+    custom_props._set("defaultValue", dv |> @nostd.any)
   }
   if placeholder is Some(ph) {
-    custom_props.set("placeholder", ph)
+    custom_props._set("placeholder", ph |> @nostd.any)
   }
   common_node(
     "textarea",
@@ -549,19 +549,19 @@ pub fn input(
     None => @nostd.Object::new()
   }
   if name is Some(n) {
-    custom_props.set("name", n)
+    custom_props._set("name", n |> @nostd.any)
   }
   if value is Some(v) {
-    custom_props.set("value", v)
+    custom_props._set("value", v |> @nostd.any)
   }
   if default_value is Some(dv) {
-    custom_props.set("defaultValue", dv)
+    custom_props._set("defaultValue", dv |> @nostd.any)
   }
   if type_ is Some(t) {
-    custom_props.set("type", t)
+    custom_props._set("type", t |> @nostd.any)
   }
   if placeholder is Some(ph) {
-    custom_props.set("placeholder", ph)
+    custom_props._set("placeholder", ph |> @nostd.any)
   }
   common_node(
     "input",
@@ -1082,24 +1082,24 @@ pub fn form(
     None => @nostd.Object::new()
   }
   if disabled is Some(d) {
-    custom_props.set("disabled", d)
+    custom_props._set("disabled", d |> @nostd.any)
   }
   if name is Some(n) {
-    custom_props.set("name", n)
+    custom_props._set("name", n |> @nostd.any)
   }
   if method_ is Some(m) {
-    custom_props.set("method", m)
+    custom_props._set("method", m |> @nostd.any)
   }
   if on_submit is Some(f) {
     let fn_value : @nostd.Any = f |> @js.from_fn1
-    custom_props.set("onSubmit", fn_value)
+    custom_props._set("onSubmit", fn_value)
   }
   if action is Some(f) {
     let fn_value : @nostd.Any = f |> @js.from_fn1
-    custom_props.set("action", fn_value)
+    custom_props._set("action", fn_value)
   }
   if enc_type is Some(e) {
-    custom_props.set("encType", e)
+    custom_props._set("encType", e |> @nostd.any)
   }
   common_node(
     "form",
@@ -1163,13 +1163,13 @@ pub fn select(
     None => @nostd.Object::new()
   }
   if multiple is Some(m) {
-    custom_props.set("multiple", m)
+    custom_props._set("multiple", m |> @nostd.any)
   }
   if disabled is Some(d) {
-    custom_props.set("disabled", d)
+    custom_props._set("disabled", d |> @nostd.any)
   }
   if name is Some(n) {
-    custom_props.set("name", n)
+    custom_props._set("name", n |> @nostd.any)
   }
   common_node(
     "select",
@@ -1231,9 +1231,9 @@ pub fn option(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("value", value)
+  custom_props._set("value", value |> @nostd.any)
   if selected is Some(s) {
-    custom_props.set("selected", s)
+    custom_props._set("selected", s |> @nostd.any)
   }
   common_node(
     "option",
@@ -1294,7 +1294,7 @@ pub fn label(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("htmlFor", htmlFor)
+  custom_props._set("htmlFor", htmlFor |> @nostd.any)
   common_node(
     "label",
     custom_props,
@@ -1587,12 +1587,12 @@ pub fn a(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("href", href)
+  custom_props._set("href", href |> @nostd.any)
   if download is Some(d) {
-    custom_props.set("download", d)
+    custom_props._set("download", d |> @nostd.any)
   }
   if target is Some(t) {
-    custom_props.set("target", t)
+    custom_props._set("target", t |> @nostd.any)
   }
   common_node(
     "a",
@@ -1660,24 +1660,24 @@ pub fn iframe(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("src", src)
+  custom_props._set("src", src |> @nostd.any)
   if width is Some(d) {
-    custom_props.set("width", d)
+    custom_props._set("width", d |> @nostd.any)
   }
   if height is Some(d) {
-    custom_props.set("height", d)
+    custom_props._set("height", d |> @nostd.any)
   }
   if frameborder is Some(d) {
-    custom_props.set("frameborder", d)
+    custom_props._set("frameborder", d |> @nostd.any)
   }
   if sandbox is Some(d) {
-    custom_props.set("sandbox", d)
+    custom_props._set("sandbox", d |> @nostd.any)
   }
   if allowfullscreen is Some(d) {
-    custom_props.set("allowfullscreen", d)
+    custom_props._set("allowfullscreen", d |> @nostd.any)
   }
   if loading is Some(d) {
-    custom_props.set("loading", d)
+    custom_props._set("loading", d |> @nostd.any)
   }
   common_node(
     "iframe",
@@ -1750,33 +1750,33 @@ pub fn img(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("src", src)
+  custom_props._set("src", src |> @nostd.any)
   if alt is Some(d) {
-    custom_props.set("alt", d)
+    custom_props._set("alt", d |> @nostd.any)
   }
   if crossorigin is Some(d) {
-    custom_props.set("crossorigin", d)
+    custom_props._set("crossorigin", d |> @nostd.any)
   }
   if decoding is Some(d) {
-    custom_props.set("decoding", d)
+    custom_props._set("decoding", d |> @nostd.any)
   }
   if width is Some(d) {
-    custom_props.set("width", d)
+    custom_props._set("width", d |> @nostd.any)
   }
   if height is Some(d) {
-    custom_props.set("height", d)
+    custom_props._set("height", d |> @nostd.any)
   }
   if fetchpriority is Some(d) {
-    custom_props.set("fetchpriority", d)
+    custom_props._set("fetchpriority", d |> @nostd.any)
   }
   if loading is Some(d) {
-    custom_props.set("loading", d)
+    custom_props._set("loading", d |> @nostd.any)
   }
   if sizes is Some(d) {
-    custom_props.set("sizes", d)
+    custom_props._set("sizes", d |> @nostd.any)
   }
   if srcset is Some(d) {
-    custom_props.set("srcset", d)
+    custom_props._set("srcset", d |> @nostd.any)
   }
   common_node(
     "img",
@@ -1841,7 +1841,7 @@ pub fn video(
     None => @nostd.Object::new()
   }
   if controls is Some(c) {
-    custom_props.set("controls", c |> @js.unsafe_any)
+    custom_props._set("controls", c |> @nostd.any)
   }
   common_node(
     "video",
@@ -1904,9 +1904,9 @@ pub fn source(
     Some(p) => @js.Object::assign(@nostd.Object::new(), p)
     None => @nostd.Object::new()
   }
-  custom_props.set("src", src |> @js.unsafe_any)
+  custom_props._set("src", src |> @nostd.any)
   if type_ is Some(t) {
-    custom_props.set("type", t |> @js.unsafe_any)
+    custom_props._set("type", t |> @nostd.any)
   }
   common_node(
     "video",
@@ -2306,10 +2306,10 @@ pub fn button(
     None => @nostd.Object::new()
   }
   if type_ is Some(t) {
-    custom_props.set("type", t)
+    custom_props._set("type", t |> @nostd.any)
   }
   if disabled is Some(d) {
-    custom_props.set("disabled", d)
+    custom_props._set("disabled", d |> @nostd.any)
   }
   common_node(
     "button",

@@ -77,23 +77,7 @@ pub fn[T] is_builtin_trait(v : T) -> Bool {
 pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
   match throwable_result(f |> identity) {
     Ok(result) => result |> identity
-    Err(e) => {
-      if ffi_is_error(e) {
-        let error : JsError = identity(e)
-        let error_type = ffi_get_error_type(e)
-        match error_type {
-          "TypeError" => raise ThrowError::TypeError(error)
-          "RangeError" => raise ThrowError::RangeError(error)
-          "ReferenceError" => raise ThrowError::ReferenceError(error)
-          "SyntaxError" => raise ThrowError::SyntaxError(error)
-          "URIError" => raise ThrowError::URIError(error)
-          "EvalError" => raise ThrowError::EvalError(error)
-          "AggregateError" => raise ThrowError::AggregateError(error)
-          _ => raise ThrowError::Error(error)
-        }
-      }
-      raise ThrowError::Value(e |> identity)
-    }
+    Err(e) => raise ThrowError(e |> identity)
   }
 }
 

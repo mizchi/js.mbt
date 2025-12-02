@@ -255,7 +255,7 @@ pub fn QueryBuilder::onConflictDoUpdate(
   set_values : @nostd.Any,
 ) -> QueryBuilder {
   let config = @nostd.Object::new()
-  config.set("target", @js.from_array(target.map(fn(c) { c.as_any() })))
-  config.set("set", set_values)
+  config._set("target", @js.from_array(target.map(fn(c) { c.as_any() })))
+  config._set("set", set_values)
   ffi_on_conflict_do_update(self, config)
 }

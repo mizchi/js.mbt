@@ -38,6 +38,6 @@ extern "js" fn ffi_render_to_static_markup(
 /// Initialize the Vue SSR API
 pub fn init_vue_ssr(ssr : @nostd.Any) -> Unit {
   if @nostd.is_nullish(@global.global_this()._get("__VueSSR")) {
-    @global.global_this().set("__VueSSR", ssr)
+    @global.global_this()._set("__VueSSR", ssr)
   }
 }

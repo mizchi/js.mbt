@@ -133,18 +133,7 @@ async fn example_tools(model : @ai.Model) -> Unit {
     tools~,
     max_steps=2,
     max_tokens=200,
-  ) catch {
-    @js.ThrowError::Error(e) => {
-      @js.log("Error: \{e.message}")
-      @js.log("Stack: \{e.stack}")
-      return
-    }
-    e => {
-      @js.log("Error: \{e}")
-      return
-    }
-  }
-
+  )
   // Show tool calls
   if result.tool_calls.length() > 0 {
     @js.log("Tool calls:")

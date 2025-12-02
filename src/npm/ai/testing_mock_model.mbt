@@ -17,15 +17,15 @@ pub(all) struct MockGenerateResult {
 ///|
 pub fn MockGenerateResult::as_any(self : MockGenerateResult) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("finishReason", self.finish_reason)
+  obj._set("finishReason", self.finish_reason |> @nostd.any)
   let usage_obj = @nostd.Object::new()
-  usage_obj.set("inputTokens", self.usage.input_tokens)
-  usage_obj.set("outputTokens", self.usage.output_tokens)
-  usage_obj.set("totalTokens", self.usage.total_tokens)
-  obj.set("usage", usage_obj)
+  usage_obj._set("inputTokens", self.usage.input_tokens |> @nostd.any)
+  usage_obj._set("outputTokens", self.usage.output_tokens |> @nostd.any)
+  usage_obj._set("totalTokens", self.usage.total_tokens |> @nostd.any)
+  obj._set("usage", usage_obj)
   let content_arr = self.content.map(MockContentPart::as_any)
-  obj.set("content", content_arr |> @js.from_array)
-  obj.set("warnings", self.warnings |> @js.from_array)
+  obj._set("content", content_arr |> @js.from_array)
+  obj._set("warnings", self.warnings |> @js.from_array)
   obj
 }
 
@@ -49,16 +49,16 @@ pub fn MockContentPart::as_any(self : MockContentPart) -> @nostd.Any {
   match self {
     Text(text) => {
       let obj = @nostd.Object::new()
-      obj.set("type", "text")
-      obj.set("text", text)
+      obj._set("type", "text" |> @nostd.any)
+      obj._set("text", text |> @nostd.any)
       obj
     }
     ToolCall(tool_call_id~, tool_name~, args~) => {
       let obj = @nostd.Object::new()
-      obj.set("type", "tool-call")
-      obj.set("toolCallId", tool_call_id)
-      obj.set("toolName", tool_name)
-      obj.set("args", args)
+      obj._set("type", "tool-call" |> @nostd.any)
+      obj._set("toolCallId", tool_call_id |> @nostd.any)
+      obj._set("toolName", tool_name |> @nostd.any)
+      obj._set("args", args |> @nostd.any)
       obj
     }
   }
@@ -74,7 +74,7 @@ pub(all) struct MockStreamResult {
 ///|
 pub fn MockStreamResult::as_any(self : MockStreamResult) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("stream", self.stream)
+  obj._set("stream", self.stream)
   obj
 }
 
@@ -120,28 +120,28 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @nostd.Any {
   let mock_class = test_module._get("MockLanguageModelV3")
   let opts = @nostd.Object::new()
   if options.provider is Some(p) {
-    opts.set("provider", p)
+    opts._set("provider", p |> @nostd.any)
   }
   if options.model_id is Some(m) {
-    opts.set("modelId", m)
+    opts._set("modelId", m |> @nostd.any)
   }
   // Handle doGenerate
   match options.do_generate {
-    Some(Result(r)) => opts.set("doGenerate", r.as_any())
+    Some(Result(r)) => opts._set("doGenerate", r.as_any())
     Some(Results(rs)) =>
-      opts.set(
+      opts._set(
         "doGenerate",
         rs.map(MockGenerateResult::as_any) |> @js.from_array,
       )
-    Some(Fn(f)) => opts.set("doGenerate", f)
+    Some(Fn(f)) => opts._set("doGenerate", f)
     None => ()
   }
   // Handle doStream
   match options.do_stream {
-    Some(Result(r)) => opts.set("doStream", r.as_any())
+    Some(Result(r)) => opts._set("doStream", r.as_any())
     Some(Results(rs)) =>
-      opts.set("doStream", rs.map(MockStreamResult::as_any) |> @js.from_array)
-    Some(Fn(f)) => opts.set("doStream", f)
+      opts._set("doStream", rs.map(MockStreamResult::as_any) |> @js.from_array)
+    Some(Fn(f)) => opts._set("doStream", f)
     None => ()
   }
   // Call new MockLanguageModelV3(opts)
@@ -184,8 +184,8 @@ pub fn mock_model_with_stream(chunks : Array[@nostd.Any]) -> @nostd.Any {
 /// Create text delta chunk for streaming
 pub fn text_delta_chunk(text : String) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("type", "text-delta")
-  obj.set("textDelta", text)
+  obj._set("type", "text-delta" |> @nostd.any)
+  obj._set("textDelta", text |> @nostd.any)
   obj
 }
 
@@ -193,13 +193,13 @@ pub fn text_delta_chunk(text : String) -> @nostd.Any {
 /// Create finish chunk for streaming
 pub fn finish_chunk(finish_reason : String, usage : MockUsage) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("type", "finish")
-  obj.set("finishReason", finish_reason)
+  obj._set("type", "finish" |> @nostd.any)
+  obj._set("finishReason", finish_reason |> @nostd.any)
   let usage_obj = @nostd.Object::new()
-  usage_obj.set("inputTokens", usage.input_tokens)
-  usage_obj.set("outputTokens", usage.output_tokens)
-  usage_obj.set("totalTokens", usage.total_tokens)
-  obj.set("usage", usage_obj)
+  usage_obj._set("inputTokens", usage.input_tokens |> @nostd.any)
+  usage_obj._set("outputTokens", usage.output_tokens |> @nostd.any)
+  usage_obj._set("totalTokens", usage.total_tokens |> @nostd.any)
+  obj._set("usage", usage_obj)
   obj
 }
 
@@ -211,9 +211,9 @@ pub fn tool_call_chunk(
   args : @nostd.Any,
 ) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("type", "tool-call")
-  obj.set("toolCallId", tool_call_id)
-  obj.set("toolName", tool_name)
-  obj.set("args", args)
+  obj._set("type", "tool-call" |> @nostd.any)
+  obj._set("toolCallId", tool_call_id |> @nostd.any)
+  obj._set("toolName", tool_name |> @nostd.any)
+  obj._set("args", args)
   obj
 }

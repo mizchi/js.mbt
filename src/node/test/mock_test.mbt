@@ -18,7 +18,7 @@ test "mock.fn creates spy function" {
 test "mock.method mocks object method" {
   let m = mock()
   let obj = @nostd.Object::new()
-  obj.set("getValue", @js.from_fn0(fn() { 42 }))
+  obj._set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method to return different value
   let obj_js : @nostd.Any = @nostd.identity(obj)
@@ -64,7 +64,7 @@ test "mock.fn with both original and implementation" {
 test "mock.method without implementation" {
   let m = mock()
   let obj = @nostd.Object::new()
-  obj.set("getValue", @js.from_fn0(fn() { 42 }))
+  obj._set("getValue", @js.from_fn0(fn() { 42 }))
 
   // Mock the method without implementation (spy on original)
   let obj_js : @nostd.Any = @nostd.identity(obj)

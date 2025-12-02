@@ -235,31 +235,31 @@ pub fn add(
 ) -> @date.Date {
   let duration = @nostd.Object::new()
   match years {
-    Some(v) => duration.set("years", v)
+    Some(v) => duration._set("years", v |> @nostd.any)
     None => ()
   }
   match months {
-    Some(v) => duration.set("months", v)
+    Some(v) => duration._set("months", v |> @nostd.any)
     None => ()
   }
   match weeks {
-    Some(v) => duration.set("weeks", v)
+    Some(v) => duration._set("weeks", v |> @nostd.any)
     None => ()
   }
   match days {
-    Some(v) => duration.set("days", v)
+    Some(v) => duration._set("days", v |> @nostd.any)
     None => ()
   }
   match hours {
-    Some(v) => duration.set("hours", v)
+    Some(v) => duration._set("hours", v |> @nostd.any)
     None => ()
   }
   match minutes {
-    Some(v) => duration.set("minutes", v)
+    Some(v) => duration._set("minutes", v |> @nostd.any)
     None => ()
   }
   match seconds {
-    Some(v) => duration.set("seconds", v)
+    Some(v) => duration._set("seconds", v |> @nostd.any)
     None => ()
   }
   date_fns().call2("add", date.to_date(), duration).cast()
@@ -279,31 +279,31 @@ pub fn sub(
 ) -> @date.Date {
   let duration = @nostd.Object::new()
   match years {
-    Some(v) => duration.set("years", v)
+    Some(v) => duration._set("years", v |> @nostd.any)
     None => ()
   }
   match months {
-    Some(v) => duration.set("months", v)
+    Some(v) => duration._set("months", v |> @nostd.any)
     None => ()
   }
   match weeks {
-    Some(v) => duration.set("weeks", v)
+    Some(v) => duration._set("weeks", v |> @nostd.any)
     None => ()
   }
   match days {
-    Some(v) => duration.set("days", v)
+    Some(v) => duration._set("days", v |> @nostd.any)
     None => ()
   }
   match hours {
-    Some(v) => duration.set("hours", v)
+    Some(v) => duration._set("hours", v |> @nostd.any)
     None => ()
   }
   match minutes {
-    Some(v) => duration.set("minutes", v)
+    Some(v) => duration._set("minutes", v |> @nostd.any)
     None => ()
   }
   match seconds {
-    Some(v) => duration.set("seconds", v)
+    Some(v) => duration._set("seconds", v |> @nostd.any)
     None => ()
   }
   date_fns().call2("sub", date.to_date(), duration).cast()

@@ -140,8 +140,8 @@ test "serialize and deserialize string" {
 /// Test serialize and deserialize object
 test "serialize and deserialize object" {
   let obj = @nostd.Object::new()
-  obj.set("name", "test")
-  obj.set("value", 123)
+  obj._set("name", "test" |> @nostd.any)
+  obj._set("value", 123 |> @nostd.any)
   let serialized = serialize(obj)
   let deserialized = deserialize(serialized)
   inspect(@nostd.identity(deserialized._get("name")) == "test", content="true")

@@ -98,10 +98,10 @@ pub fn AnthropicOptions::default() -> AnthropicOptions {
 pub fn AnthropicOptions::as_any(self : AnthropicOptions) -> @nostd.Any {
   let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
-    obj.set("apiKey", key)
+    obj._set("apiKey", key |> @nostd.any)
   }
   if self.base_url is Some(url) {
-    obj.set("baseURL", url)
+    obj._set("baseURL", url |> @nostd.any)
   }
   obj
 }
@@ -177,10 +177,10 @@ pub fn GoogleOptions::default() -> GoogleOptions {
 pub fn GoogleOptions::as_any(self : GoogleOptions) -> @nostd.Any {
   let obj = @nostd.Object::new()
   if self.api_key is Some(key) {
-    obj.set("apiKey", key)
+    obj._set("apiKey", key |> @nostd.any)
   }
   if self.base_url is Some(url) {
-    obj.set("baseURL", url)
+    obj._set("baseURL", url |> @nostd.any)
   }
   obj
 }

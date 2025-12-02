@@ -106,13 +106,13 @@ pub async fn DrizzleDB::pgTransaction(
 ) -> @nostd.Any {
   let opts = @nostd.Object::new()
   if isolation_level is Some(il) {
-    opts.set("isolationLevel", il.to_string())
+    opts._set("isolationLevel", il.to_string() |> @nostd.any)
   }
   if access_mode is Some(am) {
-    opts.set("accessMode", am.to_string())
+    opts._set("accessMode", am.to_string() |> @nostd.any)
   }
   if deferrable is Some(d) {
-    opts.set("deferrable", d)
+    opts._set("deferrable", d |> @nostd.any)
   }
   ffi_pg_transaction_with_opts(self, ffi_wrap_tx_callback(callback), opts).wait()
 }

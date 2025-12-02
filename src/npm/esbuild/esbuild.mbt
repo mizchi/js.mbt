@@ -272,33 +272,33 @@ pub async fn Esbuild::build(
 ) -> BuildResult {
   let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
-    opts.set("entryPoints", entry_points |> @js.from_array)
+    opts._set("entryPoints", entry_points |> @js.from_array)
   }
   if outdir != "" {
-    opts.set("outdir", outdir)
+    opts._set("outdir", outdir |> @nostd.any)
   }
   if outfile != "" {
-    opts.set("outfile", outfile)
+    opts._set("outfile", outfile |> @nostd.any)
   }
-  opts.set("bundle", bundle)
-  opts.set("minify", minify)
-  opts.set("format", format.to_string())
+  opts._set("bundle", bundle |> @nostd.any)
+  opts._set("minify", minify |> @nostd.any)
+  opts._set("format", format.to_string() |> @nostd.any)
   if target != "" {
-    opts.set("target", target)
+    opts._set("target", target |> @nostd.any)
   }
-  opts.set("platform", platform.to_string())
-  opts.set("sourcemap", sourcemap)
-  opts.set("write", write)
+  opts._set("platform", platform.to_string() |> @nostd.any)
+  opts._set("sourcemap", sourcemap |> @nostd.any)
+  opts._set("write", write |> @nostd.any)
   if external.length() > 0 {
-    opts.set("external", external |> @js.from_array)
+    opts._set("external", external |> @js.from_array)
   }
   if definitions.length() > 0 {
     let defs = @nostd.Object::new()
     for pair in definitions {
       let (key, value) = pair
-      defs.set(key, value)
+      defs._set(key, value |> @nostd.any)
     }
-    opts.set("define", defs)
+    opts._set("define", defs)
   }
   let promise : @js.Promise[BuildResult] = self
     .as_any()
@@ -319,13 +319,13 @@ pub async fn Esbuild::transform(
   sourcemap? : Bool = false,
 ) -> TransformResult {
   let opts = @nostd.Object::new()
-  opts.set("loader", loader.to_string())
-  opts.set("minify", minify)
-  opts.set("format", format.to_string())
+  opts._set("loader", loader.to_string() |> @nostd.any)
+  opts._set("minify", minify |> @nostd.any)
+  opts._set("format", format.to_string() |> @nostd.any)
   if target != "" {
-    opts.set("target", target)
+    opts._set("target", target |> @nostd.any)
   }
-  opts.set("sourcemap", sourcemap)
+  opts._set("sourcemap", sourcemap |> @nostd.any)
   let promise : @js.Promise[TransformResult] = self
     .as_any()
     .call2("transform", code |> @nostd.identity, opts)
@@ -352,33 +352,33 @@ pub fn Esbuild::build_sync(
 ) -> BuildResult {
   let opts = @nostd.Object::new()
   if entry_points.length() > 0 {
-    opts.set("entryPoints", entry_points |> @js.from_array)
+    opts._set("entryPoints", entry_points |> @js.from_array)
   }
   if outdir != "" {
-    opts.set("outdir", outdir)
+    opts._set("outdir", outdir |> @nostd.any)
   }
   if outfile != "" {
-    opts.set("outfile", outfile)
+    opts._set("outfile", outfile |> @nostd.any)
   }
-  opts.set("bundle", bundle)
-  opts.set("minify", minify)
-  opts.set("format", format.to_string())
+  opts._set("bundle", bundle |> @nostd.any)
+  opts._set("minify", minify |> @nostd.any)
+  opts._set("format", format.to_string() |> @nostd.any)
   if target != "" {
-    opts.set("target", target)
+    opts._set("target", target |> @nostd.any)
   }
-  opts.set("platform", platform.to_string())
-  opts.set("sourcemap", sourcemap)
-  opts.set("write", write)
+  opts._set("platform", platform.to_string() |> @nostd.any)
+  opts._set("sourcemap", sourcemap |> @nostd.any)
+  opts._set("write", write |> @nostd.any)
   if external.length() > 0 {
-    opts.set("external", external |> @js.from_array)
+    opts._set("external", external |> @js.from_array)
   }
   if definitions.length() > 0 {
     let defs = @nostd.Object::new()
     for pair in definitions {
       let (key, value) = pair
-      defs.set(key, value)
+      defs._set(key, value |> @nostd.any)
     }
-    opts.set("define", defs)
+    opts._set("define", defs)
   }
   self.as_any().call1("buildSync", opts).cast()
 }
@@ -395,12 +395,12 @@ pub fn Esbuild::transform_sync(
   sourcemap? : Bool = false,
 ) -> TransformResult {
   let opts = @nostd.Object::new()
-  opts.set("loader", loader.to_string())
-  opts.set("minify", minify)
-  opts.set("format", format.to_string())
+  opts._set("loader", loader.to_string() |> @nostd.any)
+  opts._set("minify", minify |> @nostd.any)
+  opts._set("format", format.to_string() |> @nostd.any)
   if target != "" {
-    opts.set("target", target)
+    opts._set("target", target |> @nostd.any)
   }
-  opts.set("sourcemap", sourcemap)
+  opts._set("sourcemap", sourcemap |> @nostd.any)
   self.as_any().call2("transformSync", code |> @nostd.identity, opts).cast()
 }

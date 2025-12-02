@@ -43,14 +43,14 @@ pub async fn SDKMessageIterator::next(self : SDKMessageIterator) -> SDKMessage? 
 /// Returns an async iterator of SDKMessage
 pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
   let opts = @nostd.Object::new()
-  opts.set("prompt", prompt)
+  opts._set("prompt", prompt |> @nostd.any)
   if options is Some(o) {
     let options_any = o.as_any()
     // Merge options into opts
     let keys : Array[String] = @object.Object::keys(options_any)
       |> @nostd.identity
     for key in keys {
-      opts.set(key, options_any._get(key))
+      opts._set(key, options_any._get(key))
     }
   }
   let result = claude_code_module()._get("query").call_self([opts])
@@ -70,13 +70,13 @@ pub fn queryStream(
   options? : QueryOptions,
 ) -> SDKMessageIterator {
   let opts = @nostd.Object::new()
-  opts.set("prompt", prompt)
+  opts._set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
     let keys : Array[String] = @object.Object::keys(options_any)
       |> @nostd.identity
     for key in keys {
-      opts.set(key, options_any._get(key))
+      opts._set(key, options_any._get(key))
     }
   }
   let result = claude_code_module()._get("query").call_self([opts])
@@ -112,16 +112,16 @@ pub fn queryWithAbort(
   options? : QueryOptions,
 ) -> (SDKMessageIterator, AbortHandle) {
   let opts = @nostd.Object::new()
-  opts.set("prompt", prompt)
+  opts._set("prompt", prompt |> @nostd.any)
   let abort_controller = @js.AbortController::new()
   let signal : @nostd.Any = @nostd.identity(abort_controller.signal())
-  opts.set("abortSignal", signal)
+  opts._set("abortSignal", signal)
   if options is Some(o) {
     let options_any = o.as_any()
     let keys : Array[String] = @object.Object::keys(options_any)
       |> @nostd.identity
     for key in keys {
-      opts.set(key, options_any._get(key))
+      opts._set(key, options_any._get(key))
     }
   }
   let result = claude_code_module()._get("query").call_self([opts])

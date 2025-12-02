@@ -10,9 +10,9 @@ test "McpServer::new creates server with correct info" {
 test "JsonRpcRequest as_any" {
   // Test using from_js and as_any roundtrip instead of direct construction
   let obj = @nostd.Object::new()
-  obj.set("jsonrpc", "2.0")
-  obj.set("id", "test-123")
-  obj.set("method", "test/method")
+  obj._set("jsonrpc", "2.0" |> @nostd.any)
+  obj._set("id", "test-123" |> @nostd.any)
+  obj._set("method", "test/method" |> @nostd.any)
   let request = JsonRpcRequest::from_js(@nostd.identity(obj))
   match request {
     Some(req) => {

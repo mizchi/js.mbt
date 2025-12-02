@@ -146,13 +146,13 @@ pub struct ServerCapabilities {
 pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @nostd.Any {
   let capabilities = @nostd.Object::new()
   if self.tools {
-    capabilities.set("tools", @nostd.Object::new())
+    capabilities._set("tools", @nostd.Object::new())
   }
   if self.resources {
-    capabilities.set("resources", @nostd.Object::new())
+    capabilities._set("resources", @nostd.Object::new())
   }
   if self.prompts {
-    capabilities.set("prompts", @nostd.Object::new())
+    capabilities._set("prompts", @nostd.Object::new())
   }
   @nostd.identity(
     @nostd.from_entries([("capabilities", @nostd.any(capabilities))]),
@@ -186,10 +186,9 @@ pub struct ClientInfo {
 ///|
 pub fn ClientInfo::from_js(js : @nostd.Any) -> ClientInfo? {
   let obj : @js.Object = @nostd.identity(js)
-  let name : String? =
-    @nostd.any(obj)._get("name") |> @nostd.identity_option()
-  let version : String? =
-    @nostd.any(obj)._get("version") |> @nostd.identity_option()
+  let name : String? = @nostd.any(obj)._get("name") |> @nostd.identity_option()
+  let version : String? = @nostd.any(obj)._get("version")
+    |> @nostd.identity_option()
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

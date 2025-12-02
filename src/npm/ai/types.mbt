@@ -372,17 +372,17 @@ pub fn Tool::as_any(self : Tool) -> @nostd.Any {
   let ai_module = @node.require("ai")
   let json_schema_fn = ai_module._get("jsonSchema")
   let obj = @nostd.Object::new()
-  obj.set("description", self.description)
+  obj._set("description", self.description |> @nostd.any)
   // Wrap with jsonSchema() helper from AI SDK
   let wrapped_schema = json_schema_fn.call_self([self.input_schema])
-  obj.set("inputSchema", wrapped_schema)
+  obj._set("inputSchema", wrapped_schema)
   // Wrap execute function
   let execute_fn : @nostd.Any = @js.from_fn1(fn(
     args : @nostd.Any,
   ) -> @nostd.Any {
     (self.execute)(args)
   })
-  obj.set("execute", execute_fn)
+  obj._set("execute", execute_fn)
   obj
 }
 
@@ -410,7 +410,7 @@ pub fn Tools::add(self : Tools, name : String, tool : Tool) -> Tools {
 pub fn Tools::as_any(self : Tools) -> @nostd.Any {
   let obj = @nostd.Object::new()
   for name, tool in self.tools {
-    obj.set(name, tool.as_any())
+    obj._set(name, tool.as_any())
   }
   obj
 }
@@ -436,8 +436,8 @@ pub fn ToolChoice::as_any(self : ToolChoice) -> @nostd.Any {
     None_ => "none" |> @js.any
     Tool(name) => {
       let obj = @nostd.Object::new()
-      obj.set("type", "tool")
-      obj.set("toolName", name)
+      obj._set("type", "tool" |> @nostd.any)
+      obj._set("toolName", name |> @nostd.any)
       obj
     }
   }

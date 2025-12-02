@@ -11,13 +11,13 @@ pub fn init_preact_api(
     let api = @nostd.Object::new()
     // Copy preact exports
     for key in @js.Object::keys(preact) {
-      api.set(key, preact._get(key))
+      api._set(key, preact._get(key))
     }
     // Copy hooks exports
     for key in @js.Object::keys(hooks) {
-      api.set(key, hooks._get(key))
+      api._set(key, hooks._get(key))
     }
-    @global.global_this().set(global_key, api)
+    @global.global_this()._set(global_key, api)
   }
 }
 

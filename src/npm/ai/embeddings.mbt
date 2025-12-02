@@ -100,16 +100,16 @@ pub async fn embed(
 ) -> EmbedResult {
   let opts = @nostd.Object::new()
   let model_any : @nostd.Any = model.as_any().cast()
-  opts.set("model", model_any)
-  opts.set("value", value)
+  opts._set("model", model_any)
+  opts._set("value", value |> @nostd.any)
   if max_retries is Some(r) {
-    opts.set("maxRetries", r)
+    opts._set("maxRetries", r |> @nostd.any)
   }
   if abort_signal is Some(s) {
-    opts.set("abortSignal", s)
+    opts._set("abortSignal", s)
   }
   if headers is Some(h) {
-    opts.set("headers", h)
+    opts._set("headers", h)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embed")
@@ -138,19 +138,19 @@ pub async fn embedMany(
 ) -> EmbedManyResult {
   let opts = @nostd.Object::new()
   let model_any : @nostd.Any = model.as_any().cast()
-  opts.set("model", model_any)
-  opts.set("values", values |> @js.from_array)
+  opts._set("model", model_any)
+  opts._set("values", values |> @js.from_array)
   if max_parallel_calls is Some(c) {
-    opts.set("maxParallelCalls", c)
+    opts._set("maxParallelCalls", c |> @nostd.any)
   }
   if max_retries is Some(r) {
-    opts.set("maxRetries", r)
+    opts._set("maxRetries", r |> @nostd.any)
   }
   if abort_signal is Some(s) {
-    opts.set("abortSignal", s)
+    opts._set("abortSignal", s)
   }
   if headers is Some(h) {
-    opts.set("headers", h)
+    opts._set("headers", h)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embedMany")

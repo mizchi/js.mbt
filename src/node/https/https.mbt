@@ -139,24 +139,24 @@ pub fn request(
 ) -> ClientRequest {
   let cb : @nostd.Any = @nostd.identity(callback)
   let obj = headers.unwrap_or(@nostd.Object::new())
-  obj.set("url", url)
+  obj._set("url", url |> @nostd.any)
   if method_ is Some(v) {
-    obj.set("method", v)
+    obj._set("method", v |> @nostd.any)
   }
   if host is Some(v) {
-    obj.set("host", v)
+    obj._set("host", v |> @nostd.any)
   }
   if port is Some(v) {
-    obj.set("port", v)
+    obj._set("port", v |> @nostd.any)
   }
   if path is Some(v) {
-    obj.set("path", v)
+    obj._set("path", v |> @nostd.any)
   }
   if agent is Some(v) {
-    obj.set("agent", v |> @nostd.any)
+    obj._set("agent", v |> @nostd.any)
   }
   if rejectUnauthorized is Some(v) {
-    obj.set("rejectUnauthorized", v)
+    obj._set("rejectUnauthorized", v |> @nostd.any)
   }
   ffi_request(obj, cb)
 }

@@ -25,7 +25,7 @@ extern "js" fn ffi_create_element(
 pub async fn dynamic_import() -> Unit {
   if @nostd.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
-    @global.global_this().set("__ReactRouterApi", v)
+    @global.global_this()._set("__ReactRouterApi", v)
   }
 }
 
@@ -74,14 +74,14 @@ pub fn Route::as_any(self : Route) -> @nostd.Any {
   match self {
     Route::Component(path~, component~) => {
       let obj = @nostd.Object::new()
-      obj.set("path", path)
-      obj.set("Component", component |> @js.unsafe_any)
+      obj._set("path", path |> @nostd.any)
+      obj._set("Component", component |> @js.unsafe_any)
       obj
     }
     Route::Element(path~, element~) => {
       let obj = @nostd.Object::new()
-      obj.set("path", path)
-      obj.set("element", element |> @js.unsafe_any)
+      obj._set("path", path |> @nostd.any)
+      obj._set("element", element |> @js.unsafe_any)
       obj
     }
   }
@@ -122,11 +122,11 @@ pub fn create_memory_router(
   match options {
     Some(o) => {
       match o.initial_entries {
-        Some(entries) => opts.set("initialEntries", @js.from_array(entries))
+        Some(entries) => opts._set("initialEntries", @js.from_array(entries))
         None => ()
       }
       match o.initial_index {
-        Some(idx) => opts.set("initialIndex", idx)
+        Some(idx) => opts._set("initialIndex", idx |> @nostd.any)
         None => ()
       }
     }
@@ -229,15 +229,15 @@ pub(all) struct NavigateOptions {
 pub fn NavigateOptions::as_any(self : NavigateOptions) -> @nostd.Any {
   let obj = @nostd.Object::new()
   match self.replace {
-    Some(r) => obj.set("replace", r)
+    Some(r) => obj._set("replace", r |> @nostd.any)
     None => ()
   }
   match self.state {
-    Some(s) => obj.set("state", s)
+    Some(s) => obj._set("state", s |> @nostd.any)
     None => ()
   }
   match self.relative {
-    Some(r) => obj.set("relative", r)
+    Some(r) => obj._set("relative", r |> @nostd.any)
     None => ()
   }
   obj
@@ -364,10 +364,10 @@ pub fn nav_link(
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
   let props = @nostd.Object::new()
-  props.set("to", to)
+  props._set("to", to |> @nostd.any)
   match (class_name, active_class_name) {
     (Some(base), Some(active)) =>
-      props.set(
+      props._set(
         "className",
         @js.from_fn1(fn(render_props : NavLinkRenderProps) {
           if render_props.isActive {
@@ -377,9 +377,9 @@ pub fn nav_link(
           }
         }),
       )
-    (Some(base), None) => props.set("className", base)
+    (Some(base), None) => props._set("className", base |> @nostd.any)
     (None, Some(active)) =>
-      props.set(
+      props._set(
         "className",
         @js.from_fn1(fn(render_props : NavLinkRenderProps) {
           if render_props.isActive {
@@ -398,7 +398,7 @@ pub fn nav_link(
       c.cast()
     })
     |> @js.from_array
-  props.set("children", children_js)
+  props._set("children", children_js)
   let empty : Array[@nostd.Any] = []
   ffi_create_element(nav_link_component, props, @nostd.any(empty))
 }
@@ -411,8 +411,8 @@ pub fn nav_link_render(
 ) -> @react.Element {
   let nav_link_component = get_nav_link()
   let props = @nostd.Object::new()
-  props.set("to", to)
-  props.set("children", @js.from_fn1(render))
+  props._set("to", to |> @nostd.any)
+  props._set("children", @js.from_fn1(render))
   let empty : Array[@nostd.Any] = []
   ffi_create_element(nav_link_component, props, @nostd.any(empty))
 }
@@ -449,17 +449,17 @@ pub struct NavigateProps {
 ///|
 pub fn NavigateProps::as_any(self : NavigateProps) -> @nostd.Any {
   let obj = @nostd.Object::new()
-  obj.set("to", self.to)
+  obj._set("to", self.to |> @nostd.any)
   match self.replace {
-    Some(r) => obj.set("replace", r)
+    Some(r) => obj._set("replace", r |> @nostd.any)
     None => ()
   }
   match self.state {
-    Some(s) => obj.set("state", s)
+    Some(s) => obj._set("state", s |> @nostd.any)
     None => ()
   }
   match self.relative {
-    Some(r) => obj.set("relative", r)
+    Some(r) => obj._set("relative", r |> @nostd.any)
     None => ()
   }
   obj

@@ -19,35 +19,35 @@ pub fn Row::new() -> Row {
 ///|
 /// Set a string value
 pub fn Row::str(self : Row, key : String, value : String) -> Row {
-  self.obj.set(key, value)
+  self.obj._set(key, value |> @nostd.any)
   self
 }
 
 ///|
 /// Set an integer value
 pub fn Row::int(self : Row, key : String, value : Int) -> Row {
-  self.obj.set(key, value)
+  self.obj._set(key, value |> @nostd.any)
   self
 }
 
 ///|
 /// Set a double value
 pub fn Row::double(self : Row, key : String, value : Double) -> Row {
-  self.obj.set(key, value)
+  self.obj._set(key, value |> @nostd.any)
   self
 }
 
 ///|
 /// Set a boolean value
 pub fn Row::bool(self : Row, key : String, value : Bool) -> Row {
-  self.obj.set(key, value)
+  self.obj._set(key, value |> @nostd.any)
   self
 }
 
 ///|
 /// Set a null value
 pub fn Row::null(self : Row, key : String) -> Row {
-  self.obj.set(key, @nostd.null())
+  self.obj._set(key, @nostd.null())
   self
 }
 
@@ -242,7 +242,7 @@ pub fn pgTable(name : String, columns : @nostd.Any) -> Table {
 #alias(pg_table_from_map)
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
   let obj = @nostd.Object::new()
-  columns.each(fn(key, col) { obj.set(key, col.as_any()) })
+  columns.each(fn(key, col) { obj._set(key, col.as_any() |> @nostd.any) })
   pgTable(name, obj)
 }
 

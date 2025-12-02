@@ -39,33 +39,33 @@ pub fn createInterface(
   tab_size? : Int,
 ) -> Interface {
   let obj = @nostd.Object::new()
-  obj.set("input", input)
+  obj._set("input", input |> @nostd.any)
   if output is Some(o) {
-    obj.set("output", o)
+    obj._set("output", o |> @nostd.any)
   }
   if completer is Some(c) {
-    obj.set("completer", wrap_completer(c))
+    obj._set("completer", wrap_completer(c) |> @nostd.any)
   }
   if terminal is Some(t) {
-    obj.set("terminal", t)
+    obj._set("terminal", t |> @nostd.any)
   }
   if history_size is Some(h) {
-    obj.set("historySize", h)
+    obj._set("historySize", h |> @nostd.any)
   }
   if prompt is Some(p) {
-    obj.set("prompt", p)
+    obj._set("prompt", p |> @nostd.any)
   }
   if cr_lf_delay is Some(d) {
-    obj.set("crlfDelay", d)
+    obj._set("crlfDelay", d |> @nostd.any)
   }
   if remove_history_duplicates is Some(r) {
-    obj.set("removeHistoryDuplicates", r)
+    obj._set("removeHistoryDuplicates", r |> @nostd.any)
   }
   if escape_code_timeout is Some(e) {
-    obj.set("escapeCodeTimeout", e)
+    obj._set("escapeCodeTimeout", e |> @nostd.any)
   }
   if tab_size is Some(t) {
-    obj.set("tabSize", t)
+    obj._set("tabSize", t |> @nostd.any)
   }
   create_interface_impl(obj)
 }

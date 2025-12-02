@@ -119,43 +119,43 @@ pub async fn generateObject(
   abort_signal? : @nostd.Any,
 ) -> GenerateObjectResult {
   let opts = @nostd.Object::new()
-  opts.set("model", model.as_any())
+  opts._set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
   let json_schema_fn = ai_module()._get("jsonSchema")
   let wrapped_schema = json_schema_fn.call_self([schema])
-  opts.set("schema", wrapped_schema)
+  opts._set("schema", wrapped_schema)
   if schema_name is Some(n) {
-    opts.set("schemaName", n)
+    opts._set("schemaName", n |> @nostd.any)
   }
   if schema_description is Some(d) {
-    opts.set("schemaDescription", d)
+    opts._set("schemaDescription", d |> @nostd.any)
   }
   if output is Some(o) {
-    opts.set("output", o.to_string())
+    opts._set("output", o.to_string() |> @nostd.any)
   }
   if enum_values is Some(vals) {
-    opts.set("enum", vals |> @js.from_array)
+    opts._set("enum", vals |> @js.from_array)
   }
   if prompt is Some(p) {
-    opts.set("prompt", p)
+    opts._set("prompt", p |> @nostd.any)
   }
   if system is Some(s) {
-    opts.set("system", s)
+    opts._set("system", s |> @nostd.any)
   }
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if max_tokens is Some(t) {
-    opts.set("maxTokens", t)
+    opts._set("maxTokens", t |> @nostd.any)
   }
   if temperature is Some(t) {
-    opts.set("temperature", t)
+    opts._set("temperature", t |> @nostd.any)
   }
   if max_retries is Some(r) {
-    opts.set("maxRetries", r)
+    opts._set("maxRetries", r |> @nostd.any)
   }
   if abort_signal is Some(s) {
-    opts.set("abortSignal", s)
+    opts._set("abortSignal", s)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
@@ -189,28 +189,28 @@ pub async fn generateObjectWithZod(
   temperature? : Double,
 ) -> GenerateObjectResult {
   let opts = @nostd.Object::new()
-  opts.set("model", model.as_any())
-  opts.set("schema", zod_schema)
+  opts._set("model", model.as_any())
+  opts._set("schema", zod_schema)
   if schema_name is Some(n) {
-    opts.set("schemaName", n)
+    opts._set("schemaName", n |> @nostd.any)
   }
   if schema_description is Some(d) {
-    opts.set("schemaDescription", d)
+    opts._set("schemaDescription", d |> @nostd.any)
   }
   if prompt is Some(p) {
-    opts.set("prompt", p)
+    opts._set("prompt", p |> @nostd.any)
   }
   if system is Some(s) {
-    opts.set("system", s)
+    opts._set("system", s |> @nostd.any)
   }
   if messages is Some(msgs) {
-    opts.set("messages", msgs.map(_.as_any()) |> @js.from_array)
+    opts._set("messages", msgs.map(_.as_any()) |> @js.from_array)
   }
   if max_tokens is Some(t) {
-    opts.set("maxTokens", t)
+    opts._set("maxTokens", t |> @nostd.any)
   }
   if temperature is Some(t) {
-    opts.set("temperature", t)
+    opts._set("temperature", t |> @nostd.any)
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")

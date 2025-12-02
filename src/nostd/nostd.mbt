@@ -126,14 +126,10 @@ pub extern "js" fn Any::_set(self : Any, key : String, value : Any) -> Unit =
   #| (obj, key, value) => { obj[key] = value }
 
 ///|
-pub extern "js" fn Any::_set_any(self : Any, key : Any, value : Any) -> Unit =
-  #| (obj, key, value) => { obj[key] = value }
-
-///|
 /// Convenience setter: obj.set("key", value)
-pub fn[T, K] Any::set(self : Any, key : K, value : T) -> Unit {
-  self._set_any(any(key), any(value))
-}
+// pub fn[T, K] Any::set(self : Any, key : K, value : T) -> Unit {
+//   self._set_any(any(key), any(value))
+// }
 
 ///|
 /// Call method: obj._call("method", [arg1, arg2])

@@ -58,13 +58,13 @@ pub fn setup_matchers() -> Unit {
   ) {
     "expect(" + received + ")" + matcher_name
   }
-  utils.set("matcherHint", @js.from_fn3(matcher_hint))
+  utils._set("matcherHint", @js.from_fn3(matcher_hint))
   // printReceived - identity function (no color)
   let print_received : (String) -> String = fn(value) { value }
-  utils.set("printReceived", @js.from_fn1(print_received))
+  utils._set("printReceived", @js.from_fn1(print_received))
   // printExpected - identity function (no color)
   let print_expected : (String) -> String = fn(value) { value }
-  utils.set("printExpected", @js.from_fn1(print_expected))
+  utils._set("printExpected", @js.from_fn1(print_expected))
   // printWithType
   let print_with_type : (String, @nostd.Any, @nostd.Any) -> String = fn(
     name,
@@ -74,20 +74,20 @@ pub fn setup_matchers() -> Unit {
     let printed : String = print.call_self([value]).cast()
     name + ": " + printed
   }
-  utils.set("printWithType", @js.from_fn3(print_with_type))
+  utils._set("printWithType", @js.from_fn3(print_with_type))
   // Color functions - identity functions (no color)
   let identity : (String) -> String = fn(s) { s }
-  utils.set("RECEIVED_COLOR", @js.from_fn1(identity))
-  utils.set("EXPECTED_COLOR", @js.from_fn1(identity))
-  utils.set("BOLD_WEIGHT", @js.from_fn1(identity))
-  utils.set("DIM_COLOR", @js.from_fn1(identity))
+  utils._set("RECEIVED_COLOR", @js.from_fn1(identity))
+  utils._set("EXPECTED_COLOR", @js.from_fn1(identity))
+  utils._set("BOLD_WEIGHT", @js.from_fn1(identity))
+  utils._set("DIM_COLOR", @js.from_fn1(identity))
   // Create context
   let ctx = @nostd.Object::new()
-  ctx.set("isNot", false)
-  ctx.set("utils", utils)
+  ctx._set("isNot", false |> @nostd.any)
+  ctx._set("utils", utils)
   // equals function for some matchers (using Object.is)
   let equals_fn : (@nostd.Any, @nostd.Any) -> Bool = fn(a, b) { a == b }
-  ctx.set("equals", @js.from_fn2(equals_fn))
+  ctx._set("equals", @js.from_fn2(equals_fn))
   matcher_context.val = Some(ctx)
 }
 

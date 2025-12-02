@@ -28,7 +28,7 @@ pub fn OffscreenCanvas::width(self : Self) -> Int {
 
 ///|
 pub fn OffscreenCanvas::setWidth(self : Self, value : Int) -> Unit {
-  self.as_any().set("width", value)
+  self.as_any()._set("width", value |> @nostd.any)
 }
 
 ///|
@@ -38,7 +38,7 @@ pub fn OffscreenCanvas::height(self : Self) -> Int {
 
 ///|
 pub fn OffscreenCanvas::setHeight(self : Self, value : Int) -> Unit {
-  self.as_any().set("height", value)
+  self.as_any()._set("height", value |> @nostd.any)
 }
 
 ///|

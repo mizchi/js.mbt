@@ -57,7 +57,7 @@ pub fn WASI::new(
   let env_obj = match env {
     Some(env) => {
       let obj = @nostd.Object::new()
-      env.each(fn(key, value) { obj.set(key, value) })
+      env.each(fn(key, value) { obj._set(key, value |> @nostd.any) })
       Some(obj)
     }
     None => None
@@ -65,20 +65,20 @@ pub fn WASI::new(
   let preopens_obj = match preopens {
     Some(preopens) => {
       let obj = @nostd.Object::new()
-      preopens.each(fn(key, value) { obj.set(key, value) })
+      preopens.each(fn(key, value) { obj._set(key, value |> @nostd.any) })
       Some(obj)
     }
     None => None
   }
   let options = @mbtconv.from_option_map({
     "version": Some(@nostd.any(version)),
-    "args": args.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
-    "env": env_obj.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
-    "preopens": preopens_obj.map(fn(x) { @nostd.identity(@nostd.any(x)) }),
-    "returnOnExit": returnOnExit.map(fn(x) { @nostd.any(x) }),
-    "stdin": stdin.map(fn(x) { @nostd.any(x) }),
-    "stdout": stdout.map(fn(x) { @nostd.any(x) }),
-    "stderr": stderr.map(fn(x) { @nostd.any(x) }),
+    "args": args.map(fn(x) { @nostd.any(x) }),
+    "env": env_obj.map(x => @nostd.any(x)),
+    "preopens": preopens_obj.map(x => @nostd.any(x)),
+    "returnOnExit": returnOnExit.map(x => @nostd.any(x)),
+    "stdin": stdin.map(x => @nostd.any(x)),
+    "stdout": stdout.map(x => @nostd.any(x)),
+    "stderr": stderr.map(x => @nostd.any(x)),
   }).cast()
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.as_any()._get("WASI")

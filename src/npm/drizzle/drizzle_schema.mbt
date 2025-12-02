@@ -78,9 +78,9 @@ pub fn PgIndexBuilder::usingMethod(
 pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
   let fn_ = drizzle_pg_core()._get("primaryKey")
   let opts = @nostd.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
-    opts.set("name", n)
+    opts._set("name", n |> @nostd.any)
   }
   @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
@@ -91,9 +91,9 @@ pub fn pgPrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
 pub fn sqlitePrimaryKey(columns : Array[Column], name? : String) -> @nostd.Any {
   let fn_ = drizzle_sqlite_core()._get("primaryKey")
   let opts = @nostd.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
   if name is Some(n) {
-    opts.set("name", n)
+    opts._set("name", n |> @nostd.any)
   }
   @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
@@ -158,13 +158,13 @@ pub fn pgForeignKey(
 ) -> @nostd.Any {
   let fn_ = drizzle_pg_core()._get("foreignKey")
   let opts = @nostd.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
-  opts.set(
+  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set(
     "foreignColumns",
     @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
-    opts.set("name", n)
+    opts._set("name", n |> @nostd.any)
   }
   @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }
@@ -179,13 +179,13 @@ pub fn sqliteForeignKey(
 ) -> @nostd.Any {
   let fn_ = drizzle_sqlite_core()._get("foreignKey")
   let opts = @nostd.Object::new()
-  opts.set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
-  opts.set(
+  opts._set("columns", @js.from_array(columns.map(fn(c) { c.as_any() })))
+  opts._set(
     "foreignColumns",
     @js.from_array(foreign_columns.map(fn(c) { c.as_any() })),
   )
   if name is Some(n) {
-    opts.set("name", n)
+    opts._set("name", n |> @nostd.any)
   }
   @nostd.any(fn_)._invoke([@nostd.any(opts)]).cast()
 }

@@ -39,10 +39,10 @@ pub fn svg(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("width", width)
-  attrs.set("height", height)
+  attrs._set("width", width |> @nostd.any)
+  attrs._set("height", height |> @nostd.any)
   if view_box is Some(view_box) {
-    attrs.set("viewBox", view_box)
+    attrs._set("viewBox", view_box |> @nostd.any)
   }
   common_node(
     "svg",
@@ -108,17 +108,17 @@ pub fn circle(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("cx", cx)
-  attrs.set("cy", cy)
-  attrs.set("r", r)
+  attrs._set("cx", cx |> @nostd.any)
+  attrs._set("cy", cy |> @nostd.any)
+  attrs._set("r", r |> @nostd.any)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "circle",
@@ -190,18 +190,18 @@ pub fn ellipse(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("cx", cx)
-  attrs.set("cy", cy)
-  attrs.set("rx", rx)
-  attrs.set("ry", ry)
+  attrs._set("cx", cx |> @nostd.any)
+  attrs._set("cy", cy |> @nostd.any)
+  attrs._set("rx", rx |> @nostd.any)
+  attrs._set("ry", ry |> @nostd.any)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "circle",
@@ -273,18 +273,18 @@ pub fn rect(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("x", x)
-  attrs.set("y", y)
-  attrs.set("width", width)
-  attrs.set("height", height)
+  attrs._set("x", x |> @nostd.any)
+  attrs._set("y", y |> @nostd.any)
+  attrs._set("width", width |> @nostd.any)
+  attrs._set("height", height |> @nostd.any)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "rect",
@@ -356,18 +356,18 @@ pub fn line(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("x1", x1)
-  attrs.set("y1", y1)
-  attrs.set("x2", x2)
-  attrs.set("y2", y2)
+  attrs._set("x1", x1 |> @nostd.any)
+  attrs._set("y1", y1 |> @nostd.any)
+  attrs._set("x2", x2 |> @nostd.any)
+  attrs._set("y2", y2 |> @nostd.any)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "line",
@@ -436,15 +436,15 @@ pub fn path(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("d", d)
+  attrs._set("d", d |> @nostd.any)
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "path",
@@ -510,7 +510,7 @@ pub fn use_(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("href", href)
+  attrs._set("href", href |> @nostd.any)
   common_node(
     "use",
     attrs,
@@ -733,13 +733,13 @@ pub fn g(
     None => @nostd.Object::new()
   }
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   common_node(
     "g",
@@ -877,31 +877,31 @@ pub fn text(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("x", x)
-  attrs.set("y", y)
+  attrs._set("x", x |> @nostd.any)
+  attrs._set("y", y |> @nostd.any)
   if dx is Some(dx) {
-    attrs.set("dx", dx)
+    attrs._set("dx", dx |> @nostd.any)
   }
   if dy is Some(dy) {
-    attrs.set("dy", dy)
+    attrs._set("dy", dy |> @nostd.any)
   }
   if length_adjust is Some(length_adjust) {
-    attrs.set("lengthAdjust", length_adjust)
+    attrs._set("lengthAdjust", length_adjust |> @nostd.any)
   }
   if text_length is Some(text_length) {
-    attrs.set("textLength", text_length)
+    attrs._set("textLength", text_length |> @nostd.any)
   }
   if stroke is Some(stroke) {
-    attrs.set("stroke", stroke)
+    attrs._set("stroke", stroke |> @nostd.any)
   }
   if stroke_width is Some(stroke_width) {
-    attrs.set("strokeWidth", stroke_width)
+    attrs._set("strokeWidth", stroke_width |> @nostd.any)
   }
   if fill is Some(fill) {
-    attrs.set("fill", fill)
+    attrs._set("fill", fill |> @nostd.any)
   }
   if rotate is Some(rotate) {
-    attrs.set("rotate", rotate)
+    attrs._set("rotate", rotate |> @nostd.any)
   }
   common_node(
     "text",
@@ -967,9 +967,9 @@ pub fn image(
       }
     None => @nostd.Object::new()
   }
-  attrs.set("x", x)
-  attrs.set("y", y)
-  attrs.set("href", href)
+  attrs._set("x", x |> @nostd.any)
+  attrs._set("y", y |> @nostd.any)
+  attrs._set("href", href |> @nostd.any)
   common_node(
     "image",
     attrs,

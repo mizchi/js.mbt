@@ -119,31 +119,31 @@ pub async fn generateImage(
 ) -> GenerateImageResult {
   let opts = @nostd.Object::new()
   let model_any : @nostd.Any = model.as_any().cast()
-  opts.set("model", model_any)
-  opts.set("prompt", prompt)
+  opts._set("model", model_any)
+  opts._set("prompt", prompt |> @nostd.any)
   if n is Some(num) {
-    opts.set("n", num)
+    opts._set("n", num |> @nostd.any)
   }
   if size is Some(s) {
-    opts.set("size", s)
+    opts._set("size", s |> @nostd.any)
   }
   if aspect_ratio is Some(ar) {
-    opts.set("aspectRatio", ar)
+    opts._set("aspectRatio", ar |> @nostd.any)
   }
   if seed is Some(s) {
-    opts.set("seed", s)
+    opts._set("seed", s |> @nostd.any)
   }
   if provider_options is Some(po) {
-    opts.set("providerOptions", po)
+    opts._set("providerOptions", po)
   }
   if max_retries is Some(r) {
-    opts.set("maxRetries", r)
+    opts._set("maxRetries", r |> @nostd.any)
   }
   if abort_signal is Some(s) {
-    opts.set("abortSignal", s)
+    opts._set("abortSignal", s)
   }
   if headers is Some(h) {
-    opts.set("headers", h)
+    opts._set("headers", h)
   }
   // Use experimental_generateImage function
   let promise : @js.Promise[@nostd.Any] = ai_module()
