@@ -1,12 +1,4 @@
 ///|
-test "JsImpl::as_any converts builtin Json to Js" {
-  let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @nostd.Any = @mbtconv.from_json(j)
-  assert_eq(@nostd.identity(v._get("items")._get_by_index(0)), 1)
-  assert_eq(@nostd.identity(v._get("nested")._get("key")), "value")
-}
-
-///|
 test "is_builtin_trait detects MoonBit builtin traits" {
   let show : &Show = "hello"
   let v : @nostd.Any = @nostd.identity(show)
@@ -54,55 +46,6 @@ test "identity to struct" {
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
   inspect(p, content="{x: 5, y: 15}")
-}
-
-///|
-test "from_entries converts Array to Any object" {
-  let obj : @nostd.Any = @nostd.from_entries([
-    ("name", @nostd.any("Alice")),
-    ("age", @nostd.any(30)),
-  ]).cast()
-  assert_eq(@nostd.identity(obj._get("name")), "Alice")
-  assert_eq(@nostd.identity(obj._get("age")), 30)
-}
-
-///|
-test "from_entries and to_string" {
-  let obj : @nostd.Any = @nostd.from_entries([
-    ("name", @nostd.any("Alice")),
-    ("age", @nostd.any(30)),
-  ]).cast()
-  inspect(
-    JSON::stringify(obj),
-    content=(
-      #|{
-      #|  "name": "Alice",
-      #|  "age": 30
-      #|}
-    ),
-  )
-}
-
-///|
-test "from_entries" {
-  let obj : @nostd.Any = @nostd.from_entries([
-    ("name", @nostd.any("Alice")),
-    ("age", @nostd.any(30)),
-    ("active", @nostd.any(true)),
-  ]).cast()
-  assert_eq(@nostd.identity(obj._get("name")), "Alice")
-  assert_eq(@nostd.identity(obj._get("age")), 30)
-  assert_eq(@nostd.identity(obj._get("active")), true)
-}
-
-///|
-test "from_array" {
-  let arr = [1, 2, 3, 4, 5]
-  let val = @nostd.any(arr)
-  assert_true(@js.is_array(val))
-  assert_eq(@nostd.identity(val._get("0")), 1)
-  assert_eq(@nostd.identity(val._get("2")), 3)
-  assert_eq(@nostd.identity(val._get("4")), 5)
 }
 
 ///|
@@ -485,4 +428,21 @@ test "SuppressedError instanceof check" {
   // Check ThrowError::from
   let throw_err = ThrowError::from(suppressed_err)
   inspect(throw_err, content="Suppressed error message")
+}
+
+///|
+test "from_entries and to_string" {
+  let obj : @nostd.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+  ]).cast()
+  inspect(
+    JSON::stringify(obj),
+    content=(
+      #|{
+      #|  "name": "Alice",
+      #|  "age": 30
+      #|}
+    ),
+  )
 }

@@ -1,9 +1,21 @@
+///|
+extern "js" fn ffi_set(
+  obj : @nostd.Any,
+  key : String,
+  value : @nostd.Any,
+) -> Unit =
+  #| (obj, key, value) => { obj[key] = value }
+
+///|
+extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
+  #| (obj, key) => obj[key]
+
 ///| Micro-benchmarks for mizchi/js FFI operations
 // This benchmark tests the overhead of FFI calls and type conversions
 
 ///|
 // Helper: Create a simple JavaScript function for testing
-extern "js" fn ffi_create_test_function() -> Any =
+extern "js" fn ffi_create_test_function() -> @nostd.Any =
   #|() => {
   #|  return {
   #|    identity: (x) => x,
@@ -16,15 +28,8 @@ extern "js" fn ffi_create_test_function() -> Any =
   #|}
 
 ///|
-fn get_test_obj() -> Any {
+fn get_test_obj() -> @nostd.Any {
   ffi_create_test_function()
-}
-
-///|
-/// Benchmark: Direct FFI call (baseline)
-test "bench: direct FFI call (ffi_call0)" (b : @bench.T) {
-  let obj = get_test_obj()
-  b.bench(fn() { b.keep(ffi_call0(obj, "noop")) })
 }
 
 ///|
@@ -65,25 +70,17 @@ test "bench: _call with Array[Int] (map overhead)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: call with pre-converted Array[Any]
-test "bench: call with Array[Any] (no conversion)" (b : @bench.T) {
-  let obj = get_test_obj()
-  let args : Array[Any] = [any(1), any(2), any(3), any(4), any(5)]
-  b.bench(fn() { b.keep(ffi_call(obj, "sum", args)) })
-}
-
-///|
 /// Benchmark: Object creation
 test "bench: Object::new()" (b : @bench.T) {
-  b.bench(fn() { b.keep(Object::new()) })
+  b.bench(fn() { b.keep(@nostd.Object::new()) })
 }
 
 ///|
 /// Benchmark: Object set operation
 test "bench: Object set (single property)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "value", any(42))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "value", @nostd.any(42))
     b.keep(obj)
   })
 }
@@ -92,12 +89,12 @@ test "bench: Object set (single property)" (b : @bench.T) {
 /// Benchmark: Object set multiple properties
 test "bench: Object set (5 properties)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "a", any(1))
-    ffi_set(obj, "b", any(2))
-    ffi_set(obj, "c", any(3))
-    ffi_set(obj, "d", any(4))
-    ffi_set(obj, "e", any(5))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "a", @nostd.any(1))
+    ffi_set(obj, "b", @nostd.any(2))
+    ffi_set(obj, "c", @nostd.any(3))
+    ffi_set(obj, "d", @nostd.any(4))
+    ffi_set(obj, "e", @nostd.any(5))
     b.keep(obj)
   })
 }
@@ -105,42 +102,35 @@ test "bench: Object set (5 properties)" (b : @bench.T) {
 ///|
 /// Benchmark: Object get operation
 test "bench: Object get" (b : @bench.T) {
-  let obj = Object::new()
-  ffi_set(obj, "value", any(42))
+  let obj = @nostd.Object::new()
+  ffi_set(obj, "value", @nostd.any(42))
   b.bench(fn() { b.keep(ffi_get(obj, "value")) })
-}
-
-///|
-/// Benchmark: Array creation with from_array
-test "bench: from_array (5 Ints)" (b : @bench.T) {
-  let arr = [1, 2, 3, 4, 5]
-  b.bench(fn() { b.keep(from_array(arr)) })
 }
 
 ///|
 /// Benchmark: Array creation with direct map
 test "bench: Array map as_any (5 Ints)" (b : @bench.T) {
   let arr = [1, 2, 3, 4, 5]
-  b.bench(fn() { b.keep(arr.map(fn(x) { any(x) })) })
+  b.bench(fn() { b.keep(arr.map(fn(x) { @nostd.any(x) })) })
 }
 
 ///|
 /// Benchmark: as_any trait call overhead (Int)
 test "bench: Int as_any conversion" (b : @bench.T) {
-  b.bench(fn() { b.keep(any(42)) })
+  b.bench(fn() { b.keep(@nostd.any(42)) })
 }
 
 ///|
 /// Benchmark: as_any trait call overhead (String)
 test "bench: String as_any conversion" (b : @bench.T) {
-  b.bench(fn() { b.keep(any("hello")) })
+  b.bench(fn() { b.keep(@nostd.any("hello")) })
 }
 
 ///|
 /// Benchmark: identity (no conversion, baseline)
 test "bench: identity Int to Js" (b : @bench.T) {
   b.bench(fn() {
-    let result : Any = identity(42)
+    let result : @nostd.Any = @nostd.identity(42)
     b.keep(result)
   })
 }
@@ -155,19 +145,19 @@ test "bench: @mbtconv.from_map (5 entries)" (b : @bench.T) {
     "d": @nostd.any(4),
     "e": @nostd.any(5),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(from_map(map)) })
 }
 
 ///|
 /// Benchmark: Object creation comparison - Object::new() with FFI set
 test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "a", any(1))
-    ffi_set(obj, "b", any(2))
-    ffi_set(obj, "c", any(3))
-    ffi_set(obj, "d", any(4))
-    ffi_set(obj, "e", any(5))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "a", @nostd.any(1))
+    ffi_set(obj, "b", @nostd.any(2))
+    ffi_set(obj, "c", @nostd.any(3))
+    ffi_set(obj, "d", @nostd.any(4))
+    ffi_set(obj, "e", @nostd.any(5))
     b.keep(obj)
   })
 }
@@ -182,7 +172,7 @@ test "bench: @mbtconv.from_map vs Object::new (5 properties)" (b : @bench.T) {
     "d": @nostd.any(4),
     "e": @nostd.any(5),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(from_map(map)) })
 }
 
 ///|
@@ -195,7 +185,7 @@ test "bench: from_option_map (5 Some)" (b : @bench.T) {
     "d": Some(@nostd.any(4)),
     "e": Some(@nostd.any(5)),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_option_map(map)) })
+  b.bench(fn() { b.keep(from_option_map(map)) })
 }
 
 ///|
@@ -208,47 +198,47 @@ test "bench: from_option_map (3 Some, 2 None)" (b : @bench.T) {
     "d": None,
     "e": Some(@nostd.any(5)),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_option_map(map)) })
+  b.bench(fn() { b.keep(from_option_map(map)) })
 }
 
 ///|
 /// Benchmark: typeof_ operation
 test "bench: typeof_ check" (b : @bench.T) {
-  let val = any(42)
+  let val = @nostd.any(42)
   b.bench(fn() { b.keep(@nostd.typeof_(val)) })
 }
 
 ///|
 /// Benchmark: is_array check
 test "bench: is_array check" (b : @bench.T) {
-  let arr = from_array([1, 2, 3])
-  b.bench(fn() { b.keep(is_array(arr)) })
+  let arr = @nostd.any([1, 2, 3])
+  b.bench(fn() { b.keep(@nostd.is_array(arr)) })
 }
 
 ///|
 /// Benchmark: Object::keys operation
 test "bench: Object::keys" (b : @bench.T) {
-  let obj = Object::new()
-  ffi_set(obj, "a", any(1))
-  ffi_set(obj, "b", any(2))
-  ffi_set(obj, "c", any(3))
-  ffi_set(obj, "d", any(4))
-  ffi_set(obj, "e", any(5))
-  b.bench(fn() { b.keep(Object::keys(@nostd.any(obj))) })
+  let obj = @nostd.Object::new()
+  ffi_set(obj, "a", @nostd.any(1))
+  ffi_set(obj, "b", @nostd.any(2))
+  ffi_set(obj, "c", @nostd.any(3))
+  ffi_set(obj, "d", @nostd.any(4))
+  ffi_set(obj, "e", @nostd.any(5))
+  b.bench(fn() { b.keep(@nostd.Object::keys(@nostd.any(obj))) })
 }
 
 ///|
 /// Benchmark: Complex nested object creation (realistic workload)
 test "bench: create nested object (realistic)" (b : @bench.T) {
   b.bench(fn() {
-    let user = Object::new()
-    ffi_set(user, "name", any("Alice"))
-    ffi_set(user, "age", any(30))
-    let address = Object::new()
-    ffi_set(address, "city", any("Tokyo"))
-    ffi_set(address, "zip", any("100-0001"))
+    let user = @nostd.Object::new()
+    ffi_set(user, "name", @nostd.any("Alice"))
+    ffi_set(user, "age", @nostd.any(30))
+    let address = @nostd.Object::new()
+    ffi_set(address, "city", @nostd.any("Tokyo"))
+    ffi_set(address, "zip", @nostd.any("100-0001"))
     ffi_set(user, "address", address)
-    let tags = from_array(["developer", "moonbit", "javascript"])
+    let tags = @nostd.any(["developer", "moonbit", "javascript"])
     ffi_set(user, "tags", tags)
     b.keep(user)
   })
@@ -274,11 +264,7 @@ test "bench: chained method calls" (b : @bench.T) {
 /// Benchmark: from_json - simple object with 3 properties
 test "bench: from_json (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
-      "name": "Alice",
-      "age": 30,
-      "active": true,
-    })
+    let result = from_json({ "name": "Alice", "age": 30, "active": true })
     b.keep(result)
   })
 }
@@ -287,7 +273,7 @@ test "bench: from_json (simple 3 props)" (b : @bench.T) {
 /// Benchmark: @mbtconv.from_map - simple object with 3 properties
 test "bench: @mbtconv.from_map (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = from_map({
       "name": @nostd.any("Alice"),
       "age": @nostd.any(30),
       "active": @nostd.any(true),
@@ -300,10 +286,10 @@ test "bench: @mbtconv.from_map (simple 3 props)" (b : @bench.T) {
 /// Benchmark: Object::new() - simple object with 3 properties
 test "bench: Object::new (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "name", any("Alice"))
-    ffi_set(obj, "age", any(30))
-    ffi_set(obj, "active", any(true))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "name", @nostd.any("Alice"))
+    ffi_set(obj, "age", @nostd.any(30))
+    ffi_set(obj, "active", @nostd.any(true))
     b.keep(obj)
   })
 }
@@ -312,7 +298,7 @@ test "bench: Object::new (simple 3 props)" (b : @bench.T) {
 /// Benchmark: from_json - nested object
 test "bench: from_json (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = from_json({
       "user": {
         "name": "Alice",
         "age": 30,
@@ -328,11 +314,11 @@ test "bench: from_json (nested)" (b : @bench.T) {
 /// Benchmark: @mbtconv.from_map - nested object
 test "bench: @mbtconv.from_map (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
-      "user": @mbtconv.from_map({
+    let result = from_map({
+      "user": from_map({
         "name": @nostd.any("Alice"),
         "age": @nostd.any(30),
-        "address": @mbtconv.from_map({
+        "address": from_map({
           "city": @nostd.any("Tokyo"),
           "zip": @nostd.any("100-0001"),
         }),
@@ -347,16 +333,16 @@ test "bench: @mbtconv.from_map (nested)" (b : @bench.T) {
 /// Benchmark: Object::new() - nested object
 test "bench: Object::new (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let address = Object::new()
-    ffi_set(address, "city", any("Tokyo"))
-    ffi_set(address, "zip", any("100-0001"))
-    let user = Object::new()
-    ffi_set(user, "name", any("Alice"))
-    ffi_set(user, "age", any(30))
+    let address = @nostd.Object::new()
+    ffi_set(address, "city", @nostd.any("Tokyo"))
+    ffi_set(address, "zip", @nostd.any("100-0001"))
+    let user = @nostd.Object::new()
+    ffi_set(user, "name", @nostd.any("Alice"))
+    ffi_set(user, "age", @nostd.any(30))
     ffi_set(user, "address", address)
-    let obj = Object::new()
+    let obj = @nostd.Object::new()
     ffi_set(obj, "user", user)
-    ffi_set(obj, "active", any(true))
+    ffi_set(obj, "active", @nostd.any(true))
     b.keep(obj)
   })
 }
@@ -365,7 +351,7 @@ test "bench: Object::new (nested)" (b : @bench.T) {
 /// Benchmark: from_json - object with array
 test "bench: from_json (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = from_json({
       "name": "Alice",
       "tags": ["developer", "moonbit", "javascript"],
     })
@@ -377,7 +363,7 @@ test "bench: from_json (with array)" (b : @bench.T) {
 /// Benchmark: @mbtconv.from_map - object with array
 test "bench: @mbtconv.from_map (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = from_map({
       "name": @nostd.any("Alice"),
       "tags": @nostd.any(["developer", "moonbit", "javascript"]),
     })
@@ -389,9 +375,9 @@ test "bench: @mbtconv.from_map (with array)" (b : @bench.T) {
 /// Benchmark: Object::new() - object with array
 test "bench: Object::new (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "name", any("Alice"))
-    ffi_set(obj, "tags", from_array(["developer", "moonbit", "javascript"]))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "name", @nostd.any("Alice"))
+    ffi_set(obj, "tags", @nostd.any(["developer", "moonbit", "javascript"]))
     b.keep(obj)
   })
 }
@@ -400,7 +386,7 @@ test "bench: Object::new (with array)" (b : @bench.T) {
 /// Benchmark: from_json - large flat object (10 properties)
 test "bench: from_json (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = from_json({
       "a": 1,
       "b": 2,
       "c": 3,
@@ -420,7 +406,7 @@ test "bench: from_json (10 props)" (b : @bench.T) {
 /// Benchmark: @mbtconv.from_map - large flat object (10 properties)
 test "bench: @mbtconv.from_map (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = from_map({
       "a": @nostd.any(1),
       "b": @nostd.any(2),
       "c": @nostd.any(3),
@@ -440,17 +426,17 @@ test "bench: @mbtconv.from_map (10 props)" (b : @bench.T) {
 /// Benchmark: Object::new() - large flat object (10 properties)
 test "bench: Object::new (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let obj = Object::new()
-    ffi_set(obj, "a", any(1))
-    ffi_set(obj, "b", any(2))
-    ffi_set(obj, "c", any(3))
-    ffi_set(obj, "d", any(4))
-    ffi_set(obj, "e", any(5))
-    ffi_set(obj, "f", any(6))
-    ffi_set(obj, "g", any(7))
-    ffi_set(obj, "h", any(8))
-    ffi_set(obj, "i", any(9))
-    ffi_set(obj, "j", any(10))
+    let obj = @nostd.Object::new()
+    ffi_set(obj, "a", @nostd.any(1))
+    ffi_set(obj, "b", @nostd.any(2))
+    ffi_set(obj, "c", @nostd.any(3))
+    ffi_set(obj, "d", @nostd.any(4))
+    ffi_set(obj, "e", @nostd.any(5))
+    ffi_set(obj, "f", @nostd.any(6))
+    ffi_set(obj, "g", @nostd.any(7))
+    ffi_set(obj, "h", @nostd.any(8))
+    ffi_set(obj, "i", @nostd.any(9))
+    ffi_set(obj, "j", @nostd.any(10))
     b.keep(obj)
   })
 }
@@ -459,7 +445,7 @@ test "bench: Object::new (10 props)" (b : @bench.T) {
 /// Benchmark: from_json with pre-built Json value (amortized)
 test "bench: from_json (pre-built Json)" (b : @bench.T) {
   let json : Json = { "name": "Alice", "age": 30, "active": true }
-  b.bench(fn() { b.keep(@mbtconv.from_json(json)) })
+  b.bench(fn() { b.keep(from_json(json)) })
 }
 
 ///|
@@ -470,5 +456,5 @@ test "bench: @mbtconv.from_map (pre-built Map)" (b : @bench.T) {
     "age": @nostd.any(30),
     "active": @nostd.any(true),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(from_map(map)) })
 }

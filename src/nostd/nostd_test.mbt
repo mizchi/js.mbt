@@ -300,3 +300,35 @@ test "assert_throws_with - no exception throws" {
   }
   assert_true(result.contains("Expected exception"))
 }
+
+///|
+test "from_entries converts Array to Any object" {
+  let obj : @nostd.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+  ]).cast()
+  assert_eq(@nostd.identity(obj._get("name")), "Alice")
+  assert_eq(@nostd.identity(obj._get("age")), 30)
+}
+
+///|
+test "from_entries" {
+  let obj : @nostd.Any = @nostd.from_entries([
+    ("name", @nostd.any("Alice")),
+    ("age", @nostd.any(30)),
+    ("active", @nostd.any(true)),
+  ]).cast()
+  assert_eq(@nostd.identity(obj._get("name")), "Alice")
+  assert_eq(@nostd.identity(obj._get("age")), 30)
+  assert_eq(@nostd.identity(obj._get("active")), true)
+}
+
+///|
+test "from_array" {
+  let arr = [1, 2, 3, 4, 5]
+  let val = @nostd.any(arr)
+  assert_true(@nostd.is_array(val))
+  assert_eq(@nostd.identity(val._get("0")), 1)
+  assert_eq(@nostd.identity(val._get("2")), 3)
+  assert_eq(@nostd.identity(val._get("4")), 5)
+}

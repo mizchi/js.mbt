@@ -61,7 +61,7 @@ test "from_json converts Json to JS value" {
   inspect(name, content="Alice")
   inspect(age, content="30")
   inspect(active, content="true")
-  inspect(@js.is_array(tags), content="true")
+  inspect(@nostd.is_array(tags), content="true")
 }
 
 ///|
@@ -132,4 +132,12 @@ test "roundtrip from_json and to_json" {
       #|Object({"string": String("hello"), "number": Number(42.5), "bool": True, "null": Null, "array": Array([Number(1), Number(2), Number(3)]), "nested": Object({"x": Number(1)})})
     ),
   )
+}
+
+///|
+test "JsImpl::as_any converts builtin Json to Js" {
+  let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
+  let v : @nostd.Any = @mbtconv.from_json(j)
+  assert_eq(@nostd.identity(v._get("items")._get_by_index(0)), 1)
+  assert_eq(@nostd.identity(v._get("nested")._get("key")), "value")
 }

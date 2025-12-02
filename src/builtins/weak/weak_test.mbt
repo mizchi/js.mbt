@@ -115,7 +115,7 @@ test "WeakRef::deref returns None when target is collected" {
   let undef_ref : @nostd.Any = @global.undefined()
   let mock_weakref = @nostd.Object::new()
   mock_weakref._set("deref", @js.from_fn0(fn() { undef_ref }) |> @nostd.any)
-  let wr : WeakRef[@nostd.Any] = @nostd.identity(mock_weakref |> @nostd.identity)
+  let wr : WeakRef[@nostd.Any] = mock_weakref |> @nostd.identity
   let result = wr.deref()
   assert_true(result is None)
 }

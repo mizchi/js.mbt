@@ -385,21 +385,21 @@ pub fn ThrowError::from(value : @nostd.Any) -> ThrowError {
   let global = @nostd.global_this()
 
   // Check specific error types first (most specific to least specific)
-  if ffi_instance_of(value, ffi_get(global, "TypeError")) {
+  if @nostd.instanceof_(value, ffi_get(global, "TypeError")) {
     ThrowError::TypeError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "RangeError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "RangeError")) {
     ThrowError::RangeError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "ReferenceError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "ReferenceError")) {
     ThrowError::ReferenceError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "SyntaxError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "SyntaxError")) {
     ThrowError::SyntaxError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "URIError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "URIError")) {
     ThrowError::URIError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "EvalError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "EvalError")) {
     ThrowError::EvalError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "AggregateError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "AggregateError")) {
     ThrowError::AggregateError(identity(value))
-  } else if ffi_instance_of(value, ffi_get(global, "SuppressedError")) {
+  } else if @nostd.instanceof_(value, ffi_get(global, "SuppressedError")) {
     ThrowError::SuppressedError(identity(value))
   } else if JsError::isError(@nostd.any(value)) {
     // Generic Error or custom error types

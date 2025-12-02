@@ -4,35 +4,9 @@
 #external
 pub type JsTimer
 
-///| Type Checking
-
-///|
-extern "js" fn ffi_type_of(value : @nostd.Any) -> String =
-  #| (value) => typeof value
-
-///|
-extern "js" fn ffi_instance_of(value : @nostd.Any, cls : @nostd.Any) -> Bool =
-  #| (value, cls) => value instanceof cls
-
 ///|
 extern "js" fn ffi_is_array(value : @nostd.Any) -> Bool =
   #| (value) => Array.isArray(value)
-
-///|
-extern "js" fn ffi_is_object(value : @nostd.Any) -> Bool =
-  #| (value) => typeof value === "object" && value !== null
-
-///|
-extern "js" fn ffi_is_null(value : @nostd.Any) -> Bool =
-  #| (value) => value === null
-
-///|
-extern "js" fn ffi_is_undefined(value : @nostd.Any) -> Bool =
-  #| (value) => value === undefined
-
-///|
-extern "js" fn ffi_is_nullish(v : @nostd.Any) -> Bool =
-  #|(v) => v == null
 
 ///|
 extern "js" fn ffi_is_error(value : @nostd.Any) -> Bool =
@@ -51,14 +25,6 @@ extern "js" fn ffi_get(obj : @nostd.Any, key : String) -> @nostd.Any =
 ///|
 extern "js" fn ffi_get_dyn(obj : @nostd.Any, key : @nostd.Any) -> @nostd.Any =
   #| (obj, key) => obj[key]
-
-///|
-extern "js" fn ffi_set(
-  obj : @nostd.Any,
-  key : String,
-  value : @nostd.Any,
-) -> Unit =
-  #| (obj, key, value) => { obj[key] = value }
 
 ///|
 extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
@@ -85,18 +51,6 @@ extern "js" fn ffi_object_entries(obj : @nostd.Any) -> Array[Any] =
 ///| Function Calls
 
 ///|
-extern "js" fn ffi_call(
-  obj : @nostd.Any,
-  key : String,
-  args : Array[Any],
-) -> Any =
-  #| (obj, key, args) => obj[key](...args)
-
-///|
-extern "js" fn ffi_call0(obj : @nostd.Any, key : String) -> Any =
-  #| (obj, key) => obj[key]()
-
-///|
 extern "js" fn ffi_call1(obj : @nostd.Any, key : String, arg1 : Any) -> Any =
   #| (obj, key, arg1) => obj[key](arg1)
 
@@ -105,10 +59,6 @@ extern "js" fn ffi_call_self0(func : @nostd.Any) -> Any =
   #| (func) => func()
 
 ///| Array Operations
-
-///|
-extern "js" fn ffi_new_array() -> Any =
-  #| () => ([])
 
 ///|
 extern "js" fn ffi_array_from(value : @nostd.Any) -> Array[Any] =
@@ -173,10 +123,6 @@ extern "js" fn ffi_symbol(name : String) -> Symbol =
   #| (name) => Symbol(name)
 
 ///| Global Functions
-
-///|
-extern "js" fn ffi_null() -> Any =
-  #| () => null
 
 ///|
 extern "js" fn ffi_console_log(values : Array[Any]) -> Unit =

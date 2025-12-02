@@ -318,3 +318,24 @@ pub type JsArray
 ///|
 pub extern "js" fn JsArray::new() -> Any =
   #| () => []
+
+///|
+/// Convert an Option to Any, mapping None to null and Some(v) to v.
+///
+/// This is the inverse of `identity_option`. Use this when you need to pass
+/// MoonBit Option values back to JavaScript APIs.
+///
+/// # Usage
+///
+/// - `Some(42) |> from_option` returns Js(42)
+/// - `None |> from_option` returns Js(null)
+/// - Use with match to set optional properties on objects
+///
+/// # See Also
+/// - `identity_option(Js) -> A?` - Inverse conversion (Js to Option)
+pub fn[A] from_option(opt : A?) -> Any {
+  match opt {
+    Some(v) => identity(v)
+    None => null()
+  }
+}
