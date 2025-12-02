@@ -18,7 +18,7 @@ pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @nostd.Any =
 ///|
 /// Create a new AsyncLocalStorage instance
 pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
-  @js.identity(@js.new_(async_local_storage_constructor(), []))
+  @nostd.identity(@nostd.new(async_local_storage_constructor(), []))
 }
 
 ///|
@@ -31,10 +31,7 @@ pub fn[T] AsyncLocalStorage::run(
 ) -> Unit {
   self
   .as_any()
-  ._call("run", [
-    @nostd.any(store),
-    @nostd.any(callback |> @js.from_fn0),
-  ])
+  ._call("run", [@nostd.any(store), @nostd.any(callback |> @js.from_fn0)])
   |> ignore
 }
 

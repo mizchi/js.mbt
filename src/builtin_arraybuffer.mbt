@@ -15,28 +15,28 @@ pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_array_buffer(
-  byte_length : UInt,
-  max_byte_length : UInt?,
+  byte_length : Int,
+  max_byte_length : Int?,
 ) -> Any =
   #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
 pub fn ArrayBuffer::new(
-  byte_length : UInt,
-  max_byte_length? : UInt,
+  byte_length : Int,
+  max_byte_length? : Int,
 ) -> ArrayBuffer {
   identity(ffi_new_array_buffer(byte_length, max_byte_length))
 }
 
 ///|
 #alias(byte_length)
-pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> UInt {
+pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> Int {
   self.to_any()["byteLength"].cast()
 }
 
 ///|
 #alias(max_byte_length)
-pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> UInt {
+pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> Int {
   self.to_any()["maxByteLength"].cast()
 }
 
@@ -46,7 +46,7 @@ pub fn ArrayBuffer::resizable(self : ArrayBuffer) -> Bool {
 }
 
 ///|
-pub fn ArrayBuffer::resize(self : ArrayBuffer, new_byte_length : UInt) -> Unit {
+pub fn ArrayBuffer::resize(self : ArrayBuffer, new_byte_length : Int) -> Unit {
   self.to_any()._call("resize", [@nostd.any(new_byte_length)]) |> ignore
 }
 
@@ -83,17 +83,17 @@ pub type SharedArrayBuffer
 pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_shared_array_buffer(byte_length : UInt) -> Any =
+extern "js" fn ffi_new_shared_array_buffer(byte_length : Int) -> Any =
   #| (len) => new SharedArrayBuffer(len)
 
 ///|
-pub fn SharedArrayBuffer::new(byte_length : UInt) -> SharedArrayBuffer {
+pub fn SharedArrayBuffer::new(byte_length : Int) -> SharedArrayBuffer {
   identity(ffi_new_shared_array_buffer(byte_length))
 }
 
 ///|
 #alias(byte_length)
-pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> UInt {
+pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> Int {
   self.to_any()["byteLength"].cast()
 }
 

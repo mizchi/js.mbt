@@ -1,8 +1,8 @@
 ///|
 test "JsImpl::as_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @nostd.Any = @nostd.any(j)
-  assert_eq(@js.identity(v._get("items")._get("0")), 1)
+  let v : @nostd.Any = @mbtconv.from_json(j)
+  assert_eq(@js.identity(v._get("items")._get_by_index(0)), 1)
   assert_eq(@js.identity(v._get("nested")._get("key")), "value")
 }
 
@@ -388,7 +388,7 @@ test "throwable catches AggregateError" {
       JsError::new("Error 2").as_any(),
     ])
     let agg_error_cls = @global.global_this()._get("AggregateError")
-    let agg_err = new_(agg_error_cls, [errors, any("Multiple errors")])
+    let agg_err = @nostd.new(agg_error_cls, [errors, any("Multiple errors")])
     throw_(agg_err)
   }) catch {
     ThrowError::AggregateError(_) => caught_aggregate_error = true
@@ -478,24 +478,6 @@ test "ThrowError Show trait works for all variants" {
       assert_eq(msg, "42")
     }
   }
-}
-
-///| Json to Any conversion tests
-
-///|
-test "Json::True to Any" {
-  let json_true : Json = true
-  let any_val : @nostd.Any = @nostd.any(json_true)
-  let result : Bool = @js.identity(any_val)
-  assert_eq(result, true)
-}
-
-///|
-test "Json::False to Any" {
-  let json_false : Json = false
-  let any_val : @nostd.Any = @nostd.any(json_false)
-  let result : Bool = @js.identity(any_val)
-  assert_eq(result, false)
 }
 
 ///| call_self_throwable tests

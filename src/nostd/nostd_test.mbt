@@ -8,11 +8,11 @@ test "get and set property" {
   let value = empty_obj["foo"]
   // value should be "bar" but we can't easily assert without std lib
   // just verify no runtime error
-  let _ = value
-
+  value |> ignore
 }
 
 ///|
+#skip("Test with IO")
 test "call method with Array[Any]" {
   let global = global_this()
   let console = global["console"]
@@ -168,7 +168,7 @@ test "try_sync - catch error" {
 }
 
 ///|
-suberror TestError String derive(Show)
+priv suberror TestError String derive(Show)
 
 ///|
 fn moonbit_throwing_op() -> Any raise TestError {
@@ -177,6 +177,9 @@ fn moonbit_throwing_op() -> Any raise TestError {
 
 ///|
 fn moonbit_success_op() -> Any raise TestError {
+  if false {
+    raise TestError("This should not happen")
+  }
   any(123)
 }
 

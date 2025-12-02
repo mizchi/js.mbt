@@ -90,12 +90,9 @@ test "DataView - Int32 operations" {
 test "DataView - Uint32 operations" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
-  let val : UInt = 100000000
+  let val : Int = 100000000
   view.set_uint32(0, val, little_endian=true)
-  assert_eq(
-    view.get_uint32(0, little_endian=true).reinterpret_as_int(),
-    val.reinterpret_as_int(),
-  )
+  assert_eq(view.get_uint32(0, little_endian=true), val)
 }
 
 ///|

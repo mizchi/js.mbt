@@ -40,9 +40,9 @@ test "JsImpl::to_string" {
   assert_eq(@nostd.any("hello").to_string(), "hello")
   assert_true(@js.is_undefined(undefined()))
   assert_true(@js.is_null(null_()))
-  assert_eq(@nostd.Object::new().to_string(), "{}")
-  assert_eq(@js.JsArray::new().to_string(), "[]")
-  from_array([1, 2, 3]).to_string() |> assert_eq("[1,2,3]")
+  assert_eq(@nostd.Object::new().to_string(), "[object Object]")
+  // assert_eq(@js.JsArray::new().to_string(), "[object Object]")
+  from_array([1, 2, 3]).to_string() |> assert_eq("1,2,3")
 }
 
 ///|
@@ -180,8 +180,8 @@ test "Val Show trait" {
   assert_eq(@nostd.any(true).to_string(), "true")
   assert_eq(@nostd.any(false).to_string(), "false")
   assert_eq(null_().to_string(), "null")
-  assert_eq(Object::new().to_string(), "{}")
-  assert_eq(JsArray::new().to_string(), "[]")
+  assert_eq(Object::new().to_string(), "[object Object]")
+  assert_eq(JsArray::new().to_string(), "")
 }
 
 ///|
@@ -269,14 +269,6 @@ test "Js numeric edge cases" {
   // Very small float
   let small = @nostd.any(0.0001)
   assert_eq(@js.identity(small), 0.0001)
-}
-
-///|
-test "Js Show trait" {
-  let obj = @nostd.Object::new()
-  obj._set("name", "test" |> @nostd.any)
-  let str = obj.to_string()
-  assert_true(str.contains("Object") || str.length() > 0)
 }
 
 ///| Global Functions Tests

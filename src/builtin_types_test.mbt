@@ -254,8 +254,9 @@ test "ThrowError from call_throwable" {
 
 ///|
 test "ThrowError Show trait" {
-  let result =
-    try? throwable(fn() { globalThis()._call("nonexistentMethod", []) })
+  let result = try? throwable(fn() {
+    globalThis()._call("nonexistentMethod", [])
+  })
   match result {
     Err(throw_err) => {
       let str = throw_err.to_string()
@@ -416,13 +417,13 @@ test "Js Show trait for different types" {
 
   // Arrays
   let arr = @js.from_array([1, 2])
-  let arr_str = arr.to_string()
+  let arr_str = JSON::stringify(arr)
   assert_true(arr_str.contains("1") && arr_str.contains("2"))
 
   // Objects
   let obj = @nostd.Object::new()
   obj.set("key", "value")
-  let obj_str = obj.to_string()
+  let obj_str = JSON::stringify(obj)
   assert_true(obj_str.contains("key") && obj_str.contains("value"))
 }
 
@@ -506,8 +507,9 @@ test "JsError Show output" {
 
 ///|
 test "ThrowError Show output" {
-  let result =
-    try? throwable(fn() { @global.global_this()._call("nonexistentMethod", []) })
+  let result = try? throwable(fn() {
+    @global.global_this()._call("nonexistentMethod", [])
+  })
   match result {
     Err(throw_err) => {
       // Using inspect triggers Show::output

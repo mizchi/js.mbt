@@ -1,9 +1,9 @@
 ///|
 pub(all) struct Uint8Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -13,11 +13,11 @@ pub fn Uint8Array::as_any(self : Uint8Array) -> @nostd.Any = "%identity"
 pub fn Uint8Array::as_typed_array(self : Uint8Array) -> TypedArray = "%identity"
 
 ///|
-extern "js" fn ffi_uint8array_from_size(length : UInt) -> @nostd.Any =
+extern "js" fn ffi_uint8array_from_size(length : Int) -> @nostd.Any =
   #| (len) => new Uint8Array(len)
 
 ///|
-pub fn Uint8Array::from_size(length : UInt) -> Uint8Array {
+pub fn Uint8Array::from_size(length : Int) -> Uint8Array {
   @js.identity(ffi_uint8array_from_size(length))
 }
 
@@ -26,23 +26,23 @@ extern "js" fn ffi_uint8array_from_array(array : @nostd.Any) -> @nostd.Any =
   #| (arr) => new Uint8Array(arr)
 
 ///|
-pub fn Uint8Array::from_array(array : Array[UInt]) -> Uint8Array {
+pub fn Uint8Array::from_array(array : Array[Int]) -> Uint8Array {
   @js.identity(ffi_uint8array_from_array(@nostd.any(array)))
 }
 
 ///|
 extern "js" fn ffi_uint8array_from_buffer(
   buffer : @nostd.Any,
-  byte_offset : UInt,
-  length : UInt?,
+  byte_offset : Int,
+  length : Int?,
 ) -> @nostd.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint8Array(buf, offset, len) : new Uint8Array(buf, offset)
 
 ///|
 pub fn Uint8Array::from_array_buffer(
   buffer : @js.ArrayBuffer,
-  byte_offset? : UInt = 0,
-  length? : UInt,
+  byte_offset? : Int = 0,
+  length? : Int,
 ) -> Uint8Array {
   @js.identity(
     ffi_uint8array_from_buffer(
@@ -74,8 +74,8 @@ pub fn Uint16Array::as_typed_array(self : Uint16Array) -> TypedArray = "%identit
 ///|
 pub fn Uint16Array::from_array_buffer(
   buffer : @js.ArrayBuffer,
-  byte_offset? : UInt = 0,
-  length? : UInt,
+  byte_offset? : Int = 0,
+  length? : Int,
 ) -> Uint16Array {
   @js.identity(
     ffi_uint16array_from_buffer(
@@ -89,8 +89,8 @@ pub fn Uint16Array::from_array_buffer(
 ///|
 extern "js" fn ffi_uint16array_from_buffer(
   buffer : @nostd.Any,
-  byte_offset : UInt,
-  length : UInt?,
+  byte_offset : Int,
+  length : Int?,
 ) -> @nostd.Any =
   #| (buf, offset, len) => len !== undefined ? new Uint16Array(buf, offset, len) : new Uint16Array(buf, offset)
 
@@ -129,9 +129,9 @@ pub fn Int8Array::as_any(self : Int8Array) -> @nostd.Any = "%identity"
 ///|
 pub(all) struct Int16Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -140,9 +140,9 @@ pub fn Int16Array::as_typed_array(self : Int16Array) -> TypedArray = "%identity"
 ///|
 pub(all) struct Int32Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -156,9 +156,9 @@ pub fn Int32Array::as_any(self : Int32Array) -> @nostd.Any = "%identity"
 ///|
 pub(all) struct Float32Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -170,9 +170,9 @@ pub fn Float32Array::as_any(self : Float32Array) -> @nostd.Any = "%identity"
 ///|
 pub(all) struct Float64Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -184,9 +184,9 @@ pub fn Float64Array::as_any(self : Float64Array) -> @nostd.Any = "%identity"
 ///|
 pub(all) struct BigInt64Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|
@@ -198,9 +198,9 @@ pub fn BigInt64Array::as_any(self : BigInt64Array) -> @nostd.Any = "%identity"
 ///|
 pub(all) struct BigUint64Array {
   buffer : @js.ArrayBuffer
-  byteLength : UInt
-  byteOffset : UInt
-  length : UInt
+  byteLength : Int
+  byteOffset : Int
+  length : Int
 }
 
 ///|

@@ -133,7 +133,7 @@ test "error handling with throwable" {
 test "create instances of unsupported classes" {
   // Access constructor from globalThis
   let map_constructor = @js.globalThis()._get("Map")
-  let map = @js.new_(map_constructor, [])
+  let map = @nostd.new(map_constructor, [])
 
   // Use methods via call()
   map._call("set", ["key" |> @nostd.any, "value" |> @nostd.any]) |> ignore

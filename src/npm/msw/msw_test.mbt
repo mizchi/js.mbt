@@ -128,27 +128,27 @@ test "setup server with handlers" {
 ///|
 test "server listen and close" {
   let server = @msw.setupServer([])
+  defer server.close()
   server.listen(onUnhandledRequest="bypass")
-  server.close()
 }
 
 ///|
 test "server reset handlers" {
   let server = @msw.setupServer([])
+  defer server.close()
   server.listen(onUnhandledRequest="bypass")
   server.resetHandlers()
-  server.close()
 }
 
 ///|
 test "server use handlers" {
   let server = @msw.setupServer([])
   server.listen(onUnhandledRequest="bypass")
+  defer server.close()
   let handler = @msw.httpGet("/dynamic", fn(_info) {
     @msw.textResponse("dynamic")
   })
   server.useHandlers([handler])
-  server.close()
 }
 
 ///|
@@ -179,7 +179,7 @@ test "server reset handlers with new" {
 ///|
 test "mockGet convenience" {
   let data = @nostd.Object::new()
-  data["users"] = @nostd.any([])
+  data["users"] = @nostd.any([1])
   let handler = @msw.mockGet("/api/users", data)
   inspect(handler.as_any() |> @nostd.is_nullish |> not, content="true")
 }

@@ -51,7 +51,7 @@ pub fn Worker::new(
     "execArgv": execArgv.map(fn(x) { @nostd.identity(@js.from_array(x)) }),
     "resourceLimits": resourceLimits.map(fn(x) { @nostd.identity(x) }),
   }).cast()
-  @js.identity(@js.new_(worker_class, [@nostd.any(filename), js_opts]))
+  @nostd.identity(@nostd.new_(worker_class, [@nostd.any(filename), js_opts]))
 }
 
 ///|
@@ -64,10 +64,7 @@ pub fn Worker::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self
-      .as_any()
-      .call2("postMessage", value, @js.from_array(list))
-      |> ignore
+      self.as_any().call2("postMessage", value, @js.from_array(list)) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -124,10 +121,7 @@ pub fn MessagePort::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self
-      .as_any()
-      .call2("postMessage", value, @js.from_array(list))
-      |> ignore
+      self.as_any().call2("postMessage", value, @js.from_array(list)) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }

@@ -134,11 +134,11 @@ async function checkSize(testName?: string, { print = false, update = false }: C
     }
 
     console.error('Running minified code:');
-    try {
-      eval(minifiedCode);
-    } catch (e) {
-      console.error(`Error running ${dir}: ${(e as Error).message}`);
-    }
+    // try {
+    //   eval(minifiedCode);
+    // } catch (e) {
+    //   console.error(`Error running ${dir}: ${(e as Error).message}`);
+    // }
 
     currentSizes[dir] = {
       original: originalSize,

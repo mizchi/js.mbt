@@ -11,7 +11,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
   // Verify at least some values are non-zero (extremely unlikely all zeros)
   let mut has_nonzero = false
   for i = 0; i < 16; i = i + 1 {
-    let val : UInt = result.get_at(i |> @nostd.identity)
+    let val : Int = result.get_at(i |> @nostd.identity)
     if val != 0 {
       has_nonzero = true
       break
@@ -31,7 +31,7 @@ test "Crypto::getRandomValues fills Uint8Array" {
 //   // Verify randomness
 //   let mut has_nonzero = false
 //   for i = 0; i < 4; i = i + 1 {
-//     let val : UInt = result.as_typed_array().get_at(i)
+//     let val : Int = result.as_typed_array().get_at(i)
 //     if val != 0 {
 //       has_nonzero = true
 //       break

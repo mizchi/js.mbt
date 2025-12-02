@@ -20,6 +20,7 @@ pub fn Script::as_any(self : Script) -> @nostd.Any = "%identity"
 
 ///|
 /// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
+
 ///|
 /// Create a new Script object
 pub fn Script::new(
@@ -39,7 +40,7 @@ pub fn Script::new(
     "cachedData": cachedData.map(fn(x) { @nostd.any(x) }),
     "produceCachedData": produceCachedData.map(fn(x) { @nostd.any(x) }),
   })
-  @js.new_(script_constructor, [@nostd.any(code), @js.identity(options)])
+  @nostd.new(script_constructor, [@nostd.any(code), @js.identity(options)])
   |> @js.identity
 }
 
@@ -93,9 +94,7 @@ pub fn Script::runInNewContext(
   })
   match contextObject {
     Some(ctx) =>
-      self.as_any()
-      ._call("runInNewContext", [@nostd.any(ctx), options])
-      .cast()
+      self.as_any()._call("runInNewContext", [@nostd.any(ctx), options]).cast()
     None => self.as_any()._call("runInNewContext", [options]).cast()
   }
 }
@@ -120,7 +119,8 @@ pub fn Script::runInContext(
     "timeout": timeout.map(fn(x) { @nostd.any(x) }),
     "breakOnSigint": breakOnSigint.map(fn(x) { @nostd.any(x) }),
   })
-  self.as_any()
+  self
+  .as_any()
   ._call("runInContext", [@nostd.any(contextifiedObject), options])
   .cast()
 }

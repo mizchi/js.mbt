@@ -12,7 +12,7 @@ pub(all) struct CanvasRenderingContext2D {
 }
 
 ///|
-pub extern "js" fn CanvasRenderingContext2D::as_any(
+pub fn CanvasRenderingContext2D::as_any(
   self : CanvasRenderingContext2D,
 ) -> @nostd.Any = "%identity"
 

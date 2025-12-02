@@ -39,17 +39,17 @@ pub fn TypedArray::as_any(self : TypedArray) -> @nostd.Any = "%identity"
 
 ///|
 /// 共通メソッド群
-pub fn TypedArray::length(self : TypedArray) -> UInt {
+pub fn TypedArray::length(self : TypedArray) -> Int {
   self.as_any()._get("length").cast()
 }
 
 ///|
-pub fn TypedArray::byteLength(self : TypedArray) -> UInt {
+pub fn TypedArray::byteLength(self : TypedArray) -> Int {
   self.as_any()._get("byteLength").cast()
 }
 
 ///|
-pub fn TypedArray::byteOffset(self : TypedArray) -> UInt {
+pub fn TypedArray::byteOffset(self : TypedArray) -> Int {
   self.as_any()._get("byteOffset").cast()
 }
 
@@ -94,12 +94,12 @@ pub fn TypedArray::indexOf(
 ///|
 pub fn TypedArray::lastIndexOf(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
   self
   .as_any()
-  ._call("indexOf", [@nostd.any(search_element), @nostd.any(from_index)])
+  ._call("lastIndexOf", [@nostd.any(search_element), @nostd.any(from_index)])
   .cast()
 }
 
@@ -159,14 +159,14 @@ pub extern "js" fn TypedArray::set_at(
 
 ///|
 #alias("_[_]")
-pub extern "js" fn TypedArray::get_at(self : Self, index : UInt) -> UInt =
+pub extern "js" fn TypedArray::get_at(self : Self, index : Int) -> Int =
   #| (arr, i) => arr[i]
 
 ///|
 pub fn TypedArray::set(
   self : Self,
   array : Array[UInt],
-  offset? : UInt = 0,
+  offset? : Int = 0,
 ) -> Unit {
   let arr : @nostd.Any = @nostd.any(array) |> @nostd.any
   let self_any : @nostd.Any = self.as_any() |> @nostd.any

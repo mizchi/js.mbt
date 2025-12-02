@@ -146,7 +146,7 @@ test "function conversion" {
 ///|
 test "constructors" {
   let array_ctor = @js.globalThis()._get("Array")
-  let arr = @js.new_(array_ctor, [@nostd.any(3)])
+  let arr = @nostd.new(array_ctor, [@nostd.any(3)])
   inspect(@js.JSON::stringify(arr), content=(
     #|[
     #|  null,

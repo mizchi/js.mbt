@@ -2,7 +2,7 @@
 /// JavaScript Proxy
 ///
 /// After creation with Proxy::new(), use JsImpl trait methods to interact:
-/// - proxy._get("key") - triggers get trap
+/// - proxy.get("key") - triggers get trap
 /// - proxy.set("key", value) - triggers set trap
 /// - proxy.delete("key") - triggers deleteProperty trap
 /// - proxy.hasOwnProperty("key") - triggers has trap

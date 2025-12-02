@@ -18,7 +18,7 @@ pub fn MutationObserver::new(
   callback : (@nostd.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @global.global_this()._get("MutationObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]).cast()
+  @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|
@@ -88,8 +88,8 @@ pub fn IntersectionObserver::new(
 ) -> IntersectionObserver {
   let ctor = @global.global_this()._get("IntersectionObserver")
   match options {
-    Some(opts) => @js.new_(ctor, [callback |> @js.from_fn2, opts]).cast()
-    None => @js.new_(ctor, [callback |> @js.from_fn2]).cast()
+    Some(opts) => @nostd.new(ctor, [callback |> @js.from_fn2, opts]).cast()
+    None => @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
   }
 }
 
@@ -161,7 +161,7 @@ pub fn ResizeObserver::new(
   callback : (@nostd.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @global.global_this()._get("ResizeObserver")
-  @js.new_(ctor, [callback |> @js.from_fn2]).cast()
+  @nostd.new(ctor, [callback |> @js.from_fn2]).cast()
 }
 
 ///|
