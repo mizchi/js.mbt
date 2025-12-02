@@ -476,10 +476,10 @@ test "AbortController::signal and abort" {
 test "instanceof_" {
   let arr = @js.from_array([1, 2, 3])
   let array_class = @global.global_this()._get("Array")
-  assert_true(@js.instanceof_(arr, array_class))
+  assert_true(@nostd.instanceof_(arr, array_class))
   let obj = @nostd.Object::new()
   let object_class = @global.global_this()._get("Object")
-  assert_true(@js.instanceof_(obj, object_class))
+  assert_true(@nostd.instanceof_(obj, object_class))
 }
 
 ///| Show trait tests

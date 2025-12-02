@@ -1,8 +1,8 @@
 ///|
 /// JS: v instanceof cls
-pub fn[T, U] instanceof_(v : T, cls : U) -> Bool {
-  ffi_instance_of(identity(v), identity(cls))
-}
+// pub fn[T, U] instanceof_(v : T, cls : U) -> Bool {
+//   ffi_instance_of(identity(v), identity(cls))
+// }
 
 ///|
 /// JS: typeof v

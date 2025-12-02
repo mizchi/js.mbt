@@ -513,7 +513,7 @@ test "SuppressedError instanceof check" {
     @nostd.any("Suppressed error message"),
   ])
   // Check instanceof
-  assert_true(@js.instanceof_(suppressed_err, suppressed_error_cls))
+  assert_true(@nostd.instanceof_(suppressed_err, suppressed_error_cls))
   // Check ThrowError::from
   let throw_err = ThrowError::from(suppressed_err)
   inspect(throw_err, content="Suppressed error message")
