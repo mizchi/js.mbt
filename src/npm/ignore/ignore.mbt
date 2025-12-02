@@ -80,7 +80,7 @@ extern "js" fn ffi_test_result_rule(result : TestResult) -> @nostd.Any =
 
 ///|
 /// Create a new Ignore instance
-pub fn ignore(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore {
+pub fn ignore_module(ignorecase? : Bool, allowRelativePaths? : Bool) -> Ignore {
   if ignorecase is None && allowRelativePaths is None {
     return ffi_ignore()
   }

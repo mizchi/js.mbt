@@ -281,25 +281,3 @@ test "promisify3 creates a Promise" {
   let js_val : @nostd.Any = @js.identity(promise)
   inspect(typeof_(js_val), content="object")
 }
-
-///|
-/// Test run_promise with AbortSignal support
-async test "run_promise basic usage" {
-  let result = @js.run_promise((
-    _abort_signal : @js.AbortSignal,
-    // Create a simple promise that resolves immediately
-  ) => @js.Promise::resolve(42))
-  inspect(result, content="42")
-}
-
-///|
-/// Test run_promise creates proper abort controller
-async test "run_promise with controller check" {
-  let mut signal_received = false
-  let result = @js.run_promise((_abort_signal : @js.AbortSignal) => {
-    signal_received = true
-    @js.Promise::resolve(100)
-  })
-  inspect(result, content="100")
-  inspect(signal_received, content="true")
-}

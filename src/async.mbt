@@ -20,13 +20,13 @@ pub fn run_async(f : async () -> Unit noraise) -> Unit = "%async.run"
 /// Example:
 /// ```moonbit no-check
 /// async fn fetch_data() -> String {
-///   run_promise(abort_signal => {
+///   run_promise(
 ///     // Your promise that supports AbortSignal
-///     fetch_with_abort(url, abort_signal)
-///   })
+///     abort_signal => fetch_with_abort(url, abort_signal),
+///   )
 /// }
 /// ```
-pub async fn[X] run_promise(f : (AbortSignal) -> Promise[X]) -> X {
+pub async fn[X] run_promise2(f : (AbortSignal) -> Promise[X]) -> X {
   @js_async.run_promise((signal : @js_async.AbortSignal) => {
     let converted_signal : AbortSignal = identity(signal)
     let promise : Promise[X] = f(converted_signal)
