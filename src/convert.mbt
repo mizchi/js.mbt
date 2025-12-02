@@ -12,36 +12,14 @@
 ///| JsImpl implementations for MoonBit primitive types
 ///  Note: These must remain as impl JsImpl because we cannot define methods on foreign types
 
-///| Conversion functions
+///|
+/// Conversion functions
+pub using @nostd {from_fn0, from_fn1, from_fn2, from_fn3}
 
 ///|
 /// Cast a MoonBit Array to a JavaScript array.
 pub fn[T] from_array(v : Array[T]) -> @nostd.Any {
   identity(v)
-}
-
-///|
-/// Cast a MoonBit function with 0 arguments to a JavaScript function Val.
-pub fn[R] from_fn0(f : () -> R) -> @nostd.Any {
-  identity(f)
-}
-
-///|
-/// Cast a MoonBit function with 1 argument to a JavaScript function Val.
-pub fn[A, R] from_fn1(f : (A) -> R) -> @nostd.Any {
-  identity(f)
-}
-
-///|
-/// Cast a MoonBit function with 2 arguments to a JavaScript function Val.
-pub fn[A, B, R] from_fn2(f : (A, B) -> R) -> Any {
-  identity(f)
-}
-
-///|
-/// Cast a MoonBit function with 3 arguments to a JavaScript function Val.
-pub fn[A, B, C, R] from_fn3(f : (A, B, C) -> R) -> Any {
-  identity(f)
 }
 
 ///|
@@ -164,9 +142,7 @@ pub fn[T] is_builtin_trait(v : T) -> Bool {
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into ThrowError
 /// ```moonbit skip
-/// let result = throwable(() => {
-///   undefined().call_self([])
-/// })
+/// let result = throwable(() => undefined().call_self([]))
 /// ```
 pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
   match throwable_result(f |> identity) {

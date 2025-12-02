@@ -2,6 +2,7 @@
   "is_main": true,
   "import": [
     "mizchi/js/nostd",
-    "mizchi/js/npm/chokidar"
+    "mizchi/js/npm/chokidar",
+    "mizchi/js/builtins/global"
   ]
 }

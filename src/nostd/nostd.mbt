@@ -273,26 +273,6 @@ pub fn[A, B, C, D] from_fn3(f : (A, B, C) -> D) -> Any = "%identity"
 ///| Timer functions
 
 ///|
-/// Set a timeout to call a function after ms milliseconds
-pub extern "js" fn set_timeout(f : () -> Unit, ms : Int) -> Int =
-  #| (f, ms) => setTimeout(f, ms)
-
-///|
-/// Clear a timeout by its ID
-pub extern "js" fn clear_timeout(id : Int) -> Unit =
-  #| (id) => clearTimeout(id)
-
-///|
-/// Set an interval to call a function every ms milliseconds
-pub extern "js" fn set_interval(f : () -> Unit, ms : Int) -> Int =
-  #| (f, ms) => setInterval(f, ms)
-
-///|
-/// Clear an interval by its ID
-pub extern "js" fn clear_interval(id : Int) -> Unit =
-  #| (id) => clearInterval(id)
-
-///|
 /// Convert Array of tuples to JS Object using Object.fromEntries
 /// Tuples compile to {_0, _1} objects, which are converted to [key, value] in FFI
 pub extern "js" fn from_entries(entries : Array[(String, Any)]) -> Any =

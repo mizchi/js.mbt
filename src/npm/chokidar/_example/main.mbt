@@ -46,7 +46,7 @@ fn main {
 
   // In a real application, you would keep the process alive
   // For this example, we'll clean up after a short time
-  let _ = @nostd.set_timeout(
+  let _ = @global.set_timeout(
     fn() {
       @nostd.run_async(async fn() -> Unit noraise {
         println("Closing watcher...")
