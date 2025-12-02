@@ -10,7 +10,7 @@ fn zod_module() -> @nostd.Any {
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
 pub fn to_json_schema(schema : @zod.ZodSchema) -> @nostd.Any {
   let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
-  zod_module().call1("toJSONSchema", schema_any)
+  zod_module()._call("toJSONSchema", [schema_any])
 }
 
 ///|
@@ -40,7 +40,7 @@ pub fn to_json_schema_with_options(
     None => ()
   }
   let schema_any : @nostd.Any = schema.as_any() |> @nostd.identity()
-  zod_module().call2("toJSONSchema", schema_any, opts)
+  zod_module()._call("toJSONSchema", [schema_any, opts])
 }
 
 ///|

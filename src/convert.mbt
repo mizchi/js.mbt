@@ -24,7 +24,7 @@ pub fn[T] is_builtin_trait(v : T) -> Bool {
 ///|
 /// Wraps a synchronous function call, converting any thrown JS errors into ThrowError
 /// ```moonbit skip
-/// let result = throwable(() => undefined().call_self([]))
+/// let result = throwable(() => undefined()._invoke([]))
 /// ```
 pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
   match throwable_result(f |> @nostd.identity) {

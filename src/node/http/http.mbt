@@ -42,8 +42,8 @@ pub fn IncomingMessage::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @nostd.identity
+      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      .cast()
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -78,11 +78,12 @@ pub fn ServerResponse::writeHead(
       ._call("writeHead", [@nostd.any(statusCode), @nostd.any(msg), hdrs])
       .cast()
     (Some(msg), None) =>
-      self.as_any().call2("writeHead", @nostd.any(statusCode), @nostd.any(msg))
-      |> @nostd.identity
+      self
+      .as_any()
+      ._call("writeHead", [@nostd.any(statusCode), @nostd.any(msg)])
+      .cast()
     (None, Some(hdrs)) =>
-      self.as_any().call2("writeHead", @nostd.any(statusCode), hdrs)
-      |> @nostd.identity
+      self.as_any()._call("writeHead", [@nostd.any(statusCode), hdrs]).cast()
     (None, None) =>
       self.as_any()._call("writeHead", [@nostd.any(statusCode)]).cast()
   }
@@ -97,8 +98,7 @@ pub fn ServerResponse::write(
 ) -> Bool {
   match encoding {
     Some(enc) =>
-      self.as_any().call2("write", @nostd.any(chunk), @nostd.any(enc))
-      |> @nostd.identity
+      self.as_any()._call("write", [@nostd.any(chunk), @nostd.any(enc)]).cast()
     None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
   }
 }
@@ -112,9 +112,9 @@ pub fn ServerResponse::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) =>
-      self.as_any().call2("end", @nostd.any(d), @nostd.any(enc)) |> ignore
+      self.as_any()._call("end", [@nostd.any(d), @nostd.any(enc)]) |> ignore
     (Some(d), None) => self.as_any()._call("end", [@nostd.any(d)]) |> ignore
-    (None, _) => self.as_any().call0("end") |> ignore
+    (None, _) => self.as_any()._call("end", []) |> ignore
   }
 }
 
@@ -125,7 +125,8 @@ pub fn ServerResponse::setHeader(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any().call2("setHeader", @nostd.any(name), @nostd.any(value))
+  self.as_any()._call("setHeader", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
   |> ignore
 }
 
@@ -194,7 +195,7 @@ pub fn ServerResponse::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
+      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
       |> @nostd.identity
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
@@ -239,11 +240,9 @@ pub fn Server::listen(
       ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h))
-      |> @nostd.identity
+      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(h)]).cast()
     (None, Some(b)) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b))
-      |> @nostd.identity
+      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(b)]).cast()
     (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
@@ -254,7 +253,7 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
     Some(cb) =>
       self.as_any()._call("close", [@nostd.any(@js.from_fn0(cb))]).cast()
-    None => self.as_any().call0("close") |> @nostd.identity
+    None => self.as_any()._call("close", []).cast()
   }
 }
 
@@ -262,7 +261,7 @@ pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
 /// Get the server address
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> @net.AddressInfo? {
-  let result = self.as_any().call0("address")
+  let result = self.as_any()._call("address", [])
   if @nostd.is_null(result) {
     None
   } else {
@@ -299,8 +298,8 @@ pub fn Server::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @nostd.identity
+      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      .cast()
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -341,8 +340,7 @@ pub fn ClientRequest::write(
 ) -> Bool {
   match encoding {
     Some(enc) =>
-      self.as_any().call2("write", @nostd.any(chunk), @nostd.any(enc))
-      |> @nostd.identity
+      self.as_any()._call("write", [@nostd.any(chunk), @nostd.any(enc)]).cast()
     None => self.as_any()._call("write", [@nostd.any(chunk)]).cast()
   }
 }
@@ -356,16 +354,16 @@ pub fn ClientRequest::end(
 ) -> Unit {
   match (data, encoding) {
     (Some(d), Some(enc)) =>
-      self.as_any().call2("end", @nostd.any(d), @nostd.any(enc)) |> ignore
+      self.as_any()._call("end", [@nostd.any(d), @nostd.any(enc)]) |> ignore
     (Some(d), None) => self.as_any()._call("end", [@nostd.any(d)]) |> ignore
-    (None, _) => self.as_any().call0("end") |> ignore
+    (None, _) => self.as_any()._call("end", []).cast()
   }
 }
 
 ///|
 /// Abort request
 pub fn ClientRequest::abort(self : ClientRequest) -> Unit {
-  self.as_any().call0("abort") |> ignore
+  self.as_any()._call("abort", []).cast()
 }
 
 ///|
@@ -375,7 +373,8 @@ pub fn ClientRequest::setHeader(
   name : String,
   value : String,
 ) -> Unit {
-  self.as_any().call2("setHeader", @nostd.any(name), @nostd.any(value))
+  self.as_any()._call("setHeader", [@nostd.any(name), @nostd.any(value)])
+  |> ignore
   |> ignore
 }
 
@@ -402,8 +401,8 @@ pub fn ClientRequest::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      .call2("setTimeout", @nostd.any(msecs), @nostd.any(@js.from_fn0(cb)))
-      |> @nostd.identity
+      ._call("setTimeout", [@nostd.any(msecs), @nostd.any(@js.from_fn0(cb))])
+      .cast()
     None => self.as_any()._call("setTimeout", [@nostd.any(msecs)]).cast()
   }
 }
@@ -417,9 +416,10 @@ pub fn createServer(
 ) -> Server {
   match requestListener {
     Some(listener) =>
-      http_module()._call("createServer", [@nostd.any(@js.from_fn2(listener))])
-      |> @nostd.identity
-    None => http_module().call0("createServer") |> @nostd.identity
+      http_module()
+      ._call("createServer", [@nostd.any(@js.from_fn2(listener))])
+      .cast()
+    None => http_module()._call("createServer", []).cast()
   }
 }
 
@@ -439,14 +439,11 @@ pub fn request(
       ])
       |> @nostd.identity
     (Some(opts), None) =>
-      http_module().call2("request", @nostd.any(url), opts) |> @nostd.identity
+      http_module()._call("request", [@nostd.any(url), opts]).cast()
     (None, Some(cb)) =>
-      http_module().call2(
-        "request",
-        @nostd.any(url),
-        @nostd.any(@js.from_fn1(cb)),
-      )
-      |> @nostd.identity
+      http_module()
+      ._call("request", [@nostd.any(url), @nostd.any(@js.from_fn1(cb))])
+      .cast()
     (None, None) => http_module()._call("request", [@nostd.any(url)]).cast()
   }
 }
@@ -464,10 +461,11 @@ pub fn get(
       ._call("get", [@nostd.any(url), opts, @nostd.any(@js.from_fn1(cb))])
       .cast()
     (Some(opts), None) =>
-      http_module().call2("get", @nostd.any(url), opts) |> @nostd.identity
+      http_module()._call("get", [@nostd.any(url), opts]).cast()
     (None, Some(cb)) =>
-      http_module().call2("get", @nostd.any(url), @nostd.any(@js.from_fn1(cb)))
-      |> @nostd.identity
+      http_module()
+      ._call("get", [@nostd.any(url), @nostd.any(@js.from_fn1(cb))])
+      .cast()
     (None, None) => http_module()._call("get", [@nostd.any(url)]).cast()
   }
 }

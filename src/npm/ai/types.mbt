@@ -374,7 +374,7 @@ pub fn Tool::as_any(self : Tool) -> @nostd.Any {
   let obj = @nostd.Object::new()
   obj._set("description", self.description |> @nostd.any)
   // Wrap with jsonSchema() helper from AI SDK
-  let wrapped_schema = json_schema_fn.call_self([self.input_schema])
+  let wrapped_schema = json_schema_fn._invoke([self.input_schema])
   obj._set("inputSchema", wrapped_schema)
   // Wrap execute function
   let execute_fn : @nostd.Any = @js.from_fn1(fn(

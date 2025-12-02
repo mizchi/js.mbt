@@ -29,7 +29,6 @@ pub fn Http2Server::as_any(self : Http2Server) -> @nostd.Any = "%identity"
 ///|
 pub fn Http2Server::as_event_target(self : Http2Server) -> @event.EventTarget = "%identity"
 
-
 ///|
 pub impl @event.EventTargetImpl for Http2Server with as_any(self) -> @nostd.Any {
   self.as_any()
@@ -49,7 +48,6 @@ pub fn Http2SecureServer::as_event_target(
   self : Http2SecureServer,
 ) -> @event.EventTarget = "%identity"
 
-
 ///|
 pub impl @event.EventTargetImpl for Http2SecureServer with as_any(self) -> @nostd.Any {
   self.as_any()
@@ -66,7 +64,6 @@ pub fn Http2Stream::as_any(self : Http2Stream) -> @nostd.Any = "%identity"
 
 ///|
 pub fn Http2Stream::as_event_target(self : Http2Stream) -> @event.EventTarget = "%identity"
-
 
 ///|
 pub impl @event.EventTargetImpl for Http2Stream with as_any(self) -> @nostd.Any {
@@ -87,7 +84,6 @@ pub fn ClientHttp2Stream::as_event_target(
   self : ClientHttp2Stream,
 ) -> @event.EventTarget = "%identity"
 
-
 ///|
 pub impl @event.EventTargetImpl for ClientHttp2Stream with as_any(self) -> @nostd.Any {
   self.as_any()
@@ -106,7 +102,6 @@ pub fn ServerHttp2Stream::as_any(self : ServerHttp2Stream) -> @nostd.Any = "%ide
 pub fn ServerHttp2Stream::as_event_target(
   self : ServerHttp2Stream,
 ) -> @event.EventTarget = "%identity"
-
 
 ///|
 pub impl @event.EventTargetImpl for ServerHttp2Stream with as_any(self) -> @nostd.Any {
@@ -189,7 +184,7 @@ pub fn Http2Server::listen(
   callback : () -> Unit,
 ) -> Unit {
   let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
+  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
 }
 
 ///|
@@ -200,7 +195,7 @@ pub fn Http2SecureServer::listen(
   callback : () -> Unit,
 ) -> Unit {
   let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
+  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
 }
 
 ///|
@@ -248,7 +243,7 @@ pub fn Http2Session::request(
 ///|
 /// Close the session
 pub fn Http2Session::close(self : Http2Session) -> Unit {
-  self.as_any().call0("close") |> ignore
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|
@@ -285,7 +280,7 @@ pub fn ClientHttp2Stream::write(
 ///|
 /// End the client stream
 pub fn ClientHttp2Stream::end(self : ClientHttp2Stream) -> Unit {
-  self.as_any().call0("end") |> ignore
+  self.as_any()._call("end", []) |> ignore
 }
 
 ///|
@@ -294,7 +289,9 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : @nostd.Any) { callback(@nostd.identity(e)) })
+  self.addEventListener("data", fn(e : @nostd.Any) {
+    callback(@nostd.identity(e))
+  })
   self
 }
 

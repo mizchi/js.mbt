@@ -250,7 +250,7 @@ pub fn Document::adoptNode(self : Self, node : Node) -> Node {
 pub fn Document::importNode(self : Self, node : Node, deep : Bool) -> Node {
   let self_js : @nostd.Any = self.as_any().cast()
   let node_js : @nostd.Any = node.as_any().cast()
-  self_js.call2("importNode", node_js, @nostd.any(deep)) |> @nostd.identity
+  self_js._call("importNode", [node_js, @nostd.any(deep)]).cast()
 }
 
 ///|

@@ -25,7 +25,7 @@ fn[T] request_to_promise(
   })
   request.addEventListener("error", fn(event) {
     let error_msg = @nostd.identity(
-      event._get("target")._get("error").call0("toString"),
+      event._get("target")._get("error")._call("toString", []),
     )
     resolvers.reject(Failure(error_msg))
   })
@@ -50,7 +50,7 @@ fn open_request_to_promise(
   })
   request.addEventListener("error", fn(event) {
     let error_msg = @nostd.identity(
-      event._get("target")._get("error").call0("toString"),
+      event._get("target")._get("error")._call("toString", []),
     )
     resolvers.reject(Failure(error_msg))
   })

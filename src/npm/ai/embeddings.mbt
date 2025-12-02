@@ -113,7 +113,7 @@ pub async fn embed(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embed")
-    .call_self([opts])
+    ._invoke([opts])
     |> @nostd.identity
   let result = promise.wait()
   EmbedResult::from_any(result)
@@ -154,7 +154,7 @@ pub async fn embedMany(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("embedMany")
-    .call_self([opts])
+    ._invoke([opts])
     |> @nostd.identity
   let result = promise.wait()
   EmbedManyResult::from_any(result)

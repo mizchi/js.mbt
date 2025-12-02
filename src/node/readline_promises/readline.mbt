@@ -40,7 +40,7 @@ pub fn createInterface(
     "signal": signal.map(fn(x) { @nostd.identity(x) }),
   }).cast()
   @nostd.identity(
-    readline_promises_module()._get("createInterface").call_self([opts]),
+    readline_promises_module()._get("createInterface")._invoke([opts]),
   )
 }
 
@@ -55,13 +55,13 @@ pub async fn Interface::question(self : Self, query : String) -> String {
 
 ///|
 pub async fn Interface::commit(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.as_any().call0("commit").cast()
+  let promise : @js.Promise[Unit] = self.as_any()._call("commit", []).cast()
   promise.wait()
 }
 
 ///|
 pub fn Interface::rollback(self : Self) -> Self {
-  self.as_any().call0("rollback").cast()
+  self.as_any()._call("rollback", []).cast()
 }
 
 ///|
@@ -69,7 +69,7 @@ pub fn Interface::rollback(self : Self) -> Self {
 pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    .call2("cursorTo", @nostd.any(x), @nostd.any(y))
+    ._call("cursorTo", [@nostd.any(x), @nostd.any(y)])
     .cast()
   promise.wait()
 }
@@ -79,7 +79,7 @@ pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
 pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
   let promise : @js.Promise[Unit] = self
     .as_any()
-    .call2("moveCursor", @nostd.any(dx), @nostd.any(dy))
+    ._call("moveCursor", [@nostd.any(dx), @nostd.any(dy)])
     .cast()
   promise.wait()
 }

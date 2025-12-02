@@ -195,11 +195,9 @@ pub fn Server::listen(
       ._call("listen", [@nostd.any(port), @nostd.any(h), @nostd.any(b)])
       .cast()
     (Some(h), None) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(h))
-      |> @nostd.identity
+      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(h)]).cast()
     (None, Some(b)) =>
-      self.as_any().call2("listen", @nostd.any(port), @nostd.any(b))
-      |> @nostd.identity
+      self.as_any()._call("listen", [@nostd.any(port), @nostd.any(b)]).cast()
     (None, None) => self.as_any()._call("listen", [@nostd.any(port)]).cast()
   }
 }
@@ -207,14 +205,14 @@ pub fn Server::listen(
 ///|
 /// Close the server
 pub fn Server::close(self : Server) -> Server {
-  self.as_any().call0("close") |> @nostd.identity
+  self.as_any()._call("close", []) |> @nostd.identity
 }
 
 ///|
 /// Get the server address
 /// Returns AddressInfo for TCP servers, or null if not listening
 pub fn Server::address(self : Server) -> AddressInfo? {
-  let result = self.as_any().call0("address")
+  let result = self.as_any()._call("address", [])
   if @nostd.is_null(result) {
     None
   } else {
@@ -247,8 +245,9 @@ pub fn Server::set_maxConnections(self : Server, max : Int) -> Unit {
 pub fn createConnection(port : Int, host? : String) -> Socket {
   match host {
     Some(h) =>
-      net_module().call2("createConnection", @nostd.any(port), @nostd.any(h))
-      |> @nostd.identity
+      net_module()
+      ._call("createConnection", [@nostd.any(port), @nostd.any(h)])
+      .cast()
     None => net_module()._call("createConnection", [@nostd.any(port)]).cast()
   }
 }
@@ -281,9 +280,9 @@ pub fn createServer(
       "keepAlive": keepAlive.map(fn(x) { @nostd.any(x) }),
       "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @nostd.any(x) }),
     }).cast()
-    net_module().call1("createServer", opts) |> @nostd.identity
+    net_module()._call("createServer", [opts]).cast()
   } else {
-    net_module().call0("createServer") |> @nostd.identity
+    net_module()._call("createServer", []).cast()
   }
 }
 

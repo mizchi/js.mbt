@@ -58,9 +58,9 @@ async test "generate image with openai" {
   let model : @ai.ImageModel = @nostd.identity(
     @node.require("@ai-sdk/openai")
     ._get("openai")
-    .call_self([])
+    ._invoke([])
     ._get("image")
-    .call_self(["dall-e-3" |> @nostd.any]),
+    ._invoke(["dall-e-3" |> @nostd.any]),
   )
   let result = @ai.generateImage(
     model~,

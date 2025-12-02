@@ -216,7 +216,7 @@ pub fn MediaQueryList::as_any(self : MediaQueryList) -> @nostd.Any = "%identity"
 #alias(match_media)
 pub fn matchMedia(query : String) -> MediaQueryList {
   @nostd.identity(
-    @global.global_this().call1("matchMedia", @nostd.any(query)),
+    @global.global_this()._call("matchMedia", [@nostd.any(query)]),
   )
 }
 
@@ -281,7 +281,7 @@ pub fn MediaQueryList::removeChangeListener(
 #alias(css_escape)
 pub fn cssEscape(value : String) -> String {
   let css_obj = @global.global_this()._get("CSS")
-  @nostd.identity(css_obj.call1("escape", @nostd.any(value)))
+  @nostd.identity(css_obj._call("escape", [@nostd.any(value)]))
 }
 
 ///|
@@ -290,7 +290,7 @@ pub fn cssEscape(value : String) -> String {
 #alias(css_supports)
 pub fn cssSupports(property : String, value : String) -> Bool {
   let css_obj = @global.global_this()._get("CSS")
-  css_obj.call2("supports", @nostd.any(property), @nostd.any(value)).cast()
+  css_obj._call("supports", [@nostd.any(property), @nostd.any(value)]).cast()
 }
 
 ///|
@@ -298,7 +298,7 @@ pub fn cssSupports(property : String, value : String) -> Bool {
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(condition : String) -> Bool {
   let css_obj = @global.global_this()._get("CSS")
-  @nostd.identity(css_obj.call1("supports", @nostd.any(condition)))
+  @nostd.identity(css_obj._call("supports", [@nostd.any(condition)]))
 }
 
 ///|

@@ -117,7 +117,7 @@ pub async fn generateText(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateText")
-    .call_self([opts])
+    ._invoke([opts])
     |> @nostd.identity
   let result = promise.wait()
   GenerateTextResult::from_any(result)
@@ -186,7 +186,7 @@ pub fn streamText(
   if active_tools is Some(at) {
     opts._set("activeTools", at |> @nostd.any)
   }
-  let result = ai_module()._get("streamText").call_self([opts])
+  let result = ai_module()._get("streamText")._invoke([opts])
   @nostd.identity(result)
 }
 

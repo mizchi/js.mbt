@@ -64,7 +64,7 @@ pub fn Worker::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any().call2("postMessage", value, @nostd.any(list)) |> ignore
+      self.as_any()._call("postMessage", [value, @nostd.any(list)]) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -73,19 +73,19 @@ pub fn Worker::postMessage(
 /// Terminate the worker
 /// https://nodejs.org/api/worker_threads.html#workerterminate
 pub fn Worker::terminate(self : Worker) -> Unit {
-  self.as_any().call0("terminate") |> ignore
+  self.as_any()._call("terminate", []) |> ignore
 }
 
 ///|
 /// Prevent the worker from keeping the event loop active
 pub fn Worker::unref(self : Worker) -> Unit {
-  self.as_any().call0("unref") |> ignore
+  self.as_any()._call("unref", []) |> ignore
 }
 
 ///|
 /// Require the worker to keep the event loop active
 pub fn Worker::ref_(self : Worker) -> Unit {
-  self.as_any().call0("ref") |> ignore
+  self.as_any()._call("ref", []) |> ignore
 }
 
 ///|
@@ -121,7 +121,7 @@ pub fn MessagePort::postMessage(
 ) -> Unit {
   match transferList {
     Some(list) =>
-      self.as_any().call2("postMessage", value, @nostd.any(list)) |> ignore
+      self.as_any()._call("postMessage", [value, @nostd.any(list)]) |> ignore
     None => self.as_any()._call("postMessage", [value]) |> ignore
   }
 }
@@ -129,13 +129,13 @@ pub fn MessagePort::postMessage(
 ///|
 /// Start receiving messages on this MessagePort
 pub fn MessagePort::start(self : MessagePort) -> Unit {
-  self.as_any().call0("start") |> ignore
+  self.as_any()._call("start", []) |> ignore
 }
 
 ///|
 /// Close the MessagePort
 pub fn MessagePort::close(self : MessagePort) -> Unit {
-  self.as_any().call0("close") |> ignore
+  self.as_any()._call("close", []) |> ignore
 }
 
 ///|

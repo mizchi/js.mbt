@@ -122,7 +122,7 @@ pub async fn generateObject(
   opts._set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
   let json_schema_fn = ai_module()._get("jsonSchema")
-  let wrapped_schema = json_schema_fn.call_self([schema])
+  let wrapped_schema = json_schema_fn._invoke([schema])
   opts._set("schema", wrapped_schema)
   if schema_name is Some(n) {
     opts._set("schemaName", n |> @nostd.any)
@@ -159,7 +159,7 @@ pub async fn generateObject(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
-    .call_self([opts])
+    ._invoke([opts])
     |> @nostd.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)
@@ -214,7 +214,7 @@ pub async fn generateObjectWithZod(
   }
   let promise : @js.Promise[@nostd.Any] = ai_module()
     ._get("generateObject")
-    .call_self([opts])
+    ._invoke([opts])
     |> @nostd.identity
   let result = promise.wait()
   GenerateObjectResult::from_any(result)

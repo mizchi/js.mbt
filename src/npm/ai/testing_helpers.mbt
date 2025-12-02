@@ -114,7 +114,7 @@ pub async fn convert_readable_stream_to_array(
   let test_module = require_test()
   let promise : @js.Promise[Array[@nostd.Any]] = test_module
     ._get("convertReadableStreamToArray")
-    .call_self([stream])
+    ._invoke([stream])
     |> @nostd.identity
   promise.wait()
 }

@@ -82,8 +82,7 @@ pub fn HeapStatistics::external_memory(self : HeapStatistics) -> Int {
 pub type HeapCodeStatistics
 
 ///|
-pub fn HeapCodeStatistics::as_any(self : HeapCodeStatistics) -> @nostd.Any =
-  "%identity"
+pub fn HeapCodeStatistics::as_any(self : HeapCodeStatistics) -> @nostd.Any = "%identity"
 
 ///|
 pub fn HeapCodeStatistics::code_and_metadata_size(
@@ -119,8 +118,7 @@ pub fn HeapCodeStatistics::cpu_profiler_metadata_size(
 pub type HeapSpaceStatistics
 
 ///|
-pub fn HeapSpaceStatistics::as_any(self : HeapSpaceStatistics) -> @nostd.Any =
-  "%identity"
+pub fn HeapSpaceStatistics::as_any(self : HeapSpaceStatistics) -> @nostd.Any = "%identity"
 
 ///|
 pub fn HeapSpaceStatistics::space_name(self : HeapSpaceStatistics) -> String {
@@ -158,7 +156,7 @@ pub fn HeapSpaceStatistics::physical_space_size(
 #alias(get_heap_statistics)
 pub fn getHeapStatistics() -> HeapStatistics {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapStatistics").cast()
+  v8._call("getHeapStatistics", []).cast()
 }
 
 ///|
@@ -168,7 +166,7 @@ pub fn getHeapStatistics() -> HeapStatistics {
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapSpaceStatistics") |> @nostd.identity
+  v8._call("getHeapSpaceStatistics", []) |> @nostd.identity
 }
 
 ///|
@@ -176,7 +174,7 @@ pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
 #alias(get_heap_code_statistics)
 pub fn getHeapCodeStatistics() -> HeapCodeStatistics {
   let v8 = ffi_require_v8()
-  v8.call0("getHeapCodeStatistics").cast()
+  v8._call("getHeapCodeStatistics", []).cast()
 }
 
 ///|
@@ -188,13 +186,13 @@ pub fn getHeapSnapshot(
 ) -> @nostd.Any {
   let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
-    (None, None) => v8.call0("getHeapSnapshot")
+    (None, None) => v8._call("getHeapSnapshot", [])
     _ => {
       let opts : @nostd.Any = @mbtconv.from_option_map({
         "exposeInternals": expose_internals.map(fn(x) { @nostd.any(x) }),
         "exposeNumericValues": expose_numeric_values.map(fn(x) { @nostd.any(x) }),
       }).cast()
-      v8.call1("getHeapSnapshot", opts)
+      v8._call("getHeapSnapshot", [opts])
     }
   }
 }
@@ -206,7 +204,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
   let v8 = ffi_require_v8()
   match filename {
     Some(f) => @nostd.identity(v8._call("writeHeapSnapshot", [@nostd.any(f)]))
-    None => v8.call0("writeHeapSnapshot").cast()
+    None => v8._call("writeHeapSnapshot", []).cast()
   }
 }
 
@@ -257,7 +255,7 @@ pub fn Serializer::new() -> Serializer {
 /// Write header
 #alias(write_header)
 pub fn Serializer::writeHeader(self : Self) -> Unit {
-  self.as_any().call0("writeHeader") |> ignore
+  self.as_any()._call("writeHeader", []) |> ignore
 }
 
 ///|
@@ -271,7 +269,7 @@ pub fn Serializer::writeValue(self : Self, value : @nostd.Any) -> Bool {
 /// Release buffer
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(self : Self) -> @buffer.Buffer {
-  self.as_any().call0("releaseBuffer").cast()
+  self.as_any()._call("releaseBuffer", []).cast()
 }
 
 ///|
@@ -284,7 +282,7 @@ pub fn Serializer::transferArrayBuffer(
 ) -> Unit {
   self
   .as_any()
-  .call2("transferArrayBuffer", @nostd.any(id), @nostd.any(array_buffer))
+  ._call("transferArrayBuffer", [@nostd.any(id), @nostd.any(array_buffer)])
   |> ignore
 }
 
@@ -336,14 +334,14 @@ pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
 /// Read header
 #alias(read_header)
 pub fn Deserializer::readHeader(self : Self) -> Bool {
-  self.as_any().call0("readHeader").cast()
+  self.as_any()._call("readHeader", []).cast()
 }
 
 ///|
 /// Read a value
 #alias(read_value)
 pub fn Deserializer::readValue(self : Self) -> @nostd.Any {
-  self.as_any().call0("readValue")
+  self.as_any()._call("readValue", [])
 }
 
 ///|
@@ -356,7 +354,7 @@ pub fn Deserializer::transfer_array_buffer(
 ) -> Unit {
   self
   .as_any()
-  .call2("transferArrayBuffer", @nostd.any(id), @nostd.any(array_buffer))
+  ._call("transferArrayBuffer", [@nostd.any(id), @nostd.any(array_buffer)])
   |> ignore
 }
 
@@ -364,21 +362,21 @@ pub fn Deserializer::transfer_array_buffer(
 /// Get wire format version
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(self : Self) -> Int {
-  self.as_any().call0("getWireFormatVersion").cast()
+  self.as_any()._call("getWireFormatVersion", []).cast()
 }
 
 ///|
 /// Read uint32
 #alias(read_uint32)
 pub fn Deserializer::readUint32(self : Self) -> Int {
-  self.as_any().call0("readUint32").cast()
+  self.as_any()._call("readUint32", []).cast()
 }
 
 ///|
 /// Read double
 #alias(read_double)
 pub fn Deserializer::readDouble(self : Self) -> Double {
-  self.as_any().call0("readDouble").cast()
+  self.as_any()._call("readDouble", []).cast()
 }
 
 ///|
@@ -395,7 +393,7 @@ pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int {
   let v8 = ffi_require_v8()
-  v8.call0("cachedDataVersionTag").cast()
+  v8._call("cachedDataVersionTag", []).cast()
 }
 
 ///|
@@ -411,7 +409,7 @@ pub fn setFlagsFromString(flags : String) -> Unit {
 #alias(stop_coverage)
 pub fn stopCoverage() -> Unit {
   let v8 = ffi_require_v8()
-  v8.call0("stopCoverage") |> ignore
+  v8._call("stopCoverage", []) |> ignore
 }
 
 ///|
@@ -419,5 +417,5 @@ pub fn stopCoverage() -> Unit {
 #alias(take_coverage)
 pub fn takeCoverage() -> Unit {
   let v8 = ffi_require_v8()
-  v8.call0("takeCoverage") |> ignore
+  v8._call("takeCoverage", []) |> ignore
 }

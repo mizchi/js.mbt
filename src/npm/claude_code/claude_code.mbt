@@ -79,7 +79,7 @@ pub fn queryStream(
       opts._set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts])
+  let result = claude_code_module()._get("query")._invoke([opts])
 
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity
@@ -99,7 +99,7 @@ pub fn AbortHandle::as_any(self : AbortHandle) -> @nostd.Any = "%identity"
 /// Abort the current query
 pub fn AbortHandle::abort(self : AbortHandle) -> Unit {
   let abort_fn : @nostd.Any = self.as_any()["abort"].cast()
-  let _ = abort_fn.call_self([])
+  let _ = abort_fn._invoke([])
 
 }
 
@@ -124,7 +124,7 @@ pub fn queryWithAbort(
       opts._set(key, options_any._get(key))
     }
   }
-  let result = claude_code_module()._get("query").call_self([opts])
+  let result = claude_code_module()._get("query")._invoke([opts])
 
   // MEMO: Lie
   let key : String = @js.Symbol::asyncIterator() |> @nostd.identity

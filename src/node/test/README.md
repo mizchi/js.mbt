@@ -162,7 +162,7 @@ test "mocking example" {
     let fn = m.fn_()
     let ctx = get_mock_context(fn)
 
-    fn.call_self([])
+    fn._invoke([])
     assert_eq(ctx.callCount(), 1)
   })
 }

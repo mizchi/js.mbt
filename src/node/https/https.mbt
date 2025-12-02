@@ -86,7 +86,7 @@ pub fn create_server(
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
+  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
 }
 
 ///|
@@ -170,7 +170,7 @@ pub fn ClientRequest::write(self : ClientRequest, data : String) -> Unit {
 ///|
 /// End the request
 pub fn ClientRequest::end(self : ClientRequest) -> Unit {
-  self.as_any().call0("end") |> ignore
+  self.as_any()._call("end", []) |> ignore
 }
 
 ///|

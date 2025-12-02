@@ -6,8 +6,8 @@ test "mock.fn creates spy function" {
   let spy = m.fn_()
 
   // Call the spy
-  spy.call_self([@nostd.any(1), @nostd.any(2), @nostd.any(3)]) |> ignore
-  spy.call_self([@nostd.any("test")]) |> ignore
+  spy._invoke([@nostd.any(1), @nostd.any(2), @nostd.any(3)]) |> ignore
+  spy._invoke([@nostd.any("test")]) |> ignore
 
   // Check call count
   let ctx = get_mock_context(spy)
@@ -24,7 +24,7 @@ test "mock.method mocks object method" {
   let obj_js : @nostd.Any = @nostd.identity(obj)
   m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
   |> ignore
-  let result : Int = @nostd.identity(obj.call0("getValue"))
+  let result : Int = @nostd.identity(obj._call("getValue", []))
   inspect(result, content="100")
   m.restoreAll()
 }
@@ -38,7 +38,7 @@ test "mock.fn with implementation" {
       n * 2
     }),
   )
-  let result : Int = @nostd.identity(spy.call_self([@nostd.any(5)]))
+  let result : Int = @nostd.identity(spy._invoke([@nostd.any(5)]))
   inspect(result, content="10")
   let ctx = get_mock_context(spy)
   inspect(ctx.callCount(), content="1")
@@ -56,7 +56,7 @@ test "mock.fn with both original and implementation" {
     n * 2
   })
   let spy = m.fn_(original=original_fn, implementation=implementation_fn)
-  let result : Int = @nostd.identity(spy.call_self([@nostd.any(5)]))
+  let result : Int = @nostd.identity(spy._invoke([@nostd.any(5)]))
   inspect(result, content="10")
 }
 
@@ -69,7 +69,7 @@ test "mock.method without implementation" {
   // Mock the method without implementation (spy on original)
   let obj_js : @nostd.Any = @nostd.identity(obj)
   m.method_(obj_js, "getValue") |> ignore
-  let result : Int = @nostd.identity(obj.call0("getValue"))
+  let result : Int = @nostd.identity(obj._call("getValue", []))
   inspect(result, content="42")
   m.restoreAll()
 }

@@ -89,7 +89,7 @@ pub fn WASI::new(
 ///|
 /// Get import object for WebAssembly.instantiate()
 pub fn WASI::getImportObject(self : Self) -> @nostd.Any {
-  self.as_any().call0("getImportObject")
+  self.as_any()._call("getImportObject", [])
 }
 
 ///|
@@ -98,7 +98,7 @@ pub fn WASI::start(
   self : Self,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.as_any().call1("start", @nostd.any(instance)) |> ignore
+  self.as_any()._call("start", [@nostd.any(instance)]) |> ignore
 }
 
 ///|
@@ -107,7 +107,7 @@ pub fn WASI::initialize(
   self : WASI,
   instance : @webassembly.WebAssemblyInstance,
 ) -> Unit {
-  self.as_any().call1("initialize", @nostd.any(instance)) |> ignore
+  self.as_any()._call("initialize", [@nostd.any(instance)]) |> ignore
 }
 
 ///|

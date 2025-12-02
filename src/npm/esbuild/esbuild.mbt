@@ -302,7 +302,7 @@ pub async fn Esbuild::build(
   }
   let promise : @js.Promise[BuildResult] = self
     .as_any()
-    .call1("build", opts)
+    ._call("build", [opts])
     .cast()
   promise.wait()
 }
@@ -328,7 +328,7 @@ pub async fn Esbuild::transform(
   opts._set("sourcemap", sourcemap |> @nostd.any)
   let promise : @js.Promise[TransformResult] = self
     .as_any()
-    .call2("transform", code |> @nostd.identity, opts)
+    ._call("transform", [code |> @nostd.any, opts])
     .cast()
   promise.wait()
 }
@@ -380,7 +380,7 @@ pub fn Esbuild::build_sync(
     }
     opts._set("define", defs)
   }
-  self.as_any().call1("buildSync", opts).cast()
+  self.as_any()._call("buildSync", [opts]).cast()
 }
 
 ///|
@@ -402,5 +402,5 @@ pub fn Esbuild::transform_sync(
     opts._set("target", target |> @nostd.any)
   }
   opts._set("sourcemap", sourcemap |> @nostd.any)
-  self.as_any().call2("transformSync", code |> @nostd.identity, opts).cast()
+  self.as_any()._call("transformSync", [code |> @nostd.identity, opts]).cast()
 }

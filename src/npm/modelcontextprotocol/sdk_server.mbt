@@ -297,7 +297,7 @@ pub fn SdkServer::send_notification(
       "params": @nostd.any(params),
     }),
   )
-  (self |> @nostd.any)._get("notification").call_self([notification]) |> ignore
+  (self |> @nostd.any)._get("notification")._invoke([notification]) |> ignore
 }
 
 ///|

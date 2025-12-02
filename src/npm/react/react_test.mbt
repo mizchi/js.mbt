@@ -4,7 +4,7 @@
 fn render_to_string(element : Element) -> String {
   let react_dom_server : @nostd.Any = @node.require("react-dom/server")
   let element_js : @nostd.Any = element.as_any().cast()
-  react_dom_server._get("renderToString").call_self([element_js]).cast()
+  react_dom_server._get("renderToString")._invoke([element_js]).cast()
 }
 
 ///|

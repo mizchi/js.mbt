@@ -581,7 +581,7 @@ test "fireEvent submit" {
   defer dispose()
   let submitted = Ref::new(false)
   let handler : (@nostd.Any) -> Unit = fn(e) {
-    e.call0("preventDefault") |> ignore
+    e._call("preventDefault", []) |> ignore
     submitted.val = true
   }
   let vnode = @preact.h(

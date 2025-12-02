@@ -126,12 +126,6 @@ pub extern "js" fn Any::_set(self : Any, key : String, value : Any) -> Unit =
   #| (obj, key, value) => { obj[key] = value }
 
 ///|
-/// Convenience setter: obj.set("key", value)
-// pub fn[T, K] Any::set(self : Any, key : K, value : T) -> Unit {
-//   self._set_any(any(key), any(value))
-// }
-
-///|
 /// Call method: obj._call("method", [arg1, arg2])
 pub extern "js" fn Any::_call(
   self : Any,
@@ -140,40 +134,28 @@ pub extern "js" fn Any::_call(
 ) -> Any =
   #| (obj, key, args) => obj[key](...args)
 
-///|
-/// Convenience method call: obj.call1("method", arg)
-pub fn Any::call1(self : Any, key : String, arg1 : Any) -> Any {
-  self._call(key, [arg1])
-}
+// ///|
+// /// Convenience method call: obj.call1("method", arg)
+// pub fn Any::call1(self : Any, key : String, arg1 : Any) -> Any {
+//   self._call(key, [arg1])
+// }
 
-///|
-/// Convenience method call: obj.call0("method")
-pub fn Any::call0(self : Any, key : String) -> Any {
-  self._call(key, [])
-}
+// ///|
+// /// Convenience method call: obj.call0("method")
+// pub fn Any::call0(self : Any, key : String) -> Any {
+//   self._call(key, [])
+// }
 
-///|
-/// Convenience method call: obj.call2("method", a, b)
-pub fn Any::call2(self : Any, key : String, arg1 : Any, arg2 : Any) -> Any {
-  self._call(key, [arg1, arg2])
-}
+// ///|
+// /// Convenience method call: obj.call2("method", a, b)
+// pub fn Any::call2(self : Any, key : String, arg1 : Any, arg2 : Any) -> Any {
+//   self._call(key, [arg1, arg2])
+// }
 
 ///|
 /// Call function: func._invoke([arg1, arg2])
 pub extern "js" fn Any::_invoke(self : Any, args : Array[Any]) -> Any =
   #| (func, args) => func(...args)
-
-///|
-/// Convenience function call: func.call_self([args])
-pub fn Any::call_self(self : Any, args : Array[Any]) -> Any {
-  self._invoke(args)
-}
-
-///|
-/// Convenience function call: func.call_self0()
-pub fn Any::call_self0(self : Any) -> Any {
-  self._invoke([])
-}
 
 ///|
 /// JS: value[key]
@@ -231,17 +213,6 @@ pub extern "js" fn is_array(v : Any) -> Bool =
 /// JS: typeof value
 pub extern "js" fn type_of(value : Any) -> String =
   #|(value) => typeof value
-
-///|
-/// JS: typeof value (alias for type_of)
-// pub fn[T] typeof_(value : T) -> String {
-//   type_of(any(value))
-// }
-
-///|
-/// JS: value instanceof cls
-// pub extern "js" fn instance_of(value : Any, cls : Any) -> Bool =
-//   #|(value, cls) => value instanceof cls
 
 ///|
 /// JS: new cls(...args)

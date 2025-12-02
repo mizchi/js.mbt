@@ -350,7 +350,7 @@ pub fn StdioClientTransport::new(
 pub async fn StdioClientTransport::start(self : StdioClientTransport) -> Unit {
   let promise : @js.Promise[Unit] = (self |> @nostd.any)
     ._get("start")
-    .call_self([])
+    ._invoke([])
     |> @nostd.identity
   promise.wait()
 }
@@ -376,7 +376,7 @@ pub fn SdkClient::set_notification_handler(
   self
   .as_any()
   ._get("setNotificationHandler")
-  .call_self([
+  ._invoke([
     @nostd.identity(
       @nostd.from_entries([("method", method_name |> @nostd.any)]),
     ),

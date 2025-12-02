@@ -57,12 +57,12 @@ pub async fn OffscreenCanvas::convertToBlob(
   let promise : @js.Promise[@blob.Blob] = match options {
     Some(opts) =>
       self.as_any()._call("convertToBlob", [opts |> @nostd.any]).cast()
-    None => self.as_any().call0("convertToBlob").cast()
+    None => self.as_any()._call("convertToBlob", []).cast()
   }
   promise.wait()
 }
 
 ///|
 pub fn OffscreenCanvas::transferToImageBitmap(self : Self) -> ImageBitmap {
-  self.as_any().call0("transferToImageBitmap").cast()
+  self.as_any()._call("transferToImageBitmap", []).cast()
 }

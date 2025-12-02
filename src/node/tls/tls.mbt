@@ -86,7 +86,7 @@ pub fn create_server(
 /// Start listening on the specified port
 pub fn Server::listen(self : Server, port : Int, callback : () -> Unit) -> Unit {
   let cb : @nostd.Any = @nostd.identity(callback)
-  self.as_any().call2("listen", @nostd.any(port), cb) |> ignore
+  self.as_any()._call("listen", [@nostd.any(port), cb]) |> ignore
 }
 
 ///|
@@ -153,14 +153,14 @@ pub fn TLSSocket::get_peer_certificate(
 ///|
 /// Get the cipher information
 pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
-  let val : @nostd.Any = self.as_any().call0("getCipher")
+  let val : @nostd.Any = self.as_any()._call("getCipher", [])
   @nostd.identity(val)
 }
 
 ///|
 /// Get the negotiated TLS protocol version
 pub fn TLSSocket::get_protocol(self : TLSSocket) -> String {
-  let val : @nostd.Any = self.as_any().call0("getProtocol")
+  let val : @nostd.Any = self.as_any()._call("getProtocol", [])
   @nostd.identity(val)
 }
 
@@ -192,7 +192,7 @@ pub fn TLSSocket::write(self : TLSSocket, data : String) -> Unit {
 ///|
 /// End the socket
 pub fn TLSSocket::end(self : TLSSocket) -> Unit {
-  self.as_any().call0("end") |> ignore
+  self.as_any()._call("end", []) |> ignore
 }
 
 ///|

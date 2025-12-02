@@ -129,12 +129,12 @@ test "method calls" {
 test "function conversion" {
   // MoonBit function -> JS function
   let fn1 = @js.from_fn1(fn(x : Int) -> Int { x * 2 })
-  let result : Int = @js.identity(fn1.call_self([10 |> @nostd.any]))
+  let result : Int = @js.identity(fn1._invoke([10 |> @nostd.any]))
   assert_eq(result, 20)
 
   // Calling JS functions
   let parseInt = @nostd.global_this()._get("parseInt")
-  let parsed : Int = @js.identity(parseInt.call_self(["123" |> @nostd.any]))
+  let parsed : Int = @js.identity(parseInt._invoke(["123" |> @nostd.any]))
   assert_eq(parsed, 123)
 }
 ```

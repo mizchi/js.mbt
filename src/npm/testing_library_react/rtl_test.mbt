@@ -213,7 +213,7 @@ test "fireEvent submit on form" {
   let comp = (_props : Unit) => {
     let (submitted, set_submitted) = @react.use_state(false)
     let on_submit = fn(e : @nostd.Any) {
-      e.call0("preventDefault") |> ignore
+      e._call("preventDefault", []) |> ignore
       set_submitted(true)
     }
     @react_element.div([

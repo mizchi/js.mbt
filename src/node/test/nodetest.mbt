@@ -375,7 +375,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @nostd.any)
   }
-  nodetest().call2("before", @js.promisify0(f) |> @js.from_fn0, options)
+  nodetest()._call("before", [@js.promisify0(f) |> @js.from_fn0, options])
   |> ignore
 }
 
@@ -386,7 +386,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @nostd.any)
   }
-  nodetest().call2("after", @js.promisify0(f) |> @js.from_fn0, options)
+  nodetest()._call("after", [@js.promisify0(f) |> @js.from_fn0, options])
   |> ignore
 }
 
@@ -397,7 +397,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @nostd.any)
   }
-  nodetest().call2("beforeEach", @js.promisify0(f) |> @js.from_fn0, options)
+  nodetest()._call("beforeEach", [@js.promisify0(f) |> @js.from_fn0, options])
   |> ignore
 }
 
@@ -408,7 +408,7 @@ pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @nostd.any)
   }
-  nodetest().call2("afterEach", @js.promisify0(f) |> @js.from_fn0, options)
+  nodetest()._call("afterEach", [@js.promisify0(f) |> @js.from_fn0, options])
   |> ignore
 }
 

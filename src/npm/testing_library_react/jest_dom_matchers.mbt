@@ -71,7 +71,7 @@ pub fn setup_matchers() -> Unit {
     value,
     print,
   ) {
-    let printed : String = print.call_self([value]).cast()
+    let printed : String = print._invoke([value]).cast()
     name + ": " + printed
   }
   utils._set("printWithType", @js.from_fn3(print_with_type))

@@ -81,13 +81,13 @@ pub fn CanvasRenderingContext2D::clearRect(
 /// Drawing paths
 #alias(begin_path)
 pub fn CanvasRenderingContext2D::beginPath(self : Self) -> Unit {
-  self.as_any().call0("beginPath") |> ignore
+  self.as_any()._call("beginPath", []) |> ignore
 }
 
 ///|
 #alias(close_path)
 pub fn CanvasRenderingContext2D::closePath(self : Self) -> Unit {
-  self.as_any().call0("closePath") |> ignore
+  self.as_any()._call("closePath", []) |> ignore
 }
 
 ///|
@@ -228,17 +228,17 @@ pub fn CanvasRenderingContext2D::rect(
 
 ///|
 pub fn CanvasRenderingContext2D::fill(self : Self) -> Unit {
-  self.as_any().call0("fill") |> ignore
+  self.as_any()._call("fill", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::stroke(self : Self) -> Unit {
-  self.as_any().call0("stroke") |> ignore
+  self.as_any()._call("stroke", []) |> ignore
 }
 
 ///|
 pub fn CanvasRenderingContext2D::clip(self : Self) -> Unit {
-  self.as_any().call0("clip") |> ignore
+  self.as_any()._call("clip", []) |> ignore
 }
 
 ///|
@@ -378,7 +378,7 @@ pub fn CanvasRenderingContext2D::setTransform(
 
 ///|
 pub fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit {
-  self.as_any().call0("resetTransform") |> ignore
+  self.as_any()._call("resetTransform", []) |> ignore
 }
 
 ///|

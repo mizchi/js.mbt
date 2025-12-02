@@ -136,7 +136,7 @@ test "compileFunction basic" {
 /// Test compileFunction execution
 test "compileFunction execution" {
   let func = compileFunction("return x * 2;", params=["x"])
-  let result = func.call_self([5 |> @nostd.any])
+  let result = func._invoke([5 |> @nostd.any])
   inspect(result, content="10")
 }
 

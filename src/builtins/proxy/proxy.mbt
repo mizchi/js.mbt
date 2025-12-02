@@ -6,7 +6,7 @@
 /// - proxy.set("key", value) - triggers set trap
 /// - proxy.delete("key") - triggers deleteProperty trap
 /// - proxy.hasOwnProperty("key") - triggers has trap
-/// - proxy.call_self(args) - triggers apply trap (for function proxies)
+/// - proxy._invoke(args) - triggers apply trap (for function proxies)
 #external
 pub type Proxy
 
@@ -26,7 +26,10 @@ fn proxy_class() -> @nostd.Any {
 /// Example with get trap:
 /// ```moonbit no-check
 /// let target = @nostd.Object::new()
-/// let _proxy = Proxy::new(@nostd.any(target), get=fn(_target, _prop, _receiver) { @nostd.any("value") })
+///
+/// let _proxy = Proxy::new(@nostd.any(target), get=fn(_target, _prop, _receiver) {
+///   @nostd.any("value")
+/// })
 /// ```
 pub fn Proxy::new(
   target : @nostd.Any,
