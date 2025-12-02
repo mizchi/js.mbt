@@ -47,7 +47,8 @@ pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator {
   if options is Some(o) {
     let options_any = o.as_any()
     // Merge options into opts
-    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
+    let keys : Array[String] = @object.Object::keys(options_any)
+      |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }
@@ -72,7 +73,8 @@ pub fn queryStream(
   opts.set("prompt", prompt)
   if options is Some(o) {
     let options_any = o.as_any()
-    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
+    let keys : Array[String] = @object.Object::keys(options_any)
+      |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }
@@ -116,7 +118,8 @@ pub fn queryWithAbort(
   opts.set("abortSignal", signal)
   if options is Some(o) {
     let options_any = o.as_any()
-    let keys : Array[String] = @js.Object::keys(options_any) |> @nostd.identity
+    let keys : Array[String] = @object.Object::keys(options_any)
+      |> @nostd.identity
     for key in keys {
       opts.set(key, options_any._get(key))
     }

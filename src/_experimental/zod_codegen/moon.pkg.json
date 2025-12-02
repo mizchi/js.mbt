@@ -3,6 +3,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/nostd",
+    "mizchi/js/builtins/object",
     "mizchi/js/node",
     "mizchi/js/npm/zod"
   ]

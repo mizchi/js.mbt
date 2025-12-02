@@ -30,24 +30,6 @@ extern "js" fn ffi_get_dyn(obj : @nostd.Any, key : @nostd.Any) -> @nostd.Any =
 extern "js" fn ffi_has_own_property(obj : @nostd.Any, key : String) -> Bool =
   #| (obj, key) => obj.hasOwnProperty(key)
 
-///|
-extern "js" fn ffi_property_is_enumerable(
-  obj : @nostd.Any,
-  key : String,
-) -> Bool =
-  #| (obj, key) => obj.propertyIsEnumerable(key)
-
-///|
-extern "js" fn ffi_is_prototype_of(
-  obj : @nostd.Any,
-  target : @nostd.Any,
-) -> Bool =
-  #| (obj, target) => obj.isPrototypeOf(target)
-
-///|
-extern "js" fn ffi_object_entries(obj : @nostd.Any) -> Array[Any] =
-  #| (obj) => Object.entries(obj)
-
 ///| Function Calls
 
 ///|

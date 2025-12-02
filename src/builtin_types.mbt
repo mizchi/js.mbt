@@ -22,10 +22,8 @@
 /// property key for js object access
 /// obj[0], obj["name"], obj[symbol]
 
-///| Object - Most frequently used builtin type
-
 ///|
-/// JavaScript Object
+/// Object - Most frequently used builtin type
 #external
 pub type Object
 
@@ -41,134 +39,16 @@ pub fn Object::new() -> @nostd.Any {
 }
 
 ///|
-/// get the Object class
-fn object_class() -> @nostd.Any {
-  ffi_get(@nostd.global_this(), "Object")
-}
-
-///|
-/// JS: Object.keys(v)
-///
-/// Returns an array of a given object's own enumerable property names.
-/// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::keys(v : @nostd.Any) -> Array[String] {
-  @nostd.any(object_class())._call("keys", [v]) |> identity
-}
-
-///|
-/// JS: Object.values(v)
-///
-/// Returns an array of a given object's own enumerable property values.
-/// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::values(v : @nostd.Any) -> Array[Any] {
-  @nostd.any(object_class())._call("values", [v]) |> identity
-}
-
-///|
-/// JS: Object.entries(v)
-///
-/// Returns an array of a given object's own enumerable property [key, value] pairs.
-/// Note: The returned array is a snapshot and should be treated as immutable.
-pub fn Object::entries(v : @nostd.Any) -> Array[(String, Any)] {
-  let entries = ffi_object_entries(v |> identity)
-  entries.map(entry => (
-    @nostd.any(entry)["0"] |> identity,
-    @nostd.any(entry)["1"] |> identity,
-  ))
+  let object_class = @nostd.global_this()._get("Object")
+  object_class._call("keys", [v]) |> identity
 }
 
 ///|
 /// JS: Object.assign(target, source)
 pub fn Object::assign(target : @nostd.Any, source : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("assign", [target, source]) |> identity
-}
-
-///|
-/// JS: Object.create(v)
-pub fn Object::create(v : @nostd.Any) -> Any {
-  @nostd.any(object_class())._call("create", [v]) |> identity
-}
-
-///|
-/// JS: Object.is(a, b)
-/// Determines whether two values are the same value
-pub fn Object::is_(a : @nostd.Any, b : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("is", [a, b]) |> identity
-}
-
-///|
-/// JS: Object.freeze(obj)
-/// Freezes an object, preventing new properties from being added and existing properties from being removed or changed
-pub fn Object::freeze(obj : @nostd.Any) -> Any {
-  @nostd.any(object_class())._call("freeze", [obj]) |> identity
-}
-
-///|
-/// JS: Object.seal(obj)
-/// Seals an object, preventing new properties from being added and marking all existing properties as non-configurable
-pub fn Object::seal(obj : @nostd.Any) -> Any {
-  @nostd.any(object_class())._call("seal", [obj]) |> identity
-}
-
-///|
-/// JS: Object.isFrozen(obj)
-/// Determines if an object is frozen
-pub fn Object::isFrozen(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isFrozen", [obj]) |> identity
-}
-
-///|
-/// JS: Object.isSealed(obj)
-/// Determines if an object is sealed
-pub fn Object::isSealed(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isSealed", [obj]) |> identity
-}
-
-///|
-/// JS: Object.preventExtensions(obj)
-/// Prevents new properties from being added to an object
-pub fn Object::preventExtensions(obj : @nostd.Any) -> @nostd.Any {
-  @nostd.any(object_class())._call("preventExtensions", [obj]) |> identity
-}
-
-///|
-/// JS: Object.isExtensible(obj)
-/// Determines if an object is extensible
-pub fn Object::isExtensible_static(obj : @nostd.Any) -> Bool {
-  @nostd.any(object_class())._call("isExtensible", [obj]) |> identity
-}
-
-///|
-/// JS: object.propertyIsEnumerable(k)
-pub fn Object::propertyIsEnumerable(self : Self, key : String) -> Bool {
-  ffi_property_is_enumerable(self |> identity, key |> identity)
-}
-
-///|
-/// JS: object.isPrototypeOf(target)
-pub fn Object::isPrototypeOf(self : Self, target : @nostd.Any) -> Bool {
-  ffi_is_prototype_of(self.to_any() |> identity, target |> identity)
-}
-
-///|
-pub fn Object::hasOwnProperty(self : Self, key : String) -> Bool {
-  ffi_has_own_property(self |> identity, key |> identity)
-}
-
-///|
-/// JS: Object.isExtensible(obj)
-/// Instance method that calls the static Object.isExtensible
-pub fn Object::isExtensible(self : Self) -> Bool {
-  @nostd.any(object_class())._call("isExtensible", [self.to_any()]) |> identity
-}
-
-///|
-pub fn Object::to_string(self : Self) -> String {
-  ffi_json_stringify(
-    self.to_any() |> identity,
-    @nostd.undefined(),
-    @nostd.undefined(),
-  )
+  let object_class = @nostd.global_this()._get("Object")
+  object_class._call("assign", [target, source]) |> identity
 }
 
 ///| Array - Second most frequently used builtin type
@@ -181,17 +61,12 @@ pub fn Object::to_string(self : Self) -> String {
 pub type JsArray
 
 ///|
-pub fn JsArray::to_any(self : JsArray) -> @nostd.Any = "%identity"
-
-///|
-pub fn JsArray::_get(self : JsArray, key : String) -> @nostd.Any {
-  self.to_any()._get(key)
-}
+pub fn JsArray::as_any(self : JsArray) -> @nostd.Any = "%identity"
 
 ///|
 pub fn JsArray::to_string(self : Self) -> String {
   ffi_json_stringify(
-    self.to_any() |> identity,
+    self.as_any() |> identity,
     @nostd.undefined(),
     @nostd.undefined(),
   )
@@ -199,7 +74,7 @@ pub fn JsArray::to_string(self : Self) -> String {
 
 ///|
 /// JS: Array.from(items)
-pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
+pub fn[T] JsArray::from(items : Array[T]) -> @nostd.Any {
   ffi_array_from(items |> identity) |> identity
 }
 

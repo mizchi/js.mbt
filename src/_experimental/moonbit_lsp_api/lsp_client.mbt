@@ -150,7 +150,7 @@ pub fn WorkspaceEdit::from_json(json : @nostd.Any) -> WorkspaceEdit {
   let changes_obj = json._get("changes")
   let changes : Map[String, Array[TextEdit]] = {}
   if not(@nostd.is_nullish(changes_obj)) {
-    let keys = @js.Object::keys(changes_obj)
+    let keys = @object.Object::keys(changes_obj)
     for i in 0..<keys.length() {
       let key : String = keys.get(i).unwrap()
       let edits_arr = changes_obj._get(key)

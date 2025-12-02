@@ -217,9 +217,9 @@ test "Proxy with ownKeys trap" {
   let keys_any = object_class.call1("keys", proxy.as_any())
   let keys : @js.JsArray = @nostd.identity(keys_any)
   inspect(ownkeys_called, content="true")
-  let length : Int = @nostd.identity(keys._get("length"))
+  let length : Int = @nostd.identity(keys.as_any()._get("length"))
   inspect(length, content="3")
-  let first : String = @nostd.identity(keys._get("0"))
+  let first : String = @nostd.identity(keys.as_any()._get("0"))
   inspect(first, content="x")
 }
 
