@@ -4,7 +4,7 @@
 
 ///|
 async test "Promise: @js.Promise::then" {
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     @js.sleep(16)
     resolver.resolve(10)
@@ -27,7 +27,7 @@ async test "Promise: @js.Promise::catch_" {
 ///|
 async test "Promise: @js.Promise::finally_" {
   let mut finalized = false
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     @js.sleep(16)
     resolver.resolve(100)
@@ -367,7 +367,7 @@ async test "Promise: suspend with reject" {
 
 ///|
 async test "Promise: Promise chain" {
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     @js.sleep(16)
     resolver.resolve(1)
@@ -407,13 +407,13 @@ async test "Promise: @js.Promise::race with single promise (2)" {
 
 ///|
 async test "Promise: nested promises" {
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     @js.sleep(16)
     resolver.resolve(10)
   })
   let p1 = resolver.promise.then(v => {
-    let inner_resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+    let inner_resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
     @js.run_async(() => {
       @js.sleep(16)
       inner_resolver.resolve(v * 2)
@@ -446,8 +446,8 @@ async test "Promise: @js.Promise::all with mixed resolution times" {
 }
 
 ///|
-async test "Promise: @js.Promise::withResolvers multiple resolve calls" {
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+async test "Promise: @js.Promise::withPromiseResolvers multiple resolve calls" {
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     resolver.resolve(1)
     resolver.resolve(2) // second call should be ignored
@@ -627,11 +627,11 @@ async test "Promise: @js.Promise::from_async auto-rejects on error" {
   assert_true(result is Err(_))
 }
 
-///| Resolvers::reject tests
+///| PromiseResolvers::reject tests
 
 ///|
-async test "Promise: Resolvers::reject" {
-  let resolvers : @js.Resolvers[Int] = @js.Promise::withResolvers()
+async test "Promise: PromiseResolvers::reject" {
+  let resolvers : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(fn() { resolvers.reject(Failure("rejected")) })
   let result = try? resolvers.promise.wait()
   assert_true(result is Err(_))

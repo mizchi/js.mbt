@@ -3,25 +3,25 @@
 ///|
 test "ArrayBuffer creation and properties" {
   let buffer = @js.ArrayBuffer::new(16)
-  assert_eq(buffer.byteLength(), 16)
+  assert_eq(buffer.byteLength, 16)
   let zero_buffer = @js.ArrayBuffer::new(0)
-  assert_eq(zero_buffer.byteLength(), 0)
+  assert_eq(zero_buffer.byteLength, 0)
 }
 
 ///|
 test "ArrayBuffer with maxByteLength" {
   let buffer = @js.ArrayBuffer::new(8, max_byte_length=16)
-  assert_eq(buffer.byteLength(), 8)
-  assert_eq(buffer.maxByteLength(), 16)
-  assert_true(buffer.resizable())
+  assert_eq(buffer.byteLength, 8)
+  assert_eq(buffer.maxByteLength, 16)
+  assert_true(buffer.resizable)
 
   // Resize the buffer
   buffer.resize(12)
-  assert_eq(buffer.byteLength(), 12)
+  assert_eq(buffer.byteLength, 12)
 
   // Non-resizable buffer
   let fixed_buffer = @js.ArrayBuffer::new(8)
-  assert_false(fixed_buffer.resizable())
+  assert_false(fixed_buffer.resizable)
 }
 
 ///|
@@ -30,19 +30,19 @@ test "@nostd.ArrayBuffer::slice operations" {
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)
-  assert_eq(sliced.byteLength(), 8)
+  assert_eq(sliced.byteLength, 8)
 
   // Full slice
   let full = buffer.slice(begin=0, end=16)
-  assert_eq(full.byteLength(), 16)
+  assert_eq(full.byteLength, 16)
 
   // Without end parameter
   let from_middle = buffer.slice(begin=8)
-  assert_eq(from_middle.byteLength(), 8)
+  assert_eq(from_middle.byteLength, 8)
 
   // Negative indices
   let negative = buffer.slice(begin=-8, end=-4)
-  assert_eq(negative.byteLength(), 4)
+  assert_eq(negative.byteLength, 4)
 }
 
 ///|
@@ -62,7 +62,7 @@ test "@js.ArrayBuffer::is_view" {
 ///|
 test "SharedArrayBuffer creation and properties" {
   let buffer = SharedArrayBuffer::new(16)
-  assert_eq(buffer.byteLength(), 16)
+  assert_eq(buffer.byteLength, 16)
 }
 
 ///|
@@ -71,9 +71,9 @@ test "Shared@js.ArrayBuffer::slice operations" {
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)
-  assert_eq(sliced.byteLength(), 8)
+  assert_eq(sliced.byteLength, 8)
 
   // Without end parameter
   let from_middle = buffer.slice(begin=8)
-  assert_eq(from_middle.byteLength(), 8)
+  assert_eq(from_middle.byteLength, 8)
 }

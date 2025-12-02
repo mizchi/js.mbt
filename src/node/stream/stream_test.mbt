@@ -155,7 +155,9 @@ async test "Node Stream: pipe - Readable to Writable" {
 ///|
 async test "Node Stream: Transform stream - uppercase" {
   let readable = create_readable_from_string("hello transform")
-  let transform : @stream.Readable = @nostd.identity(create_transform_uppercase())
+  let transform : @stream.Readable = @nostd.identity(
+    create_transform_uppercase(),
+  )
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @nostd.identity(writable_js)
   let piped : @stream.Readable = @nostd.identity(
@@ -274,7 +276,7 @@ async test "Node Stream: finished - stream completion" {
 
 ///|
 async test "Node Stream: async pipeline with Promise" {
-  let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
   @js.run_async(fn() {
     let readable = create_readable_from_string("async test")
     let transform = create_transform_uppercase()

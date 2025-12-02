@@ -102,9 +102,9 @@ async test "Node Events: EventEmitter with async handlers" {
 
 ///|
 async test "Node Events: multiple promises concurrent" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver3 : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver1 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver2 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver3 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   @js.run_async(() => {
     @js.sleep(16)
     resolver1.resolve(1)
@@ -127,7 +127,7 @@ async test "Node Events: multiple promises concurrent" {
 async test "Node Events: timer and promise coordination" {
   let mut timer_fired = false
   let mut promise_resolved = false
-  let resolver : @js.Resolvers[Unit] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Unit] = @js.Promise::withResolvers()
   let _ = @global.set_timeout(
     () => {
       timer_fired = true

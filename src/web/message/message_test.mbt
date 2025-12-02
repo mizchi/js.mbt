@@ -3,7 +3,7 @@
 
 ///|
 async test "MessageChannel: send and receive message between ports" {
-  let resolver : @js.Resolvers[String] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[String] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -30,8 +30,8 @@ async test "MessageChannel: send and receive message between ports" {
 
 ///|
 async test "MessageChannel: bidirectional messaging" {
-  let resolver1 : @js.Resolvers[Int] = @js.Promise::withResolvers()
-  let resolver2 : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver1 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
+  let resolver2 : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -68,7 +68,7 @@ async test "MessageChannel: bidirectional messaging" {
 ///|
 async test "MessageChannel: multiple messages in sequence" {
   let messages : Array[String] = []
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -102,7 +102,7 @@ async test "MessageChannel: multiple messages in sequence" {
 
 ///|
 async test "MessageChannel: port closes properly" {
-  let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
@@ -125,7 +125,7 @@ async test "MessageChannel: port closes properly" {
 
 ///|
 async test "MessageChannel: message event properties" {
-  let resolver : @js.Resolvers[@nostd.Any] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[@nostd.Any] = @js.Promise::withResolvers()
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()

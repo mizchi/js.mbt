@@ -3,7 +3,7 @@
 
 ///|
 async test "JS Async: setTimeout" {
-  let resolver : @js.Resolvers[Bool] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Bool] = @js.Promise::withResolvers()
   let _timer = @global.set_timeout(() => resolver.resolve(true), 16)
   let executed = resolver.promise.wait()
   assert_true(executed)
@@ -32,7 +32,7 @@ async test "JS Async: setTimeout with zero delay" {
 #skip("Flaky test - setTimeout execution order not guaranteed")
 async test "JS Async: multiple setTimeouts" {
   let order = []
-  let resolver : @js.Resolvers[Int] = @js.Promise::withResolvers()
+  let resolver : @js.PromiseResolvers[Int] = @js.Promise::withResolvers()
   let _ = @global.set_timeout(
     () => {
       order.push(1)

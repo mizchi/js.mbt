@@ -27,7 +27,7 @@ test "DataView::buffer - get underlying buffer" {
   let buffer = @js.ArrayBuffer::new(16)
   let view = DataView::new(buffer)
   let retrieved = view.buffer
-  assert_eq(retrieved.byte_length(), 16)
+  assert_eq(retrieved.byteLength, 16)
 }
 
 ///|
@@ -143,7 +143,7 @@ test "DataView - endianness difference" {
 test "@js.SharedArrayBuffer::slice - without end parameter" {
   let buffer = @js.SharedArrayBuffer::new(16)
   let sliced = buffer.slice(begin=8)
-  assert_eq(sliced.byte_length(), 8)
+  assert_eq(sliced.byteLength, 8)
 }
 
 ///|

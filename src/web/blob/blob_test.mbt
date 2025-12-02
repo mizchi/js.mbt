@@ -68,7 +68,7 @@ test "Blob array_buffer returns ArrayBuffer" {
     try {
       let blob = Blob::new([@nostd.any("test")])
       let buffer = blob.array_buffer()
-      inspect(buffer.byte_length() > 0, content="true")
+      inspect(buffer.byteLength > 0, content="true")
     } catch {
       _ => ()
     }

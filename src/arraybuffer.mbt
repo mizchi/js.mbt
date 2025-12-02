@@ -7,8 +7,13 @@
 
 ///|
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
-#external
-pub type ArrayBuffer
+// #external
+pub(all) struct ArrayBuffer {
+  // Empty
+  byteLength : Int
+  maxByteLength : Int
+  resizable : Bool
+}
 
 ///|
 pub fn ArrayBuffer::to_any(self : ArrayBuffer) -> @nostd.Any = "%identity"
@@ -26,23 +31,6 @@ pub fn ArrayBuffer::new(
   max_byte_length? : Int,
 ) -> ArrayBuffer {
   identity(ffi_new_array_buffer(byte_length, max_byte_length))
-}
-
-///|
-#alias(byte_length)
-pub fn ArrayBuffer::byteLength(self : ArrayBuffer) -> Int {
-  self.to_any()["byteLength"].cast()
-}
-
-///|
-#alias(max_byte_length)
-pub fn ArrayBuffer::maxByteLength(self : ArrayBuffer) -> Int {
-  self.to_any()["maxByteLength"].cast()
-}
-
-///|
-pub fn ArrayBuffer::resizable(self : ArrayBuffer) -> Bool {
-  self.to_any()["resizable"].cast()
 }
 
 ///|
@@ -64,48 +52,34 @@ pub fn ArrayBuffer::slice(
 }
 
 ///|
-extern "js" fn ffi_is_view(arg : @nostd.Any) -> Bool =
+pub extern "js" fn ArrayBuffer::isView(arg : @nostd.Any) -> Bool =
   #| (arg) => ArrayBuffer.isView(arg)
 
 ///|
-#alias(is_view)
-pub fn ArrayBuffer::isView(arg : @nostd.Any) -> Bool {
-  ffi_is_view(arg)
+// #external
+pub(all) struct SharedArrayBuffer {
+  byteLength : Int
 }
-
-///| SharedArrayBuffer
-
-///|
-#external
-pub type SharedArrayBuffer
 
 ///|
 pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @nostd.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_shared_array_buffer(byte_length : Int) -> @nostd.Any =
+pub extern "js" fn SharedArrayBuffer::new(
+  byte_length : Int,
+) -> SharedArrayBuffer =
   #| (len) => new SharedArrayBuffer(len)
 
 ///|
-pub fn SharedArrayBuffer::new(byte_length : Int) -> SharedArrayBuffer {
-  identity(ffi_new_shared_array_buffer(byte_length))
-}
-
-///|
-#alias(byte_length)
-pub fn SharedArrayBuffer::byteLength(self : SharedArrayBuffer) -> Int {
-  self.to_any()["byteLength"].cast()
-}
-
-///|
-pub fn SharedArrayBuffer::slice(
-  self : SharedArrayBuffer,
+pub extern "js" fn SharedArrayBuffer::slice(
+  self : Self,
   begin? : Int = 0,
   end? : Int,
-) -> SharedArrayBuffer {
-  match end {
-    Some(e) =>
-      self.to_any()._call("slice", [@nostd.any(begin), @nostd.any(e)]).cast()
-    None => self.to_any()._call("slice", [@nostd.any(begin)]).cast()
-  }
-}
+) -> Self =
+  #| (self, begin, end) => {
+  #|   if (end !== undefined) {
+  #|     return self.slice(begin, end);
+  #|   } else {
+  #|     return self.slice(begin);
+  #|   }
+  #| }

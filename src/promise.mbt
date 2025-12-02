@@ -175,8 +175,8 @@ pub fn[A] Promise::allSettled(
 
 ///|
 /// JS: Promise.withResolvers()
-/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
-pub(all) struct Resolvers[T] {
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withPromiseResolvers
+pub(all) struct PromiseResolvers[T] {
   promise : Promise[T]
   resolve : (T) -> Unit
   reject : (Error) -> Unit
@@ -184,19 +184,19 @@ pub(all) struct Resolvers[T] {
 
 ///|
 /// JS: Promise.withResolvers()
-/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withResolvers
-pub fn[T] Promise::withResolvers() -> Resolvers[T] {
+/// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/withPromiseResolvers
+pub fn[T] Promise::withResolvers() -> PromiseResolvers[T] {
   ffi_promise_with_resolvers() |> identity
 }
 
 ///|
 /// JS: resolvers.resolve(value)
-pub fn[T] Resolvers::resolve(self : Self[T], value : T) -> Unit {
+pub fn[T] PromiseResolvers::resolve(self : Self[T], value : T) -> Unit {
   (self.resolve)(value)
 }
 
 ///|
 /// JS: resolvers.reject(error)
-pub fn[T] Resolvers::reject(self : Self[T], error : Error) -> Unit {
+pub fn[T] PromiseResolvers::reject(self : Self[T], error : Error) -> Unit {
   (self.reject)(error)
 }

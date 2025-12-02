@@ -42,7 +42,7 @@ test "Uint8Array::from_array_buffer - with offset and length" {
 test "Uint8Array::buffer - get underlying buffer" {
   let arr = Uint8Array::from_size(10)
   let buffer = arr.buffer
-  assert_eq(buffer.byte_length(), 10)
+  assert_eq(buffer.byteLength, 10)
 }
 
 ///|

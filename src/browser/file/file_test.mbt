@@ -75,7 +75,7 @@ test "File array_buffer returns ArrayBuffer" {
     try {
       let file = File::new(["test"], "test.txt")
       let buffer = file.arrayBuffer()
-      inspect(buffer.byte_length() > 0, content="true")
+      inspect(buffer.byteLength > 0, content="true")
     } catch {
       _ => ()
     }
