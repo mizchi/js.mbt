@@ -115,6 +115,5 @@ extern "js" fn ffi_json_parse(
   reviver? : @nostd.Any,
 ) -> @nostd.Any =
   #| (json, reviver) => JSON.parse(json, reviver)
-  #|
 
 ///| Timers
