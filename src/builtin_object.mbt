@@ -20,14 +20,6 @@ pub(all) struct PropertyDescriptor {
 }
 
 ///|
-extern "js" fn ffi_set_property(
-  obj : @nostd.Any,
-  key : String,
-  value : @nostd.Any,
-) -> Unit =
-  #|(obj, key, value) => { obj[key] = value; }
-
-///|
 /// JS: Object.defineProperty(obj, prop, descriptor)
 /// Defines a new property directly on an object, or modifies an existing property
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
@@ -43,22 +35,22 @@ pub fn Object::defineProperty(
 ) -> @nostd.Any {
   let descriptor = Object::new()
   if value is Some(v) {
-    ffi_set_property(descriptor, "value", v)
+    descriptor["value"] = v |> any
   }
   if writable is Some(v) {
-    ffi_set_property(descriptor, "writable", v |> any)
+    descriptor["writable"] = v |> any
   }
   if enumerable is Some(v) {
-    ffi_set_property(descriptor, "enumerable", v |> any)
+    descriptor["enumerable"] = v |> any
   }
   if configurable is Some(v) {
-    ffi_set_property(descriptor, "configurable", v |> any)
+    descriptor["configurable"] = v |> any
   }
   if get is Some(getter) {
-    ffi_set_property(descriptor, "get", getter |> identity)
+    descriptor["get"] = getter |> any
   }
   if set is Some(setter) {
-    ffi_set_property(descriptor, "set", setter |> identity)
+    descriptor["set"] = setter |> any
   }
   @nostd.any(object_class())._call("defineProperty", [
     obj,
