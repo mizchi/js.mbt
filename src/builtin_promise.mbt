@@ -11,9 +11,9 @@ pub fn[T] Promise::to_any(self : Promise[T]) -> @nostd.Any = "%identity"
 /// JS: new Promise((resolve, reject) => { ... })
 /// Create a Promise from an async executor function with resolve/reject callbacks.
 /// ```moonbit no-check
-/// let p: Promise[Int] = Promise::new(async fn (resolve, _reject) {
-///    let result = some_async_operation()
-///    resolve(result)
+/// let p : Promise[Int] = Promise::new(async fn(resolve, _reject) {
+///   let result = some_async_operation()
+///   resolve(result)
 /// })
 /// ```
 pub fn[A] Promise::new(
@@ -32,9 +32,9 @@ pub fn[A] Promise::new(
 ///|
 /// Convert an async function to a Promise.
 /// ```moonbit no-check
-/// let p: Promise[Int] = Promise::from_async(async fn () {
-///    let result = some_async_operation()
-///    result
+/// let p : Promise[Int] = Promise::from_async(async fn() {
+///   let result = some_async_operation()
+///   result
 /// })
 /// ```
 pub fn[A] Promise::from_async(f : async () -> A) -> Promise[A] noraise {
@@ -118,8 +118,14 @@ pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/race
 /// ```moonbit no-check
 /// let first = Promise::race([
-///   Promise::from_async(async fn() { sleep(100); "slow" }),
-///   Promise::from_async(async fn() { sleep(10); "fast" }),
+///   Promise::from_async(async fn() {
+///     sleep(100)
+///     "slow"
+///   }),
+///   Promise::from_async(async fn() {
+///     sleep(10)
+///     "fast"
+///   }),
 /// ]).wait() // "fast"
 /// ```
 pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {

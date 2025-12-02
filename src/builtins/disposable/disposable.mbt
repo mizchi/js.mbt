@@ -41,7 +41,7 @@ pub fn[T] DisposableStack::adopt(
 ) -> T {
   self
   .to_any()
-  ._call("adopt", [@nostd.any(value), @nostd.any(from_fn1(disposer))])
+  ._call("adopt", [@nostd.any(value), @nostd.any(@nostd.from_fn1(disposer))])
   .cast()
 }
 
@@ -52,7 +52,8 @@ pub fn DisposableStack::defer_(
   self : DisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_any()._call("defer", [@nostd.any(from_fn0(callback))]) |> ignore
+  self.to_any()._call("defer", [@nostd.any(@nostd.from_fn0(callback))])
+  |> ignore
 }
 
 ///|
@@ -115,7 +116,7 @@ pub fn[T] AsyncDisposableStack::adopt(
 ) -> T {
   self
   .to_any()
-  ._call("adopt", [@nostd.any(value), @nostd.any(from_fn1(disposer))])
+  ._call("adopt", [@nostd.any(value), @nostd.any(@nostd.from_fn1(disposer))])
   .cast()
 }
 
@@ -126,7 +127,8 @@ pub fn AsyncDisposableStack::defer_(
   self : AsyncDisposableStack,
   callback : () -> Unit,
 ) -> Unit {
-  self.to_any()._call("defer", [@nostd.any(from_fn0(callback))]) |> ignore
+  self.to_any()._call("defer", [@nostd.any(@nostd.from_fn0(callback))])
+  |> ignore
 }
 
 ///|
@@ -135,7 +137,10 @@ pub fn AsyncDisposableStack::defer_(
 pub async fn AsyncDisposableStack::disposeAsync(
   self : AsyncDisposableStack,
 ) -> Unit {
-  let promise : Promise[Unit] = self.to_any()._call("disposeAsync", []).cast()
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("disposeAsync", [])
+    .cast()
   promise.wait()
 }
 

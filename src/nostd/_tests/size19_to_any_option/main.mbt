@@ -1,5 +1,5 @@
 ///|
-struct Point {
+pub struct Point {
   x : Int
   y : Int
 }

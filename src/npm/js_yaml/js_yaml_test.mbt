@@ -67,7 +67,7 @@ test "yamlToJson conversion" {
 ///|
 test "jsonToYaml conversion" {
   let json_str = "{\"name\": \"Demo\", \"value\": 100}"
-  let yaml_str = @js_yaml.jsonToYaml(json_str) catch { _ => "" }
+  let yaml_str = @js_yaml.jsonToYaml(json_str)
   inspect(yaml_str.length() > 0, content="true")
   inspect(yaml_str.contains("name: Demo"), content="true")
   inspect(yaml_str.contains("value: 100"), content="true")
