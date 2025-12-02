@@ -221,3 +221,15 @@ test "isFinite - check NaN" {
   let nan_val = 0.0 / 0.0
   assert_eq(@global.is_finite(nan_val), false)
 }
+
+///| Type Checking
+
+///|
+test "global isNaN" {
+  let nan_val = @nostd.any(0.0 / 0.0)
+  assert_true(@global.is_nan(nan_val))
+  assert_false(@global.is_nan(@nostd.any(42)))
+  assert_false(@global.is_nan(@nostd.any(3.14)))
+}
+
+///| String Encoding (Base64)

@@ -173,7 +173,7 @@ test "Object with empty strings" {
 
 ///|
 test "JsArray creation and type checking" {
-  let arr = JsArray::new()
+  let arr = @nostd.JsArray::new()
   assert_true(@nostd.is_array(arr))
   assert_true(@nostd.is_object(arr))
 

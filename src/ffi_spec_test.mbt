@@ -364,7 +364,7 @@ pub fn ContainerWithCustom::as_any(self : Self) -> @nostd.Any = "%identity"
 test "from_option roundtrip" {
   let original : Int? = Some(123)
   let js_val = from_option(original)
-  let restored : Int? = identity_option(js_val)
+  let restored : Int? = @nostd.identity_option(js_val)
   inspect(restored, content="Some(123)")
 }
 
@@ -372,6 +372,6 @@ test "from_option roundtrip" {
 test "from_option roundtrip with None" {
   let original : String? = None
   let js_val = from_option(original)
-  let restored : String? = identity_option(js_val)
+  let restored : String? = @nostd.identity_option(js_val)
   inspect(restored, content="None")
 }

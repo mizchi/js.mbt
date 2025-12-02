@@ -289,8 +289,20 @@ pub impl Show for Any with output(self, logger) {
 }
 
 ///|
-/// Convert a nullable JS value to Option
-/// Usage: identity_option(js_value) -> Some(value) or None
+/// Safely convert a JavaScript value to an Option type.
+///
+/// Converts JavaScript `null` or `undefined` to `None`, otherwise returns `Some(value)`.
+/// This is essential for FFI because accessing properties on null/undefined will crash.
+///
+/// # Common Patterns
+///
+/// - DOM API nullable returns: `node._get("parentNode") |> identity_option()`
+/// - Optional object properties: `obj._get("name") |> identity_option()`
+/// - Converting back to Js: use `from_option(opt)`
+///
+/// # Related Functions
+/// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
+/// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
 pub fn[T] identity_option(v : Any) -> T? {
   if is_nullish(v) {
     None

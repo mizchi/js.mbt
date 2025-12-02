@@ -204,14 +204,6 @@ pub fn[T] JsArray::from(items : Array[T]) -> JsArray {
 }
 
 ///|
-/// JS: new Array()
-/// **Avoid using this directly** - Use MoonBit Array literals with from_array() instead
-/// Example: `let arr = @js.from_array([1, 2, 3])` instead of `JsArray::new()`
-pub fn JsArray::new() -> Any {
-  ffi_new_array()
-}
-
-///|
 /// cast to builtin Array
 pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
   self |> identity

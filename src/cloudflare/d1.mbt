@@ -29,7 +29,7 @@ pub async fn D1Database::batch(
   self : Self,
   statements : Array[D1PreparedStatement],
 ) -> Array[D1Result] {
-  let stmts_js = @js.JsArray::new()
+  let stmts_js = @nostd.JsArray::new()
   let mut i = 0
   while i < statements.length() {
     @nostd.any(stmts_js)._call("push", [@nostd.any(statements[i])]) |> ignore
@@ -60,14 +60,17 @@ pub fn D1PreparedStatement::as_any(self : D1PreparedStatement) -> @nostd.Any = "
 ///|
 /// Bind parameters to a prepared statement
 /// Note: This wraps parameters in an array and spreads them to match Cloudflare's API
-pub fn D1PreparedStatement::bind(self : Self, params : Array[@nostd.Any]) -> Self {
+pub fn D1PreparedStatement::bind(
+  self : Self,
+  params : Array[@nostd.Any],
+) -> Self {
   // Cloudflare's bind() expects variadic arguments, not an array
   // We need to spread the array when calling bind
   let stmt_js = self.as_any()
   let bind_fn = stmt_js["bind"]
 
   // Convert MoonBit array to JavaScript array
-  let params_js = @js.JsArray::new()
+  let params_js = @nostd.JsArray::new()
   let mut i = 0
   while i < params.length() {
     @nostd.any(params_js)._call("push", [@nostd.any(params[i])]) |> ignore
@@ -108,7 +111,10 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub async fn D1PreparedStatement::first(self : Self) -> @nostd.Any? {
-  let promise : @js.Promise[@nostd.Any?] = self.as_any()._call("first", []).cast()
+  let promise : @js.Promise[@nostd.Any?] = self
+    .as_any()
+    ._call("first", [])
+    .cast()
   promise.wait()
 }
 

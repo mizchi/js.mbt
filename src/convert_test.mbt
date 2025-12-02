@@ -123,38 +123,6 @@ test "globalThis" {
   assert_false(@nostd.is_null(global))
 }
 
-///| Type Checking
-
-///|
-test "global isNaN" {
-  let nan_val = @nostd.any(0.0 / 0.0)
-  assert_true(@global.is_nan(nan_val))
-  assert_false(@global.is_nan(@nostd.any(42)))
-  assert_false(@global.is_nan(@nostd.any(3.14)))
-}
-
-///| String Encoding (Base64)
-
-///|
-test "btoa encodes string to base64" {
-  let encoded = @global.btoa("Hello World")
-  assert_eq(encoded, "SGVsbG8gV29ybGQ=")
-}
-
-///|
-test "atob decodes base64 to string" {
-  let decoded = @global.atob("SGVsbG8gV29ybGQ=")
-  assert_eq(decoded, "Hello World")
-}
-
-///|
-test "btoa and atob round trip" {
-  let original = "MoonBit is great!"
-  let encoded = @global.btoa(original)
-  let decoded = @global.atob(encoded)
-  assert_eq(decoded, original)
-}
-
 ///| URI Encoding
 
 ///|

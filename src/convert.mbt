@@ -51,29 +51,6 @@ pub fn[T] unsafe_any(v : T) -> Any {
 }
 
 ///|
-/// Safely convert a JavaScript value to an Option type.
-///
-/// Converts JavaScript `null` or `undefined` to `None`, otherwise returns `Some(value)`.
-/// This is essential for FFI because accessing properties on null/undefined will crash.
-///
-/// # Common Patterns
-///
-/// - DOM API nullable returns: `node._get("parentNode") |> identity_option()`
-/// - Optional object properties: `obj._get("name") |> identity_option()`
-/// - Converting back to Js: use `from_option(opt)`
-///
-/// # Related Functions
-/// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
-/// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
-pub fn[A] identity_option(v : Any) -> A? {
-  if ffi_is_nullish(v) {
-    None
-  } else {
-    Some(identity(v))
-  }
-}
-
-///|
 /// Convert an Option to Any, mapping None to null and Some(v) to v.
 ///
 /// This is the inverse of `identity_option`. Use this when you need to pass

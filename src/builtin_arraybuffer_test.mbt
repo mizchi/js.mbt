@@ -25,7 +25,7 @@ test "ArrayBuffer with maxByteLength" {
 }
 
 ///|
-test "@js.ArrayBuffer::slice operations" {
+test "@nostd.ArrayBuffer::slice operations" {
   let buffer = @js.ArrayBuffer::new(16)
 
   // Basic slice
