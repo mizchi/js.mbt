@@ -276,10 +276,9 @@ pub async fn sleep(ms : Int) -> Unit noraise {
 /// Async dispose (Symbol.asyncDispose)
 /// Usage: defer value |> dispose_async
 pub async fn dispose_async(value : @core.Any) -> Unit {
-  let dispose_fn : @core.Any = ffi_get(
-    value,
+  let dispose_fn : @core.Any = value._get(
     @symbol.Symbol::asyncDispose() |> identity,
   )
-  let promise : Promise[Unit] = ffi_call_self0(dispose_fn) |> identity
+  let promise : Promise[Unit] = @core.Any::_invoke(dispose_fn, []) |> identity
   promise.wait()
 }

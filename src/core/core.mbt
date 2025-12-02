@@ -262,3 +262,7 @@ pub fn[A] from_option(opt : A?) -> Any {
 ///|
 pub extern "js" fn log(message : Any) -> Unit =
   #| (message) => { console.log(message); }
+
+///|
+pub extern "js" fn throw_(value : Any) -> Unit =
+  #| (value) => { throw value }

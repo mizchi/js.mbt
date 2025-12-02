@@ -1,40 +1,6 @@
 ///| Types
 
 ///|
-#external
-pub type JsTimer
-
-///|
-extern "js" fn ffi_is_array(value : @core.Any) -> Bool =
-  #| (value) => Array.isArray(value)
-
-///| Object Operations
-
-///|
-extern "js" fn ffi_get(obj : @core.Any, key : String) -> @core.Any =
-  #| (obj, key) => obj[key]
-
-///| Function Calls
-
-///|
-extern "js" fn ffi_call_self0(func : @core.Any) -> Any =
-  #| (func) => func()
-
-///| Array Operations
-
-///|
-// extern "js" fn ffi_array_from(value : @core.Any) -> Array[Any] =
-//   #| (value) => Array.from(value)
-
-///| Error Handling
-
-///|
-extern "js" fn ffi_throw(value : Any) -> Unit =
-  #| (value) => { throw value }
-
-///| Promise Operations
-
-///|
 extern "js" fn ffi_promise_resolve(value : @core.Any) -> Any =
   #| (value) => Promise.resolve(value)
 

@@ -7,8 +7,8 @@
     "mizchi/js/core",
     "mizchi/js/builtins/symbol",
     "mizchi/js/builtins/object",
-    "mizchi/js/builtins/arraybuffer"
-
+    "mizchi/js/builtins/arraybuffer",
+    "mizchi/js/builtins/iterator"
   ],
   "test-import": [
     "moonbitlang/async",

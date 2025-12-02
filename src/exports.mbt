@@ -33,3 +33,6 @@ pub using @arraybuffer {
   type DataView,
   type SharedArrayBuffer,
 }
+
+///|
+pub using @iterator {type JsIterator, type AsyncIterator}

@@ -7,6 +7,7 @@
     "mizchi/js/core",
     "mizchi/js/builtins/object",
     "mizchi/js/builtins/symbol",
+    "mizchi/js/builtins/iterator",
     "mizchi/js/node",
     "moonbitlang/async",
     "moonbitlang/async/js_async"

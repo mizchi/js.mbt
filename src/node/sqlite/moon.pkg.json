@@ -5,6 +5,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
+    "mizchi/js/builtins/iterator",
     "mizchi/js/builtins/arraybuffer"
   ]
 }

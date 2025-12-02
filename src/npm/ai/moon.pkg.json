@@ -9,6 +9,7 @@
     "mizchi/js/mbtconv",
     "mizchi/js/node",
     "mizchi/js/builtins/reflect",
+    "mizchi/js/builtins/iterator",
     "moonbitlang/async",
     "mizchi/js/builtins/global"
   ],
