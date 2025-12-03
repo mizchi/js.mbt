@@ -2,7 +2,7 @@
 package "mizchi/js/node/fs_promises"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/iterator"
   "mizchi/js/core"
   "mizchi/js/node/buffer"
   "moonbitlang/async/js_async"
@@ -21,9 +21,9 @@ pub async fn copyFile(String, String) -> Unit
 
 pub async fn cp(String, String, recursive? : Bool) -> Unit
 
-pub fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[String]
+pub fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[String]
 
-pub fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @js.AsyncIterator[Dirent]
+pub fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[Dirent]
 
 pub async fn mkdir(String, recursive? : Bool) -> Unit
 

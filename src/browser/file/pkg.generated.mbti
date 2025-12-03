@@ -2,7 +2,7 @@
 package "mizchi/js/browser/file"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/web/blob"
 )
@@ -48,3 +48,4 @@ pub fn FileReader::set_onloadend(Self, (@core.Any) -> Unit) -> Unit
 // Type aliases
 
 // Traits
+

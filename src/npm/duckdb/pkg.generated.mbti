@@ -2,7 +2,6 @@
 package "mizchi/js/npm/duckdb"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
 )
 
@@ -21,7 +20,7 @@ pub type AsyncDuckDB
 pub fn AsyncDuckDB::as_any(Self) -> @core.Any
 pub async fn AsyncDuckDB::close(Self) -> Unit
 #alias(close_sync)
-pub fn AsyncDuckDB::closeSync(Self) -> @js.Promise[Unit]
+pub fn AsyncDuckDB::closeSync(Self) -> @core.Promise[Unit]
 pub async fn AsyncDuckDB::connect(Self) -> AsyncDuckDBConnection
 
 #external
@@ -29,7 +28,7 @@ pub type AsyncDuckDBConnection
 pub fn AsyncDuckDBConnection::as_any(Self) -> @core.Any
 pub async fn AsyncDuckDBConnection::close(Self) -> Unit
 #alias(close_sync)
-pub fn AsyncDuckDBConnection::closeSync(Self) -> @js.Promise[Unit]
+pub fn AsyncDuckDBConnection::closeSync(Self) -> @core.Promise[Unit]
 pub async fn AsyncDuckDBConnection::query(Self, String) -> QueryResult
 
 #external

@@ -4,21 +4,13 @@ package "mizchi/js/core"
 // Values
 pub fn[T] any(T) -> Any
 
+pub fn array_from(Any) -> Array[Any]
+
 pub fn as_any(Any?) -> Any
 
 pub fn assert_throws(() -> Any) -> String raise JsError
 
 pub fn assert_throws_with(() -> Any, String) -> Unit
-
-pub fn console_debug(Any) -> Unit
-
-pub fn console_error(Any) -> Unit
-
-pub fn console_info(Any) -> Unit
-
-pub fn console_log(Any) -> Unit
-
-pub fn console_warn(Any) -> Unit
 
 pub fn equal(Any, Any) -> Bool
 
@@ -62,23 +54,45 @@ pub fn json_stringify(Any) -> String
 
 pub fn json_stringify_pretty(Any, Int) -> String
 
+pub fn log(Any) -> Unit
+
 pub fn new(Any, Array[Any]) -> Any
 
-pub fn new_(Any, Array[Any]) -> Any
+pub fn new_array() -> Any
+
+pub fn new_object() -> Any
 
 pub fn null() -> Any
 
 pub fn[T] nullable(T?) -> Any
 
+pub fn object_assign(Any, Any) -> Any
+
+pub fn object_has_own(Any, String) -> Bool
+
+pub fn object_keys(Any) -> Array[String]
+
+pub fn object_values(Any) -> Array[Any]
+
+pub fn[R] promisify0(async () -> R) -> () -> Promise[R]
+
+pub fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
+
+pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
+
+pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
+
 pub fn run_async(async () -> Unit noraise) -> Unit
 
+pub async fn sleep(Int) -> Unit noraise
+
 pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
+pub fn throw_(Any) -> Unit
 
 pub fn throw_error(String) -> Unit
 
 pub fn try_sync(() -> Any) -> Any raise JsError
-
-pub fn type_of(Any) -> String
 
 pub fn typeof_(Any) -> String
 
@@ -103,10 +117,6 @@ pub impl Eq for Any
 pub impl Show for Any
 
 #external
-pub type JsArray
-pub fn JsArray::new() -> Any
-
-#external
 pub type Nullable[T]
 pub fn[T] Nullable::is_null(Self[T]) -> Bool
 pub fn[T] Nullable::to_option(Self[T]) -> T?
@@ -116,22 +126,36 @@ pub type Nullish[T]
 pub fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
-pub type Object
-pub fn Object::assign(Any, Any) -> Any
-pub fn Object::entries(Any) -> Array[Any]
-pub fn Object::freeze(Any) -> Any
-pub fn Object::has_own(Any, String) -> Bool
-pub fn Object::keys(Any) -> Array[String]
-pub fn Object::new() -> Any
-pub fn Object::values(Any) -> Array[Any]
-
-#external
 pub type Promise[T]
-pub fn[T] Promise::async_fn(async () -> T noraise) -> Self[T]
-pub fn[T] Promise::new(((T) -> Unit, (Any) -> Unit) -> Unit) -> Self[T]
+pub fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
+pub fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
+pub fn[T] Promise::any(Array[Self[T]]) -> Self[T]
+pub fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
+pub fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+pub fn[A] Promise::from_async(async () -> A) -> Self[A]
+pub fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
+pub fn[T] Promise::race(Array[Self[T]]) -> Self[T]
 pub fn Promise::reject(Any) -> Self[Any]
-pub fn[T] Promise::resolve(T) -> Self[T]
+pub fn[A] Promise::resolve(A) -> Self[A]
+pub fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
+pub fn[T] Promise::to_any(Self[T]) -> Any
 pub async fn[T] Promise::wait(Self[T]) -> T
+pub fn[T] Promise::withResolvers() -> PromiseResolvers[T]
+
+pub(all) struct PromiseResolvers[T] {
+  promise : Promise[T]
+  resolve : (T) -> Unit
+  reject : (Error) -> Unit
+}
+pub fn[T] PromiseResolvers::reject(Self[T], Error) -> Unit
+pub fn[T] PromiseResolvers::resolve(Self[T], T) -> Unit
+
+pub(all) struct SettledResult[T] {
+  status : String
+  value : T?
+  reason : Nullable[Any]
+}
+pub fn[T] SettledResult::to_any(Self[T]) -> Any
 
 #external
 pub type Union2[A, B]

@@ -2,7 +2,7 @@
 package "mizchi/js/npm/claude_code"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/iterator"
   "mizchi/js/core"
 )
 
@@ -106,7 +106,7 @@ pub impl Show for PermissionMode
 #external
 pub type Query
 pub fn Query::as_any(Self) -> @core.Any
-pub fn Query::async_iterator(Self) -> @js.AsyncIterator[@core.Any]
+pub fn Query::async_iterator(Self) -> @iterator.AsyncIterator[@core.Any]
 
 pub(all) struct QueryOptions {
   model : ClaudeModel?
@@ -144,7 +144,7 @@ pub(all) enum SDKMessage {
 pub fn SDKMessage::from_any(@core.Any) -> Self
 
 pub(all) struct SDKMessageIterator {
-  raw : @js.AsyncIterator[@core.Any]
+  raw : @iterator.AsyncIterator[@core.Any]
 }
 pub async fn SDKMessageIterator::next(Self) -> SDKMessage?
 

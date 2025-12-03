@@ -2,7 +2,7 @@
 package "mizchi/js/node/v8"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/node/buffer"
 )
@@ -119,3 +119,4 @@ pub fn Serializer::write_uint32(Self, Int) -> Unit
 // Type aliases
 
 // Traits
+

@@ -3,6 +3,7 @@ package "mizchi/js/web/webgpu"
 
 import(
   "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
 )
 
@@ -151,7 +152,7 @@ pub fn GPUDevice::destroy(Self) -> Unit
 pub fn GPUDevice::features(Self) -> GPUSupportedFeatures
 pub fn GPUDevice::label(Self) -> String
 pub fn GPUDevice::limits(Self) -> GPUSupportedLimits
-pub fn GPUDevice::lost(Self) -> @js.Promise[GPUDeviceLostInfo]
+pub fn GPUDevice::lost(Self) -> @core.Promise[GPUDeviceLostInfo]
 pub async fn GPUDevice::popErrorScope(Self) -> GPUError?
 pub fn GPUDevice::pushErrorScope(Self, String) -> Unit
 pub fn GPUDevice::queue(Self) -> GPUQueue
@@ -255,3 +256,4 @@ pub fn GPUTextureView::label(Self) -> String
 // Type aliases
 
 // Traits
+

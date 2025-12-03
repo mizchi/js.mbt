@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.7.0] - 2025-12-03
+
+### Added
+
+#### nostd JS interop
+- Introduced `@nostd` package with FFI inlining minifier for zero-cost JS bindings.
+- Added core helpers (`is_null`, `is_undefined`, `equal`, `type_of`, `instance_of`, `new`) plus `Nullish[T]`/`Nullable[T]`, `JsError`, `try_sync`, and `export_sync` for JS exception handling.
+- Added `Promise[T]` with `new`, `wait`, `resolve`, `reject`, and `async_fn`, along with `assert_throws` test helpers and size-aware minifier tests.
+- Renamed `JsValue` to `Any` and tightened array/object/promise/iterator utilities around the new API.
+
+#### New bindings and examples
+- Added bindings for `npm/esbuild`, `npm/pino`, `npm/ink_testing_library`, `npm/magic_string`, `npm/execa`, `npm/minimatch`, and `npm/oxc_minify` (nostd).
+- Added Vue 3 bindings with Composition API and testing-library support.
+- Added `npm/moonbit_lsp_api` for programmatic LSP access.
+- Added RealWorld TODO app example with Playwright E2E plus nostd minifier demos and bundle size reports.
+
+### Changed
+
+- Migrated core, browser, Node, Deno, Cloudflare, npm, and database bindings to `@nostd`, removing `JsImpl`/`to_any` in favor of `as_any`/`as_event_target` patterns and dropping legacy helpers (`call0/1/2`, `from_array`).
+- Refactored minifier to TypeScript with unplugin support; unified object/array/promise helpers; cleaned iterator, arraybuffer, and set implementations; consolidated ffi patterns.
+- Updated dependencies and tooling, including `.ts` import extensions for Node 24 compatibility.
+
+### Fixed
+
+- Addressed compiler regressions, null handling, and fs error propagation to restore passing test suites after the nostd migration.
+
 ## [0.6.0] - 2025-11-28
 
 ### Added

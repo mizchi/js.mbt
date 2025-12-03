@@ -10,11 +10,5 @@
     "mizchi/js/core",
     "mizchi/js/builtins/iterator" 
   ],
-  "test-import": [],
-  "link": {
-    "js": {
-      "exports": [],
-      "format": "esm"
-    }
-  }
+  "test-import": []
 }

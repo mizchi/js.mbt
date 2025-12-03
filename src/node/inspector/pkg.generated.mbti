@@ -2,7 +2,7 @@
 package "mizchi/js/node/inspector"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/object"
   "mizchi/js/core"
   "mizchi/js/web/event"
 )
@@ -12,7 +12,7 @@ pub fn close() -> Unit
 
 pub fn console() -> Console
 
-pub fn open(Int?, String?, Bool?) -> @js.Object
+pub fn open(Int?, String?, Bool?) -> @object.Object
 
 pub fn url() -> String?
 
@@ -32,7 +32,7 @@ pub fn Session::connect(Self) -> Unit
 pub fn Session::connect_to_main_thread(Self) -> Unit
 pub fn Session::disconnect(Self) -> Unit
 pub fn Session::new() -> Self
-pub fn Session::post(Self, String, @js.Object?, (@js.Object?, @js.Object) -> Unit) -> Unit
+pub fn Session::post(Self, String, @object.Object?, (@object.Object?, @object.Object) -> Unit) -> Unit
 pub fn Session::to_any(Self) -> @core.Any
 pub impl @event.EventTargetImpl for Session
 

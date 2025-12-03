@@ -99,6 +99,7 @@ Use `Nullable[T]` or `Nullish[T]` for struct fields:
 
 ```moonbit no-check
 // Nullable[T] for fields that can be null
+
 ///|
 pub(all) struct FileReader {
   readyState : Int
@@ -278,6 +279,7 @@ When wrapping JavaScript functions that return Promises, use `async fn` and call
 
 ```moonbit no-check
 // FFI declaration - returns Promise
+
 ///|
 extern "js" fn ffi_fetch(url : String) -> @core.Promise[Response] =
   #|(url) => fetch(url)
@@ -301,6 +303,7 @@ The standard pattern for async FFI functions:
 
 ```moonbit no-check
 // 1. FFI function (private) - returns Promise
+
 ///|
 extern "js" fn ffi_read_file(path : String) -> @core.Promise[String] =
   #|(path) => fs.promises.readFile(path, 'utf-8')

@@ -2,7 +2,7 @@
 package "mizchi/js/web/blob"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/web/streams"
 )
@@ -28,3 +28,4 @@ pub async fn Blob::text(Self) -> String
 // Type aliases
 
 // Traits
+

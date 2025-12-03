@@ -2,7 +2,6 @@
 package "mizchi/js/web/streams"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
 )
 
@@ -43,7 +42,7 @@ pub fn ReadableStream::tee(Self) -> (Self, Self)
 pub type ReadableStreamDefaultReader
 pub fn ReadableStreamDefaultReader::as_any(Self) -> @core.Any
 pub async fn ReadableStreamDefaultReader::cancel(Self, reason? : @core.Any) -> Unit
-pub fn ReadableStreamDefaultReader::closed(Self) -> @js.Promise[Unit]
+pub fn ReadableStreamDefaultReader::closed(Self) -> @core.Promise[Unit]
 pub async fn ReadableStreamDefaultReader::read(Self) -> @core.Any
 #alias(release_lock)
 pub fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
@@ -72,9 +71,9 @@ pub type WritableStreamDefaultWriter
 pub async fn WritableStreamDefaultWriter::abort(Self, reason? : @core.Any) -> Unit
 pub fn WritableStreamDefaultWriter::as_any(Self) -> @core.Any
 pub async fn WritableStreamDefaultWriter::close(Self) -> Unit
-pub fn WritableStreamDefaultWriter::closed(Self) -> @js.Promise[Unit]
+pub fn WritableStreamDefaultWriter::closed(Self) -> @core.Promise[Unit]
 pub fn WritableStreamDefaultWriter::desiredSize(Self) -> @core.Any
-pub fn WritableStreamDefaultWriter::ready(Self) -> @js.Promise[Unit]
+pub fn WritableStreamDefaultWriter::ready(Self) -> @core.Promise[Unit]
 #alias(release_lock)
 pub fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
 pub async fn WritableStreamDefaultWriter::write(Self, @core.Any) -> Unit

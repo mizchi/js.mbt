@@ -16,6 +16,8 @@ pub fn from_option_map(Map[String, @core.Any?]) -> @core.Any
 
 pub fn from_option_map_or_undefined(Map[String, @core.Any?]) -> @core.Any
 
+pub fn[T] is_builtin_trait(T) -> Bool
+
 pub fn to_json(@core.Any) -> Json
 
 pub fn[A] to_option(@core.Any) -> A?

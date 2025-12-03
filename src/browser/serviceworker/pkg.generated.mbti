@@ -2,7 +2,6 @@
 package "mizchi/js/browser/serviceworker"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
 )
 
@@ -35,7 +34,7 @@ pub async fn ServiceWorkerContainer::getRegistrations(Self) -> Array[ServiceWork
 pub fn ServiceWorkerContainer::onControllerChange(Self, (@core.Any) -> Unit) -> Unit
 pub fn ServiceWorkerContainer::onMessage(Self, (@core.Any) -> Unit) -> Unit
 pub fn ServiceWorkerContainer::onMessageError(Self, (@core.Any) -> Unit) -> Unit
-pub fn ServiceWorkerContainer::ready(Self) -> @js.Promise[ServiceWorkerRegistration]
+pub fn ServiceWorkerContainer::ready(Self) -> @core.Promise[ServiceWorkerRegistration]
 pub async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, update_via_cache? : String) -> ServiceWorkerRegistration
 pub fn ServiceWorkerContainer::startMessages(Self) -> Unit
 

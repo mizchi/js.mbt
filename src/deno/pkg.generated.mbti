@@ -2,7 +2,7 @@
 package "mizchi/js/deno"
 
 import(
-  "mizchi/js/builtins/typedarray"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
 )
 
@@ -38,8 +38,8 @@ pub type CommandOutput
 pub fn CommandOutput::as_any(Self) -> @core.Any
 pub fn CommandOutput::code(Self) -> Int
 pub fn CommandOutput::signal(Self) -> String?
-pub fn CommandOutput::stderr(Self) -> @typedarray.Uint8Array
-pub fn CommandOutput::stdout(Self) -> @typedarray.Uint8Array
+pub fn CommandOutput::stderr(Self) -> @arraybuffer.Uint8Array
+pub fn CommandOutput::stdout(Self) -> @arraybuffer.Uint8Array
 pub fn CommandOutput::success(Self) -> Bool
 
 #external
@@ -85,7 +85,7 @@ pub async fn Deno::permissions_revoke(Self, String, path? : String) -> Permissio
 pub fn Deno::pid(Self) -> Int
 pub fn Deno::ppid(Self) -> Int
 pub fn Deno::readDir(Self, String) -> @core.Any
-pub async fn Deno::readFile(Self, String) -> @typedarray.Uint8Array
+pub async fn Deno::readFile(Self, String) -> @arraybuffer.Uint8Array
 pub async fn Deno::readLink(Self, String) -> String
 pub async fn Deno::readTextFile(Self, String) -> String
 pub async fn Deno::realPath(Self, String) -> String

@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/iterator"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub(all) type AsyncIterator[T]
+pub async fn[T] AsyncIterator::next(Self[T]) -> T?
+pub fn[T] AsyncIterator::to_any(Self[T]) -> @core.Any
+
+#external
+pub(all) type JsIterator[T]
+pub fn[T] JsIterator::as_any(Self[T]) -> @core.Any
+pub fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
+pub fn[T] JsIterator::from(@core.Any) -> Self[T]
+pub fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
+pub fn[T] JsIterator::next(Self[T]) -> T?
+pub fn[T] JsIterator::take(Self[T], Int) -> Self[T]
+pub fn[T] JsIterator::toArray(Self[T]) -> Array[T]
+pub fn[T] JsIterator::to_any(Self[T]) -> @core.Any
+
+// Type aliases
+
+// Traits
+

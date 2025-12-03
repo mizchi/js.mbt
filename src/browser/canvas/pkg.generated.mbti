@@ -3,7 +3,7 @@ package "mizchi/js/browser/canvas"
 
 import(
   "mizchi/js/browser/dom"
-  "mizchi/js/builtins/typedarray"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/worker"
@@ -81,9 +81,9 @@ pub impl @worker.Transferable for ImageBitmap
 pub(all) struct ImageData {
   width : Int
   height : Int
-  data : @typedarray.Uint8Array
+  data : @arraybuffer.Uint8Array
 }
-pub fn ImageData::from_data(@typedarray.Uint8Array, Int, Int) -> Self
+pub fn ImageData::from_data(@arraybuffer.Uint8Array, Int, Int) -> Self
 pub fn ImageData::new(Int, Int) -> Self
 
 #external

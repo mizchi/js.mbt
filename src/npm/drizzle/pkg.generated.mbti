@@ -2,7 +2,6 @@
 package "mizchi/js/npm/drizzle"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
 )
 
@@ -241,7 +240,7 @@ pub fn DrizzleDB::selectDistinct(Self) -> QueryBuilder
 pub async fn DrizzleDB::sqliteTransaction(Self, SqliteBehavior, (Transaction) -> Unit) -> @core.Any
 pub async fn DrizzleDB::transaction(Self, (Transaction) -> Unit) -> @core.Any
 #alias(transaction_async)
-pub async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @js.Promise[@core.Any]) -> @core.Any
+pub async fn DrizzleDB::transactionAsync(Self, (Transaction) -> @core.Promise[@core.Any]) -> @core.Any
 pub fn DrizzleDB::update(Self, Table) -> QueryBuilder
 
 pub(all) enum ForeignKeyAction {

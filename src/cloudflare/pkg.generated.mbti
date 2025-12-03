@@ -2,7 +2,7 @@
 package "mizchi/js/cloudflare"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/builtins/date"
   "mizchi/js/core"
   "mizchi/js/web/blob"
@@ -21,7 +21,7 @@ pub fn CloudflareContext::as_any(Self) -> @core.Any
 #alias(pass_through_exception)
 pub fn CloudflareContext::passThroughOnException(Self) -> Unit
 #alias(wait_until)
-pub fn CloudflareContext::waitUntil(Self, @js.Promise[Unit]) -> Unit
+pub fn CloudflareContext::waitUntil(Self, @core.Promise[Unit]) -> Unit
 
 #external
 pub type CloudflareEnv
@@ -313,6 +313,7 @@ pub(all) struct R2UploadedPart {
 pub fn R2UploadedPart::as_any(Self) -> @core.Any
 
 // Type aliases
-pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @js.Promise[@http.Response]
+pub type CloudflareFetchHandler = (CloudflareRequest, CloudflareEnv, CloudflareContext) -> @core.Promise[@http.Response]
 
 // Traits
+

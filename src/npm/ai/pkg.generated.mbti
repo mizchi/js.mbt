@@ -2,7 +2,7 @@
 package "mizchi/js/npm/ai"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/iterator"
   "mizchi/js/core"
 )
 
@@ -448,11 +448,11 @@ pub async fn StreamTextResultHandle::finishReason(Self) -> FinishReason
 #alias(full_stream)
 pub fn StreamTextResultHandle::fullStream(Self) -> TextStreamPartIterator
 #alias(full_stream_raw)
-pub fn StreamTextResultHandle::fullStreamRaw(Self) -> @js.AsyncIterator[@core.Any]
+pub fn StreamTextResultHandle::fullStreamRaw(Self) -> @iterator.AsyncIterator[@core.Any]
 pub async fn StreamTextResultHandle::steps(Self) -> Array[StepResult]
 pub async fn StreamTextResultHandle::text(Self) -> String
 #alias(text_stream)
-pub fn StreamTextResultHandle::textStream(Self) -> @js.AsyncIterator[String]
+pub fn StreamTextResultHandle::textStream(Self) -> @iterator.AsyncIterator[String]
 pub async fn StreamTextResultHandle::usage(Self) -> LanguageModelUsage
 
 pub(all) enum TextStreamPart {
@@ -490,7 +490,7 @@ pub fn TextStreamPart::is_tool_part(Self) -> Bool
 pub fn TextStreamPart::type_string(Self) -> String
 
 pub(all) struct TextStreamPartIterator {
-  raw : @js.AsyncIterator[@core.Any]
+  raw : @iterator.AsyncIterator[@core.Any]
 }
 pub async fn TextStreamPartIterator::next(Self) -> TextStreamPart?
 

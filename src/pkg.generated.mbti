@@ -2,6 +2,9 @@
 package "mizchi/js"
 
 import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/builtins/iterator"
+  "mizchi/js/builtins/object"
   "mizchi/js/builtins/symbol"
   "mizchi/js/core"
   "moonbitlang/async/js_async"
@@ -9,10 +12,6 @@ import(
 
 // Values
 pub fn[T] any(T) -> @core.Any
-
-pub fn array_from(@core.Any) -> Array[@core.Any]
-
-pub async fn dispose_async(@core.Any) -> Unit
 
 pub fn[A] from_fn0(() -> A) -> @core.Any
 
@@ -24,29 +23,25 @@ pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @core.Any
 
 pub fn[A, B] identity(A) -> B
 
-pub fn[T] is_builtin_trait(T) -> Bool
-
 pub fn[T] log(T) -> Unit
 
 pub fn[T, U] log2(T, U) -> Unit
 
-pub fn[R] promisify0(async () -> R) -> () -> Promise[R]
+pub fn new(@core.Any, Array[@core.Any]) -> @core.Any
 
-pub fn[A, R] promisify1(async (A) -> R) -> (A) -> Promise[R]
+pub fn[R] promisify0(async () -> R) -> () -> @core.Promise[R]
 
-pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> Promise[R]
+pub fn[A, R] promisify1(async (A) -> R) -> (A) -> @core.Promise[R]
 
-pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> Promise[R]
+pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> @core.Promise[R]
+
+pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> @core.Promise[R]
 
 pub fn run_async(async () -> Unit noraise) -> Unit
-
-pub async fn sleep(Int) -> Unit noraise
 
 pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
 pub fn symbol(String) -> @symbol.Symbol
-
-pub fn throw_(@core.Any) -> Unit
 
 pub fn[T] throwable(() -> T raise?) -> T raise ThrowError
 
@@ -57,22 +52,6 @@ pub suberror ThrowError @core.Any
 pub impl Show for ThrowError
 
 // Types and methods
-pub(all) struct ArrayBuffer {
-  byteLength : Int
-  maxByteLength : Int
-  resizable : Bool
-}
-pub fn ArrayBuffer::isView(@core.Any) -> Bool
-pub fn ArrayBuffer::new(Int, max_byte_length? : Int) -> Self
-pub fn ArrayBuffer::resize(Self, Int) -> Unit
-pub fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-pub fn ArrayBuffer::to_any(Self) -> @core.Any
-
-#external
-pub(all) type AsyncIterator[T]
-pub async fn[T] AsyncIterator::next(Self[T]) -> T?
-pub fn[T] AsyncIterator::to_any(Self[T]) -> @core.Any
-
 #external
 pub type JSON
 pub fn JSON::parse(String, reviver? : @core.Any?) -> @core.Any raise ThrowError
@@ -82,8 +61,6 @@ pub fn JSON::stringify(@core.Any, replacer? : @core.Any, space? : Int) -> String
 pub type JsArray
 pub fn JsArray::as_any(Self) -> @core.Any
 pub fn[T] JsArray::as_builtin_array(Self) -> Array[T]
-pub fn[T] JsArray::from(Array[T]) -> @core.Any
-pub fn JsArray::isArray(@core.Any) -> Bool
 pub fn JsArray::to_string(Self) -> String
 
 pub(all) struct JsError {
@@ -94,70 +71,18 @@ pub fn JsError::isError(@core.Any) -> Bool
 pub fn JsError::new(String, cause? : Self) -> Self
 
 #external
-pub(all) type JsIterator[T]
-pub fn[T] JsIterator::as_any(Self[T]) -> @core.Any
-pub fn[T] JsIterator::drop(Self[T], Int) -> Self[T]
-pub fn[T] JsIterator::from(@core.Any) -> Self[T]
-pub fn[T] JsIterator::iter(Self[T]) -> Iterator[T]
-pub fn[T] JsIterator::next(Self[T]) -> T?
-pub fn[T] JsIterator::take(Self[T], Int) -> Self[T]
-pub fn[T] JsIterator::toArray(Self[T]) -> Array[T]
-pub fn[T] JsIterator::to_any(Self[T]) -> @core.Any
-
-#external
 pub type JsString
 pub fn JsString::fromCharCode(Array[Int]) -> String
 pub fn JsString::fromCodePoint(Array[Int]) -> String
 pub fn JsString::to_any(Self) -> @core.Any
 
-#external
-pub type JsTimer
-
-#external
-pub type Object
-pub fn Object::assign(@core.Any, @core.Any) -> @core.Any
-pub fn Object::keys(@core.Any) -> Array[String]
-pub fn Object::new() -> @core.Any
-pub fn Object::to_any(Self) -> @core.Any
-
-#external
-pub type Promise[T]
-pub fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
-pub fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
-pub fn[T] Promise::any(Array[Self[T]]) -> Self[T]
-pub fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
-pub fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
-pub fn[A] Promise::from_async(async () -> A) -> Self[A]
-pub fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
-pub fn[T] Promise::race(Array[Self[T]]) -> Self[T]
-pub fn Promise::reject(@core.Any) -> Self[@core.Any]
-pub fn[A] Promise::resolve(A) -> Self[A]
-pub fn[A, B] Promise::then(Self[A], (A) -> Self[B] raise) -> Self[B]
-pub fn[T] Promise::to_any(Self[T]) -> @core.Any
-pub async fn[T] Promise::wait(Self[T]) -> T
-pub fn[T] Promise::withResolvers() -> PromiseResolvers[T]
-
 pub(all) struct PromiseResolvers[T] {
-  promise : Promise[T]
+  promise : @core.Promise[T]
   resolve : (T) -> Unit
   reject : (Error) -> Unit
 }
 pub fn[T] PromiseResolvers::reject(Self[T], Error) -> Unit
 pub fn[T] PromiseResolvers::resolve(Self[T], T) -> Unit
-
-pub(all) struct SettledResult[T] {
-  status : String
-  value : T?
-  reason : @core.Nullable[@core.Any]
-}
-pub fn[T] SettledResult::to_any(Self[T]) -> @core.Any
-
-pub(all) struct SharedArrayBuffer {
-  byteLength : Int
-}
-pub fn SharedArrayBuffer::new(Int) -> Self
-pub fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-pub fn SharedArrayBuffer::to_any(Self) -> @core.Any
 
 // Type aliases
 pub using @js_async {type AbortController}
@@ -166,11 +91,27 @@ pub using @js_async {type AbortSignal}
 
 pub using @core {type Any}
 
+pub using @arraybuffer {type ArrayBuffer}
+
+pub using @iterator {type AsyncIterator}
+
+pub using @arraybuffer {type DataView}
+
+pub using @iterator {type JsIterator}
+
 pub using @core {type Nullable}
 
 pub using @core {type Nullish}
 
+pub using @object {type Object}
+
+pub using @core {type Promise}
+
+pub using @arraybuffer {type SharedArrayBuffer}
+
 pub using @symbol {type Symbol}
+
+pub using @arraybuffer {type TypedArray}
 
 // Traits
 

@@ -2,7 +2,6 @@
 package "mizchi/js/npm/pglite"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
 )
 
@@ -16,7 +15,7 @@ pub type PGlite
 pub fn PGlite::as_any(Self) -> @core.Any
 pub async fn PGlite::close(Self) -> Unit
 #alias(close_sync)
-pub fn PGlite::closeSync(Self) -> @js.Promise[Unit]
+pub fn PGlite::closeSync(Self) -> @core.Promise[Unit]
 pub async fn PGlite::create() -> Self
 #alias(create_with_dir)
 pub async fn PGlite::createWithDir(String) -> Self

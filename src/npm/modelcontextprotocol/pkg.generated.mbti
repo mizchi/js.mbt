@@ -2,7 +2,6 @@
 package "mizchi/js/npm/modelcontextprotocol"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
   "moonbitlang/core/immut/hashmap"
 )
@@ -134,14 +133,14 @@ pub fn McpClient::new(String) -> Self
 
 pub struct McpServer {
   info : ServerInfo
-  mut tools : @hashmap.HashMap[String, (Tool, (@core.Any) -> @js.Promise[Array[Content]])]
-  mut resources : @hashmap.HashMap[String, (Resource, (String) -> @js.Promise[Array[Content]])]
-  mut prompts : @hashmap.HashMap[String, (Prompt, (@core.Any) -> @js.Promise[Array[Content]])]
+  mut tools : @hashmap.HashMap[String, (Tool, (@core.Any) -> @core.Promise[Array[Content]])]
+  mut resources : @hashmap.HashMap[String, (Resource, (String) -> @core.Promise[Array[Content]])]
+  mut prompts : @hashmap.HashMap[String, (Prompt, (@core.Any) -> @core.Promise[Array[Content]])]
 }
 pub fn[T] McpServer::add_prompt(Self, Prompt, async (T) -> Array[Content]) -> Unit
 pub fn McpServer::add_resource(Self, Resource, async (String) -> Array[Content]) -> Unit
 pub fn[T] McpServer::add_tool(Self, Tool, async (T) -> Array[Content]) -> Unit
-pub fn McpServer::handle_request(Self, JsonRpcRequest) -> @js.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
+pub fn McpServer::handle_request(Self, JsonRpcRequest) -> @core.Promise[Result[JsonRpcResponse, JsonRpcErrorResponse]]
 pub fn McpServer::new(String, String) -> Self
 
 pub(all) struct Prompt {

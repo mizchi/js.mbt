@@ -2,8 +2,7 @@
 package "mizchi/js/web/http"
 
 import(
-  "mizchi/js"
-  "mizchi/js/builtins/typedarray"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/web/blob"
   "mizchi/js/web/streams"
@@ -37,7 +36,7 @@ pub(all) struct Request {
 pub async fn Request::arraybuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn Request::as_any(Self) -> @core.Any
 pub async fn Request::blob(Self) -> @blob.Blob
-pub async fn Request::bytes(Self) -> @typedarray.Uint8Array
+pub async fn Request::bytes(Self) -> @arraybuffer.Uint8Array
 pub fn Request::clone(Self) -> Self
 pub async fn Request::json(Self) -> @core.Any
 pub fn Request::method_(Self) -> String
@@ -72,7 +71,7 @@ pub(all) struct Response {
 }
 pub fn Response::as_any(Self) -> @core.Any
 pub fn Response::body(Self) -> @streams.ReadableStream?
-pub async fn Response::bytes(Self) -> @typedarray.Uint8Array
+pub async fn Response::bytes(Self) -> @arraybuffer.Uint8Array
 pub fn Response::clone(Self) -> Self
 pub fn Response::error() -> Self
 #alias(form_data)
@@ -89,3 +88,4 @@ pub fn Response::type_(Self) -> String
 // Type aliases
 
 // Traits
+

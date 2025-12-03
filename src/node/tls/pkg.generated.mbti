@@ -2,13 +2,13 @@
 package "mizchi/js/node/tls"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/object"
   "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-pub fn connect(Int, String, () -> Unit, servername? : String, key? : String, cert? : String, ca? : String, rejectUnauthorized? : Bool, alpn_protocols? : Array[String], session? : @js.Object) -> TLSSocket
+pub fn connect(Int, String, () -> Unit, servername? : String, key? : String, cert? : String, ca? : String, rejectUnauthorized? : Bool, alpn_protocols? : Array[String], session? : @object.Object) -> TLSSocket
 
 pub fn create_server((TLSSocket) -> Unit, key? : String, cert? : String, ca? : String, pfx? : String, passphrase? : String, rejectUnauthorized? : Bool, requestCert? : Bool, alpn_protocols? : Array[String]) -> Server
 
@@ -30,12 +30,12 @@ pub fn TLSSocket::as_event_target(Self) -> @event.EventTarget
 pub fn TLSSocket::authorization_error(Self) -> String?
 pub fn TLSSocket::authorized(Self) -> Bool
 pub fn TLSSocket::end(Self) -> Unit
-pub fn TLSSocket::get_cipher(Self) -> @js.Object
-pub fn TLSSocket::get_peer_certificate(Self, Bool) -> @js.Object
+pub fn TLSSocket::get_cipher(Self) -> @object.Object
+pub fn TLSSocket::get_peer_certificate(Self, Bool) -> @object.Object
 pub fn TLSSocket::get_protocol(Self) -> String
-pub fn TLSSocket::on_data(Self, (@js.Object) -> Unit) -> Self
+pub fn TLSSocket::on_data(Self, (@object.Object) -> Unit) -> Self
 pub fn TLSSocket::on_end(Self, () -> Unit) -> Self
-pub fn TLSSocket::on_error(Self, (@js.Object) -> Unit) -> Self
+pub fn TLSSocket::on_error(Self, (@object.Object) -> Unit) -> Self
 pub fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
 pub fn TLSSocket::write(Self, String) -> Unit
 pub impl @event.EventTargetImpl for TLSSocket

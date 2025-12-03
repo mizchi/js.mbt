@@ -2,7 +2,7 @@
 package "mizchi/js/node/readline"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/object"
   "mizchi/js/node/stream"
 )
 
@@ -39,7 +39,7 @@ pub fn Interface::pause(Self) -> Unit
 pub fn Interface::prompt(Self, Bool) -> Unit
 pub fn Interface::resume_(Self) -> Unit
 pub fn Interface::set_prompt(Self, String) -> Unit
-pub fn Interface::write(Self, String, @js.Object?) -> Unit
+pub fn Interface::write(Self, String, @object.Object?) -> Unit
 
 // Type aliases
 

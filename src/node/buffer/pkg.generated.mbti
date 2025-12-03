@@ -2,7 +2,7 @@
 package "mizchi/js/node/buffer"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
 )
 
@@ -59,3 +59,4 @@ pub fn BufferJSON::type_(Self) -> String
 // Type aliases
 
 // Traits
+

@@ -2,7 +2,6 @@
 package "mizchi/js/npm/comlink"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
   "mizchi/js/web/message"
   "mizchi/js/web/worker"
@@ -55,12 +54,12 @@ pub fn ProxyMarked::as_any(Self) -> @core.Any
 #external
 pub type Remote
 pub fn Remote::as_any(Self) -> @core.Any
-pub fn Remote::call0(Self, String) -> @js.Promise[@core.Any]
-pub fn Remote::call1(Self, String, @core.Any) -> @js.Promise[@core.Any]
-pub fn Remote::call2(Self, String, @core.Any, @core.Any) -> @js.Promise[@core.Any]
-pub fn Remote::callMethod(Self, String, Array[@core.Any]) -> @js.Promise[@core.Any]
-pub fn Remote::createEndpoint(Self) -> @js.Promise[@message.MessagePort]
-pub fn Remote::get(Self, String) -> @js.Promise[@core.Any]
+pub fn Remote::call0(Self, String) -> @core.Promise[@core.Any]
+pub fn Remote::call1(Self, String, @core.Any) -> @core.Promise[@core.Any]
+pub fn Remote::call2(Self, String, @core.Any, @core.Any) -> @core.Promise[@core.Any]
+pub fn Remote::callMethod(Self, String, Array[@core.Any]) -> @core.Promise[@core.Any]
+pub fn Remote::createEndpoint(Self) -> @core.Promise[@message.MessagePort]
+pub fn Remote::get(Self, String) -> @core.Promise[@core.Any]
 pub fn Remote::release(Self) -> Unit
 
 #external

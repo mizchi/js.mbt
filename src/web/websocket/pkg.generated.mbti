@@ -2,7 +2,7 @@
 package "mizchi/js/web/websocket"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
   "mizchi/js/node/buffer"
   "mizchi/js/web/blob"
@@ -57,3 +57,4 @@ pub impl Show for WebSocketReadyState
 // Type aliases
 
 // Traits
+

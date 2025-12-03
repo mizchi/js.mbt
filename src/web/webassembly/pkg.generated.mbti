@@ -2,19 +2,18 @@
 package "mizchi/js/web/webassembly"
 
 import(
-  "mizchi/js"
-  "mizchi/js/builtins/typedarray"
+  "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
 )
 
 // Values
-pub fn compile(@typedarray.Uint8Array) -> @core.Any
+pub fn compile(@arraybuffer.Uint8Array) -> @core.Any
 
-pub fn instantiate_bytes(@typedarray.Uint8Array, @core.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
+pub fn instantiate_bytes(@arraybuffer.Uint8Array, @core.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
 
 pub fn instantiate_module(WebAssemblyModule, @core.Any?) -> WebAssemblyInstance
 
-pub fn validate(@typedarray.Uint8Array) -> Bool
+pub fn validate(@arraybuffer.Uint8Array) -> Bool
 
 // Errors
 
@@ -60,7 +59,7 @@ pub fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
 pub type WebAssemblyModule
 pub fn WebAssemblyModule::as_any(Self) -> @core.Any
 pub fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
-pub fn WebAssemblyModule::from_bytes(@typedarray.Uint8Array) -> Self
+pub fn WebAssemblyModule::from_bytes(@arraybuffer.Uint8Array) -> Self
 
 #external
 pub type WebAssemblyTable
@@ -73,3 +72,4 @@ pub fn WebAssemblyTable::set(Self, Int, @core.Any) -> Unit
 // Type aliases
 
 // Traits
+
