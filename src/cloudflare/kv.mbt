@@ -14,7 +14,7 @@ extern "js" fn KVNamespace::get_impl(
   options : @core.Any?,
 ) -> @js.Promise[String?] =
   #| async (self, key, options) => {
-  #|   const result = options === undefined ? await self._get(key) : await self._get(key, options);
+  #|   const result = options === undefined ? await self.get(key) : await self.get(key, options);
   #|   return result === null ? undefined : result;
   #| }
 

@@ -24,7 +24,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers._get("content-type")).toContain("application/json");
+    expect(response.headers.get("content-type")).toContain("application/json");
 
     const json = await response.json();
     expect(json.message).toBe("Hello from MoonBit Worker!");
@@ -50,7 +50,7 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers._get("content-type")).toContain("text/plain");
+    expect(response.headers.get("content-type")).toContain("text/plain");
 
     const text = await response.text();
     expect(text).toBe("Plain text response from MoonBit");
@@ -75,8 +75,8 @@ describe("MoonBit Cloudflare Worker - Basic HTTP Routes", () => {
 
     const response = await handler(request, env, ctx);
     expect(response.status).toBe(200);
-    expect(response.headers._get("x-custom-header")).toBe("MoonBit-Worker");
-    expect(response.headers._get("x-powered-by")).toBe("Cloudflare");
+    expect(response.headers.get("x-custom-header")).toBe("MoonBit-Worker");
+    expect(response.headers.get("x-powered-by")).toBe("Cloudflare");
   });
 
   it("should parse query parameters at /api/query", async () => {

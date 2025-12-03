@@ -60,7 +60,7 @@ Cloudflare KV is a global, low-latency key-value data store.
 
 ```moonbit
 // Get a value
-let value = kv._get("my-key").await()
+let value = kv.get("my-key").await()
 
 // Put a value
 kv.put("my-key", "my-value").await()
@@ -76,7 +76,7 @@ let result = kv.list().await()
 
 ```moonbit
 // Get with options
-let value = kv._get(
+let value = kv.get(
   "my-key",
   type_?=Some("json"),
   cacheTtl?=Some(60)
@@ -150,7 +150,7 @@ Cloudflare R2 is an S3-compatible object storage service.
 let obj = bucket.put("file.txt", js("Hello, World!")).await()
 
 // Get an object
-let obj = bucket._get("file.txt").await()
+let obj = bucket.get("file.txt").await()
 match obj {
   Some(o) => {
     let text = o.text().await()
@@ -192,7 +192,7 @@ let cond = R2Conditional::{
   uploadedBefore: None,
   uploadedAfter: None
 }
-let obj = bucket._get(
+let obj = bucket.get(
   "file.txt",
   onlyIf?=Some(cond)
 ).await()
@@ -224,7 +224,7 @@ let stub = namespace.get_by_name("my-object")
 
 // Get by unique ID
 let id = namespace.new_unique_id()
-let stub = namespace._get(id)
+let stub = namespace.get(id)
 
 // Get with jurisdiction
 let id = namespace.new_unique_id(jurisdiction?=Some("eu"))
@@ -248,7 +248,7 @@ let response = stub.fetch_url_with_init("/api/endpoint", init).await()
 let storage = state.storage()
 
 // Get/Put/Delete
-let value = storage._get("counter").await()
+let value = storage.get("counter").await()
 storage.put("counter", js(42)).await()
 storage.delete("key").await()
 
@@ -279,7 +279,7 @@ state.block_concurrency_while(callback).await()
 
 ```moonbit
 // Get with options
-let value = storage._get(
+let value = storage.get(
   "key",
   allowConcurrency?=Some(true),
   noCache?=Some(false)
@@ -318,7 +318,7 @@ Most operations return `Promise[T]` types. Use MoonBit's async/await:
 ```moonbit
 // With error handling
 let result = try {
-  let value = kv._get("key", None).await()
+  let value = kv.get("key", None).await()
   Ok(value)
 } catch {
   e => Err(e)
@@ -408,7 +408,7 @@ describe('My Feature', () => {
   it('should work correctly', async () => {
     const kv = env.TEST_KV as KVNamespace;
     await kv.put('key', 'value');
-    const result = await kv._get('key');
+    const result = await kv.get('key');
     expect(result).toBe('value');
   });
 });
