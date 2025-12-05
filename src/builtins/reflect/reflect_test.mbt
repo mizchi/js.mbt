@@ -129,7 +129,7 @@ test "Reflect.set with receiver" {
 ///|
 test "Reflect.get with receiver" {
   let obj = @core.new_object()
-  obj._set("value", @core.any(100))
+  obj["value"] = @core.any(100)
   let receiver = @core.new_object()
   let result = @reflect.get(obj, @core.any("value"), Some(receiver))
   assert_eq(@core.identity(result), 100)
@@ -160,7 +160,7 @@ test "Reflect operations on frozen object" {
 ///|
 test "Reflect.ownKeys includes symbols" {
   let obj = @core.new_object()
-  obj._set("stringKey", @core.any(1))
+  obj["stringKey"] = @core.any(1)
   let sym = @symbol.symbol("test")
   // Use Reflect.set to set symbol key (since _set only takes String keys)
   @reflect.set(obj, @core.any(sym), @core.any(2), None) |> ignore

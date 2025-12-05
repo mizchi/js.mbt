@@ -3,11 +3,11 @@
     "js"
   ],
   "import": [
-    "mizchi/js/core",
-    "mizchi/js/builtins/symbol"
+    "mizchi/js/core"
   ],
   "test-import": [
     "mizchi/js/builtins/object",
-    "mizchi/js/builtins/global"
+    "mizchi/js/builtins/global",
+    "mizchi/js/builtins/symbol"
   ]
 }
