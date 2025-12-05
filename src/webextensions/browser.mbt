@@ -6,12 +6,7 @@
 /// Get the browser global object
 /// In Firefox: browser
 /// In Chrome: chrome (with Promise polyfill)
-pub fn browser() -> @core.Any {
-  ffi_get_browser()
-}
-
-///|
-extern "js" fn ffi_get_browser() -> @core.Any =
+pub extern "js" fn browser() -> @core.Any =
   #|() => {
   #|  if (typeof browser !== 'undefined') return browser;
   #|  if (typeof chrome !== 'undefined') return chrome;

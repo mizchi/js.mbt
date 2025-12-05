@@ -72,59 +72,39 @@ extern "js" fn ffi_dump_with_options(
   #|   return yaml.dump(obj, options);
   #| }
 
+///| Schema Constants
+
 ///|
-extern "js" fn ffi_default_schema() -> Schema =
+/// Default schema - all supported YAML types
+pub extern "js" fn defaultSchema() -> Schema =
   #| () => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.DEFAULT_SCHEMA;
   #| }
 
 ///|
-extern "js" fn ffi_failsafe_schema() -> Schema =
+/// Failsafe schema - strings, arrays, plain objects only
+pub extern "js" fn failsafeSchema() -> Schema =
   #| () => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.FAILSAFE_SCHEMA;
   #| }
 
 ///|
-extern "js" fn ffi_json_schema() -> Schema =
+/// JSON schema - all JSON-supported types
+pub extern "js" fn jsonSchema() -> Schema =
   #| () => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.JSON_SCHEMA;
   #| }
 
 ///|
-extern "js" fn ffi_core_schema() -> Schema =
+/// Core schema - equivalent to JSON_SCHEMA
+pub extern "js" fn coreSchema() -> Schema =
   #| () => {
   #|   const yaml = require('js-yaml');
   #|   return yaml.CORE_SCHEMA;
   #| }
-
-///| Schema Constants
-
-///|
-/// Default schema - all supported YAML types
-pub fn defaultSchema() -> Schema {
-  ffi_default_schema()
-}
-
-///|
-/// Failsafe schema - strings, arrays, plain objects only
-pub fn failsafeSchema() -> Schema {
-  ffi_failsafe_schema()
-}
-
-///|
-/// JSON schema - all JSON-supported types
-pub fn jsonSchema() -> Schema {
-  ffi_json_schema()
-}
-
-///|
-/// Core schema - equivalent to JSON_SCHEMA
-pub fn coreSchema() -> Schema {
-  ffi_core_schema()
-}
 
 ///| Load Functions
 
