@@ -36,13 +36,17 @@ pub fn File::new(
   content_type? : String,
   last_modified? : Int,
 ) -> File {
+  let entries : Array[(String, @core.Any)] = []
+  if content_type is Some(v) {
+    entries.push(("type", @core.any(v)))
+  }
+  if last_modified is Some(v) {
+    entries.push(("lastModified", @core.any(v)))
+  }
   ffi_new_file(
     @core.any(data),
     filename |> @js.any,
-    @mbtconv.from_option_map({
-      "type": content_type.map(fn(x) { @core.any(x) }),
-      "lastModified": last_modified.map(fn(x) { @core.any(x) }),
-    }).cast(),
+    @core.from_entries(entries),
   )
   |> @core.identity
 }

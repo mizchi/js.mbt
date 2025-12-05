@@ -100,19 +100,29 @@ pub fn create_server(
   max_send_header_block_length? : Int,
   padding_strategy? : Int,
 ) -> Http2Server {
-  let opts = @mbtconv.from_option_map({
-    "allowHTTP1": allow_http1.map(fn(x) { @core.any(x) }),
-    "maxDeflateDynamicTableSize": max_deflate_dynamic_table_size.map(fn(x) {
-      @core.any(x)
-    }),
-    "maxSessionMemory": max_session_memory.map(fn(x) { @core.any(x) }),
-    "maxHeaderListSize": max_header_list_size.map(fn(x) { @core.any(x) }),
-    "maxOutstandingPings": max_outstanding_pings.map(fn(x) { @core.any(x) }),
-    "maxSendHeaderBlockLength": max_send_header_block_length.map(fn(x) {
-      @core.any(x)
-    }),
-    "paddingStrategy": padding_strategy.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if allow_http1 is Some(v) {
+    entries.push(("allowHTTP1", @core.any(v)))
+  }
+  if max_deflate_dynamic_table_size is Some(v) {
+    entries.push(("maxDeflateDynamicTableSize", @core.any(v)))
+  }
+  if max_session_memory is Some(v) {
+    entries.push(("maxSessionMemory", @core.any(v)))
+  }
+  if max_header_list_size is Some(v) {
+    entries.push(("maxHeaderListSize", @core.any(v)))
+  }
+  if max_outstanding_pings is Some(v) {
+    entries.push(("maxOutstandingPings", @core.any(v)))
+  }
+  if max_send_header_block_length is Some(v) {
+    entries.push(("maxSendHeaderBlockLength", @core.any(v)))
+  }
+  if padding_strategy is Some(v) {
+    entries.push(("paddingStrategy", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries)
   ffi_create_server(opts, @js.from_fn2(request_handler))
 }
 
@@ -136,13 +146,23 @@ pub fn create_secure_server(
   passphrase? : String,
   allow_http1? : Bool,
 ) -> Http2SecureServer {
-  let opts = @mbtconv.from_option_map({
-    "key": key.map(fn(x) { @core.any(x) }),
-    "cert": cert.map(fn(x) { @core.any(x) }),
-    "pfx": pfx.map(fn(x) { @core.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @core.any(x) }),
-    "allowHTTP1": allow_http1.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if key is Some(v) {
+    entries.push(("key", @core.any(v)))
+  }
+  if cert is Some(v) {
+    entries.push(("cert", @core.any(v)))
+  }
+  if pfx is Some(v) {
+    entries.push(("pfx", @core.any(v)))
+  }
+  if passphrase is Some(v) {
+    entries.push(("passphrase", @core.any(v)))
+  }
+  if allow_http1 is Some(v) {
+    entries.push(("allowHTTP1", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries)
   ffi_create_secure_server(opts, @js.from_fn2(request_handler))
 }
 
@@ -259,9 +279,9 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.as_event_target().addEventListener("data", fn(e : @core.Any) {
-    callback(@core.identity(e))
-  })
+  self
+  .as_event_target()
+  .addEventListener("data", fn(e : @core.Any) { callback(@core.identity(e)) })
   self
 }
 
@@ -271,7 +291,9 @@ pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.as_event_target().addEventListener("response", fn(e : @core.Any) {
+  self
+  .as_event_target()
+  .addEventListener("response", fn(e : @core.Any) {
     callback(@core.identity(e))
   })
   self
@@ -283,6 +305,8 @@ pub fn ClientHttp2Stream::on_end(
   self : ClientHttp2Stream,
   callback : () -> Unit,
 ) -> ClientHttp2Stream {
-  self.as_event_target().addEventListener("end", fn(_e : @core.Any) { callback() })
+  self
+  .as_event_target()
+  .addEventListener("end", fn(_e : @core.Any) { callback() })
   self
 }

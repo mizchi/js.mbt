@@ -191,7 +191,9 @@ pub fn TLSSocket::on_secure_connect(
   self : TLSSocket,
   callback : () -> Unit,
 ) -> TLSSocket {
-  self.as_event_target().addEventListener("secureConnect", fn(_e : @core.Any) { callback() })
+  self
+  .as_event_target()
+  .addEventListener("secureConnect", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -201,16 +203,18 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.as_event_target().addEventListener("data", fn(e : @core.Any) {
-    callback(@core.identity(e))
-  })
+  self
+  .as_event_target()
+  .addEventListener("data", fn(e : @core.Any) { callback(@core.identity(e)) })
   self
 }
 
 ///|
 /// Register 'end' event handler
 pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
-  self.as_event_target().addEventListener("end", fn(_e : @core.Any) { callback() })
+  self
+  .as_event_target()
+  .addEventListener("end", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -220,8 +224,8 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.as_event_target().addEventListener("error", fn(e : @core.Any) {
-    callback(@core.identity(e))
-  })
+  self
+  .as_event_target()
+  .addEventListener("error", fn(e : @core.Any) { callback(@core.identity(e)) })
   self
 }

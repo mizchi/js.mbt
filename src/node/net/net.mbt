@@ -273,13 +273,23 @@ pub fn createServer(
     keepAlive is Some(_) ||
     keepAliveInitialDelay is Some(_)
   if has_options {
-    let opts : @core.Any = @mbtconv.from_option_map({
-      "allowHalfOpen": allowHalfOpen.map(fn(x) { @core.any(x) }),
-      "pauseOnConnect": pauseOnConnect.map(fn(x) { @core.any(x) }),
-      "noDelay": noDelay.map(fn(x) { @core.any(x) }),
-      "keepAlive": keepAlive.map(fn(x) { @core.any(x) }),
-      "keepAliveInitialDelay": keepAliveInitialDelay.map(fn(x) { @core.any(x) }),
-    }).cast()
+    let entries : Array[(String, @core.Any)] = []
+    if allowHalfOpen is Some(v) {
+      entries.push(("allowHalfOpen", @core.any(v)))
+    }
+    if pauseOnConnect is Some(v) {
+      entries.push(("pauseOnConnect", @core.any(v)))
+    }
+    if noDelay is Some(v) {
+      entries.push(("noDelay", @core.any(v)))
+    }
+    if keepAlive is Some(v) {
+      entries.push(("keepAlive", @core.any(v)))
+    }
+    if keepAliveInitialDelay is Some(v) {
+      entries.push(("keepAliveInitialDelay", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     net_module()._call("createServer", [opts]).cast()
   } else {
     net_module()._call("createServer", []).cast()

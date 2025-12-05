@@ -233,7 +233,8 @@ test "HTMLElement trait - innerHTML and innerText" {
 
   // innerHTML test
   body.as_html_element().setInnerHTML("<span>Hello</span><p>World</p>")
-  body.as_html_element().innerHTML() |> inspect(content="<span>Hello</span><p>World</p>")
+  body.as_html_element().innerHTML()
+  |> inspect(content="<span>Hello</span><p>World</p>")
 
   // innerText test
   body.as_html_element().setInnerText("Plain text")

@@ -177,11 +177,14 @@ pub fn rmSync(
     match (recursive, force) {
       (None, None) => fs._call("rmSync", [@core.any(path)]) |> ignore
       _ => {
-        let opts : @core.Any = @mbtconv.from_option_map({
-            "recursive": recursive.map(fn(x) { @core.any(x) }),
-            "force": force.map(fn(x) { @core.any(x) }),
-          })
-          |> @core.any
+        let entries : Array[(String, @core.Any)] = []
+        if recursive is Some(v) {
+          entries.push(("recursive", @core.any(v)))
+        }
+        if force is Some(v) {
+          entries.push(("force", @core.any(v)))
+        }
+        let opts = @core.from_entries(entries)
         fs._call("rmSync", [@core.any(path), opts]) |> ignore
       }
     }

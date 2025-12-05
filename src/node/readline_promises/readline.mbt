@@ -24,21 +24,39 @@ pub fn createInterface(
   tabSize? : Int,
   signal? : @js.AbortSignal,
 ) -> Interface {
-  let opts = @mbtconv.from_option_map({
-    "input": Some(@core.identity(input.as_any())),
-    "output": output.map(fn(x) { @core.identity(x.as_any()) }),
-    "completer": completer.map(fn(x) { @core.identity(@js.from_fn1(x)) }),
-    "terminator": terminator.map(fn(x) { @core.any(x) }),
-    "history": history.map(fn(x) { @core.identity(@core.any(x)) }),
-    "removeHistoryDuplicates": removeHistoryDuplicates.map(fn(x) {
-      @core.any(x)
-    }),
-    "prompt": prompt.map(fn(x) { @core.any(x) }),
-    "crlfDelay": crlfDelay.map(fn(x) { @core.any(x) }),
-    "escapeCodeTimeout": escapeCodeTimeout.map(fn(x) { @core.any(x) }),
-    "tabSize": tabSize.map(fn(x) { @core.any(x) }),
-    "signal": signal.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("input", @core.identity(input.as_any())))
+  if output is Some(v) {
+    entries.push(("output", @core.identity(v.as_any())))
+  }
+  if completer is Some(v) {
+    entries.push(("completer", @core.identity(@js.from_fn1(v))))
+  }
+  if terminator is Some(v) {
+    entries.push(("terminator", @core.any(v)))
+  }
+  if history is Some(v) {
+    entries.push(("history", @core.identity(@core.any(v))))
+  }
+  if removeHistoryDuplicates is Some(v) {
+    entries.push(("removeHistoryDuplicates", @core.any(v)))
+  }
+  if prompt is Some(v) {
+    entries.push(("prompt", @core.any(v)))
+  }
+  if crlfDelay is Some(v) {
+    entries.push(("crlfDelay", @core.any(v)))
+  }
+  if escapeCodeTimeout is Some(v) {
+    entries.push(("escapeCodeTimeout", @core.any(v)))
+  }
+  if tabSize is Some(v) {
+    entries.push(("tabSize", @core.any(v)))
+  }
+  if signal is Some(v) {
+    entries.push(("signal", @core.identity(v)))
+  }
+  let opts = @core.from_entries(entries)
   @core.identity(
     readline_promises_module()._get("createInterface")._invoke([opts]),
   )

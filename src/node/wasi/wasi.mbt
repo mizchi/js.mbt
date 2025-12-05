@@ -70,16 +70,30 @@ pub fn WASI::new(
     }
     None => None
   }
-  let options = @mbtconv.from_option_map({
-    "version": Some(@core.any(version)),
-    "args": args.map(fn(x) { @core.any(x) }),
-    "env": env_obj.map(x => @core.any(x)),
-    "preopens": preopens_obj.map(x => @core.any(x)),
-    "returnOnExit": returnOnExit.map(x => @core.any(x)),
-    "stdin": stdin.map(x => @core.any(x)),
-    "stdout": stdout.map(x => @core.any(x)),
-    "stderr": stderr.map(x => @core.any(x)),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("version", @core.any(version)))
+  if args is Some(v) {
+    entries.push(("args", @core.any(v)))
+  }
+  if env_obj is Some(v) {
+    entries.push(("env", @core.any(v)))
+  }
+  if preopens_obj is Some(v) {
+    entries.push(("preopens", @core.any(v)))
+  }
+  if returnOnExit is Some(v) {
+    entries.push(("returnOnExit", @core.any(v)))
+  }
+  if stdin is Some(v) {
+    entries.push(("stdin", @core.any(v)))
+  }
+  if stdout is Some(v) {
+    entries.push(("stdout", @core.any(v)))
+  }
+  if stderr is Some(v) {
+    entries.push(("stderr", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   let wasi_module = wasi_module()
   let wasi_class = wasi_module.as_any()._get("WASI")
   let instance = ffi_new_wasi(wasi_class, options)

@@ -185,7 +185,9 @@ pub fn WriteStream::on_resize(
   self : WriteStream,
   callback : () -> Unit,
 ) -> WriteStream {
-  self.as_event_target().addEventListener("resize", fn(_e : @core.Any) { callback() })
+  self
+  .as_event_target()
+  .addEventListener("resize", fn(_e : @core.Any) { callback() })
   self
 }
 

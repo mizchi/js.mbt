@@ -30,12 +30,14 @@ pub async fn KVNamespace::get(
   let options = if type_ is None && cacheTtl is None {
     None
   } else {
-    Some(
-      @mbtconv.from_option_map({
-        "type": type_.map(fn(x) { @core.any(x) }),
-        "cacheTtl": cacheTtl.map(fn(x) { @core.any(x) }),
-      }).cast(),
-    )
+    let entries : Array[(String, @core.Any)] = []
+    if type_ is Some(v) {
+      entries.push(("type", @core.any(v)))
+    }
+    if cacheTtl is Some(v) {
+      entries.push(("cacheTtl", @core.any(v)))
+    }
+    Some(@core.from_entries(entries))
   }
   self.get_impl(key, options).wait()
 }
@@ -84,10 +86,12 @@ pub async fn KVNamespace::get_with_metadata(
   type_? : String,
   cacheTtl? : Int,
 ) -> KVValueWithMetadata {
-  let opts_js = @mbtconv.from_option_map({
-    "type": Some(@core.any(type_.unwrap_or("text"))),
-    "cacheTtl": cacheTtl.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("type", @core.any(type_.unwrap_or("text"))))
+  if cacheTtl is Some(v) {
+    entries.push(("cacheTtl", @core.any(v)))
+  }
+  let opts_js = @core.from_entries(entries)
   let promise : @js.Promise[KVValueWithMetadata] = self
     .as_any()
     ._call("getWithMetadata", [@core.any(key), @core.any(opts_js)])
@@ -110,11 +114,17 @@ pub async fn KVNamespace::put(
     metadata is None {
     self.as_any()._call("put", [@core.any(key), @core.any(value)]).cast()
   } else {
-    let opts = @mbtconv.from_option_map({
-      "expiration": expiration.map(fn(x) { @core.any(x) }),
-      "expirationTtl": expirationTtl.map(fn(x) { @core.any(x) }),
-      "metadata": metadata.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if expiration is Some(v) {
+      entries.push(("expiration", @core.any(v)))
+    }
+    if expirationTtl is Some(v) {
+      entries.push(("expirationTtl", @core.any(v)))
+    }
+    if metadata is Some(v) {
+      entries.push(("metadata", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self
     .as_any()
     ._call("put", [@core.any(key), @core.any(value), @core.any(opts)])
@@ -162,11 +172,17 @@ pub async fn KVNamespace::list(
     cursor is None {
     self.as_any()._call("list", []).cast()
   } else {
-    let opts = @mbtconv.from_option_map({
-      "prefix": prefix.map(fn(x) { @core.any(x) }),
-      "limit": limit.map(fn(x) { @core.any(x) }),
-      "cursor": cursor.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if prefix is Some(v) {
+      entries.push(("prefix", @core.any(v)))
+    }
+    if limit is Some(v) {
+      entries.push(("limit", @core.any(v)))
+    }
+    if cursor is Some(v) {
+      entries.push(("cursor", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("list", [@core.any(opts)]).cast()
   }
   promise.wait()

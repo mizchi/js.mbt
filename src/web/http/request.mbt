@@ -63,21 +63,47 @@ pub fn RequestInit::new(
 
 ///|
 pub fn RequestInit::as_any(self : RequestInit) -> @core.Any {
-  @mbtconv.from_option_map({
-    "method": self.method_.map(fn(x) { @core.any(x) }),
-    "headers": self.headers.map(fn(x) { @core.identity(x.as_any()) }),
-    "body": self.body.map(fn(x) { @core.identity(x) }),
-    "mode": self.mode.map(fn(x) { @core.any(x) }),
-    "credentials": self.credentials.map(fn(x) { @core.any(x) }),
-    "cache": self.cache.map(fn(x) { @core.any(x) }),
-    "redirect": self.redirect.map(fn(x) { @core.any(x) }),
-    "referrer": self.referrer.map(fn(x) { @core.any(x) }),
-    "referrerPolicy": self.referrerPolicy.map(fn(x) { @core.any(x) }),
-    "integrity": self.integrity.map(fn(x) { @core.any(x) }),
-    "keepalive": self.keepalive.map(fn(x) { @core.any(x) }),
-    "signal": self.signal.map(fn(x) { @core.identity(x) }),
-    "priority": self.priority.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if self.method_ is Some(v) {
+    entries.push(("method", @core.any(v)))
+  }
+  if self.headers is Some(v) {
+    entries.push(("headers", @core.identity(v.as_any())))
+  }
+  if self.body is Some(v) {
+    entries.push(("body", @core.identity(v)))
+  }
+  if self.mode is Some(v) {
+    entries.push(("mode", @core.any(v)))
+  }
+  if self.credentials is Some(v) {
+    entries.push(("credentials", @core.any(v)))
+  }
+  if self.cache is Some(v) {
+    entries.push(("cache", @core.any(v)))
+  }
+  if self.redirect is Some(v) {
+    entries.push(("redirect", @core.any(v)))
+  }
+  if self.referrer is Some(v) {
+    entries.push(("referrer", @core.any(v)))
+  }
+  if self.referrerPolicy is Some(v) {
+    entries.push(("referrerPolicy", @core.any(v)))
+  }
+  if self.integrity is Some(v) {
+    entries.push(("integrity", @core.any(v)))
+  }
+  if self.keepalive is Some(v) {
+    entries.push(("keepalive", @core.any(v)))
+  }
+  if self.signal is Some(v) {
+    entries.push(("signal", @core.identity(v)))
+  }
+  if self.priority is Some(v) {
+    entries.push(("priority", @core.any(v)))
+  }
+  @core.from_entries(entries)
 }
 
 ///|

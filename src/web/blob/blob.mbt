@@ -24,12 +24,11 @@ extern "js" fn ffi_new_blob(data : @core.Any, options : @core.Any) -> @core.Any 
 /// Create a new Blob
 pub fn Blob::new(data : Array[@core.Any], content_type? : String) -> Blob {
   let js_data = @core.any(data)
-  ffi_new_blob(
-    @core.any(js_data),
-    @mbtconv.from_option_map({
-      "type": content_type.map(fn(x) { @core.any(x) }),
-    }).cast(),
-  ).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if content_type is Some(v) {
+    entries.push(("type", @core.any(v)))
+  }
+  ffi_new_blob(@core.any(js_data), @core.from_entries(entries)).cast()
 }
 
 ///|

@@ -43,23 +43,17 @@ pub fn watch(
     not(recursive is None) ||
     not(encoding is None)
   if has_options {
-    let map : Map[String, @core.Any] = {
-      let m = Map::new()
-      match persistent {
-        Some(p) => m.set("persistent", @core.any(p))
-        None => ()
-      }
-      match recursive {
-        Some(r) => m.set("recursive", @core.any(r))
-        None => ()
-      }
-      match encoding {
-        Some(e) => m.set("encoding", @core.any(e))
-        None => ()
-      }
-      m
+    let entries : Array[(String, @core.Any)] = []
+    if persistent is Some(v) {
+      entries.push(("persistent", @core.any(v)))
     }
-    let options : @core.Any = @mbtconv.from_map(map) |> @core.any
+    if recursive is Some(v) {
+      entries.push(("recursive", @core.any(v)))
+    }
+    if encoding is Some(v) {
+      entries.push(("encoding", @core.any(v)))
+    }
+    let options = @core.from_entries(entries)
     match listener {
       Some(l) =>
         fs

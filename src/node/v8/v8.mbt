@@ -188,10 +188,14 @@ pub fn getHeapSnapshot(
   match (expose_internals, expose_numeric_values) {
     (None, None) => v8._call("getHeapSnapshot", [])
     _ => {
-      let opts : @core.Any = @mbtconv.from_option_map({
-        "exposeInternals": expose_internals.map(fn(x) { @core.any(x) }),
-        "exposeNumericValues": expose_numeric_values.map(fn(x) { @core.any(x) }),
-      }).cast()
+      let entries : Array[(String, @core.Any)] = []
+      if expose_internals is Some(v) {
+        entries.push(("exposeInternals", @core.any(v)))
+      }
+      if expose_numeric_values is Some(v) {
+        entries.push(("exposeNumericValues", @core.any(v)))
+      }
+      let opts = @core.from_entries(entries)
       v8._call("getHeapSnapshot", [opts])
     }
   }

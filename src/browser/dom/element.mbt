@@ -53,7 +53,11 @@ pub fn Element::getAttribute(self : Element, name : String) -> String? {
 }
 
 ///|
-pub fn Element::setAttribute(self : Element, name : String, value : String) -> Unit {
+pub fn Element::setAttribute(
+  self : Element,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
@@ -73,7 +77,7 @@ pub fn Element::hasAttribute(self : Element, name : String) -> Bool {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Element::getElementsByTagName(
   self : Element,
-  tag_name : String
+  tag_name : String,
 ) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()
@@ -87,7 +91,7 @@ pub fn Element::getElementsByTagName(
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Element::getElementsByClassName(
   self : Element,
-  class_name : String
+  class_name : String,
 ) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()
@@ -110,7 +114,7 @@ pub fn Element::querySelector(self : Element, selector : String) -> Element? {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Element::querySelectorAll(
   self : Element,
-  selector : String
+  selector : String,
 ) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()

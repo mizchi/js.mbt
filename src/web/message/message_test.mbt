@@ -11,7 +11,9 @@ async test "MessageChannel: send and receive message between ports" {
   defer MessagePort::close(port2)
 
   // Setup receiver on port2
-  port2.as_event_target().addEventListener("message", fn(event : @core.Any) {
+  port2
+  .as_event_target()
+  .addEventListener("message", fn(event : @core.Any) {
     let e : @core.Any = event |> @core.any
     let data : String = e["data"] |> @core.identity
     resolver.resolve(data)
@@ -39,12 +41,16 @@ async test "MessageChannel: bidirectional messaging" {
   defer MessagePort::close(port2)
 
   // Setup receivers
-  port1.as_event_target().addEventListener("message", fn(event : @core.Any) {
+  port1
+  .as_event_target()
+  .addEventListener("message", fn(event : @core.Any) {
     let e : @core.Any = event |> @core.any
     let data : Int = e["data"].cast()
     resolver1.resolve(data)
   })
-  port2.as_event_target().addEventListener("message", fn(event : @core.Any) {
+  port2
+  .as_event_target()
+  .addEventListener("message", fn(event : @core.Any) {
     let e : @core.Any = event |> @core.any
     let data : Int = e["data"].cast()
     resolver2.resolve(data)
@@ -75,7 +81,9 @@ async test "MessageChannel: multiple messages in sequence" {
   defer MessagePort::close(port1)
   defer MessagePort::close(port2)
   let mut count = 0
-  port2.as_event_target().addEventListener("message", fn(event : @core.Any) {
+  port2
+  .as_event_target()
+  .addEventListener("message", fn(event : @core.Any) {
     let e : @core.Any = event |> @core.any
     let data : String = e["data"].cast()
     messages.push(data)
@@ -106,9 +114,9 @@ async test "MessageChannel: port closes properly" {
   let channel = MessageChannel::new()
   let port1 = channel.port1()
   let port2 = channel.port2()
-  port2.as_event_target().addEventListener("message", fn(_event : @core.Any) {
-    resolver.resolve(true)
-  })
+  port2
+  .as_event_target()
+  .addEventListener("message", fn(_event : @core.Any) { resolver.resolve(true) })
   MessagePort::start(port2)
   MessagePort::post_message(port1, @core.any("test"))
   let received = resolver.promise.wait()
@@ -131,9 +139,9 @@ async test "MessageChannel: message event properties" {
   let port2 = channel.port2()
   defer MessagePort::close(port1)
   defer MessagePort::close(port2)
-  port2.as_event_target().addEventListener("message", fn(event : @core.Any) {
-    resolver.resolve(event)
-  })
+  port2
+  .as_event_target()
+  .addEventListener("message", fn(event : @core.Any) { resolver.resolve(event) })
   MessagePort::start(port2)
   let obj : @core.Any = @core.from_entries([("key", @core.any("value"))])
   MessagePort::post_message(port1, obj)

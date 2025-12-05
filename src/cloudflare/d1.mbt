@@ -154,9 +154,11 @@ pub async fn D1PreparedStatement::raw(
   let promise : @js.Promise[Array[@core.Any]] = if columnNames is None {
     self.as_any()._call("raw", []).cast()
   } else {
-    let opts = @mbtconv.from_option_map({
-      "columnNames": columnNames.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if columnNames is Some(v) {
+      entries.push(("columnNames", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("raw", [opts]).cast()
   }
   promise.wait()

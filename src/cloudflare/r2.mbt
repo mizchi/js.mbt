@@ -19,34 +19,48 @@ pub async fn R2Bucket::get(
     self.as_any()._call("get", [@core.any(key)]).cast()
   } else {
     let onlyIf_js : @core.Any? = match onlyIf {
-      Some(cond) =>
-        Some(
-          @mbtconv.from_option_map({
-            "etagMatches": cond.etagMatches.map(fn(x) { @core.any(x) }),
-            "etagDoesNotMatch": cond.etagDoesNotMatch.map(fn(x) { @core.any(x) }),
-            "uploadedBefore": cond.uploadedBefore.map(fn(x) {
-              @core.identity(x)
-            }),
-            "uploadedAfter": cond.uploadedAfter.map(fn(x) { @core.identity(x) }),
-          }).cast(),
-        )
+      Some(cond) => {
+        let entries : Array[(String, @core.Any)] = []
+        if cond.etagMatches is Some(v) {
+          entries.push(("etagMatches", @core.any(v)))
+        }
+        if cond.etagDoesNotMatch is Some(v) {
+          entries.push(("etagDoesNotMatch", @core.any(v)))
+        }
+        if cond.uploadedBefore is Some(v) {
+          entries.push(("uploadedBefore", @core.identity(v)))
+        }
+        if cond.uploadedAfter is Some(v) {
+          entries.push(("uploadedAfter", @core.identity(v)))
+        }
+        Some(@core.from_entries(entries))
+      }
       None => None
     }
     let range_js : @core.Any? = match range {
-      Some(r) =>
-        Some(
-          @mbtconv.from_option_map({
-            "offset": r.offset.map(fn(x) { @core.any(x) }),
-            "length": r.length.map(fn(x) { @core.any(x) }),
-            "suffix": r.suffix.map(fn(x) { @core.any(x) }),
-          }).cast(),
-        )
+      Some(r) => {
+        let entries : Array[(String, @core.Any)] = []
+        if r.offset is Some(v) {
+          entries.push(("offset", @core.any(v)))
+        }
+        if r.length is Some(v) {
+          entries.push(("length", @core.any(v)))
+        }
+        if r.suffix is Some(v) {
+          entries.push(("suffix", @core.any(v)))
+        }
+        Some(@core.from_entries(entries))
+      }
       None => None
     }
-    let opts = @mbtconv.from_option_map({
-      "onlyIf": onlyIf_js.map(fn(x) { @core.any(x) }),
-      "range": range_js.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if onlyIf_js is Some(v) {
+      entries.push(("onlyIf", @core.any(v)))
+    }
+    if range_js is Some(v) {
+      entries.push(("range", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("get", [@core.any(key), opts]).cast()
   }
   promise.wait()
@@ -92,15 +106,29 @@ pub async fn R2Bucket::put(
     let customMetadata_js : @core.Any? = customMetadata.map(fn(x) {
       @core.any(x)
     })
-    let opts = @mbtconv.from_option_map({
-      "httpMetadata": httpMetadata_js,
-      "customMetadata": customMetadata_js,
-      "md5": md5.map(fn(x) { @core.any(x) }),
-      "sha1": sha1.map(fn(x) { @core.any(x) }),
-      "sha256": sha256.map(fn(x) { @core.any(x) }),
-      "sha384": sha384.map(fn(x) { @core.any(x) }),
-      "sha512": sha512.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if httpMetadata_js is Some(v) {
+      entries.push(("httpMetadata", v))
+    }
+    if customMetadata_js is Some(v) {
+      entries.push(("customMetadata", v))
+    }
+    if md5 is Some(v) {
+      entries.push(("md5", @core.any(v)))
+    }
+    if sha1 is Some(v) {
+      entries.push(("sha1", @core.any(v)))
+    }
+    if sha256 is Some(v) {
+      entries.push(("sha256", @core.any(v)))
+    }
+    if sha384 is Some(v) {
+      entries.push(("sha384", @core.any(v)))
+    }
+    if sha512 is Some(v) {
+      entries.push(("sha512", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("put", [@core.any(key), @core.any(value), opts]).cast()
   }
   promise.wait()
@@ -158,14 +186,26 @@ pub async fn R2Bucket::list(
       Some(inc) => Some(@core.any(@core.any(inc)))
       None => None
     }
-    let opts = @mbtconv.from_option_map({
-      "limit": limit.map(fn(x) { @core.any(x) }),
-      "prefix": prefix.map(fn(x) { @core.any(x) }),
-      "cursor": cursor.map(fn(x) { @core.any(x) }),
-      "delimiter": delimiter.map(fn(x) { @core.any(x) }),
-      "startAfter": startAfter.map(fn(x) { @core.any(x) }),
-      "include": include_js,
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if limit is Some(v) {
+      entries.push(("limit", @core.any(v)))
+    }
+    if prefix is Some(v) {
+      entries.push(("prefix", @core.any(v)))
+    }
+    if cursor is Some(v) {
+      entries.push(("cursor", @core.any(v)))
+    }
+    if delimiter is Some(v) {
+      entries.push(("delimiter", @core.any(v)))
+    }
+    if startAfter is Some(v) {
+      entries.push(("startAfter", @core.any(v)))
+    }
+    if include_js is Some(v) {
+      entries.push(("include", v))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("list", [opts]).cast()
   }
   promise.wait()
@@ -200,15 +240,29 @@ pub async fn R2Bucket::create_multipart_upload(
     let customMetadata_js : @core.Any? = customMetadata.map(fn(x) {
       @core.any(x)
     })
-    let opts = @mbtconv.from_option_map({
-      "httpMetadata": httpMetadata_js,
-      "customMetadata": customMetadata_js,
-      "md5": md5.map(fn(x) { @core.any(x) }),
-      "sha1": sha1.map(fn(x) { @core.any(x) }),
-      "sha256": sha256.map(fn(x) { @core.any(x) }),
-      "sha384": sha384.map(fn(x) { @core.any(x) }),
-      "sha512": sha512.map(fn(x) { @core.any(x) }),
-    })
+    let entries : Array[(String, @core.Any)] = []
+    if httpMetadata_js is Some(v) {
+      entries.push(("httpMetadata", v))
+    }
+    if customMetadata_js is Some(v) {
+      entries.push(("customMetadata", v))
+    }
+    if md5 is Some(v) {
+      entries.push(("md5", @core.any(v)))
+    }
+    if sha1 is Some(v) {
+      entries.push(("sha1", @core.any(v)))
+    }
+    if sha256 is Some(v) {
+      entries.push(("sha256", @core.any(v)))
+    }
+    if sha384 is Some(v) {
+      entries.push(("sha384", @core.any(v)))
+    }
+    if sha512 is Some(v) {
+      entries.push(("sha512", @core.any(v)))
+    }
+    let opts = @core.from_entries(entries)
     self.as_any()._call("createMultipartUpload", [@core.any(key), opts]).cast()
   }
   promise.wait()
@@ -257,14 +311,26 @@ pub(all) struct R2HttpMetadata {
 
 ///|
 pub fn R2HttpMetadata::as_any(self : R2HttpMetadata) -> @core.Any {
-  @mbtconv.from_option_map({
-    "contentType": self.contentType.map(fn(x) { @core.any(x) }),
-    "contentLanguage": self.contentLanguage.map(fn(x) { @core.any(x) }),
-    "contentDisposition": self.contentDisposition.map(fn(x) { @core.any(x) }),
-    "contentEncoding": self.contentEncoding.map(fn(x) { @core.any(x) }),
-    "cacheControl": self.cacheControl.map(fn(x) { @core.any(x) }),
-    "cacheExpiry": self.cacheExpiry.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if self.contentType is Some(v) {
+    entries.push(("contentType", @core.any(v)))
+  }
+  if self.contentLanguage is Some(v) {
+    entries.push(("contentLanguage", @core.any(v)))
+  }
+  if self.contentDisposition is Some(v) {
+    entries.push(("contentDisposition", @core.any(v)))
+  }
+  if self.contentEncoding is Some(v) {
+    entries.push(("contentEncoding", @core.any(v)))
+  }
+  if self.cacheControl is Some(v) {
+    entries.push(("cacheControl", @core.any(v)))
+  }
+  if self.cacheExpiry is Some(v) {
+    entries.push(("cacheExpiry", @core.identity(v)))
+  }
+  @core.from_entries(entries)
 }
 
 ///|
@@ -447,8 +513,8 @@ pub(all) struct R2UploadedPart {
 
 ///|
 pub fn R2UploadedPart::as_any(self : R2UploadedPart) -> @core.Any {
-  @mbtconv.from_map({
-    "partNumber": @core.any(self.partNumber),
-    "etag": @core.any(self.etag),
-  }).cast()
+  @core.from_entries([
+    ("partNumber", @core.any(self.partNumber)),
+    ("etag", @core.any(self.etag)),
+  ])
 }

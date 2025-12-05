@@ -69,7 +69,11 @@ pub fn Node::removeChild(self : Node, child : Node) -> Node {
 }
 
 ///|
-pub fn Node::insertBefore(self : Node, new_node : Node, ref_node : Node?) -> Node {
+pub fn Node::insertBefore(
+  self : Node,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   match ref_node {
     Some(node) =>
       self
@@ -88,7 +92,7 @@ pub fn Node::insertBefore(self : Node, new_node : Node, ref_node : Node?) -> Nod
 pub fn Node::replaceChild(
   self : Node,
   new_child : Node,
-  old_child : Node
+  old_child : Node,
 ) -> Node {
   self
   .as_any()

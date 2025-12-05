@@ -79,10 +79,14 @@ pub(all) struct StringFilter {
 
 ///|
 pub fn StringFilter::to_any(self : StringFilter) -> @core.Any {
-  @mbtconv.from_option_map({
-    "include": self.includes.map(fn(x) { @core.identity(@core.any(x)) }),
-    "exclude": self.excludes.map(fn(x) { @core.identity(@core.any(x)) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if self.includes is Some(v) {
+    entries.push(("include", @core.identity(@core.any(v))))
+  }
+  if self.excludes is Some(v) {
+    entries.push(("exclude", @core.identity(@core.any(v))))
+  }
+  @core.from_entries(entries)
 }
 
 ///|
@@ -94,10 +98,14 @@ pub(all) struct HookFilter {
 
 ///|
 pub fn HookFilter::to_any(self : HookFilter) -> @core.Any {
-  @mbtconv.from_option_map({
-    "id": self.id.map(fn(x) { x.to_any() }),
-    "code": self.code.map(fn(x) { x.to_any() }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if self.id is Some(v) {
+    entries.push(("id", v.to_any()))
+  }
+  if self.code is Some(v) {
+    entries.push(("code", v.to_any()))
+  }
+  @core.from_entries(entries)
 }
 
 ///| Hook Types

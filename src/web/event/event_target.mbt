@@ -14,13 +14,14 @@ pub fn Event::new(
   bubbles? : Bool,
   cancelable? : Bool,
 ) -> Event {
-  ffi_new_event(
-    event_type,
-    @mbtconv.from_option_map({
-      "bubbles": bubbles.map(fn(x) { @core.any(x) }),
-      "cancelable": cancelable.map(fn(x) { @core.any(x) }),
-    }).cast(),
-  )
+  let entries : Array[(String, @core.Any)] = []
+  if bubbles is Some(v) {
+    entries.push(("bubbles", @core.any(v)))
+  }
+  if cancelable is Some(v) {
+    entries.push(("cancelable", @core.any(v)))
+  }
+  ffi_new_event(event_type, @core.from_entries(entries))
 }
 
 ///|
@@ -111,17 +112,19 @@ impl EventTargetImpl with addEventListener(
   passive? : Bool = false,
   signal? : @js.AbortSignal,
 ) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("capture", @core.any(capture)))
+  entries.push(("once", @core.any(once)))
+  entries.push(("passive", @core.any(passive)))
+  if signal is Some(v) {
+    entries.push(("signal", v |> @core.identity))
+  }
   self
   .as_any()
   ._call("addEventListener", [
     @core.any(event_type),
     @core.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({
-      "capture": Some(@core.any(capture)),
-      "once": Some(@core.any(once)),
-      "passive": Some(@core.any(passive)),
-      "signal": signal.map(fn(x) { x |> @core.identity }),
-    }),
+    @core.from_entries(entries),
   ])
   |> ignore
 }
@@ -138,7 +141,7 @@ impl EventTargetImpl with removeEventListener(
   ._call("removeEventListener", [
     @core.any(event_type),
     @core.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({ "capture": Some(@core.any(capture)) }),
+    @core.from_entries([("capture", @core.any(capture))]),
   ])
   |> ignore
 }
@@ -171,17 +174,19 @@ pub fn EventTarget::addEventListener(
   passive? : Bool = false,
   signal? : @js.AbortSignal,
 ) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("capture", @core.any(capture)))
+  entries.push(("once", @core.any(once)))
+  entries.push(("passive", @core.any(passive)))
+  if signal is Some(v) {
+    entries.push(("signal", v |> @core.identity))
+  }
   self
   .as_any()
   ._call("addEventListener", [
     @core.any(event_type),
     @core.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({
-      "capture": Some(@core.any(capture)),
-      "once": Some(@core.any(once)),
-      "passive": Some(@core.any(passive)),
-      "signal": signal.map(fn(x) { x |> @core.identity }),
-    }),
+    @core.from_entries(entries),
   ])
   |> ignore
 }
@@ -214,7 +219,7 @@ pub fn EventTarget::removeEventListener(
   ._call("removeEventListener", [
     @core.any(event_type),
     @core.any(@js.from_fn1(handler)),
-    @mbtconv.from_option_map({ "capture": Some(@core.any(capture)) }),
+    @core.from_entries([("capture", @core.any(capture))]),
   ])
   |> ignore
 }

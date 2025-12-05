@@ -42,15 +42,29 @@ pub fn Worker::new(
 ) -> Worker {
   let wt = ffi_require_worker_threads()
   let worker_class = wt._get("Worker")
-  let js_opts = @mbtconv.from_option_map({
-    "workerData": workerData.map(fn(x) { @core.identity(x) }),
-    "env": env.map(fn(x) { @core.identity(x) }),
-    "stdin": stdin.map(fn(x) { @core.any(x) }),
-    "stdout": stdout.map(fn(x) { @core.any(x) }),
-    "stderr": stderr.map(fn(x) { @core.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @core.identity(@core.any(x)) }),
-    "resourceLimits": resourceLimits.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if workerData is Some(v) {
+    entries.push(("workerData", @core.identity(v)))
+  }
+  if env is Some(v) {
+    entries.push(("env", @core.identity(v)))
+  }
+  if stdin is Some(v) {
+    entries.push(("stdin", @core.any(v)))
+  }
+  if stdout is Some(v) {
+    entries.push(("stdout", @core.any(v)))
+  }
+  if stderr is Some(v) {
+    entries.push(("stderr", @core.any(v)))
+  }
+  if execArgv is Some(v) {
+    entries.push(("execArgv", @core.identity(@core.any(v))))
+  }
+  if resourceLimits is Some(v) {
+    entries.push(("resourceLimits", @core.identity(v)))
+  }
+  let js_opts = @core.from_entries(entries)
   @core.identity(@core.new(worker_class, [@core.any(filename), js_opts]))
 }
 

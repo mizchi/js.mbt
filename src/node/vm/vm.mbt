@@ -33,13 +33,23 @@ pub fn Script::new(
 ) -> Script {
   let vm = vm_module()
   let script_constructor = vm._get("Script")
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "cachedData": cachedData.map(fn(x) { @core.any(x) }),
-    "produceCachedData": produceCachedData.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if cachedData is Some(v) {
+    entries.push(("cachedData", @core.any(v)))
+  }
+  if produceCachedData is Some(v) {
+    entries.push(("produceCachedData", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   @core.new(script_constructor, [@core.any(code), @core.identity(options)])
   |> @core.identity
 }
@@ -55,14 +65,26 @@ pub fn Script::runInThisContext(
   timeout? : Int,
   breakOnSigint? : Bool,
 ) -> @core.Any {
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   self.as_any()._call("runInThisContext", [options]).cast()
 }
 
@@ -81,17 +103,35 @@ pub fn Script::runInNewContext(
   contextOrigin? : String,
   microtaskMode? : String,
 ) -> @core.Any {
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-    "contextName": contextName.map(fn(x) { @core.any(x) }),
-    "contextOrigin": contextOrigin.map(fn(x) { @core.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  if contextName is Some(v) {
+    entries.push(("contextName", @core.any(v)))
+  }
+  if contextOrigin is Some(v) {
+    entries.push(("contextOrigin", @core.any(v)))
+  }
+  if microtaskMode is Some(v) {
+    entries.push(("microtaskMode", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   match contextObject {
     Some(ctx) =>
       self.as_any()._call("runInNewContext", [@core.any(ctx), options]).cast()
@@ -111,14 +151,26 @@ pub fn Script::runInContext(
   timeout? : Int,
   breakOnSigint? : Bool,
 ) -> @core.Any {
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   self
   .as_any()
   ._call("runInContext", [@core.any(contextifiedObject), options])
@@ -157,14 +209,26 @@ pub fn runInThisContext(
   breakOnSigint? : Bool,
 ) -> @core.Any {
   let vm = vm_module()
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   @core.any(vm)._call("runInThisContext", [@core.any(code), options]).cast()
 }
 
@@ -184,17 +248,35 @@ pub fn runInNewContext(
   microtaskMode? : String,
 ) -> @core.Any {
   let vm = vm_module()
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-    "contextName": contextName.map(fn(x) { @core.any(x) }),
-    "contextOrigin": contextOrigin.map(fn(x) { @core.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  if contextName is Some(v) {
+    entries.push(("contextName", @core.any(v)))
+  }
+  if contextOrigin is Some(v) {
+    entries.push(("contextOrigin", @core.any(v)))
+  }
+  if microtaskMode is Some(v) {
+    entries.push(("microtaskMode", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   match contextObject {
     Some(ctx) =>
       @core.any(vm)
@@ -218,14 +300,26 @@ pub fn runInContext(
   breakOnSigint? : Bool,
 ) -> @core.Any {
   let vm = vm_module()
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "displayErrors": displayErrors.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "breakOnSigint": breakOnSigint.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if displayErrors is Some(v) {
+    entries.push(("displayErrors", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if breakOnSigint is Some(v) {
+    entries.push(("breakOnSigint", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   @core.any(vm)
   ._call("runInContext", [
     @core.any(code),
@@ -244,11 +338,17 @@ pub fn createContext(
   microtaskMode? : String,
 ) -> @core.Any {
   let vm = vm_module()
-  let options = @mbtconv.from_option_map({
-    "name": name.map(fn(x) { @core.any(x) }),
-    "origin": origin.map(fn(x) { @core.any(x) }),
-    "microtaskMode": microtaskMode.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if name is Some(v) {
+    entries.push(("name", @core.any(v)))
+  }
+  if origin is Some(v) {
+    entries.push(("origin", @core.any(v)))
+  }
+  if microtaskMode is Some(v) {
+    entries.push(("microtaskMode", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   match contextObject {
     Some(ctx) =>
       @core.any(vm)._call("createContext", [@core.any(ctx), options]).cast()
@@ -277,15 +377,29 @@ pub fn compileFunction(
   contextExtensions? : Array[@core.Any],
 ) -> @core.Any {
   let vm = vm_module()
-  let options = @mbtconv.from_option_map({
-    "filename": filename.map(fn(x) { @core.any(x) }),
-    "lineOffset": lineOffset.map(fn(x) { @core.any(x) }),
-    "columnOffset": columnOffset.map(fn(x) { @core.any(x) }),
-    "cachedData": cachedData.map(fn(x) { @core.any(x) }),
-    "produceCachedData": produceCachedData.map(fn(x) { @core.any(x) }),
-    "parsingContext": parsingContext.map(fn(x) { @core.any(x) }),
-    "contextExtensions": contextExtensions.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if filename is Some(v) {
+    entries.push(("filename", @core.any(v)))
+  }
+  if lineOffset is Some(v) {
+    entries.push(("lineOffset", @core.any(v)))
+  }
+  if columnOffset is Some(v) {
+    entries.push(("columnOffset", @core.any(v)))
+  }
+  if cachedData is Some(v) {
+    entries.push(("cachedData", @core.any(v)))
+  }
+  if produceCachedData is Some(v) {
+    entries.push(("produceCachedData", @core.any(v)))
+  }
+  if parsingContext is Some(v) {
+    entries.push(("parsingContext", @core.any(v)))
+  }
+  if contextExtensions is Some(v) {
+    entries.push(("contextExtensions", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   match params {
     Some(p) => {
       let params_js = @core.any(p.map(fn(s) { s }))

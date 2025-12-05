@@ -8,13 +8,12 @@ extern "js" fn url_module() -> @core.Any =
 pub fn fileURLToPath(url : String, windows? : Bool) -> String {
   let url_module = url_module()
   match windows {
-    Some(w) =>
-      url_module
-      ._call("fileURLToPath", [
-        @core.any(url),
-        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }).cast(),
-      ])
-      .cast()
+    Some(w) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("windows", @core.any(w)))
+      let options = @core.from_entries(entries)
+      url_module._call("fileURLToPath", [@core.any(url), options]).cast()
+    }
     None => url_module._call("fileURLToPath", [@core.any(url)]).cast()
   }
 }
@@ -25,13 +24,12 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
   let url_module : @core.Any = @core.any(url_module())
   match windows {
-    Some(w) =>
-      url_module
-      ._call("fileURLToPath", [
-        url.as_any(),
-        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }),
-      ])
-      .cast()
+    Some(w) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("windows", @core.any(w)))
+      let options = @core.from_entries(entries)
+      url_module._call("fileURLToPath", [url.as_any(), options]).cast()
+    }
     None => url_module._call("fileURLToPath", [url.as_any()]).cast()
   }
 }
@@ -42,13 +40,12 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
 pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
   let url_module = url_module()
   match windows {
-    Some(w) =>
-      url_module
-      ._call("pathToFileURL", [
-        @core.any(path),
-        @mbtconv.from_option_map({ "windows": Some(@core.any(w)) }).cast(),
-      ])
-      .cast()
+    Some(w) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("windows", @core.any(w)))
+      let options = @core.from_entries(entries)
+      url_module._call("pathToFileURL", [@core.any(path), options]).cast()
+    }
     None => url_module._call("pathToFileURL", [@core.any(path)]).cast()
   }
 }
