@@ -102,7 +102,7 @@ const toDotNotation = (keyArg: AstNode): AstNode => {
 // FFI Patterns
 // ============================================================================
 
-const NOSTD_NAMESPACE = 'nostd';
+const INLINEABLE_NAMESPACES = ['nostd', 'core'];
 
 type PatternBuilder = (args: AstNode[]) => AstNode;
 
@@ -110,6 +110,8 @@ const inlinePatterns: Record<string, PatternBuilder> = {
   'global_this': () => id('globalThis'),
   'undefined': () => id('undefined'),
   'null': () => literal(null, 'null'),
+  'new_array': () => ({ type: 'ArrayExpression', elements: [], start: 0, end: 0 }),
+  'new_object': () => ({ type: 'ObjectExpression', properties: [], start: 0, end: 0 }),
   'JsArray$new': () => ({ type: 'ArrayExpression', elements: [], start: 0, end: 0 }),
   'Object$new': () => ({ type: 'ObjectExpression', properties: [], start: 0, end: 0 }),
   'is_nullish': (args) => binary('==', args[0], literal(null, 'null')),
@@ -183,7 +185,7 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
       const parsed = parseMoonBitName(name);
 
-      if (parsed && parsed.namespace.endsWith(NOSTD_NAMESPACE)) {
+      if (parsed && INLINEABLE_NAMESPACES.some(ns => parsed.namespace.endsWith(ns))) {
         if (inlinePatterns[parsed.funcName]) {
           inlineable.set(name, { type: 'named', funcName: parsed.funcName });
           declRanges.set(name, { start: node.start, end: node.end });
