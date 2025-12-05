@@ -26,33 +26,23 @@ pub extern "js" fn Argv::as_any(self : Argv) -> @core.Any =
 
 ///| FFI Functions
 
+///| Module Functions
+
 ///|
-extern "js" fn ffi_yargs() -> Yargs =
+/// Create a new yargs instance
+pub extern "js" fn yargs() -> Yargs =
   #| () => {
   #|   const yargs = require('yargs');
   #|   return yargs();
   #| }
 
 ///|
-extern "js" fn ffi_yargs_with_args(args : @core.Any) -> Yargs =
+/// Create a yargs instance with specific arguments
+pub extern "js" fn yargs_with_args(args : Array[String]) -> Yargs =
   #| (args) => {
   #|   const yargs = require('yargs');
   #|   return yargs(args);
   #| }
-
-///| Module Functions
-
-///|
-/// Create a new yargs instance
-pub fn yargs() -> Yargs {
-  ffi_yargs()
-}
-
-///|
-/// Create a yargs instance with specific arguments
-pub fn yargs_with_args(args : Array[String]) -> Yargs {
-  ffi_yargs_with_args(@core.any(args))
-}
 
 ///| Yargs Methods - Option Configuration
 

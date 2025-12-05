@@ -33,46 +33,31 @@ pub fn BrowserContext::to_any(self : BrowserContext) -> @core.Any = "%identity"
 
 ///| FFI Functions
 
+///| Browser Type Getters
+
 ///|
-extern "js" fn ffi_chromium() -> BrowserType =
+/// Get Chromium browser type
+pub extern "js" fn chromium() -> BrowserType =
   #| () => {
   #|   const { chromium } = require('playwright');
   #|   return chromium;
   #| }
 
 ///|
-extern "js" fn ffi_firefox() -> BrowserType =
+/// Get Firefox browser type
+pub extern "js" fn firefox() -> BrowserType =
   #| () => {
   #|   const { firefox } = require('playwright');
   #|   return firefox;
   #| }
 
 ///|
-extern "js" fn ffi_webkit() -> BrowserType =
+/// Get WebKit browser type
+pub extern "js" fn webkit() -> BrowserType =
   #| () => {
   #|   const { webkit } = require('playwright');
   #|   return webkit;
   #| }
-
-///| Browser Type Getters
-
-///|
-/// Get Chromium browser type
-pub fn chromium() -> BrowserType {
-  ffi_chromium()
-}
-
-///|
-/// Get Firefox browser type
-pub fn firefox() -> BrowserType {
-  ffi_firefox()
-}
-
-///|
-/// Get WebKit browser type
-pub fn webkit() -> BrowserType {
-  ffi_webkit()
-}
 
 ///| BrowserType Methods
 
