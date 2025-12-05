@@ -288,15 +288,9 @@ pub fn TransformStream::new(transformer : @core.Any) -> TransformStream {
 
 ///|
 /// Create a new identity TransformStream (passes data through unmodified)
-extern "js" fn ffi_new_identity_transform_stream() -> TransformStream =
-  #|() => new TransformStream()
-
-///|
-/// Create a new identity TransformStream
 #alias(newIdentity)
-pub fn TransformStream::new_identity() -> TransformStream {
-  ffi_new_identity_transform_stream()
-}
+pub extern "js" fn TransformStream::new_identity() -> TransformStream =
+  #|() => new TransformStream()
 
 ///|
 /// Get the readable side of the transform stream
