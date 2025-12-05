@@ -23,7 +23,7 @@ test "React createElement" {
     props={
       "className": @core.any("my-button"),
       "onClick": @core.identity(
-        @js.from_fn0(fn() { @js.log("Button clicked") }),
+        @js.from_fn0(fn() { println("Button clicked") }),
       ),
     },
     [],

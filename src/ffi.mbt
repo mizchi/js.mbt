@@ -1,15 +1,3 @@
-///| Types
-
-///| Global Functions
-
-///|
-extern "js" fn ffi_console_log(values : Array[Any]) -> Unit =
-  #| (values) => console.log(...values)
-
-///| String and Encoding
-
-///| JSON
-
 ///|
 extern "js" fn ffi_json_stringify(
   value : @core.Any,

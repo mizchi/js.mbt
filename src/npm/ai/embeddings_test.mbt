@@ -90,6 +90,6 @@ async test "embed with mock" {
     ._invoke(["text-embedding-3-small" |> @core.any]),
   )
   let result = @ai.embed(model~, value="Hello, world!")
-  @js.log("Embedding dimension: " + result.embedding.length().to_string())
-  @js.log("Tokens used: " + result.usage.tokens.to_string())
+  println("Embedding dimension: " + result.embedding.length().to_string())
+  println("Tokens used: " + result.usage.tokens.to_string())
 }

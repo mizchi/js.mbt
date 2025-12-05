@@ -67,7 +67,7 @@ async test "generate image with openai" {
     prompt="A cute cat sitting on a rainbow",
     size="1024x1024",
   )
-  @js.log(
+  println(
     "Generated image base64 length: " + result.image.base64.length().to_string(),
   )
 }

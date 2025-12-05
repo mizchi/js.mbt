@@ -86,13 +86,13 @@ async test "fetch" {
     headers={ "Accept": "application/json" },
   ) catch {
     e => {
-      @js.log("Fetch error: " + e.to_string())
+      println("Fetch error: " + e.to_string())
       return
     }
   }
   let value = response.json() catch {
     e => {
-      @js.log("Error parsing JSON: " + e.to_string())
+      println("Error parsing JSON: " + e.to_string())
       return
     }
   }

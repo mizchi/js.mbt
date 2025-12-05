@@ -202,27 +202,27 @@ async test "claude_code_sdk query" {
       Some(msg) =>
         match msg {
           Assistant(a) => {
-            @js.log("Assistant message:")
+            println("Assistant message:")
             for block in a.content {
               match block {
-                Text(t) => @js.log("  Text: " + t.text)
-                ToolUse(tu) => @js.log("  Tool: " + tu.name)
+                Text(t) => println("  Text: " + t.text)
+                ToolUse(tu) => println("  Tool: " + tu.name)
                 _ => ()
               }
             }
           }
           Result(r) => {
-            @js.log("Result: success=" + r.success.to_string())
-            @js.log("  Duration: " + r.duration_ms.to_string() + "ms")
-            @js.log(
+            println("Result: success=" + r.success.to_string())
+            println("  Duration: " + r.duration_ms.to_string() + "ms")
+            println(
               "  Tokens: input=" +
               r.usage.input_tokens.to_string() +
               " output=" +
               r.usage.output_tokens.to_string(),
             )
           }
-          System(s) => @js.log("System: model=" + s.model)
-          _ => @js.log("Other message")
+          System(s) => println("System: model=" + s.model)
+          _ => println("Other message")
         }
       None => break
     }

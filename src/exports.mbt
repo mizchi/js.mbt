@@ -26,6 +26,7 @@ pub using @core {
   new,
   run_async,
   suspend,
+  log,
 }
 
 ///|

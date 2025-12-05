@@ -98,7 +98,7 @@ fn counter(_ : Unit) -> @react.Element {
   let on_click = useCallback(
     () => {
       dispatch(CounterAction::Increment)
-      log("Counter clicked: \{count + 1}")
+      println("Counter clicked: \{count + 1}")
     },
     [@core.any(count)],
   )
@@ -149,8 +149,8 @@ fn app(props : AppProps) -> @react.Element {
   let handler = useCallback(_ => set_cnt(cnt + 1), [@core.any(cnt)])
   useEffect(
     () => {
-      log("mounted with x = \{props.x}")
-      () => log("unmounted")
+      println("mounted with x = \{props.x}")
+      () => println("unmounted")
     },
     [@core.any(cnt), @core.any(textarea_ref)],
   )
@@ -161,9 +161,9 @@ fn app(props : AppProps) -> @react.Element {
         if textarea_ref.get_current() is Some(textarea) {
           textarea.as_html_element().focus()
         }
-        log("Starting async operation...")
+        println("Starting async operation...")
       })
-      () => log("Component unmounted")
+      () => println("Component unmounted")
     },
     [],
   )
@@ -173,7 +173,7 @@ fn app(props : AppProps) -> @react.Element {
       let target : @dom.HTMLTextAreaElement = identity(ev.target().as_any())
       let value : String = target.value
       set_text(value)
-      log("Textarea changed: \{value}")
+      println("Textarea changed: \{value}")
     },
     [@core.any(input_text)],
   )
@@ -222,9 +222,9 @@ fn app(props : AppProps) -> @react.Element {
           style={ "marginTop": "10px" },
           enc_type="application/x-www-form-urlencoded",
           action=form => {
-            log(form)
+            @js.log(form |> @core.any)
             let v : String = form.get("username") |> identity
-            log("Username: \{v}")
+            println("Username: \{v}")
           },
           [
             input(type_="text", name="username"),

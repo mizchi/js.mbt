@@ -18,26 +18,26 @@ fn format_usage(usage : @ai.LanguageModelUsage) -> String {
 ///|
 /// Example: generate_text - simple one-shot generation
 async fn example_generate_text(model : @ai.Model) -> Unit {
-  @js.log("=== Generate Text ===")
+  println("=== Generate Text ===")
   let result = @ai.generateText(
     model~,
     prompt="Say hello in one word.",
     max_tokens=50,
   ) catch {
     e => {
-      @js.log("Error: \{e}")
+      println("Error: \{e}")
       return
     }
   }
-  @js.log("Text: \{result.text}")
-  @js.log("Finish: \{result.finish_reason}")
-  @js.log("Usage: \{format_usage(result.usage)}")
+  println("Text: \{result.text}")
+  println("Finish: \{result.finish_reason}")
+  println("Usage: \{format_usage(result.usage)}")
 }
 
 ///|
 /// Example: stream_text - streaming text chunks
 async fn example_stream_text(model : @ai.Model) -> Unit {
-  @js.log("\n=== Stream Text ===")
+  println("\n=== Stream Text ===")
   let stream = @ai.streamText(
     model~,
     prompt="Count from 1 to 5.",
@@ -53,28 +53,28 @@ async fn example_stream_text(model : @ai.Model) -> Unit {
     }
     None => ()
   }
-  @js.log("")
+  println("")
 
   // Final stats
   let usage = stream.usage() catch {
     e => {
-      @js.log("Error: \{e}")
+      println("Error: \{e}")
       return
     }
   }
   let finish = stream.finishReason() catch {
     e => {
-      @js.log("Error: \{e}")
+      println("Error: \{e}")
       return
     }
   }
-  @js.log("Finish: \{finish}, Tokens: \{usage.total_tokens}")
+  println("Finish: \{finish}, Tokens: \{usage.total_tokens}")
 }
 
 ///|
 /// Example: full_stream - typed stream parts
 async fn example_full_stream(model : @ai.Model) -> Unit {
-  @js.log("\n=== Full Stream (typed) ===")
+  println("\n=== Full Stream (typed) ===")
   let stream = @ai.streamText(model~, prompt="Hi!", max_tokens=20)
   // Use typed fullStream() instead of fullStreamRaw()
   let iter = stream.fullStream()
@@ -86,7 +86,7 @@ async fn example_full_stream(model : @ai.Model) -> Unit {
         Some(t) => " -> \"\{t}\""
         None => ""
       }
-      @js.log("[\{part.type_string()}]\{text}")
+      println("[\{part.type_string()}]\{text}")
       continue iter.next()
     }
   }
@@ -136,10 +136,10 @@ async fn example_tools(model : @ai.Model) -> Unit {
   )
   // Show tool calls
   if result.tool_calls.length() > 0 {
-    @js.log("Tool calls:")
+    println("Tool calls:")
     for tc in result.tool_calls {
       let input_str = @js.JSON::stringify(tc.input)
-      @js.log("  - \{tc.tool_name}(\{input_str})")
+      println("  - \{tc.tool_name}(\{input_str})")
     }
   }
 
@@ -147,7 +147,7 @@ async fn example_tools(model : @ai.Model) -> Unit {
   if result.tool_results.length() > 0 {
     for tr in result.tool_results {
       let output_str = @js.JSON::stringify(tr.output)
-      @js.log("  - \{tr.tool_name}: \{output_str}")
+      println("  - \{tr.tool_name}: \{output_str}")
     }
   }
 }

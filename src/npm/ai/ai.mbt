@@ -305,17 +305,17 @@ async test "ai generate_text" {
   let model = anthropic("claude-sonnet-4-20250514")
   let result = generateText(model~, prompt="Say hello in one word") catch {
     @js.ThrowError(e) => {
-      @js.log(e)
+      @js.log(e |> @core.any)
       return
     }
     e => {
-      @js.log(e)
+      println("Error: " + e.to_string())
       return
     }
   }
-  @js.log("Text: " + result.text)
-  @js.log("Finish reason: " + result.finish_reason.to_string())
-  @js.log("Tokens used: " + result.usage.total_tokens.to_string())
+  println("Text: " + result.text)
+  println("Finish reason: " + result.finish_reason.to_string())
+  println("Tokens used: " + result.usage.total_tokens.to_string())
 }
 
 ///|
@@ -328,16 +328,16 @@ async test "ai stream_text" {
   let text_iter = stream.textStream()
   while true {
     match text_iter.next() {
-      Some(chunk) => @js.log("Chunk: " + chunk)
+      Some(chunk) => println("Chunk: " + chunk)
       None => break
     }
   }
   // Get final results
   let text = stream.text() catch {
     e => {
-      @js.log(e)
+      @js.log(e |> @js.any)
       return
     }
   }
-  @js.log("Final text: " + text)
+  println("Final text: " + text)
 }

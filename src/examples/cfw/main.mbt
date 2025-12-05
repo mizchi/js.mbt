@@ -1,5 +1,5 @@
 ///|
-using @js {log, promisify3}
+using @js {promisify3}
 
 ///|
 using @http {type Response, fetch}
@@ -43,7 +43,7 @@ pub fn get_fetch_handler() -> @cloudflare.CloudflareFetchHandler {
         method_="GET",
       ) catch {
         e => {
-          log("Error: " + e.to_string())
+          println("Error: " + e.to_string())
           let data = @core.new_object()
           data["error"] = "Failed to fetch" |> @core.any
           let options = @core.new_object()
