@@ -200,14 +200,9 @@ pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
 }
 
 ///|
-extern "js" fn ffi_global_agent() -> Agent =
+/// Get the global HTTPS agent
+pub extern "js" fn global_agent() -> Agent =
   #| () => {
   #|   const https = require('https');
   #|   return https.globalAgent;
   #| }
-
-///|
-/// Get the global HTTPS agent
-pub fn global_agent() -> Agent {
-  ffi_global_agent()
-}

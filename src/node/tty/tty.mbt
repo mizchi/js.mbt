@@ -192,14 +192,9 @@ pub fn WriteStream::on_resize(
 }
 
 ///|
-extern "js" fn ffi_isatty(fd : Int) -> Bool =
+/// Check if a file descriptor is associated with a TTY
+pub extern "js" fn isatty(fd : Int) -> Bool =
   #| (fd) => {
   #|   const tty = require('tty');
   #|   return tty.isatty(fd);
   #| }
-
-///|
-/// Check if a file descriptor is associated with a TTY
-pub fn isatty(fd : Int) -> Bool {
-  ffi_isatty(fd)
-}

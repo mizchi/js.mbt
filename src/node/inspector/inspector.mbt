@@ -18,16 +18,11 @@ pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identi
 
 ///|
 /// Creates a new Inspector Session
-extern "js" fn ffi_create_session() -> Session =
+pub extern "js" fn Session::new() -> Session =
   #| () => {
   #|   const inspector = require('node:inspector');
   #|   return new inspector.Session();
   #| }
-
-///|
-pub fn Session::new() -> Session {
-  ffi_create_session()
-}
 
 ///|
 /// Session methods
@@ -89,12 +84,7 @@ extern "js" fn ffi_open_3(port : Int, host : String, wait : Bool) -> @js.Object 
   #| (port, host, wait) => require('node:inspector').open(port, host, wait)
 
 ///|
-pub fn close() -> Unit {
-  ffi_close()
-}
-
-///|
-extern "js" fn ffi_close() -> Unit =
+pub extern "js" fn close() -> Unit =
   #| () => require('node:inspector').close()
 
 ///|
@@ -113,12 +103,7 @@ extern "js" fn ffi_url() -> @core.Any =
   #| () => require('node:inspector').url()
 
 ///|
-pub fn wait_for_debugger() -> Unit {
-  ffi_wait_for_debugger()
-}
-
-///|
-extern "js" fn ffi_wait_for_debugger() -> Unit =
+pub extern "js" fn wait_for_debugger() -> Unit =
   #| () => require('node:inspector').waitForDebugger()
 
 ///|
@@ -132,10 +117,5 @@ pub fn Console::as_any(self : Console) -> @core.Any = "%identity"
 pub fn Console::to_any(self : Console) -> @core.Any = "%identity"
 
 ///|
-pub fn console() -> Console {
-  ffi_console()
-}
-
-///|
-extern "js" fn ffi_console() -> Console =
+pub extern "js" fn console() -> Console =
   #| () => require('node:inspector').console
