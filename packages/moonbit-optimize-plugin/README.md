@@ -4,7 +4,7 @@ Optimization plugin for MoonBit-generated JavaScript code. This plugin inlines F
 
 ## Requirements
 
-- **Node.js 24+** - Native TypeScript support
+- **Node.js 24+** - Native TypeScript support (no build step required)
 
 ## Features
 

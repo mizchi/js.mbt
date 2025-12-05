@@ -5,10 +5,10 @@
  * Pipeline: moon build -> inline-ffi -> oxc-minify
  *
  * Usage:
- *   node src/cli.ts <input.js> [output.js]
  *   moonbit-optimize <input.js> [output.js]
+ *   moonbit-optimize --check [testName] [--print] [--update]
  *
- * Requires Node.js 24+
+ * Requires Node.js 24+ (native TypeScript support)
  */
 import { minify } from 'oxc-minify';
 import fs from 'fs';
@@ -207,8 +207,8 @@ if (args[0] === '--check') {
   const testName = args.find(a => !a.startsWith('--'));
   checkSize(testName, { print: printFlag, update: updateFlag }).catch(e => { console.error(e); process.exit(1); });
 } else if (args.length === 0) {
-  console.log('Usage: node src/nostd/cli.ts <input.js> [output.js]');
-  console.log('       node src/nostd/cli.ts --check [testName] [--print] [--update]');
+  console.log('Usage: moonbit-optimize <input.js> [output.js]');
+  console.log('       moonbit-optimize --check [testName] [--print] [--update]');
   process.exit(1);
 } else {
   processFile(args[0], args[1]).catch(e => { console.error(e); process.exit(1); });
