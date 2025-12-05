@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /**
- * MoonBit nostd minifier CLI
+ * MoonBit optimization CLI
  *
  * Pipeline: moon build -> inline-ffi -> oxc-minify
  *
  * Usage:
- *   npx tsx src/nostd/cli.ts <input.js> [output.js]
- *   npx tsx src/nostd/cli.ts --check  # Build and check size of _tests
+ *   node src/cli.ts <input.js> [output.js]
+ *   moonbit-optimize <input.js> [output.js]
+ *
+ * Requires Node.js 24+
  */
 import { minify } from 'oxc-minify';
 import fs from 'fs';

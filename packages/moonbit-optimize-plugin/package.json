@@ -1,0 +1,70 @@
+{
+  "name": "moonbit-optimize-plugin",
+  "version": "0.1.0",
+  "description": "Optimization plugin for MoonBit generated JavaScript code",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "moonbit-optimize": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/unplugin.d.ts",
+      "import": "./dist/unplugin.js"
+    },
+    "./rollup": {
+      "types": "./dist/unplugin.d.ts",
+      "import": "./dist/unplugin.js"
+    },
+    "./webpack": {
+      "types": "./dist/unplugin.d.ts",
+      "import": "./dist/unplugin.js"
+    },
+    "./esbuild": {
+      "types": "./dist/unplugin.d.ts",
+      "import": "./dist/unplugin.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "moonbit",
+    "optimization",
+    "ffi",
+    "inline",
+    "unplugin",
+    "vite",
+    "rollup",
+    "webpack",
+    "esbuild"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "acorn": "^8.14.0",
+    "astring": "^1.9.0",
+    "magic-string": "^0.30.18",
+    "oxc-minify": "^0.46.0",
+    "unplugin": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

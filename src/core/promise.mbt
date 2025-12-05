@@ -400,10 +400,32 @@ pub async fn sleep(ms : Int) -> Unit noraise {
 }
 
 ///|
-/// Async dispose (Symbol.asyncDispose)
+/// Call async dispose (Symbol.asyncDispose)
 /// Usage: defer value |> dispose_async
-// pub async fn dispose_async(value : Any) -> Unit {
-//   let dispose_fn : Any = value._get(@symbol.Symbol::asyncDispose() |> identity)
-//   let promise : Promise[Unit] = Any::_invoke(dispose_fn, []) |> identity
-//   promise.wait()
-// }
+pub async fn dispose_async(value : Any) -> Unit {
+  let dispose_fn : Any = value._get(symbol_async_dispose())
+  let promise : Promise[Unit] = Any::_invoke(dispose_fn, []) |> identity
+  promise.wait()
+}
+
+///|
+/// Call asyncDispose but ignore the result
+/// now moonbit can not async in defer
+/// Usage: defer browser |> dispose_async_ignore
+pub fn dispose_async_ignore(value : Any) -> Unit {
+  let dispose_fn : Any = value._get(symbol_async_dispose())
+  Any::_invoke(dispose_fn, []) |> ignore
+}
+
+///|
+pub fn dispose(value : Any) -> Unit {
+  value._call(symbol_dispose(), []) |> ignore
+}
+
+///|
+extern "js" fn symbol_dispose() -> String =
+  #| () => Symbol.dispose
+
+///|
+extern "js" fn symbol_async_dispose() -> String =
+  #| () => Symbol.asyncDispose

@@ -92,6 +92,8 @@ pub fn throw_(Any) -> Unit
 
 pub fn throw_error(String) -> Unit
 
+pub fn[T] throwable(() -> T raise?) -> T raise ThrowError
+
 pub fn try_sync(() -> Any) -> Any raise JsError
 
 pub fn typeof_(Any) -> String
@@ -100,6 +102,9 @@ pub fn undefined() -> Any
 
 // Errors
 pub suberror JsError String
+
+pub suberror ThrowError Any
+pub impl Show for ThrowError
 
 // Types and methods
 #external
