@@ -19,3 +19,7 @@ test-results
 tmp
 .jj
 *.heapsnapshot
+# Vite build output
+dist/
+dist-minified/
+test-build/
