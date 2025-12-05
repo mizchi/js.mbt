@@ -372,7 +372,7 @@ See [escape_hatch.mbt.md](examples/escape_hatch.mbt.md) for more patterns.
 
 ### Binary Data
 
-See `mizchi/js/builtins/arraybuffer` and `mizchi/js/builtins/typedarray` packages.
+See `mizchi/js/builtins/arraybuffer` package.
 
 ## Related Packages
 

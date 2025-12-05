@@ -1,4 +1,4 @@
-# mizchi/js/builtins/typedarray
+# mizchi/js/builtins/arraybuffer
 
 Binary data handling with ArrayBuffer and TypedArrays.
 
@@ -10,7 +10,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/builtins/typedarray"
+    "mizchi/js/builtins/arraybuffer"
   ]
 }
 ```

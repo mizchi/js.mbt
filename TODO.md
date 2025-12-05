@@ -137,6 +137,23 @@ pub fn MyType::as_any(self : MyType) -> @core.Any = "%identity"
 - `@js.JsIterator[T]` - Iterator 型
 - `@arraybuffer.ArrayBuffer` - ArrayBuffer 型
 
+### Refactoring Tasks (Priority: High)
+
+#### Promise 型の移行
+
+- [ ] `@js.Promise[T]` を `@core` ベースの実装に移行する
+  - 現在の `@js.Promise` は `@js.JsImpl` に依存している
+  - `@core.Any` を使った軽量な Promise 実装を検討
+  - 既存コードとの互換性を保ちつつ、段階的に移行
+
+#### DOM パッケージの Impl 継承の削除
+
+- [x] `src/browser/dom` のデフォルト実装による trait 継承を削除する
+  - **理由**: デフォルト実装による継承は出力サイズが大きくなる
+  - 完了: `as_element()`, `as_node()`, `as_html_element()`, `as_event_target()` などの変換関数パターンに移行
+  - NodeImpl, ElementImpl, HTMLElementImpl, EventTargetImpl trait を削除
+  - 3つのコミットで DOM, Node.js, Web/Browser の全 Impl 継承を削除 (-393 lines)
+
 ### Future Plan
 
 1. 各パッケージの `mizchi/js` 依存を `nostd` に順次移行
