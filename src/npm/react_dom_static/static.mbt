@@ -53,7 +53,7 @@ fn build_options(
   bootstrap_modules? : Array[String],
   identifier_prefix? : String,
   namespace_uri? : String,
-  on_error? : (@js.JsError) -> Unit,
+  on_error? : (@error.JsError) -> Unit,
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
 ) -> @core.Any {
@@ -96,7 +96,7 @@ pub async fn ReactDOMStatic::prerender(
   bootstrap_modules? : Array[String],
   identifier_prefix? : String,
   namespace_uri? : String,
-  on_error? : (@js.JsError) -> Unit,
+  on_error? : (@error.JsError) -> Unit,
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
 ) -> PrerenderResult {
@@ -133,7 +133,7 @@ pub async fn ReactDOMStatic::prerenderToNodeStream(
   bootstrap_modules? : Array[String],
   identifier_prefix? : String,
   namespace_uri? : String,
-  on_error? : (@js.JsError) -> Unit,
+  on_error? : (@error.JsError) -> Unit,
   progressive_chunk_size? : Int,
   signal? : @js.AbortSignal,
 ) -> PrerenderToNodeStreamResult {

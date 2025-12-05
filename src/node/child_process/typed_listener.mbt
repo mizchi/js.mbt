@@ -47,7 +47,7 @@ pub fn ChildProcess::on_close(
 /// Callback receives: error (JsError)
 pub fn ChildProcess::on_error(
   self : Self,
-  callback : (@js.JsError) -> Unit noraise,
+  callback : (@error.JsError) -> Unit noraise,
 ) -> Unit {
   @core.any(self)._call("on", [
     @core.any("error"),

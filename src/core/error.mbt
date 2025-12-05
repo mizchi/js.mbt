@@ -70,3 +70,45 @@ pub fn assert_throws_with(op : () -> Any, expected_msg : String) -> Unit {
 
   }
 }
+
+///|
+pub suberror ThrowError Any
+
+///|
+pub impl Show for ThrowError with output(self, logger) {
+  logger.write_string("@js.Error: ")
+  let ThrowError(inner) = self
+  logger.write_object(inner)
+}
+
+///|
+/// Wraps a synchronous function call, converting any thrown JS errors into ThrowError
+/// ```moonbit skip
+/// let result = throwable(() => undefined()._invoke([]))
+/// ```
+pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
+  match throwable_result(f |> identity) {
+    Ok(result) => result |> identity
+    Err(e) => raise ThrowError(e |> identity)
+  }
+}
+
+///|
+/// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
+fn throwable_result(f : () -> Result[Any, Any]) -> Result[Any, Any] {
+  ffi_wrap_sync_result(identity(f), Ok(_), Err(_))
+}
+
+///|
+extern "js" fn ffi_wrap_sync_result(
+  f : Any,
+  ok : (Any) -> Result[Any, Any],
+  err : (Any) -> Result[Any, Any],
+) -> Result[Any, Any] =
+  #|(f, ok, err) => {
+  #|  try {
+  #|    return ok(f())
+  #|  } catch(e) {
+  #|    return err(e)
+  #|  }
+  #|}

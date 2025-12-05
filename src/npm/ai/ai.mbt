@@ -304,7 +304,7 @@ pub async fn StreamTextResultHandle::steps(
 async test "ai generate_text" {
   let model = anthropic("claude-sonnet-4-20250514")
   let result = generateText(model~, prompt="Say hello in one word") catch {
-    @js.ThrowError(e) => {
+    @core.ThrowError(e) => {
       @js.log(e |> @core.any)
       return
     }

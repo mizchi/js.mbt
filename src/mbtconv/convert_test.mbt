@@ -146,7 +146,7 @@ test "JsImpl for Option types" {
 /// Test TypeError is caught correctly
 test "throwable catches TypeError" {
   let mut caught_type_error = false
-  @js.throwable(fn() {
+  @core.throwable(fn() {
     let null_val = @core.null()
     // Calling a method on null will throw TypeError
     null_val._call("toString", []) |> ignore

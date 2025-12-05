@@ -1,27 +1,20 @@
-// ///|
-// test "JsError Show implementation" {
-//   let err = JsError::new("Test error")
-//   let shown = err.to_string()
-//   assert_true(shown.contains("Test error"))
-// }
+///|
+test "JsError creation and properties" {
+  let error = JsError::new("Test error")
+  assert_eq(error.message, "Test error")
+  assert_true(JsError::isError(error.as_any()))
+  let error_val : @core.Any = @core.identity(error)
+  assert_true(@core.is_object(error_val))
+  assert_eq(@core.identity(error_val._get("message")), "Test error")
+}
 
-// ///|
-// test "JsError creation and properties" {
-//   let error = JsError::new("Test error")
-//   assert_eq(error.message, "Test error")
-//   assert_true(JsError::isError(error.to_any()))
-//   let error_val : @core.Any = @core.identity(error)
-//   assert_true(@core.is_object(error_val))
-//   assert_eq(@core.identity(error_val._get("message")), "Test error")
-// }
-
-// ///|
-// test "JsError with cause" {
-//   let cause_error = JsError::new("Cause error")
-//   let error_with_cause = JsError::new("Main error", cause=cause_error)
-//   let error_with_cause_val : @core.Any = @core.identity(error_with_cause)
-//   assert_eq(@core.identity(error_with_cause_val._get("message")), "Main error")
-// }
+///|
+test "JsError with cause" {
+  let cause_error = JsError::new("Cause error")
+  let error_with_cause = JsError::new("Main error", cause=cause_error)
+  let error_with_cause_val : @core.Any = @core.identity(error_with_cause)
+  assert_eq(@core.identity(error_with_cause_val._get("message")), "Main error")
+}
 
 // ///|
 // test "JsError Show trait" {
@@ -33,7 +26,7 @@
 
 // ///|
 // test "ThrowError from call_throwable" {
-//   let v = try? @js.throwable(fn() {
+//   let v = try? @core.throwable(fn() {
 //     @core.global_this()._call("nonexistentMethod", [])
 //   })
 //   match v {
@@ -74,135 +67,55 @@
 //   inspect(error_str, content="Show test error")
 // }
 
-// ///|
-// test "ThrowError::from with TypeError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testTypeError = new TypeError('Type error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testTypeError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::TypeError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "TypeError instanceof check" {
+  let type_error = TypeError::new("Type error")
+  assert_true(TypeError::instanceof(type_error.as_any()))
+  assert_eq(type_error.message, "Type error")
+}
 
-// ///|
-// test "ThrowError::from with RangeError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testRangeError = new RangeError('Range error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testRangeError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::RangeError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "RangeError instanceof check" {
+  let range_error = RangeError::new("Range error")
+  assert_true(RangeError::instanceof(range_error.as_any()))
+  assert_eq(range_error.message, "Range error")
+}
 
-// ///|
-// test "ThrowError::from with ReferenceError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testRefError = new ReferenceError('Ref error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testRefError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::ReferenceError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "ReferenceError instanceof check" {
+  let ref_error = ReferenceError::new("Reference error")
+  assert_true(ReferenceError::instanceof(ref_error.as_any()))
+  assert_eq(ref_error.message, "Reference error")
+}
 
-// ///|
-// test "ThrowError::from with SyntaxError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testSyntaxError = new SyntaxError('Syntax error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testSyntaxError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::SyntaxError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "SyntaxError instanceof check" {
+  let syntax_error = SyntaxError::new("Syntax error")
+  assert_true(SyntaxError::instanceof(syntax_error.as_any()))
+  assert_eq(syntax_error.message, "Syntax error")
+}
 
-// ///|
-// test "ThrowError::from with URIError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testURIError = new URIError('URI error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testURIError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::URIError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "URIError instanceof check" {
+  let uri_error = URIError::new("URI error")
+  assert_true(URIError::instanceof(uri_error.as_any()))
+  assert_eq(uri_error.message, "URI error")
+}
 
-// ///|
-// test "ThrowError::from with EvalError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testEvalError = new EvalError('Eval error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testEvalError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::EvalError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "EvalError instanceof check" {
+  let eval_error = EvalError::new("Eval error")
+  assert_true(EvalError::instanceof(eval_error.as_any()))
+  assert_eq(eval_error.message, "Eval error")
+}
 
-// ///|
-// test "ThrowError::from with AggregateError" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testAggError = new AggregateError([], 'Agg error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testAggError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::AggregateError(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
-
-// ///|
-// test "ThrowError::from with generic Error" {
-//   let global = @global.global_this()
-//   global._call("eval", [
-//     @core.any("globalThis.testGenericError = new Error('Generic error')"),
-//   ])
-//   |> ignore
-//   let js_error = global._get("testGenericError")
-//   let throw_error = ThrowError::from(js_error)
-//   match throw_error {
-//     ThrowError::Error(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
-
-// ///|
-// test "ThrowError::from with non-error value" {
-//   let value = @core.any("plain string value")
-//   let throw_error = ThrowError::from(value)
-//   match throw_error {
-//     ThrowError::Value(_) => inspect(true, content="true")
-//     _ => inspect(false, content="true")
-//   }
-// }
+///|
+test "AggregateError instanceof check" {
+  let errors = @core.new_array()
+  let agg_error = AggregateError::new(errors, "Aggregate error")
+  assert_true(AggregateError::instanceof(agg_error.as_any()))
+  assert_eq(agg_error.message, "Aggregate error")
+}
 
 // ///|
 // /// Test RangeError is caught correctly

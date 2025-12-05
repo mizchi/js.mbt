@@ -7,7 +7,8 @@
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/node/events",
-    "mizchi/js/web/streams"
+    "mizchi/js/web/streams",
+    "mizchi/js/builtins/error"
   ],
   "test-import": [
     "moonbitlang/async",

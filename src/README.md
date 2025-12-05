@@ -28,12 +28,12 @@ Add to your `moon.pkg.json`:
 ```moonbit
 // Create objects
 let obj = @core.Object::new()
-obj.set("name", "Alice")
-obj.set("age", 30)
+obj["name"] = "Alice" |> @js.any
+obj["agen"] = 25 |> @js.any
 
 // Get properties
-let name = obj._get("name")  // Returns @core.Any
-let age: Int = obj._get("age").cast()  // Type-safe casting
+let name: String = obj["name"].cast()  // Returns @js.Any
+let age: Int = obj["age"].cast()  // Manual casting
 
 // Call methods
 let has_name: Bool = obj._call("hasOwnProperty", ["name"]).cast()

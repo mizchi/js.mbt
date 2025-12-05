@@ -11,8 +11,8 @@ extern "js" fn fs_module() -> @core.Any =
 ///|
 /// Read file synchronously as Buffer
 #alias(readFileSync)
-pub fn read_file_sync(path : String) -> @buffer.Buffer raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn read_file_sync(path : String) -> @buffer.Buffer raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path)]).cast()
   })
@@ -23,8 +23,8 @@ pub fn read_file_sync(path : String) -> @buffer.Buffer raise @js.ThrowError {
 pub fn read_file_sync_string(
   path : String,
   encoding : String,
-) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path), @core.any(encoding)]).cast()
   })
@@ -36,8 +36,8 @@ pub fn read_file_sync_string(
 pub fn read_file_as_string(
   path : String,
   encoding? : String = "utf8",
-) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path), @core.any(encoding)]).cast()
   })
@@ -48,8 +48,8 @@ pub fn read_file_as_string(
 /// JS: fs.readFileSync(path)
 pub fn read_file_as_buffer(
   path : String,
-) -> @buffer.Buffer raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> @buffer.Buffer raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path)]).cast()
   })
@@ -63,8 +63,8 @@ pub fn read_file_as_buffer(
 pub fn writeFileSync(
   path : String,
   data : @core.Any,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("writeFileSync", [@core.any(path), data]) |> ignore
   })
@@ -76,8 +76,8 @@ pub fn writeFileSync(
 pub fn append_file_sync(
   path : String,
   data : @core.Any,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("appendFileSync", [@core.any(path), data]) |> ignore
   })
@@ -96,8 +96,8 @@ pub fn existsSync(path : String) -> Bool {
 ///|
 /// Get file statistics
 #alias(stat_sync)
-pub fn statSync(path : String) -> Stat raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn statSync(path : String) -> Stat raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("statSync", [@core.any(path)]).cast()
   })
@@ -106,8 +106,8 @@ pub fn statSync(path : String) -> Stat raise @js.ThrowError {
 ///|
 /// Create directory synchronously
 #alias(mkdir_sync)
-pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
@@ -122,8 +122,8 @@ pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
 ///|
 /// Delete file synchronously
 #alias(unlink_sync)
-pub fn unlinkSync(path : String) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn unlinkSync(path : String) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("unlinkSync", [@core.any(path)]) |> ignore
   })
@@ -135,8 +135,8 @@ pub fn unlinkSync(path : String) -> Unit raise @js.ThrowError {
 pub fn renameSync(
   old_path : String,
   new_path : String,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("renameSync", [@core.any(old_path), @core.any(new_path)]) |> ignore
   })
@@ -145,8 +145,8 @@ pub fn renameSync(
 ///|
 /// Copy file synchronously
 // #alias(copyFileSync)
-pub fn copyFileSync(src : String, dest : String) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn copyFileSync(src : String, dest : String) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("copyFileSync", [@core.any(src), @core.any(dest)]) |> ignore
   })
@@ -157,8 +157,8 @@ pub fn copyFileSync(src : String, dest : String) -> Unit raise @js.ThrowError {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(readdir_sync)
-pub fn readdirSync(path : String) -> Array[String] raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn readdirSync(path : String) -> Array[String] raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readdirSync", [@core.any(path)]).cast()
   })
@@ -171,8 +171,8 @@ pub fn rmSync(
   path : String,
   recursive? : Bool,
   force? : Bool,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match (recursive, force) {
       (None, None) => fs._call("rmSync", [@core.any(path)]) |> ignore
@@ -208,8 +208,8 @@ pub fn createWriteStream(path : String) -> @stream.Writable {
 ///|
 /// Change file permissions synchronously
 #alias(chmod_sync)
-pub fn chmodSync(path : String, mode : Int) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn chmodSync(path : String, mode : Int) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("chmodSync", [@core.any(path), @core.any(mode)]) |> ignore
   })
@@ -222,8 +222,8 @@ pub fn chownSync(
   path : String,
   uid : Int,
   gid : Int,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("chownSync", [@core.any(path), @core.any(uid), @core.any(gid)])
     |> ignore
@@ -237,8 +237,8 @@ pub fn symlinkSync(
   target : String,
   path : String,
   type_? : String,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match type_ {
       Some(t) =>
@@ -257,8 +257,8 @@ pub fn symlinkSync(
 ///|
 /// Read symbolic link synchronously
 #alias(readlink_sync)
-pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn readlinkSync(path : String) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readlinkSync", [@core.any(path)]).cast()
   })
@@ -267,8 +267,8 @@ pub fn readlinkSync(path : String) -> String raise @js.ThrowError {
 ///|
 /// Get real path synchronously
 #alias(realpath_sync)
-pub fn realpathSync(path : String) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn realpathSync(path : String) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("realpathSync", [@core.any(path)]).cast()
   })
@@ -277,8 +277,8 @@ pub fn realpathSync(path : String) -> String raise @js.ThrowError {
 ///|
 /// Truncate file synchronously
 #alias(truncate_sync)
-pub fn truncateSync(path : String, len? : Int) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn truncateSync(path : String, len? : Int) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match len {
       Some(l) =>
@@ -291,8 +291,8 @@ pub fn truncateSync(path : String, len? : Int) -> Unit raise @js.ThrowError {
 ///|
 /// Remove directory synchronously
 #alias(rmdir_sync)
-pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
@@ -307,8 +307,8 @@ pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @js.ThrowError 
 ///|
 /// Check file access synchronously
 #alias(access_sync)
-pub fn accessSync(path : String, mode? : Int) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn accessSync(path : String, mode? : Int) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match mode {
       Some(m) =>
@@ -325,8 +325,8 @@ pub fn cpSync(
   src : String,
   dest : String,
   recursive? : Bool,
-) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
@@ -345,8 +345,8 @@ pub fn openSync(
   path : String,
   flags : String,
   mode? : Int,
-) -> Int raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Int raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match mode {
       Some(m) =>
@@ -361,8 +361,8 @@ pub fn openSync(
 ///|
 /// Close file descriptor synchronously
 #alias(close_sync)
-pub fn closeSync(fd : Int) -> Unit raise @js.ThrowError {
-  @js.throwable(fn() {
+pub fn closeSync(fd : Int) -> Unit raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("closeSync", [@core.any(fd)]) |> ignore
   })
@@ -377,8 +377,8 @@ pub fn readSync(
   offset : Int,
   length : Int,
   position : Int?,
-) -> Int raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Int raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match position {
       Some(pos) =>
@@ -413,8 +413,8 @@ pub fn writeSync(
   offset : Int,
   length : Int,
   position : Int?,
-) -> Int raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> Int raise @core.ThrowError {
+  @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match position {
       Some(pos) =>

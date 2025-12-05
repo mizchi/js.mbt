@@ -11,7 +11,8 @@
     "mizchi/js/builtins/iterator",
     "mizchi/js/builtins/json",
     "mizchi/js/builtins/array",
-    "mizchi/js/builtins/string"
+    "mizchi/js/builtins/string",
+    "mizchi/js/builtins/error"
   ],
   "test-import": [
     "moonbitlang/async",

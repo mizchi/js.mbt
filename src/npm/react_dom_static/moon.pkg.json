@@ -10,6 +10,7 @@
     "mizchi/js/node/stream",
     "mizchi/js/node",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react_element"
+    "mizchi/js/npm/react_element",
+    "mizchi/js/builtins/error"
   ]
 }

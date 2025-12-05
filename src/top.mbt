@@ -10,6 +10,7 @@ pub using @core {
   type Nullish,
   type Promise,
   type PromiseResolvers,
+  type ThrowError,
   identity,
   any,
   typeof_,
@@ -27,6 +28,7 @@ pub using @core {
   run_async,
   suspend,
   log,
+  throwable,
 }
 
 ///|
@@ -54,3 +56,15 @@ pub using @array {type JsArray}
 
 ///|
 pub using @string {type JsString}
+
+///|
+pub using @error {
+  type JsError,
+  type TypeError,
+  type RangeError,
+  type ReferenceError,
+  type SyntaxError,
+  type URIError,
+  type EvalError,
+  type AggregateError,
+}

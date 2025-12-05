@@ -164,7 +164,7 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (@js.Nullish[@js.JsError], String, String) -> Unit,
+  callback : (@js.Nullish[@error.JsError], String, String) -> Unit,
   cwd? : String,
   env? : @core.Any,
   shell? : String,
@@ -203,7 +203,7 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (@js.Nullish[@js.JsError], String, String) -> Unit,
+  callback : (@js.Nullish[@error.JsError], String, String) -> Unit,
   cwd? : String,
   env? : @core.Any,
   timeout? : Int,
@@ -348,8 +348,8 @@ pub fn spawnSync(
   timeout? : Int,
   input? : String,
   stdio? : String,
-) -> SpawnSyncResult raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> SpawnSyncResult raise @core.ThrowError {
+  @core.throwable(fn() {
     let cp = ffi_require_child_process()
     let entries : Array[(String, @core.Any)] = []
     if cwd is Some(v) {
@@ -395,8 +395,8 @@ pub fn execSync(
   input? : String,
   encoding? : String,
   stdio? : String,
-) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let cp = ffi_require_child_process()
     let entries : Array[(String, @core.Any)] = []
     if cwd is Some(v) {
@@ -439,8 +439,8 @@ pub fn execFileSync(
   maxBuffer? : Int,
   input? : String,
   encoding? : String,
-) -> String raise @js.ThrowError {
-  @js.throwable(fn() {
+) -> String raise @core.ThrowError {
+  @core.throwable(fn() {
     let cp = ffi_require_child_process()
     let entries : Array[(String, @core.Any)] = []
     if cwd is Some(v) {
