@@ -246,14 +246,9 @@ pub type Serializer
 pub fn Serializer::as_any(self : Serializer) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_serializer() -> @core.Any =
-  #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
-
-///|
 /// Create a new Serializer
-pub fn Serializer::new() -> Serializer {
-  @core.identity(ffi_new_serializer())
-}
+pub extern "js" fn Serializer::new() -> Serializer =
+  #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
 
 ///|
 /// Write header
