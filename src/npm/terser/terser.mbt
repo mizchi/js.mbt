@@ -86,21 +86,22 @@ pub async fn minify(
 }
 
 ///|
-#module("terser")
-extern "js" fn ffi_minify(
-  code : String,
-  options : @core.Any,
-) -> @core.Promise[@core.Any] = "minify"
-
-///|
+// #module("terser")
 // extern "js" fn ffi_minify(
 //   code : String,
 //   options : @core.Any,
-// ) -> @core.Promise[@core.Any] =
-//   #|async (code, options) => {
-//   #|  const { minify } = require('terser');
-//   #|  return minify(code, options);
-//   #|}
+// ) -> @core.Promise[@core.Any] = "minify"
+
+///|
+/// TODO: Use above once #module supports default exports
+extern "js" fn ffi_minify(
+  code : String,
+  options : @core.Any,
+) -> @core.Promise[@core.Any] =
+  #|async (code, options) => {
+  #|  const { minify } = require('terser');
+  #|  return minify(code, options);
+  #|}
 
 ///|
 /// Minify JavaScript code (sync)
