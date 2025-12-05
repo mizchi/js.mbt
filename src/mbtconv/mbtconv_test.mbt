@@ -141,3 +141,91 @@ test "JsImpl::as_any converts builtin Json to Js" {
   assert_eq(@core.identity(v._get("items")._get_by_index(0)), 1)
   assert_eq(@core.identity(v._get("nested")._get("key")), "value")
 }
+
+///| Struct Conversion Tests
+
+///|
+priv struct Point {
+  x : Int
+  y : Int
+} derive(Show)
+
+///|
+fn Point::x2(self : Self) -> Int {
+  self.x * 2
+}
+
+///|
+/// [Test Helper] Creates a plain JS object with x and y properties.
+/// Used to test @core.identity casting JS objects to MoonBit structs.
+extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @core.Any =
+  #|(x, y) => ({ x: x, y: y })
+
+///|
+test "from builtin struct" {
+  let p = Point::{ x: 10, y: 20 }
+  let v : @core.Any = @core.any(p)
+  assert_eq(@core.identity(v._get("x")), 10)
+  assert_eq(@core.identity(v._get("y")), 20)
+  inspect(p, content="{x: 10, y: 20}")
+}
+
+///|
+test "identity to struct" {
+  let v : @core.Any = test_ffi_point_new(5, 15)
+  let p : Point = @core.identity(v)
+  assert_eq(p.x, 5)
+  assert_eq(p.y, 15)
+  assert_eq(p.x2(), 10)
+  inspect(p, content="{x: 5, y: 15}")
+}
+
+///| Function Conversion Tests
+
+///|
+test "from_fn0 converts 0-arg function to Js" {
+  let greet = fn() -> String { "Hello" }
+  let js_greet : @core.Any = @core.from_fn0(greet)
+  assert_eq(@core.typeof_(js_greet), "function")
+  let result = js_greet._invoke([])
+  assert_eq(@core.identity(result), "Hello")
+}
+
+///|
+test "from_fn1 converts 1-arg function to Js" {
+  let double = fn(x : Int) -> Int { x * 2 }
+  let js_double : @core.Any = @core.from_fn1(double)
+  assert_eq(@core.typeof_(js_double), "function")
+  let result = js_double._invoke([@core.any(5)])
+  assert_eq(@core.identity(result), 10)
+}
+
+///|
+test "from_fn2 converts 2-arg function to Js" {
+  let add = fn(a : Int, b : Int) -> Int { a + b }
+  let js_add : @core.Any = @core.from_fn2(add)
+  assert_eq(@core.typeof_(js_add), "function")
+  let result = js_add._invoke([@core.any(5), @core.any(3)])
+  assert_eq(@core.identity(result), 8)
+}
+
+///|
+test "from_fn3 converts 3-arg function to Js" {
+  let add3 = fn(a : Int, b : Int, c : Int) -> Int { a + b + c }
+  let js_add3 : @core.Any = @core.from_fn3(add3)
+  assert_eq(@core.typeof_(js_add3), "function")
+  let result = js_add3._invoke([@core.any(1), @core.any(2), @core.any(3)])
+  assert_eq(@core.identity(result), 6)
+}
+
+///| Option Type Conversion Tests
+
+///|
+test "JsImpl for Option types" {
+  let some_val : Int? = Some(42)
+  let none_val : Int? = None
+  let js_some : @core.Any = @core.any(some_val)
+  let js_none : @core.Any = @core.any(none_val)
+  assert_eq(@core.identity(js_some), 42)
+  assert_true(@core.is_undefined(js_none))
+}
