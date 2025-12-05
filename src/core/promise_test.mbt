@@ -356,16 +356,12 @@ async test "Promise: suspend with resolve" {
 
 ///|
 async test "Promise: suspend with reject" {
-  @core.run_async(() => try {
-    let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => @core.run_async(() => {
-        @core.sleep(16)
-        err(Failure("test error"))
-      },
-    ))
-    assert_true(result is Err(_))
-  } catch {
-    _ => ()
-  })
+  let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => @core.run_async(() => {
+      @core.sleep(16)
+      err(Failure("test error"))
+    },
+  ))
+  assert_true(result is Err(_))
 }
 
 ///|
@@ -429,15 +425,15 @@ async test "Promise: nested promises" {
 
 ///|
 async test "Promise: @core.Promise::all with mixed resolution times" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.Promise::from_async(() => {
     @core.sleep(16)
     1
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.Promise::from_async(() => {
     @core.sleep(32)
     2
   })
-  let p3 = @core.Promise::from_async(async fn() {
+  let p3 = @core.Promise::from_async(() => {
     @core.sleep(48)
     3
   })
