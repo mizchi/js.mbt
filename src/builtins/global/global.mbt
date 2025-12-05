@@ -140,6 +140,17 @@ pub extern "js" fn encodeURIComponent(str : String) -> String =
 pub extern "js" fn decodeURIComponent(encoded_str : String) -> String =
   #| (encodedStr) => decodeURIComponent(encodedStr)
 
+///| Object Cloning
+
+///|
+/// JS: structuredClone(value)
+///
+/// Creates a deep clone of a value using the structured clone algorithm.
+/// This can clone complex objects including nested objects, arrays, dates, etc.
+#alias(structured_clone)
+pub extern "js" fn structuredClone(value : @core.Any) -> @core.Any =
+  #| (value) => structuredClone(value)
+
 ///| Module Loading
 
 ///|

@@ -121,6 +121,52 @@ test "encode_uri_component and decode_uri_component" {
   assert_eq(decoded_component, original)
 }
 
+///| Object Cloning
+
+///|
+test "structured_clone clones simple object" {
+  let obj = @core.new_object()
+  obj["name"] = @core.any("Alice")
+  obj["age"] = @core.any(30)
+  let cloned = @global.structuredClone(obj)
+  assert_eq(@core.identity(cloned._get("name")), "Alice")
+  assert_eq(@core.identity(cloned._get("age")), 30)
+}
+
+///|
+test "structured_clone creates independent copy" {
+  let obj = @core.new_object()
+  obj["value"] = @core.any(42)
+  let cloned = @global.structuredClone(obj)
+  // Modify original
+  obj["value"] = @core.any(100)
+  // Cloned object should remain unchanged
+  assert_eq(@core.identity(cloned._get("value")), 42)
+  assert_eq(@core.identity(obj._get("value")), 100)
+}
+
+///|
+test "structured_clone clones nested objects" {
+  let obj = @core.new_object()
+  let nested = @core.new_object()
+  nested["x"] = @core.any(10)
+  nested["y"] = @core.any(20)
+  obj["nested"] = nested
+  let cloned = @global.structuredClone(obj)
+  let cloned_nested = cloned._get("nested")
+  assert_eq(@core.identity(cloned_nested._get("x")), 10)
+  assert_eq(@core.identity(cloned_nested._get("y")), 20)
+}
+
+///|
+test "structured_clone clones arrays" {
+  let arr : Array[@core.Any] = [@core.any(1), @core.any(2), @core.any(3)]
+  let cloned = @global.structuredClone(@core.any(arr))
+  assert_eq(@core.identity(cloned._get_by_index(0)), 1)
+  assert_eq(@core.identity(cloned._get_by_index(1)), 2)
+  assert_eq(@core.identity(cloned._get_by_index(2)), 3)
+}
+
 ///| Timers
 
 ///|

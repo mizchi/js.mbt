@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/string"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type JsString
+pub fn JsString::fromCharCode(Array[Int]) -> String
+pub fn JsString::fromCodePoint(Array[Int]) -> String
+pub fn JsString::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

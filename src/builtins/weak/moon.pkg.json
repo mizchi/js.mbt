@@ -6,7 +6,6 @@
     "mizchi/js/core"
   ],
   "test-import": [
-    "mizchi/js",
     "mizchi/js/builtins/global"
   ]
 }

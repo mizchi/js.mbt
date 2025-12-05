@@ -41,23 +41,19 @@ pub using @global {
   isFinite,
   parseInt,
   parseFloat,
-  parse_float,
   atob,
   btoa,
   encodeURI,
   decodeURI,
   encodeURIComponent,
-  dynamic_import,
+  decodeURIComponent,
+  structuredClone,
   setTimeout,
-  set_timeout,
   clearTimeout,
-  clear_timeout,
   setInterval,
-  set_interval,
   clearInterval,
-  clear_interval,
   queueMicrotask,
-  queue_microtask,
+  dynamic_import,
 }
 
 ///| JavaScript Error types
@@ -127,3 +123,92 @@ pub using @iterator {type JsIterator, type AsyncIterator}
 ///|
 /// @see https://developer.mozilla.org/en-US/docs/Web/API/AbortController
 pub using @js_async {type AbortController, type AbortSignal}
+
+///| JavaScript Math
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
+pub using @math {type Math}
+
+///| JavaScript Date
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+pub using @date {type Date}
+
+///| JavaScript RegExp
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+pub using @regexp {type RegExp, type RegExpMatchArray, type RegExpResult}
+
+///| JavaScript Collections (Map and Set)
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+pub using @collection {type JsMap, type JsSet}
+
+///| JavaScript BigInt
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
+pub using @bigint {type JsBigInt}
+
+///| JavaScript Weak References
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/FinalizationRegistry
+pub using @weak {
+  type WeakMap,
+  type WeakSet,
+  type WeakRef,
+  type FinalizationRegistry,
+}
+
+///| JavaScript Proxy
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+pub using @proxy {type Proxy}
+
+///| JavaScript Reflect
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
+pub using @reflect {
+  apply,
+  construct,
+  defineProperty,
+  deleteProperty,
+  get,
+  getOwnPropertyDescriptor,
+  getPrototypeOf,
+  has,
+  isExtensible,
+  ownKeys,
+  preventExtensions,
+  set,
+  setPrototypeOf,
+}
+
+///| JavaScript Atomics
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics
+pub using @atomics {type AtomicsWaitResult}
+
+///| JavaScript Function
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
+pub using @function {type Function}
+
+///| JavaScript Disposable Resources
+
+///|
+/// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DisposableStack
+pub using @disposable {type DisposableStack, type AsyncDisposableStack}

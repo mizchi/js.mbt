@@ -4,6 +4,48 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.8.0] - 2025-12-06
+
+### Added
+
+#### Core Built-ins Expansion
+- Added `structuredClone()` to `@global` for deep cloning objects using the structured clone algorithm
+- Added comprehensive test coverage for `structuredClone` (simple objects, nested objects, arrays, independent copies)
+
+#### Complete Built-ins Export
+- Exported all JavaScript built-in modules from `mizchi/js`:
+  - **Math** - `@math` with all Math functions
+  - **Date** - `@date` for date/time operations
+  - **RegExp** - `@regexp` with RegExp, RegExpMatchArray, RegExpResult
+  - **Collections** - `@collection` with JsMap, JsSet
+  - **BigInt** - `@bigint` for arbitrary precision integers
+  - **Weak References** - `@weak` with WeakMap, WeakSet, WeakRef, FinalizationRegistry
+  - **Proxy** - `@proxy` for proxy objects
+  - **Reflect** - `@reflect` with all Reflect API functions
+  - **Atomics** - `@atomics` with AtomicsWaitResult
+  - **Function** - `@function` for Function type
+  - **Disposable** - `@disposable` with DisposableStack, AsyncDisposableStack
+
+#### Documentation
+- Created `src/builtins/global/README.md` with complete documentation for all global functions
+- Created `src/builtins/mbtconv/README.md` documenting MoonBit to JavaScript conversion utilities
+- Expanded main README.md with comprehensive JavaScript Built-ins table (38+ items organized by category)
+- Updated "Not Supported APIs" section to "Limited Support APIs" with accurate DisposableStack status
+
+### Changed
+
+#### Package Organization
+- Consolidated `src/mbtconv` tests: moved all valid tests from `convert_test.mbt` to `mbtconv_test.mbt`
+- Removed commented-out tests and deprecated code from `src/mbtconv`
+- Clarified package responsibilities in documentation
+
+### Fixed
+
+#### Dependency Management
+- Resolved cyclic dependencies between built-in packages and main package
+- Removed `mizchi/js` dependency from `regexp`, `weak`, and `atomics` packages
+- All 22 built-in packages now properly exported without circular dependencies
+
 ## [0.7.0] - 2025-12-03
 
 ### Added

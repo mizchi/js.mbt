@@ -70,17 +70,47 @@ Add to your `moon.pkg.json`:
 
 ### JavaScript Built-ins
 
+All JavaScript built-in objects are exported from `mizchi/js`:
+
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
-| ArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Binary buffers |
-| TypedArrays | `mizchi/js/builtins/typedarray` | 🧪 Tested | Uint8Array, etc. |
-| DataView | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Buffer views |
-| SharedArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🤖 AI Generated | Shared memory |
-| RegExp | `mizchi/js/builtins/regexp` | 🧪 Tested | Regular expressions |
+| **Global Functions** |
+| Global | `mizchi/js/builtins/global` | 🧪 Tested | globalThis, parseInt, parseFloat, etc. |
+| Timers | `mizchi/js/builtins/global` | 🧪 Tested | setTimeout, setInterval, queueMicrotask |
+| Encoding | `mizchi/js/builtins/global` | 🧪 Tested | atob, btoa, encodeURI, decodeURI |
+| Cloning | `mizchi/js/builtins/global` | 🧪 Tested | structuredClone |
+| **Core Types** |
+| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
+| Symbol | `mizchi/js/builtins/symbol` | 🧪 Tested | Symbol primitive |
+| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error types (TypeError, RangeError, etc.) |
+| **Primitives & Data** |
+| String | `mizchi/js/builtins/string` | 🧪 Tested | JsString (String methods) |
+| Array | `mizchi/js/builtins/array` | 🧪 Tested | JsArray (Array methods) |
+| BigInt | `mizchi/js/builtins/bigint` | 🧪 Tested | JsBigInt (arbitrary precision) |
+| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
+| **Date & Math** |
 | Date | `mizchi/js/builtins/date` | 🧪 Tested | Date/time operations |
 | Math | `mizchi/js/builtins/math` | 🧪 Tested | Math operations |
+| **Collections** |
+| Map/Set | `mizchi/js/builtins/collection` | 🧪 Tested | JsMap, JsSet |
+| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
+| **Binary Data** |
+| ArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Binary buffers |
+| TypedArrays | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Uint8Array, Int32Array, etc. |
+| DataView | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Buffer views |
+| SharedArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🤖 AI Generated | Shared memory |
+| **Pattern & Reflection** |
+| RegExp | `mizchi/js/builtins/regexp` | 🧪 Tested | Regular expressions |
 | Reflect | `mizchi/js/builtins/reflect` | 🤖 AI Generated | Reflection API |
 | Proxy | `mizchi/js/builtins/proxy` | 🤖 AI Generated | Proxy API |
+| **Iteration & Async** |
+| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JsIterator protocol |
+| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
+| **Concurrency** |
+| Atomics | `mizchi/js/builtins/atomics` | 🤖 AI Generated | Atomic operations |
+| **Resource Management** |
+| DisposableStack | `mizchi/js/builtins/disposable` | 🤖 AI Generated | Disposable resources |
 
 ### Web Standard APIs
 
@@ -145,14 +175,14 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 | **Parsing** | htmlparser2, js-yaml | 🧪 Tested |
 | **Other** | simple-git, ignore, memfs, source-map, comlink | 🧪 Tested |
 
-### Not Supported APIs
+### Limited Support APIs
 
-| Feature | Reason |
-|---------|--------|
-| `eval()` | Security and type safety |
-| `new Function()` | Security and type safety |
-| `DisposableStack` | No `using` keyword in MoonBit |
-| `AsyncDisposableStack` | No `await using` keyword in MoonBit |
+| Feature | Status | Note |
+|---------|--------|------|
+| `eval()` | ❌ Not Supported | Security and type safety concerns |
+| `new Function()` | ❌ Not Supported | Security and type safety concerns |
+| `DisposableStack` | ⚠️ Limited | API available, but no `using` keyword syntax |
+| `AsyncDisposableStack` | ⚠️ Limited | API available, but no `await using` keyword syntax |
 
 ## Project Status
 

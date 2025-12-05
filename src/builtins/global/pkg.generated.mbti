@@ -6,39 +6,66 @@ import(
 )
 
 // Values
-pub fn atob(String) -> String
+pub fn atob(String) -> String raise
 
-pub fn btoa(String) -> String
+pub fn btoa(String) -> String raise
+
+pub fn clearInterval(Timer) -> Unit
+
+pub fn clearTimeout(Timer) -> Unit
 
 pub fn clear_interval(Timer) -> Unit
 
 pub fn clear_timeout(Timer) -> Unit
 
-pub fn decode_uri(String) -> String
+#alias(docode_uri)
+pub fn decodeURI(String) -> String
 
-pub fn decode_uri_component(String) -> String
+#alias(decode_uri_component)
+pub fn decodeURIComponent(String) -> String
 
 pub fn dynamic_import(String) -> @core.Any
 
-pub fn encode_uri(String) -> String
+#alias(encode_uri)
+pub fn encodeURI(String) -> String
 
-pub fn encode_uri_component(String) -> String
+#alias(encode_uri_component)
+pub fn encodeURIComponent(String) -> String
+
+pub fn globalThis() -> @core.Any
 
 pub fn global_this() -> @core.Any
+
+pub fn isFinite(Double) -> Bool
+
+pub fn isNaN(@core.Any) -> Bool
 
 pub fn is_finite(Double) -> Bool
 
 pub fn is_nan(@core.Any) -> Bool
 
+pub fn parseFloat(String) -> Double?
+
+pub fn parseInt(String, radix? : Int) -> Int?
+
 pub fn parse_float(String) -> Double?
 
 pub fn parse_int(String, radix? : Int) -> Int?
 
+pub fn queueMicrotask(() -> Unit) -> Unit
+
 pub fn queue_microtask(() -> Unit) -> Unit
+
+pub fn setInterval(() -> Unit, Int) -> Timer
+
+pub fn setTimeout(() -> Unit, Int) -> Timer
 
 pub fn set_interval(() -> Unit, Int) -> Timer
 
 pub fn set_timeout(() -> Unit, Int) -> Timer
+
+#alias(structured_clone)
+pub fn structuredClone(@core.Any) -> @core.Any
 
 pub fn undefined() -> @core.Any
 
