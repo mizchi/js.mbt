@@ -65,13 +65,13 @@ extern "js" fn ffi_new_memory(descriptor : @core.Any) -> WebAssemblyMemory =
 pub fn WebAssemblyMemory::new(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
-  ffi_new_memory(
-    @mbtconv.from_option_map({
-      "initial": Some(@core.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @core.any(x) }),
-      "shared": Some(@core.any(descriptor.shared)),
-    }).cast(),
-  )
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("initial", @core.any(descriptor.initial)))
+  if descriptor.maximum is Some(v) {
+    entries.push(("maximum", @core.any(v)))
+  }
+  entries.push(("shared", @core.any(descriptor.shared)))
+  ffi_new_memory(@core.from_entries(entries).cast())
 }
 
 ///|
@@ -123,13 +123,13 @@ extern "js" fn ffi_new_table(descriptor : @core.Any) -> WebAssemblyTable =
 ///|
 /// Create a new WebAssembly table
 pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
-  ffi_new_table(
-    @mbtconv.from_option_map({
-      "element": Some(@core.any(descriptor.element)),
-      "initial": Some(@core.any(descriptor.initial)),
-      "maximum": descriptor.maximum.map(fn(x) { @core.any(x) }),
-    }).cast(),
-  )
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("element", @core.any(descriptor.element)))
+  entries.push(("initial", @core.any(descriptor.initial)))
+  if descriptor.maximum is Some(v) {
+    entries.push(("maximum", @core.any(v)))
+  }
+  ffi_new_table(@core.from_entries(entries).cast())
 }
 
 ///|
@@ -172,10 +172,10 @@ pub fn WebAssemblyGlobal::new(
   descriptor : GlobalDescriptor,
   value : @core.Any,
 ) -> WebAssemblyGlobal {
-  let obj : @core.Any = @mbtconv.from_map({
-    "value": @core.any(descriptor.value),
-    "mutable": @core.any(descriptor.mutable),
-  }).cast()
+  let obj : @core.Any = @core.from_entries([
+    ("value", @core.any(descriptor.value)),
+    ("mutable", @core.any(descriptor.mutable)),
+  ]).cast()
   ffi_new_global(obj, value)
 }
 

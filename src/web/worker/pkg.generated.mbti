@@ -20,6 +20,7 @@ pub fn MessageEvent::to_any(Self) -> @core.Any
 
 #external
 pub type Worker
+pub fn Worker::as_any(Self) -> @core.Any
 pub fn Worker::as_event_target(Self) -> @event.EventTarget
 pub fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
@@ -28,7 +29,6 @@ pub fn Worker::postMessage(Self, @core.Any) -> Unit
 pub fn Worker::postMessageWithTransfer(Self, @core.Any, Array[@core.Any]) -> Unit
 pub fn Worker::terminate(Self) -> Unit
 pub fn Worker::to_any(Self) -> @core.Any
-pub impl @event.EventTargetImpl for Worker
 
 // Type aliases
 

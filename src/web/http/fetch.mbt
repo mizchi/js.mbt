@@ -32,21 +32,43 @@ pub async fn fetch(
   for k, v in headers {
     header_obj._set(k, @core.any(v))
   }
-  let init_obj = @mbtconv.from_option_map({
-    "method": Some(@core.any(method_)),
-    "headers": Some(header_obj),
-    "body": body.map(fn(x) { x }),
-    "cache": cache.map(fn(x) { @core.any(x) }),
-    "mode": mode.map(fn(x) { @core.any(x) }),
-    "credentials": credentials.map(fn(x) { @core.any(x) }),
-    "integrity": integrity.map(fn(x) { @core.any(x) }),
-    "keepalive": keepalive.map(fn(x) { @core.any(x) }),
-    "priority": priority.map(fn(x) { @core.any(x) }),
-    "redirect": redirect.map(fn(x) { @core.any(x) }),
-    "referrer": referrer.map(fn(x) { @core.any(x) }),
-    "referrerPolicy": referrerPolicy.map(fn(x) { @core.any(x) }),
-    "signal": signal.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("method", @core.any(method_)))
+  entries.push(("headers", header_obj))
+  if body is Some(v) {
+    entries.push(("body", v))
+  }
+  if cache is Some(v) {
+    entries.push(("cache", @core.any(v)))
+  }
+  if mode is Some(v) {
+    entries.push(("mode", @core.any(v)))
+  }
+  if credentials is Some(v) {
+    entries.push(("credentials", @core.any(v)))
+  }
+  if integrity is Some(v) {
+    entries.push(("integrity", @core.any(v)))
+  }
+  if keepalive is Some(v) {
+    entries.push(("keepalive", @core.any(v)))
+  }
+  if priority is Some(v) {
+    entries.push(("priority", @core.any(v)))
+  }
+  if redirect is Some(v) {
+    entries.push(("redirect", @core.any(v)))
+  }
+  if referrer is Some(v) {
+    entries.push(("referrer", @core.any(v)))
+  }
+  if referrerPolicy is Some(v) {
+    entries.push(("referrerPolicy", @core.any(v)))
+  }
+  if signal is Some(v) {
+    entries.push(("signal", @core.identity(v)))
+  }
+  let init_obj = @core.from_entries(entries).cast()
   ffi_fetch(url, init_obj).wait()
 }
 

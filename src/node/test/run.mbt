@@ -38,39 +38,79 @@ pub fn run(
   coverageIncludeGlobs? : Array[String],
   coverageExcludeGlobs? : Array[String],
 ) -> @stream.Stream {
-  let obj = @mbtconv.from_option_map({
-    "files": files.map(fn(x) { @core.identity(@core.any(x)) }),
-    "cwd": cwd.map(fn(x) { @core.any(x) }),
-    "forceExit": forceExit.map(fn(x) { @core.any(x) }),
-    "only": only.map(fn(x) { @core.any(x) }),
-    "inspectPort": inspectPort.map(fn(x) { @core.any(x) }),
-    "concurrency": concurrency.map(fn(x) { @core.any(x) }),
-    "globPatterns": globPatterns.map(fn(x) { @core.identity(@core.any(x)) }),
-    "isolation": isolation.map(fn(x) { @core.any(x) }),
-    "execArgv": execArgv.map(fn(x) { @core.identity(@core.any(x)) }),
-    "argv": argv.map(fn(x) { @core.identity(@core.any(x)) }),
-    "coverage": coverage.map(fn(x) { @core.any(x) }),
-    "lineCoverage": lineCoverage.map(fn(x) { @core.any(x) }),
-    "functionCoverage": functionCoverage.map(fn(x) { @core.any(x) }),
-    "branchCoverage": branchCoverage.map(fn(x) { @core.any(x) }),
-    "coverageIncludeGlobs": coverageIncludeGlobs.map(fn(x) {
-      @core.identity(@core.any(x))
-    }),
-    "coverageExcludeGlobs": coverageExcludeGlobs.map(fn(x) {
-      @core.identity(@core.any(x))
-    }),
-    "watch": watch.map(fn(x) { @core.any(x) }),
-    "signal": signal.map(fn(x) { @core.identity(x) }),
-    "testNamePatterns": testNamePatterns.map(fn(x) {
-      @core.identity(@core.any(x))
-    }),
-    "testSkipPatterns": testSkipPatterns.map(fn(x) {
-      @core.identity(@core.any(x))
-    }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-    "shard": shard.map(fn(x) { @core.identity(x.as_any()) }),
-    "rerunFailuresFilePath": rerunFailuresFilePath.map(fn(x) { @core.any(x) }),
-    "setup": setup.map(fn(x) { @core.identity(@js.from_fn0(x)) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if files is Some(v) {
+    entries.push(("files", @core.identity(@core.any(v))))
+  }
+  if cwd is Some(v) {
+    entries.push(("cwd", @core.any(v)))
+  }
+  if forceExit is Some(v) {
+    entries.push(("forceExit", @core.any(v)))
+  }
+  if only is Some(v) {
+    entries.push(("only", @core.any(v)))
+  }
+  if inspectPort is Some(v) {
+    entries.push(("inspectPort", @core.any(v)))
+  }
+  if concurrency is Some(v) {
+    entries.push(("concurrency", @core.any(v)))
+  }
+  if globPatterns is Some(v) {
+    entries.push(("globPatterns", @core.identity(@core.any(v))))
+  }
+  if isolation is Some(v) {
+    entries.push(("isolation", @core.any(v)))
+  }
+  if execArgv is Some(v) {
+    entries.push(("execArgv", @core.identity(@core.any(v))))
+  }
+  if argv is Some(v) {
+    entries.push(("argv", @core.identity(@core.any(v))))
+  }
+  if coverage is Some(v) {
+    entries.push(("coverage", @core.any(v)))
+  }
+  if lineCoverage is Some(v) {
+    entries.push(("lineCoverage", @core.any(v)))
+  }
+  if functionCoverage is Some(v) {
+    entries.push(("functionCoverage", @core.any(v)))
+  }
+  if branchCoverage is Some(v) {
+    entries.push(("branchCoverage", @core.any(v)))
+  }
+  if coverageIncludeGlobs is Some(v) {
+    entries.push(("coverageIncludeGlobs", @core.identity(@core.any(v))))
+  }
+  if coverageExcludeGlobs is Some(v) {
+    entries.push(("coverageExcludeGlobs", @core.identity(@core.any(v))))
+  }
+  if watch is Some(v) {
+    entries.push(("watch", @core.any(v)))
+  }
+  if signal is Some(v) {
+    entries.push(("signal", @core.identity(v)))
+  }
+  if testNamePatterns is Some(v) {
+    entries.push(("testNamePatterns", @core.identity(@core.any(v))))
+  }
+  if testSkipPatterns is Some(v) {
+    entries.push(("testSkipPatterns", @core.identity(@core.any(v))))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  if shard is Some(v) {
+    entries.push(("shard", @core.identity(v.as_any())))
+  }
+  if rerunFailuresFilePath is Some(v) {
+    entries.push(("rerunFailuresFilePath", @core.any(v)))
+  }
+  if setup is Some(v) {
+    entries.push(("setup", @core.identity(@js.from_fn0(v))))
+  }
+  let obj = @core.from_entries(entries).cast()
   nodetest()._call("run", [obj]).cast()
 }

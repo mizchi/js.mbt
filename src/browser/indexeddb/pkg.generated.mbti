@@ -112,7 +112,6 @@ pub(all) struct IDBOpenDBRequest {
 }
 pub fn IDBOpenDBRequest::as_any(Self) -> @core.Any
 pub fn IDBOpenDBRequest::as_event_target(Self) -> @event.EventTarget
-pub impl @event.EventTargetImpl for IDBOpenDBRequest
 
 pub(all) struct IDBRequest[T] {
   result : T
@@ -127,7 +126,6 @@ pub fn[T] IDBRequest::is_pending(Self[T]) -> Bool
 pub fn[T, U] IDBRequest::source_as_cursor(Self[T]) -> IDBCursor[U]
 pub fn[T] IDBRequest::source_as_index(Self[T]) -> IDBIndex[@core.Any]
 pub fn[T] IDBRequest::source_as_object_store(Self[T]) -> IDBObjectStore[@core.Any]
-pub impl[T] @event.EventTargetImpl for IDBRequest[T]
 
 pub(all) struct IDBTransaction[T] {
   db : IDBDatabase

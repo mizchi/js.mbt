@@ -41,14 +41,14 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
   let client_class = sdk._get("Client")
   // Build client info
   let client_info = @core.identity(
-    @mbtconv.from_map({
-      "name": name |> @core.any,
-      "version": version |> @core.any,
-    }),
+    @core.from_entries([
+      ("name", name |> @core.any),
+      ("version", version |> @core.any),
+    ]),
   )
   // Create client instance with empty capabilities
   let opts = @core.identity(
-    @mbtconv.from_map({ "capabilities": @core.any(@core.new_object()) }),
+    @core.from_entries([("capabilities", @core.any(@core.new_object()))]),
   )
   ffi_construct_client(client_class, [client_info, opts]) |> @core.identity
 }
@@ -156,15 +156,15 @@ pub async fn SdkClient::call_tool(
   name : String,
   arguments : @core.Any,
 ) -> CallToolResult {
-  let params = @mbtconv.from_map({
-    "name": name |> @core.any,
-    "arguments": @core.any(arguments),
-  })
+  let params = @core.from_entries([
+    ("name", name |> @core.any),
+    ("arguments", @core.any(arguments)),
+  ])
   let request = @core.identity(
-    @mbtconv.from_map({
-      "method": "tools/call" |> @core.any,
-      "params": @core.any(params),
-    }),
+    @core.from_entries([
+      ("method", "tools/call" |> @core.any),
+      ("params", @core.any(params)),
+    ]),
   )
   let types = require_mcp_client_types()
   let schema = types._get("CallToolResultSchema")
@@ -222,10 +222,10 @@ pub async fn SdkClient::read_resource(
   uri : String,
 ) -> ReadResourceResult {
   let params = @core.from_entries([("uri", uri |> @core.any)])
-  let request = @mbtconv.from_map({
-    "method": "resources/read" |> @core.any,
-    "params": @core.any(params),
-  })
+  let request = @core.from_entries([
+    ("method", "resources/read" |> @core.any),
+    ("params", @core.any(params)),
+  ])
   let types = require_mcp_client_types()
   let schema = types._get("ReadResourceResultSchema")
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
@@ -302,10 +302,10 @@ pub async fn SdkClient::get_prompt(
     params._set("arguments", args)
   }
   let request = @core.identity(
-    @mbtconv.from_map({
-      "method": "prompts/get" |> @core.any,
-      "params": @core.any(params),
-    }),
+    @core.from_entries([
+      ("method", "prompts/get" |> @core.any),
+      ("params", @core.any(params)),
+    ]),
   )
   let types = require_mcp_client_types()
   let schema = types._get("GetPromptResultSchema")

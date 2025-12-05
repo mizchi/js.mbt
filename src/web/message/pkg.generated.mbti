@@ -27,7 +27,6 @@ pub(all) struct MessageEvent {
 }
 pub fn MessageEvent::as_any(Self) -> @core.Any
 pub fn MessageEvent::as_event_target(Self) -> @event.EventTarget
-pub impl @event.EventTargetImpl for MessageEvent
 pub impl Show for MessageEvent
 
 #external
@@ -40,7 +39,6 @@ pub fn MessagePort::postMessage(Self, @core.Any) -> Unit
 #alias(post_message_with_transfer)
 pub fn MessagePort::postMessageWithTransfer(Self, @core.Any, Array[@core.Any]) -> Unit
 pub fn MessagePort::start(Self) -> Unit
-pub impl @event.EventTargetImpl for MessagePort
 pub impl Show for MessagePort
 
 // Type aliases

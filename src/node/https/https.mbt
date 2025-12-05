@@ -24,15 +24,29 @@ pub fn Agent::new(
   max_free_sockets? : Int,
   timeout? : Int,
 ) -> Agent {
-  let opts = @mbtconv.from_option_map({
-    "maxCachedSessions": max_cached_sessions.map(fn(x) { @core.any(x) }),
-    "servername": servername.map(fn(x) { @core.any(x) }),
-    "keepAlive": keep_alive.map(fn(x) { @core.any(x) }),
-    "keepAliveMsecs": keep_alive_msecs.map(fn(x) { @core.any(x) }),
-    "maxSockets": max_sockets.map(fn(x) { @core.any(x) }),
-    "maxFreeSockets": max_free_sockets.map(fn(x) { @core.any(x) }),
-    "timeout": timeout.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if max_cached_sessions is Some(v) {
+    entries.push(("maxCachedSessions", @core.any(v)))
+  }
+  if servername is Some(v) {
+    entries.push(("servername", @core.any(v)))
+  }
+  if keep_alive is Some(v) {
+    entries.push(("keepAlive", @core.any(v)))
+  }
+  if keep_alive_msecs is Some(v) {
+    entries.push(("keepAliveMsecs", @core.any(v)))
+  }
+  if max_sockets is Some(v) {
+    entries.push(("maxSockets", @core.any(v)))
+  }
+  if max_free_sockets is Some(v) {
+    entries.push(("maxFreeSockets", @core.any(v)))
+  }
+  if timeout is Some(v) {
+    entries.push(("timeout", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   ffi_new_agent(opts)
 }
 
@@ -68,12 +82,20 @@ pub fn create_server(
   passphrase? : String,
 ) -> Server {
   let listener = @js.from_fn2(request_listener)
-  let opts = @mbtconv.from_option_map({
-    "key": key.map(fn(x) { @core.any(x) }),
-    "cert": cert.map(fn(x) { @core.any(x) }),
-    "pfx": pfx.map(fn(x) { @core.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if key is Some(v) {
+    entries.push(("key", @core.any(v)))
+  }
+  if cert is Some(v) {
+    entries.push(("cert", @core.any(v)))
+  }
+  if pfx is Some(v) {
+    entries.push(("pfx", @core.any(v)))
+  }
+  if passphrase is Some(v) {
+    entries.push(("passphrase", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   ffi_create_server(opts, listener)
 }
 

@@ -179,14 +179,12 @@ pub async fn Deno::remove(
   recursive? : Bool,
 ) -> Unit {
   let promise : @js.Promise[Unit] = match recursive {
-    Some(r) =>
-      self
-      .as_any()
-      ._call("remove", [
-        @core.any(path),
-        @mbtconv.from_option_map({ "recursive": Some(@core.any(r)) }).cast(),
-      ])
-      .cast()
+    Some(r) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("recursive", @core.any(r)))
+      let opts = @core.from_entries(entries)
+      self.as_any()._call("remove", [@core.any(path), opts.cast()]).cast()
+    }
     None => self.as_any()._call("remove", [@core.any(path)]).cast()
   }
   promise.wait()
@@ -196,14 +194,12 @@ pub async fn Deno::remove(
 /// Create directory
 pub async fn Deno::mkdir(self : Deno, path : String, recursive? : Bool) -> Unit {
   let promise : @js.Promise[Unit] = match recursive {
-    Some(r) =>
-      self
-      .as_any()
-      ._call("mkdir", [
-        @core.any(path),
-        @mbtconv.from_option_map({ "recursive": Some(@core.any(r)) }).cast(),
-      ])
-      .cast()
+    Some(r) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("recursive", @core.any(r)))
+      let opts = @core.from_entries(entries)
+      self.as_any()._call("mkdir", [@core.any(path), opts.cast()]).cast()
+    }
     None => self.as_any()._call("mkdir", [@core.any(path)]).cast()
   }
   promise.wait()
@@ -313,13 +309,12 @@ pub async fn Deno::truncate(self : Deno, name : String, len : Int) -> Unit {
 /// Make temporary directory
 pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
   let promise : @js.Promise[String] = match prefix {
-    Some(p) =>
-      self
-      .as_any()
-      ._call("makeTempDir", [
-        @mbtconv.from_option_map({ "prefix": Some(@core.any(p)) }).cast(),
-      ])
-      .cast()
+    Some(p) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("prefix", @core.any(p)))
+      let opts = @core.from_entries(entries)
+      self.as_any()._call("makeTempDir", [opts.cast()]).cast()
+    }
     None => self.as_any()._call("makeTempDir", []).cast()
   }
   promise.wait()
@@ -329,13 +324,12 @@ pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
 /// Make temporary file
 pub async fn Deno::makeTempFile(self : Deno, prefix? : String) -> String {
   let promise : @js.Promise[String] = match prefix {
-    Some(p) =>
-      self
-      .as_any()
-      ._call("makeTempFile", [
-        @mbtconv.from_option_map({ "prefix": Some(@core.any(p)) }).cast(),
-      ])
-      .cast()
+    Some(p) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("prefix", @core.any(p)))
+      let opts = @core.from_entries(entries)
+      self.as_any()._call("makeTempFile", [opts.cast()]).cast()
+    }
     None => self.as_any()._call("makeTempFile", []).cast()
   }
   promise.wait()
@@ -400,10 +394,10 @@ pub async fn Deno::connect(
   hostname : String,
   port : Int,
 ) -> @core.Any {
-  let opts : @core.Any = @mbtconv.from_map({
-    "hostname": @core.any(hostname),
-    "port": @core.any(port),
-  }).cast()
+  let opts : @core.Any = @core.from_entries([
+    ("hostname", @core.any(hostname)),
+    ("port", @core.any(port)),
+  ]).cast()
   let promise : @js.Promise[@core.Any] = self
     .as_any()
     ._call("connect", [opts])
@@ -414,10 +408,10 @@ pub async fn Deno::connect(
 ///|
 /// Listen on a network address (TCP server)
 pub fn Deno::listen(self : Deno, hostname : String, port : Int) -> @core.Any {
-  let opts : @core.Any = @mbtconv.from_map({
-    "hostname": @core.any(hostname),
-    "port": @core.any(port),
-  }).cast()
+  let opts : @core.Any = @core.from_entries([
+    ("hostname", @core.any(hostname)),
+    ("port", @core.any(port)),
+  ]).cast()
   self.as_any()._call("listen", [opts]).cast()
 }
 
@@ -440,10 +434,10 @@ pub async fn Deno::resolveDns(
 ///|
 /// Serve HTTP requests (simplified version)
 pub fn Deno::serve(self : Deno, port : Int, handler : @core.Any) -> @core.Any {
-  let opts : @core.Any = @mbtconv.from_map({
-    "port": @core.any(port),
-    "handler": handler.cast(),
-  }).cast()
+  let opts : @core.Any = @core.from_entries([
+    ("port", @core.any(port)),
+    ("handler", handler.cast()),
+  ]).cast()
   self.as_any()._call("serve", [opts]).cast()
 }
 
@@ -472,11 +466,17 @@ pub async fn Deno::open(
   write? : Bool,
   read? : Bool,
 ) -> FsFile {
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "create": create.map(fn(x) { @core.any(x) }),
-    "write": write.map(fn(x) { @core.any(x) }),
-    "read": read.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if create is Some(v) {
+    entries.push(("create", @core.any(v)))
+  }
+  if write is Some(v) {
+    entries.push(("write", @core.any(v)))
+  }
+  if read is Some(v) {
+    entries.push(("read", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   let promise : @js.Promise[FsFile] = self
     .as_any()
     ._call("open", [@core.any(path), opts])
@@ -570,11 +570,11 @@ pub fn Deno::test_only(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let opts : @core.Any = @mbtconv.from_map({
-    "name": @core.any(name),
-    "only": @core.any(true),
-    "fn": (@js.promisify1(f) |> @js.from_fn1).cast(),
-  }).cast()
+  let opts : @core.Any = @core.from_entries([
+    ("name", @core.any(name)),
+    ("only", @core.any(true)),
+    ("fn", (@js.promisify1(f) |> @js.from_fn1).cast()),
+  ]).cast()
   self.as_any()._call("test", [opts]) |> ignore
 }
 

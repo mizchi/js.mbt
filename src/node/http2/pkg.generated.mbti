@@ -26,7 +26,6 @@ pub fn ClientHttp2Stream::on_data(Self, (@object.Object) -> Unit) -> Self
 pub fn ClientHttp2Stream::on_end(Self, () -> Unit) -> Self
 pub fn ClientHttp2Stream::on_response(Self, (@object.Object) -> Unit) -> Self
 pub fn ClientHttp2Stream::write(Self, String) -> Unit
-pub impl @event.EventTargetImpl for ClientHttp2Stream
 
 #external
 pub type Http2SecureServer
@@ -34,7 +33,6 @@ pub fn Http2SecureServer::as_any(Self) -> @core.Any
 pub fn Http2SecureServer::as_event_target(Self) -> @event.EventTarget
 pub fn Http2SecureServer::close(Self, () -> Unit) -> Unit
 pub fn Http2SecureServer::listen(Self, Int, () -> Unit) -> Unit
-pub impl @event.EventTargetImpl for Http2SecureServer
 
 #external
 pub type Http2Server
@@ -42,7 +40,6 @@ pub fn Http2Server::as_any(Self) -> @core.Any
 pub fn Http2Server::as_event_target(Self) -> @event.EventTarget
 pub fn Http2Server::close(Self, () -> Unit) -> Unit
 pub fn Http2Server::listen(Self, Int, () -> Unit) -> Unit
-pub impl @event.EventTargetImpl for Http2Server
 
 #external
 pub type Http2Session
@@ -51,13 +48,11 @@ pub fn Http2Session::as_event_target(Self) -> @event.EventTarget
 pub fn Http2Session::close(Self) -> Unit
 pub fn Http2Session::ping(Self, () -> Unit) -> Unit
 pub fn Http2Session::request(Self, @object.Object) -> ClientHttp2Stream
-pub impl @event.EventTargetImpl for Http2Session
 
 #external
 pub type Http2Stream
 pub fn Http2Stream::as_any(Self) -> @core.Any
 pub fn Http2Stream::as_event_target(Self) -> @event.EventTarget
-pub impl @event.EventTargetImpl for Http2Stream
 
 #external
 pub type ServerHttp2Stream
@@ -65,7 +60,6 @@ pub fn ServerHttp2Stream::as_any(Self) -> @core.Any
 pub fn ServerHttp2Stream::as_event_target(Self) -> @event.EventTarget
 pub fn ServerHttp2Stream::end(Self, String) -> Unit
 pub fn ServerHttp2Stream::respond(Self, @object.Object) -> Unit
-pub impl @event.EventTargetImpl for ServerHttp2Stream
 
 // Type aliases
 

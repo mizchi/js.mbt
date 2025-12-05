@@ -126,11 +126,11 @@ fn McpServer::handle_initialize(
     resources: self.resources.length() > 0,
     prompts: self.prompts.length() > 0,
   }
-  let result = @mbtconv.from_map({
-    "protocolVersion": @core.any("2024-11-05"),
-    "serverInfo": @core.any(self.info.as_any()),
-    "capabilities": @core.any(capabilities.as_any()),
-  })
+  let result = @core.from_entries([
+    ("protocolVersion", @core.any("2024-11-05")),
+    ("serverInfo", @core.any(self.info.as_any())),
+    ("capabilities", @core.any(capabilities.as_any())),
+  ])
   @js.Promise::resolve(
     Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
@@ -146,7 +146,7 @@ fn McpServer::handle_tools_list(
     let (tool, _) = value
     tools.push(tool.as_any())
   })
-  let result = @mbtconv.from_map({ "tools": @core.any(@core.any(tools)) })
+  let result = @core.from_entries([("tools", @core.any(@core.any(tools)))])
   @js.Promise::resolve(
     Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
@@ -173,9 +173,9 @@ fn McpServer::handle_tools_call(
     @core.any(p)._get("arguments"),
   ).unwrap_or(@core.new_object())
   handler(arguments).then(fn(content) {
-    let result = @mbtconv.from_map({
-      "content": @core.any(@core.any(content.map(fn(c) { @core.any(c) }))),
-    })
+    let result = @core.from_entries([
+      ("content", @core.any(@core.any(content.map(fn(c) { @core.any(c) })))),
+    ])
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )
@@ -192,9 +192,9 @@ fn McpServer::handle_resources_list(
     let (resource, _) = value
     resources.push(resource.as_any())
   })
-  let result = @mbtconv.from_map({
-    "resources": @core.any(@core.any(resources)),
-  })
+  let result = @core.from_entries([
+    ("resources", @core.any(@core.any(resources))),
+  ])
   @js.Promise::resolve(
     Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
@@ -220,9 +220,9 @@ fn McpServer::handle_resources_read(
     )
   }
   handler(resource_uri).then(fn(content) {
-    let result = @mbtconv.from_map({
-      "contents": @core.any(@core.any(content.map(fn(c) { c.as_any() }))),
-    })
+    let result = @core.from_entries([
+      ("contents", @core.any(@core.any(content.map(fn(c) { c.as_any() })))),
+    ])
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )
@@ -239,7 +239,7 @@ fn McpServer::handle_prompts_list(
     let (prompt, _) = value
     prompts.push(prompt.as_any())
   })
-  let result = @mbtconv.from_map({ "prompts": @core.any(@core.any(prompts)) })
+  let result = @core.from_entries([("prompts", @core.any(@core.any(prompts)))])
   @js.Promise::resolve(
     Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
   )
@@ -266,9 +266,9 @@ fn McpServer::handle_prompts_get(
     @core.any(p)._get("arguments"),
   ).unwrap_or(@core.new_object())
   handler(arguments).then(fn(content) {
-    let result = @mbtconv.from_map({
-      "messages": @core.any(@core.any(content.map(fn(c) { c.as_any() }))),
-    })
+    let result = @core.from_entries([
+      ("messages", @core.any(@core.any(content.map(fn(c) { c.as_any() })))),
+    ])
     @js.Promise::resolve(
       Ok({ jsonrpc: "2.0", id, result: @core.identity(result) }),
     )

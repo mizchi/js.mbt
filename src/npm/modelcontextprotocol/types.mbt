@@ -40,12 +40,15 @@ pub struct JsonRpcRequest {
 
 ///|
 pub fn JsonRpcRequest::as_any(self : JsonRpcRequest) -> @core.Any {
-  @mbtconv.from_option_map({
-    "jsonrpc": Some(@core.any(self.jsonrpc)),
-    "id": Some(@core.identity(self.id.as_any())),
-    "method": Some(@core.any(self.method_name)),
-    "params": self.params.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("jsonrpc", @core.any(self.jsonrpc)),
+    ("id", @core.identity(self.id.as_any())),
+    ("method", @core.any(self.method_name)),
+  ]
+  if self.params is Some(p) {
+    entries.push(("params", @core.identity(p)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -83,11 +86,11 @@ pub struct JsonRpcResponse {
 ///|
 pub fn JsonRpcResponse::as_any(self : JsonRpcResponse) -> @core.Any {
   @core.identity(
-    @mbtconv.from_map({
-      "jsonrpc": @core.any(self.jsonrpc),
-      "id": @core.any(self.id.as_any()),
-      "result": @core.any(self.result),
-    }),
+    @core.from_entries([
+      ("jsonrpc", @core.any(self.jsonrpc)),
+      ("id", @core.any(self.id.as_any())),
+      ("result", @core.any(self.result)),
+    ]),
   )
 }
 
@@ -101,11 +104,14 @@ pub struct JsonRpcError {
 
 ///|
 pub fn JsonRpcError::as_any(self : JsonRpcError) -> @core.Any {
-  @mbtconv.from_option_map({
-    "code": Some(@core.any(self.code)),
-    "message": Some(@core.any(self.message)),
-    "data": self.data.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("code", @core.any(self.code)),
+    ("message", @core.any(self.message)),
+  ]
+  if self.data is Some(d) {
+    entries.push(("data", @core.identity(d)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -118,11 +124,11 @@ pub struct JsonRpcErrorResponse {
 ///|
 pub fn JsonRpcErrorResponse::as_any(self : JsonRpcErrorResponse) -> @core.Any {
   @core.identity(
-    @mbtconv.from_map({
-      "jsonrpc": @core.any(self.jsonrpc),
-      "id": @core.any(self.id.as_any()),
-      "error": @core.any(self.error.as_any()),
-    }),
+    @core.from_entries([
+      ("jsonrpc", @core.any(self.jsonrpc)),
+      ("id", @core.any(self.id.as_any())),
+      ("error", @core.any(self.error.as_any())),
+    ]),
   )
 }
 
@@ -136,11 +142,14 @@ pub(all) struct JsonRpcNotification {
 
 ///|
 pub fn JsonRpcNotification::as_any(self : JsonRpcNotification) -> @core.Any {
-  @mbtconv.from_option_map({
-    "jsonrpc": Some(@core.any(self.jsonrpc)),
-    "method": Some(@core.any(self.method_name)),
-    "params": self.params.map(fn(x) { @core.identity(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("jsonrpc", @core.any(self.jsonrpc)),
+    ("method", @core.any(self.method_name)),
+  ]
+  if self.params is Some(p) {
+    entries.push(("params", @core.identity(p)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|

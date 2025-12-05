@@ -17,7 +17,7 @@ pub async fn dynamic_import() -> ReactDOM
 pub type ReactDOM
 pub fn ReactDOM::as_any(Self) -> @core.Any
 #alias(create_portal)
-pub fn ReactDOM::createPortal(Self, @react.Element, &@dom.ElementImpl, key? : String) -> @react.Element
+pub fn ReactDOM::createPortal(Self, @react.Element, @dom.Element, key? : String) -> @react.Element
 #alias(flush_sync)
 pub fn[T] ReactDOM::flushSync(Self, () -> T) -> T
 

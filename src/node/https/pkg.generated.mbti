@@ -29,7 +29,6 @@ pub fn ClientRequest::as_any(Self) -> @core.Any
 pub fn ClientRequest::as_event_target(Self) -> @event.EventTarget
 pub fn ClientRequest::end(Self) -> Unit
 pub fn ClientRequest::write(Self, String) -> Unit
-pub impl @event.EventTargetImpl for ClientRequest
 
 #external
 pub type Server
@@ -37,7 +36,6 @@ pub fn Server::as_any(Self) -> @core.Any
 pub fn Server::as_event_target(Self) -> @event.EventTarget
 pub fn Server::close(Self, () -> Unit) -> Unit
 pub fn Server::listen(Self, Int, () -> Unit) -> Unit
-pub impl @event.EventTargetImpl for Server
 
 // Type aliases
 

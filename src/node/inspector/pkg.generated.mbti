@@ -34,7 +34,6 @@ pub fn Session::disconnect(Self) -> Unit
 pub fn Session::new() -> Self
 pub fn Session::post(Self, String, @object.Object?, (@object.Object?, @object.Object) -> Unit) -> Unit
 pub fn Session::to_any(Self) -> @core.Any
-pub impl @event.EventTargetImpl for Session
 
 // Type aliases
 

@@ -239,10 +239,23 @@ pub impl EventImpl for DragEvent
 
 #external
 pub type Element
+pub fn Element::append(Self, Node) -> Unit
 pub fn Element::as_any(Self) -> @core.Any
 pub fn Element::as_event_target(Self) -> @event.EventTarget
 pub fn Element::as_node(Self) -> Node
-pub impl ElementImpl for Element
+pub fn Element::className(Self) -> String
+pub fn Element::getAttribute(Self, String) -> String?
+pub fn Element::getElementsByClassName(Self, String) -> Array[Self]
+pub fn Element::getElementsByTagName(Self, String) -> Array[Self]
+pub fn Element::hasAttribute(Self, String) -> Bool
+pub fn Element::id(Self) -> String
+pub fn Element::querySelector(Self, String) -> Self?
+pub fn Element::querySelectorAll(Self, String) -> Array[Self]
+pub fn Element::removeAttribute(Self, String) -> Unit
+pub fn Element::setAttribute(Self, String, String) -> Unit
+pub fn Element::setClassName(Self, String) -> Unit
+pub fn Element::setId(Self, String) -> Unit
+pub fn Element::tagName(Self) -> String
 
 #external
 pub type Event
@@ -271,8 +284,6 @@ pub fn HTMLAnchorElement::as_element(Self) -> Element
 pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLAnchorElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLAnchorElement
-pub impl HTMLElementImpl for HTMLAnchorElement
 
 #external
 pub type HTMLBodyElement
@@ -281,8 +292,6 @@ pub fn HTMLBodyElement::as_element(Self) -> Element
 pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLBodyElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLBodyElement
-pub impl HTMLElementImpl for HTMLBodyElement
 
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
@@ -292,8 +301,6 @@ pub fn HTMLButtonElement::as_element(Self) -> Element
 pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLButtonElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLButtonElement
-pub impl HTMLElementImpl for HTMLButtonElement
 
 pub(all) struct HTMLCanvasElement {
   mut width : Int
@@ -307,8 +314,6 @@ pub fn HTMLCanvasElement::as_node(Self) -> Node
 pub fn HTMLCanvasElement::getContext(Self, String) -> @core.Any
 pub async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
 pub fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
-pub impl ElementImpl for HTMLCanvasElement
-pub impl HTMLElementImpl for HTMLCanvasElement
 pub impl Show for HTMLCanvasElement
 
 #external
@@ -318,8 +323,6 @@ pub fn HTMLDivElement::as_element(Self) -> Element
 pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLDivElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLDivElement
-pub impl HTMLElementImpl for HTMLDivElement
 
 #external
 pub type HTMLElement
@@ -328,9 +331,15 @@ pub fn HTMLElement::as_element(Self) -> Element
 pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLElement::as_node(Self) -> Node
 pub fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
+pub fn HTMLElement::click(Self) -> Unit
+pub fn HTMLElement::focus(Self) -> Unit
+pub fn HTMLElement::innerHTML(Self) -> String
+pub fn HTMLElement::innerText(Self) -> String
+pub fn HTMLElement::outerHTML(Self) -> String
+pub fn HTMLElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLElement::setInnerText(Self, String) -> Unit
+pub fn HTMLElement::setOuterHTML(Self, String) -> Unit
 pub fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
-pub impl ElementImpl for HTMLElement
-pub impl HTMLElementImpl for HTMLElement
 
 #external
 pub type HTMLFormElement
@@ -339,8 +348,6 @@ pub fn HTMLFormElement::as_element(Self) -> Element
 pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLFormElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLFormElement
-pub impl HTMLElementImpl for HTMLFormElement
 
 #external
 pub type HTMLHeadElement
@@ -349,8 +356,6 @@ pub fn HTMLHeadElement::as_element(Self) -> Element
 pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLHeadElement
-pub impl HTMLElementImpl for HTMLHeadElement
 
 #external
 pub type HTMLHeadingElement
@@ -359,8 +364,6 @@ pub fn HTMLHeadingElement::as_element(Self) -> Element
 pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadingElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLHeadingElement
-pub impl HTMLElementImpl for HTMLHeadingElement
 
 #external
 pub type HTMLHtmlElement
@@ -369,8 +372,6 @@ pub fn HTMLHtmlElement::as_element(Self) -> Element
 pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHtmlElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLHtmlElement
-pub impl HTMLElementImpl for HTMLHtmlElement
 
 pub(all) struct HTMLIFrameElement {
   mut src : String
@@ -386,8 +387,6 @@ pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLIFrameElement::as_node(Self) -> Node
 pub fn HTMLIFrameElement::contentDocument(Self) -> Document?
 pub fn HTMLIFrameElement::contentWindow(Self) -> Window?
-pub impl ElementImpl for HTMLIFrameElement
-pub impl HTMLElementImpl for HTMLIFrameElement
 pub impl Show for HTMLIFrameElement
 
 pub(all) struct HTMLImageElement {
@@ -399,8 +398,6 @@ pub fn HTMLImageElement::as_element(Self) -> Element
 pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLImageElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLImageElement
-pub impl HTMLElementImpl for HTMLImageElement
 
 pub(all) struct HTMLInputElement {
   mut disabled : Bool
@@ -415,8 +412,6 @@ pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLInputElement::as_node(Self) -> Node
 pub fn HTMLInputElement::setType(Self, String) -> Unit
 pub fn HTMLInputElement::type_(Self) -> String
-pub impl ElementImpl for HTMLInputElement
-pub impl HTMLElementImpl for HTMLInputElement
 
 #external
 pub type HTMLLIElement
@@ -425,8 +420,6 @@ pub fn HTMLLIElement::as_element(Self) -> Element
 pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLIElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLLIElement
-pub impl HTMLElementImpl for HTMLLIElement
 
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
@@ -436,8 +429,6 @@ pub fn HTMLLabelElement::as_element(Self) -> Element
 pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLabelElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLLabelElement
-pub impl HTMLElementImpl for HTMLLabelElement
 
 #external
 pub type HTMLOListElement
@@ -446,8 +437,6 @@ pub fn HTMLOListElement::as_element(Self) -> Element
 pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOListElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLOListElement
-pub impl HTMLElementImpl for HTMLOListElement
 
 pub(all) struct HTMLOptionElement {
   mut value : String
@@ -458,8 +447,6 @@ pub fn HTMLOptionElement::as_element(Self) -> Element
 pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOptionElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLOptionElement
-pub impl HTMLElementImpl for HTMLOptionElement
 
 #external
 pub type HTMLParagraphElement
@@ -468,8 +455,6 @@ pub fn HTMLParagraphElement::as_element(Self) -> Element
 pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLParagraphElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLParagraphElement
-pub impl HTMLElementImpl for HTMLParagraphElement
 
 pub(all) struct HTMLSelectElement {
   mut value : String
@@ -480,8 +465,6 @@ pub fn HTMLSelectElement::as_element(Self) -> Element
 pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSelectElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLSelectElement
-pub impl HTMLElementImpl for HTMLSelectElement
 
 #external
 pub type HTMLSpanElement
@@ -490,8 +473,6 @@ pub fn HTMLSpanElement::as_element(Self) -> Element
 pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSpanElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLSpanElement
-pub impl HTMLElementImpl for HTMLSpanElement
 
 pub(all) struct HTMLTextAreaElement {
   mut value : String
@@ -506,8 +487,6 @@ pub fn HTMLTextAreaElement::as_element(Self) -> Element
 pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLTextAreaElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLTextAreaElement
-pub impl HTMLElementImpl for HTMLTextAreaElement
 
 #external
 pub type HTMLUListElement
@@ -516,8 +495,6 @@ pub fn HTMLUListElement::as_element(Self) -> Element
 pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLUListElement::as_node(Self) -> Node
-pub impl ElementImpl for HTMLUListElement
-pub impl HTMLElementImpl for HTMLUListElement
 
 pub(all) struct HashChangeEvent {
   oldURL : String
@@ -599,9 +576,25 @@ pub impl Show for MouseEvent
 
 #external
 pub type Node
+pub fn Node::appendChild(Self, Self) -> Self
 pub fn Node::as_any(Self) -> @core.Any
 pub fn Node::as_event_target(Self) -> @event.EventTarget
-pub impl NodeImpl for Node
+pub fn Node::childNodes(Self) -> Array[Self]
+pub fn Node::cloneNode(Self, Bool) -> Self
+pub fn Node::contains(Self, Self?) -> Bool
+pub fn Node::firstChild(Self) -> Self?
+pub fn Node::hasChildNodes(Self) -> Bool
+pub fn Node::insertBefore(Self, Self, Self?) -> Self
+pub fn Node::lastChild(Self) -> Self?
+pub fn Node::nextSibling(Self) -> Self?
+pub fn Node::nodeName(Self) -> String
+pub fn Node::nodeType(Self) -> Int
+pub fn Node::parentNode(Self) -> Self?
+pub fn Node::previousSibling(Self) -> Self?
+pub fn Node::removeChild(Self, Self) -> Self
+pub fn Node::replaceChild(Self, Self, Self) -> Self
+pub fn Node::setTextContent(Self, String) -> Unit
+pub fn Node::textContent(Self) -> String
 
 pub(all) struct PageTransitionEvent {
   persisted : Bool
@@ -915,7 +908,6 @@ pub fn Window::sessionStorage(Self) -> @core.Any
 pub fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)
 pub fn Window::setTimeout(Self, () -> Unit, Int) -> Int
-pub impl @event.EventTargetImpl for Window
 
 // Type aliases
 pub type ChangeEventHandler = (ChangeEvent) -> Unit
@@ -927,24 +919,6 @@ pub type KeyboardEventHandler = (KeyboardEvent) -> Unit
 pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
-pub(open) trait ElementImpl {
-  as_any(Self) -> @core.Any
-  tagName(Self) -> String = _
-  className(Self) -> String = _
-  setClassName(Self, String) -> Unit = _
-  id(Self) -> String = _
-  setId(Self, String) -> Unit = _
-  getAttribute(Self, String) -> String? = _
-  setAttribute(Self, String, String) -> Unit = _
-  removeAttribute(Self, String) -> Unit = _
-  hasAttribute(Self, String) -> Bool = _
-  getElementsByTagName(Self, String) -> Array[Element] = _
-  getElementsByClassName(Self, String) -> Array[Element] = _
-  querySelector(Self, String) -> Element? = _
-  querySelectorAll(Self, String) -> Array[Element] = _
-  append(Self, Node) -> Unit = _
-}
-
 pub(open) trait EventImpl {
   as_any(Self) -> @core.Any
   preventDefault(Self) -> Unit = _
@@ -956,38 +930,5 @@ pub(open) trait EventImpl {
   bubbles(Self) -> Bool = _
   cancelable(Self) -> Bool = _
   defaultPrevented(Self) -> Bool = _
-}
-
-pub(open) trait HTMLElementImpl {
-  as_any(Self) -> @core.Any
-  innerText(Self) -> String = _
-  setInnerText(Self, String) -> Unit = _
-  innerHTML(Self) -> String = _
-  setInnerHTML(Self, String) -> Unit = _
-  outerHTML(Self) -> String = _
-  setOuterHTML(Self, String) -> Unit = _
-  focus(Self) -> Unit = _
-  click(Self) -> Unit = _
-}
-
-pub(open) trait NodeImpl {
-  as_any(Self) -> @core.Any
-  nodeType(Self) -> Int = _
-  nodeName(Self) -> String = _
-  parentNode(Self) -> Node? = _
-  childNodes(Self) -> Array[Node] = _
-  firstChild(Self) -> Node? = _
-  lastChild(Self) -> Node? = _
-  previousSibling(Self) -> Node? = _
-  nextSibling(Self) -> Node? = _
-  appendChild(Self, Node) -> Node = _
-  removeChild(Self, Node) -> Node = _
-  insertBefore(Self, Node, Node?) -> Node = _
-  replaceChild(Self, Node, Node) -> Node = _
-  cloneNode(Self, Bool) -> Node = _
-  contains(Self, Node?) -> Bool = _
-  hasChildNodes(Self) -> Bool = _
-  textContent(Self) -> String = _
-  setTextContent(Self, String) -> Unit = _
 }
 

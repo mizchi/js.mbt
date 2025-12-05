@@ -21,7 +21,6 @@ pub fn Server::as_any(Self) -> @core.Any
 pub fn Server::as_event_target(Self) -> @event.EventTarget
 pub fn Server::close(Self, () -> Unit) -> Unit
 pub fn Server::listen(Self, Int, () -> Unit) -> Unit
-pub impl @event.EventTargetImpl for Server
 
 #external
 pub type TLSSocket
@@ -38,7 +37,6 @@ pub fn TLSSocket::on_end(Self, () -> Unit) -> Self
 pub fn TLSSocket::on_error(Self, (@object.Object) -> Unit) -> Self
 pub fn TLSSocket::on_secure_connect(Self, () -> Unit) -> Self
 pub fn TLSSocket::write(Self, String) -> Unit
-pub impl @event.EventTargetImpl for TLSSocket
 
 // Type aliases
 

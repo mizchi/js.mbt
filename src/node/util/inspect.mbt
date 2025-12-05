@@ -26,14 +26,28 @@ pub fn inspect(
   maxArrayLength? : Int,
   maxStringLength? : Int,
 ) -> String {
-  let opt : @core.Any = @mbtconv.from_option_map({
-    "depth": depth.map(fn(x) { @core.any(x) }),
-    "colors": colors.map(fn(x) { @core.any(x) }),
-    "compact": compact.map(fn(x) { @core.any(x) }),
-    "sorted": sorted.map(fn(x) { @core.any(x) }),
-    "breakLength": breakLength.map(fn(x) { @core.any(x) }),
-    "maxArrayLength": maxArrayLength.map(fn(x) { @core.any(x) }),
-    "maxStringLength": maxStringLength.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if depth is Some(v) {
+    entries.push(("depth", @core.any(v)))
+  }
+  if colors is Some(v) {
+    entries.push(("colors", @core.any(v)))
+  }
+  if compact is Some(v) {
+    entries.push(("compact", @core.any(v)))
+  }
+  if sorted is Some(v) {
+    entries.push(("sorted", @core.any(v)))
+  }
+  if breakLength is Some(v) {
+    entries.push(("breakLength", @core.any(v)))
+  }
+  if maxArrayLength is Some(v) {
+    entries.push(("maxArrayLength", @core.any(v)))
+  }
+  if maxStringLength is Some(v) {
+    entries.push(("maxStringLength", @core.any(v)))
+  }
+  let opt : @core.Any = @core.from_entries(entries)
   util().as_any()["inspect"]._invoke([value, opt]).cast()
 }

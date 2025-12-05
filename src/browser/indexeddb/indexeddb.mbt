@@ -110,10 +110,14 @@ pub fn IDBDatabase::createObjectStore(
   keyPath? : String,
   autoIncrement? : Bool,
 ) -> IDBObjectStore[@core.Any] {
-  let options = @mbtconv.from_option_map({
-    "keyPath": keyPath.map(fn(x) { @core.any(x) }),
-    "autoIncrement": autoIncrement.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if keyPath is Some(v) {
+    entries.push(("keyPath", @core.any(v)))
+  }
+  if autoIncrement is Some(v) {
+    entries.push(("autoIncrement", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   self.as_any()._call("createObjectStore", [@core.any(name), options]).cast()
 }
 
@@ -332,10 +336,14 @@ pub fn[T] IDBObjectStore::createIndex(
   unique? : Bool,
   multiEntry? : Bool,
 ) -> IDBIndex[T] {
-  let options = @mbtconv.from_option_map({
-    "unique": unique.map(fn(x) { @core.any(x) }),
-    "multiEntry": multiEntry.map(fn(x) { @core.any(x) }),
-  })
+  let entries : Array[(String, @core.Any)] = []
+  if unique is Some(v) {
+    entries.push(("unique", @core.any(v)))
+  }
+  if multiEntry is Some(v) {
+    entries.push(("multiEntry", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
   self
   .as_any()
   ._call("createIndex", [@core.any(name), @core.any(keyPath), options])

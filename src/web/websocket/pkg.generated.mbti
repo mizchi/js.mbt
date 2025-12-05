@@ -41,7 +41,6 @@ pub fn WebSocket::set_onclose(Self, (@core.Any) -> Unit) -> Unit
 pub fn WebSocket::set_onerror(Self, (@core.Any) -> Unit) -> Unit
 pub fn WebSocket::set_onmessage(Self, (@core.Any) -> Unit) -> Unit
 pub fn WebSocket::set_onopen(Self, (@core.Any) -> Unit) -> Unit
-pub impl @event.EventTargetImpl for WebSocket
 
 pub enum WebSocketReadyState {
   Connecting

@@ -56,19 +56,35 @@ pub fn create_server(
   alpn_protocols? : Array[String],
 ) -> Server {
   let cb : @core.Any = @core.identity(secureConnectionListener)
-  let alpn_js = alpn_protocols.map(fn(v) {
+  let alpn_js = alpn_protocols.map(fn(v) -> @core.Any {
     @core.identity(array_to_js_array(v))
   })
-  let opts = @mbtconv.from_option_map({
-    "key": key.map(fn(x) { @core.any(x) }),
-    "cert": cert.map(fn(x) { @core.any(x) }),
-    "ca": ca.map(fn(x) { @core.any(x) }),
-    "pfx": pfx.map(fn(x) { @core.any(x) }),
-    "passphrase": passphrase.map(fn(x) { @core.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @core.any(x) }),
-    "requestCert": requestCert.map(fn(x) { @core.any(x) }),
-    "ALPNProtocols": alpn_js,
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if key is Some(v) {
+    entries.push(("key", @core.any(v)))
+  }
+  if cert is Some(v) {
+    entries.push(("cert", @core.any(v)))
+  }
+  if ca is Some(v) {
+    entries.push(("ca", @core.any(v)))
+  }
+  if pfx is Some(v) {
+    entries.push(("pfx", @core.any(v)))
+  }
+  if passphrase is Some(v) {
+    entries.push(("passphrase", @core.any(v)))
+  }
+  if rejectUnauthorized is Some(v) {
+    entries.push(("rejectUnauthorized", @core.any(v)))
+  }
+  if requestCert is Some(v) {
+    entries.push(("requestCert", @core.any(v)))
+  }
+  if alpn_js is Some(v) {
+    entries.push(("ALPNProtocols", @core.identity(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   ffi_create_server(opts, cb)
 }
 
@@ -111,20 +127,34 @@ pub fn connect(
   session? : @js.Object,
 ) -> TLSSocket {
   let cb : @core.Any = @core.identity(callback)
-  let alpn_js = alpn_protocols.map(fn(v) {
+  let alpn_js = alpn_protocols.map(fn(v) -> @core.Any {
     @core.identity(array_to_js_array(v))
   })
-  let opts = @mbtconv.from_option_map({
-    "port": Some(@core.any(port)),
-    "host": Some(@core.any(host)),
-    "servername": servername.map(fn(x) { @core.any(x) }),
-    "key": key.map(fn(x) { @core.any(x) }),
-    "cert": cert.map(fn(x) { @core.any(x) }),
-    "ca": ca.map(fn(x) { @core.any(x) }),
-    "rejectUnauthorized": rejectUnauthorized.map(fn(x) { @core.any(x) }),
-    "ALPNProtocols": alpn_js,
-    "session": session.map(fn(x) { @core.identity(@core.any(x)) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("port", @core.any(port)))
+  entries.push(("host", @core.any(host)))
+  if servername is Some(v) {
+    entries.push(("servername", @core.any(v)))
+  }
+  if key is Some(v) {
+    entries.push(("key", @core.any(v)))
+  }
+  if cert is Some(v) {
+    entries.push(("cert", @core.any(v)))
+  }
+  if ca is Some(v) {
+    entries.push(("ca", @core.any(v)))
+  }
+  if rejectUnauthorized is Some(v) {
+    entries.push(("rejectUnauthorized", @core.any(v)))
+  }
+  if alpn_js is Some(v) {
+    entries.push(("ALPNProtocols", @core.identity(v)))
+  }
+  if session is Some(v) {
+    entries.push(("session", @core.identity(@core.any(v))))
+  }
+  let opts = @core.from_entries(entries).cast()
   ffi_connect(opts, cb)
 }
 

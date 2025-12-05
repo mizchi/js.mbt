@@ -16,17 +16,20 @@ pub fn ParseArgsOption::key(self : ParseArgsOption) -> String {
 pub fn ParseArgsOption::as_any(self : ParseArgsOption) -> @core.Any {
   match self {
     Boolean(short~, ..) =>
-      @mbtconv.from_map({
-        "type": @core.any("boolean"),
-        "short": @core.any(short),
-      })
-    String(short~, multiple~, default~, ..) =>
-      @mbtconv.from_option_map({
-        "type": Some(@core.any("string")),
-        "short": Some(@core.any(short)),
-        "multiple": Some(@core.any(multiple)),
-        "default": default.map(fn(x) { @core.any(x) }),
-      })
+      @core.from_entries([
+        ("type", @core.any("boolean")),
+        ("short", @core.any(short)),
+      ])
+    String(short~, multiple~, default~, ..) => {
+      let entries : Array[(String, @core.Any)] = []
+      entries.push(("type", @core.any("string")))
+      entries.push(("short", @core.any(short)))
+      entries.push(("multiple", @core.any(multiple)))
+      if default is Some(v) {
+        entries.push(("default", @core.any(v)))
+      }
+      @core.from_entries(entries)
+    }
   }
 }
 
@@ -54,11 +57,11 @@ pub fn parseArgs(
     }
     o
   }
-  let result : @core.Any = @mbtconv.from_map({
-    "args": @core.any(args),
-    "options": opts_obj,
-    "allowPositionals": @core.any(allow_positionals),
-  })
+  let result : @core.Any = @core.from_entries([
+    ("args", @core.any(args)),
+    ("options", opts_obj),
+    ("allowPositionals", @core.any(allow_positionals)),
+  ])
   // result["tokens"] = tokens
   let r : @core.Any = util().as_any()["parseArgs"]._invoke([result])
   let values : Map[String, @core.Any] = {}

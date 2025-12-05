@@ -48,7 +48,6 @@ pub fn EventSource::new(String, withCredentials? : Bool) -> Self
 pub fn EventSource::set_onerror(Self, (@core.Any) -> Unit) -> Unit
 pub fn EventSource::set_onmessage(Self, (@core.Any) -> Unit) -> Unit
 pub fn EventSource::set_onopen(Self, (@core.Any) -> Unit) -> Unit
-pub impl EventTargetImpl for EventSource
 
 #external
 pub type EventTarget
@@ -61,7 +60,6 @@ pub fn EventTarget::off(Self, String, (@core.Any) -> Unit, capture? : Bool) -> U
 pub fn EventTarget::on(Self, String, (@core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 #alias(remove_event_listener)
 pub fn EventTarget::removeEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit
-pub impl EventTargetImpl for EventTarget
 
 // Type aliases
 

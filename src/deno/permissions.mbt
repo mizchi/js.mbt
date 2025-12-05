@@ -35,10 +35,12 @@ pub async fn Deno::permissions_query(
   path? : String,
 ) -> PermissionStatus {
   let perms : @core.Any = self.permissions().cast()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "name": Some(@core.any(name)),
-    "path": path.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("name", @core.any(name)))
+  if path is Some(v) {
+    entries.push(("path", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("query", [opts])
     .cast()
@@ -53,10 +55,12 @@ pub async fn Deno::permissions_request(
   path? : String,
 ) -> PermissionStatus {
   let perms : @core.Any = self.permissions().cast()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "name": Some(@core.any(name)),
-    "path": path.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("name", @core.any(name)))
+  if path is Some(v) {
+    entries.push(("path", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("request", [opts])
     .cast()
@@ -71,10 +75,12 @@ pub async fn Deno::permissions_revoke(
   path? : String,
 ) -> PermissionStatus {
   let perms : @core.Any = self.permissions().cast()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "name": Some(@core.any(name)),
-    "path": path.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("name", @core.any(name)))
+  if path is Some(v) {
+    entries.push(("path", @core.any(v)))
+  }
+  let opts = @core.from_entries(entries).cast()
   let promise : @js.Promise[PermissionStatus] = perms
     ._call("revoke", [opts])
     .cast()

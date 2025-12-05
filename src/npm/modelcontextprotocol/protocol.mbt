@@ -50,13 +50,22 @@ pub fn Content::resource(uri : String) -> Content {
 
 ///|
 pub fn Content::as_any(self : Content) -> @core.Any {
-  @mbtconv.from_option_map({
-    "type": Some(@core.any(self.type_.to_string())),
-    "text": self.text.map(fn(t) { @core.any(t) }),
-    "data": self.data.map(fn(d) { @core.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @core.any(m) }),
-    "uri": self.uri.map(fn(u) { @core.any(u) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("type", @core.any(self.type_.to_string())),
+  ]
+  if self.text is Some(t) {
+    entries.push(("text", @core.any(t)))
+  }
+  if self.data is Some(d) {
+    entries.push(("data", @core.any(d)))
+  }
+  if self.mime_type is Some(m) {
+    entries.push(("mimeType", @core.any(m)))
+  }
+  if self.uri is Some(u) {
+    entries.push(("uri", @core.any(u)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -70,11 +79,11 @@ pub(all) struct Tool {
 ///|
 pub fn Tool::as_any(self : Tool) -> @core.Any {
   @core.identity(
-    @mbtconv.from_map({
-      "name": @core.any(self.name),
-      "description": @core.any(self.description),
-      "inputSchema": @core.any(self.input_schema),
-    }),
+    @core.from_entries([
+      ("name", @core.any(self.name)),
+      ("description", @core.any(self.description)),
+      ("inputSchema", @core.any(self.input_schema)),
+    ]),
   )
 }
 
@@ -89,12 +98,17 @@ pub(all) struct Resource {
 
 ///|
 pub fn Resource::as_any(self : Resource) -> @core.Any {
-  @mbtconv.from_option_map({
-    "uri": Some(@core.any(self.uri)),
-    "name": Some(@core.any(self.name)),
-    "description": self.description.map(fn(d) { @core.any(d) }),
-    "mimeType": self.mime_type.map(fn(m) { @core.any(m) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("uri", @core.any(self.uri)),
+    ("name", @core.any(self.name)),
+  ]
+  if self.description is Some(d) {
+    entries.push(("description", @core.any(d)))
+  }
+  if self.mime_type is Some(m) {
+    entries.push(("mimeType", @core.any(m)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -114,11 +128,14 @@ pub(all) struct PromptArgument {
 
 ///|
 pub fn PromptArgument::as_any(self : PromptArgument) -> @core.Any {
-  @mbtconv.from_option_map({
-    "name": Some(@core.any(self.name)),
-    "description": self.description.map(fn(d) { @core.any(d) }),
-    "required": Some(@core.any(self.required)),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("name", @core.any(self.name)),
+    ("required", @core.any(self.required)),
+  ]
+  if self.description is Some(d) {
+    entries.push(("description", @core.any(d)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -127,11 +144,14 @@ pub fn Prompt::as_any(self : Prompt) -> @core.Any {
   for i = 0; i < self.arguments.length(); i = i + 1 {
     args.push(self.arguments[i].as_any())
   }
-  @mbtconv.from_option_map({
-    "name": Some(@core.any(self.name)),
-    "description": self.description.map(fn(d) { @core.any(d) }),
-    "arguments": Some(@core.identity(@core.any(args))),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("name", @core.any(self.name)),
+    ("arguments", @core.identity(@core.any(args))),
+  ]
+  if self.description is Some(d) {
+    entries.push(("description", @core.any(d)))
+  }
+  @core.from_entries(entries).cast()
 }
 
 ///|
@@ -169,10 +189,10 @@ pub struct ServerInfo {
 ///|
 pub fn ServerInfo::as_any(self : ServerInfo) -> @core.Any {
   @core.identity(
-    @mbtconv.from_map({
-      "name": @core.any(self.name),
-      "version": @core.any(self.version),
-    }),
+    @core.from_entries([
+      ("name", @core.any(self.name)),
+      ("version", @core.any(self.version)),
+    ]),
   )
 }
 

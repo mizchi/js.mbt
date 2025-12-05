@@ -47,9 +47,11 @@ pub async fn stat(path : String) -> Stat {
 /// node:fs/promises.mkdir
 pub async fn mkdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if recursive is Some(v) {
+    entries.push(("recursive", @core.any(v)))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   let promise : @core.Promise[Unit] = fs
     ._call("mkdir", [path |> @core.any, opts |> @core.any])
     .cast()
@@ -71,10 +73,14 @@ pub fn glob(
     (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "cwd": cwd.map(fn(x) { @core.any(x) }),
-    "exclude": exclude_opt,
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if cwd is Some(v) {
+    entries.push(("cwd", @core.any(v)))
+  }
+  if exclude_opt is Some(v) {
+    entries.push(("exclude", v))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   fs._call("glob", [path |> @core.any, opts |> @core.any]).cast()
 }
 
@@ -119,11 +125,15 @@ pub fn glob_with_filetype(
     (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
     (None, None) => None
   }
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "withFileTypes": Some(@core.any(true)),
-    "cwd": cwd.map(fn(x) { @core.any(x) }),
-    "exclude": exclude_opt,
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("withFileTypes", @core.any(true)))
+  if cwd is Some(v) {
+    entries.push(("cwd", @core.any(v)))
+  }
+  if exclude_opt is Some(v) {
+    entries.push(("exclude", v))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   fs._call("glob", [path |> @core.any, opts |> @core.any]).cast()
 }
 
@@ -191,13 +201,15 @@ pub async fn writeFile(
   signal? : @js.AbortSignal,
 ) -> Unit {
   let fs = fs_promises_module()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "encoding": Some(@core.any(encoding)),
-    "mode": Some(@core.any(mode)),
-    "flag": Some(@core.any(flag)),
-    "flush": Some(@core.any(flush)),
-    "signal": signal.map(fn(x) { x |> @core.identity }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  entries.push(("encoding", @core.any(encoding)))
+  entries.push(("mode", @core.any(mode)))
+  entries.push(("flag", @core.any(flag)))
+  entries.push(("flush", @core.any(flush)))
+  if signal is Some(v) {
+    entries.push(("signal", v |> @core.identity))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   let promise : @core.Promise[
     Unit,
     // @core.identity(
@@ -224,10 +236,14 @@ pub async fn rename(path : String, dest : String) -> Unit {
 ///|
 pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @core.any(x) }),
-    "force": force.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if recursive is Some(v) {
+    entries.push(("recursive", @core.any(v)))
+  }
+  if force is Some(v) {
+    entries.push(("force", @core.any(v)))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   let promise : @core.Promise[Unit] = fs
     ._call("rm", [path |> @core.any, opts |> @core.any])
     .cast()
@@ -237,9 +253,11 @@ pub async fn rm(path : String, recursive? : Bool, force? : Bool) -> Unit {
 ///|
 pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if recursive is Some(v) {
+    entries.push(("recursive", @core.any(v)))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   let promise : @core.Promise[Unit] = @core.identity(
     fs._call("cp", [path |> @core.any, dest |> @core.any, opts |> @core.any]),
   )
@@ -321,9 +339,11 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
 /// Remove directory
 pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let opts : @core.Any = @mbtconv.from_option_map({
-    "recursive": recursive.map(fn(x) { @core.any(x) }),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = []
+  if recursive is Some(v) {
+    entries.push(("recursive", @core.any(v)))
+  }
+  let opts : @core.Any = @core.from_entries(entries).cast()
   let promise : @core.Promise[Unit] = fs
     ._call("rmdir", [path |> @core.any, opts |> @core.any])
     .cast()
@@ -351,9 +371,7 @@ pub async fn appendFile(
   let fs = fs_promises_module()
   let promise : @core.Promise[Unit] = match encoding {
     Some(enc) => {
-      let opts : @core.Any = @mbtconv.from_option_map({
-        "encoding": Some(@core.any(enc)),
-      }).cast()
+      let opts : @core.Any = @core.from_entries([("encoding", @core.any(enc))]).cast()
       @core.identity(
         fs._call("appendFile", [
           path |> @core.any,

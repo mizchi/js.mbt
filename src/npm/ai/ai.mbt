@@ -28,25 +28,25 @@ pub(all) enum ModelMessage {
 pub fn ModelMessage::as_any(self : ModelMessage) -> @core.Any {
   match self {
     AssistantMessage(content~) =>
-      @mbtconv.from_map({
-        "role": @core.any("assistant"),
-        "content": @core.any(content.as_any()),
-      }).cast()
+      @core.from_entries([
+        ("role", @core.any("assistant")),
+        ("content", @core.any(content.as_any())),
+      ]).cast()
     UserMessage(content~) =>
-      @mbtconv.from_map({
-        "role": @core.any("user"),
-        "content": @core.any(content.as_any()),
-      }).cast()
+      @core.from_entries([
+        ("role", @core.any("user")),
+        ("content", @core.any(content.as_any())),
+      ]).cast()
     SystemMessage(content~) =>
-      @mbtconv.from_map({
-        "role": @core.any("system"),
-        "content": @core.any(content.as_any()),
-      }).cast()
+      @core.from_entries([
+        ("role", @core.any("system")),
+        ("content", @core.any(content.as_any())),
+      ]).cast()
     ToolMessage(content~) =>
-      @mbtconv.from_map({
-        "role": @core.any("tool"),
-        "content": @core.any(content.as_any()),
-      }).cast()
+      @core.from_entries([
+        ("role", @core.any("tool")),
+        ("content", @core.any(content.as_any())),
+      ]).cast()
   }
 }
 

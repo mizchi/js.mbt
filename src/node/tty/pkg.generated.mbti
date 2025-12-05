@@ -20,7 +20,6 @@ pub fn ReadStream::is_raw(Self) -> Bool
 pub fn ReadStream::is_tty(Self) -> Bool
 pub fn ReadStream::set_raw_mode(Self, Bool) -> Unit
 pub fn ReadStream::to_any(Self) -> @core.Any
-pub impl @event.EventTargetImpl for ReadStream
 
 #external
 pub type WriteStream
@@ -40,7 +39,6 @@ pub fn WriteStream::on_resize(Self, () -> Unit) -> Self
 pub fn WriteStream::rows(Self) -> Int
 pub fn WriteStream::to_any(Self) -> @core.Any
 pub fn WriteStream::write(Self, @core.Any, encoding? : String, callback? : @core.Any) -> Bool
-pub impl @event.EventTargetImpl for WriteStream
 
 // Type aliases
 

@@ -55,14 +55,14 @@ pub fn SdkServer::new(
   }
   // Build server info
   let server_info = @core.identity(
-    @mbtconv.from_map({
-      "name": name |> @core.any,
-      "version": version |> @core.any,
-    }),
+    @core.from_entries([
+      ("name", name |> @core.any),
+      ("version", version |> @core.any),
+    ]),
   )
   // Create server instance
   let opts = @core.identity(
-    @mbtconv.from_map({ "capabilities": @core.any(capabilities) }),
+    @core.from_entries([("capabilities", @core.any(capabilities))]),
   )
   ffi_construct(server_class, [server_info, opts]) |> @core.identity
 }
@@ -86,7 +86,7 @@ pub fn SdkServer::set_tools_list_handler(
     let tools = handler()
     let tools_arr : Array[@core.Any] = tools.map(fn(t) { t.as_any() })
     @core.identity(
-      @mbtconv.from_map({ "tools": @core.any(@core.any(tools_arr)) }),
+      @core.from_entries([("tools", @core.any(@core.any(tools_arr)))]),
     )
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
@@ -117,7 +117,7 @@ pub fn SdkServer::set_tools_call_handler(
       let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @core.identity(
-          @mbtconv.from_map({ "content": @core.any(@core.any(content_arr)) }),
+          @core.from_entries([("content", @core.any(@core.any(content_arr)))]),
         ),
       )
     })
@@ -145,7 +145,7 @@ pub fn SdkServer::set_resources_list_handler(
     let resources = handler()
     let resources_arr : Array[@core.Any] = resources.map(fn(r) { r.as_any() })
     @core.identity(
-      @mbtconv.from_map({ "resources": @core.any(@core.any(resources_arr)) }),
+      @core.from_entries([("resources", @core.any(@core.any(resources_arr)))]),
     )
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
@@ -167,7 +167,7 @@ pub fn SdkServer::set_resources_read_handler(
       let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
       @js.Promise::resolve(
         @core.identity(
-          @mbtconv.from_map({ "contents": @core.any(@core.any(content_arr)) }),
+          @core.from_entries([("contents", @core.any(@core.any(content_arr)))]),
         ),
       )
     })
@@ -187,7 +187,7 @@ pub fn SdkServer::set_prompts_list_handler(
     let prompts = handler()
     let prompts_arr : Array[@core.Any] = prompts.map(fn(p) { p.as_any() })
     @core.identity(
-      @mbtconv.from_map({ "prompts": @core.any(@core.any(prompts_arr)) }),
+      @core.from_entries([("prompts", @core.any(@core.any(prompts_arr)))]),
     )
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
@@ -230,20 +230,23 @@ pub(all) struct PromptMessage {
 ///|
 pub fn PromptMessage::as_any(self : PromptMessage) -> @core.Any {
   @core.identity(
-    @mbtconv.from_map({
-      "role": self.role |> @core.any,
-      "content": @core.any(self.content.as_any()),
-    }),
+    @core.from_entries([
+      ("role", self.role |> @core.any),
+      ("content", @core.any(self.content.as_any())),
+    ]),
   )
 }
 
 ///|
 pub fn PromptResult::as_any(self : PromptResult) -> @core.Any {
   let messages_arr : Array[@core.Any] = self.messages.map(fn(m) { m.as_any() })
-  @mbtconv.from_option_map({
-    "description": self.description.map(fn(d) { d |> @core.any }),
-    "messages": Some(@core.identity(@core.any(messages_arr))),
-  }).cast()
+  let entries : Array[(String, @core.Any)] = [
+    ("messages", @core.identity(@core.any(messages_arr))),
+  ]
+  if self.description is Some(d) {
+    entries.push(("description", d |> @core.any))
+  }
+  @core.from_entries(entries).cast()
 }
 
 // ============================================================
@@ -292,10 +295,10 @@ pub fn SdkServer::send_notification(
   params : @core.Any,
 ) -> Unit {
   let notification = @core.identity(
-    @mbtconv.from_map({
-      "method": method_name |> @core.any,
-      "params": @core.any(params),
-    }),
+    @core.from_entries([
+      ("method", method_name |> @core.any),
+      ("params", @core.any(params)),
+    ]),
   )
   (self |> @core.any)._get("notification")._invoke([notification]) |> ignore
 }
@@ -308,11 +311,11 @@ pub fn SdkServer::log(
   message : String,
 ) -> Unit {
   let params = @core.identity(
-    @mbtconv.from_map({
-      "level": level |> @core.any,
-      "logger": "server" |> @core.any,
-      "data": message |> @core.any,
-    }),
+    @core.from_entries([
+      ("level", level |> @core.any),
+      ("logger", "server" |> @core.any),
+      ("data", message |> @core.any),
+    ]),
   )
   self.send_notification("notifications/message", params)
 }
