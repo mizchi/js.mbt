@@ -24,10 +24,6 @@ extern "js" fn ffi_require_worker_threads() -> @core.Any =
   #|() => require("node:worker_threads")
 
 ///|
-extern "js" fn ffi_get_thread_id() -> Int =
-  #|() => require("node:worker_threads").threadId
-
-///|
 /// Create a new Worker instance
 /// https://nodejs.org/api/worker_threads.html#new-workerfilename-options
 pub fn Worker::new(
@@ -176,6 +172,5 @@ pub fn workerData() -> @core.Any? {
 ///|
 /// Get the thread ID of the current thread
 /// https://nodejs.org/api/worker_threads.html#workerthreadid
-pub fn threadId() -> Int {
-  ffi_get_thread_id()
-}
+pub extern "js" fn threadId() -> Int =
+  #|() => require("node:worker_threads").threadId
