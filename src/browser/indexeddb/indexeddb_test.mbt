@@ -20,10 +20,10 @@ fn[T] request_to_promise(
   request : @indexeddb.IDBRequest[T],
 ) -> @js.Promise[@core.Any] {
   let resolvers = @js.Promise::withResolvers()
-  request.addEventListener("success", fn(event) {
+  request.as_event_target().addEventListener("success", fn(event) {
     resolvers.resolve(event._get("target")._get("result"))
   })
-  request.addEventListener("error", fn(event) {
+  request.as_event_target().addEventListener("error", fn(event) {
     let error_msg = @core.identity(
       event._get("target")._get("error")._call("toString", []),
     )
@@ -42,13 +42,13 @@ fn open_request_to_promise(
 
   // Handle upgrade if needed
   match onupgradeneeded {
-    Some(handler) => request.addEventListener("upgradeneeded", handler)
+    Some(handler) => request.as_event_target().addEventListener("upgradeneeded", handler)
     None => ()
   }
-  request.addEventListener("success", fn(event) {
+  request.as_event_target().addEventListener("success", fn(event) {
     resolvers.resolve(event._get("target")._get("result"))
   })
-  request.addEventListener("error", fn(event) {
+  request.as_event_target().addEventListener("error", fn(event) {
     let error_msg = @core.identity(
       event._get("target")._get("error")._call("toString", []),
     )

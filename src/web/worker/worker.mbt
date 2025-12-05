@@ -27,16 +27,14 @@ pub(open) trait Transferable {
 pub type Worker
 
 ///|
+pub fn Worker::as_any(self : Worker) -> @core.Any = "%identity"
+
+///|
 pub fn Worker::to_any(self : Worker) -> @core.Any = "%identity"
 
 ///|
 /// Cast to EventTarget for event handling
 pub fn Worker::as_event_target(self : Worker) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for Worker with as_any(self) -> @core.Any {
-  self.to_any()
-}
 
 ///|
 extern "js" fn ffi_new_worker(

@@ -159,11 +159,6 @@ pub type EventTarget
 pub fn EventTarget::as_any(self : EventTarget) -> @core.Any = "%identity"
 
 ///|
-pub impl EventTargetImpl for EventTarget with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// Add an event listener for the specified event type
 /// This is the primary method for registering event handlers
 #alias(add_event_listener)

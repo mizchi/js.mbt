@@ -19,11 +19,6 @@ pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
 pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for MessageEvent with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// MessagePort represents one end of a message channel
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
 ///
@@ -36,11 +31,6 @@ pub fn MessagePort::as_any(self : MessagePort) -> @core.Any = "%identity"
 
 ///|
 pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for MessagePort with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 pub impl Show for MessagePort with output(self, logger) {

@@ -22,11 +22,6 @@ pub fn[T] IDBRequest::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl[T] @event.EventTargetImpl for IDBRequest[T] with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// Check if request is pending
 pub fn[T] IDBRequest::is_pending(self : IDBRequest[T]) -> Bool {
   self.readyState == "pending"
@@ -78,11 +73,6 @@ pub fn IDBOpenDBRequest::as_any(self : IDBOpenDBRequest) -> @core.Any = "%identi
 pub fn IDBOpenDBRequest::as_event_target(
   self : IDBOpenDBRequest,
 ) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for IDBOpenDBRequest with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///| IDBDatabase - Database connection
 

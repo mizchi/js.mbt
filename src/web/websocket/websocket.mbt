@@ -21,11 +21,6 @@ pub fn WebSocket::as_any(self : WebSocket) -> @core.Any = "%identity"
 pub fn WebSocket::as_event_target(self : WebSocket) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for WebSocket with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// WebSocket ready states
 pub enum WebSocketReadyState {
   Connecting

@@ -18,11 +18,6 @@ pub fn EventSource::as_any(self : EventSource) -> @core.Any = "%identity"
 pub fn EventSource::as_event_target(self : EventSource) -> EventTarget = "%identity"
 
 ///|
-pub impl EventTargetImpl for EventSource with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// EventSource ready state: CONNECTING
 pub fn event_source_connecting() -> Int {
   0
