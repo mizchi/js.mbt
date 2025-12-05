@@ -193,10 +193,10 @@ async test "promisify3: handles error by rejecting promise" {
 async test "JS Async: nested run_async" {
   let mut outer = false
   let mut inner = false
-  @js.run_async(() => {
+  @core.run_async(() => {
     @core.sleep(16)
     outer = true
-    @js.run_async(() => {
+    @core.run_async(() => {
       @core.sleep(16)
       inner = true
     })
@@ -236,7 +236,7 @@ test "promisify0 creates a Promise" {
     42
   }
 
-  let promise_fn = @js.promisify0(test_fn0)
+  let promise_fn = promisify0(test_fn0)
   let promise = promise_fn()
   // Verify that a Promise was created by checking if it's a JS object
   let js_val : @core.Any = @core.identity(promise)
@@ -250,7 +250,7 @@ test "promisify1 creates a Promise" {
     x * 2
   }
 
-  let promise_fn = @js.promisify1(test_fn1)
+  let promise_fn = promisify1(test_fn1)
   let promise = promise_fn(21)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")
@@ -263,7 +263,7 @@ test "promisify2 creates a Promise" {
     x + y
   }
 
-  let promise_fn = @js.promisify2(test_fn2)
+  let promise_fn = promisify2(test_fn2)
   let promise = promise_fn(10, 32)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")
@@ -276,7 +276,7 @@ test "promisify3 creates a Promise" {
     x + y + z
   }
 
-  let promise_fn = @js.promisify3(test_fn3)
+  let promise_fn = promisify3(test_fn3)
   let promise = promise_fn(10, 20, 12)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")

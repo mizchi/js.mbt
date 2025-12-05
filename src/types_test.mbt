@@ -74,7 +74,7 @@ test "AbortController::signal and abort" {
 
 ///|
 test "JsError Show output" {
-  let err = @js.JsError::new("test message")
+  let err = JsError::new("test message")
   // Using inspect triggers Show::output
   inspect(err |> @core.any, content="Error: test message")
   assert_eq(err.message, "test message")
@@ -82,7 +82,7 @@ test "JsError Show output" {
 
 ///|
 test "ThrowError Show output" {
-  let result = try? @js.throwable(fn() {
+  let result = try? throwable(fn() {
     @global.global_this()._call("nonexistentMethod", [])
   })
   match result {
