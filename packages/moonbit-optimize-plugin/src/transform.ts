@@ -209,14 +209,14 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
     return { code, map: sourcemap ? ms.generateMap({ hires: true }) : undefined, inlineCount: 0, inlineableFns: 0 };
   }
 
-  // Inline calls and track which functions are still referenced
-  let inlineCount = 0;
-  const inlinedCalls = new Set<AstNode>(); // Track inlined CallExpression nodes
+  // Collect all inlineable calls first
+  const inlineableCallsToReplace: Array<{ node: AstNode; replacement: string }> = [];
+  const inlinedCalls = new Set<AstNode>();
 
-  function inlineVisit(node: AstNode | null): void {
+  function collectInlineable(node: AstNode | null): void {
     if (!node || typeof node !== 'object') return;
 
-    // Inline call expressions
+    // Collect call expressions that can be inlined
     if (node.type === 'CallExpression' && node.callee?.type === 'Identifier' && node.callee.name) {
       const fnInfo = inlineable.get(node.callee.name);
       if (fnInfo) {
@@ -232,27 +232,36 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
         if (inlined) {
           const replacement = astring.generate(inlined as any);
-          ms.overwrite(node.start, node.end, replacement);
-          inlineCount++;
+          inlineableCallsToReplace.push({ node, replacement });
           inlinedCalls.add(node);
         }
       }
     }
 
-    // Recurse
+    // Recurse to collect all inlineable calls
     for (const key of Object.keys(node)) {
       const child = (node as any)[key];
       if (Array.isArray(child)) {
         for (const item of child) {
-          if (item && typeof item === 'object' && item.type) inlineVisit(item);
+          if (item && typeof item === 'object' && item.type) collectInlineable(item);
         }
       } else if (child && typeof child === 'object' && child.type) {
-        inlineVisit(child);
+        collectInlineable(child);
       }
     }
   }
 
-  inlineVisit(ast);
+  collectInlineable(ast);
+
+  // Sort by position (descending) and apply replacements from end to start
+  // This prevents position shifts from affecting subsequent replacements
+  inlineableCallsToReplace.sort((a, b) => b.node.start - a.node.start);
+
+  let inlineCount = 0;
+  for (const { node, replacement } of inlineableCallsToReplace) {
+    ms.overwrite(node.start, node.end, replacement);
+    inlineCount++;
+  }
 
   // Count remaining references (excluding inlined calls and declarations)
   const refCounts = new Map<string, number>();

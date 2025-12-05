@@ -9,17 +9,17 @@ export default defineConfig({
     }),
   ],
   build: {
-    lib: {
-      entry: './test-build/input.js',
-      name: 'MoonBitTest',
-      fileName: 'output',
-      formats: ['es'],
-    },
-    sourcemap: false,
-    minify: 'esbuild', // Enable minification
+    sourcemap: true,
+    minify: 'esbuild',
     rollupOptions: {
+      input: {
+        main: './index.html',
+      },
       output: {
-        dir: 'dist-minified',
+        dir: 'dist',
+        // Preserve original structure for easier comparison
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
       },
     },
   },
