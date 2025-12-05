@@ -78,6 +78,6 @@ pub fn JSON::stringify(
 
 ///|
 /// JS: JSON.parse(s, reviver)
-pub fn JSON::parse(s : String, reviver? : Any? = None) -> Any raise ThrowError {
-  throwable(() => ffi_json_parse(s, reviver?))
+pub fn[T] JSON::parse(s : String, reviver? : Any? = None) -> T raise ThrowError {
+  throwable(() => ffi_json_parse(s, reviver?) |> identity)
 }

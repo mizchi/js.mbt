@@ -43,9 +43,9 @@ pub async fn D1Database::batch(
 }
 
 ///|
-/// Dump the entire database
-pub async fn D1Database::dump(self : Self) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self.as_any()._call("dump", []).cast()
+/// Dump the entire database (returns ArrayBuffer as Bytes)
+pub async fn D1Database::dump(self : Self) -> Bytes {
+  let promise : @js.Promise[Bytes] = self.as_any()._call("dump", []).cast()
   promise.wait()
 }
 

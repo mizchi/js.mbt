@@ -54,7 +54,7 @@ pub impl Show for ThrowError
 // Types and methods
 #external
 pub type JSON
-pub fn JSON::parse(String, reviver? : @core.Any?) -> @core.Any raise ThrowError
+pub fn[T] JSON::parse(String, reviver? : @core.Any?) -> T raise ThrowError
 pub fn JSON::stringify(@core.Any, replacer? : @core.Any, space? : Int) -> String
 
 #external

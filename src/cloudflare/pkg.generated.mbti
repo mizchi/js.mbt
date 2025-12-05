@@ -37,7 +37,7 @@ pub fn CloudflareRequest::as_any(Self) -> @core.Any
 pub type D1Database
 pub fn D1Database::as_any(Self) -> @core.Any
 pub async fn D1Database::batch(Self, Array[D1PreparedStatement]) -> Array[D1Result]
-pub async fn D1Database::dump(Self) -> @core.Any
+pub async fn D1Database::dump(Self) -> Bytes
 pub async fn D1Database::exec(Self, String) -> D1ExecResult
 pub fn D1Database::prepare(Self, String) -> D1PreparedStatement
 
