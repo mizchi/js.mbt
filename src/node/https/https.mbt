@@ -49,11 +49,6 @@ pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Server with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 extern "js" fn ffi_create_server(
   options : @core.Any,
   request_listener : @core.Any,
@@ -108,11 +103,6 @@ pub fn ClientRequest::as_any(self : ClientRequest) -> @core.Any = "%identity"
 pub fn ClientRequest::as_event_target(
   self : ClientRequest,
 ) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for ClientRequest with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 extern "js" fn ffi_request(

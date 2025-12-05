@@ -13,11 +13,6 @@ pub fn Http2Session::as_any(self : Http2Session) -> @core.Any = "%identity"
 pub fn Http2Session::as_event_target(self : Http2Session) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Http2Session with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTTP/2 Server (unencrypted)
 /// https://nodejs.org/api/http2.html#class-http2server
 #external
@@ -28,11 +23,6 @@ pub fn Http2Server::as_any(self : Http2Server) -> @core.Any = "%identity"
 
 ///|
 pub fn Http2Server::as_event_target(self : Http2Server) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for Http2Server with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// HTTP/2 Secure Server (TLS-encrypted)
@@ -49,11 +39,6 @@ pub fn Http2SecureServer::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Http2SecureServer with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTTP/2 Stream - bidirectional communications channel
 /// https://nodejs.org/api/http2.html#class-http2stream
 #external
@@ -64,11 +49,6 @@ pub fn Http2Stream::as_any(self : Http2Stream) -> @core.Any = "%identity"
 
 ///|
 pub fn Http2Stream::as_event_target(self : Http2Stream) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for Http2Stream with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// Client-side HTTP/2 stream
@@ -85,11 +65,6 @@ pub fn ClientHttp2Stream::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for ClientHttp2Stream with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// Server-side HTTP/2 stream
 /// https://nodejs.org/api/http2.html#class-serverhttp2stream
 #external
@@ -102,11 +77,6 @@ pub fn ServerHttp2Stream::as_any(self : ServerHttp2Stream) -> @core.Any = "%iden
 pub fn ServerHttp2Stream::as_event_target(
   self : ServerHttp2Stream,
 ) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for ServerHttp2Stream with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 extern "js" fn ffi_create_server(
@@ -289,7 +259,7 @@ pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("data", fn(e : @core.Any) {
+  self.as_event_target().addEventListener("data", fn(e : @core.Any) {
     callback(@core.identity(e))
   })
   self
@@ -301,7 +271,7 @@ pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
   callback : (@js.Object) -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("response", fn(e : @core.Any) {
+  self.as_event_target().addEventListener("response", fn(e : @core.Any) {
     callback(@core.identity(e))
   })
   self
@@ -313,6 +283,6 @@ pub fn ClientHttp2Stream::on_end(
   self : ClientHttp2Stream,
   callback : () -> Unit,
 ) -> ClientHttp2Stream {
-  self.addEventListener("end", fn(_e : @core.Any) { callback() })
+  self.as_event_target().addEventListener("end", fn(_e : @core.Any) { callback() })
   self
 }

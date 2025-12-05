@@ -16,11 +16,6 @@ pub fn ReadStream::to_any(self : ReadStream) -> @core.Any = "%identity"
 pub fn ReadStream::as_event_target(self : ReadStream) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for ReadStream with as_any(self) -> @core.Any {
-  self.to_any()
-}
-
-///|
 /// Check if ReadStream is a TTY
 pub fn ReadStream::is_tty(self : ReadStream) -> Bool {
   self.to_any()["isTTY"].cast()
@@ -54,11 +49,6 @@ pub fn WriteStream::to_any(self : WriteStream) -> @core.Any = "%identity"
 
 ///|
 pub fn WriteStream::as_event_target(self : WriteStream) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for WriteStream with as_any(self) -> @core.Any {
-  self.to_any()
-}
 
 ///|
 /// Check if WriteStream is a TTY
@@ -195,7 +185,7 @@ pub fn WriteStream::on_resize(
   self : WriteStream,
   callback : () -> Unit,
 ) -> WriteStream {
-  self.addEventListener("resize", fn(_e : @core.Any) { callback() })
+  self.as_event_target().addEventListener("resize", fn(_e : @core.Any) { callback() })
   self
 }
 

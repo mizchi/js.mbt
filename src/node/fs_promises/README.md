@@ -12,7 +12,6 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js",
     "mizchi/js/node/fs_promises"
   ]
 }

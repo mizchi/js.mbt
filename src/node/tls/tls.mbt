@@ -14,11 +14,6 @@ pub fn Server::as_any(self : Server) -> @core.Any = "%identity"
 pub fn Server::as_event_target(self : Server) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Server with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// TLS Socket for encrypted communications
 /// https://nodejs.org/api/tls.html#class-tlstlssocket
 #external
@@ -30,11 +25,6 @@ pub fn TLSSocket::as_any(self : TLSSocket) -> @core.Any = "%identity"
 ///|
 /// Cast to EventTarget for event handling
 pub fn TLSSocket::as_event_target(self : TLSSocket) -> @event.EventTarget = "%identity"
-
-///|
-pub impl @event.EventTargetImpl for TLSSocket with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// Helper function to convert Array[String] to JavaScript array
@@ -201,7 +191,7 @@ pub fn TLSSocket::on_secure_connect(
   self : TLSSocket,
   callback : () -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("secureConnect", fn(_e : @core.Any) { callback() })
+  self.as_event_target().addEventListener("secureConnect", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -211,7 +201,7 @@ pub fn TLSSocket::on_data(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("data", fn(e : @core.Any) {
+  self.as_event_target().addEventListener("data", fn(e : @core.Any) {
     callback(@core.identity(e))
   })
   self
@@ -220,7 +210,7 @@ pub fn TLSSocket::on_data(
 ///|
 /// Register 'end' event handler
 pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
-  self.addEventListener("end", fn(_e : @core.Any) { callback() })
+  self.as_event_target().addEventListener("end", fn(_e : @core.Any) { callback() })
   self
 }
 
@@ -230,7 +220,7 @@ pub fn TLSSocket::on_error(
   self : TLSSocket,
   callback : (@js.Object) -> Unit,
 ) -> TLSSocket {
-  self.addEventListener("error", fn(e : @core.Any) {
+  self.as_event_target().addEventListener("error", fn(e : @core.Any) {
     callback(@core.identity(e))
   })
   self

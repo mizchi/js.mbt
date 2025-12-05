@@ -17,11 +17,6 @@ pub fn Session::to_any(self : Session) -> @core.Any = "%identity"
 pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Session with as_any(self) -> @core.Any {
-  self.to_any()
-}
-
-///|
 /// Creates a new Inspector Session
 extern "js" fn ffi_create_session() -> Session =
   #| () => {
