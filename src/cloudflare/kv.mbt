@@ -12,7 +12,7 @@ extern "js" fn KVNamespace::get_impl(
   self : Self,
   key : String,
   options : @core.Any?,
-) -> @js.Promise[String?] =
+) -> @core.Promise[String?] =
   #| async (self, key, options) => {
   #|   const result = options === undefined ? await self.get(key) : await self.get(key, options);
   #|   return result === null ? undefined : result;
@@ -49,7 +49,7 @@ pub async fn KVNamespace::get_array_buffer(
   key : String,
 ) -> @core.Any? {
   let opts_js = @core.from_entries([("type", @core.any("arrayBuffer"))])
-  let promise : @js.Promise[@core.Any?] = self
+  let promise : @core.Promise[@core.Any?] = self
     .as_any()
     ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
@@ -60,7 +60,7 @@ pub async fn KVNamespace::get_array_buffer(
 /// Get a value as JSON
 pub async fn KVNamespace::get_json(self : Self, key : String) -> @core.Any? {
   let opts_js = @core.from_entries([("type", @core.any("json"))])
-  let promise : @js.Promise[@core.Any?] = self
+  let promise : @core.Promise[@core.Any?] = self
     .as_any()
     ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
@@ -71,7 +71,7 @@ pub async fn KVNamespace::get_json(self : Self, key : String) -> @core.Any? {
 /// Get a value as stream
 pub async fn KVNamespace::get_stream(self : Self, key : String) -> @core.Any? {
   let opts_js = @core.from_entries([("type", @core.any("stream"))])
-  let promise : @js.Promise[@core.Any?] = self
+  let promise : @core.Promise[@core.Any?] = self
     .as_any()
     ._call("get", [@core.any(key), @core.any(opts_js)])
     .cast()
@@ -92,7 +92,7 @@ pub async fn KVNamespace::get_with_metadata(
     entries.push(("cacheTtl", @core.any(v)))
   }
   let opts_js = @core.from_entries(entries)
-  let promise : @js.Promise[KVValueWithMetadata] = self
+  let promise : @core.Promise[KVValueWithMetadata] = self
     .as_any()
     ._call("getWithMetadata", [@core.any(key), @core.any(opts_js)])
     .cast()
@@ -109,7 +109,7 @@ pub async fn KVNamespace::put(
   expirationTtl? : Int,
   metadata? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = if expiration is None &&
+  let promise : @core.Promise[Unit] = if expiration is None &&
     expirationTtl is None &&
     metadata is None {
     self.as_any()._call("put", [@core.any(key), @core.any(value)]).cast()
@@ -142,7 +142,7 @@ pub async fn KVNamespace::put_with_metadata(
   metadata : @core.Any,
 ) -> Unit {
   let opts_js = @core.from_entries([("metadata", @core.any(metadata))])
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("put", [@core.any(key), @core.any(value), @core.any(opts_js)])
     .cast()
@@ -152,7 +152,7 @@ pub async fn KVNamespace::put_with_metadata(
 ///|
 /// Delete a key from KV store
 pub async fn KVNamespace::delete(self : Self, key : String) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("delete", [@core.any(key)])
     .cast()
@@ -167,7 +167,7 @@ pub async fn KVNamespace::list(
   limit? : Int,
   cursor? : String,
 ) -> KVListResult {
-  let promise : @js.Promise[KVListResult] = if prefix is None &&
+  let promise : @core.Promise[KVListResult] = if prefix is None &&
     limit is None &&
     cursor is None {
     self.as_any()._call("list", []).cast()

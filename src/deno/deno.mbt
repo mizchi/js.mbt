@@ -92,7 +92,7 @@ pub fn Deno::build_arch(self : Deno) -> String {
 ///|
 /// Read all data from stdin
 pub async fn Deno::stdin_read(self : Deno) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self.as_any()["stdin"]
+  let promise : @core.Promise[@core.Any] = self.as_any()["stdin"]
     ._call("read", [])
     .cast()
   promise.wait()
@@ -102,7 +102,7 @@ pub async fn Deno::stdin_read(self : Deno) -> @core.Any {
 /// Write to stdout
 pub async fn Deno::stdout_write(self : Deno, data : @core.Any) -> Int {
   let data_any : @core.Any = data.cast()
-  let promise : @js.Promise[Int] = self.as_any()["stdout"]
+  let promise : @core.Promise[Int] = self.as_any()["stdout"]
     ._call("write", [data_any])
     .cast()
   promise.wait()
@@ -112,7 +112,7 @@ pub async fn Deno::stdout_write(self : Deno, data : @core.Any) -> Int {
 /// Write to stderr
 pub async fn Deno::stderr_write(self : Deno, data : @core.Any) -> Int {
   let data_any : @core.Any = data.cast()
-  let promise : @js.Promise[Int] = self.as_any()["stderr"]
+  let promise : @core.Promise[Int] = self.as_any()["stderr"]
     ._call("write", [data_any])
     .cast()
   promise.wait()
@@ -123,7 +123,7 @@ pub async fn Deno::stderr_write(self : Deno, data : @core.Any) -> Int {
 ///|
 /// Read text file
 pub async fn Deno::readTextFile(self : Deno, path : String) -> String {
-  let promise : @js.Promise[String] = self
+  let promise : @core.Promise[String] = self
     .as_any()
     ._call("readTextFile", [@core.any(path)])
     .cast()
@@ -137,7 +137,7 @@ pub async fn Deno::writeTextFile(
   path : String,
   data : String,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("writeTextFile", [@core.any(path), @core.any(data)])
     .cast()
@@ -150,7 +150,7 @@ pub async fn Deno::readFile(
   self : Deno,
   path : String,
 ) -> @arraybuffer.Uint8Array {
-  let promise : @js.Promise[@arraybuffer.Uint8Array] = self
+  let promise : @core.Promise[@arraybuffer.Uint8Array] = self
     .as_any()
     ._call("readFile", [@core.any(path)])
     .cast()
@@ -164,7 +164,7 @@ pub async fn Deno::writeFile(
   path : String,
   data : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("writeFile", [@core.any(path), data])
     .cast()
@@ -178,7 +178,7 @@ pub async fn Deno::remove(
   path : String,
   recursive? : Bool,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match recursive {
+  let promise : @core.Promise[Unit] = match recursive {
     Some(r) => {
       let entries : Array[(String, @core.Any)] = []
       entries.push(("recursive", @core.any(r)))
@@ -193,7 +193,7 @@ pub async fn Deno::remove(
 ///|
 /// Create directory
 pub async fn Deno::mkdir(self : Deno, path : String, recursive? : Bool) -> Unit {
-  let promise : @js.Promise[Unit] = match recursive {
+  let promise : @core.Promise[Unit] = match recursive {
     Some(r) => {
       let entries : Array[(String, @core.Any)] = []
       entries.push(("recursive", @core.any(r)))
@@ -218,7 +218,7 @@ pub async fn Deno::rename(
   oldpath : String,
   newpath : String,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("rename", [@core.any(oldpath), @core.any(newpath)])
     .cast()
@@ -228,7 +228,7 @@ pub async fn Deno::rename(
 ///|
 /// Copy file
 pub async fn Deno::copyFile(self : Deno, from : String, to : String) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("copyFile", [@core.any(from), @core.any(to)])
     .cast()
@@ -238,7 +238,7 @@ pub async fn Deno::copyFile(self : Deno, from : String, to : String) -> Unit {
 ///|
 /// Check if path exists
 pub async fn Deno::stat(self : Deno, path : String) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("stat", [@core.any(path)])
     .cast()
@@ -248,7 +248,7 @@ pub async fn Deno::stat(self : Deno, path : String) -> @core.Any {
 ///|
 /// Check if path exists (returns null if not found instead of throwing)
 pub async fn Deno::lstat(self : Deno, path : String) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("lstat", [@core.any(path)])
     .cast()
@@ -258,7 +258,7 @@ pub async fn Deno::lstat(self : Deno, path : String) -> @core.Any {
 ///|
 /// Read link target
 pub async fn Deno::readLink(self : Deno, path : String) -> String {
-  let promise : @js.Promise[String] = self
+  let promise : @core.Promise[String] = self
     .as_any()
     ._call("readLink", [@core.any(path)])
     .cast()
@@ -268,7 +268,7 @@ pub async fn Deno::readLink(self : Deno, path : String) -> String {
 ///|
 /// Create symbolic link
 pub async fn Deno::symlink(self : Deno, target : String, path : String) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("symlink", [@core.any(target), @core.any(path)])
     .cast()
@@ -278,7 +278,7 @@ pub async fn Deno::symlink(self : Deno, target : String, path : String) -> Unit 
 ///|
 /// Change file permissions (Unix only)
 pub async fn Deno::chmod(self : Deno, path : String, mode : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("chmod", [@core.any(path), @core.any(mode)])
     .cast()
@@ -288,7 +288,7 @@ pub async fn Deno::chmod(self : Deno, path : String, mode : Int) -> Unit {
 ///|
 /// Get real path (resolves symlinks)
 pub async fn Deno::realPath(self : Deno, path : String) -> String {
-  let promise : @js.Promise[String] = self
+  let promise : @core.Promise[String] = self
     .as_any()
     ._call("realPath", [@core.any(path)])
     .cast()
@@ -298,7 +298,7 @@ pub async fn Deno::realPath(self : Deno, path : String) -> String {
 ///|
 /// Truncate or extend a file to specified length
 pub async fn Deno::truncate(self : Deno, name : String, len : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("truncate", [@core.any(name), @core.any(len)])
     .cast()
@@ -308,7 +308,7 @@ pub async fn Deno::truncate(self : Deno, name : String, len : Int) -> Unit {
 ///|
 /// Make temporary directory
 pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
-  let promise : @js.Promise[String] = match prefix {
+  let promise : @core.Promise[String] = match prefix {
     Some(p) => {
       let entries : Array[(String, @core.Any)] = []
       entries.push(("prefix", @core.any(p)))
@@ -323,7 +323,7 @@ pub async fn Deno::makeTempDir(self : Deno, prefix? : String) -> String {
 ///|
 /// Make temporary file
 pub async fn Deno::makeTempFile(self : Deno, prefix? : String) -> String {
-  let promise : @js.Promise[String] = match prefix {
+  let promise : @core.Promise[String] = match prefix {
     Some(p) => {
       let entries : Array[(String, @core.Any)] = []
       entries.push(("prefix", @core.any(p)))
@@ -398,7 +398,7 @@ pub async fn Deno::connect(
     ("hostname", @core.any(hostname)),
     ("port", @core.any(port)),
   ]).cast()
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("connect", [opts])
     .cast()
@@ -422,7 +422,7 @@ pub async fn Deno::resolveDns(
   query : String,
   recordType : String,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("resolveDns", [@core.any(query), @core.any(recordType)])
     .cast()
@@ -477,7 +477,7 @@ pub async fn Deno::open(
     entries.push(("read", @core.any(v)))
   }
   let opts = @core.from_entries(entries).cast()
-  let promise : @js.Promise[FsFile] = self
+  let promise : @core.Promise[FsFile] = self
     .as_any()
     ._call("open", [@core.any(path), opts])
     .cast()
@@ -487,7 +487,7 @@ pub async fn Deno::open(
 ///|
 /// Create a file
 pub async fn Deno::create(self : Deno, path : String) -> FsFile {
-  let promise : @js.Promise[FsFile] = self
+  let promise : @core.Promise[FsFile] = self
     .as_any()
     ._call("create", [@core.any(path)])
     .cast()
@@ -504,7 +504,7 @@ pub fn FsFile::close(self : FsFile) -> Unit {
 /// Read from file
 pub async fn FsFile::read(self : FsFile, buffer : @core.Any) -> Int {
   let buffer_any : @core.Any = buffer.cast()
-  let promise : @js.Promise[Int] = self
+  let promise : @core.Promise[Int] = self
     .as_any()
     ._call("read", [buffer_any])
     .cast()
@@ -515,7 +515,7 @@ pub async fn FsFile::read(self : FsFile, buffer : @core.Any) -> Int {
 /// Write to file
 pub async fn FsFile::write(self : FsFile, data : @core.Any) -> Int {
   let data_any : @core.Any = data.cast()
-  let promise : @js.Promise[Int] = self
+  let promise : @core.Promise[Int] = self
     .as_any()
     ._call("write", [data_any])
     .cast()
@@ -525,7 +525,7 @@ pub async fn FsFile::write(self : FsFile, data : @core.Any) -> Int {
 ///|
 /// Seek file position
 pub async fn FsFile::seek(self : FsFile, offset : Int, whence : Int) -> Int {
-  let promise : @js.Promise[Int] = self
+  let promise : @core.Promise[Int] = self
     .as_any()
     ._call("seek", [@core.any(offset), @core.any(whence)])
     .cast()
@@ -548,7 +548,7 @@ pub fn Deno::test_(
   name : String,
   f : (TestContext) -> Unit,
 ) -> Unit {
-  let fn_any : @core.Any = @js.from_fn1(f).cast()
+  let fn_any : @core.Any = @core.from_fn1(f).cast()
   self.as_any()._call("test", [@core.any(name), fn_any]) |> ignore
 }
 
@@ -559,7 +559,7 @@ pub fn Deno::test_async(
   name : String,
   f : async (TestContext) -> Unit,
 ) -> Unit {
-  let fn_any : @core.Any = (@js.promisify1(f) |> @js.from_fn1).cast()
+  let fn_any : @core.Any = (@core.promisify1(f) |> @core.from_fn1).cast()
   self.as_any()._call("test", [@core.any(name), fn_any]) |> ignore
 }
 
@@ -573,7 +573,7 @@ pub fn Deno::test_only(
   let opts : @core.Any = @core.from_entries([
     ("name", @core.any(name)),
     ("only", @core.any(true)),
-    ("fn", (@js.promisify1(f) |> @js.from_fn1).cast()),
+    ("fn", (@core.promisify1(f) |> @core.from_fn1).cast()),
   ]).cast()
   self.as_any()._call("test", [opts]) |> ignore
 }
@@ -678,7 +678,7 @@ pub fn CommandOutput::signal(self : CommandOutput) -> String? {
 /// Execute command and collect output
 /// https://docs.deno.com/api/deno/~/Deno.Command#method_output_0
 pub async fn Command::output(self : Command) -> CommandOutput {
-  let promise : @js.Promise[CommandOutput] = self
+  let promise : @core.Promise[CommandOutput] = self
     .as_any()
     ._call("output", [])
     .cast()
@@ -755,7 +755,7 @@ pub fn CommandStatus::signal(self : CommandStatus) -> String? {
 ///|
 /// Wait for process to complete
 pub async fn ChildProcess::status(self : ChildProcess) -> CommandStatus {
-  let promise : @js.Promise[CommandStatus] = self.as_any()["status"].cast()
+  let promise : @core.Promise[CommandStatus] = self.as_any()["status"].cast()
   promise.wait()
 }
 

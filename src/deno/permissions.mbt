@@ -41,7 +41,7 @@ pub async fn Deno::permissions_query(
     entries.push(("path", @core.any(v)))
   }
   let opts = @core.from_entries(entries).cast()
-  let promise : @js.Promise[PermissionStatus] = perms
+  let promise : @core.Promise[PermissionStatus] = perms
     ._call("query", [opts])
     .cast()
   promise.wait()
@@ -61,7 +61,7 @@ pub async fn Deno::permissions_request(
     entries.push(("path", @core.any(v)))
   }
   let opts = @core.from_entries(entries).cast()
-  let promise : @js.Promise[PermissionStatus] = perms
+  let promise : @core.Promise[PermissionStatus] = perms
     ._call("request", [opts])
     .cast()
   promise.wait()
@@ -81,7 +81,7 @@ pub async fn Deno::permissions_revoke(
     entries.push(("path", @core.any(v)))
   }
   let opts = @core.from_entries(entries).cast()
-  let promise : @js.Promise[PermissionStatus] = perms
+  let promise : @core.Promise[PermissionStatus] = perms
     ._call("revoke", [opts])
     .cast()
   promise.wait()

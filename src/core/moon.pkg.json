@@ -1,4 +1,4 @@
 {
-  "import": [],
+  "test-import": ["moonbitlang/async"],
   "warn-list": "-9"
 }

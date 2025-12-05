@@ -3,12 +3,11 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/builtins/date",
     "mizchi/js/web/blob",
     "mizchi/js/web/http",
-    "mizchi/js/web/streams"
+    "mizchi/js/web/streams",
+    "mizchi/js/builtins/arraybuffer"
   ]
 }

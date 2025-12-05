@@ -210,7 +210,7 @@ pub impl Show for Any with output(self, logger) {
 ///
 /// # Related Functions
 /// - `from_option(A?) -> Js` - Inverse conversion (Option to Js)
-/// - `@js.Nullable[T]` - For FFI struct fields that need explicit null handling
+/// - `@core.Nullable[T]` - For FFI struct fields that need explicit null handling
 pub fn[T] identity_option(v : Any) -> T? {
   if is_nullish(v) {
     None

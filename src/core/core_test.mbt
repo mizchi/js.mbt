@@ -592,11 +592,11 @@ test "multiple Nullable fields - mixed null and non-null" {
   assert_true(record.bool_field.is_null())
 }
 
-///| @js.Nullish[T] type tests
-/// Tests for the @js.Nullish[T] type which handles both null and undefined
+///| @core.Nullish[T] type tests
+/// Tests for the @core.Nullish[T] type which handles both null and undefined
 
 ///|
-test "@js.Nullish[Int]::to_option() - null value returns None" {
+test "@core.Nullish[Int]::to_option() - null value returns None" {
   let nullish : Nullish[Int] = create_null() |> identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for null value")
@@ -605,7 +605,7 @@ test "@js.Nullish[Int]::to_option() - null value returns None" {
 }
 
 ///|
-test "@js.Nullish[Int]::to_option() - undefined returns None" {
+test "@core.Nullish[Int]::to_option() - undefined returns None" {
   let nullish : Nullish[Int] = create_undefined() |> identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for undefined")
@@ -614,7 +614,7 @@ test "@js.Nullish[Int]::to_option() - undefined returns None" {
 }
 
 ///|
-test "@js.Nullish[Int]::to_option() - actual value returns Some" {
+test "@core.Nullish[Int]::to_option() - actual value returns Some" {
   let nullish : Nullish[Int] = create_value(42) |> identity
   match nullish.to_option() {
     Some(v) => assert_eq(v, 42)
@@ -623,7 +623,7 @@ test "@js.Nullish[Int]::to_option() - actual value returns Some" {
 }
 
 ///|
-test "@js.Nullish[String]::to_option() - null returns None" {
+test "@core.Nullish[String]::to_option() - null returns None" {
   let nullish : Nullish[String] = create_null() |> identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for null")
@@ -632,7 +632,7 @@ test "@js.Nullish[String]::to_option() - null returns None" {
 }
 
 ///|
-test "@js.Nullish[String]::to_option() - undefined returns None" {
+test "@core.Nullish[String]::to_option() - undefined returns None" {
   let nullish : Nullish[String] = create_undefined() |> identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for undefined")
@@ -641,7 +641,7 @@ test "@js.Nullish[String]::to_option() - undefined returns None" {
 }
 
 ///|
-test "@js.Nullish[String]::to_option() - actual value returns Some" {
+test "@core.Nullish[String]::to_option() - actual value returns Some" {
   let js_str : @core.Any = @core.identity("hello")
   let nullish : Nullish[String] = js_str |> identity
   match nullish.to_option() {

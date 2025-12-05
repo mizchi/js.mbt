@@ -18,3 +18,4 @@ bisect.coverage
 test-results
 tmp
 .jj
+*.heapsnapshot

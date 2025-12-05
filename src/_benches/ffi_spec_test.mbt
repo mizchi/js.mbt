@@ -147,13 +147,13 @@ extern "js" fn get_simple() -> @core.Any =
 
 ///|
 test "Int? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> identity
+  let obj : StructWithOptions = create_all_fields() |> @core.identity
   inspect(obj.optionalInt, content="Some(42)")
 }
 
 ///|
 test "Int? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> identity
+  let obj : StructWithOptions = create_null_fields() |> @core.identity
   // FFI does not convert null to None - it becomes Some(null)
   // We cannot inspect the value directly as it crashes
   match obj.optionalInt {
@@ -164,25 +164,25 @@ test "Int? field with null value" {
 
 ///|
 test "Int? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> identity
+  let obj : StructWithOptions = create_undefined_fields() |> @core.identity
   inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "Int? field with missing value" {
-  let obj : StructWithOptions = create_missing_fields() |> identity
+  let obj : StructWithOptions = create_missing_fields() |> @core.identity
   inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "String? field with all values set" {
-  let obj : StructWithOptions = create_all_fields() |> identity
+  let obj : StructWithOptions = create_all_fields() |> @core.identity
   inspect(obj.optionalString, content="Some(\"hello\")")
 }
 
 ///|
 test "String? field with null value" {
-  let obj : StructWithOptions = create_null_fields() |> identity
+  let obj : StructWithOptions = create_null_fields() |> @core.identity
   // FFI does not convert null to None - it becomes Some(null)
   match obj.optionalString {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -192,20 +192,20 @@ test "String? field with null value" {
 
 ///|
 test "String? field with undefined value" {
-  let obj : StructWithOptions = create_undefined_fields() |> identity
+  let obj : StructWithOptions = create_undefined_fields() |> @core.identity
   inspect(obj.optionalString, content="None")
 }
 
 ///|
 test "Nested struct with value" {
-  let obj : NestedStruct = create_nested() |> identity
+  let obj : NestedStruct = create_nested() |> @core.identity
   inspect(obj.simple.name, content="Alice")
   inspect(obj.simple.age, content="30")
 }
 
 ///|
 test "Optional nested struct with value" {
-  let obj : StructWithOptionalNested = create_nested() |> identity
+  let obj : StructWithOptionalNested = create_nested() |> @core.identity
   match obj.nested {
     Some(s) => {
       inspect(s.name, content="?")
@@ -217,7 +217,7 @@ test "Optional nested struct with value" {
 
 ///|
 test "Optional nested struct with null" {
-  let obj : StructWithOptionalNested = create_null_nested() |> identity
+  let obj : StructWithOptionalNested = create_null_nested() |> @core.identity
   // Cannot inspect SimpleStruct? directly when it contains null
   match obj.nested {
     Some(_) => inspect("has value", content="has value")
@@ -227,7 +227,8 @@ test "Optional nested struct with null" {
 
 ///|
 test "Optional nested struct with undefined" {
-  let obj : StructWithOptionalNested = create_undefined_nested() |> identity
+  let obj : StructWithOptionalNested = create_undefined_nested()
+    |> @core.identity
   inspect(obj.nested, content="None")
 }
 
@@ -235,7 +236,7 @@ test "Optional nested struct with undefined" {
 test "Generic Container[Int]" {
   let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
-  let container : Container[Int] = js_obj |> identity
+  let container : Container[Int] = js_obj |> @core.identity
   inspect(container.value, content="42")
 }
 
@@ -243,7 +244,7 @@ test "Generic Container[Int]" {
 test "Generic Container[String]" {
   let js_obj = @core.new_object()
   js_obj._set("value", "test" |> @core.any)
-  let container : Container[String] = js_obj |> identity
+  let container : Container[String] = js_obj |> @core.identity
   inspect(container.value, content="test")
 }
 
@@ -251,13 +252,13 @@ test "Generic Container[String]" {
 test "Generic Container[Int?] with value" {
   let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
-  let container : Container[Int?] = js_obj |> identity
+  let container : Container[Int?] = js_obj |> @core.identity
   inspect(container.value, content="Some(42)")
 }
 
 ///|
 test "Generic Container[Int?] with null" {
-  let container : Container[Int?] = create_null_value() |> identity
+  let container : Container[Int?] = create_null_value() |> @core.identity
   // FFI does not convert null to None - it becomes Some(null)
   match container.value {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -272,20 +273,20 @@ test "Generic Container[SimpleStruct]" {
   simple_obj._set("name", "Bob" |> @core.any)
   simple_obj._set("age", 25 |> @core.any)
   js_obj._set("value", simple_obj)
-  let container : Container[SimpleStruct] = js_obj |> identity
+  let container : Container[SimpleStruct] = js_obj |> @core.identity
   inspect(container.value.name, content="Bob")
   inspect(container.value.age, content="25")
 }
 
 ///|
 test "Direct identity to Int? with number" {
-  let value : Int? = get_number() |> identity
+  let value : Int? = get_number() |> @core.identity
   inspect(value, content="Some(42)")
 }
 
 ///|
 test "Direct identity to Int? with null" {
-  let value : Int? = get_null() |> identity
+  let value : Int? = get_null() |> @core.identity
   // FFI does not convert null to None - it becomes Some(null)
   match value {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -295,7 +296,7 @@ test "Direct identity to Int? with null" {
 
 ///|
 test "Direct identity to Int? with undefined" {
-  let value : Int? = get_undefined() |> identity
+  let value : Int? = get_undefined() |> @core.identity
   inspect(value, content="None")
 }
 

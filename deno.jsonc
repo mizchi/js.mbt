@@ -5,4 +5,5 @@
       "target/js/release/build/deno/_tests/_tests.js"
     ],
   },
+  "exports": {}
 }

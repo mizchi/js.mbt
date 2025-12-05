@@ -15,7 +15,7 @@ pub async fn R2Bucket::get(
   onlyIf? : R2Conditional,
   range? : R2Range,
 ) -> R2Object? {
-  let promise : @js.Promise[R2Object?] = if onlyIf is None && range is None {
+  let promise : @core.Promise[R2Object?] = if onlyIf is None && range is None {
     self.as_any()._call("get", [@core.any(key)]).cast()
   } else {
     let onlyIf_js : @core.Any? = match onlyIf {
@@ -69,7 +69,7 @@ pub async fn R2Bucket::get(
 ///|
 /// Get object metadata without body
 pub async fn R2Bucket::head(self : Self, key : String) -> R2Object? {
-  let promise : @js.Promise[R2Object?] = self
+  let promise : @core.Promise[R2Object?] = self
     .as_any()
     ._call("head", [@core.any(key)])
     .cast()
@@ -90,7 +90,7 @@ pub async fn R2Bucket::put(
   sha384? : String,
   sha512? : String,
 ) -> R2Object {
-  let promise : @js.Promise[R2Object] = if httpMetadata is None &&
+  let promise : @core.Promise[R2Object] = if httpMetadata is None &&
     customMetadata is None &&
     md5 is None &&
     sha1 is None &&
@@ -137,7 +137,7 @@ pub async fn R2Bucket::put(
 ///|
 /// Delete an object from R2
 pub async fn R2Bucket::delete(self : Self, key : String) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("delete", [@core.any(key)])
     .cast()
@@ -156,7 +156,7 @@ pub async fn R2Bucket::delete_multiple(
     @core.any(keys_js)._call("push", [@core.any(keys[i])]) |> ignore
     i = i + 1
   }
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("delete", [@core.any(keys_js)])
     .cast()
@@ -174,7 +174,7 @@ pub async fn R2Bucket::list(
   startAfter? : String,
   include_? : Array[String],
 ) -> R2Objects {
-  let promise : @js.Promise[R2Objects] = if limit is None &&
+  let promise : @core.Promise[R2Objects] = if limit is None &&
     prefix is None &&
     cursor is None &&
     delimiter is None &&
@@ -224,7 +224,7 @@ pub async fn R2Bucket::create_multipart_upload(
   sha384? : String,
   sha512? : String,
 ) -> R2MultipartUpload {
-  let promise : @js.Promise[R2MultipartUpload] = if httpMetadata is None &&
+  let promise : @core.Promise[R2MultipartUpload] = if httpMetadata is None &&
     customMetadata is None &&
     md5 is None &&
     sha1 is None &&
@@ -385,8 +385,8 @@ pub fn R2Object::uploaded(self : Self) -> @core.Any {
 
 ///|
 /// Get object body as ArrayBuffer
-pub async fn R2Object::array_buffer(self : Self) -> @js.ArrayBuffer {
-  let promise : @js.Promise[@js.ArrayBuffer] = self
+pub async fn R2Object::array_buffer(self : Self) -> @arraybuffer.ArrayBuffer {
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("arrayBuffer", [])
     .cast()
@@ -396,21 +396,27 @@ pub async fn R2Object::array_buffer(self : Self) -> @js.ArrayBuffer {
 ///|
 /// Get object body as text
 pub async fn R2Object::text(self : Self) -> String {
-  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
+  let promise : @core.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as JSON
 pub async fn R2Object::json(self : Self) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self.as_any()._call("json", []).cast()
+  let promise : @core.Promise[@core.Any] = self
+    .as_any()
+    ._call("json", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Get object body as blob
 pub async fn R2Object::blob(self : Self) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = self.as_any()._call("blob", []).cast()
+  let promise : @core.Promise[@blob.Blob] = self
+    .as_any()
+    ._call("blob", [])
+    .cast()
   promise.wait()
 }
 
@@ -471,7 +477,7 @@ pub async fn R2MultipartUpload::upload_part(
   part_number : Int,
   value : @core.Any,
 ) -> R2UploadedPart {
-  let promise : @js.Promise[R2UploadedPart] = self
+  let promise : @core.Promise[R2UploadedPart] = self
     .as_any()
     ._call("uploadPart", [@core.any(part_number), @core.any(value)])
     .cast()
@@ -481,7 +487,7 @@ pub async fn R2MultipartUpload::upload_part(
 ///|
 /// Abort the multipart upload
 pub async fn R2MultipartUpload::abort(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.as_any()._call("abort", []).cast()
+  let promise : @core.Promise[Unit] = self.as_any()._call("abort", []).cast()
   promise.wait()
 }
 
@@ -497,7 +503,7 @@ pub async fn R2MultipartUpload::complete(
     @core.any(parts_js)._call("push", [@core.any(parts[i].as_any())]) |> ignore
     i = i + 1
   }
-  let promise : @js.Promise[R2Object] = self
+  let promise : @core.Promise[R2Object] = self
     .as_any()
     ._call("complete", [@core.any(parts_js)])
     .cast()

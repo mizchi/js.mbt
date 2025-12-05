@@ -18,7 +18,7 @@ pub fn CloudflareContext::as_any(self : CloudflareContext) -> @core.Any = "%iden
 #alias(wait_until)
 pub fn CloudflareContext::waitUntil(
   self : CloudflareContext,
-  promise : @js.Promise[Unit],
+  promise : @core.Promise[Unit],
 ) -> Unit {
   self.as_any()._call("waitUntil", [@core.any(promise)]) |> ignore
 }
@@ -46,4 +46,4 @@ pub type CloudflareFetchHandler = (
   CloudflareRequest,
   CloudflareEnv,
   CloudflareContext,
-) -> @js.Promise[@http.Response]
+) -> @core.Promise[@http.Response]

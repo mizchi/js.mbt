@@ -128,7 +128,7 @@ pub async fn DurableObjectStub::fetch(
   self : DurableObjectStub,
   request : @core.Any,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [request])
     .cast()
   promise.wait()
@@ -141,7 +141,7 @@ pub async fn DurableObjectStub::fetch_with_init(
   request : @core.Any,
   init : @core.Any,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [request, init])
     .cast()
   promise.wait()
@@ -153,7 +153,7 @@ pub async fn DurableObjectStub::fetch_url(
   self : DurableObjectStub,
   url : String,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [@core.any(url)])
     .cast()
   promise.wait()
@@ -166,7 +166,7 @@ pub async fn DurableObjectStub::fetch_url_with_init(
   url : String,
   init : @core.Any,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("fetch", [@core.any(url), init])
     .cast()
   promise.wait()
@@ -197,7 +197,7 @@ pub async fn DurableObjectState::block_concurrency_while(
   self : DurableObjectState,
   callback : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("blockConcurrencyWhile", [callback])
     .cast()
   promise.wait()
@@ -217,7 +217,7 @@ pub async fn DurableObjectStorage::get(
   self : DurableObjectStorage,
   key : String,
 ) -> @core.Any? {
-  let promise : @js.Promise[@core.Any?] = @core.any(self)
+  let promise : @core.Promise[@core.Any?] = @core.any(self)
     ._call("get", [@core.any(key)])
     .cast()
   promise.wait()
@@ -230,7 +230,7 @@ pub async fn DurableObjectStorage::get_with_options(
   key : String,
   options : DurableObjectGetOptions,
 ) -> @core.Any? {
-  let promise : @js.Promise[@core.Any?] = @core.any(self)
+  let promise : @core.Promise[@core.Any?] = @core.any(self)
     ._call("get", [@core.any(key), options.to_js()])
     .cast()
   promise.wait()
@@ -242,7 +242,7 @@ pub async fn DurableObjectStorage::get_multiple(
   self : DurableObjectStorage,
   keys : Array[String],
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("get", [@core.any(keys)])
     .cast()
   promise.wait()
@@ -255,7 +255,7 @@ pub async fn DurableObjectStorage::get_multiple_with_options(
   keys : Array[String],
   options : DurableObjectGetOptions,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("get", [@core.any(keys), options.to_js()])
     .cast()
   promise.wait()
@@ -268,7 +268,7 @@ pub async fn DurableObjectStorage::put(
   key : String,
   value : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [@core.any(key), value])
     .cast()
   promise.wait()
@@ -282,7 +282,7 @@ pub async fn DurableObjectStorage::put_with_options(
   value : @core.Any,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [@core.any(key), value, options.to_js()])
     .cast()
   promise.wait()
@@ -294,7 +294,7 @@ pub async fn DurableObjectStorage::put_multiple(
   self : DurableObjectStorage,
   entries : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [entries])
     .cast()
   promise.wait()
@@ -307,7 +307,7 @@ pub async fn DurableObjectStorage::put_multiple_with_options(
   entries : @core.Any,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [entries, options.to_js()])
     .cast()
   promise.wait()
@@ -319,7 +319,7 @@ pub async fn DurableObjectStorage::delete(
   self : DurableObjectStorage,
   key : String,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @core.any(self)
+  let promise : @core.Promise[Bool] = @core.any(self)
     ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
@@ -332,7 +332,7 @@ pub async fn DurableObjectStorage::delete_with_options(
   key : String,
   options : DurableObjectPutOptions,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @core.any(self)
+  let promise : @core.Promise[Bool] = @core.any(self)
     ._call("delete", [@core.any(key), options.to_js()])
     .cast()
   promise.wait()
@@ -344,7 +344,7 @@ pub async fn DurableObjectStorage::delete_multiple(
   self : DurableObjectStorage,
   keys : Array[String],
 ) -> Int {
-  let promise : @js.Promise[Int] = @core.any(self)
+  let promise : @core.Promise[Int] = @core.any(self)
     ._call("delete", [@core.any(keys)])
     .cast()
   promise.wait()
@@ -357,7 +357,7 @@ pub async fn DurableObjectStorage::delete_multiple_with_options(
   keys : Array[String],
   options : DurableObjectPutOptions,
 ) -> Int {
-  let promise : @js.Promise[Int] = @core.any(self)
+  let promise : @core.Promise[Int] = @core.any(self)
     ._call("delete", [@core.any(keys), options.to_js()])
     .cast()
   promise.wait()
@@ -368,7 +368,7 @@ pub async fn DurableObjectStorage::delete_multiple_with_options(
 pub async fn DurableObjectStorage::delete_all(
   self : DurableObjectStorage,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [])
     .cast()
   promise.wait()
@@ -380,7 +380,7 @@ pub async fn DurableObjectStorage::delete_all_with_options(
   self : DurableObjectStorage,
   options : DurableObjectPutOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [options.to_js()])
     .cast()
   promise.wait()
@@ -391,7 +391,7 @@ pub async fn DurableObjectStorage::delete_all_with_options(
 pub async fn DurableObjectStorage::list(
   self : DurableObjectStorage,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("list", [])
     .cast()
   promise.wait()
@@ -403,7 +403,7 @@ pub async fn DurableObjectStorage::list_with_options(
   self : DurableObjectStorage,
   options : DurableObjectListOptions,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("list", [options.to_js()])
     .cast()
   promise.wait()
@@ -415,7 +415,7 @@ pub async fn DurableObjectStorage::transaction(
   self : DurableObjectStorage,
   closure : @core.Any,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("transaction", [closure])
     .cast()
   promise.wait()
@@ -426,7 +426,9 @@ pub async fn DurableObjectStorage::transaction(
 pub async fn DurableObjectStorage::get_alarm(
   self : DurableObjectStorage,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @core.any(self)._call("getAlarm", []).cast()
+  let promise : @core.Promise[Int?] = @core.any(self)
+    ._call("getAlarm", [])
+    .cast()
   promise.wait()
 }
 
@@ -436,7 +438,7 @@ pub async fn DurableObjectStorage::get_alarm_with_options(
   self : DurableObjectStorage,
   options : DurableObjectGetAlarmOptions,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @core.any(self)
+  let promise : @core.Promise[Int?] = @core.any(self)
     ._call("getAlarm", [options.to_js()])
     .cast()
   promise.wait()
@@ -448,7 +450,7 @@ pub async fn DurableObjectStorage::set_alarm(
   self : DurableObjectStorage,
   scheduled_time : Int,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("setAlarm", [@core.any(scheduled_time)])
     .cast()
   promise.wait()
@@ -461,7 +463,7 @@ pub async fn DurableObjectStorage::set_alarm_with_options(
   scheduled_time : Int,
   options : DurableObjectSetAlarmOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("setAlarm", [@core.any(scheduled_time), options.to_js()])
     .cast()
   promise.wait()
@@ -472,7 +474,7 @@ pub async fn DurableObjectStorage::set_alarm_with_options(
 pub async fn DurableObjectStorage::delete_alarm(
   self : DurableObjectStorage,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [])
     .cast()
   promise.wait()
@@ -484,7 +486,7 @@ pub async fn DurableObjectStorage::delete_alarm_with_options(
   self : DurableObjectStorage,
   options : DurableObjectSetAlarmOptions,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [options.to_js()])
     .cast()
   promise.wait()
@@ -493,7 +495,7 @@ pub async fn DurableObjectStorage::delete_alarm_with_options(
 ///|
 /// Sync storage to disk
 pub async fn DurableObjectStorage::sync(self : DurableObjectStorage) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)._call("sync", []).cast()
+  let promise : @core.Promise[Unit] = @core.any(self)._call("sync", []).cast()
   promise.wait()
 }
 
@@ -642,7 +644,7 @@ pub async fn DurableObjectTransaction::get(
   self : DurableObjectTransaction,
   key : String,
 ) -> @core.Any? {
-  let promise : @js.Promise[@core.Any?] = @core.any(self)
+  let promise : @core.Promise[@core.Any?] = @core.any(self)
     ._call("get", [@core.any(key)])
     .cast()
   promise.wait()
@@ -654,7 +656,7 @@ pub async fn DurableObjectTransaction::get_multiple(
   self : DurableObjectTransaction,
   keys : Array[String],
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("get", [@core.any(keys)])
     .cast()
   promise.wait()
@@ -667,7 +669,7 @@ pub async fn DurableObjectTransaction::put(
   key : String,
   value : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [@core.any(key), value])
     .cast()
   promise.wait()
@@ -679,7 +681,7 @@ pub async fn DurableObjectTransaction::put_multiple(
   self : DurableObjectTransaction,
   entries : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("put", [entries])
     .cast()
   promise.wait()
@@ -691,7 +693,7 @@ pub async fn DurableObjectTransaction::delete(
   self : DurableObjectTransaction,
   key : String,
 ) -> Bool {
-  let promise : @js.Promise[Bool] = @core.any(self)
+  let promise : @core.Promise[Bool] = @core.any(self)
     ._call("delete", [@core.any(key)])
     .cast()
   promise.wait()
@@ -703,7 +705,7 @@ pub async fn DurableObjectTransaction::delete_multiple(
   self : DurableObjectTransaction,
   keys : Array[String],
 ) -> Int {
-  let promise : @js.Promise[Int] = @core.any(self)
+  let promise : @core.Promise[Int] = @core.any(self)
     ._call("delete", [@core.any(keys)])
     .cast()
   promise.wait()
@@ -714,7 +716,7 @@ pub async fn DurableObjectTransaction::delete_multiple(
 pub async fn DurableObjectTransaction::delete_all(
   self : DurableObjectTransaction,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAll", [])
     .cast()
   promise.wait()
@@ -725,7 +727,7 @@ pub async fn DurableObjectTransaction::delete_all(
 pub async fn DurableObjectTransaction::list(
   self : DurableObjectTransaction,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("list", [])
     .cast()
   promise.wait()
@@ -737,7 +739,7 @@ pub async fn DurableObjectTransaction::list_with_options(
   self : DurableObjectTransaction,
   options : DurableObjectListOptions,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("list", [options.to_js()])
     .cast()
   promise.wait()
@@ -756,7 +758,9 @@ pub fn DurableObjectTransaction::rollback(
 pub async fn DurableObjectTransaction::get_alarm(
   self : DurableObjectTransaction,
 ) -> Int? {
-  let promise : @js.Promise[Int?] = @core.any(self)._call("getAlarm", []).cast()
+  let promise : @core.Promise[Int?] = @core.any(self)
+    ._call("getAlarm", [])
+    .cast()
   promise.wait()
 }
 
@@ -766,7 +770,7 @@ pub async fn DurableObjectTransaction::set_alarm(
   self : DurableObjectTransaction,
   scheduled_time : Int,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("setAlarm", [@core.any(scheduled_time)])
     .cast()
   promise.wait()
@@ -777,7 +781,7 @@ pub async fn DurableObjectTransaction::set_alarm(
 pub async fn DurableObjectTransaction::delete_alarm(
   self : DurableObjectTransaction,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("deleteAlarm", [])
     .cast()
   promise.wait()

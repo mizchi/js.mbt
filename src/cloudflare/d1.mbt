@@ -16,7 +16,7 @@ pub fn D1Database::prepare(self : Self, query : String) -> D1PreparedStatement {
 ///|
 /// Execute a SQL statement directly (for statements that don't return data)
 pub async fn D1Database::exec(self : Self, query : String) -> D1ExecResult {
-  let promise : @js.Promise[D1ExecResult] = self
+  let promise : @core.Promise[D1ExecResult] = self
     .as_any()
     ._call("exec", [@core.any(query)])
     .cast()
@@ -35,7 +35,7 @@ pub async fn D1Database::batch(
     @core.any(stmts_js)._call("push", [@core.any(statements[i])]) |> ignore
     i = i + 1
   }
-  let promise : @js.Promise[Array[D1Result]] = self
+  let promise : @core.Promise[Array[D1Result]] = self
     .as_any()
     ._call("batch", [@core.any(stmts_js)])
     .cast()
@@ -45,7 +45,7 @@ pub async fn D1Database::batch(
 ///|
 /// Dump the entire database (returns ArrayBuffer as Bytes)
 pub async fn D1Database::dump(self : Self) -> Bytes {
-  let promise : @js.Promise[Bytes] = self.as_any()._call("dump", []).cast()
+  let promise : @core.Promise[Bytes] = self.as_any()._call("dump", []).cast()
   promise.wait()
 }
 
@@ -111,7 +111,7 @@ pub fn D1PreparedStatement::bind3(
 ///|
 /// Execute the statement and return first row
 pub async fn D1PreparedStatement::first(self : Self) -> @core.Any? {
-  let promise : @js.Promise[@core.Any?] = self
+  let promise : @core.Promise[@core.Any?] = self
     .as_any()
     ._call("first", [])
     .cast()
@@ -124,7 +124,7 @@ pub async fn D1PreparedStatement::first_col(
   self : Self,
   col_name : String,
 ) -> @core.Any? {
-  let promise : @js.Promise[@core.Any?] = self
+  let promise : @core.Promise[@core.Any?] = self
     .as_any()
     ._call("first", [@core.any(col_name)])
     .cast()
@@ -134,14 +134,14 @@ pub async fn D1PreparedStatement::first_col(
 ///|
 /// Execute the statement and return all rows
 pub async fn D1PreparedStatement::all(self : Self) -> D1Result {
-  let promise : @js.Promise[D1Result] = self.as_any()._call("all", []).cast()
+  let promise : @core.Promise[D1Result] = self.as_any()._call("all", []).cast()
   promise.wait()
 }
 
 ///|
 /// Execute the statement (for INSERT, UPDATE, DELETE)
 pub async fn D1PreparedStatement::run(self : Self) -> D1Result {
-  let promise : @js.Promise[D1Result] = self.as_any()._call("run", []).cast()
+  let promise : @core.Promise[D1Result] = self.as_any()._call("run", []).cast()
   promise.wait()
 }
 
@@ -151,7 +151,7 @@ pub async fn D1PreparedStatement::raw(
   self : Self,
   columnNames? : Bool,
 ) -> Array[@core.Any] {
-  let promise : @js.Promise[Array[@core.Any]] = if columnNames is None {
+  let promise : @core.Promise[Array[@core.Any]] = if columnNames is None {
     self.as_any()._call("raw", []).cast()
   } else {
     let entries : Array[(String, @core.Any)] = []
