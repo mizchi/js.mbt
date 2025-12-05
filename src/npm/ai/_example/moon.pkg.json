@@ -8,7 +8,8 @@
     "mizchi/js/node/tty",
     "mizchi/js/npm/ai",
     "mizchi/js/core",
-    "mizchi/js/builtins/iterator" 
+    "mizchi/js/builtins/iterator",
+    "mizchi/js/builtins/json"
   ],
   "test-import": []
 }

@@ -16,6 +16,7 @@
     "mizchi/js/web/url",
     "mizchi/js/cloudflare",
     "mizchi/js/builtins/global",
+    "mizchi/js/builtins/json",
     "mizchi/js/core"
   ]
 }

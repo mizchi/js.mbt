@@ -83,19 +83,19 @@ pub fn[K, V] JsMap::size(self : JsMap[K, V]) -> Int {
 
 ///|
 /// JS: map.keys()
-pub fn[K, V] JsMap::keys(self : JsMap[K, V]) -> @js.JsIterator[K] {
+pub fn[K, V] JsMap::keys(self : JsMap[K, V]) -> @iterator.JsIterator[K] {
   self.to_any()._call("keys", []).cast()
 }
 
 ///|
 /// JS: map.values()
-pub fn[K, V] JsMap::values(self : JsMap[K, V]) -> @js.JsIterator[V] {
+pub fn[K, V] JsMap::values(self : JsMap[K, V]) -> @iterator.JsIterator[V] {
   self.to_any()._call("values", []).cast()
 }
 
 ///|
 /// JS: map.entries()
-pub fn[K, V] JsMap::entries(self : JsMap[K, V]) -> @js.JsIterator[(K, V)] {
+pub fn[K, V] JsMap::entries(self : JsMap[K, V]) -> @iterator.JsIterator[(K, V)] {
   self.to_any()._call("entries", []).cast()
 }
 
@@ -171,19 +171,19 @@ pub fn[T] JsSet::size(self : JsSet[T]) -> Int {
 
 ///|
 /// JS: set.values()
-pub fn[T] JsSet::values(self : JsSet[T]) -> @js.JsIterator[T] {
+pub fn[T] JsSet::values(self : JsSet[T]) -> @iterator.JsIterator[T] {
   self.to_any()._call("values", []).cast()
 }
 
 ///|
 /// JS: set.keys() - Same as values() for Set
-pub fn[T] JsSet::keys(self : JsSet[T]) -> @js.JsIterator[T] {
+pub fn[T] JsSet::keys(self : JsSet[T]) -> @iterator.JsIterator[T] {
   self.to_any()._call("keys", []).cast()
 }
 
 ///|
 /// JS: set.entries() - Returns [value, value] pairs for compatibility
-pub fn[T] JsSet::entries(self : JsSet[T]) -> @js.JsIterator[(T, T)] {
+pub fn[T] JsSet::entries(self : JsSet[T]) -> @iterator.JsIterator[(T, T)] {
   self.to_any()._call("entries", []).cast()
 }
 

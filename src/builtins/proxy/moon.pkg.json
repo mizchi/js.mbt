@@ -8,6 +8,7 @@
     "mizchi/js/mbtconv"
   ],
   "test-import": [
-    "mizchi/js/builtins/global"
+    "mizchi/js/builtins/global",
+    "mizchi/js/builtins/array"
   ]
 }

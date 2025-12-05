@@ -1,30 +1,3 @@
-// Frequently used JavaScript builtin types
-
-///|
-/// JavaScript Array
-/// NonGeneric Array only for Array[Any]
-/// Use builtin Array[T] for generic array and JsArray::from(array)
-#external
-pub type JsArray
-
-///|
-pub fn JsArray::as_any(self : JsArray) -> @core.Any = "%identity"
-
-///|
-pub fn JsArray::to_string(self : Self) -> String {
-  ffi_json_stringify(
-    self.as_any() |> identity,
-    @core.undefined(),
-    @core.undefined(),
-  )
-}
-
-///|
-/// cast to builtin Array
-pub fn[T] JsArray::as_builtin_array(self : Self) -> Array[T] {
-  self |> identity
-}
-
 ///|
 #external
 pub type JsString
@@ -46,7 +19,7 @@ pub fn JsString::fromCharCode(values : Array[Int]) -> String {
     string_class.to_any(),
     @core.any(@core.any(values)),
   ])
-  |> identity
+  |> @core.identity
 }
 
 ///|
@@ -58,5 +31,5 @@ pub fn JsString::fromCodePoint(values : Array[Int]) -> String {
     string_class.to_any(),
     @core.any(@core.any(values)),
   ])
-  |> identity
+  |> @core.identity
 }

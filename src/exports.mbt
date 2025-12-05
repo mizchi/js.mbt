@@ -45,3 +45,12 @@ pub using @arraybuffer {
 
 ///|
 pub using @iterator {type JsIterator, type AsyncIterator}
+
+///|
+pub using @json {type JSON}
+
+///|
+pub using @array {type JsArray}
+
+///|
+pub using @string {type JsString}

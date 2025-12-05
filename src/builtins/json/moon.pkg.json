@@ -1,8 +1,8 @@
 {
-  "supported-targets": [
-    "js"
-  ],
   "import": [
     "mizchi/js/core"
+  ],
+  "supported-targets": [
+    "js"
   ]
 }

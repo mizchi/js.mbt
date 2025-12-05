@@ -4,6 +4,7 @@
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/builtins/object",
+    "mizchi/js/builtins/json",
     "mizchi/js/node/child_process",
     "mizchi/js/node/buffer",
     "mizchi/js/web/streams"
