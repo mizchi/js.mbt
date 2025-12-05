@@ -28,7 +28,7 @@ pub fn ReactDOMClient::as_any(self : ReactDOMClient) -> @core.Any = "%identity"
 #alias(create_root)
 pub fn ReactDOMClient::createRoot(
   self : Self,
-  container : &@dom.ElementImpl,
+  container : @dom.Element,
 ) -> ReactDOMRoot {
   self.as_any()._call("createRoot", [container.as_any()]).cast()
 }
@@ -49,7 +49,7 @@ pub fn ReactDOMRoot::render(self : ReactDOMRoot, vdom : @react.Element) -> Unit 
 #alias(hydrate_root)
 pub fn ReactDOMClient::hydrateRoot(
   self : Self,
-  dom_node : &@dom.ElementImpl,
+  dom_node : @dom.Element,
   react_node : @react.Element,
 ) -> ReactDOMRoot {
   let react_node_js : @core.Any = react_node.as_any().cast()

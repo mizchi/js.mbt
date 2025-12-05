@@ -159,7 +159,7 @@ fn app(props : AppProps) -> @react.Element {
       run_async(async fn() noraise {
         @core.sleep(300)
         if textarea_ref.get_current() is Some(textarea) {
-          textarea.focus()
+          textarea.as_html_element().focus()
         }
         log("Starting async operation...")
       })

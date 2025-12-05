@@ -8,12 +8,12 @@ test "dom test" {
   div.as_node().setTextContent("Hello, World!")
   assert_eq(div.as_node().textContent(), "Hello, World!")
   let body = doc.body().unwrap()
-  body.append(div.as_node())
+  body.as_element().append(div.as_node())
   assert_eq(div.getAttribute("id").unwrap(), "test-div")
   assert_eq(div.id(), "test-div")
   // println("Added div to body")
-  body.append(doc.createElement("p").as_node())
-  body.innerHTML()
+  body.as_element().append(doc.createElement("p").as_node())
+  body.as_html_element().innerHTML()
   |> inspect(
     content=(
       #|<div id="test-div" data-value="123">Hello, World!</div><p></p>
@@ -232,12 +232,12 @@ test "HTMLElement trait - innerHTML and innerText" {
   let body = doc.body().unwrap()
 
   // innerHTML test
-  body.setInnerHTML("<span>Hello</span><p>World</p>")
-  body.innerHTML() |> inspect(content="<span>Hello</span><p>World</p>")
+  body.as_html_element().setInnerHTML("<span>Hello</span><p>World</p>")
+  body.as_html_element().innerHTML() |> inspect(content="<span>Hello</span><p>World</p>")
 
   // innerText test
-  body.setInnerText("Plain text")
-  body.innerText() |> inspect(content="Plain text")
+  body.as_html_element().setInnerText("Plain text")
+  body.as_html_element().innerText() |> inspect(content="Plain text")
 }
 
 ///|
@@ -245,11 +245,11 @@ test "HTMLElement trait - outerHTML" {
   @global_jsdom.register()
   let doc = document()
   let body = doc.body().unwrap()
-  body.setId("outer-test")
-  body.setInnerHTML("<span>Content</span>")
+  body.as_element().setId("outer-test")
+  body.as_html_element().setInnerHTML("<span>Content</span>")
 
   // outerHTML test
-  let outer = body.outerHTML()
+  let outer = body.as_html_element().outerHTML()
   assert_eq(outer.contains("<body"), true)
   assert_eq(outer.contains("id=\"outer-test\""), true)
   assert_eq(outer.contains("<span>Content</span>"), true)

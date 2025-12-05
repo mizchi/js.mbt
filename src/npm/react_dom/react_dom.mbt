@@ -28,7 +28,7 @@ pub async fn dynamic_import() -> ReactDOM {
 pub fn ReactDOM::createPortal(
   self : ReactDOM,
   children : @react.Element,
-  dom_node : &@dom.ElementImpl,
+  dom_node : @dom.Element,
   key? : String,
 ) -> @react.Element {
   let dom_node_any : @core.Any = dom_node.as_any().cast()

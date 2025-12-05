@@ -1,18 +1,4 @@
 ///|
-/// HTMLElement trait - base interface for HTML elements
-pub(open) trait HTMLElementImpl {
-  as_any(Self) -> @core.Any
-  innerText(Self) -> String = _
-  setInnerText(Self, String) -> Unit = _
-  innerHTML(Self) -> String = _
-  setInnerHTML(Self, String) -> Unit = _
-  outerHTML(Self) -> String = _
-  setOuterHTML(Self, String) -> Unit = _
-  focus(Self) -> Unit = _
-  click(Self) -> Unit = _
-}
-
-///|
 #external
 pub type HTMLElement
 
@@ -31,51 +17,41 @@ pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 ///|
 
 ///|
-pub impl ElementImpl for HTMLElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-impl HTMLElementImpl with innerText(self) -> String {
+pub fn HTMLElement::innerText(self : HTMLElement) -> String {
   self.as_any()._get("innerText").cast()
 }
 
 ///|
-impl HTMLElementImpl with setInnerText(self, text) -> Unit {
+pub fn HTMLElement::setInnerText(self : HTMLElement, text : String) -> Unit {
   self.as_any()._set("innerText", @core.any(text)) |> ignore
 }
 
 ///|
-impl HTMLElementImpl with innerHTML(self) -> String {
+pub fn HTMLElement::innerHTML(self : HTMLElement) -> String {
   self.as_any()._get("innerHTML").cast()
 }
 
 ///|
-impl HTMLElementImpl with setInnerHTML(self, html) -> Unit {
+pub fn HTMLElement::setInnerHTML(self : HTMLElement, html : String) -> Unit {
   self.as_any()._set("innerHTML", @core.any(html)) |> ignore
 }
 
 ///|
-impl HTMLElementImpl with outerHTML(self) -> String {
+pub fn HTMLElement::outerHTML(self : HTMLElement) -> String {
   self.as_any()._get("outerHTML").cast()
 }
 
 ///|
-impl HTMLElementImpl with setOuterHTML(self, html) -> Unit {
+pub fn HTMLElement::setOuterHTML(self : HTMLElement, html : String) -> Unit {
   self.as_any()._set("outerHTML", @core.any(html)) |> ignore
 }
 
 ///|
-impl HTMLElementImpl with focus(self) -> Unit {
+pub fn HTMLElement::focus(self : HTMLElement) -> Unit {
   self.as_any()._call("focus", []) |> ignore
 }
 
 ///|
-impl HTMLElementImpl with click(self) -> Unit {
+pub fn HTMLElement::click(self : HTMLElement) -> Unit {
   self.as_any()._call("click", []) |> ignore
 }

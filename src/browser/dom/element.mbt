@@ -14,62 +14,37 @@ pub fn Element::as_node(self : Element) -> Node = "%identity"
 ///|
 
 ///|
-pub impl ElementImpl for Element with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-/// Element trait - base interface for element nodes
-pub(open) trait ElementImpl {
-  as_any(Self) -> @core.Any
-  tagName(Self) -> String = _
-  className(Self) -> String = _
-  setClassName(Self, String) -> Unit = _
-  id(Self) -> String = _
-  setId(Self, String) -> Unit = _
-  getAttribute(Self, String) -> String? = _
-  setAttribute(Self, String, String) -> Unit = _
-  removeAttribute(Self, String) -> Unit = _
-  hasAttribute(Self, String) -> Bool = _
-  getElementsByTagName(Self, String) -> Array[Element] = _
-  getElementsByClassName(Self, String) -> Array[Element] = _
-  querySelector(Self, String) -> Element? = _
-  querySelectorAll(Self, String) -> Array[Element] = _
-  append(Self, Node) -> Unit = _
-}
-
-///|
-impl ElementImpl with tagName(self) {
+pub fn Element::tagName(self : Element) -> String {
   self.as_any()._get("tagName").cast()
 }
 
 ///|
-impl ElementImpl with append(self, child : Node) {
+pub fn Element::append(self : Element, child : Node) -> Unit {
   self.as_any()._call("append", [child.as_any()]) |> ignore
 }
 
 ///|
-impl ElementImpl with className(self) -> String {
+pub fn Element::className(self : Element) -> String {
   self.as_any()._get("className").cast()
 }
 
 ///|
-impl ElementImpl with setClassName(self, class_name) -> Unit {
+pub fn Element::setClassName(self : Element, class_name : String) -> Unit {
   self.as_any()._set("className", @core.any(class_name)) |> ignore
 }
 
 ///|
-impl ElementImpl with id(self) -> String {
+pub fn Element::id(self : Element) -> String {
   self.as_any()._get("id").cast()
 }
 
 ///|
-impl ElementImpl with setId(self, id) -> Unit {
+pub fn Element::setId(self : Element, id : String) -> Unit {
   self.as_any()._set("id", @core.any(id)) |> ignore
 }
 
 ///|
-impl ElementImpl with getAttribute(self, name) -> String? {
+pub fn Element::getAttribute(self : Element, name : String) -> String? {
   let v : @core.Any = self
     .as_any()
     ._call("getAttribute", [@core.any(name)])
@@ -78,25 +53,28 @@ impl ElementImpl with getAttribute(self, name) -> String? {
 }
 
 ///|
-impl ElementImpl with setAttribute(self, name, value) -> Unit {
+pub fn Element::setAttribute(self : Element, name : String, value : String) -> Unit {
   self.as_any()._call("setAttribute", [@core.any(name), @core.any(value)])
   |> ignore
 }
 
 ///|
-impl ElementImpl with removeAttribute(self, name) -> Unit {
+pub fn Element::removeAttribute(self : Element, name : String) -> Unit {
   self.as_any()._call("removeAttribute", [@core.any(name)]) |> ignore
 }
 
 ///|
-impl ElementImpl with hasAttribute(self, name) -> Bool {
+pub fn Element::hasAttribute(self : Element, name : String) -> Bool {
   self.as_any()._call("hasAttribute", [@core.any(name)]).cast()
 }
 
 ///|
 /// Returns a static array of elements with the specified tag name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
+pub fn Element::getElementsByTagName(
+  self : Element,
+  tag_name : String
+) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()
     ._call("getElementsByTagName", [@core.any(tag_name)])
@@ -107,7 +85,10 @@ impl ElementImpl with getElementsByTagName(self, tag_name) -> Array[Element] {
 ///|
 /// Returns a static array of elements with the specified class name.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element] {
+pub fn Element::getElementsByClassName(
+  self : Element,
+  class_name : String
+) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()
     ._call("getElementsByClassName", [@core.any(class_name)])
@@ -116,7 +97,7 @@ impl ElementImpl with getElementsByClassName(self, class_name) -> Array[Element]
 }
 
 ///|
-impl ElementImpl with querySelector(self, selector) -> Element? {
+pub fn Element::querySelector(self : Element, selector : String) -> Element? {
   let v : @core.Any = self
     .as_any()
     ._call("querySelector", [@core.any(selector)])
@@ -127,7 +108,10 @@ impl ElementImpl with querySelector(self, selector) -> Element? {
 ///|
 /// Returns a static array of elements matching the specified CSS selector.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-impl ElementImpl with querySelectorAll(self, selector) -> Array[Element] {
+pub fn Element::querySelectorAll(
+  self : Element,
+  selector : String
+) -> Array[Element] {
   let arr : @core.Any = self
     .as_any()
     ._call("querySelectorAll", [@core.any(selector)])

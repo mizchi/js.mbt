@@ -11,11 +11,6 @@ pub fn Window::as_any(self : Window) -> @core.Any = "%identity"
 pub fn Window::as_event_target(self : Window) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl @event.EventTargetImpl for Window with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// Returns the global window object
 pub extern "js" fn window() -> Window =
   #| () => window

@@ -235,6 +235,7 @@ test "fireEvent submit on form" {
   let result = @testing_library_react.render(@react.component(comp, ()))
   let form_el : @dom.HTMLElement = result
     .container()
+    .as_element()
     .querySelector("form")
     .unwrap()
     |> @core.identity

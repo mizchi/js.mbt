@@ -30,16 +30,6 @@ pub fn HTMLDivElement::as_html_element(self : HTMLDivElement) -> HTMLElement = "
 ///|
 
 ///|
-pub impl ElementImpl for HTMLDivElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLDivElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTMLCanvasElement represents a <canvas> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement
 pub(all) struct HTMLCanvasElement {
@@ -75,16 +65,6 @@ pub fn HTMLCanvasElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLCanvasElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLCanvasElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// Canvas methods
@@ -156,16 +136,6 @@ pub fn HTMLBodyElement::as_html_element(self : HTMLBodyElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLBodyElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLBodyElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 #external
 pub type HTMLHeadElement
 
@@ -195,16 +165,6 @@ pub fn HTMLHeadElement::as_html_element(self : HTMLHeadElement) -> HTMLElement =
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLHeadElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLHeadElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 #external
@@ -238,16 +198,6 @@ pub fn HTMLHtmlElement::as_html_element(self : HTMLHtmlElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHtmlElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLHtmlElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 #external
 pub type HTMLSpanElement
 
@@ -277,16 +227,6 @@ pub fn HTMLSpanElement::as_html_element(self : HTMLSpanElement) -> HTMLElement =
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLSpanElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLSpanElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// HTMLAnchorElement represents an <a> element
@@ -326,16 +266,6 @@ pub fn HTMLAnchorElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLAnchorElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLAnchorElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTMLButtonElement represents a <button> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement
 pub(all) struct HTMLButtonElement {
@@ -370,16 +300,6 @@ pub fn HTMLButtonElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLButtonElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLButtonElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 // #external
@@ -418,16 +338,6 @@ pub fn HTMLInputElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLInputElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLInputElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// Returns the type of the input
@@ -483,16 +393,6 @@ pub fn HTMLTextAreaElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLTextAreaElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLTextAreaElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTMLIFrameElement represents an <iframe> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLIFrameElement
 pub(all) struct HTMLIFrameElement {
@@ -531,16 +431,6 @@ pub fn HTMLIFrameElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLIFrameElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLIFrameElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// Returns the content window
@@ -590,16 +480,6 @@ pub fn HTMLFormElement::as_html_element(self : HTMLFormElement) -> HTMLElement =
 ///|
 
 ///|
-pub impl ElementImpl for HTMLFormElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLFormElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTMLSelectElement represents a <select> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement
 pub(all) struct HTMLSelectElement {
@@ -635,16 +515,6 @@ pub fn HTMLSelectElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLSelectElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLSelectElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// HTMLOptionElement represents an <option> element
@@ -684,16 +554,6 @@ pub fn HTMLOptionElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOptionElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLOptionElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 /// HTMLLabelElement represents a <label> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLLabelElement
 pub(all) struct HTMLLabelElement {
@@ -728,16 +588,6 @@ pub fn HTMLLabelElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLLabelElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLLabelElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 /// HTMLImageElement represents an <img> element
@@ -777,16 +627,6 @@ pub fn HTMLImageElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLImageElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLImageElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 #external
 pub type HTMLParagraphElement
 
@@ -818,16 +658,6 @@ pub fn HTMLParagraphElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLParagraphElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLParagraphElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 #external
@@ -863,16 +693,6 @@ pub fn HTMLHeadingElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLHeadingElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLHeadingElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 #external
 pub type HTMLUListElement
 
@@ -904,16 +724,6 @@ pub fn HTMLUListElement::as_html_element(
 ///|
 
 ///|
-
-///|
-pub impl ElementImpl for HTMLUListElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLUListElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
 
 ///|
 #external
@@ -949,16 +759,6 @@ pub fn HTMLOListElement::as_html_element(
 ///|
 
 ///|
-pub impl ElementImpl for HTMLOListElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLOListElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
 #external
 pub type HTMLLIElement
 
@@ -980,21 +780,3 @@ pub fn HTMLLIElement::as_element(self : HTMLLIElement) -> Element = "%identity"
 pub fn HTMLLIElement::as_html_element(self : HTMLLIElement) -> HTMLElement = "%identity"
 
 ///|
-
-///|
-
-///|
-
-///|
-
-///|
-
-///|
-pub impl ElementImpl for HTMLLIElement with as_any(self) -> @core.Any {
-  self.as_any()
-}
-
-///|
-pub impl HTMLElementImpl for HTMLLIElement with as_any(self) -> @core.Any {
-  self.as_any()
-}

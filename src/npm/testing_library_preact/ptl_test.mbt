@@ -307,7 +307,7 @@ test "render result baseElement" {
   let result = render(vnode)
   let base = result.baseElement()
   // baseElement should be the body element
-  let tag_name : String = base.tagName()
+  let tag_name : String = base.as_element().tagName()
   inspect(tag_name, content="BODY")
 }
 
