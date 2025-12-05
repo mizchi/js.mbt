@@ -102,14 +102,8 @@ pub fn FileReader::as_any(self : FileReader) -> @core.Any = "%identity"
 
 ///|
 /// Create a new FileReader
-extern "js" fn ffi_new_file_reader() -> @core.Any =
+pub extern "js" fn FileReader::new() -> FileReader =
   #|() => new FileReader()
-
-///|
-/// Create a new FileReader
-pub fn FileReader::new() -> FileReader {
-  ffi_new_file_reader() |> @core.identity
-}
 
 ///|
 /// Read file as ArrayBuffer

@@ -47,9 +47,6 @@ pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @core.Any = "%
 
 ///| ServiceWorkerContainer FFI
 
-///|
-extern "js" fn ffi_get_service_worker_container() -> ServiceWorkerContainer =
-  #| () => navigator.serviceWorker
 
 ///|
 extern "js" fn ffi_sw_register(
@@ -174,9 +171,8 @@ extern "js" fn ffi_worker_post_message_with_transfer(
 
 ///|
 /// Get the global ServiceWorkerContainer (navigator.serviceWorker)
-pub fn serviceWorkerContainer() -> ServiceWorkerContainer {
-  ffi_get_service_worker_container()
-}
+pub extern "js" fn serviceWorkerContainer() -> ServiceWorkerContainer =
+  #| () => navigator.serviceWorker
 
 ///|
 /// Register a service worker

@@ -99,15 +99,10 @@ pub impl Show for MessageChannel with to_string(_self) {
 }
 
 ///|
-extern "js" fn ffi_new_message_channel() -> MessageChannel =
-  #| () => new MessageChannel()
-
-///|
 /// Creates a new MessageChannel object
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/MessageChannel
-pub fn MessageChannel::new() -> MessageChannel {
-  ffi_new_message_channel()
-}
+pub extern "js" fn MessageChannel::new() -> MessageChannel =
+  #| () => new MessageChannel()
 
 ///|
 /// Returns the first port of the channel

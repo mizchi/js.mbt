@@ -332,12 +332,6 @@ pub fn Crypto::randomUUID(self : Self) -> String {
 }
 
 ///|
-/// Global Crypto Access
-extern "js" fn ffi_get_crypto() -> @core.Any =
-  #|() => globalThis.crypto
-
-///|
 /// Get the global Crypto instance
-pub fn Crypto::get() -> Crypto {
-  ffi_get_crypto().cast()
-}
+pub extern "js" fn Crypto::get() -> Crypto =
+  #|() => globalThis.crypto
