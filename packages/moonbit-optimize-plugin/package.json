@@ -30,7 +30,7 @@
     "README.md"
   ],
   "scripts": {
-    "test": "vitest"
+    "test": "node --test src/**/*.test.ts"
   },
   "keywords": [
     "moonbit",
@@ -54,8 +54,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=24.0.0"

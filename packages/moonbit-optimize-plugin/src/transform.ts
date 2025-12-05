@@ -116,8 +116,7 @@ const inlinePatterns: Record<string, PatternBuilder> = {
   'is_null': (args) => binary('===', args[0], literal(null, 'null')),
   'is_undefined': (args) => binary('===', args[0], id('undefined')),
   'equal': (args) => binary('===', args[0], args[1]),
-  'JsArray$_push': (args) => call(member(args[0], id('push')), [args[1]]),
-  'JsValue$_get': (args) => {
+  'Any$_get': (args) => {
     const m = toDotNotation(args[1]);
     m.object = args[0];
     return m;
@@ -128,18 +127,17 @@ const inlinePatterns: Record<string, PatternBuilder> = {
   //   m.object = args[0];
   //   return m;
   // },
-
-  'JsValue$_set': (args) => {
+  'Any$_set': (args) => {
     const m = toDotNotation(args[1]);
     m.object = args[0];
     return assign(m, args[2]);
   },
-  'JsValue$_call': (args) => {
+  'Any$_call': (args) => {
     const m = toDotNotation(args[1]);
     m.object = args[0];
     return call(m, [spread(args[2])]);
   },
-  'JsValue$_invoke': (args) => call(args[0], [spread(args[1])]),
+  'Any$_invoke': (args) => call(args[0], [spread(args[1])]),
 };
 
 function parseMoonBitName(name: string): { namespace: string; funcName: string } | null {

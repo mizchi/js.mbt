@@ -99,64 +99,53 @@ describe('transform', () => {
       assert.ok(!result.includes('pkg$nostd$$equal'));
     });
 
-    test('JsArray$_push', () => {
+    test('Any$_get with valid identifier key', () => {
       const code = `
-        const pkg$nostd$$JsArray$_push = (arr, val) => arr.push(val);
-        const a = [];
-        pkg$nostd$$JsArray$_push(a, 1);
-      `;
-      const { code: result, inlineCount } = transform(code);
-      assert.ok(result.includes('a.push(1)'));
-      assert.strictEqual(inlineCount, 1);
-    });
-
-    test('JsValue$_get with valid identifier key', () => {
-      const code = `
-        const pkg$nostd$$JsValue$_get = (obj, key) => obj[key];
-        const x = pkg$nostd$$JsValue$_get(foo, "bar");
+        const pkg$nostd$$Any$_get = (obj, key) => obj[key];
+        const x = pkg$nostd$$Any$_get(foo, "bar");
       `;
       const { code: result } = transform(code);
       assert.ok(result.includes('foo.bar'));
-      assert.ok(!result.includes('pkg$nostd$$JsValue$_get'));
+      assert.ok(!result.includes('pkg$nostd$$Any$_get'));
     });
 
-    test('JsValue$_get with computed key', () => {
+    test('Any$_get with computed key', () => {
       const code = `
-        const pkg$nostd$$JsValue$_get = (obj, key) => obj[key];
-        const x = pkg$nostd$$JsValue$_get(foo, "123invalid");
+        const pkg$nostd$$Any$_get = (obj, key) => obj[key];
+        const x = pkg$nostd$$Any$_get(foo, "123invalid");
       `;
       const { code: result } = transform(code);
       assert.ok(result.includes('foo["123invalid"]'));
     });
 
-    test('JsValue$_set', () => {
+    test('Any$_set', () => {
       const code = `
-        const pkg$nostd$$JsValue$_set = (obj, key, val) => { obj[key] = val };
-        pkg$nostd$$JsValue$_set(foo, "bar", 123);
+        const pkg$nostd$$Any$_set = (obj, key, val) => { obj[key] = val };
+        pkg$nostd$$Any$_set(foo, "bar", 123);
       `;
       const { code: result } = transform(code);
       assert.ok(result.includes('foo.bar = 123'));
-      assert.ok(!result.includes('pkg$nostd$$JsValue$_set'));
+      assert.ok(!result.includes('pkg$nostd$$Any$_set'));
     });
 
-    test('JsValue$_call', () => {
+    test('Any$_call', () => {
       const code = `
-        const pkg$nostd$$JsValue$_call = (obj, key, args) => obj[key](...args);
-        const result = pkg$nostd$$JsValue$_call(console, "log", myArgs);
+        const pkg$nostd$$Any$_call = (obj, key, args) => obj[key](...args);
+        const result = pkg$nostd$$Any$_call(console, "log", myArgs);
       `;
       const { code: result } = transform(code);
       assert.ok(result.includes('console.log(...myArgs)'));
-      assert.ok(!result.includes('pkg$nostd$$JsValue$_call'));
+      assert.ok(!result.includes('pkg$nostd$$Any$_call'));
     });
 
-    test('JsValue$_invoke', () => {
+    test('Any$_invoke', () => {
       const code = `
-        const pkg$nostd$$JsValue$_invoke = (fn, args) => fn(...args);
-        const result = pkg$nostd$$JsValue$_invoke(myFunc, myArgs);
+        const pkg$nostd$$Any$_invoke = (fn, args) => fn(...args);
+        const result = pkg$nostd$$Any$_invoke(myFunc, myArgs);
       `;
       const { code: result } = transform(code);
       assert.ok(result.includes('myFunc(...myArgs)'));
-      assert.ok(!result.includes('pkg$nostd$$JsValue$_invoke'));
+      assert.ok(!result.includes('pkg$nostd$$Any$_invoke'));
     });
   });
 
@@ -231,21 +220,18 @@ describe('transform', () => {
     test('multiple inlines in same code', () => {
       const code = `
         const pkg$nostd$$JsArray$new = () => [];
-        const pkg$nostd$$JsArray$_push = (arr, val) => arr.push(val);
-        const pkg$nostd$$JsValue$_get = (obj, key) => obj[key];
+        const pkg$nostd$$Any$_get = (obj, key) => obj[key];
         const pkg$nostd$$global_this = () => globalThis;
 
         const g = pkg$nostd$$global_this();
-        const console = pkg$nostd$$JsValue$_get(g, "console");
+        const console = pkg$nostd$$Any$_get(g, "console");
         const args = pkg$nostd$$JsArray$new();
-        pkg$nostd$$JsArray$_push(args, "hello");
       `;
       const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('const g = globalThis'));
       assert.ok(result.includes('const args = []'));
-      assert.ok(result.includes('args.push("hello")'));
       assert.ok(result.includes('g.console'));
-      assert.strictEqual(inlineCount, 4);
+      assert.strictEqual(inlineCount, 3);
     });
 
     test('does not inline non-matching patterns', () => {
@@ -275,18 +261,16 @@ describe('transform', () => {
       const code = `
         const mizchi$js$nostd$$is_nullish = (v) => v == null;
         const mizchi$js$nostd$$JsArray$new = () => [];
-        const mizchi$js$nostd$$JsArray$_push = (arr, value) => arr.push(value);
-        const mizchi$js$nostd$$JsValue$_call = (obj, key, args) => obj[key](...args);
-        const mizchi$js$nostd$$JsValue$_get = (obj, key) => obj[key];
+        const mizchi$js$nostd$$Any$_call = (obj, key, args) => obj[key](...args);
+        const mizchi$js$nostd$$Any$_get = (obj, key) => obj[key];
         const mizchi$js$nostd$$global_this = () => globalThis;
         const mizchi$js$nostd$_tests$size1$$get_console = () => console;
         (() => {
           const con = mizchi$js$nostd$_tests$size1$$get_console();
           const args = mizchi$js$nostd$$JsArray$new();
-          mizchi$js$nostd$$JsArray$_push(args, "hello");
-          mizchi$js$nostd$$JsValue$_call(con, "log", args);
+          mizchi$js$nostd$$Any$_call(con, "log", args);
           const global = mizchi$js$nostd$$global_this();
-          const process = mizchi$js$nostd$$JsValue$_get(global, "process");
+          const process = mizchi$js$nostd$$Any$_get(global, "process");
           if (mizchi$js$nostd$$is_nullish(process)) {
             return;
           }
@@ -295,12 +279,11 @@ describe('transform', () => {
       const { code: result, inlineCount } = transform(code);
       assert.ok(result.includes('const con = console'));
       assert.ok(result.includes('const args = []'));
-      assert.ok(result.includes('args.push("hello")'));
       assert.ok(result.includes('con.log(...args)'));
       assert.ok(result.includes('const global = globalThis'));
       assert.ok(result.includes('global.process'));
       assert.ok(result.includes('process == null'));
-      assert.strictEqual(inlineCount, 7);
+      assert.strictEqual(inlineCount, 6);
     });
 
     test('sourcemap generation', () => {
