@@ -1,14 +1,15 @@
 /**
- * MoonBit nostd FFI inlining unplugin
+ * MoonBit FFI optimization unplugin
  *
  * Provides build plugins for Vite, Rollup, Webpack, and esbuild
  * that inline MoonBit FFI function calls for smaller bundle sizes.
  *
+ * Supports @core and @nostd package FFI functions.
+ *
  * Usage:
- *   import { vite, rollup, webpack, esbuild } from './unplugin';
+ *   import moonbitOptimize from 'moonbit-optimize-plugin/vite';
  *   // or
- *   import unplugin from './unplugin';
- *   unplugin.vite()
+ *   import { vite, rollup, webpack, esbuild } from 'moonbit-optimize-plugin';
  */
 import { createUnplugin } from 'unplugin';
 import { transform } from './transform.ts';
@@ -45,7 +46,7 @@ const unplugin = createUnplugin((options: PluginOptions = {}) => {
   }
 
   return {
-    name: 'moonbit-nostd-inline',
+    name: 'moonbit-optimize',
     enforce: 'pre' as const,
 
     transformInclude(id: string) {
