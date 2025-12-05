@@ -1,12 +1,4 @@
 ///|
-extern "js" fn ffi_new_text_encoder() -> @core.Any =
-  #| () => new TextEncoder()
-
-///|
-extern "js" fn ffi_new_text_decoder() -> @core.Any =
-  #| () => new TextDecoder()
-
-///|
 #external
 pub type TextEncoder
 
@@ -14,9 +6,8 @@ pub type TextEncoder
 pub fn TextEncoder::as_any(self : TextEncoder) -> @core.Any = "%identity"
 
 ///|
-pub fn TextEncoder::new() -> TextEncoder {
-  @core.identity(ffi_new_text_encoder())
-}
+pub extern "js" fn TextEncoder::new() -> TextEncoder =
+  #| () => new TextEncoder()
 
 ///|
 pub fn TextEncoder::encode(
@@ -33,9 +24,8 @@ pub type TextDecoder
 pub fn TextDecoder::as_any(self : TextDecoder) -> @core.Any = "%identity"
 
 ///|
-pub fn TextDecoder::new() -> TextDecoder {
-  @core.identity(ffi_new_text_decoder())
-}
+pub extern "js" fn TextDecoder::new() -> TextDecoder =
+  #| () => new TextDecoder()
 
 ///|
 pub fn TextDecoder::decode(

@@ -8,17 +8,11 @@ pub type ReadableStream
 pub fn ReadableStream::as_any(self : ReadableStream) -> @core.Any = "%identity"
 
 ///|
-/// Create a new ReadableStream (typically constructed from JavaScript)
-extern "js" fn ffi_new_readable_stream(
+/// Create a new ReadableStream with an underlying source
+pub extern "js" fn ReadableStream::new(
   underlying_source : @core.Any,
 ) -> ReadableStream =
   #|(source) => new ReadableStream(source)
-
-///|
-/// Create a new ReadableStream with an underlying source
-pub fn ReadableStream::new(underlying_source : @core.Any) -> ReadableStream {
-  ffi_new_readable_stream(underlying_source)
-}
 
 ///|
 /// Cancel the stream
@@ -153,17 +147,11 @@ pub type WritableStream
 pub fn WritableStream::as_any(self : WritableStream) -> @core.Any = "%identity"
 
 ///|
-/// Create a new WritableStream
-extern "js" fn ffi_new_writable_stream(
+/// Create a new WritableStream with an underlying sink
+pub extern "js" fn WritableStream::new(
   underlying_sink : @core.Any,
 ) -> WritableStream =
   #|(sink) => new WritableStream(sink)
-
-///|
-/// Create a new WritableStream with an underlying sink
-pub fn WritableStream::new(underlying_sink : @core.Any) -> WritableStream {
-  ffi_new_writable_stream(underlying_sink)
-}
 
 ///|
 /// Abort the stream
