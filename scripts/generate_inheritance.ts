@@ -66,6 +66,11 @@ async function extractPublicMethods(
       const params = match[5];
       const returnType = match[6].trim();
 
+      // selfパラメータがないメソッド（静的メソッド）はスキップ
+      if (!params.includes('self')) {
+        continue;
+      }
+
       // self: Self パラメータを除外
       const filteredParams = params
         .split(',')

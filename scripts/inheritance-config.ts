@@ -117,6 +117,34 @@ for (const elementType of svgElementTypes) {
   }
 }
 
+// Node.js Stream 継承階層
+const streamHierarchy: InheritanceChain[] = [
+  {
+    typeName: "EventEmitter",
+    extends: null,
+    castMethod: null,
+    sourceFile: "src/node/events/event_emitter.mbt"
+  },
+  {
+    typeName: "Stream",
+    extends: "EventEmitter",
+    castMethod: "as_event_emitter",
+    sourceFile: "src/node/stream/stream.mbt"
+  },
+  {
+    typeName: "Readable",
+    extends: "Stream",
+    castMethod: "as_stream",
+    sourceFile: "src/node/stream/stream.mbt"
+  },
+  {
+    typeName: "Writable",
+    extends: "Stream",
+    castMethod: "as_stream",
+    sourceFile: "src/node/stream/stream.mbt"
+  },
+];
+
 // 設定のエクスポート
 export const hierarchies: HierarchyConfig[] = [
   {
@@ -135,11 +163,18 @@ export const hierarchies: HierarchyConfig[] = [
       /pub\(all\) struct/,
     ],
   },
-  // 将来的に他の階層を追加可能
-  // {
-  //   name: "event_emitter",
-  //   types: [...],
-  //   outputDir: "src/event",
-  //   skipPatterns: [...],
-  // },
+  {
+    name: "stream",
+    types: streamHierarchy,
+    outputDir: "src/node/stream",
+    skipPatterns: [
+      /as_any\(/,
+      /as_event_emitter\(/,
+      /as_stream\(/,
+      /to_any\(/,
+      /#external/,
+      /pub type /,
+      /pub\(all\) struct/,
+    ],
+  },
 ];

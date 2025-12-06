@@ -11,11 +11,20 @@ pub type Stream
 pub fn Stream::as_any(self : Stream) -> @core.Any = "%identity"
 
 ///|
+pub fn Stream::as_event_emitter(self : Stream) -> @events.EventEmitter = "%identity"
+
+///|
 #external
 pub type Readable
 
 ///|
 pub fn Readable::as_any(self : Readable) -> @core.Any = "%identity"
+
+///|
+pub fn Readable::as_stream(self : Readable) -> Stream = "%identity"
+
+///|
+pub fn Readable::as_event_emitter(self : Readable) -> @events.EventEmitter = "%identity"
 
 ///|
 /// Readable stream methods
@@ -151,6 +160,12 @@ pub type Writable
 
 ///|
 pub fn Writable::as_any(self : Writable) -> @core.Any = "%identity"
+
+///|
+pub fn Writable::as_stream(self : Writable) -> Stream = "%identity"
+
+///|
+pub fn Writable::as_event_emitter(self : Writable) -> @events.EventEmitter = "%identity"
 
 ///|
 /// Writable stream methods

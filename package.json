@@ -4,7 +4,8 @@
     "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
     "test:cloudflare": "vitest run --config vitest.cf-config.ts e2e/cloudflare/moonbit-*.test.ts",
     "generate:inheritance": "node --import tsx scripts/generate_inheritance.ts",
-    "generate:dom": "node --import tsx scripts/generate_inheritance.ts dom"
+    "generate:dom": "node --import tsx scripts/generate_inheritance.ts dom",
+    "generate:stream": "node --import tsx scripts/generate_inheritance.ts stream"
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",
