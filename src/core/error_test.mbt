@@ -33,8 +33,9 @@ test "assert_throws: catches thrown exceptions" {
   let msg = assert_throws(() => {
     throw_error("test exception")
     @core.any(0)
-  }) catch { JsError(m) => m }
-
+  }) catch {
+    JsError(m) => m
+  }
   inspect(msg.contains("test exception"), content="true")
 }
 

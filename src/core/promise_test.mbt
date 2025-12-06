@@ -878,7 +878,6 @@ async test "dispose_async with Symbol.asyncDispose" {
     @core.Promise::resolve(@core.undefined())
   })
   obj._set(get_symbol_async_dispose(), dispose_fn)
-
   @core.dispose_async(obj)
   inspect(disposed, content="true")
 }
@@ -889,7 +888,6 @@ test "dispose_async_ignore with Symbol.asyncDispose" {
   let obj = @core.new_object()
   let dispose_fn = @core.any(fn() { @core.Promise::resolve(@core.undefined()) })
   obj._set(get_symbol_async_dispose(), dispose_fn)
-
   @core.dispose_async_ignore(obj)
   // Just verify it doesn't throw
   inspect(true, content="true")
@@ -902,7 +900,6 @@ test "dispose with Symbol.dispose" {
   let mut disposed = false
   let dispose_fn = @core.any(fn() { disposed = true })
   obj._set(get_symbol_dispose(), dispose_fn)
-
   @core.dispose(obj)
   inspect(disposed, content="true")
 }

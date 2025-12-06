@@ -8,11 +8,11 @@ import(
 // Values
 pub fn connect(name? : String) -> Port
 
-pub fn get_manifest() -> @core.Any
+pub fn getManifest() -> @core.Any
+
+pub fn getUrl(String) -> String
 
 pub async fn get_platform_info() -> PlatformInfo
-
-pub fn get_url(String) -> String
 
 pub fn id() -> String
 
@@ -30,7 +30,7 @@ pub async fn open_options_page() -> Unit
 
 pub fn reload() -> Unit
 
-pub async fn send_message(@core.Any) -> @core.Any
+pub async fn sendMessage(@core.Any) -> @core.Any
 
 pub async fn send_message_to_extension(String, @core.Any) -> @core.Any
 
