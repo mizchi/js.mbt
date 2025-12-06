@@ -77,7 +77,7 @@ importers:
         version: 3.940.0
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.10.11
-        version: 0.10.11(@cloudflare/workers-types@4.20251126.0)(@vitest/runner@4.0.9)(@vitest/snapshot@4.0.9)(vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1))
+        version: 0.10.11(@cloudflare/workers-types@4.20251126.0)(@vitest/runner@4.0.9)(@vitest/snapshot@4.0.9)(vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0))
       '@cloudflare/workers-types':
         specifier: ^4.20251126.0
         version: 4.20251126.0
@@ -219,6 +219,9 @@ importers:
       terser:
         specifier: ^5.44.1
         version: 5.44.1
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -227,10 +230,10 @@ importers:
         version: 2.3.11
       vite:
         specifier: ^7.2.4
-        version: 7.2.4(@types/node@24.10.1)(terser@5.44.1)
+        version: 7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0)
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)
+        version: 3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0)
       wrangler:
         specifier: ^4.51.0
         version: 4.51.0(@cloudflare/workers-types@4.20251126.0)
@@ -240,34 +243,6 @@ importers:
       zod-to-json-schema:
         specifier: ^3.25.0
         version: 3.25.0(zod@4.1.13)
-
-  packages/moonbit-optimize-plugin:
-    dependencies:
-      acorn:
-        specifier: ^8.14.0
-        version: 8.15.0
-      astring:
-        specifier: ^1.9.0
-        version: 1.9.0
-      magic-string:
-        specifier: ^0.30.18
-        version: 0.30.21
-      oxc-minify:
-        specifier: ^0.46.0
-        version: 0.46.0
-      unplugin:
-        specifier: ^2.0.0
-        version: 2.3.11
-    devDependencies:
-      '@types/node':
-        specifier: ^22.10.2
-        version: 22.19.1
-      typescript:
-        specifier: ^5.7.2
-        version: 5.9.3
-      vite:
-        specifier: ^7.2.6
-        version: 7.2.6(@types/node@22.19.1)(terser@5.44.1)
 
 packages:
 
@@ -1494,20 +1469,10 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@oxc-minify/binding-darwin-arm64@0.46.0':
-    resolution: {integrity: sha512-33/mbZppzLM9hZR5GDSyke2sJKuoeeOgfsZbd4ppLtrBuM43kEYZss6kCKCnltq9/MznesAtkKvJFkPr2bei/w==}
-    cpu: [arm64]
-    os: [darwin]
-
   '@oxc-minify/binding-darwin-arm64@0.99.0':
     resolution: {integrity: sha512-xVlwgJ9Q8IMEF3Zm0IGYKzuOaRORlcm9Qps98CR2Yki5fEvk7X7J09lrYQ6CFuTW7lNBubXSBNSatpM2NXJGsA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
-    os: [darwin]
-
-  '@oxc-minify/binding-darwin-x64@0.46.0':
-    resolution: {integrity: sha512-LGxSj6QrJw0jb0xiJaQBYllaJ8LsQ4uzwT9H0wx04h/E/M+LXcNkJ1ADc0dkBVkFaRjldtyz4IIkoLsO5hgUbQ==}
-    cpu: [x64]
     os: [darwin]
 
   '@oxc-minify/binding-darwin-x64@0.99.0':
@@ -1534,19 +1499,9 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@oxc-minify/binding-linux-arm64-gnu@0.46.0':
-    resolution: {integrity: sha512-KNKhPAEFRh/pRRLKBjDQ6cAuPx3PYADiNM7Ox46LuKOBjeqxOErgup5fwsBKMPa2PMps8FzmlZxPP6k0T4teMA==}
-    cpu: [arm64]
-    os: [linux]
-
   '@oxc-minify/binding-linux-arm64-gnu@0.99.0':
     resolution: {integrity: sha512-9giyUXQTiZWEbOrHVnih5uM1ILDEtyOgXuC2t/tdg2hFa5s1NqP1BQfYSCCf9/RfZZIAHl9CTMgZGuk3gUJziQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [linux]
-
-  '@oxc-minify/binding-linux-arm64-musl@0.46.0':
-    resolution: {integrity: sha512-Lkmywv/xtSqMGaIw3BY0ui1c4lpJt0qKBV1ZvgtOQ3P5cIQpEDnIfjyPqmJcWrAe7UHEkChA+RVaDC9Lv5brWw==}
     cpu: [arm64]
     os: [linux]
 
@@ -1568,19 +1523,9 @@ packages:
     cpu: [s390x]
     os: [linux]
 
-  '@oxc-minify/binding-linux-x64-gnu@0.46.0':
-    resolution: {integrity: sha512-6cdoZ57lSZalXTC3ovQC+BX6NCdDjIFTssZIlLKLj6oikbAdsZ3F8QpQHmgGqCbaGrnFlWEQIJ/ZfUGmhkVxkA==}
-    cpu: [x64]
-    os: [linux]
-
   '@oxc-minify/binding-linux-x64-gnu@0.99.0':
     resolution: {integrity: sha512-2Iq4piS+6i96mTvvvGwhPa2BVfys7ChV2r7Do7lciZSniXwwhQNJ/6yvqsp3hgaVvXhPYfbn9dEGRb1T1wZ5ww==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [linux]
-
-  '@oxc-minify/binding-linux-x64-musl@0.46.0':
-    resolution: {integrity: sha512-evFKzphm6vnU6wfaStxrH48NKi4oq6px0LANvR+9/PFgY7TAHnPgfOd5x7W24YUImnVVh7JNlxRuJHqrOJu/HA==}
     cpu: [x64]
     os: [linux]
 
@@ -1595,20 +1540,10 @@ packages:
     engines: {node: '>=14.0.0'}
     cpu: [wasm32]
 
-  '@oxc-minify/binding-win32-arm64-msvc@0.46.0':
-    resolution: {integrity: sha512-MSEUgMq1TjCh4xK58EIrzjdNf0sT8qz5vhzQup5anW3qu7LYdaL0jGVR6dIODekR1wYQQT0NBwB/Tgfj9wEieQ==}
-    cpu: [arm64]
-    os: [win32]
-
   '@oxc-minify/binding-win32-arm64-msvc@0.99.0':
     resolution: {integrity: sha512-Gghv/PBLjlxvqcau4PcX0n7oGYJfdYCG5LkI/y5QEBKGPNwH8oDlhUZIfynHr0WF1wMSqDC5xogiOnDQgugolA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
-    os: [win32]
-
-  '@oxc-minify/binding-win32-x64-msvc@0.46.0':
-    resolution: {integrity: sha512-Wu9ZDNf450jujDwhjoblUHR3PhERfyvXZe03WjKQhpO0z5acIMjbemMnI2W+GYHr7PaHCmTwwgoDDnNDryCXlQ==}
-    cpu: [x64]
     os: [win32]
 
   '@oxc-minify/binding-win32-x64-msvc@0.99.0':
@@ -2159,9 +2094,6 @@ packages:
 
   '@types/node@20.19.25':
     resolution: {integrity: sha512-ZsJzA5thDQMSQO788d7IocwwQbI8B5OPzmqNvpf3NY/+MHDAS759Wo0gd2WQeXYt5AAAQjzcrTVC6SKCuYgoCQ==}
-
-  '@types/node@22.19.1':
-    resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
 
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
@@ -3179,6 +3111,9 @@ packages:
     resolution: {integrity: sha512-kVCxPF3vQM/N0B1PmoqVUqgHP+EeVjmZSQn+1oCRPxd2P21P2F19lIgbR3HBosbB1PUhOAoctJnfEn2GbN2eZA==}
     engines: {node: '>=18'}
 
+  get-tsconfig@4.13.0:
+    resolution: {integrity: sha512-1VKTZJCwBrvbd+Wn3AOgQP/2Av+TfTCOlE4AcRJE72W1ksZXbAx8PPBR9RzgTeSPzlPMHrbANMH3LbltH73wxQ==}
+
   get-uri@6.0.5:
     resolution: {integrity: sha512-b1O07XYq8eRuVzBNgJLstU6FYc1tS6wnMtF1I1D9lE8LxZSOGZ7LhxN54yPP6mGw5f2CkXY2BQUL9Fx41qvcIg==}
     engines: {node: '>= 14'}
@@ -3734,9 +3669,6 @@ packages:
   outvariant@1.4.3:
     resolution: {integrity: sha512-+Sl2UErvtsoajRDKCE5/dBz4DIvHXQQnAxtQTF04OJxY0+DyZXSo5P5Bb7XYWOh81syohlYL24hbDwxedPUJCA==}
 
-  oxc-minify@0.46.0:
-    resolution: {integrity: sha512-u4d5+1LZ/IWkoj20cEJbYdYTmRThUfJndjJ5AALwWolJQvFcLVUYnfs1sSKlOuq3/aRuqBK0PEvJe/v91SXhBg==}
-
   oxc-minify@0.99.0:
     resolution: {integrity: sha512-eQ8iDj1eFeiw258iiSRfRJARbVgLjweyh81ykt8fTjX0JQLwU8ASYpAzymD/HaIqSsiOas8cGd3EElwKPL3GCQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -3992,6 +3924,9 @@ packages:
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
+
+  resolve-pkg-maps@1.0.0:
+    resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
 
   restore-cursor@4.0.0:
     resolution: {integrity: sha512-I9fPXU9geO9bHOt9pHHOhOkYerIMsmVaWB0rA2AI9ERh/+x/i7MV5HKBNrg+ljO5eoPVgCcnFuRjJ9uH6I/3eg==}
@@ -4337,6 +4272,11 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  tsx@4.21.0:
+    resolution: {integrity: sha512-5C1sg4USs1lfG0GFb2RLXsdpXqBSEhAaA/0kPL01wxzpMqLILNxIxIOKiILz+cdg/pLnOUxFYOR5yhHU666wbw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
@@ -4417,46 +4357,6 @@ packages:
 
   vite@7.2.4:
     resolution: {integrity: sha512-NL8jTlbo0Tn4dUEXEsUg8KeyG/Lkmc4Fnzb8JXN/Ykm9G4HNImjtABMJgkQoVjOBN/j2WAwDTRytdqJbZsah7w==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^20.19.0 || >=22.12.0
-      jiti: '>=1.21.0'
-      less: ^4.0.0
-      lightningcss: ^1.21.0
-      sass: ^1.70.0
-      sass-embedded: ^1.70.0
-      stylus: '>=0.54.8'
-      sugarss: ^5.0.0
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-
-  vite@7.2.6:
-    resolution: {integrity: sha512-tI2l/nFHC5rLh7+5+o7QjKjSR04ivXDF4jcgV0f/bTQ+OJiITy5S6gaynVsEM+7RqzufMnVbIon6Sr5x1SDYaQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -5342,7 +5242,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20251125.0
 
-  '@cloudflare/vitest-pool-workers@0.10.11(@cloudflare/workers-types@4.20251126.0)(@vitest/runner@4.0.9)(@vitest/snapshot@4.0.9)(vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1))':
+  '@cloudflare/vitest-pool-workers@0.10.11(@cloudflare/workers-types@4.20251126.0)(@vitest/runner@4.0.9)(@vitest/snapshot@4.0.9)(vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0))':
     dependencies:
       '@vitest/runner': 4.0.9
       '@vitest/snapshot': 4.0.9
@@ -5351,7 +5251,7 @@ snapshots:
       devalue: 5.5.0
       miniflare: 4.20251125.0
       semver: 7.7.3
-      vitest: 3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)
+      vitest: 3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0)
       wrangler: 4.51.0(@cloudflare/workers-types@4.20251126.0)
       zod: 3.25.76
     transitivePeerDependencies:
@@ -6003,13 +5903,7 @@ snapshots:
   '@oxc-minify/binding-android-arm64@0.99.0':
     optional: true
 
-  '@oxc-minify/binding-darwin-arm64@0.46.0':
-    optional: true
-
   '@oxc-minify/binding-darwin-arm64@0.99.0':
-    optional: true
-
-  '@oxc-minify/binding-darwin-x64@0.46.0':
     optional: true
 
   '@oxc-minify/binding-darwin-x64@0.99.0':
@@ -6024,13 +5918,7 @@ snapshots:
   '@oxc-minify/binding-linux-arm-musleabihf@0.99.0':
     optional: true
 
-  '@oxc-minify/binding-linux-arm64-gnu@0.46.0':
-    optional: true
-
   '@oxc-minify/binding-linux-arm64-gnu@0.99.0':
-    optional: true
-
-  '@oxc-minify/binding-linux-arm64-musl@0.46.0':
     optional: true
 
   '@oxc-minify/binding-linux-arm64-musl@0.99.0':
@@ -6042,13 +5930,7 @@ snapshots:
   '@oxc-minify/binding-linux-s390x-gnu@0.99.0':
     optional: true
 
-  '@oxc-minify/binding-linux-x64-gnu@0.46.0':
-    optional: true
-
   '@oxc-minify/binding-linux-x64-gnu@0.99.0':
-    optional: true
-
-  '@oxc-minify/binding-linux-x64-musl@0.46.0':
     optional: true
 
   '@oxc-minify/binding-linux-x64-musl@0.99.0':
@@ -6059,13 +5941,7 @@ snapshots:
       '@napi-rs/wasm-runtime': 1.0.7
     optional: true
 
-  '@oxc-minify/binding-win32-arm64-msvc@0.46.0':
-    optional: true
-
   '@oxc-minify/binding-win32-arm64-msvc@0.99.0':
-    optional: true
-
-  '@oxc-minify/binding-win32-x64-msvc@0.46.0':
     optional: true
 
   '@oxc-minify/binding-win32-x64-msvc@0.99.0':
@@ -6668,10 +6544,6 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@22.19.1':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@24.10.1':
     dependencies:
       undici-types: 7.16.0
@@ -6706,14 +6578,14 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@3.2.4(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(vite@7.2.4(@types/node@24.10.1)(terser@5.44.1))':
+  '@vitest/mocker@3.2.4(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(vite@7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
       msw: 2.12.3(@types/node@24.10.1)(typescript@5.9.3)
-      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)
+      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -7717,6 +7589,10 @@ snapshots:
       '@sec-ant/readable-stream': 0.4.1
       is-stream: 4.0.1
 
+  get-tsconfig@4.13.0:
+    dependencies:
+      resolve-pkg-maps: 1.0.0
+
   get-uri@6.0.5:
     dependencies:
       basic-ftp: 5.0.5
@@ -8268,17 +8144,6 @@ snapshots:
 
   outvariant@1.4.3: {}
 
-  oxc-minify@0.46.0:
-    optionalDependencies:
-      '@oxc-minify/binding-darwin-arm64': 0.46.0
-      '@oxc-minify/binding-darwin-x64': 0.46.0
-      '@oxc-minify/binding-linux-arm64-gnu': 0.46.0
-      '@oxc-minify/binding-linux-arm64-musl': 0.46.0
-      '@oxc-minify/binding-linux-x64-gnu': 0.46.0
-      '@oxc-minify/binding-linux-x64-musl': 0.46.0
-      '@oxc-minify/binding-win32-arm64-msvc': 0.46.0
-      '@oxc-minify/binding-win32-x64-msvc': 0.46.0
-
   oxc-minify@0.99.0:
     optionalDependencies:
       '@oxc-minify/binding-android-arm64': 0.99.0
@@ -8594,6 +8459,8 @@ snapshots:
   require-from-string@2.0.2: {}
 
   resolve-from@4.0.0: {}
+
+  resolve-pkg-maps@1.0.0: {}
 
   restore-cursor@4.0.0:
     dependencies:
@@ -9031,6 +8898,13 @@ snapshots:
 
   tslib@2.8.1: {}
 
+  tsx@4.21.0:
+    dependencies:
+      esbuild: 0.27.0
+      get-tsconfig: 4.13.0
+    optionalDependencies:
+      fsevents: 2.3.3
+
   tunnel-agent@0.6.0:
     dependencies:
       safe-buffer: 5.2.1
@@ -9096,13 +8970,13 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  vite-node@3.2.4(@types/node@24.10.1)(terser@5.44.1):
+  vite-node@3.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)
+      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -9117,7 +8991,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@7.2.4(@types/node@24.10.1)(terser@5.44.1):
+  vite@7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -9129,25 +9003,13 @@ snapshots:
       '@types/node': 24.10.1
       fsevents: 2.3.3
       terser: 5.44.1
+      tsx: 4.21.0
 
-  vite@7.2.6(@types/node@22.19.1)(terser@5.44.1):
-    dependencies:
-      esbuild: 0.25.12
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
-      postcss: 8.5.6
-      rollup: 4.53.3
-      tinyglobby: 0.2.15
-    optionalDependencies:
-      '@types/node': 22.19.1
-      fsevents: 2.3.3
-      terser: 5.44.1
-
-  vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1):
+  vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0))(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.4
-      '@vitest/mocker': 3.2.4(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(vite@7.2.4(@types/node@24.10.1)(terser@5.44.1))
+      '@vitest/mocker': 3.2.4(msw@2.12.3(@types/node@24.10.1)(typescript@5.9.3))(vite@7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0))
       '@vitest/pretty-format': 3.2.4
       '@vitest/runner': 3.2.4
       '@vitest/snapshot': 3.2.4
@@ -9165,8 +9027,8 @@ snapshots:
       tinyglobby: 0.2.15
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)
-      vite-node: 3.2.4(@types/node@24.10.1)(terser@5.44.1)
+      vite: 7.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0)
+      vite-node: 3.2.4(@types/node@24.10.1)(terser@5.44.1)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.1
