@@ -166,76 +166,48 @@ pub fn SQL::as_any(self : SQL) -> @core.Any = "%identity"
 // ============ Database Creation ============
 
 ///|
-extern "js" fn ffi_drizzle(connection_string : String) -> DrizzleDB =
-  #| (cs) => require("drizzle-orm/node-postgres").drizzle(cs)
-
-///|
 /// Create a Drizzle instance with connection string
-pub fn drizzle(connection_string : String) -> DrizzleDB {
-  ffi_drizzle(connection_string)
-}
-
-///|
-extern "js" fn ffi_drizzle_with_pool(pool : @core.Any) -> DrizzleDB =
-  #| (pool) => require("drizzle-orm/node-postgres").drizzle(pool)
+pub extern "js" fn drizzle(connection_string : String) -> DrizzleDB =
+  #| (cs) => require("drizzle-orm/node-postgres").drizzle(cs)
 
 ///|
 /// Create a Drizzle instance with pg Pool
 #alias(drizzle_with_pool)
-pub fn drizzleWithPool(pool : @core.Any) -> DrizzleDB {
-  ffi_drizzle_with_pool(pool)
-}
+pub extern "js" fn drizzleWithPool(pool : @core.Any) -> DrizzleDB =
+  #| (pool) => require("drizzle-orm/node-postgres").drizzle(pool)
 
 ///|
 /// Create a Drizzle instance with config object
 #alias(drizzle_with_config)
 pub fn drizzleWithConfig(config : @core.Any) -> DrizzleDB {
-  ffi_drizzle_with_pool(config)
+  drizzleWithPool(config)
 }
 
 // ============ Cloudflare D1 ============
 
 ///|
-extern "js" fn ffi_drizzle_d1(d1_database : @core.Any) -> DrizzleDB =
-  #| (d1) => require("drizzle-orm/d1").drizzle(d1)
-
-///|
 /// Create a Drizzle instance with Cloudflare D1 database binding
 /// Usage: drizzleD1(env.DB) where env.DB is D1Database from Cloudflare Workers
 #alias(drizzle_d1)
-pub fn drizzleD1(d1_database : @core.Any) -> DrizzleDB {
-  ffi_drizzle_d1(d1_database)
-}
+pub extern "js" fn drizzleD1(d1_database : @core.Any) -> DrizzleDB =
+  #| (d1) => require("drizzle-orm/d1").drizzle(d1)
 
 ///|
-extern "js" fn ffi_drizzle_d1_with_schema(
+/// Create a Drizzle instance with D1 and schema for relational queries
+#alias(drizzle_d1_with_schema)
+pub extern "js" fn drizzleD1WithSchema(
   d1_database : @core.Any,
   schema : @core.Any,
 ) -> DrizzleDB =
   #| (d1, schema) => require("drizzle-orm/d1").drizzle(d1, { schema })
 
-///|
-/// Create a Drizzle instance with D1 and schema for relational queries
-#alias(drizzle_d1_with_schema)
-pub fn drizzleD1WithSchema(
-  d1_database : @core.Any,
-  schema : @core.Any,
-) -> DrizzleDB {
-  ffi_drizzle_d1_with_schema(d1_database, schema)
-}
-
 // ============ Schema Definition ============
-
-///|
-extern "js" fn ffi_pg_table(name : String, columns : @core.Any) -> Table =
-  #| (name, columns) => require("drizzle-orm/pg-core").pgTable(name, columns)
 
 ///|
 /// Create a PostgreSQL table
 #alias(pg_table)
-pub fn pgTable(name : String, columns : @core.Any) -> Table {
-  ffi_pg_table(name, columns)
-}
+pub extern "js" fn pgTable(name : String, columns : @core.Any) -> Table =
+  #| (name, columns) => require("drizzle-orm/pg-core").pgTable(name, columns)
 
 ///|
 /// Create a PostgreSQL table from a Map of column definitions

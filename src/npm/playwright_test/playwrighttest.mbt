@@ -49,64 +49,44 @@ pub fn LocatorAssertions::to_any(self : LocatorAssertions) -> @core.Any = "%iden
 
 ///| FFI Functions
 
+///| Module Functions
+
 ///|
-extern "js" fn ffi_test() -> Test =
+/// Get the test function
+pub extern "js" fn test_fn() -> Test =
   #| () => {
   #|   const { test } = require('@playwright/test');
   #|   return test;
   #| }
 
 ///|
-extern "js" fn ffi_expect() -> Expect =
+/// Get the expect function
+pub extern "js" fn expect_fn() -> Expect =
   #| () => {
   #|   const { expect } = require('@playwright/test');
   #|   return expect;
   #| }
 
-///| Module Functions
-
-///|
-/// Get the test function
-pub fn test_fn() -> Test {
-  ffi_test()
-}
-
-///|
-/// Get the expect function
-pub fn expect_fn() -> Expect {
-  ffi_expect()
-}
-
 ///| Test Methods
 
 ///|
+/// Define a test case
 /// Call test function directly (test is callable)
-extern "js" fn ffi_call_test(
-  t : Test,
+pub extern "js" fn Test::run(
+  self : Test,
   name : String,
   callback : @core.Any,
 ) -> Unit =
   #| (t, name, callback) => t(name, callback)
 
 ///|
-/// Define a test case
-pub fn Test::run(self : Test, name : String, callback : @core.Any) -> Unit {
-  ffi_call_test(self, name, callback)
-}
-
-///|
 /// Define a test describe block
-extern "js" fn ffi_describe(
-  t : Test,
+pub extern "js" fn Test::describe(
+  self : Test,
   name : String,
   callback : @core.Any,
 ) -> Unit =
   #| (t, name, callback) => t.describe(name, callback)
-
-///|
-pub fn Test::describe(self : Test, name : String, callback : @core.Any) -> Unit {
-  ffi_describe(self, name, callback)
-}
 
 ///|
 /// Skip test(s)
@@ -127,13 +107,8 @@ pub fn Test::skip(self : Test, condition? : Bool) -> Unit {
 
 ///|
 /// Mark test as slow (triples timeout)
-extern "js" fn ffi_slow(t : Test) -> Unit =
+pub extern "js" fn Test::slow(self : Test) -> Unit =
   #| (t) => t.slow()
-
-///|
-pub fn Test::slow(self : Test) -> Unit {
-  ffi_slow(self)
-}
 
 ///|
 /// Set test timeout
@@ -143,74 +118,41 @@ pub fn Test::setTimeout(self : Test, timeout_ms : Int) -> Unit {
 
 ///|
 /// beforeEach hook
-extern "js" fn ffi_beforeEach(t : Test, callback : @core.Any) -> Unit =
+pub extern "js" fn Test::beforeEach(self : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.beforeEach(callback)
 
 ///|
-pub fn Test::beforeEach(self : Test, callback : @core.Any) -> Unit {
-  ffi_beforeEach(self, callback)
-}
-
-///|
 /// afterEach hook
-extern "js" fn ffi_afterEach(t : Test, callback : @core.Any) -> Unit =
+pub extern "js" fn Test::afterEach(self : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.afterEach(callback)
 
 ///|
-pub fn Test::afterEach(self : Test, callback : @core.Any) -> Unit {
-  ffi_afterEach(self, callback)
-}
-
-///|
 /// beforeAll hook
-extern "js" fn ffi_beforeAll(t : Test, callback : @core.Any) -> Unit =
+pub extern "js" fn Test::beforeAll(self : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.beforeAll(callback)
 
 ///|
-pub fn Test::beforeAll(self : Test, callback : @core.Any) -> Unit {
-  ffi_beforeAll(self, callback)
-}
-
-///|
 /// afterAll hook
-extern "js" fn ffi_afterAll(t : Test, callback : @core.Any) -> Unit =
+pub extern "js" fn Test::afterAll(self : Test, callback : @core.Any) -> Unit =
   #| (t, callback) => t.afterAll(callback)
 
 ///|
-pub fn Test::afterAll(self : Test, callback : @core.Any) -> Unit {
-  ffi_afterAll(self, callback)
-}
-
-///|
 /// Configure test options
-extern "js" fn ffi_use(t : Test, options : @core.Any) -> Unit =
+pub extern "js" fn Test::use_options(self : Test, options : @core.Any) -> Unit =
   #| (t, options) => t.use(options)
-
-///|
-pub fn Test::use_options(self : Test, options : @core.Any) -> Unit {
-  ffi_use(self, options)
-}
 
 ///| Expect Methods
 
 ///|
-/// Call expect function (expect is callable)
-extern "js" fn ffi_expect_value(
-  expect : Expect,
-  value : @core.Any,
-) -> @core.Any =
-  #| (expect, value) => expect(value)
-
-///|
 /// Create expectation for a value
-pub fn Expect::value(self : Expect, value : @core.Any) -> @core.Any {
-  ffi_expect_value(self, value)
-}
+/// Call expect function (expect is callable)
+pub extern "js" fn Expect::value(self : Expect, value : @core.Any) -> @core.Any =
+  #| (expect, value) => expect(value)
 
 ///|
 /// Create page assertions
 pub fn Expect::page(self : Expect, page : @playwright.Page) -> PageAssertions {
-  @core.identity(ffi_expect_value(self, page.to_any() |> @core.identity))
+  @core.identity(self.value(page.to_any() |> @core.identity))
 }
 
 ///|
@@ -219,7 +161,7 @@ pub fn Expect::locator(
   self : Expect,
   locator : @playwright.Locator,
 ) -> LocatorAssertions {
-  @core.identity(ffi_expect_value(self, locator.to_any() |> @core.identity))
+  @core.identity(self.value(locator.to_any() |> @core.identity))
 }
 
 ///| Page Assertions

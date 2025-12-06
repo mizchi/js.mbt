@@ -183,16 +183,11 @@ pub fn[T, U] use_action_state(
 }
 
 ///|
-extern "js" fn start_transition_internal(f : () -> Unit) -> Unit =
+#alias(startTransition)
+pub extern "js" fn start_transition(f : () -> Unit) -> Unit =
   #| (f) => {
   #|   return __ReactApi.startTransition(f);
   #| }
-
-///|
-#alias(startTransition)
-pub fn start_transition(f : () -> Unit) -> Unit {
-  start_transition_internal(f)
-}
 
 ///|
 /// Create a lazy-loaded component from a dynamic import function.
@@ -260,17 +255,12 @@ pub fn[T, R] use_debug_value(value : T, format? : (T) -> R) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_use_id() -> String =
-  #| () => globalThis.__ReactApi.useId()
-
-///|
 /// React.useId - Generate unique IDs for accessibility attributes
 /// TypeScript: function useId(): string
 /// see: https://react.dev/reference/react/useId
 #alias(useId)
-pub fn use_id() -> String {
-  ffi_use_id()
-}
+pub extern "js" fn use_id() -> String =
+  #| () => globalThis.__ReactApi.useId()
 
 ///|
 extern "js" fn ffi_use_transition() -> @core.Any =
@@ -393,16 +383,11 @@ pub fn capture_owner_stack() -> @core.Any? {
 }
 
 ///|
-extern "js" fn ffi_cache_signal() -> @core.Any =
-  #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
-
-///|
 /// React.cacheSignal - Create cache signal for use with cache()
 /// see: https://react.dev/reference/react/cacheSignal
 #alias(cacheSignal)
-pub fn cache_signal() -> @core.Any {
-  ffi_cache_signal()
-}
+pub extern "js" fn cache_signal() -> @core.Any =
+  #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
 
 ///|
 extern "js" fn ffi_react_cache(fn_ : @core.Any) -> @core.Any =
