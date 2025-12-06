@@ -5,8 +5,8 @@ test "from_map converts Map to JS object" {
     "age": @core.any(30),
   }
   let obj = from_map(map)
-  let name : String = obj._get("name").cast()
-  let age : Int = obj._get("age").cast()
+  let name : String = obj["name"].cast()
+  let age : Int = obj["age"].cast()
   inspect(name, content="Alice")
   inspect(age, content="30")
 }
@@ -19,9 +19,9 @@ test "from_option_map skips None values" {
     "age": Some(@core.any(25)),
   }
   let obj = from_option_map(map)
-  let name : String = obj._get("name").cast()
-  let age : Int = obj._get("age").cast()
-  let email : @core.Any = obj._get("email").cast()
+  let name : String = obj["name"].cast()
+  let age : Int = obj["age"].cast()
+  let email : @core.Any = obj["email"].cast()
   inspect(name, content="Bob")
   inspect(age, content="25")
   inspect(@core.is_undefined(email), content="true")
@@ -41,7 +41,7 @@ test "from_option_map_or_undefined returns object when has values" {
     "retries": None,
   }
   let result = from_option_map_or_undefined(map)
-  let timeout : Int = result._get("timeout").cast()
+  let timeout : Int = result["timeout"].cast()
   inspect(timeout, content="5000")
 }
 
@@ -54,10 +54,10 @@ test "from_json converts Json to JS value" {
     "tags": ["a", "b"],
   }
   let obj = from_json(json)
-  let name : String = obj._get("name").cast()
-  let age : Double = obj._get("age").cast()
-  let active : Bool = obj._get("active").cast()
-  let tags : @core.Any = obj._get("tags").cast()
+  let name : String = obj["name"].cast()
+  let age : Double = obj["age"].cast()
+  let active : Bool = obj["active"].cast()
+  let tags : @core.Any = obj["tags"].cast()
   inspect(name, content="Alice")
   inspect(age, content="30")
   inspect(active, content="true")

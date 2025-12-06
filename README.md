@@ -12,7 +12,7 @@ Add to your `moon.pkg.json`:
 
 ```json
 {
-  "import": ["mizchi/js"]
+  "import": ["mizchi/js/core", "mizchi/js"]
 }
 ```
 
@@ -66,7 +66,7 @@ The `mizchi/js/core` package provides the foundation for JavaScript interoperabi
 - `identity[A,B](value: A) -> B` - Type casting using `%identity`
 - `any[T](value: T) -> Any` - Convert to Any
 - `Any::cast[T](self) -> T` - Cast from Any
-- `Any::_get(key)`, `Any::_set(key, value)` - Property access
+- `obj["key"]`, `obj["key"] = value` - Property access (or `_get(key)`, `_set(key, value)`)
 - `Any::_call(method, args)`, `Any::_invoke(args)` - Method calls
 
 **Object & JSON**
@@ -123,10 +123,7 @@ All JavaScript built-in objects are exported from `mizchi/js`:
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Global Functions** |
-| Global | `mizchi/js/builtins/global` | 🧪 Tested | globalThis, parseInt, parseFloat, etc. |
-| Timers | `mizchi/js/builtins/global` | 🧪 Tested | setTimeout, setInterval, queueMicrotask |
-| Encoding | `mizchi/js/builtins/global` | 🧪 Tested | atob, btoa, encodeURI, decodeURI |
-| Cloning | `mizchi/js/builtins/global` | 🧪 Tested | structuredClone |
+| Global | `mizchi/js/builtins/global` | 🧪 Tested | globalThis, parseInt, parseFloat, setTimeout etc. |
 | **Core Types** |
 | Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
 | Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
@@ -145,20 +142,19 @@ All JavaScript built-in objects are exported from `mizchi/js`:
 | WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
 | **Binary Data** |
 | ArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Binary buffers |
-| TypedArrays | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Uint8Array, Int32Array, etc. |
 | DataView | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Buffer views |
-| SharedArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🤖 AI Generated | Shared memory |
+memory |
 | **Pattern & Reflection** |
 | RegExp | `mizchi/js/builtins/regexp` | 🧪 Tested | Regular expressions |
-| Reflect | `mizchi/js/builtins/reflect` | 🤖 AI Generated | Reflection API |
+| Reflect | `mizchi/js/builtins/reflect` | 🧪 Tested | Reflection API |
 | Proxy | `mizchi/js/builtins/proxy` | 🤖 AI Generated | Proxy API |
 | **Iteration & Async** |
 | Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JsIterator protocol |
 | AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
 | **Concurrency** |
-| Atomics | `mizchi/js/builtins/atomics` | 🤖 AI Generated | Atomic operations |
+| Atomics | `mizchi/js/builtins/atomics` | 🧪 Tested | Atomic operations |
 | **Resource Management** |
-| DisposableStack | `mizchi/js/builtins/disposable` | 🤖 AI Generated | Disposable resources |
+| DisposableStack | `mizchi/js/builtins/disposable` | 🧪 Tested | Disposable resources |
 
 ### Web Standard APIs
 
@@ -228,8 +224,6 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 |---------|--------|------|
 | `eval()` | ❌ Not Supported | Security and type safety concerns |
 | `new Function()` | ❌ Not Supported | Security and type safety concerns |
-| `DisposableStack` | ⚠️ Limited | API available, but no `using` keyword syntax |
-| `AsyncDisposableStack` | ⚠️ Limited | API available, but no `await using` keyword syntax |
 
 ## Project Status
 
@@ -255,19 +249,22 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ```moonbit
 // Create JavaScript objects
-let obj = @js.from_map({ "name": @core.any("Alice"), "age": @core.any(30) })
+let obj = @js.from_entries([
+  ("name", @js.any("Alice")),
+  ("age", @js.any(30))
+])
 
 // Get property
-let name = obj._get("name")
+let name = obj["name"]
 
 // Set property
-obj.set("age", 31)
+obj["age"] = @js.any(31)
 
 // Call method
 let result = obj._call("toString", [])
 
 // Type casting
-let age: Int = obj._get("age").cast()
+let age: Int = obj["age"].cast()
 ```
 
 ## LICENSE

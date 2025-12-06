@@ -14,6 +14,7 @@ pub using @core {
   new,
   typeof_,
   from_async,
+  from_entries,
   from_fn0,
   from_fn1,
   from_fn2,
