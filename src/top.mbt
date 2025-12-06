@@ -11,7 +11,9 @@ pub using @core {
   type ThrowError,
   identity,
   any,
+  new,
   typeof_,
+  from_async,
   from_fn0,
   from_fn1,
   from_fn2,
@@ -22,7 +24,6 @@ pub using @core {
   promisify3,
   new_object,
   new_array,
-  new,
   run_async,
   suspend,
   log,
@@ -189,21 +190,7 @@ pub using @proxy {type Proxy}
 
 ///|
 /// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect
-pub using @reflect {
-  apply,
-  construct,
-  defineProperty,
-  deleteProperty,
-  get,
-  getOwnPropertyDescriptor,
-  getPrototypeOf,
-  has,
-  isExtensible,
-  ownKeys,
-  preventExtensions,
-  set,
-  setPrototypeOf,
-}
+pub using @reflect {type Reflect}
 
 ///| JavaScript Atomics
 

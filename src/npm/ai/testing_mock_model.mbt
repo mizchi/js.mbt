@@ -144,7 +144,7 @@ pub fn mock_language_model(options : MockLanguageModelOptions) -> @core.Any {
   // Call new MockLanguageModelV3(opts)
   let mock_class_any : @core.Any = mock_class.cast()
   let opts_any : @core.Any = opts.cast()
-  @reflect.construct(mock_class_any, [opts_any], None).cast()
+  @reflect.Reflect::construct(mock_class_any, [opts_any], None).cast()
 }
 
 ///|

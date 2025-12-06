@@ -85,7 +85,7 @@ pub fn mock_values_js(values : Array[@core.Any]) -> @core.Any {
   let test_module = require_test()
   let mock_values_fn : @core.Any = test_module._get("mockValues").cast()
   // Call mockValues(...values) using the spread pattern
-  @reflect.apply(
+  @reflect.Reflect::apply(
     mock_values_fn,
     @core.null(),
     values.map(fn(v) -> @core.Any { v.cast() }),
