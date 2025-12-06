@@ -199,7 +199,7 @@ pub using @reflect {
 
 ///|
 /// @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Atomics
-pub using @atomics {type AtomicsWaitResult}
+pub using @atomics {type Atomics, type AtomicsWaitResult}
 
 ///| JavaScript Function
 

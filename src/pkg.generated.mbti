@@ -147,6 +147,8 @@ pub using @disposable {type AsyncDisposableStack}
 
 pub using @iterator {type AsyncIterator}
 
+pub using @atomics {type Atomics}
+
 pub using @atomics {type AtomicsWaitResult}
 
 pub using @arraybuffer {type DataView}

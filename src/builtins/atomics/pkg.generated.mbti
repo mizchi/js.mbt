@@ -6,33 +6,25 @@ import(
 )
 
 // Values
-pub fn add(@core.Any, Int, Int) -> Int
-
-pub fn and_(@core.Any, Int, Int) -> Int
-
-pub fn compareExchange(@core.Any, Int, Int, Int) -> Int
-
-pub fn exchange(@core.Any, Int, Int) -> Int
-
-pub fn isLockFree(Int) -> Bool
-
-pub fn load(@core.Any, Int) -> Int
-
-pub fn notify(@core.Any, Int, count? : Int) -> Int
-
-pub fn or_(@core.Any, Int, Int) -> Int
-
-pub fn store(@core.Any, Int, Int) -> Int
-
-pub fn sub(@core.Any, Int, Int) -> Int
-
-pub fn wait(@core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
-
-pub fn xor(@core.Any, Int, Int) -> Int
 
 // Errors
 
 // Types and methods
+#external
+pub type Atomics
+pub fn Atomics::add(@core.Any, Int, Int) -> Int
+pub fn Atomics::and_(@core.Any, Int, Int) -> Int
+pub fn Atomics::compareExchange(@core.Any, Int, Int, Int) -> Int
+pub fn Atomics::exchange(@core.Any, Int, Int) -> Int
+pub fn Atomics::isLockFree(Int) -> Bool
+pub fn Atomics::load(@core.Any, Int) -> Int
+pub fn Atomics::notify(@core.Any, Int, count? : Int) -> Int
+pub fn Atomics::or_(@core.Any, Int, Int) -> Int
+pub fn Atomics::store(@core.Any, Int, Int) -> Int
+pub fn Atomics::sub(@core.Any, Int, Int) -> Int
+pub fn Atomics::wait(@core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
+pub fn Atomics::xor(@core.Any, Int, Int) -> Int
+
 pub enum AtomicsWaitResult {
   Ok
   NotEqual
