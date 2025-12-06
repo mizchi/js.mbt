@@ -213,8 +213,9 @@ pub extern "js" fn pgTable(name : String, columns : @core.Any) -> Table =
 /// Create a PostgreSQL table from a Map of column definitions
 #alias(pg_table_from_map)
 pub fn pgTableFromMap(name : String, columns : Map[String, Column]) -> Table {
-  let obj = @core.new_object()
-  columns.each(fn(key, col) { obj._set(key, col.as_any() |> @core.any) })
+  let entries : Array[(String, @core.Any)] = []
+  columns.each(fn(key, col) { entries.push((key, col.as_any() |> @core.any)) })
+  let obj = @core.from_entries(entries)
   pgTable(name, obj)
 }
 

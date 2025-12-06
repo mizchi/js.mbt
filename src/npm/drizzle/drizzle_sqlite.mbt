@@ -29,8 +29,7 @@ pub fn drizzleLibsql(connection_url : String) -> DrizzleDB {
 /// Create a Drizzle instance for SQLite with libsql client
 pub fn drizzleLibsqlClient(client : @core.Any) -> DrizzleDB {
   let drizzle_fn = drizzle_libsql_module()._get("drizzle")
-  let config = @core.new_object()
-  config._set("client", client)
+  let config = @core.from_entries([("client", client)])
   @core.any(drizzle_fn)._invoke([@core.any(config)]).cast()
 }
 
@@ -67,8 +66,9 @@ pub fn sqliteTableFromMap(
   name : String,
   columns : Map[String, Column],
 ) -> Table {
-  let obj = @core.new_object()
-  columns.each(fn(key, col) { obj._set(key, col.as_any()) })
+  let entries : Array[(String, @core.Any)] = []
+  columns.each(fn(key, col) { entries.push((key, col.as_any())) })
+  let obj = @core.from_entries(entries)
   sqliteTable(name, obj)
 }
 

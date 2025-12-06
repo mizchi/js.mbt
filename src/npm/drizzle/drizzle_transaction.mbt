@@ -104,16 +104,17 @@ pub async fn DrizzleDB::pgTransaction(
   access_mode? : PgAccessMode,
   deferrable? : Bool,
 ) -> @core.Any {
-  let opts = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if isolation_level is Some(il) {
-    opts._set("isolationLevel", il.to_string() |> @core.any)
+    entries.push(("isolationLevel", il.to_string() |> @core.any))
   }
   if access_mode is Some(am) {
-    opts._set("accessMode", am.to_string() |> @core.any)
+    entries.push(("accessMode", am.to_string() |> @core.any))
   }
   if deferrable is Some(d) {
-    opts._set("deferrable", d |> @core.any)
+    entries.push(("deferrable", d |> @core.any))
   }
+  let opts = @core.from_entries(entries)
   ffi_pg_transaction_with_opts(self, ffi_wrap_tx_callback(callback), opts).wait()
 }
 
