@@ -5,6 +5,7 @@ Common usage patterns for the `mizchi/js` library.
 ## Object Operations
 
 ```moonbit
+
 ///|
 test "basic object operations" {
   let obj = @core.new_object()
@@ -36,6 +37,7 @@ test "basic object operations" {
 ## Arrays
 
 ```moonbit
+
 ///|
 test "array operations" {
   let arr = @core.any([1, 2, 3])
@@ -66,6 +68,7 @@ test "array operations" {
 ## Type Conversion
 
 ```moonbit
+
 ///|
 test "type conversion" {
   // MoonBit -> JS
@@ -91,6 +94,7 @@ test "type conversion" {
 ## Type Checking
 
 ```moonbit
+
 ///|
 test "type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
@@ -106,6 +110,7 @@ test "type checking" {
 ## Method Calls
 
 ```moonbit
+
 ///|
 test "method calls" {
   let obj = @core.new_object()
@@ -124,6 +129,7 @@ test "method calls" {
 ## Function Conversion
 
 ```moonbit
+
 ///|
 test "function conversion" {
   // MoonBit function -> JS function
@@ -141,6 +147,7 @@ test "function conversion" {
 ## Constructors
 
 ```moonbit
+
 ///|
 test "constructors" {
   let array_ctor = @core.global_this()._get("Array")
@@ -161,6 +168,7 @@ test "constructors" {
 ## JSON
 
 ```moonbit
+
 ///|
 test "json" {
   let obj = @core.new_object()
@@ -175,6 +183,7 @@ test "json" {
 ## Async / Promise
 
 ```moonbit
+
 ///|
 async fn fetch_example() -> Unit {
   // Async functions return values directly (no .wait() needed by caller)
@@ -186,8 +195,8 @@ async fn fetch_example() -> Unit {
 ///|
 async fn promise_combinators() -> Unit {
   // Create promises from async functions
-  let p1 = @js.Promise::from_async(async fn() -> Int { 1 })
-  let p2 = @js.Promise::from_async(async fn() -> Int { 2 })
+  let p1 = @js.from_async(async fn() -> Int { 1 })
+  let p2 = @js.from_async(async fn() -> Int { 2 })
 
   // Wait for all (async fn, no .wait() needed)
   let results = @js.Promise::all([p1, p2])
@@ -215,6 +224,7 @@ async fn sleep_example() -> Unit {
 ## Global Functions
 
 ```moonbit
+
 ///|
 test "global functions" {
   // URI encoding
@@ -232,6 +242,7 @@ test "global functions" {
 ## BigInt
 
 ```moonbit
+
 ///|
 test "bigint" {
   let a = @bigint.JsBigInt::from_int(42)

@@ -143,7 +143,7 @@ pub fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
 pub fn[T] Promise::any(Array[Self[T]]) -> Self[T]
 pub fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 pub fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
-pub fn[A] Promise::from_async(async () -> A) -> Self[A]
+pub fn[A] from_async(async () -> A) -> Self[A]
 pub fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
 pub fn[T] Promise::race(Array[Self[T]]) -> Self[T]
 pub fn Promise::reject(Any) -> Self[Any]
@@ -205,4 +205,3 @@ pub fn[A, B, C, D, E] Union5::to_any(Self[A, B, C, D, E]) -> Any
 // Type aliases
 
 // Traits
-

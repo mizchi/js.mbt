@@ -50,81 +50,6 @@ extern "js" fn ffi_new_promise(
 extern "js" fn ffi_promise_with_resolvers() -> Any =
   #| () => Promise.withResolvers()
 
-///| Symbols
-
-///| Global Functions
-
-// ///|
-// extern "js" fn ffi_json_stringify(
-//   value : Any,
-//   replacer : Any,
-//   space : Any,
-// ) -> String =
-//   #| (value, replacer, space) => JSON.stringify(value, replacer, space)
-
-// ///|
-// extern "js" fn ffi_json_parse(json : String, reviver? : Any) -> Any =
-//   #| (json, reviver) => JSON.parse(json, reviver)
-
-///| Timers
-
-///|
-/// Await a JS Promise, returning the resolved value
-// pub async fn[T] Promise::wait(self : Promise[T]) -> T {
-//   suspend(fn(resolve, reject) {
-//     let p : Any = self |> identity
-//     p._call("then", [any(resolve)]) |> ignore
-//     p._call("catch", [any(reject)]) |> ignore
-//   })
-// }
-
-///|
-/// Create a new Promise from executor function (internal, untyped)
-// extern "js" fn promise_new(
-//   executor : ((Any) -> Unit, (Any) -> Unit) -> Unit,
-// ) -> Any =
-//   #| (executor) => new Promise(executor)
-
-///|
-/// Create a new Promise from executor function
-/// Usage: Promise::new(fn(resolve, reject) { ... })
-// pub fn[T] Promise::new(
-//   executor : ((T) -> Unit, (Any) -> Unit) -> Unit,
-// ) -> Promise[T] {
-//   let typed_executor : ((Any) -> Unit, (Any) -> Unit) -> Unit = fn(
-//     resolve,
-//     reject,
-//   ) {
-//     let typed_resolve : (T) -> Unit = fn(v) { resolve(any(v)) }
-//     executor(typed_resolve, reject)
-//   }
-//   promise_new(typed_executor) |> identity
-// }
-
-// ///|
-// /// Create a Promise from an async function
-// /// Usage: Promise::async_fn(async fn() { ... })
-// pub fn[T] Promise::async_fn(f : async () -> T noraise) -> Promise[T] {
-//   Promise::new(fn(resolve, _reject) {
-//     run_async(async fn() noraise {
-//       let result = f()
-//       resolve(result)
-//     })
-//   })
-// }
-
-// ///|
-// /// Promise.resolve(value) - create resolved promise
-// pub fn[T] Promise::resolve(value : T) -> Promise[T] {
-//   Promise::new(fn(resolve, _reject) { resolve(value) })
-// }
-
-// ///|
-// /// Promise.reject(error) - create rejected promise
-// pub fn Promise::reject(error : Any) -> Promise[Any] {
-//   Promise::new(fn(_resolve, reject) { reject(error) })
-// }
-
 ///|
 /// JavaScript Promise[T]
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise
@@ -159,12 +84,12 @@ pub fn[A] Promise::new(
 ///|
 /// Convert an async function to a Promise.
 /// ```moonbit no-check
-/// let p : Promise[Int] = Promise::from_async(async fn() {
+/// let p : Promise[Int] = from_async(async fn() {
 ///   let result = some_async_operation()
 ///   result
 /// })
 /// ```
-pub fn[A] Promise::from_async(f : async () -> A) -> Promise[A] noraise {
+pub fn[A] from_async(f : async () -> A) -> Promise[A] noraise {
   let { promise, resolve, reject } = Promise::withResolvers()
   run_async(fn() {
     try f() |> resolve catch {
@@ -232,8 +157,8 @@ pub async fn[T] Promise::wait(self : Self[T]) -> T {
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 /// ```moonbit no-check
 /// let results = Promise::all([
-///   Promise::from_async(async fn() { fetch_user() }),
-///   Promise::from_async(async fn() { fetch_posts() }),
+///   from_async(async fn() { fetch_user() }),
+///   from_async(async fn() { fetch_posts() }),
 /// ]).wait()
 /// ```
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
@@ -245,11 +170,11 @@ pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/race
 /// ```moonbit no-check
 /// let first = Promise::race([
-///   Promise::from_async(async fn() {
+///   from_async(async fn() {
 ///     sleep(100)
 ///     "slow"
 ///   }),
-///   Promise::from_async(async fn() {
+///   from_async(async fn() {
 ///     sleep(10)
 ///     "fast"
 ///   }),
@@ -264,8 +189,8 @@ pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/any
 /// ```moonbit no-check
 /// let first_success = Promise::any([
-///   Promise::from_async(async fn() { fetch_from_mirror1() }),
-///   Promise::from_async(async fn() { fetch_from_mirror2() }),
+///   from_async(async fn() { fetch_from_mirror1() }),
+///   from_async(async fn() { fetch_from_mirror2() }),
 /// ]).wait()
 /// ```
 pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
@@ -288,8 +213,8 @@ pub fn[T] SettledResult::to_any(self : SettledResult[T]) -> Any = "%identity"
 /// https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled
 /// ```moonbit no-check
 /// let results = Promise::allSettled([
-///   Promise::from_async(async fn() { 1 }),
-///   Promise::from_async(async fn() { fail("error") }),
+///   from_async(async fn() { 1 }),
+///   from_async(async fn() { fail("error") }),
 /// ]).wait()
 /// // results[0].status == "fulfilled", results[0].value == Some(1)
 /// // results[1].status == "rejected", results[1].reason != null

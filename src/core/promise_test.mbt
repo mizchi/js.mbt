@@ -52,11 +52,11 @@ async test "Promise: @core.Promise::all" {
 
 ///|
 async test "Promise: @core.Promise::race" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.from_async(async fn() {
     @core.sleep(16)
     100
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.from_async(async fn() {
     @core.sleep(32)
     200
   })
@@ -112,11 +112,11 @@ async test "Promise: @core.Promise::race with single promise" {
 
 ///|
 async test "Promise: @core.Promise::any returns first fulfilled promise" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.from_async(async fn() {
     @core.sleep(48)
     100
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.from_async(async fn() {
     @core.sleep(16)
     200
   })
@@ -127,11 +127,11 @@ async test "Promise: @core.Promise::any returns first fulfilled promise" {
 
 ///|
 async test "Promise: @core.Promise::allSettled handles both fulfilled and rejected" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.from_async(async fn() {
     @core.sleep(16)
     42
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.from_async(async fn() {
     @core.sleep(16)
     100
   })
@@ -144,7 +144,7 @@ async test "Promise: @core.Promise::allSettled handles both fulfilled and reject
 
 ///|
 async test "Promise: async function to Promise and back" {
-  let result = @core.Promise::from_async(async fn() { 42 }).wait()
+  let result = @core.from_async(async fn() { 42 }).wait()
   inspect(result, content="42")
 }
 
@@ -209,7 +209,7 @@ async test "Promise: Promise.all with async unwrap" {
 ///|
 async test "Promise: async function with error converts to rejected Promise" {
   let async_fn = async fn() -> Int { fail("test error") }
-  let promise = @core.Promise::from_async(async_fn)
+  let promise = @core.from_async(async_fn)
   let result = promise.wait() catch { _e => -1 }
   inspect(result, content="-1")
 }
@@ -243,13 +243,13 @@ async test "Promise: chaining async and Promise operations" {
 async test "Promise: Promise and async are interchangeable" {
   // async -> Promise
   let async_value = async fn() { 42 }
-  let as_promise = @core.Promise::from_async(async_value)
+  let as_promise = @core.from_async(async_value)
 
   // Promise -> async (unwrap)
   let back_to_async = async fn() { as_promise.wait() }
 
   // Back to Promise again
-  let promise_again = @core.Promise::from_async(back_to_async)
+  let promise_again = @core.from_async(back_to_async)
 
   // Get final result
   let final_result = promise_again.wait()
@@ -425,15 +425,15 @@ async test "Promise: nested promises" {
 
 ///|
 async test "Promise: @core.Promise::all with mixed resolution times" {
-  let p1 = @core.Promise::from_async(() => {
+  let p1 = @core.from_async(() => {
     @core.sleep(16)
     1
   })
-  let p2 = @core.Promise::from_async(() => {
+  let p2 = @core.from_async(() => {
     @core.sleep(32)
     2
   })
-  let p3 = @core.Promise::from_async(() => {
+  let p3 = @core.from_async(() => {
     @core.sleep(48)
     3
   })
@@ -482,11 +482,11 @@ async test "Promise: @core.Promise::then with raise and catch" {
 ///|
 /// @core.Promise::any resolves with first fulfilled promise
 async test "Promise: @core.Promise::any returns first fulfilled promise (2)" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.from_async(async fn() {
     @core.sleep(200)
     100
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.from_async(async fn() {
     @core.sleep(16)
     200
   })
@@ -498,11 +498,11 @@ async test "Promise: @core.Promise::any returns first fulfilled promise (2)" {
 ///|
 /// @core.Promise::allSettled waits for all promises
 async test "Promise: @core.Promise::allSettled handles both fulfilled and rejected (2)" {
-  let p1 = @core.Promise::from_async(async fn() {
+  let p1 = @core.from_async(async fn() {
     @core.sleep(16)
     42
   })
-  let p2 = @core.Promise::from_async(async fn() {
+  let p2 = @core.from_async(async fn() {
     @core.sleep(16)
     100
   })
@@ -587,18 +587,18 @@ async test "Promise: nested catch handlers" {
   inspect(num, content="100")
 }
 
-///| Promise::from_async tests
+///| from_async tests
 
 ///|
-async test "Promise: @core.Promise::from_async basic" {
-  let p : @core.Promise[Int] = @core.Promise::from_async(async fn() { 42 })
+async test "Promise: @core.from_async basic" {
+  let p : @core.Promise[Int] = @core.from_async(async fn() { 42 })
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
-async test "Promise: @core.Promise::from_async with async operation" {
-  let p : @core.Promise[Int] = @core.Promise::from_async(async fn() {
+async test "Promise: @core.from_async with async operation" {
+  let p : @core.Promise[Int] = @core.from_async(async fn() {
     @core.sleep(16)
     100
   })
@@ -607,8 +607,8 @@ async test "Promise: @core.Promise::from_async with async operation" {
 }
 
 ///|
-async test "Promise: @core.Promise::from_async with await inside" {
-  let p : @core.Promise[Int] = @core.Promise::from_async(async fn() {
+async test "Promise: @core.from_async with await inside" {
+  let p : @core.Promise[Int] = @core.from_async(async fn() {
     let inner = @core.Promise::resolve(10)
     let v = inner.wait()
     v * 2
@@ -618,8 +618,8 @@ async test "Promise: @core.Promise::from_async with await inside" {
 }
 
 ///|
-async test "Promise: @core.Promise::from_async auto-rejects on error" {
-  let p : @core.Promise[Int] = @core.Promise::from_async(async fn() {
+async test "Promise: @core.from_async auto-rejects on error" {
+  let p : @core.Promise[Int] = @core.from_async(async fn() {
     fail("auto reject error")
   })
   let result = try? p.wait()
