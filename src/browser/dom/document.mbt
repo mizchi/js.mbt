@@ -110,6 +110,35 @@ pub fn Document::getElementsByTagName(
 }
 
 ///|
+/// Returns the first element matching the specified CSS selector
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+#alias(query_selector)
+pub fn Document::querySelector(self : Self, selector : String) -> Element? {
+  let v : @core.Any = self
+    .as_any()
+    ._call("querySelector", [@core.any(selector)])
+    .cast()
+  v |> @core.identity_option()
+}
+
+///|
+/// Returns all elements matching the specified CSS selector
+/// https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+///
+/// Note: The returned array is a snapshot and should be treated as immutable.
+#alias(query_selector_all)
+pub fn Document::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
+  let arr : @core.Any = self
+    .as_any()
+    ._call("querySelectorAll", [@core.any(selector)])
+    .cast()
+  @core.array_from(arr).map(fn(v) { @core.identity(v) })
+}
+
+///|
 /// Returns the document's cookie string
 /// https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
 pub extern "js" fn Document::cookie(self : Self) -> String =

@@ -213,6 +213,10 @@ pub fn Document::getElementsByTagName(Self, String) -> Array[Element]
 pub fn Document::head(Self) -> HTMLHeadElement?
 #alias(import_node)
 pub fn Document::importNode(Self, Node, Bool) -> Node
+#alias(query_selector)
+pub fn Document::querySelector(Self, String) -> Element?
+#alias(query_selector_all)
+pub fn Document::querySelectorAll(Self, String) -> Array[Element]
 #alias(ready_state)
 pub fn Document::readyState(Self) -> String
 pub fn Document::referrer(Self) -> String

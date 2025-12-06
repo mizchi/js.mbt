@@ -317,6 +317,50 @@ test "Document - getElementById and document element accessors" {
 }
 
 ///|
+test "Document - querySelector and querySelectorAll" {
+  @global_jsdom.register()
+  let doc = document()
+  let body = doc.body().unwrap()
+
+  // Create test elements
+  let div1 = doc.createElement("div")
+  div1.setId("app")
+  div1.setClassName("container")
+  let div2 = doc.createElement("div")
+  div2.setClassName("container")
+  let span = doc.createElement("span")
+  span.setClassName("text")
+  body.as_node().appendChild(div1.as_node()) |> ignore
+  body.as_node().appendChild(div2.as_node()) |> ignore
+  div1.as_node().appendChild(span.as_node()) |> ignore
+
+  // querySelector by id
+  let app = doc.querySelector("#app")
+  assert_eq(app is None, false)
+  assert_eq(app.unwrap().id(), "app")
+
+  // querySelector by class
+  let container = doc.querySelector(".container")
+  assert_eq(container is None, false)
+
+  // querySelector by tag
+  let first_span = doc.querySelector("span")
+  assert_eq(first_span is None, false)
+
+  // querySelectorAll by class
+  let containers = doc.querySelectorAll(".container")
+  containers.length() |> inspect(content="2")
+
+  // querySelectorAll by tag
+  let divs = doc.querySelectorAll("div")
+  assert_eq(divs.length() >= 2, true)
+
+  // querySelector that doesn't match
+  let not_found = doc.querySelector(".nonexistent")
+  assert_eq(not_found is None, true)
+}
+
+///|
 test "Document - createDocumentFragment and createComment" {
   @global_jsdom.register()
   let doc = document()
