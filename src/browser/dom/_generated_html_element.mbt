@@ -45,7 +45,11 @@ pub fn HTMLElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_element().setAttribute(name, value)
 }
 
@@ -63,13 +67,19 @@ pub fn HTMLElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_element().getElementsByClassName(class_name)
 }
 
@@ -81,7 +91,10 @@ pub fn HTMLElement::querySelector(self : Self, selector : String) -> Element? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_element().querySelectorAll(selector)
 }
 
@@ -147,13 +160,21 @@ pub fn HTMLElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
+pub fn HTMLElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
   self.as_element().as_node().replaceChild(new_child, old_child)
 }
 

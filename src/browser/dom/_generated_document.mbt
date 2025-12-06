@@ -3,102 +3,110 @@
 
 ///|
 /// Inherited from Node
-pub fn Element::nodeType(self : Self) -> Int {
+pub fn Document::nodeType(self : Self) -> Int {
   self.as_node().nodeType()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::nodeName(self : Self) -> String {
+pub fn Document::nodeName(self : Self) -> String {
   self.as_node().nodeName()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::parentNode(self : Self) -> Node? {
+pub fn Document::parentNode(self : Self) -> Node? {
   self.as_node().parentNode()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::childNodes(self : Self) -> Array[Node] {
+pub fn Document::childNodes(self : Self) -> Array[Node] {
   self.as_node().childNodes()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::firstChild(self : Self) -> Node? {
+pub fn Document::firstChild(self : Self) -> Node? {
   self.as_node().firstChild()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::lastChild(self : Self) -> Node? {
+pub fn Document::lastChild(self : Self) -> Node? {
   self.as_node().lastChild()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::previousSibling(self : Self) -> Node? {
+pub fn Document::previousSibling(self : Self) -> Node? {
   self.as_node().previousSibling()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::nextSibling(self : Self) -> Node? {
+pub fn Document::nextSibling(self : Self) -> Node? {
   self.as_node().nextSibling()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::appendChild(self : Self, child : Node) -> Node {
+pub fn Document::appendChild(self : Self, child : Node) -> Node {
   self.as_node().appendChild(child)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::removeChild(self : Self, child : Node) -> Node {
+pub fn Document::removeChild(self : Self, child : Node) -> Node {
   self.as_node().removeChild(child)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn Document::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
+pub fn Document::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
   self.as_node().replaceChild(new_child, old_child)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::cloneNode(self : Self, deep : Bool) -> Node {
+pub fn Document::cloneNode(self : Self, deep : Bool) -> Node {
   self.as_node().cloneNode(deep)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::contains(self : Self, other : Node?) -> Bool {
+pub fn Document::contains(self : Self, other : Node?) -> Bool {
   self.as_node().contains(other)
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::hasChildNodes(self : Self) -> Bool {
+pub fn Document::hasChildNodes(self : Self) -> Bool {
   self.as_node().hasChildNodes()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::textContent(self : Self) -> String {
+pub fn Document::textContent(self : Self) -> String {
   self.as_node().textContent()
 }
 
 ///|
 /// Inherited from Node
-pub fn Element::setTextContent(self : Self, content : String) -> Unit {
+pub fn Document::setTextContent(self : Self, content : String) -> Unit {
   self.as_node().setTextContent(content)
 }

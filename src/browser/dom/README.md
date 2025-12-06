@@ -297,7 +297,7 @@ test "basic DOM operations" {
 
 ## Generated Inheritance Methods
 
-The `*_generated.mbt` files contain auto-generated wrapper methods that provide direct access to inherited methods without explicit type casting.
+The `_generated_*.mbt` files contain auto-generated wrapper methods that provide direct access to inherited methods without explicit type casting.
 
 ### Before (Manual Casting)
 

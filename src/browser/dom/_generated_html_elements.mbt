@@ -95,7 +95,11 @@ pub fn HTMLDivElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLDivElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -113,25 +117,37 @@ pub fn HTMLDivElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLDivElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLDivElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLDivElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLDivElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -197,14 +213,26 @@ pub fn HTMLDivElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLDivElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLDivElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLDivElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLDivElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -331,7 +359,11 @@ pub fn HTMLSpanElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLSpanElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -349,25 +381,37 @@ pub fn HTMLSpanElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLSpanElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLSpanElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLSpanElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLSpanElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -433,14 +477,26 @@ pub fn HTMLSpanElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLSpanElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLSpanElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLSpanElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLSpanElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -567,7 +623,11 @@ pub fn HTMLBodyElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLBodyElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -585,25 +645,37 @@ pub fn HTMLBodyElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLBodyElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLBodyElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLBodyElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLBodyElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -669,14 +741,26 @@ pub fn HTMLBodyElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLBodyElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLBodyElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLBodyElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLBodyElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -803,7 +887,11 @@ pub fn HTMLHeadElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLHeadElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -821,25 +909,37 @@ pub fn HTMLHeadElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLHeadElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLHeadElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLHeadElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLHeadElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -905,14 +1005,26 @@ pub fn HTMLHeadElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLHeadElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLHeadElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLHeadElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLHeadElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1039,7 +1151,11 @@ pub fn HTMLHtmlElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLHtmlElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -1057,25 +1173,37 @@ pub fn HTMLHtmlElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLHtmlElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLHtmlElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLHtmlElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLHtmlElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -1141,14 +1269,26 @@ pub fn HTMLHtmlElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLHtmlElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLHtmlElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLHtmlElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLHtmlElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1251,7 +1391,10 @@ pub fn HTMLAnchorElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLAnchorElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -1275,7 +1418,11 @@ pub fn HTMLAnchorElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLAnchorElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -1293,25 +1440,37 @@ pub fn HTMLAnchorElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLAnchorElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLAnchorElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLAnchorElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLAnchorElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -1377,14 +1536,26 @@ pub fn HTMLAnchorElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLAnchorElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLAnchorElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLAnchorElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLAnchorElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1487,7 +1658,10 @@ pub fn HTMLButtonElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLButtonElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -1511,7 +1685,11 @@ pub fn HTMLButtonElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLButtonElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -1529,25 +1707,37 @@ pub fn HTMLButtonElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLButtonElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLButtonElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLButtonElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLButtonElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -1613,14 +1803,26 @@ pub fn HTMLButtonElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLButtonElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLButtonElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLButtonElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLButtonElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1747,7 +1949,11 @@ pub fn HTMLInputElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLInputElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -1765,25 +1971,37 @@ pub fn HTMLInputElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLInputElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLInputElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLInputElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLInputElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -1849,14 +2067,26 @@ pub fn HTMLInputElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLInputElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLInputElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLInputElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLInputElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1959,7 +2189,10 @@ pub fn HTMLTextAreaElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLTextAreaElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -1983,7 +2216,11 @@ pub fn HTMLTextAreaElement::getAttribute(self : Self, name : String) -> String? 
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLTextAreaElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -2001,25 +2238,37 @@ pub fn HTMLTextAreaElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLTextAreaElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLTextAreaElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLTextAreaElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLTextAreaElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -2085,14 +2334,26 @@ pub fn HTMLTextAreaElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLTextAreaElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLTextAreaElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLTextAreaElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLTextAreaElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -2121,7 +2382,10 @@ pub fn HTMLTextAreaElement::textContent(self : Self) -> String {
 
 ///|
 /// Inherited from Node
-pub fn HTMLTextAreaElement::setTextContent(self : Self, content : String) -> Unit {
+pub fn HTMLTextAreaElement::setTextContent(
+  self : Self,
+  content : String,
+) -> Unit {
   self.as_html_element().as_element().as_node().setTextContent(content)
 }
 
@@ -2195,7 +2459,10 @@ pub fn HTMLCanvasElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLCanvasElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -2219,7 +2486,11 @@ pub fn HTMLCanvasElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLCanvasElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -2237,25 +2508,37 @@ pub fn HTMLCanvasElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLCanvasElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLCanvasElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLCanvasElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLCanvasElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -2321,14 +2604,26 @@ pub fn HTMLCanvasElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLCanvasElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLCanvasElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLCanvasElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLCanvasElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -2431,7 +2726,10 @@ pub fn HTMLIFrameElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLIFrameElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -2455,7 +2753,11 @@ pub fn HTMLIFrameElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLIFrameElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -2473,25 +2775,37 @@ pub fn HTMLIFrameElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLIFrameElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLIFrameElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLIFrameElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLIFrameElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -2557,14 +2871,26 @@ pub fn HTMLIFrameElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLIFrameElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLIFrameElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLIFrameElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLIFrameElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -2691,7 +3017,11 @@ pub fn HTMLFormElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLFormElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -2709,25 +3039,37 @@ pub fn HTMLFormElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLFormElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLFormElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLFormElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLFormElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -2793,14 +3135,26 @@ pub fn HTMLFormElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLFormElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLFormElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLFormElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLFormElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -2903,7 +3257,10 @@ pub fn HTMLSelectElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLSelectElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -2927,7 +3284,11 @@ pub fn HTMLSelectElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLSelectElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -2945,25 +3306,37 @@ pub fn HTMLSelectElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLSelectElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLSelectElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLSelectElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLSelectElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -3029,14 +3402,26 @@ pub fn HTMLSelectElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLSelectElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLSelectElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLSelectElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLSelectElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -3139,7 +3524,10 @@ pub fn HTMLOptionElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLOptionElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -3163,7 +3551,11 @@ pub fn HTMLOptionElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLOptionElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -3181,25 +3573,37 @@ pub fn HTMLOptionElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLOptionElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLOptionElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLOptionElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLOptionElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -3265,14 +3669,26 @@ pub fn HTMLOptionElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLOptionElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLOptionElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLOptionElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLOptionElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -3399,7 +3815,11 @@ pub fn HTMLLabelElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLLabelElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -3417,25 +3837,37 @@ pub fn HTMLLabelElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLLabelElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLLabelElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLLabelElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLLabelElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -3501,14 +3933,26 @@ pub fn HTMLLabelElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLLabelElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLLabelElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLLabelElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLLabelElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -3635,7 +4079,11 @@ pub fn HTMLImageElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLImageElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -3653,25 +4101,37 @@ pub fn HTMLImageElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLImageElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLImageElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLImageElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLImageElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -3737,14 +4197,26 @@ pub fn HTMLImageElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLImageElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLImageElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLImageElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLImageElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -3847,7 +4319,10 @@ pub fn HTMLParagraphElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLParagraphElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -3865,19 +4340,29 @@ pub fn HTMLParagraphElement::setId(self : Self, id : String) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::getAttribute(self : Self, name : String) -> String? {
+pub fn HTMLParagraphElement::getAttribute(
+  self : Self,
+  name : String,
+) -> String? {
   self.as_html_element().as_element().getAttribute(name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLParagraphElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::removeAttribute(self : Self, name : String) -> Unit {
+pub fn HTMLParagraphElement::removeAttribute(
+  self : Self,
+  name : String,
+) -> Unit {
   self.as_html_element().as_element().removeAttribute(name)
 }
 
@@ -3889,25 +4374,37 @@ pub fn HTMLParagraphElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLParagraphElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLParagraphElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLParagraphElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLParagraphElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -3973,14 +4470,26 @@ pub fn HTMLParagraphElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLParagraphElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLParagraphElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLParagraphElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLParagraphElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -4009,7 +4518,10 @@ pub fn HTMLParagraphElement::textContent(self : Self) -> String {
 
 ///|
 /// Inherited from Node
-pub fn HTMLParagraphElement::setTextContent(self : Self, content : String) -> Unit {
+pub fn HTMLParagraphElement::setTextContent(
+  self : Self,
+  content : String,
+) -> Unit {
   self.as_html_element().as_element().as_node().setTextContent(content)
 }
 
@@ -4083,7 +4595,10 @@ pub fn HTMLHeadingElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn HTMLHeadingElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_html_element().as_element().setClassName(class_name)
 }
 
@@ -4107,7 +4622,11 @@ pub fn HTMLHeadingElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLHeadingElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -4125,25 +4644,37 @@ pub fn HTMLHeadingElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLHeadingElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLHeadingElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLHeadingElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLHeadingElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -4209,14 +4740,26 @@ pub fn HTMLHeadingElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLHeadingElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLHeadingElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLHeadingElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLHeadingElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -4245,7 +4788,10 @@ pub fn HTMLHeadingElement::textContent(self : Self) -> String {
 
 ///|
 /// Inherited from Node
-pub fn HTMLHeadingElement::setTextContent(self : Self, content : String) -> Unit {
+pub fn HTMLHeadingElement::setTextContent(
+  self : Self,
+  content : String,
+) -> Unit {
   self.as_html_element().as_element().as_node().setTextContent(content)
 }
 
@@ -4343,7 +4889,11 @@ pub fn HTMLUListElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLUListElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -4361,25 +4911,37 @@ pub fn HTMLUListElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLUListElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLUListElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLUListElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLUListElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -4445,14 +5007,26 @@ pub fn HTMLUListElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLUListElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLUListElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLUListElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLUListElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -4579,7 +5153,11 @@ pub fn HTMLOListElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLOListElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -4597,25 +5175,37 @@ pub fn HTMLOListElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLOListElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLOListElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn HTMLOListElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_html_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLOListElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -4681,14 +5271,26 @@ pub fn HTMLOListElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLOListElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLOListElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLOListElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLOListElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -4815,7 +5417,11 @@ pub fn HTMLLIElement::getAttribute(self : Self, name : String) -> String? {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::setAttribute(self : Self, name : String, value : String) -> Unit {
+pub fn HTMLLIElement::setAttribute(
+  self : Self,
+  name : String,
+  value : String,
+) -> Unit {
   self.as_html_element().as_element().setAttribute(name, value)
 }
 
@@ -4833,13 +5439,19 @@ pub fn HTMLLIElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn HTMLLIElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn HTMLLIElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_html_element().as_element().getElementsByClassName(class_name)
 }
 
@@ -4851,7 +5463,10 @@ pub fn HTMLLIElement::querySelector(self : Self, selector : String) -> Element? 
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn HTMLLIElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_html_element().as_element().querySelectorAll(selector)
 }
 
@@ -4917,14 +5532,26 @@ pub fn HTMLLIElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn HTMLLIElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn HTMLLIElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_html_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn HTMLLIElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_html_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn HTMLLIElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -4956,4 +5583,3 @@ pub fn HTMLLIElement::textContent(self : Self) -> String {
 pub fn HTMLLIElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_html_element().as_element().as_node().setTextContent(content)
 }
-

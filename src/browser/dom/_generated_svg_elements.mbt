@@ -53,13 +53,19 @@ pub fn SVGElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_element().getElementsByClassName(class_name)
 }
 
@@ -71,7 +77,10 @@ pub fn SVGElement::querySelector(self : Self, selector : String) -> Element? {
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_element().querySelectorAll(selector)
 }
 
@@ -137,13 +146,21 @@ pub fn SVGElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
+pub fn SVGElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
   self.as_element().as_node().replaceChild(new_child, old_child)
 }
 
@@ -229,13 +246,19 @@ pub fn SVGSVGElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGSVGElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGSVGElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
@@ -247,7 +270,10 @@ pub fn SVGSVGElement::querySelector(self : Self, selector : String) -> Element? 
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGSVGElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -313,14 +339,26 @@ pub fn SVGSVGElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGSVGElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGSVGElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGSVGElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGSVGElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -411,25 +449,37 @@ pub fn SVGCircleElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGCircleElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGCircleElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGCircleElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGCircleElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -495,14 +545,26 @@ pub fn SVGCircleElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGCircleElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGCircleElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGCircleElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGCircleElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -593,25 +655,37 @@ pub fn SVGRectElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGRectElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGRectElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGRectElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGRectElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -677,14 +751,26 @@ pub fn SVGRectElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGRectElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGRectElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGRectElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGRectElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -775,25 +861,37 @@ pub fn SVGPathElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGPathElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGPathElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGPathElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGPathElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -859,14 +957,26 @@ pub fn SVGPathElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGPathElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGPathElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGPathElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGPathElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -957,25 +1067,37 @@ pub fn SVGLineElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGLineElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGLineElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGLineElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGLineElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -1041,14 +1163,26 @@ pub fn SVGLineElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGLineElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGLineElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGLineElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGLineElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1109,7 +1243,10 @@ pub fn SVGPolylineElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn SVGPolylineElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_svg_element().as_element().setClassName(class_name)
 }
 
@@ -1139,25 +1276,37 @@ pub fn SVGPolylineElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGPolylineElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGPolylineElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGPolylineElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGPolylineElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -1223,14 +1372,26 @@ pub fn SVGPolylineElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGPolylineElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGPolylineElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGPolylineElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGPolylineElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1259,7 +1420,10 @@ pub fn SVGPolylineElement::textContent(self : Self) -> String {
 
 ///|
 /// Inherited from Node
-pub fn SVGPolylineElement::setTextContent(self : Self, content : String) -> Unit {
+pub fn SVGPolylineElement::setTextContent(
+  self : Self,
+  content : String,
+) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
@@ -1291,7 +1455,10 @@ pub fn SVGPolygonElement::className(self : Self) -> String {
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::setClassName(self : Self, class_name : String) -> Unit {
+pub fn SVGPolygonElement::setClassName(
+  self : Self,
+  class_name : String,
+) -> Unit {
   self.as_svg_element().as_element().setClassName(class_name)
 }
 
@@ -1321,25 +1488,37 @@ pub fn SVGPolygonElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGPolygonElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGPolygonElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGPolygonElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGPolygonElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -1405,14 +1584,26 @@ pub fn SVGPolygonElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGPolygonElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGPolygonElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGPolygonElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGPolygonElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1503,25 +1694,37 @@ pub fn SVGTextElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGTextElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGTextElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::querySelector(self : Self, selector : String) -> Element? {
+pub fn SVGTextElement::querySelector(
+  self : Self,
+  selector : String,
+) -> Element? {
   self.as_svg_element().as_element().querySelector(selector)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGTextElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -1587,14 +1790,26 @@ pub fn SVGTextElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGTextElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGTextElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGTextElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGTextElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1685,13 +1900,19 @@ pub fn SVGGElement::hasAttribute(self : Self, name : String) -> Bool {
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::getElementsByTagName(self : Self, tag_name : String) -> Array[Element] {
+pub fn SVGGElement::getElementsByTagName(
+  self : Self,
+  tag_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByTagName(tag_name)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::getElementsByClassName(self : Self, class_name : String) -> Array[Element] {
+pub fn SVGGElement::getElementsByClassName(
+  self : Self,
+  class_name : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().getElementsByClassName(class_name)
 }
 
@@ -1703,7 +1924,10 @@ pub fn SVGGElement::querySelector(self : Self, selector : String) -> Element? {
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::querySelectorAll(self : Self, selector : String) -> Array[Element] {
+pub fn SVGGElement::querySelectorAll(
+  self : Self,
+  selector : String,
+) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
 }
 
@@ -1769,14 +1993,26 @@ pub fn SVGGElement::removeChild(self : Self, child : Node) -> Node {
 
 ///|
 /// Inherited from Node
-pub fn SVGGElement::insertBefore(self : Self, new_node : Node, ref_node : Node?) -> Node {
+pub fn SVGGElement::insertBefore(
+  self : Self,
+  new_node : Node,
+  ref_node : Node?,
+) -> Node {
   self.as_svg_element().as_element().as_node().insertBefore(new_node, ref_node)
 }
 
 ///|
 /// Inherited from Node
-pub fn SVGGElement::replaceChild(self : Self, new_child : Node, old_child : Node) -> Node {
-  self.as_svg_element().as_element().as_node().replaceChild(new_child, old_child)
+pub fn SVGGElement::replaceChild(
+  self : Self,
+  new_child : Node,
+  old_child : Node,
+) -> Node {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .replaceChild(new_child, old_child)
 }
 
 ///|
@@ -1808,4 +2044,3 @@ pub fn SVGGElement::textContent(self : Self) -> String {
 pub fn SVGGElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
-
