@@ -151,6 +151,10 @@ pub using @atomics {type Atomics}
 
 pub using @atomics {type AtomicsWaitResult}
 
+pub using @arraybuffer {type BigInt64Array}
+
+pub using @arraybuffer {type BigUint64Array}
+
 pub using @arraybuffer {type DataView}
 
 pub using @date {type Date}
@@ -161,7 +165,17 @@ pub using @error {type EvalError}
 
 pub using @weak {type FinalizationRegistry}
 
+pub using @arraybuffer {type Float32Array}
+
+pub using @arraybuffer {type Float64Array}
+
 pub using @function {type Function}
+
+pub using @arraybuffer {type Int16Array}
+
+pub using @arraybuffer {type Int32Array}
+
+pub using @arraybuffer {type Int8Array}
 
 pub using @json {type JSON}
 
@@ -218,6 +232,12 @@ pub using @error {type TypeError}
 pub using @arraybuffer {type TypedArray}
 
 pub using @error {type URIError}
+
+pub using @arraybuffer {type Uint16Array}
+
+pub using @arraybuffer {type Uint32Array}
+
+pub using @arraybuffer {type Uint8Array}
 
 pub using @weak {type WeakMap}
 

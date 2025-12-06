@@ -92,6 +92,16 @@ pub using @arraybuffer {
   type TypedArray,
   type DataView,
   type SharedArrayBuffer,
+  type Uint8Array,
+  type Uint16Array,
+  type Uint32Array,
+  type Int8Array,
+  type Int16Array,
+  type Int32Array,
+  type Float32Array,
+  type Float64Array,
+  type BigInt64Array,
+  type BigUint64Array,
 }
 
 ///| JavaScript Array (JsArray to avoid conflict with MoonBit's Array)
