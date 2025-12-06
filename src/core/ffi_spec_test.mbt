@@ -65,7 +65,7 @@ pub fn StructWithOptionalNested::as_any(self : Self) -> @core.Any = "%identity"
 
 ///|
 /// Generic container
-pub(all) struct Container[T] {
+pub(all) struct FFITestContainer[T] {
   value : T
 }
 
@@ -233,32 +233,32 @@ test "Optional nested struct with undefined" {
 }
 
 ///|
-test "Generic Container[Int]" {
+test "Generic FFITestContainer[Int]" {
   let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
-  let container : Container[Int] = js_obj |> @core.identity
+  let container : FFITestContainer[Int] = js_obj |> @core.identity
   inspect(container.value, content="42")
 }
 
 ///|
-test "Generic Container[String]" {
+test "Generic FFITestContainer[String]" {
   let js_obj = @core.new_object()
   js_obj._set("value", "test" |> @core.any)
-  let container : Container[String] = js_obj |> @core.identity
+  let container : FFITestContainer[String] = js_obj |> @core.identity
   inspect(container.value, content="test")
 }
 
 ///|
-test "Generic Container[Int?] with value" {
+test "Generic FFITestContainer[Int?] with value" {
   let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
-  let container : Container[Int?] = js_obj |> @core.identity
+  let container : FFITestContainer[Int?] = js_obj |> @core.identity
   inspect(container.value, content="Some(42)")
 }
 
 ///|
-test "Generic Container[Int?] with null" {
-  let container : Container[Int?] = create_null_value() |> @core.identity
+test "Generic FFITestContainer[Int?] with null" {
+  let container : FFITestContainer[Int?] = create_null_value() |> @core.identity
   // FFI does not convert null to None - it becomes Some(null)
   match container.value {
     Some(_) => inspect("Some (possibly null)", content="Some (possibly null)")
@@ -267,13 +267,13 @@ test "Generic Container[Int?] with null" {
 }
 
 ///|
-test "Generic Container[SimpleStruct]" {
+test "Generic FFITestContainer[SimpleStruct]" {
   let js_obj = @core.new_object()
   let simple_obj = @core.new_object()
   simple_obj._set("name", "Bob" |> @core.any)
   simple_obj._set("age", 25 |> @core.any)
   js_obj._set("value", simple_obj)
-  let container : Container[SimpleStruct] = js_obj |> @core.identity
+  let container : FFITestContainer[SimpleStruct] = js_obj |> @core.identity
   inspect(container.value.name, content="Bob")
   inspect(container.value.age, content="25")
 }
