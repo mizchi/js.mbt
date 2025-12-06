@@ -185,42 +185,31 @@ pub fn Transaction::select(
 }
 
 ///|
-extern "js" fn ffi_tx_insert(tx : Transaction, table : Table) -> QueryBuilder =
+/// Start an INSERT query within transaction
+pub extern "js" fn Transaction::insert(
+  self : Transaction,
+  table : Table,
+) -> QueryBuilder =
   #| (tx, table) => tx.insert(table)
 
 ///|
-/// Start an INSERT query within transaction
-pub fn Transaction::insert(self : Transaction, table : Table) -> QueryBuilder {
-  ffi_tx_insert(self, table)
-}
-
-///|
-extern "js" fn ffi_tx_update(tx : Transaction, table : Table) -> QueryBuilder =
+/// Start an UPDATE query within transaction
+pub extern "js" fn Transaction::update(
+  self : Transaction,
+  table : Table,
+) -> QueryBuilder =
   #| (tx, table) => tx.update(table)
 
 ///|
-/// Start an UPDATE query within transaction
-pub fn Transaction::update(self : Transaction, table : Table) -> QueryBuilder {
-  ffi_tx_update(self, table)
-}
-
-///|
-extern "js" fn ffi_tx_delete(tx : Transaction, table : Table) -> QueryBuilder =
-  #| (tx, table) => tx.delete(table)
-
-///|
 /// Start a DELETE query within transaction
-pub fn Transaction::delete(self : Transaction, table : Table) -> QueryBuilder {
-  ffi_tx_delete(self, table)
-}
-
-///|
-extern "js" fn ffi_tx_rollback(tx : Transaction) -> Unit =
-  #| (tx) => { throw tx.rollback(); }
+pub extern "js" fn Transaction::delete(
+  self : Transaction,
+  table : Table,
+) -> QueryBuilder =
+  #| (tx, table) => tx.delete(table)
 
 ///|
 /// Rollback the transaction
 /// Note: This throws an exception to abort the transaction
-pub fn Transaction::rollback(self : Transaction) -> Unit {
-  ffi_tx_rollback(self)
-}
+pub extern "js" fn Transaction::rollback(self : Transaction) -> Unit =
+  #| (tx) => { throw tx.rollback(); }

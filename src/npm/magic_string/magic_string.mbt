@@ -208,43 +208,7 @@ extern "js" fn ffi_ms_add_sourcemap_location(
 ) -> Unit =
   #|(s, index) => s.addSourcemapLocation(index)
 
-///|
-extern "js" fn ffi_ms_to_string(s : MagicString) -> String =
-  #|(s) => s.toString()
-
-///|
-extern "js" fn ffi_ms_clone(s : MagicString) -> MagicString =
-  #|(s) => s.clone()
-
-///|
-extern "js" fn ffi_ms_slice(s : MagicString, start : Int, end : Int) -> String =
-  #|(s, start, end) => s.slice(start, end)
-
-///|
-extern "js" fn ffi_ms_snip(
-  s : MagicString,
-  start : Int,
-  end : Int,
-) -> MagicString =
-  #|(s, start, end) => s.snip(start, end)
-
-///|
-extern "js" fn ffi_ms_has_changed(s : MagicString) -> Bool =
-  #|(s) => s.hasChanged()
-
-///|
-extern "js" fn ffi_ms_is_empty(s : MagicString) -> Bool =
-  #|(s) => s.isEmpty()
-
 // SourceMap FFI
-
-///|
-extern "js" fn ffi_sm_to_string(m : SourceMap) -> String =
-  #|(m) => m.toString()
-
-///|
-extern "js" fn ffi_sm_to_url(m : SourceMap) -> String =
-  #|(m) => m.toUrl()
 
 // Bundle FFI
 
@@ -584,43 +548,41 @@ pub fn MagicString::add_sourcemap_location(
 
 ///|
 /// Get the generated string
-pub fn MagicString::to_string(self : MagicString) -> String {
-  ffi_ms_to_string(self)
-}
+pub extern "js" fn MagicString::to_string(self : MagicString) -> String =
+  #|(s) => s.toString()
 
 ///|
 /// Create an independent copy
-pub fn MagicString::clone(self : MagicString) -> MagicString {
-  ffi_ms_clone(self)
-}
+pub extern "js" fn MagicString::clone(self : MagicString) -> MagicString =
+  #|(s) => s.clone()
 
 ///|
 /// Extract substring corresponding to original range
-pub fn MagicString::slice(self : MagicString, start : Int, end : Int) -> String {
-  ffi_ms_slice(self, start, end)
-}
-
-///|
-/// Clone with content outside range removed
-pub fn MagicString::snip(
+pub extern "js" fn MagicString::slice(
   self : MagicString,
   start : Int,
   end : Int,
-) -> MagicString {
-  ffi_ms_snip(self, start, end)
-}
+) -> String =
+  #|(s, start, end) => s.slice(start, end)
+
+///|
+/// Clone with content outside range removed
+pub extern "js" fn MagicString::snip(
+  self : MagicString,
+  start : Int,
+  end : Int,
+) -> MagicString =
+  #|(s, start, end) => s.snip(start, end)
 
 ///|
 /// Check if the string has been modified
-pub fn MagicString::has_changed(self : MagicString) -> Bool {
-  ffi_ms_has_changed(self)
-}
+pub extern "js" fn MagicString::has_changed(self : MagicString) -> Bool =
+  #|(s) => s.hasChanged()
 
 ///|
 /// Check if result is empty (ignoring whitespace)
-pub fn MagicString::is_empty(self : MagicString) -> Bool {
-  ffi_ms_is_empty(self)
-}
+pub extern "js" fn MagicString::is_empty(self : MagicString) -> Bool =
+  #|(s) => s.isEmpty()
 
 ///|
 /// Get the original source string
@@ -644,15 +606,13 @@ pub fn MagicString::set_offset(self : MagicString, offset : Int) -> Unit {
 
 ///|
 /// Convert source map to JSON string
-pub fn SourceMap::to_string(self : SourceMap) -> String {
-  ffi_sm_to_string(self)
-}
+pub extern "js" fn SourceMap::to_string(self : SourceMap) -> String =
+  #|(m) => m.toString()
 
 ///|
 /// Convert source map to data URL
-pub fn SourceMap::to_url(self : SourceMap) -> String {
-  ffi_sm_to_url(self)
-}
+pub extern "js" fn SourceMap::to_url(self : SourceMap) -> String =
+  #|(m) => m.toUrl()
 
 ///|
 /// Get the file name

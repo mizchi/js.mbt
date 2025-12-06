@@ -446,36 +446,21 @@ pub fn numeric(name? : String, precision? : Int, scale? : Int) -> Column {
 // ============ Column Modifiers ============
 
 ///|
-extern "js" fn ffi_primary_key(col : Column) -> Column =
-  #| (col) => col.primaryKey()
-
-///|
 /// Mark column as primary key
 #alias(primary_key)
-pub fn Column::primaryKey(self : Column) -> Column {
-  ffi_primary_key(self)
-}
-
-///|
-extern "js" fn ffi_not_null(col : Column) -> Column =
-  #| (col) => col.notNull()
+pub extern "js" fn Column::primaryKey(self : Column) -> Column =
+  #| (col) => col.primaryKey()
 
 ///|
 /// Mark column as not null
 #alias(not_null)
-pub fn Column::notNull(self : Column) -> Column {
-  ffi_not_null(self)
-}
-
-///|
-extern "js" fn ffi_unique(col : Column) -> Column =
-  #| (col) => col.unique()
+pub extern "js" fn Column::notNull(self : Column) -> Column =
+  #| (col) => col.notNull()
 
 ///|
 /// Mark column as unique
-pub fn Column::unique(self : Column) -> Column {
-  ffi_unique(self)
-}
+pub extern "js" fn Column::unique(self : Column) -> Column =
+  #| (col) => col.unique()
 
 ///|
 extern "js" fn ffi_default_value(col : Column, value : @core.Any) -> Column =
@@ -489,36 +474,24 @@ pub fn Column::defaultValue(self : Column, value : @core.Any) -> Column {
 }
 
 ///|
-extern "js" fn ffi_default_now(col : Column) -> Column =
-  #| (col) => col.defaultNow()
-
-///|
 /// Set default to current timestamp
 #alias(default_now)
-pub fn Column::defaultNow(self : Column) -> Column {
-  ffi_default_now(self)
-}
-
-///|
-extern "js" fn ffi_generated_always_as_identity(col : Column) -> Column =
-  #| (col) => col.generatedAlwaysAsIdentity()
+pub extern "js" fn Column::defaultNow(self : Column) -> Column =
+  #| (col) => col.defaultNow()
 
 ///|
 /// Generated always as identity
 #alias(generated_always_as_identity)
-pub fn Column::generatedAlwaysAsIdentity(self : Column) -> Column {
-  ffi_generated_always_as_identity(self)
-}
-
-///|
-extern "js" fn ffi_references(col : Column, ref_fn : () -> Column) -> Column =
-  #| (col, refFn) => col.references(refFn)
+pub extern "js" fn Column::generatedAlwaysAsIdentity(self : Column) -> Column =
+  #| (col) => col.generatedAlwaysAsIdentity()
 
 ///|
 /// Add references (foreign key)
-pub fn Column::references(self : Column, ref_fn : () -> Column) -> Column {
-  ffi_references(self, ref_fn)
-}
+pub extern "js" fn Column::references(
+  self : Column,
+  ref_fn : () -> Column,
+) -> Column =
+  #| (col, refFn) => col.references(refFn)
 
 // ============ Query Operations ============
 
@@ -543,70 +516,52 @@ pub fn DrizzleDB::select(self : DrizzleDB, fields? : @core.Any) -> QueryBuilder 
 }
 
 ///|
-extern "js" fn ffi_select_distinct(db : DrizzleDB) -> QueryBuilder =
+/// Start a SELECT DISTINCT query
+#alias(select_distinct)
+pub extern "js" fn DrizzleDB::selectDistinct(self : DrizzleDB) -> QueryBuilder =
   #| (db) => db.selectDistinct()
 
 ///|
-/// Start a SELECT DISTINCT query
-#alias(select_distinct)
-pub fn DrizzleDB::selectDistinct(self : DrizzleDB) -> QueryBuilder {
-  ffi_select_distinct(self)
-}
-
-///|
-extern "js" fn ffi_insert(db : DrizzleDB, table : Table) -> QueryBuilder =
+/// Start an INSERT query
+pub extern "js" fn DrizzleDB::insert(
+  self : DrizzleDB,
+  table : Table,
+) -> QueryBuilder =
   #| (db, table) => db.insert(table)
 
 ///|
-/// Start an INSERT query
-pub fn DrizzleDB::insert(self : DrizzleDB, table : Table) -> QueryBuilder {
-  ffi_insert(self, table)
-}
-
-///|
-extern "js" fn ffi_update(db : DrizzleDB, table : Table) -> QueryBuilder =
+/// Start an UPDATE query
+pub extern "js" fn DrizzleDB::update(
+  self : DrizzleDB,
+  table : Table,
+) -> QueryBuilder =
   #| (db, table) => db.update(table)
 
 ///|
-/// Start an UPDATE query
-pub fn DrizzleDB::update(self : DrizzleDB, table : Table) -> QueryBuilder {
-  ffi_update(self, table)
-}
-
-///|
-extern "js" fn ffi_delete(db : DrizzleDB, table : Table) -> QueryBuilder =
-  #| (db, table) => db.delete(table)
-
-///|
 /// Start a DELETE query
-pub fn DrizzleDB::delete(self : DrizzleDB, table : Table) -> QueryBuilder {
-  ffi_delete(self, table)
-}
+pub extern "js" fn DrizzleDB::delete(
+  self : DrizzleDB,
+  table : Table,
+) -> QueryBuilder =
+  #| (db, table) => db.delete(table)
 
 // ============ Query Builder Methods ============
 
 ///|
-extern "js" fn ffi_from(qb : QueryBuilder, table : Table) -> QueryBuilder =
+/// FROM clause
+pub extern "js" fn QueryBuilder::from(
+  self : QueryBuilder,
+  table : Table,
+) -> QueryBuilder =
   #| (qb, table) => qb.from(table)
 
 ///|
-/// FROM clause
-pub fn QueryBuilder::from(self : QueryBuilder, table : Table) -> QueryBuilder {
-  ffi_from(self, table)
-}
-
-///|
-extern "js" fn ffi_where(qb : QueryBuilder, condition : SQL) -> QueryBuilder =
-  #| (qb, condition) => qb.where(condition)
-
-///|
 /// WHERE clause
-pub fn QueryBuilder::filter(
+pub extern "js" fn QueryBuilder::filter(
   self : QueryBuilder,
   condition : SQL,
-) -> QueryBuilder {
-  ffi_where(self, condition)
-}
+) -> QueryBuilder =
+  #| (qb, condition) => qb.where(condition)
 
 ///|
 extern "js" fn ffi_values(qb : QueryBuilder, data : @core.Any) -> QueryBuilder =
@@ -649,72 +604,45 @@ pub fn QueryBuilder::orderBy(
 }
 
 ///|
-extern "js" fn ffi_limit(qb : QueryBuilder, count : Int) -> QueryBuilder =
+/// LIMIT clause
+pub extern "js" fn QueryBuilder::limit(
+  self : QueryBuilder,
+  count : Int,
+) -> QueryBuilder =
   #| (qb, count) => qb.limit(count)
 
 ///|
-/// LIMIT clause
-pub fn QueryBuilder::limit(self : QueryBuilder, count : Int) -> QueryBuilder {
-  ffi_limit(self, count)
-}
-
-///|
-extern "js" fn ffi_offset(qb : QueryBuilder, count : Int) -> QueryBuilder =
+/// OFFSET clause
+pub extern "js" fn QueryBuilder::offset(
+  self : QueryBuilder,
+  count : Int,
+) -> QueryBuilder =
   #| (qb, count) => qb.offset(count)
 
 ///|
-/// OFFSET clause
-pub fn QueryBuilder::offset(self : QueryBuilder, count : Int) -> QueryBuilder {
-  ffi_offset(self, count)
-}
-
-///|
-extern "js" fn ffi_returning(qb : QueryBuilder) -> QueryBuilder =
+/// RETURNING clause
+pub extern "js" fn QueryBuilder::returning(self : QueryBuilder) -> QueryBuilder =
   #| (qb) => qb.returning()
 
 ///|
-/// RETURNING clause
-pub fn QueryBuilder::returning(self : QueryBuilder) -> QueryBuilder {
-  ffi_returning(self)
-}
-
-///|
-extern "js" fn ffi_left_join(
-  qb : QueryBuilder,
+/// LEFT JOIN
+#alias(left_join)
+pub extern "js" fn QueryBuilder::leftJoin(
+  self : QueryBuilder,
   table : Table,
   condition : SQL,
 ) -> QueryBuilder =
   #| (qb, table, condition) => qb.leftJoin(table, condition)
 
 ///|
-/// LEFT JOIN
-#alias(left_join)
-pub fn QueryBuilder::leftJoin(
+/// INNER JOIN
+#alias(inner_join)
+pub extern "js" fn QueryBuilder::innerJoin(
   self : QueryBuilder,
-  table : Table,
-  condition : SQL,
-) -> QueryBuilder {
-  ffi_left_join(self, table, condition)
-}
-
-///|
-extern "js" fn ffi_inner_join(
-  qb : QueryBuilder,
   table : Table,
   condition : SQL,
 ) -> QueryBuilder =
   #| (qb, table, condition) => qb.innerJoin(table, condition)
-
-///|
-/// INNER JOIN
-#alias(inner_join)
-pub fn QueryBuilder::innerJoin(
-  self : QueryBuilder,
-  table : Table,
-  condition : SQL,
-) -> QueryBuilder {
-  ffi_inner_join(self, table, condition)
-}
 
 ///|
 /// Execute the query and return promise
