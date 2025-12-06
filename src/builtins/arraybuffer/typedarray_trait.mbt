@@ -8,36 +8,6 @@ pub type TypedArray
 pub fn TypedArray::as_any(self : TypedArray) -> @core.Any = "%identity"
 
 ///|
-/// Helper for bridging with JS
-// pub fn TypedArray::_get(self : TypedArray, key : String) -> @core.Any {
-//   self.as_any()._get(key)
-// }
-
-///|
-// pub fn TypedArray::_call(
-//   self : TypedArray,
-//   key : String,
-//   args : Array[@core.Any],
-// ) -> @core.Any {
-//   self.as_any()._call(key, args)
-// }
-
-///|
-// pub fn TypedArray::call0(self : TypedArray, key : String) -> @core.Any {
-//   self.as_any().call0(key)
-// }
-
-///|
-// pub fn TypedArray::call2(
-//   self : TypedArray,
-//   key : String,
-//   arg1 : @core.Any,
-//   arg2 : @core.Any,
-// ) -> @core.Any {
-//   self.as_any().call2(key, arg1, arg2)
-// }
-
-///|
 /// Common methods
 pub fn TypedArray::length(self : TypedArray) -> Int {
   self.as_any()._get("length").cast()

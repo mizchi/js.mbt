@@ -166,12 +166,17 @@ function generateWrapperMethod(
     : selfParam;
 
   // 引数名の抽出（型を除く）
-  // オプショナルパラメータ（param?）も考慮する
+  // オプショナルパラメータ（param?）は名前付き引数として渡す
   const paramNames = method.params
     .split(',')
     .map(p => {
-      const match = p.trim().match(/^(\w+\??)\s*:/);
-      return match ? match[1] : '';
+      const trimmed = p.trim();
+      const match = trimmed.match(/^(\w+)(\??)(\s*:\s*)/);
+      if (!match) return '';
+      const paramName = match[1];
+      const isOptional = match[2] === '?';
+      // オプショナルパラメータは名前付き引数として渡す
+      return isOptional ? `${paramName}=${paramName}` : paramName;
     })
     .filter(n => n.length > 0)
     .join(', ');
@@ -186,10 +191,14 @@ function generateWrapperMethod(
     ? `self${castExpression}.${method.name}(${paramNames})`
     : `self${castExpression}.${method.name}()`;
 
+  // 戻り値の型が Self や親型の場合は @core.identity でキャスト
+  const needsCast = method.returnType === 'Self' || method.returnType === parentType;
+  const finalMethodCall = needsCast ? `@core.identity(${methodCall})` : methodCall;
+
   return `///|
 /// Inherited from ${parentType}
 ${aliasAttr}pub ${asyncPrefix}fn ${targetType}::${method.name}(${fullParams}) -> ${method.returnType} {
-  ${methodCall}
+  ${finalMethodCall}
 }`;
 }
 

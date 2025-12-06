@@ -145,6 +145,76 @@ const streamHierarchy: InheritanceChain[] = [
   },
 ];
 
+// TypedArray 継承階層
+const typedArrayHierarchy: InheritanceChain[] = [
+  {
+    typeName: "TypedArray",
+    extends: null,
+    castMethod: null,
+    sourceFile: "src/builtins/arraybuffer/typedarray_trait.mbt"
+  },
+  {
+    typeName: "Uint8Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Uint16Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Uint32Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Int8Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Int16Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Int32Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Float32Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "Float64Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "BigInt64Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+  {
+    typeName: "BigUint64Array",
+    extends: "TypedArray",
+    castMethod: "as_typed_array",
+    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+  },
+];
+
 // 設定のエクスポート
 export const hierarchies: HierarchyConfig[] = [
   {
@@ -175,6 +245,24 @@ export const hierarchies: HierarchyConfig[] = [
       /#external/,
       /pub type /,
       /pub\(all\) struct/,
+    ],
+  },
+  {
+    name: "typedarray",
+    types: typedArrayHierarchy,
+    outputDir: "src/builtins/arraybuffer",
+    skipPatterns: [
+      /as_any\(/,
+      /as_typed_array\(/,
+      /to_any\(/,
+      /#external/,
+      /pub type /,
+      /pub\(all\) struct/,
+      // デフォルト値のないオプショナルパラメータを持つメソッドは手動実装
+      /::slice\(/,
+      /::subarray\(/,
+      /::copyWithin\(/,
+      /::fill\(/,
     ],
   },
 ];
