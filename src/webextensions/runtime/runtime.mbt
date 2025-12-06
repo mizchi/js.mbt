@@ -10,13 +10,13 @@ fn runtime() -> @core.Any {
 
 ///|
 /// Get the extension's manifest
-pub fn get_manifest() -> @core.Any {
+pub fn getManifest() -> @core.Any {
   runtime()._call("getManifest", []) |> @core.identity
 }
 
 ///|
 /// Get the URL of a resource within the extension
-pub fn get_url(path : String) -> String {
+pub fn getUrl(path : String) -> String {
   runtime()._call("getURL", [@core.any(path)]).cast()
 }
 
@@ -48,7 +48,7 @@ pub fn MessageSender::from_any(obj : @core.Any) -> MessageSender {
 
 ///|
 /// Send a message to other parts of the extension
-pub async fn send_message(message : @core.Any) -> @core.Any {
+pub async fn sendMessage(message : @core.Any) -> @core.Any {
   ffi_send_message(message).wait()
 }
 

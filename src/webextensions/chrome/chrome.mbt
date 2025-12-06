@@ -65,14 +65,14 @@ fn Runtime::new() -> Runtime {
 /// Get the extension's manifest
 pub fn Runtime::get_manifest(self : Runtime) -> @core.Any {
   ignore(self)
-  @runtime.get_manifest()
+  @runtime.getManifest()
 }
 
 ///|
 /// Get URL of a resource within the extension
 pub fn Runtime::get_url(self : Runtime, path : String) -> String {
   ignore(self)
-  @runtime.get_url(path)
+  @runtime.getUrl(path)
 }
 
 ///|
@@ -82,7 +82,7 @@ pub async fn Runtime::send_message(
   message : @core.Any,
 ) -> @core.Any {
   ignore(self)
-  @runtime.send_message(message)
+  @runtime.sendMessage(message)
 }
 
 ///|

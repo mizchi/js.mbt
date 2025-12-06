@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev:spa": "pnpm vite dev",
+    "build": "vite build",
+    "dev:spa": "vite dev",
     "generate:inheritance": "node --import tsx scripts/generate_inheritance.ts",
     "generate:dom": "node --import tsx scripts/generate_inheritance.ts dom",
     "generate:stream": "node --import tsx scripts/generate_inheritance.ts stream"
