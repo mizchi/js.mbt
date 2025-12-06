@@ -381,7 +381,6 @@ This core package is used by:
 - `mizchi/js/web/*` - Web Standard APIs
 - `mizchi/js/browser/*` - Browser DOM APIs
 - `mizchi/js/node/*` - Node.js runtime APIs
-- `mizchi/js/cloudflare/*` - Cloudflare Workers APIs
 - `mizchi/js/npm/*` - NPM package bindings
 
 See the main [project README](../README.md) for the complete package list.

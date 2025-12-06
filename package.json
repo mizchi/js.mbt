@@ -1,8 +1,6 @@
 {
   "scripts": {
     "dev:spa": "pnpm vite dev",
-    "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
-    "test:cloudflare": "vitest run --config vitest.cf-config.ts e2e/cloudflare/moonbit-*.test.ts",
     "generate:inheritance": "node --import tsx scripts/generate_inheritance.ts",
     "generate:dom": "node --import tsx scripts/generate_inheritance.ts dom",
     "generate:stream": "node --import tsx scripts/generate_inheritance.ts stream"
@@ -13,8 +11,6 @@
     "@ai-sdk/openai": "^2.0.73",
     "@anthropic-ai/claude-agent-sdk": "^0.1.55",
     "@aws-sdk/client-s3": "^3.940.0",
-    "@cloudflare/vitest-pool-workers": "^0.10.11",
-    "@cloudflare/workers-types": "^4.20251126.0",
     "@duckdb/duckdb-wasm": "^1.30.0",
     "@duckdb/node-api": "1.4.2-r.1",
     "@electric-sql/pglite": "^0.3.14",
@@ -66,7 +62,6 @@
     "unplugin": "^2.3.11",
     "vite": "^7.2.4",
     "vitest": "^3.2.4",
-    "wrangler": "^4.51.0",
     "zod": "^4.1.13",
     "zod-to-json-schema": "^3.25.0"
   },

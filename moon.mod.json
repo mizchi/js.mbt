@@ -1,6 +1,6 @@
 {
   "name": "mizchi/js",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "deps": {
     "moonbitlang/async": "0.14.2"
   },
@@ -15,10 +15,9 @@
     "dom",
     "async",
     "http",
-    "cloudflare",
     "deno"
   ],
-  "description": "bindings for js/node/browser/deno/cloudflare/react etc",
+  "description": "bindings for js/node/browser/deno etc",
   "source": "src",
   "warn-list": "-29-53",
   "preferred-target": "js"

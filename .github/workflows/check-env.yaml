@@ -51,8 +51,5 @@ jobs:
       - name: moon build
         run: moon build --target js
 
-      - name: pnpm test:cloudflare
-        run: pnpm test:cloudflare
-
       - name: deno test
         run: deno test -A

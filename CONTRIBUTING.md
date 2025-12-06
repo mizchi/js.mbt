@@ -12,12 +12,12 @@ Thank you for your interest in contributing to js.mbt! This document provides gu
 
 ## Getting Started
 
-js.mbt is a MoonBit library providing JavaScript FFI bindings for various runtimes including Node.js, Deno, browsers, and Cloudflare Workers.
+js.mbt is a MoonBit library providing JavaScript FFI bindings for various runtimes including Node.js, Deno, and browsers.
 
 ### Prerequisites
 
 - [MoonBit](https://www.moonbitlang.com/) - Install the MoonBit toolchain
-- [Node.js](https://nodejs.org/) (v18 or later) - For Node.js and Cloudflare Worker tests
+- [Node.js](https://nodejs.org/) (v18 or later) - For Node.js tests
 - [pnpm](https://pnpm.io/) - Package manager for JavaScript dependencies
 - [Deno](https://deno.land/) (optional) - For running Deno tests
 
@@ -73,20 +73,7 @@ These tests cover 37+ test cases including:
 - Network APIs
 - Permissions management
 
-### 3. Cloudflare Workers Tests
-
-Run tests for Cloudflare Workers runtime:
-
-```bash
-pnpm test:cloudflare
-```
-
-This runs 18+ tests including:
-- HTTP routing and responses
-- KV store operations
-- Request/response handling
-
-### 4. Playwright Tests
+### 3. Playwright Tests
 
 Playwright tests require browser installation and run separately from the main test suite.
 

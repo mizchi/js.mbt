@@ -46,16 +46,12 @@ coverage-package pkg:
 # Run all MoonBit checks (format, info, check, test)
 check-all: format check test
 
-# Run Cloudflare tests
-test-cloudflare: build
-    pnpm test:cloudflare
-
 # Run Deno tests
 test-deno: build
     deno test -A
 
-# Run all tests (MoonBit, Cloudflare, Deno)
-test-all: test test-cloudflare test-deno
+# Run all tests (MoonBit, Deno)
+test-all: test test-deno
 
 # Clean build artifacts
 clean:
@@ -70,10 +66,6 @@ ci: format check build test
 # Development workflow: format, info, check
 dev-react: build
     pnpm vite dev
-
-# Development workflow: format, info, check
-dev-cf: build
-    pnpm wrangler dev fixtures/cf-worker.js
 
 test-playwright: build
     PLAYWRIGHT_TEST=1 moon test --no-parallelize ./src/npm/playwright/playwright_test.mbt 

@@ -5,7 +5,7 @@ Web Standard API bindings for MoonBit, providing **universal, platform-independe
 These APIs work consistently across:
 - **Browsers** (Chrome, Firefox, Safari, Edge)
 - **Server-side runtimes** (Node.js 18+, Deno, Bun)
-- **Edge runtimes** (Cloudflare Workers, Vercel Edge, Netlify Edge)
+- **Edge runtimes** (Vercel Edge, Netlify Edge, and others)
 - **Any WinterCG-compliant runtime**
 
 ## Web API Support Status
@@ -70,7 +70,7 @@ This package provides comprehensive bindings to **Web Standard APIs** - the comm
 
 ### Why Use web/* Packages?
 
-- **Write Once, Run Anywhere**: Code using these APIs works in browsers, Node.js, Deno, Cloudflare Workers, and other modern runtimes
+- **Write Once, Run Anywhere**: Code using these APIs works in browsers, Node.js, Deno, and other modern runtimes
 - **Server-Side JavaScript**: Build backend services with the same APIs you use in the browser
 - **Edge Computing**: Deploy to edge runtimes without platform-specific code
 - **Future-Proof**: Based on living standards that continue to evolve
@@ -115,7 +115,7 @@ Add specific sub-packages to your `moon.pkg.json`:
 ### Fetch API (Universal - Browser & Server)
 
 ```moonbit
-// Simple GET request - works in browser, Node.js, Deno, Cloudflare Workers
+// Simple GET request - works in browser, Node.js, Deno, and edge runtimes
 let response = @http.fetch("https://api.example.com/data")
 let json = response.json()
 

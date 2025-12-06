@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.8.3] - 2025-12-06
+
+### Removed
+
+#### Cloudflare Workers APIs Migration
+- **BREAKING CHANGE**: Moved all Cloudflare Workers APIs to a separate package [`@mizchi/cloudflare-mbt`](https://github.com/mizchi/cloudflare.mbt)
+- Removed `src/cloudflare/` directory (KV, D1, R2, Durable Objects implementations)
+- Removed `src/examples/cfw/` Cloudflare Workers examples
+- Removed `e2e/cloudflare/` test suite (18 tests)
+- Removed `vitest.cf-config.ts` and related test fixtures
+- Removed cloudflare-specific dev dependencies (`@cloudflare/vitest-pool-workers`, `@cloudflare/workers-types`, `wrangler`)
+- Removed cloudflare-related npm scripts (`dev:cloudflare`, `test:cloudflare`)
+- Updated documentation to remove Cloudflare Workers references
+- Note: `drizzleD1()` remains in `src/npm/drizzle/` as part of Drizzle ORM bindings
+
+**Migration Path**: Users requiring Cloudflare Workers APIs should migrate to the new `mizchi/cloudflare` package with local dependency:
+```json
+{
+  "deps": {
+    "mizchi/js": "0.8.3",
+    "mizchi/cloudflare": {
+      "path": "../cloudflare.mbt"
+    }
+  }
+}
+```
+
 ## [0.8.0] - 2025-12-06
 
 ### Added

@@ -60,7 +60,6 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 ```bash
 moon test
 moon build
-pnpm test:cloudflare
 deno test -A
 ```
 

@@ -250,7 +250,7 @@ let promise_fn = @core.promisify1(async fn(x: Int) -> Int { x * 2 })
 
 - **Built-in APIs**: Use `@global`, `@math`, `@date`, etc. from `mizchi/js`
 - **Web APIs**: Use `@web/*` packages for fetch, WebSocket, etc.
-- **Runtime APIs**: Use `@node/*`, `@browser/*`, `@deno`, `@cloudflare`
+- **Runtime APIs**: Use `@node/*`, `@browser/*`, `@deno`
 
 ## Performance Note
 

@@ -40,4 +40,3 @@ All APIs are aligned with TypeScript's standard DOM type definitions.
 
 - **[mizchi/js/web](../web/README.md)** - Platform-independent Web Standard APIs (fetch, Streams, WebSocket, etc.)
 - **[mizchi/js/node](../node/README.md)** - Node.js-specific APIs
-- **[mizchi/js/cloudflare](../cloudflare/README.md)** - Cloudflare Workers APIs

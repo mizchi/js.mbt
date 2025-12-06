@@ -16,7 +16,9 @@ Add to your `moon.pkg.json`:
 }
 ```
 
-> **⚠️ Future Plans**: Platform-specific APIs (Node.js, Browser, Deno, Cloudflare Workers) will be split into separate packages in the future. The core `mizchi/js` package will focus on JavaScript built-ins and Web Standard APIs.
+> **⚠️ Future Plans**: Platform-specific APIs (Node.js, Browser, Deno) will be split into separate packages in the future. The core `mizchi/js` package will focus on JavaScript built-ins and Web Standard APIs.
+>
+> **Note**: Cloudflare Workers bindings have been moved to a separate package: [@mizchi/cloudflare-mbt](https://github.com/mizchi/cloudflare.mbt)
 
 ## Quick Links
 
@@ -28,7 +30,6 @@ Add to your `moon.pkg.json`:
 | **Browser** | [src/browser/README.md](src/browser/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/browser_examples.mbt.md) | 🧪 Tested |
 | **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🧪 Tested |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
-| **Cloudflare Workers** | [src/cloudflare/README.md](src/cloudflare/README.md) | [cfw/](src/examples/cfw/) | 🧪 Tested |
 | **React** | [src/npm/react/](src/npm/react/) | [react_app/](src/examples/react_app/) | 🧪 Tested |
 
 ### 📖 Learning Resources
@@ -202,7 +203,6 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 | Node.js | `mizchi/js/node/*` | 🧪 Tested | [Node.js README](src/node/README.md) |
 | Browser API | `mizchi/js/browser/*` | 🧪 Tested | [Browser README](src/browser/README.md) |
 | Deno | `mizchi/js/deno` | 🧪 Tested | [Deno README](src/deno/README.md) |
-| Cloudflare Workers | `mizchi/js/cloudflare` | 🧪 Tested | [Cloudflare README](src/cloudflare/README.md) |
 
 ### NPM Package Bindings
 
