@@ -49,7 +49,7 @@ pub fn Writable::listeners(
   self : Self,
   event? : String,
 ) -> Array[(@core.Any) -> Unit] {
-  self.as_stream().as_event_emitter().listeners()
+  self.as_stream().as_event_emitter().listeners(event?)
 }
 
 ///|

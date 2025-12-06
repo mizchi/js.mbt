@@ -49,7 +49,7 @@ pub fn Stream::listeners(
   self : Self,
   event? : String,
 ) -> Array[(@core.Any) -> Unit] {
-  self.as_event_emitter().listeners()
+  self.as_event_emitter().listeners(event?)
 }
 
 ///|

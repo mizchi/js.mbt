@@ -166,10 +166,11 @@ function generateWrapperMethod(
     : selfParam;
 
   // 引数名の抽出（型を除く）
+  // オプショナルパラメータ（param?）も考慮する
   const paramNames = method.params
     .split(',')
     .map(p => {
-      const match = p.trim().match(/^(\w+)\s*:/);
+      const match = p.trim().match(/^(\w+\??)\s*:/);
       return match ? match[1] : '';
     })
     .filter(n => n.length > 0)

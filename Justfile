@@ -23,6 +23,11 @@ info:
 # Format and update interfaces
 format: info fmt
 
+# Generate inheritance code and format
+gen:
+    pnpm generate:inheritance
+    moon fmt
+
 # Build the project
 build:
     moon build
