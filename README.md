@@ -50,23 +50,70 @@ Add to your `moon.pkg.json`:
 
 ### Core JavaScript APIs
 
+#### mizchi/js/core - Core FFI Package
+
+The `mizchi/js/core` package provides the foundation for JavaScript interoperability in MoonBit:
+
+**Type System**
+- `Any` - Opaque type for JavaScript values
+- `Nullable[T]` - Represents `null | T`
+- `Nullish[T]` - Represents `null | undefined | T`
+- `Union2[A,B]` ~ `Union5[A,B,C,D,E]` - TypeScript union types (`A | B`)
+- `Promise[T]` - JavaScript Promise wrapper
+
+**FFI Operations** (zero-cost conversions)
+- `identity[A,B](value: A) -> B` - Type casting using `%identity`
+- `any[T](value: T) -> Any` - Convert to Any
+- `Any::cast[T](self) -> T` - Cast from Any
+- `Any::_get(key)`, `Any::_set(key, value)` - Property access
+- `Any::_call(method, args)`, `Any::_invoke(args)` - Method calls
+
+**Object & JSON**
+- `new_object()`, `new_array()` - Create JS objects/arrays
+- `object_keys()`, `object_values()`, `object_assign()`, `object_has_own()`
+- `json_stringify()`, `json_parse()`, `json_stringify_pretty()`
+
+**Async/Promise Support**
+- `run_async(f)` - Execute async functions (MoonBit builtin `%async.run`)
+- `suspend(f)` - Await promises (MoonBit builtin `%async.suspend`)
+- `promisify0` ~ `promisify3` - Convert callbacks to promises
+- Promise utilities: `resolve`, `reject`, `all`, `race`, `any`, `withResolvers`
+
+**Error Handling**
+- `JsError` - Generic JS error type
+- `ThrowError` - Wrapper for thrown errors
+- `try_sync(op)` - Safe wrapper converting JS exceptions to MoonBit errors
+- `throwable(f)` - Convert JS exceptions to ThrowError
+- `export_sync(op)` - Convert MoonBit errors to JS exceptions
+- `throw_error(msg)` - Throw JS Error
+
+**Type Checking**
+- `is_object()`, `is_array()`, `is_null()`, `is_undefined()`, `is_nullish()`
+
+**Nullish Utilities**
+- `Nullish::to_option()`, `Nullable::to_option()` - Convert to MoonBit Option
+- `nullable(opt)` - Convert Option to JS nullable
+- `as_any(opt)` - Convert Option[Any] to Any
+
+#### API Summary
+
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Core FFI & Objects** |
-| Core FFI | `mizchi/js` | 🧪 Tested | `get`, `set`, `call`, etc. |
-| Object | `mizchi/js` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js` | 🧪 Tested | Function operations |
-| Promise | `mizchi/js` | 🧪 Tested | Async/Promise API |
-| Error | `mizchi/js` | 🧪 Tested | Error handling |
-| JSON | `mizchi/js` | 🧪 Tested | JSON parse/stringify |
-| Iterator | `mizchi/js` | 🧪 Tested | JS Iterator protocol |
-| AsyncIterator | `mizchi/js` | 🧪 Tested | Async iteration |
-| WeakMap/Set/Ref | `mizchi/js` | 🧪 Tested | Weak references |
+| Core FFI | `mizchi/js/core` | 🧪 Tested | `get`, `set`, `call`, etc. |
+| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
+| Promise | `mizchi/js/core` | 🧪 Tested | Async/Promise API |
+| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error handling |
+| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
+| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JS Iterator protocol |
+| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
+| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | Weak references |
 | **Async Helpers** |
-| run_async | `mizchi/js` | 🧪 Tested | Async execution |
-| suspend | `mizchi/js` | 🧪 Tested | Promise suspension |
-| sleep | `mizchi/js` | 🧪 Tested | Delay execution |
-| promisify | `mizchi/js` | 🧪 Tested | Callback → Promise |
+| run_async | `mizchi/js/core` | 🧪 Tested | Async execution |
+| suspend | `mizchi/js/core` | 🧪 Tested | Promise suspension |
+| sleep | `mizchi/js/core` | 🧪 Tested | Delay execution |
+| promisify | `mizchi/js/core` | 🧪 Tested | Callback → Promise |
 
 ### JavaScript Built-ins
 
