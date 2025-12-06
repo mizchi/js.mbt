@@ -1,6 +1,6 @@
 ///|
-/// TypedArray の共通操作をまとめたベース型。
-/// 具体的な TypedArray 型から as_typed_array() でダウンキャストして利用する。
+/// Base type that consolidates common operations for TypedArray.
+/// Downcast from concrete TypedArray types using as_typed_array() to use.
 #external
 pub type TypedArray
 
@@ -8,7 +8,7 @@ pub type TypedArray
 pub fn TypedArray::as_any(self : TypedArray) -> @core.Any = "%identity"
 
 ///|
-/// JS との橋渡し用ヘルパー
+/// Helper for bridging with JS
 // pub fn TypedArray::_get(self : TypedArray, key : String) -> @core.Any {
 //   self.as_any()._get(key)
 // }
@@ -38,7 +38,7 @@ pub fn TypedArray::as_any(self : TypedArray) -> @core.Any = "%identity"
 // }
 
 ///|
-/// 共通メソッド群
+/// Common methods
 pub fn TypedArray::length(self : TypedArray) -> Int {
   self.as_any()._get("length").cast()
 }

@@ -1,7 +1,7 @@
 ///| EventSource API
 /// https://developer.mozilla.org/ja/docs/Web/API/EventSource
 ///
-/// Server-Sent Events (SSE) を受信するためのインターフェース
+/// Interface for receiving Server-Sent Events (SSE)
 
 ///|
 pub(all) struct EventSource {

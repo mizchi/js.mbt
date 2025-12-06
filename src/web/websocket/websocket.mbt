@@ -1,7 +1,7 @@
 ///| WebSocket API
 /// https://developer.mozilla.org/ja/docs/Web/API/WebSocket
 ///
-/// WebSocket プロトコルを使用してサーバーとの双方向通信を提供
+/// Provides bidirectional communication with server using WebSocket protocol
 
 ///|
 pub(all) struct WebSocket {

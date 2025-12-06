@@ -1,4 +1,4 @@
-///| Promise と async 関数の交換可能性のテスト
+///| Test interchangeability between Promise and async functions
 
 ///| Basic operations
 
@@ -248,10 +248,10 @@ async test "Promise: Promise and async are interchangeable" {
   // Promise -> async (unwrap)
   let back_to_async = async fn() { as_promise.wait() }
 
-  // 再度 Promise へ
+  // Back to Promise again
   let promise_again = @core.Promise::from_async(back_to_async)
 
-  // 最終結果を取得
+  // Get final result
   let final_result = promise_again.wait()
   inspect(final_result, content="42")
 }
@@ -265,7 +265,7 @@ async test "Promise: Promise.race returns first resolved Promise" {
   let p3 = @core.Promise::resolve(3)
   let race_result = @core.Promise::race([p1, p2, p3])
   let result = race_result.wait()
-  // race は最初に解決された Promise を返す（同期的に resolve されるのでどれか1つ）
+  // race returns the first resolved Promise (one of them since they resolve synchronously)
   inspect(result >= 1 && result <= 3, content="true")
 }
 
@@ -290,15 +290,15 @@ async test "Promise: Promise.finally_ always executes (2)" {
 }
 
 ///|
-/// async 関数から Promise 関数への変換が型を保持することをテスト
+/// Test that conversion from async function to Promise function preserves types
 async test "Promise: Promise.finally_ always executes (3)" {
-  // String を返す async 関数
+  // async function that returns String
   let string_fn = async fn() { "test" }
   let promise_string_fn = promisify0(string_fn)
   let str_result = promise_string_fn().wait()
   inspect(str_result, content="test")
 
-  // Bool を返す async 関数
+  // async function that returns Bool
   let bool_fn = async fn(x : Int) { x > 10 }
   let promise_bool_fn = promisify1(bool_fn)
   let bool_result = promise_bool_fn(20).wait()
