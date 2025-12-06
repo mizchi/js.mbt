@@ -8,22 +8,22 @@ import(
 
 // Values
 #alias(collect_messages)
-pub async fn collectMessages(prompt~ : String, options? : QueryOptions) -> Array[SDKMessage]
+pub async fn collectMessages(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> Array[SDKMessage]
 
 pub fn get_result(Array[SDKMessage]) -> SDKResultMessage?
 
 pub fn get_text(Array[SDKMessage]) -> String
 
-pub fn query(prompt~ : String, options? : QueryOptions) -> SDKMessageIterator
+pub fn query(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> SDKMessageIterator
 
 #alias(query_stream)
-pub fn queryStream(prompt~ : @core.Any, options? : QueryOptions) -> SDKMessageIterator
+pub fn queryStream(prompt~ : @core.Any, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> SDKMessageIterator
 
 #alias(query_with_abort)
-pub fn queryWithAbort(prompt~ : String, options? : QueryOptions) -> (SDKMessageIterator, AbortHandle)
+pub fn queryWithAbort(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> (SDKMessageIterator, AbortHandle)
 
 #alias(simple_query)
-pub async fn simpleQuery(prompt~ : String, options? : QueryOptions) -> String
+pub async fn simpleQuery(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> String
 
 // Errors
 
