@@ -830,3 +830,79 @@ test "promisify3 creates a Promise" {
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")
 }
+
+///| Additional coverage tests
+
+///|
+async test "Promise::new with exception in callback" {
+  let p : @core.Promise[Int] = @core.Promise::new(async fn(_resolve, _reject) {
+    fail("error in promise callback")
+  })
+  let result = try? p.wait()
+  inspect(result is Err(_), content="true")
+}
+
+///|
+async test "PromiseResolvers::resolve direct call" {
+  let resolvers : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
+  resolvers.resolve(999)
+  let result = resolvers.promise.wait()
+  inspect(result, content="999")
+}
+
+///|
+async test "PromiseResolvers::reject direct call" {
+  let resolvers : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
+  resolvers.reject(Failure("direct reject"))
+  let result = try? resolvers.promise.wait()
+  inspect(result is Err(_), content="true")
+}
+
+///| Dispose tests
+
+///|
+extern "js" fn get_symbol_async_dispose() -> String =
+  #| () => Symbol.asyncDispose
+
+///|
+extern "js" fn get_symbol_dispose() -> String =
+  #| () => Symbol.dispose
+
+///|
+async test "dispose_async with Symbol.asyncDispose" {
+  // Create a mock object with Symbol.asyncDispose
+  let obj = @core.new_object()
+  let mut disposed = false
+  let dispose_fn = @core.any(fn() {
+    disposed = true
+    @core.Promise::resolve(@core.undefined())
+  })
+  obj._set(get_symbol_async_dispose(), dispose_fn)
+
+  @core.dispose_async(obj)
+  inspect(disposed, content="true")
+}
+
+///|
+test "dispose_async_ignore with Symbol.asyncDispose" {
+  // Create a mock object with Symbol.asyncDispose
+  let obj = @core.new_object()
+  let dispose_fn = @core.any(fn() { @core.Promise::resolve(@core.undefined()) })
+  obj._set(get_symbol_async_dispose(), dispose_fn)
+
+  @core.dispose_async_ignore(obj)
+  // Just verify it doesn't throw
+  inspect(true, content="true")
+}
+
+///|
+test "dispose with Symbol.dispose" {
+  // Create a mock object with Symbol.dispose
+  let obj = @core.new_object()
+  let mut disposed = false
+  let dispose_fn = @core.any(fn() { disposed = true })
+  obj._set(get_symbol_dispose(), dispose_fn)
+
+  @core.dispose(obj)
+  inspect(disposed, content="true")
+}
