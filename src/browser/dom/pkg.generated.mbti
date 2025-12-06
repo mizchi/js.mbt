@@ -174,12 +174,16 @@ pub type Document
 pub fn Document::activeElement(Self) -> Element
 #alias(adopt_node)
 pub fn Document::adoptNode(Self, Node) -> Node
+pub fn Document::appendChild(Self, Node) -> Node
 pub fn Document::as_any(Self) -> @core.Any
 pub fn Document::as_event_target(Self) -> @event.EventTarget
 pub fn Document::as_node(Self) -> Node
 pub fn Document::body(Self) -> HTMLBodyElement?
 #alias(character_set)
 pub fn Document::characterSet(Self) -> String
+pub fn Document::childNodes(Self) -> Array[Node]
+pub fn Document::cloneNode(Self, Bool) -> Node
+pub fn Document::contains(Self, Node?) -> Bool
 #alias(content_type)
 pub fn Document::contentType(Self) -> String
 pub fn Document::cookie(Self) -> String
@@ -204,15 +208,24 @@ pub fn Document::documentURI(Self) -> String
 pub fn Document::domain(Self) -> String
 pub fn Document::elementFromPoint(Self, Double, Double) -> Element?
 pub fn Document::elementsFromPoint(Self, Double, Double) -> Array[Element]
+pub fn Document::firstChild(Self) -> Node?
 #alias(get_element_by_id)
 pub fn Document::getElementById(Self, String) -> Element?
 #alias(get_elements_by_class_name)
 pub fn Document::getElementsByClassName(Self, String) -> Array[Element]
 #alias(get_elements_by_tag_name)
 pub fn Document::getElementsByTagName(Self, String) -> Array[Element]
+pub fn Document::hasChildNodes(Self) -> Bool
 pub fn Document::head(Self) -> HTMLHeadElement?
 #alias(import_node)
 pub fn Document::importNode(Self, Node, Bool) -> Node
+pub fn Document::insertBefore(Self, Node, Node?) -> Node
+pub fn Document::lastChild(Self) -> Node?
+pub fn Document::nextSibling(Self) -> Node?
+pub fn Document::nodeName(Self) -> String
+pub fn Document::nodeType(Self) -> Int
+pub fn Document::parentNode(Self) -> Node?
+pub fn Document::previousSibling(Self) -> Node?
 #alias(query_selector)
 pub fn Document::querySelector(Self, String) -> Element?
 #alias(query_selector_all)
@@ -220,12 +233,16 @@ pub fn Document::querySelectorAll(Self, String) -> Array[Element]
 #alias(ready_state)
 pub fn Document::readyState(Self) -> String
 pub fn Document::referrer(Self) -> String
+pub fn Document::removeChild(Self, Node) -> Node
+pub fn Document::replaceChild(Self, Node, Node) -> Node
 #alias(set_body)
 pub fn Document::setBody(Self, HTMLBodyElement) -> Unit
+pub fn Document::setTextContent(Self, String) -> Unit
 #alias(set_title)
 pub fn Document::setTitle(Self, String) -> Unit
 pub fn Document::set_cookie(Self, String) -> Unit
 pub fn Document::styleSheets(Self) -> @core.Any
+pub fn Document::textContent(Self) -> String
 pub fn Document::title(Self) -> String
 pub fn Document::url(Self) -> String
 
@@ -244,22 +261,39 @@ pub impl EventImpl for DragEvent
 #external
 pub type Element
 pub fn Element::append(Self, Node) -> Unit
+pub fn Element::appendChild(Self, Node) -> Node
 pub fn Element::as_any(Self) -> @core.Any
 pub fn Element::as_event_target(Self) -> @event.EventTarget
 pub fn Element::as_node(Self) -> Node
+pub fn Element::childNodes(Self) -> Array[Node]
 pub fn Element::className(Self) -> String
+pub fn Element::cloneNode(Self, Bool) -> Node
+pub fn Element::contains(Self, Node?) -> Bool
+pub fn Element::firstChild(Self) -> Node?
 pub fn Element::getAttribute(Self, String) -> String?
 pub fn Element::getElementsByClassName(Self, String) -> Array[Self]
 pub fn Element::getElementsByTagName(Self, String) -> Array[Self]
 pub fn Element::hasAttribute(Self, String) -> Bool
+pub fn Element::hasChildNodes(Self) -> Bool
 pub fn Element::id(Self) -> String
+pub fn Element::insertBefore(Self, Node, Node?) -> Node
+pub fn Element::lastChild(Self) -> Node?
+pub fn Element::nextSibling(Self) -> Node?
+pub fn Element::nodeName(Self) -> String
+pub fn Element::nodeType(Self) -> Int
+pub fn Element::parentNode(Self) -> Node?
+pub fn Element::previousSibling(Self) -> Node?
 pub fn Element::querySelector(Self, String) -> Self?
 pub fn Element::querySelectorAll(Self, String) -> Array[Self]
 pub fn Element::removeAttribute(Self, String) -> Unit
+pub fn Element::removeChild(Self, Node) -> Node
+pub fn Element::replaceChild(Self, Node, Node) -> Node
 pub fn Element::setAttribute(Self, String, String) -> Unit
 pub fn Element::setClassName(Self, String) -> Unit
 pub fn Element::setId(Self, String) -> Unit
+pub fn Element::setTextContent(Self, String) -> Unit
 pub fn Element::tagName(Self) -> String
+pub fn Element::textContent(Self) -> String
 
 #external
 pub type Event
@@ -283,99 +317,481 @@ pub(all) struct HTMLAnchorElement {
   mut href : String
   mut target : String
 }
+pub fn HTMLAnchorElement::append(Self, Node) -> Unit
+pub fn HTMLAnchorElement::appendChild(Self, Node) -> Node
 pub fn HTMLAnchorElement::as_any(Self) -> @core.Any
 pub fn HTMLAnchorElement::as_element(Self) -> Element
 pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLAnchorElement::as_node(Self) -> Node
+pub fn HTMLAnchorElement::childNodes(Self) -> Array[Node]
+pub fn HTMLAnchorElement::className(Self) -> String
+pub fn HTMLAnchorElement::click(Self) -> Unit
+pub fn HTMLAnchorElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLAnchorElement::contains(Self, Node?) -> Bool
+pub fn HTMLAnchorElement::firstChild(Self) -> Node?
+pub fn HTMLAnchorElement::focus(Self) -> Unit
+pub fn HTMLAnchorElement::getAttribute(Self, String) -> String?
+pub fn HTMLAnchorElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLAnchorElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLAnchorElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLAnchorElement::hasChildNodes(Self) -> Bool
+pub fn HTMLAnchorElement::id(Self) -> String
+pub fn HTMLAnchorElement::innerHTML(Self) -> String
+pub fn HTMLAnchorElement::innerText(Self) -> String
+pub fn HTMLAnchorElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLAnchorElement::lastChild(Self) -> Node?
+pub fn HTMLAnchorElement::nextSibling(Self) -> Node?
+pub fn HTMLAnchorElement::nodeName(Self) -> String
+pub fn HTMLAnchorElement::nodeType(Self) -> Int
+pub fn HTMLAnchorElement::outerHTML(Self) -> String
+pub fn HTMLAnchorElement::parentNode(Self) -> Node?
+pub fn HTMLAnchorElement::previousSibling(Self) -> Node?
+pub fn HTMLAnchorElement::querySelector(Self, String) -> Element?
+pub fn HTMLAnchorElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLAnchorElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLAnchorElement::removeChild(Self, Node) -> Node
+pub fn HTMLAnchorElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLAnchorElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLAnchorElement::setClassName(Self, String) -> Unit
+pub fn HTMLAnchorElement::setId(Self, String) -> Unit
+pub fn HTMLAnchorElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLAnchorElement::setInnerText(Self, String) -> Unit
+pub fn HTMLAnchorElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLAnchorElement::setTextContent(Self, String) -> Unit
+pub fn HTMLAnchorElement::tagName(Self) -> String
+pub fn HTMLAnchorElement::textContent(Self) -> String
 
 #external
 pub type HTMLBodyElement
+pub fn HTMLBodyElement::append(Self, Node) -> Unit
+pub fn HTMLBodyElement::appendChild(Self, Node) -> Node
 pub fn HTMLBodyElement::as_any(Self) -> @core.Any
 pub fn HTMLBodyElement::as_element(Self) -> Element
 pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLBodyElement::as_node(Self) -> Node
+pub fn HTMLBodyElement::childNodes(Self) -> Array[Node]
+pub fn HTMLBodyElement::className(Self) -> String
+pub fn HTMLBodyElement::click(Self) -> Unit
+pub fn HTMLBodyElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLBodyElement::contains(Self, Node?) -> Bool
+pub fn HTMLBodyElement::firstChild(Self) -> Node?
+pub fn HTMLBodyElement::focus(Self) -> Unit
+pub fn HTMLBodyElement::getAttribute(Self, String) -> String?
+pub fn HTMLBodyElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLBodyElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLBodyElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLBodyElement::hasChildNodes(Self) -> Bool
+pub fn HTMLBodyElement::id(Self) -> String
+pub fn HTMLBodyElement::innerHTML(Self) -> String
+pub fn HTMLBodyElement::innerText(Self) -> String
+pub fn HTMLBodyElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLBodyElement::lastChild(Self) -> Node?
+pub fn HTMLBodyElement::nextSibling(Self) -> Node?
+pub fn HTMLBodyElement::nodeName(Self) -> String
+pub fn HTMLBodyElement::nodeType(Self) -> Int
+pub fn HTMLBodyElement::outerHTML(Self) -> String
+pub fn HTMLBodyElement::parentNode(Self) -> Node?
+pub fn HTMLBodyElement::previousSibling(Self) -> Node?
+pub fn HTMLBodyElement::querySelector(Self, String) -> Element?
+pub fn HTMLBodyElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLBodyElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLBodyElement::removeChild(Self, Node) -> Node
+pub fn HTMLBodyElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLBodyElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLBodyElement::setClassName(Self, String) -> Unit
+pub fn HTMLBodyElement::setId(Self, String) -> Unit
+pub fn HTMLBodyElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLBodyElement::setInnerText(Self, String) -> Unit
+pub fn HTMLBodyElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLBodyElement::setTextContent(Self, String) -> Unit
+pub fn HTMLBodyElement::tagName(Self) -> String
+pub fn HTMLBodyElement::textContent(Self) -> String
 
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
 }
+pub fn HTMLButtonElement::append(Self, Node) -> Unit
+pub fn HTMLButtonElement::appendChild(Self, Node) -> Node
 pub fn HTMLButtonElement::as_any(Self) -> @core.Any
 pub fn HTMLButtonElement::as_element(Self) -> Element
 pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLButtonElement::as_node(Self) -> Node
+pub fn HTMLButtonElement::childNodes(Self) -> Array[Node]
+pub fn HTMLButtonElement::className(Self) -> String
+pub fn HTMLButtonElement::click(Self) -> Unit
+pub fn HTMLButtonElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLButtonElement::contains(Self, Node?) -> Bool
+pub fn HTMLButtonElement::firstChild(Self) -> Node?
+pub fn HTMLButtonElement::focus(Self) -> Unit
+pub fn HTMLButtonElement::getAttribute(Self, String) -> String?
+pub fn HTMLButtonElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLButtonElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLButtonElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLButtonElement::hasChildNodes(Self) -> Bool
+pub fn HTMLButtonElement::id(Self) -> String
+pub fn HTMLButtonElement::innerHTML(Self) -> String
+pub fn HTMLButtonElement::innerText(Self) -> String
+pub fn HTMLButtonElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLButtonElement::lastChild(Self) -> Node?
+pub fn HTMLButtonElement::nextSibling(Self) -> Node?
+pub fn HTMLButtonElement::nodeName(Self) -> String
+pub fn HTMLButtonElement::nodeType(Self) -> Int
+pub fn HTMLButtonElement::outerHTML(Self) -> String
+pub fn HTMLButtonElement::parentNode(Self) -> Node?
+pub fn HTMLButtonElement::previousSibling(Self) -> Node?
+pub fn HTMLButtonElement::querySelector(Self, String) -> Element?
+pub fn HTMLButtonElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLButtonElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLButtonElement::removeChild(Self, Node) -> Node
+pub fn HTMLButtonElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLButtonElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLButtonElement::setClassName(Self, String) -> Unit
+pub fn HTMLButtonElement::setId(Self, String) -> Unit
+pub fn HTMLButtonElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLButtonElement::setInnerText(Self, String) -> Unit
+pub fn HTMLButtonElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLButtonElement::setTextContent(Self, String) -> Unit
+pub fn HTMLButtonElement::tagName(Self) -> String
+pub fn HTMLButtonElement::textContent(Self) -> String
 
 pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 }
+pub fn HTMLCanvasElement::append(Self, Node) -> Unit
+pub fn HTMLCanvasElement::appendChild(Self, Node) -> Node
 pub fn HTMLCanvasElement::as_any(Self) -> @core.Any
 pub fn HTMLCanvasElement::as_element(Self) -> Element
 pub fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLCanvasElement::as_node(Self) -> Node
+pub fn HTMLCanvasElement::childNodes(Self) -> Array[Node]
+pub fn HTMLCanvasElement::className(Self) -> String
+pub fn HTMLCanvasElement::click(Self) -> Unit
+pub fn HTMLCanvasElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLCanvasElement::contains(Self, Node?) -> Bool
+pub fn HTMLCanvasElement::firstChild(Self) -> Node?
+pub fn HTMLCanvasElement::focus(Self) -> Unit
+pub fn HTMLCanvasElement::getAttribute(Self, String) -> String?
 pub fn HTMLCanvasElement::getContext(Self, String) -> @core.Any
+pub fn HTMLCanvasElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLCanvasElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLCanvasElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLCanvasElement::hasChildNodes(Self) -> Bool
+pub fn HTMLCanvasElement::id(Self) -> String
+pub fn HTMLCanvasElement::innerHTML(Self) -> String
+pub fn HTMLCanvasElement::innerText(Self) -> String
+pub fn HTMLCanvasElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLCanvasElement::lastChild(Self) -> Node?
+pub fn HTMLCanvasElement::nextSibling(Self) -> Node?
+pub fn HTMLCanvasElement::nodeName(Self) -> String
+pub fn HTMLCanvasElement::nodeType(Self) -> Int
+pub fn HTMLCanvasElement::outerHTML(Self) -> String
+pub fn HTMLCanvasElement::parentNode(Self) -> Node?
+pub fn HTMLCanvasElement::previousSibling(Self) -> Node?
+pub fn HTMLCanvasElement::querySelector(Self, String) -> Element?
+pub fn HTMLCanvasElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLCanvasElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLCanvasElement::removeChild(Self, Node) -> Node
+pub fn HTMLCanvasElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLCanvasElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLCanvasElement::setClassName(Self, String) -> Unit
+pub fn HTMLCanvasElement::setId(Self, String) -> Unit
+pub fn HTMLCanvasElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLCanvasElement::setInnerText(Self, String) -> Unit
+pub fn HTMLCanvasElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLCanvasElement::setTextContent(Self, String) -> Unit
+pub fn HTMLCanvasElement::tagName(Self) -> String
+pub fn HTMLCanvasElement::textContent(Self) -> String
 pub async fn HTMLCanvasElement::toBlob(Self, image_type? : String, quality? : Double) -> @blob.Blob
 pub fn HTMLCanvasElement::toDataURL(Self, image_type? : String, quality? : Double) -> String
 pub impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
+pub fn HTMLDivElement::append(Self, Node) -> Unit
+pub fn HTMLDivElement::appendChild(Self, Node) -> Node
 pub fn HTMLDivElement::as_any(Self) -> @core.Any
 pub fn HTMLDivElement::as_element(Self) -> Element
 pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLDivElement::as_node(Self) -> Node
+pub fn HTMLDivElement::childNodes(Self) -> Array[Node]
+pub fn HTMLDivElement::className(Self) -> String
+pub fn HTMLDivElement::click(Self) -> Unit
+pub fn HTMLDivElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLDivElement::contains(Self, Node?) -> Bool
+pub fn HTMLDivElement::firstChild(Self) -> Node?
+pub fn HTMLDivElement::focus(Self) -> Unit
+pub fn HTMLDivElement::getAttribute(Self, String) -> String?
+pub fn HTMLDivElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLDivElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLDivElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLDivElement::hasChildNodes(Self) -> Bool
+pub fn HTMLDivElement::id(Self) -> String
+pub fn HTMLDivElement::innerHTML(Self) -> String
+pub fn HTMLDivElement::innerText(Self) -> String
+pub fn HTMLDivElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLDivElement::lastChild(Self) -> Node?
+pub fn HTMLDivElement::nextSibling(Self) -> Node?
+pub fn HTMLDivElement::nodeName(Self) -> String
+pub fn HTMLDivElement::nodeType(Self) -> Int
+pub fn HTMLDivElement::outerHTML(Self) -> String
+pub fn HTMLDivElement::parentNode(Self) -> Node?
+pub fn HTMLDivElement::previousSibling(Self) -> Node?
+pub fn HTMLDivElement::querySelector(Self, String) -> Element?
+pub fn HTMLDivElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLDivElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLDivElement::removeChild(Self, Node) -> Node
+pub fn HTMLDivElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLDivElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLDivElement::setClassName(Self, String) -> Unit
+pub fn HTMLDivElement::setId(Self, String) -> Unit
+pub fn HTMLDivElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLDivElement::setInnerText(Self, String) -> Unit
+pub fn HTMLDivElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLDivElement::setTextContent(Self, String) -> Unit
+pub fn HTMLDivElement::tagName(Self) -> String
+pub fn HTMLDivElement::textContent(Self) -> String
 
 #external
 pub type HTMLElement
+pub fn HTMLElement::append(Self, Node) -> Unit
+pub fn HTMLElement::appendChild(Self, Node) -> Node
 pub fn HTMLElement::as_any(Self) -> @core.Any
 pub fn HTMLElement::as_element(Self) -> Element
 pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLElement::as_node(Self) -> Node
 pub fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
+pub fn HTMLElement::childNodes(Self) -> Array[Node]
+pub fn HTMLElement::className(Self) -> String
 pub fn HTMLElement::click(Self) -> Unit
+pub fn HTMLElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLElement::contains(Self, Node?) -> Bool
+pub fn HTMLElement::firstChild(Self) -> Node?
 pub fn HTMLElement::focus(Self) -> Unit
+pub fn HTMLElement::getAttribute(Self, String) -> String?
+pub fn HTMLElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLElement::hasChildNodes(Self) -> Bool
+pub fn HTMLElement::id(Self) -> String
 pub fn HTMLElement::innerHTML(Self) -> String
 pub fn HTMLElement::innerText(Self) -> String
+pub fn HTMLElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLElement::lastChild(Self) -> Node?
+pub fn HTMLElement::nextSibling(Self) -> Node?
+pub fn HTMLElement::nodeName(Self) -> String
+pub fn HTMLElement::nodeType(Self) -> Int
 pub fn HTMLElement::outerHTML(Self) -> String
+pub fn HTMLElement::parentNode(Self) -> Node?
+pub fn HTMLElement::previousSibling(Self) -> Node?
+pub fn HTMLElement::querySelector(Self, String) -> Element?
+pub fn HTMLElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLElement::removeChild(Self, Node) -> Node
+pub fn HTMLElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLElement::setClassName(Self, String) -> Unit
+pub fn HTMLElement::setId(Self, String) -> Unit
 pub fn HTMLElement::setInnerHTML(Self, String) -> Unit
 pub fn HTMLElement::setInnerText(Self, String) -> Unit
 pub fn HTMLElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLElement::setTextContent(Self, String) -> Unit
 pub fn HTMLElement::shadowRoot(Self) -> ShadowRoot?
+pub fn HTMLElement::tagName(Self) -> String
+pub fn HTMLElement::textContent(Self) -> String
 
 #external
 pub type HTMLFormElement
+pub fn HTMLFormElement::append(Self, Node) -> Unit
+pub fn HTMLFormElement::appendChild(Self, Node) -> Node
 pub fn HTMLFormElement::as_any(Self) -> @core.Any
 pub fn HTMLFormElement::as_element(Self) -> Element
 pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLFormElement::as_node(Self) -> Node
+pub fn HTMLFormElement::childNodes(Self) -> Array[Node]
+pub fn HTMLFormElement::className(Self) -> String
+pub fn HTMLFormElement::click(Self) -> Unit
+pub fn HTMLFormElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLFormElement::contains(Self, Node?) -> Bool
+pub fn HTMLFormElement::firstChild(Self) -> Node?
+pub fn HTMLFormElement::focus(Self) -> Unit
+pub fn HTMLFormElement::getAttribute(Self, String) -> String?
+pub fn HTMLFormElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLFormElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLFormElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLFormElement::hasChildNodes(Self) -> Bool
+pub fn HTMLFormElement::id(Self) -> String
+pub fn HTMLFormElement::innerHTML(Self) -> String
+pub fn HTMLFormElement::innerText(Self) -> String
+pub fn HTMLFormElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLFormElement::lastChild(Self) -> Node?
+pub fn HTMLFormElement::nextSibling(Self) -> Node?
+pub fn HTMLFormElement::nodeName(Self) -> String
+pub fn HTMLFormElement::nodeType(Self) -> Int
+pub fn HTMLFormElement::outerHTML(Self) -> String
+pub fn HTMLFormElement::parentNode(Self) -> Node?
+pub fn HTMLFormElement::previousSibling(Self) -> Node?
+pub fn HTMLFormElement::querySelector(Self, String) -> Element?
+pub fn HTMLFormElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLFormElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLFormElement::removeChild(Self, Node) -> Node
+pub fn HTMLFormElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLFormElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLFormElement::setClassName(Self, String) -> Unit
+pub fn HTMLFormElement::setId(Self, String) -> Unit
+pub fn HTMLFormElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLFormElement::setInnerText(Self, String) -> Unit
+pub fn HTMLFormElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLFormElement::setTextContent(Self, String) -> Unit
+pub fn HTMLFormElement::tagName(Self) -> String
+pub fn HTMLFormElement::textContent(Self) -> String
 
 #external
 pub type HTMLHeadElement
+pub fn HTMLHeadElement::append(Self, Node) -> Unit
+pub fn HTMLHeadElement::appendChild(Self, Node) -> Node
 pub fn HTMLHeadElement::as_any(Self) -> @core.Any
 pub fn HTMLHeadElement::as_element(Self) -> Element
 pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadElement::as_node(Self) -> Node
+pub fn HTMLHeadElement::childNodes(Self) -> Array[Node]
+pub fn HTMLHeadElement::className(Self) -> String
+pub fn HTMLHeadElement::click(Self) -> Unit
+pub fn HTMLHeadElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLHeadElement::contains(Self, Node?) -> Bool
+pub fn HTMLHeadElement::firstChild(Self) -> Node?
+pub fn HTMLHeadElement::focus(Self) -> Unit
+pub fn HTMLHeadElement::getAttribute(Self, String) -> String?
+pub fn HTMLHeadElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLHeadElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLHeadElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLHeadElement::hasChildNodes(Self) -> Bool
+pub fn HTMLHeadElement::id(Self) -> String
+pub fn HTMLHeadElement::innerHTML(Self) -> String
+pub fn HTMLHeadElement::innerText(Self) -> String
+pub fn HTMLHeadElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLHeadElement::lastChild(Self) -> Node?
+pub fn HTMLHeadElement::nextSibling(Self) -> Node?
+pub fn HTMLHeadElement::nodeName(Self) -> String
+pub fn HTMLHeadElement::nodeType(Self) -> Int
+pub fn HTMLHeadElement::outerHTML(Self) -> String
+pub fn HTMLHeadElement::parentNode(Self) -> Node?
+pub fn HTMLHeadElement::previousSibling(Self) -> Node?
+pub fn HTMLHeadElement::querySelector(Self, String) -> Element?
+pub fn HTMLHeadElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLHeadElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLHeadElement::removeChild(Self, Node) -> Node
+pub fn HTMLHeadElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLHeadElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLHeadElement::setClassName(Self, String) -> Unit
+pub fn HTMLHeadElement::setId(Self, String) -> Unit
+pub fn HTMLHeadElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLHeadElement::setInnerText(Self, String) -> Unit
+pub fn HTMLHeadElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLHeadElement::setTextContent(Self, String) -> Unit
+pub fn HTMLHeadElement::tagName(Self) -> String
+pub fn HTMLHeadElement::textContent(Self) -> String
 
 #external
 pub type HTMLHeadingElement
+pub fn HTMLHeadingElement::append(Self, Node) -> Unit
+pub fn HTMLHeadingElement::appendChild(Self, Node) -> Node
 pub fn HTMLHeadingElement::as_any(Self) -> @core.Any
 pub fn HTMLHeadingElement::as_element(Self) -> Element
 pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadingElement::as_node(Self) -> Node
+pub fn HTMLHeadingElement::childNodes(Self) -> Array[Node]
+pub fn HTMLHeadingElement::className(Self) -> String
+pub fn HTMLHeadingElement::click(Self) -> Unit
+pub fn HTMLHeadingElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLHeadingElement::contains(Self, Node?) -> Bool
+pub fn HTMLHeadingElement::firstChild(Self) -> Node?
+pub fn HTMLHeadingElement::focus(Self) -> Unit
+pub fn HTMLHeadingElement::getAttribute(Self, String) -> String?
+pub fn HTMLHeadingElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLHeadingElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLHeadingElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLHeadingElement::hasChildNodes(Self) -> Bool
+pub fn HTMLHeadingElement::id(Self) -> String
+pub fn HTMLHeadingElement::innerHTML(Self) -> String
+pub fn HTMLHeadingElement::innerText(Self) -> String
+pub fn HTMLHeadingElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLHeadingElement::lastChild(Self) -> Node?
+pub fn HTMLHeadingElement::nextSibling(Self) -> Node?
+pub fn HTMLHeadingElement::nodeName(Self) -> String
+pub fn HTMLHeadingElement::nodeType(Self) -> Int
+pub fn HTMLHeadingElement::outerHTML(Self) -> String
+pub fn HTMLHeadingElement::parentNode(Self) -> Node?
+pub fn HTMLHeadingElement::previousSibling(Self) -> Node?
+pub fn HTMLHeadingElement::querySelector(Self, String) -> Element?
+pub fn HTMLHeadingElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLHeadingElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLHeadingElement::removeChild(Self, Node) -> Node
+pub fn HTMLHeadingElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLHeadingElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLHeadingElement::setClassName(Self, String) -> Unit
+pub fn HTMLHeadingElement::setId(Self, String) -> Unit
+pub fn HTMLHeadingElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLHeadingElement::setInnerText(Self, String) -> Unit
+pub fn HTMLHeadingElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLHeadingElement::setTextContent(Self, String) -> Unit
+pub fn HTMLHeadingElement::tagName(Self) -> String
+pub fn HTMLHeadingElement::textContent(Self) -> String
 
 #external
 pub type HTMLHtmlElement
+pub fn HTMLHtmlElement::append(Self, Node) -> Unit
+pub fn HTMLHtmlElement::appendChild(Self, Node) -> Node
 pub fn HTMLHtmlElement::as_any(Self) -> @core.Any
 pub fn HTMLHtmlElement::as_element(Self) -> Element
 pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHtmlElement::as_node(Self) -> Node
+pub fn HTMLHtmlElement::childNodes(Self) -> Array[Node]
+pub fn HTMLHtmlElement::className(Self) -> String
+pub fn HTMLHtmlElement::click(Self) -> Unit
+pub fn HTMLHtmlElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLHtmlElement::contains(Self, Node?) -> Bool
+pub fn HTMLHtmlElement::firstChild(Self) -> Node?
+pub fn HTMLHtmlElement::focus(Self) -> Unit
+pub fn HTMLHtmlElement::getAttribute(Self, String) -> String?
+pub fn HTMLHtmlElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLHtmlElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLHtmlElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLHtmlElement::hasChildNodes(Self) -> Bool
+pub fn HTMLHtmlElement::id(Self) -> String
+pub fn HTMLHtmlElement::innerHTML(Self) -> String
+pub fn HTMLHtmlElement::innerText(Self) -> String
+pub fn HTMLHtmlElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLHtmlElement::lastChild(Self) -> Node?
+pub fn HTMLHtmlElement::nextSibling(Self) -> Node?
+pub fn HTMLHtmlElement::nodeName(Self) -> String
+pub fn HTMLHtmlElement::nodeType(Self) -> Int
+pub fn HTMLHtmlElement::outerHTML(Self) -> String
+pub fn HTMLHtmlElement::parentNode(Self) -> Node?
+pub fn HTMLHtmlElement::previousSibling(Self) -> Node?
+pub fn HTMLHtmlElement::querySelector(Self, String) -> Element?
+pub fn HTMLHtmlElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLHtmlElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLHtmlElement::removeChild(Self, Node) -> Node
+pub fn HTMLHtmlElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLHtmlElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLHtmlElement::setClassName(Self, String) -> Unit
+pub fn HTMLHtmlElement::setId(Self, String) -> Unit
+pub fn HTMLHtmlElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLHtmlElement::setInnerText(Self, String) -> Unit
+pub fn HTMLHtmlElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLHtmlElement::setTextContent(Self, String) -> Unit
+pub fn HTMLHtmlElement::tagName(Self) -> String
+pub fn HTMLHtmlElement::textContent(Self) -> String
 
 pub(all) struct HTMLIFrameElement {
   mut src : String
@@ -384,24 +800,102 @@ pub(all) struct HTMLIFrameElement {
   mut height : String
   mut name : String
 }
+pub fn HTMLIFrameElement::append(Self, Node) -> Unit
+pub fn HTMLIFrameElement::appendChild(Self, Node) -> Node
 pub fn HTMLIFrameElement::as_any(Self) -> @core.Any
 pub fn HTMLIFrameElement::as_element(Self) -> Element
 pub fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLIFrameElement::as_node(Self) -> Node
+pub fn HTMLIFrameElement::childNodes(Self) -> Array[Node]
+pub fn HTMLIFrameElement::className(Self) -> String
+pub fn HTMLIFrameElement::click(Self) -> Unit
+pub fn HTMLIFrameElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLIFrameElement::contains(Self, Node?) -> Bool
 pub fn HTMLIFrameElement::contentDocument(Self) -> Document?
 pub fn HTMLIFrameElement::contentWindow(Self) -> Window?
+pub fn HTMLIFrameElement::firstChild(Self) -> Node?
+pub fn HTMLIFrameElement::focus(Self) -> Unit
+pub fn HTMLIFrameElement::getAttribute(Self, String) -> String?
+pub fn HTMLIFrameElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLIFrameElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLIFrameElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLIFrameElement::hasChildNodes(Self) -> Bool
+pub fn HTMLIFrameElement::id(Self) -> String
+pub fn HTMLIFrameElement::innerHTML(Self) -> String
+pub fn HTMLIFrameElement::innerText(Self) -> String
+pub fn HTMLIFrameElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLIFrameElement::lastChild(Self) -> Node?
+pub fn HTMLIFrameElement::nextSibling(Self) -> Node?
+pub fn HTMLIFrameElement::nodeName(Self) -> String
+pub fn HTMLIFrameElement::nodeType(Self) -> Int
+pub fn HTMLIFrameElement::outerHTML(Self) -> String
+pub fn HTMLIFrameElement::parentNode(Self) -> Node?
+pub fn HTMLIFrameElement::previousSibling(Self) -> Node?
+pub fn HTMLIFrameElement::querySelector(Self, String) -> Element?
+pub fn HTMLIFrameElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLIFrameElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLIFrameElement::removeChild(Self, Node) -> Node
+pub fn HTMLIFrameElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLIFrameElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLIFrameElement::setClassName(Self, String) -> Unit
+pub fn HTMLIFrameElement::setId(Self, String) -> Unit
+pub fn HTMLIFrameElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLIFrameElement::setInnerText(Self, String) -> Unit
+pub fn HTMLIFrameElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLIFrameElement::setTextContent(Self, String) -> Unit
+pub fn HTMLIFrameElement::tagName(Self) -> String
+pub fn HTMLIFrameElement::textContent(Self) -> String
 pub impl Show for HTMLIFrameElement
 
 pub(all) struct HTMLImageElement {
   mut src : String
   mut alt : String
 }
+pub fn HTMLImageElement::append(Self, Node) -> Unit
+pub fn HTMLImageElement::appendChild(Self, Node) -> Node
 pub fn HTMLImageElement::as_any(Self) -> @core.Any
 pub fn HTMLImageElement::as_element(Self) -> Element
 pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLImageElement::as_node(Self) -> Node
+pub fn HTMLImageElement::childNodes(Self) -> Array[Node]
+pub fn HTMLImageElement::className(Self) -> String
+pub fn HTMLImageElement::click(Self) -> Unit
+pub fn HTMLImageElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLImageElement::contains(Self, Node?) -> Bool
+pub fn HTMLImageElement::firstChild(Self) -> Node?
+pub fn HTMLImageElement::focus(Self) -> Unit
+pub fn HTMLImageElement::getAttribute(Self, String) -> String?
+pub fn HTMLImageElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLImageElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLImageElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLImageElement::hasChildNodes(Self) -> Bool
+pub fn HTMLImageElement::id(Self) -> String
+pub fn HTMLImageElement::innerHTML(Self) -> String
+pub fn HTMLImageElement::innerText(Self) -> String
+pub fn HTMLImageElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLImageElement::lastChild(Self) -> Node?
+pub fn HTMLImageElement::nextSibling(Self) -> Node?
+pub fn HTMLImageElement::nodeName(Self) -> String
+pub fn HTMLImageElement::nodeType(Self) -> Int
+pub fn HTMLImageElement::outerHTML(Self) -> String
+pub fn HTMLImageElement::parentNode(Self) -> Node?
+pub fn HTMLImageElement::previousSibling(Self) -> Node?
+pub fn HTMLImageElement::querySelector(Self, String) -> Element?
+pub fn HTMLImageElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLImageElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLImageElement::removeChild(Self, Node) -> Node
+pub fn HTMLImageElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLImageElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLImageElement::setClassName(Self, String) -> Unit
+pub fn HTMLImageElement::setId(Self, String) -> Unit
+pub fn HTMLImageElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLImageElement::setInnerText(Self, String) -> Unit
+pub fn HTMLImageElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLImageElement::setTextContent(Self, String) -> Unit
+pub fn HTMLImageElement::tagName(Self) -> String
+pub fn HTMLImageElement::textContent(Self) -> String
 
 pub(all) struct HTMLInputElement {
   mut disabled : Bool
@@ -409,74 +903,386 @@ pub(all) struct HTMLInputElement {
   mut placeholder : String
   mut checked : Bool
 }
+pub fn HTMLInputElement::append(Self, Node) -> Unit
+pub fn HTMLInputElement::appendChild(Self, Node) -> Node
 pub fn HTMLInputElement::as_any(Self) -> @core.Any
 pub fn HTMLInputElement::as_element(Self) -> Element
 pub fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLInputElement::as_node(Self) -> Node
+pub fn HTMLInputElement::childNodes(Self) -> Array[Node]
+pub fn HTMLInputElement::className(Self) -> String
+pub fn HTMLInputElement::click(Self) -> Unit
+pub fn HTMLInputElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLInputElement::contains(Self, Node?) -> Bool
+pub fn HTMLInputElement::firstChild(Self) -> Node?
+pub fn HTMLInputElement::focus(Self) -> Unit
+pub fn HTMLInputElement::getAttribute(Self, String) -> String?
+pub fn HTMLInputElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLInputElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLInputElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLInputElement::hasChildNodes(Self) -> Bool
+pub fn HTMLInputElement::id(Self) -> String
+pub fn HTMLInputElement::innerHTML(Self) -> String
+pub fn HTMLInputElement::innerText(Self) -> String
+pub fn HTMLInputElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLInputElement::lastChild(Self) -> Node?
+pub fn HTMLInputElement::nextSibling(Self) -> Node?
+pub fn HTMLInputElement::nodeName(Self) -> String
+pub fn HTMLInputElement::nodeType(Self) -> Int
+pub fn HTMLInputElement::outerHTML(Self) -> String
+pub fn HTMLInputElement::parentNode(Self) -> Node?
+pub fn HTMLInputElement::previousSibling(Self) -> Node?
+pub fn HTMLInputElement::querySelector(Self, String) -> Element?
+pub fn HTMLInputElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLInputElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLInputElement::removeChild(Self, Node) -> Node
+pub fn HTMLInputElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLInputElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLInputElement::setClassName(Self, String) -> Unit
+pub fn HTMLInputElement::setId(Self, String) -> Unit
+pub fn HTMLInputElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLInputElement::setInnerText(Self, String) -> Unit
+pub fn HTMLInputElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLInputElement::setTextContent(Self, String) -> Unit
 pub fn HTMLInputElement::setType(Self, String) -> Unit
+pub fn HTMLInputElement::tagName(Self) -> String
+pub fn HTMLInputElement::textContent(Self) -> String
 pub fn HTMLInputElement::type_(Self) -> String
 
 #external
 pub type HTMLLIElement
+pub fn HTMLLIElement::append(Self, Node) -> Unit
+pub fn HTMLLIElement::appendChild(Self, Node) -> Node
 pub fn HTMLLIElement::as_any(Self) -> @core.Any
 pub fn HTMLLIElement::as_element(Self) -> Element
 pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLIElement::as_node(Self) -> Node
+pub fn HTMLLIElement::childNodes(Self) -> Array[Node]
+pub fn HTMLLIElement::className(Self) -> String
+pub fn HTMLLIElement::click(Self) -> Unit
+pub fn HTMLLIElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLLIElement::contains(Self, Node?) -> Bool
+pub fn HTMLLIElement::firstChild(Self) -> Node?
+pub fn HTMLLIElement::focus(Self) -> Unit
+pub fn HTMLLIElement::getAttribute(Self, String) -> String?
+pub fn HTMLLIElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLLIElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLLIElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLLIElement::hasChildNodes(Self) -> Bool
+pub fn HTMLLIElement::id(Self) -> String
+pub fn HTMLLIElement::innerHTML(Self) -> String
+pub fn HTMLLIElement::innerText(Self) -> String
+pub fn HTMLLIElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLLIElement::lastChild(Self) -> Node?
+pub fn HTMLLIElement::nextSibling(Self) -> Node?
+pub fn HTMLLIElement::nodeName(Self) -> String
+pub fn HTMLLIElement::nodeType(Self) -> Int
+pub fn HTMLLIElement::outerHTML(Self) -> String
+pub fn HTMLLIElement::parentNode(Self) -> Node?
+pub fn HTMLLIElement::previousSibling(Self) -> Node?
+pub fn HTMLLIElement::querySelector(Self, String) -> Element?
+pub fn HTMLLIElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLLIElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLLIElement::removeChild(Self, Node) -> Node
+pub fn HTMLLIElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLLIElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLLIElement::setClassName(Self, String) -> Unit
+pub fn HTMLLIElement::setId(Self, String) -> Unit
+pub fn HTMLLIElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLLIElement::setInnerText(Self, String) -> Unit
+pub fn HTMLLIElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLLIElement::setTextContent(Self, String) -> Unit
+pub fn HTMLLIElement::tagName(Self) -> String
+pub fn HTMLLIElement::textContent(Self) -> String
 
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
 }
+pub fn HTMLLabelElement::append(Self, Node) -> Unit
+pub fn HTMLLabelElement::appendChild(Self, Node) -> Node
 pub fn HTMLLabelElement::as_any(Self) -> @core.Any
 pub fn HTMLLabelElement::as_element(Self) -> Element
 pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLabelElement::as_node(Self) -> Node
+pub fn HTMLLabelElement::childNodes(Self) -> Array[Node]
+pub fn HTMLLabelElement::className(Self) -> String
+pub fn HTMLLabelElement::click(Self) -> Unit
+pub fn HTMLLabelElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLLabelElement::contains(Self, Node?) -> Bool
+pub fn HTMLLabelElement::firstChild(Self) -> Node?
+pub fn HTMLLabelElement::focus(Self) -> Unit
+pub fn HTMLLabelElement::getAttribute(Self, String) -> String?
+pub fn HTMLLabelElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLLabelElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLLabelElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLLabelElement::hasChildNodes(Self) -> Bool
+pub fn HTMLLabelElement::id(Self) -> String
+pub fn HTMLLabelElement::innerHTML(Self) -> String
+pub fn HTMLLabelElement::innerText(Self) -> String
+pub fn HTMLLabelElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLLabelElement::lastChild(Self) -> Node?
+pub fn HTMLLabelElement::nextSibling(Self) -> Node?
+pub fn HTMLLabelElement::nodeName(Self) -> String
+pub fn HTMLLabelElement::nodeType(Self) -> Int
+pub fn HTMLLabelElement::outerHTML(Self) -> String
+pub fn HTMLLabelElement::parentNode(Self) -> Node?
+pub fn HTMLLabelElement::previousSibling(Self) -> Node?
+pub fn HTMLLabelElement::querySelector(Self, String) -> Element?
+pub fn HTMLLabelElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLLabelElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLLabelElement::removeChild(Self, Node) -> Node
+pub fn HTMLLabelElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLLabelElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLLabelElement::setClassName(Self, String) -> Unit
+pub fn HTMLLabelElement::setId(Self, String) -> Unit
+pub fn HTMLLabelElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLLabelElement::setInnerText(Self, String) -> Unit
+pub fn HTMLLabelElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLLabelElement::setTextContent(Self, String) -> Unit
+pub fn HTMLLabelElement::tagName(Self) -> String
+pub fn HTMLLabelElement::textContent(Self) -> String
 
 #external
 pub type HTMLOListElement
+pub fn HTMLOListElement::append(Self, Node) -> Unit
+pub fn HTMLOListElement::appendChild(Self, Node) -> Node
 pub fn HTMLOListElement::as_any(Self) -> @core.Any
 pub fn HTMLOListElement::as_element(Self) -> Element
 pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOListElement::as_node(Self) -> Node
+pub fn HTMLOListElement::childNodes(Self) -> Array[Node]
+pub fn HTMLOListElement::className(Self) -> String
+pub fn HTMLOListElement::click(Self) -> Unit
+pub fn HTMLOListElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLOListElement::contains(Self, Node?) -> Bool
+pub fn HTMLOListElement::firstChild(Self) -> Node?
+pub fn HTMLOListElement::focus(Self) -> Unit
+pub fn HTMLOListElement::getAttribute(Self, String) -> String?
+pub fn HTMLOListElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLOListElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLOListElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLOListElement::hasChildNodes(Self) -> Bool
+pub fn HTMLOListElement::id(Self) -> String
+pub fn HTMLOListElement::innerHTML(Self) -> String
+pub fn HTMLOListElement::innerText(Self) -> String
+pub fn HTMLOListElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLOListElement::lastChild(Self) -> Node?
+pub fn HTMLOListElement::nextSibling(Self) -> Node?
+pub fn HTMLOListElement::nodeName(Self) -> String
+pub fn HTMLOListElement::nodeType(Self) -> Int
+pub fn HTMLOListElement::outerHTML(Self) -> String
+pub fn HTMLOListElement::parentNode(Self) -> Node?
+pub fn HTMLOListElement::previousSibling(Self) -> Node?
+pub fn HTMLOListElement::querySelector(Self, String) -> Element?
+pub fn HTMLOListElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLOListElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLOListElement::removeChild(Self, Node) -> Node
+pub fn HTMLOListElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLOListElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLOListElement::setClassName(Self, String) -> Unit
+pub fn HTMLOListElement::setId(Self, String) -> Unit
+pub fn HTMLOListElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLOListElement::setInnerText(Self, String) -> Unit
+pub fn HTMLOListElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLOListElement::setTextContent(Self, String) -> Unit
+pub fn HTMLOListElement::tagName(Self) -> String
+pub fn HTMLOListElement::textContent(Self) -> String
 
 pub(all) struct HTMLOptionElement {
   mut value : String
   mut selected : Bool
 }
+pub fn HTMLOptionElement::append(Self, Node) -> Unit
+pub fn HTMLOptionElement::appendChild(Self, Node) -> Node
 pub fn HTMLOptionElement::as_any(Self) -> @core.Any
 pub fn HTMLOptionElement::as_element(Self) -> Element
 pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOptionElement::as_node(Self) -> Node
+pub fn HTMLOptionElement::childNodes(Self) -> Array[Node]
+pub fn HTMLOptionElement::className(Self) -> String
+pub fn HTMLOptionElement::click(Self) -> Unit
+pub fn HTMLOptionElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLOptionElement::contains(Self, Node?) -> Bool
+pub fn HTMLOptionElement::firstChild(Self) -> Node?
+pub fn HTMLOptionElement::focus(Self) -> Unit
+pub fn HTMLOptionElement::getAttribute(Self, String) -> String?
+pub fn HTMLOptionElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLOptionElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLOptionElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLOptionElement::hasChildNodes(Self) -> Bool
+pub fn HTMLOptionElement::id(Self) -> String
+pub fn HTMLOptionElement::innerHTML(Self) -> String
+pub fn HTMLOptionElement::innerText(Self) -> String
+pub fn HTMLOptionElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLOptionElement::lastChild(Self) -> Node?
+pub fn HTMLOptionElement::nextSibling(Self) -> Node?
+pub fn HTMLOptionElement::nodeName(Self) -> String
+pub fn HTMLOptionElement::nodeType(Self) -> Int
+pub fn HTMLOptionElement::outerHTML(Self) -> String
+pub fn HTMLOptionElement::parentNode(Self) -> Node?
+pub fn HTMLOptionElement::previousSibling(Self) -> Node?
+pub fn HTMLOptionElement::querySelector(Self, String) -> Element?
+pub fn HTMLOptionElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLOptionElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLOptionElement::removeChild(Self, Node) -> Node
+pub fn HTMLOptionElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLOptionElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLOptionElement::setClassName(Self, String) -> Unit
+pub fn HTMLOptionElement::setId(Self, String) -> Unit
+pub fn HTMLOptionElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLOptionElement::setInnerText(Self, String) -> Unit
+pub fn HTMLOptionElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLOptionElement::setTextContent(Self, String) -> Unit
+pub fn HTMLOptionElement::tagName(Self) -> String
+pub fn HTMLOptionElement::textContent(Self) -> String
 
 #external
 pub type HTMLParagraphElement
+pub fn HTMLParagraphElement::append(Self, Node) -> Unit
+pub fn HTMLParagraphElement::appendChild(Self, Node) -> Node
 pub fn HTMLParagraphElement::as_any(Self) -> @core.Any
 pub fn HTMLParagraphElement::as_element(Self) -> Element
 pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLParagraphElement::as_node(Self) -> Node
+pub fn HTMLParagraphElement::childNodes(Self) -> Array[Node]
+pub fn HTMLParagraphElement::className(Self) -> String
+pub fn HTMLParagraphElement::click(Self) -> Unit
+pub fn HTMLParagraphElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLParagraphElement::contains(Self, Node?) -> Bool
+pub fn HTMLParagraphElement::firstChild(Self) -> Node?
+pub fn HTMLParagraphElement::focus(Self) -> Unit
+pub fn HTMLParagraphElement::getAttribute(Self, String) -> String?
+pub fn HTMLParagraphElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLParagraphElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLParagraphElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLParagraphElement::hasChildNodes(Self) -> Bool
+pub fn HTMLParagraphElement::id(Self) -> String
+pub fn HTMLParagraphElement::innerHTML(Self) -> String
+pub fn HTMLParagraphElement::innerText(Self) -> String
+pub fn HTMLParagraphElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLParagraphElement::lastChild(Self) -> Node?
+pub fn HTMLParagraphElement::nextSibling(Self) -> Node?
+pub fn HTMLParagraphElement::nodeName(Self) -> String
+pub fn HTMLParagraphElement::nodeType(Self) -> Int
+pub fn HTMLParagraphElement::outerHTML(Self) -> String
+pub fn HTMLParagraphElement::parentNode(Self) -> Node?
+pub fn HTMLParagraphElement::previousSibling(Self) -> Node?
+pub fn HTMLParagraphElement::querySelector(Self, String) -> Element?
+pub fn HTMLParagraphElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLParagraphElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLParagraphElement::removeChild(Self, Node) -> Node
+pub fn HTMLParagraphElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLParagraphElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLParagraphElement::setClassName(Self, String) -> Unit
+pub fn HTMLParagraphElement::setId(Self, String) -> Unit
+pub fn HTMLParagraphElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLParagraphElement::setInnerText(Self, String) -> Unit
+pub fn HTMLParagraphElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLParagraphElement::setTextContent(Self, String) -> Unit
+pub fn HTMLParagraphElement::tagName(Self) -> String
+pub fn HTMLParagraphElement::textContent(Self) -> String
 
 pub(all) struct HTMLSelectElement {
   mut value : String
   mut disabled : Bool
 }
+pub fn HTMLSelectElement::append(Self, Node) -> Unit
+pub fn HTMLSelectElement::appendChild(Self, Node) -> Node
 pub fn HTMLSelectElement::as_any(Self) -> @core.Any
 pub fn HTMLSelectElement::as_element(Self) -> Element
 pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSelectElement::as_node(Self) -> Node
+pub fn HTMLSelectElement::childNodes(Self) -> Array[Node]
+pub fn HTMLSelectElement::className(Self) -> String
+pub fn HTMLSelectElement::click(Self) -> Unit
+pub fn HTMLSelectElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLSelectElement::contains(Self, Node?) -> Bool
+pub fn HTMLSelectElement::firstChild(Self) -> Node?
+pub fn HTMLSelectElement::focus(Self) -> Unit
+pub fn HTMLSelectElement::getAttribute(Self, String) -> String?
+pub fn HTMLSelectElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLSelectElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLSelectElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLSelectElement::hasChildNodes(Self) -> Bool
+pub fn HTMLSelectElement::id(Self) -> String
+pub fn HTMLSelectElement::innerHTML(Self) -> String
+pub fn HTMLSelectElement::innerText(Self) -> String
+pub fn HTMLSelectElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLSelectElement::lastChild(Self) -> Node?
+pub fn HTMLSelectElement::nextSibling(Self) -> Node?
+pub fn HTMLSelectElement::nodeName(Self) -> String
+pub fn HTMLSelectElement::nodeType(Self) -> Int
+pub fn HTMLSelectElement::outerHTML(Self) -> String
+pub fn HTMLSelectElement::parentNode(Self) -> Node?
+pub fn HTMLSelectElement::previousSibling(Self) -> Node?
+pub fn HTMLSelectElement::querySelector(Self, String) -> Element?
+pub fn HTMLSelectElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLSelectElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLSelectElement::removeChild(Self, Node) -> Node
+pub fn HTMLSelectElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLSelectElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLSelectElement::setClassName(Self, String) -> Unit
+pub fn HTMLSelectElement::setId(Self, String) -> Unit
+pub fn HTMLSelectElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLSelectElement::setInnerText(Self, String) -> Unit
+pub fn HTMLSelectElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLSelectElement::setTextContent(Self, String) -> Unit
+pub fn HTMLSelectElement::tagName(Self) -> String
+pub fn HTMLSelectElement::textContent(Self) -> String
 
 #external
 pub type HTMLSpanElement
+pub fn HTMLSpanElement::append(Self, Node) -> Unit
+pub fn HTMLSpanElement::appendChild(Self, Node) -> Node
 pub fn HTMLSpanElement::as_any(Self) -> @core.Any
 pub fn HTMLSpanElement::as_element(Self) -> Element
 pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSpanElement::as_node(Self) -> Node
+pub fn HTMLSpanElement::childNodes(Self) -> Array[Node]
+pub fn HTMLSpanElement::className(Self) -> String
+pub fn HTMLSpanElement::click(Self) -> Unit
+pub fn HTMLSpanElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLSpanElement::contains(Self, Node?) -> Bool
+pub fn HTMLSpanElement::firstChild(Self) -> Node?
+pub fn HTMLSpanElement::focus(Self) -> Unit
+pub fn HTMLSpanElement::getAttribute(Self, String) -> String?
+pub fn HTMLSpanElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLSpanElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLSpanElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLSpanElement::hasChildNodes(Self) -> Bool
+pub fn HTMLSpanElement::id(Self) -> String
+pub fn HTMLSpanElement::innerHTML(Self) -> String
+pub fn HTMLSpanElement::innerText(Self) -> String
+pub fn HTMLSpanElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLSpanElement::lastChild(Self) -> Node?
+pub fn HTMLSpanElement::nextSibling(Self) -> Node?
+pub fn HTMLSpanElement::nodeName(Self) -> String
+pub fn HTMLSpanElement::nodeType(Self) -> Int
+pub fn HTMLSpanElement::outerHTML(Self) -> String
+pub fn HTMLSpanElement::parentNode(Self) -> Node?
+pub fn HTMLSpanElement::previousSibling(Self) -> Node?
+pub fn HTMLSpanElement::querySelector(Self, String) -> Element?
+pub fn HTMLSpanElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLSpanElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLSpanElement::removeChild(Self, Node) -> Node
+pub fn HTMLSpanElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLSpanElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLSpanElement::setClassName(Self, String) -> Unit
+pub fn HTMLSpanElement::setId(Self, String) -> Unit
+pub fn HTMLSpanElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLSpanElement::setInnerText(Self, String) -> Unit
+pub fn HTMLSpanElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLSpanElement::setTextContent(Self, String) -> Unit
+pub fn HTMLSpanElement::tagName(Self) -> String
+pub fn HTMLSpanElement::textContent(Self) -> String
 
 pub(all) struct HTMLTextAreaElement {
   mut value : String
@@ -486,19 +1292,97 @@ pub(all) struct HTMLTextAreaElement {
   mut cols : Int
   mut readOnly : Bool
 }
+pub fn HTMLTextAreaElement::append(Self, Node) -> Unit
+pub fn HTMLTextAreaElement::appendChild(Self, Node) -> Node
 pub fn HTMLTextAreaElement::as_any(Self) -> @core.Any
 pub fn HTMLTextAreaElement::as_element(Self) -> Element
 pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLTextAreaElement::as_node(Self) -> Node
+pub fn HTMLTextAreaElement::childNodes(Self) -> Array[Node]
+pub fn HTMLTextAreaElement::className(Self) -> String
+pub fn HTMLTextAreaElement::click(Self) -> Unit
+pub fn HTMLTextAreaElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLTextAreaElement::contains(Self, Node?) -> Bool
+pub fn HTMLTextAreaElement::firstChild(Self) -> Node?
+pub fn HTMLTextAreaElement::focus(Self) -> Unit
+pub fn HTMLTextAreaElement::getAttribute(Self, String) -> String?
+pub fn HTMLTextAreaElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLTextAreaElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLTextAreaElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLTextAreaElement::hasChildNodes(Self) -> Bool
+pub fn HTMLTextAreaElement::id(Self) -> String
+pub fn HTMLTextAreaElement::innerHTML(Self) -> String
+pub fn HTMLTextAreaElement::innerText(Self) -> String
+pub fn HTMLTextAreaElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLTextAreaElement::lastChild(Self) -> Node?
+pub fn HTMLTextAreaElement::nextSibling(Self) -> Node?
+pub fn HTMLTextAreaElement::nodeName(Self) -> String
+pub fn HTMLTextAreaElement::nodeType(Self) -> Int
+pub fn HTMLTextAreaElement::outerHTML(Self) -> String
+pub fn HTMLTextAreaElement::parentNode(Self) -> Node?
+pub fn HTMLTextAreaElement::previousSibling(Self) -> Node?
+pub fn HTMLTextAreaElement::querySelector(Self, String) -> Element?
+pub fn HTMLTextAreaElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLTextAreaElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLTextAreaElement::removeChild(Self, Node) -> Node
+pub fn HTMLTextAreaElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLTextAreaElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLTextAreaElement::setClassName(Self, String) -> Unit
+pub fn HTMLTextAreaElement::setId(Self, String) -> Unit
+pub fn HTMLTextAreaElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLTextAreaElement::setInnerText(Self, String) -> Unit
+pub fn HTMLTextAreaElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLTextAreaElement::setTextContent(Self, String) -> Unit
+pub fn HTMLTextAreaElement::tagName(Self) -> String
+pub fn HTMLTextAreaElement::textContent(Self) -> String
 
 #external
 pub type HTMLUListElement
+pub fn HTMLUListElement::append(Self, Node) -> Unit
+pub fn HTMLUListElement::appendChild(Self, Node) -> Node
 pub fn HTMLUListElement::as_any(Self) -> @core.Any
 pub fn HTMLUListElement::as_element(Self) -> Element
 pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLUListElement::as_node(Self) -> Node
+pub fn HTMLUListElement::childNodes(Self) -> Array[Node]
+pub fn HTMLUListElement::className(Self) -> String
+pub fn HTMLUListElement::click(Self) -> Unit
+pub fn HTMLUListElement::cloneNode(Self, Bool) -> Node
+pub fn HTMLUListElement::contains(Self, Node?) -> Bool
+pub fn HTMLUListElement::firstChild(Self) -> Node?
+pub fn HTMLUListElement::focus(Self) -> Unit
+pub fn HTMLUListElement::getAttribute(Self, String) -> String?
+pub fn HTMLUListElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn HTMLUListElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn HTMLUListElement::hasAttribute(Self, String) -> Bool
+pub fn HTMLUListElement::hasChildNodes(Self) -> Bool
+pub fn HTMLUListElement::id(Self) -> String
+pub fn HTMLUListElement::innerHTML(Self) -> String
+pub fn HTMLUListElement::innerText(Self) -> String
+pub fn HTMLUListElement::insertBefore(Self, Node, Node?) -> Node
+pub fn HTMLUListElement::lastChild(Self) -> Node?
+pub fn HTMLUListElement::nextSibling(Self) -> Node?
+pub fn HTMLUListElement::nodeName(Self) -> String
+pub fn HTMLUListElement::nodeType(Self) -> Int
+pub fn HTMLUListElement::outerHTML(Self) -> String
+pub fn HTMLUListElement::parentNode(Self) -> Node?
+pub fn HTMLUListElement::previousSibling(Self) -> Node?
+pub fn HTMLUListElement::querySelector(Self, String) -> Element?
+pub fn HTMLUListElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn HTMLUListElement::removeAttribute(Self, String) -> Unit
+pub fn HTMLUListElement::removeChild(Self, Node) -> Node
+pub fn HTMLUListElement::replaceChild(Self, Node, Node) -> Node
+pub fn HTMLUListElement::setAttribute(Self, String, String) -> Unit
+pub fn HTMLUListElement::setClassName(Self, String) -> Unit
+pub fn HTMLUListElement::setId(Self, String) -> Unit
+pub fn HTMLUListElement::setInnerHTML(Self, String) -> Unit
+pub fn HTMLUListElement::setInnerText(Self, String) -> Unit
+pub fn HTMLUListElement::setOuterHTML(Self, String) -> Unit
+pub fn HTMLUListElement::setTextContent(Self, String) -> Unit
+pub fn HTMLUListElement::tagName(Self) -> String
+pub fn HTMLUListElement::textContent(Self) -> String
 
 pub(all) struct HashChangeEvent {
   oldURL : String
@@ -633,24 +1517,83 @@ pub impl EventImpl for PopStateEvent
 
 #external
 pub type SVGCircleElement
+pub fn SVGCircleElement::append(Self, Node) -> Unit
+pub fn SVGCircleElement::appendChild(Self, Node) -> Node
 pub fn SVGCircleElement::as_any(Self) -> @core.Any
 pub fn SVGCircleElement::as_element(Self) -> Element
 pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGCircleElement::as_node(Self) -> Node
 pub fn SVGCircleElement::as_svg_element(Self) -> SVGElement
+pub fn SVGCircleElement::childNodes(Self) -> Array[Node]
+pub fn SVGCircleElement::className(Self) -> String
+pub fn SVGCircleElement::cloneNode(Self, Bool) -> Node
+pub fn SVGCircleElement::contains(Self, Node?) -> Bool
 pub fn SVGCircleElement::cx(Self) -> Double
 pub fn SVGCircleElement::cy(Self) -> Double
+pub fn SVGCircleElement::firstChild(Self) -> Node?
+pub fn SVGCircleElement::getAttribute(Self, String) -> String?
+pub fn SVGCircleElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGCircleElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGCircleElement::hasAttribute(Self, String) -> Bool
+pub fn SVGCircleElement::hasChildNodes(Self) -> Bool
+pub fn SVGCircleElement::id(Self) -> String
+pub fn SVGCircleElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGCircleElement::lastChild(Self) -> Node?
+pub fn SVGCircleElement::nextSibling(Self) -> Node?
+pub fn SVGCircleElement::nodeName(Self) -> String
+pub fn SVGCircleElement::nodeType(Self) -> Int
+pub fn SVGCircleElement::parentNode(Self) -> Node?
+pub fn SVGCircleElement::previousSibling(Self) -> Node?
+pub fn SVGCircleElement::querySelector(Self, String) -> Element?
+pub fn SVGCircleElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGCircleElement::r(Self) -> Double
+pub fn SVGCircleElement::removeAttribute(Self, String) -> Unit
+pub fn SVGCircleElement::removeChild(Self, Node) -> Node
+pub fn SVGCircleElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGCircleElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGCircleElement::setClassName(Self, String) -> Unit
+pub fn SVGCircleElement::setId(Self, String) -> Unit
+pub fn SVGCircleElement::setTextContent(Self, String) -> Unit
+pub fn SVGCircleElement::tagName(Self) -> String
+pub fn SVGCircleElement::textContent(Self) -> String
 
 #external
 pub type SVGElement
+pub fn SVGElement::append(Self, Node) -> Unit
+pub fn SVGElement::appendChild(Self, Node) -> Node
 pub fn SVGElement::as_any(Self) -> @core.Any
 pub fn SVGElement::as_element(Self) -> Element
 pub fn SVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGElement::as_node(Self) -> Node
+pub fn SVGElement::childNodes(Self) -> Array[Node]
+pub fn SVGElement::className(Self) -> String
+pub fn SVGElement::cloneNode(Self, Bool) -> Node
+pub fn SVGElement::contains(Self, Node?) -> Bool
+pub fn SVGElement::firstChild(Self) -> Node?
 pub fn SVGElement::getAttribute(Self, String) -> String?
+pub fn SVGElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGElement::hasAttribute(Self, String) -> Bool
+pub fn SVGElement::hasChildNodes(Self) -> Bool
+pub fn SVGElement::id(Self) -> String
+pub fn SVGElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGElement::lastChild(Self) -> Node?
+pub fn SVGElement::nextSibling(Self) -> Node?
+pub fn SVGElement::nodeName(Self) -> String
+pub fn SVGElement::nodeType(Self) -> Int
+pub fn SVGElement::parentNode(Self) -> Node?
+pub fn SVGElement::previousSibling(Self) -> Node?
+pub fn SVGElement::querySelector(Self, String) -> Element?
+pub fn SVGElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGElement::removeAttribute(Self, String) -> Unit
+pub fn SVGElement::removeChild(Self, Node) -> Node
+pub fn SVGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGElement::setClassName(Self, String) -> Unit
+pub fn SVGElement::setId(Self, String) -> Unit
+pub fn SVGElement::setTextContent(Self, String) -> Unit
+pub fn SVGElement::tagName(Self) -> String
+pub fn SVGElement::textContent(Self) -> String
 
 #external
 pub type SVGEllipseElement
@@ -667,12 +1610,42 @@ pub fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGGElement
+pub fn SVGGElement::append(Self, Node) -> Unit
+pub fn SVGGElement::appendChild(Self, Node) -> Node
 pub fn SVGGElement::as_any(Self) -> @core.Any
 pub fn SVGGElement::as_element(Self) -> Element
 pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGGElement::as_node(Self) -> Node
 pub fn SVGGElement::as_svg_element(Self) -> SVGElement
+pub fn SVGGElement::childNodes(Self) -> Array[Node]
+pub fn SVGGElement::className(Self) -> String
+pub fn SVGGElement::cloneNode(Self, Bool) -> Node
+pub fn SVGGElement::contains(Self, Node?) -> Bool
+pub fn SVGGElement::firstChild(Self) -> Node?
+pub fn SVGGElement::getAttribute(Self, String) -> String?
+pub fn SVGGElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGGElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGGElement::hasAttribute(Self, String) -> Bool
+pub fn SVGGElement::hasChildNodes(Self) -> Bool
+pub fn SVGGElement::id(Self) -> String
+pub fn SVGGElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGGElement::lastChild(Self) -> Node?
+pub fn SVGGElement::nextSibling(Self) -> Node?
+pub fn SVGGElement::nodeName(Self) -> String
+pub fn SVGGElement::nodeType(Self) -> Int
+pub fn SVGGElement::parentNode(Self) -> Node?
+pub fn SVGGElement::previousSibling(Self) -> Node?
+pub fn SVGGElement::querySelector(Self, String) -> Element?
+pub fn SVGGElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGGElement::removeAttribute(Self, String) -> Unit
+pub fn SVGGElement::removeChild(Self, Node) -> Node
+pub fn SVGGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGGElement::setClassName(Self, String) -> Unit
+pub fn SVGGElement::setId(Self, String) -> Unit
+pub fn SVGGElement::setTextContent(Self, String) -> Unit
+pub fn SVGGElement::tagName(Self) -> String
+pub fn SVGGElement::textContent(Self) -> String
 
 #external
 pub type SVGImageElement
@@ -690,12 +1663,42 @@ pub fn SVGImageElement::y(Self) -> Double
 
 #external
 pub type SVGLineElement
+pub fn SVGLineElement::append(Self, Node) -> Unit
+pub fn SVGLineElement::appendChild(Self, Node) -> Node
 pub fn SVGLineElement::as_any(Self) -> @core.Any
 pub fn SVGLineElement::as_element(Self) -> Element
 pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGLineElement::as_node(Self) -> Node
 pub fn SVGLineElement::as_svg_element(Self) -> SVGElement
+pub fn SVGLineElement::childNodes(Self) -> Array[Node]
+pub fn SVGLineElement::className(Self) -> String
+pub fn SVGLineElement::cloneNode(Self, Bool) -> Node
+pub fn SVGLineElement::contains(Self, Node?) -> Bool
+pub fn SVGLineElement::firstChild(Self) -> Node?
+pub fn SVGLineElement::getAttribute(Self, String) -> String?
+pub fn SVGLineElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGLineElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGLineElement::hasAttribute(Self, String) -> Bool
+pub fn SVGLineElement::hasChildNodes(Self) -> Bool
+pub fn SVGLineElement::id(Self) -> String
+pub fn SVGLineElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGLineElement::lastChild(Self) -> Node?
+pub fn SVGLineElement::nextSibling(Self) -> Node?
+pub fn SVGLineElement::nodeName(Self) -> String
+pub fn SVGLineElement::nodeType(Self) -> Int
+pub fn SVGLineElement::parentNode(Self) -> Node?
+pub fn SVGLineElement::previousSibling(Self) -> Node?
+pub fn SVGLineElement::querySelector(Self, String) -> Element?
+pub fn SVGLineElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGLineElement::removeAttribute(Self, String) -> Unit
+pub fn SVGLineElement::removeChild(Self, Node) -> Node
+pub fn SVGLineElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGLineElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGLineElement::setClassName(Self, String) -> Unit
+pub fn SVGLineElement::setId(Self, String) -> Unit
+pub fn SVGLineElement::setTextContent(Self, String) -> Unit
+pub fn SVGLineElement::tagName(Self) -> String
+pub fn SVGLineElement::textContent(Self) -> String
 pub fn SVGLineElement::x1(Self) -> Double
 pub fn SVGLineElement::x2(Self) -> Double
 pub fn SVGLineElement::y1(Self) -> Double
@@ -703,66 +1706,245 @@ pub fn SVGLineElement::y2(Self) -> Double
 
 #external
 pub type SVGPathElement
+pub fn SVGPathElement::append(Self, Node) -> Unit
+pub fn SVGPathElement::appendChild(Self, Node) -> Node
 pub fn SVGPathElement::as_any(Self) -> @core.Any
 pub fn SVGPathElement::as_element(Self) -> Element
 pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPathElement::as_node(Self) -> Node
 pub fn SVGPathElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPathElement::childNodes(Self) -> Array[Node]
+pub fn SVGPathElement::className(Self) -> String
+pub fn SVGPathElement::cloneNode(Self, Bool) -> Node
+pub fn SVGPathElement::contains(Self, Node?) -> Bool
 pub fn SVGPathElement::d(Self) -> String
+pub fn SVGPathElement::firstChild(Self) -> Node?
+pub fn SVGPathElement::getAttribute(Self, String) -> String?
+pub fn SVGPathElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGPathElement::getElementsByTagName(Self, String) -> Array[Element]
 pub fn SVGPathElement::getTotalLength(Self) -> Double
+pub fn SVGPathElement::hasAttribute(Self, String) -> Bool
+pub fn SVGPathElement::hasChildNodes(Self) -> Bool
+pub fn SVGPathElement::id(Self) -> String
+pub fn SVGPathElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGPathElement::lastChild(Self) -> Node?
+pub fn SVGPathElement::nextSibling(Self) -> Node?
+pub fn SVGPathElement::nodeName(Self) -> String
+pub fn SVGPathElement::nodeType(Self) -> Int
+pub fn SVGPathElement::parentNode(Self) -> Node?
+pub fn SVGPathElement::previousSibling(Self) -> Node?
+pub fn SVGPathElement::querySelector(Self, String) -> Element?
+pub fn SVGPathElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGPathElement::removeAttribute(Self, String) -> Unit
+pub fn SVGPathElement::removeChild(Self, Node) -> Node
+pub fn SVGPathElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPathElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPathElement::setClassName(Self, String) -> Unit
+pub fn SVGPathElement::setId(Self, String) -> Unit
+pub fn SVGPathElement::setTextContent(Self, String) -> Unit
+pub fn SVGPathElement::tagName(Self) -> String
+pub fn SVGPathElement::textContent(Self) -> String
 
 #external
 pub type SVGPolygonElement
+pub fn SVGPolygonElement::append(Self, Node) -> Unit
+pub fn SVGPolygonElement::appendChild(Self, Node) -> Node
 pub fn SVGPolygonElement::as_any(Self) -> @core.Any
 pub fn SVGPolygonElement::as_element(Self) -> Element
 pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolygonElement::as_node(Self) -> Node
 pub fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPolygonElement::childNodes(Self) -> Array[Node]
+pub fn SVGPolygonElement::className(Self) -> String
+pub fn SVGPolygonElement::cloneNode(Self, Bool) -> Node
+pub fn SVGPolygonElement::contains(Self, Node?) -> Bool
+pub fn SVGPolygonElement::firstChild(Self) -> Node?
+pub fn SVGPolygonElement::getAttribute(Self, String) -> String?
+pub fn SVGPolygonElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGPolygonElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGPolygonElement::hasAttribute(Self, String) -> Bool
+pub fn SVGPolygonElement::hasChildNodes(Self) -> Bool
+pub fn SVGPolygonElement::id(Self) -> String
+pub fn SVGPolygonElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGPolygonElement::lastChild(Self) -> Node?
+pub fn SVGPolygonElement::nextSibling(Self) -> Node?
+pub fn SVGPolygonElement::nodeName(Self) -> String
+pub fn SVGPolygonElement::nodeType(Self) -> Int
+pub fn SVGPolygonElement::parentNode(Self) -> Node?
+pub fn SVGPolygonElement::previousSibling(Self) -> Node?
+pub fn SVGPolygonElement::querySelector(Self, String) -> Element?
+pub fn SVGPolygonElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGPolygonElement::removeAttribute(Self, String) -> Unit
+pub fn SVGPolygonElement::removeChild(Self, Node) -> Node
+pub fn SVGPolygonElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPolygonElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPolygonElement::setClassName(Self, String) -> Unit
+pub fn SVGPolygonElement::setId(Self, String) -> Unit
+pub fn SVGPolygonElement::setTextContent(Self, String) -> Unit
+pub fn SVGPolygonElement::tagName(Self) -> String
+pub fn SVGPolygonElement::textContent(Self) -> String
 
 #external
 pub type SVGPolylineElement
+pub fn SVGPolylineElement::append(Self, Node) -> Unit
+pub fn SVGPolylineElement::appendChild(Self, Node) -> Node
 pub fn SVGPolylineElement::as_any(Self) -> @core.Any
 pub fn SVGPolylineElement::as_element(Self) -> Element
 pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolylineElement::as_node(Self) -> Node
 pub fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
+pub fn SVGPolylineElement::childNodes(Self) -> Array[Node]
+pub fn SVGPolylineElement::className(Self) -> String
+pub fn SVGPolylineElement::cloneNode(Self, Bool) -> Node
+pub fn SVGPolylineElement::contains(Self, Node?) -> Bool
+pub fn SVGPolylineElement::firstChild(Self) -> Node?
+pub fn SVGPolylineElement::getAttribute(Self, String) -> String?
+pub fn SVGPolylineElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGPolylineElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGPolylineElement::hasAttribute(Self, String) -> Bool
+pub fn SVGPolylineElement::hasChildNodes(Self) -> Bool
+pub fn SVGPolylineElement::id(Self) -> String
+pub fn SVGPolylineElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGPolylineElement::lastChild(Self) -> Node?
+pub fn SVGPolylineElement::nextSibling(Self) -> Node?
+pub fn SVGPolylineElement::nodeName(Self) -> String
+pub fn SVGPolylineElement::nodeType(Self) -> Int
+pub fn SVGPolylineElement::parentNode(Self) -> Node?
+pub fn SVGPolylineElement::previousSibling(Self) -> Node?
+pub fn SVGPolylineElement::querySelector(Self, String) -> Element?
+pub fn SVGPolylineElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGPolylineElement::removeAttribute(Self, String) -> Unit
+pub fn SVGPolylineElement::removeChild(Self, Node) -> Node
+pub fn SVGPolylineElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPolylineElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGPolylineElement::setClassName(Self, String) -> Unit
+pub fn SVGPolylineElement::setId(Self, String) -> Unit
+pub fn SVGPolylineElement::setTextContent(Self, String) -> Unit
+pub fn SVGPolylineElement::tagName(Self) -> String
+pub fn SVGPolylineElement::textContent(Self) -> String
 
 #external
 pub type SVGRectElement
+pub fn SVGRectElement::append(Self, Node) -> Unit
+pub fn SVGRectElement::appendChild(Self, Node) -> Node
 pub fn SVGRectElement::as_any(Self) -> @core.Any
 pub fn SVGRectElement::as_element(Self) -> Element
 pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGRectElement::as_node(Self) -> Node
 pub fn SVGRectElement::as_svg_element(Self) -> SVGElement
+pub fn SVGRectElement::childNodes(Self) -> Array[Node]
+pub fn SVGRectElement::className(Self) -> String
+pub fn SVGRectElement::cloneNode(Self, Bool) -> Node
+pub fn SVGRectElement::contains(Self, Node?) -> Bool
+pub fn SVGRectElement::firstChild(Self) -> Node?
+pub fn SVGRectElement::getAttribute(Self, String) -> String?
+pub fn SVGRectElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGRectElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGRectElement::hasAttribute(Self, String) -> Bool
+pub fn SVGRectElement::hasChildNodes(Self) -> Bool
 pub fn SVGRectElement::height(Self) -> Double
+pub fn SVGRectElement::id(Self) -> String
+pub fn SVGRectElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGRectElement::lastChild(Self) -> Node?
+pub fn SVGRectElement::nextSibling(Self) -> Node?
+pub fn SVGRectElement::nodeName(Self) -> String
+pub fn SVGRectElement::nodeType(Self) -> Int
+pub fn SVGRectElement::parentNode(Self) -> Node?
+pub fn SVGRectElement::previousSibling(Self) -> Node?
+pub fn SVGRectElement::querySelector(Self, String) -> Element?
+pub fn SVGRectElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGRectElement::removeAttribute(Self, String) -> Unit
+pub fn SVGRectElement::removeChild(Self, Node) -> Node
+pub fn SVGRectElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGRectElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGRectElement::setClassName(Self, String) -> Unit
+pub fn SVGRectElement::setId(Self, String) -> Unit
+pub fn SVGRectElement::setTextContent(Self, String) -> Unit
+pub fn SVGRectElement::tagName(Self) -> String
+pub fn SVGRectElement::textContent(Self) -> String
 pub fn SVGRectElement::width(Self) -> Double
 pub fn SVGRectElement::x(Self) -> Double
 pub fn SVGRectElement::y(Self) -> Double
 
 #external
 pub type SVGSVGElement
+pub fn SVGSVGElement::append(Self, Node) -> Unit
+pub fn SVGSVGElement::appendChild(Self, Node) -> Node
 pub fn SVGSVGElement::as_any(Self) -> @core.Any
 pub fn SVGSVGElement::as_element(Self) -> Element
 pub fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGSVGElement::as_node(Self) -> Node
 pub fn SVGSVGElement::as_svg_element(Self) -> SVGElement
+pub fn SVGSVGElement::childNodes(Self) -> Array[Node]
+pub fn SVGSVGElement::className(Self) -> String
+pub fn SVGSVGElement::cloneNode(Self, Bool) -> Node
+pub fn SVGSVGElement::contains(Self, Node?) -> Bool
+pub fn SVGSVGElement::firstChild(Self) -> Node?
 pub fn SVGSVGElement::getAttribute(Self, String) -> String?
+pub fn SVGSVGElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGSVGElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGSVGElement::hasAttribute(Self, String) -> Bool
+pub fn SVGSVGElement::hasChildNodes(Self) -> Bool
 pub fn SVGSVGElement::height(Self) -> Double
+pub fn SVGSVGElement::id(Self) -> String
+pub fn SVGSVGElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGSVGElement::lastChild(Self) -> Node?
+pub fn SVGSVGElement::nextSibling(Self) -> Node?
+pub fn SVGSVGElement::nodeName(Self) -> String
+pub fn SVGSVGElement::nodeType(Self) -> Int
+pub fn SVGSVGElement::parentNode(Self) -> Node?
+pub fn SVGSVGElement::previousSibling(Self) -> Node?
+pub fn SVGSVGElement::querySelector(Self, String) -> Element?
+pub fn SVGSVGElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGSVGElement::removeAttribute(Self, String) -> Unit
+pub fn SVGSVGElement::removeChild(Self, Node) -> Node
+pub fn SVGSVGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGSVGElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGSVGElement::setClassName(Self, String) -> Unit
+pub fn SVGSVGElement::setId(Self, String) -> Unit
+pub fn SVGSVGElement::setTextContent(Self, String) -> Unit
+pub fn SVGSVGElement::tagName(Self) -> String
+pub fn SVGSVGElement::textContent(Self) -> String
 pub fn SVGSVGElement::width(Self) -> Double
 
 #external
 pub type SVGTextElement
+pub fn SVGTextElement::append(Self, Node) -> Unit
+pub fn SVGTextElement::appendChild(Self, Node) -> Node
 pub fn SVGTextElement::as_any(Self) -> @core.Any
 pub fn SVGTextElement::as_element(Self) -> Element
 pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGTextElement::as_node(Self) -> Node
 pub fn SVGTextElement::as_svg_element(Self) -> SVGElement
+pub fn SVGTextElement::childNodes(Self) -> Array[Node]
+pub fn SVGTextElement::className(Self) -> String
+pub fn SVGTextElement::cloneNode(Self, Bool) -> Node
+pub fn SVGTextElement::contains(Self, Node?) -> Bool
+pub fn SVGTextElement::firstChild(Self) -> Node?
+pub fn SVGTextElement::getAttribute(Self, String) -> String?
+pub fn SVGTextElement::getElementsByClassName(Self, String) -> Array[Element]
+pub fn SVGTextElement::getElementsByTagName(Self, String) -> Array[Element]
+pub fn SVGTextElement::hasAttribute(Self, String) -> Bool
+pub fn SVGTextElement::hasChildNodes(Self) -> Bool
+pub fn SVGTextElement::id(Self) -> String
+pub fn SVGTextElement::insertBefore(Self, Node, Node?) -> Node
+pub fn SVGTextElement::lastChild(Self) -> Node?
+pub fn SVGTextElement::nextSibling(Self) -> Node?
+pub fn SVGTextElement::nodeName(Self) -> String
+pub fn SVGTextElement::nodeType(Self) -> Int
+pub fn SVGTextElement::parentNode(Self) -> Node?
+pub fn SVGTextElement::previousSibling(Self) -> Node?
+pub fn SVGTextElement::querySelector(Self, String) -> Element?
+pub fn SVGTextElement::querySelectorAll(Self, String) -> Array[Element]
+pub fn SVGTextElement::removeAttribute(Self, String) -> Unit
+pub fn SVGTextElement::removeChild(Self, Node) -> Node
+pub fn SVGTextElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGTextElement::setAttribute(Self, String, String) -> Unit
+pub fn SVGTextElement::setClassName(Self, String) -> Unit
+pub fn SVGTextElement::setId(Self, String) -> Unit
+pub fn SVGTextElement::setTextContent(Self, String) -> Unit
+pub fn SVGTextElement::tagName(Self) -> String
+pub fn SVGTextElement::textContent(Self) -> String
 pub fn SVGTextElement::x(Self) -> Double
 pub fn SVGTextElement::y(Self) -> Double
 

@@ -2,7 +2,8 @@
   "scripts": {
     "dev:spa": "pnpm vite dev",
     "dev:cloudflare": "wrangler dev fixtures/cf-worker.js",
-    "test:cloudflare": "vitest run --config vitest.cf-config.ts e2e/cloudflare/moonbit-*.test.ts"
+    "test:cloudflare": "vitest run --config vitest.cf-config.ts e2e/cloudflare/moonbit-*.test.ts",
+    "generate:dom": "deno run --allow-read --allow-write scripts/generate_dom_inheritance.ts"
   },
   "devDependencies": {
     "@ai-sdk/anthropic": "2.0.43",

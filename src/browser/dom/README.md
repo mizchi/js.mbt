@@ -295,6 +295,53 @@ test "basic DOM operations" {
 }
 ```
 
+## Generated Inheritance Methods
+
+The `*_generated.mbt` files contain auto-generated wrapper methods that provide direct access to inherited methods without explicit type casting.
+
+### Before (Manual Casting)
+
+```moonbit
+let div = doc.createElement("div")
+div.as_node().appendChild(child.as_node())
+div.as_element().setAttribute("class", "container")
+div.as_html_element().innerHTML()
+```
+
+### After (Direct Access)
+
+```moonbit
+let div = doc.createElement("div")
+div.appendChild(child.as_node())
+div.setAttribute("class", "container")
+div.innerHTML()
+```
+
+### Regenerating Files
+
+If you modify the base types (Node, Element, HTMLElement, etc.) and want to regenerate the inheritance wrappers:
+
+```bash
+pnpm generate:dom
+# or
+deno run --allow-read --allow-write scripts/generate_dom_inheritance.ts
+```
+
+### Inheritance Hierarchy
+
+```
+EventTarget
+└── Node (appendChild, removeChild, textContent, etc.)
+    ├── Element (querySelector, setAttribute, etc.)
+    │   ├── HTMLElement (innerHTML, innerText, etc.)
+    │   │   └── HTMLDivElement, HTMLSpanElement, etc.
+    │   └── SVGElement
+    │       └── SVGCircleElement, SVGRectElement, etc.
+    └── Document
+```
+
+Each child type automatically inherits all methods from its parent types through generated wrapper methods.
+
 ## Type Safety
 
 All DOM operations are type-safe and use MoonBit's FFI system:
