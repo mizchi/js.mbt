@@ -9,8 +9,6 @@
  * 例: element.appendChild(...) の代わりに element.as_node().appendChild(...) と書く必要がない
  */
 
-import * as path from "jsr:@std/path";
-
 // 継承階層の定義
 type InheritanceChain = {
   typeName: string;
@@ -299,7 +297,6 @@ ${aliasAttr}pub ${asyncPrefix}fn ${targetType}::${method.name}(${fullParams}) ->
  * 型のキャストチェーンを取得
  */
 function getCastChain(fromType: string, toType: string): string[] {
-  const ancestors = getAncestors(fromType);
   const chain: string[] = [];
 
   let current = inheritanceHierarchy.find(t => t.typeName === fromType);
