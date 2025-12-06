@@ -67,8 +67,7 @@ pub fn Reflect::get(
   match receiver {
     Some(recv) =>
       @core.global_this()["Reflect"]._call("get", [target, property_key, recv])
-    None =>
-      @core.global_this()["Reflect"]._call("get", [target, property_key])
+    None => @core.global_this()["Reflect"]._call("get", [target, property_key])
   }
 }
 
@@ -127,13 +126,11 @@ pub fn Reflect::set(
 ) -> Bool {
   match receiver {
     Some(recv) =>
-      @core
-      .global_this()["Reflect"]
+      @core.global_this()["Reflect"]
       ._call("set", [target, property_key, value, recv])
       .cast()
     None =>
-      @core
-      .global_this()["Reflect"]
+      @core.global_this()["Reflect"]
       ._call("set", [target, property_key, value])
       .cast()
   }

@@ -24,9 +24,10 @@ extern "js" fn import_react() -> @js.Promise[@core.Any] =
 ///
 /// Implementation detail: Stores the module in globalThis for internal use.
 pub async fn dynamic_import() -> Unit {
-  if @core.is_nullish(@global.global_this()._get("__ReactApi")) {
+  let g = @global.global_this()
+  if @core.is_nullish(g._get("__ReactApi")) {
     let react : @core.Any = import_react().wait()
-    @global.global_this()._set("__ReactApi", react)
+    g._set("__ReactApi", react)
   }
 }
 

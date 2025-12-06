@@ -105,12 +105,14 @@ const toDotNotation = (keyArg: AstNode): AstNode => {
 // FFI Patterns
 // ============================================================================
 
-const INLINEABLE_NAMESPACES = ['nostd', 'core'];
+const INLINEABLE_NAMESPACES = ['core'];
 
 type PatternBuilder = (args: AstNode[]) => AstNode;
 
 const inlinePatterns: Record<string, PatternBuilder> = {
   'global_this': () => id('globalThis'),
+  'globalThis': () => id('globalThis'),
+
   'undefined': () => id('undefined'),
   'null': () => literal(null, 'null'),
   'new_array': () => ({ type: 'ArrayExpression', elements: [], start: 0, end: 0 }),
@@ -138,9 +140,19 @@ const inlinePatterns: Record<string, PatternBuilder> = {
   'Any$_call': (args) => {
     const m = toDotNotation(args[1]);
     m.object = args[0];
-    return call(m, [spread(args[2])]);
+    // If args[2] is an array literal, use its elements directly; otherwise use spread
+    const callArgs = args[2].type === 'ArrayExpression' && args[2].elements
+      ? args[2].elements as AstNode[]
+      : [spread(args[2])];
+    return call(m, callArgs);
   },
-  'Any$_invoke': (args) => call(args[0], [spread(args[1])]),
+  'Any$_invoke': (args) => {
+    // If args[1] is an array literal, use its elements directly; otherwise use spread
+    const callArgs = args[1].type === 'ArrayExpression' && args[1].elements
+      ? args[1].elements as AstNode[]
+      : [spread(args[1])];
+    return call(args[0], callArgs);
+  },
 };
 
 function parseMoonBitName(name: string): { namespace: string; funcName: string } | null {
@@ -209,6 +221,27 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
     return { code, map: sourcemap ? ms.generateMap({ hires: true }) : undefined, inlineCount: 0, inlineableFns: 0 };
   }
 
+  // Recursively try to inline a node
+  function tryInlineNode(node: AstNode): AstNode | null {
+    if (!node || typeof node !== 'object') return null;
+    if (node.type === 'CallExpression' && node.callee?.type === 'Identifier' && node.callee.name) {
+      const fnInfo = inlineable.get(node.callee.name);
+      if (fnInfo) {
+        const args = (node.arguments || []) as AstNode[];
+        // Recursively inline arguments first
+        const inlinedArgs = args.map(arg => tryInlineNode(arg) || arg);
+
+        if (fnInfo.type === 'named') {
+          const builder = inlinePatterns[fnInfo.funcName];
+          return builder ? builder(inlinedArgs) : null;
+        } else if (fnInfo.type === 'constant') {
+          return fnInfo.body;
+        }
+      }
+    }
+    return null;
+  }
+
   // Collect all inlineable calls first
   const inlineableCallsToReplace: Array<{ node: AstNode; replacement: string }> = [];
   const inlinedCalls = new Set<AstNode>();
@@ -220,20 +253,15 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
     if (node.type === 'CallExpression' && node.callee?.type === 'Identifier' && node.callee.name) {
       const fnInfo = inlineable.get(node.callee.name);
       if (fnInfo) {
-        let inlined: AstNode | null = null;
-        const args = (node.arguments || []) as AstNode[];
-
-        if (fnInfo.type === 'named') {
-          const builder = inlinePatterns[fnInfo.funcName];
-          inlined = builder ? builder(args) : null;
-        } else if (fnInfo.type === 'constant') {
-          inlined = fnInfo.body;
-        }
+        // Try to inline with recursive argument inlining
+        const inlined = tryInlineNode(node);
 
         if (inlined) {
           const replacement = astring.generate(inlined as any);
           inlineableCallsToReplace.push({ node, replacement });
           inlinedCalls.add(node);
+          // Don't recurse into this node's children since they're already processed by tryInlineNode
+          return;
         }
       }
     }
@@ -253,13 +281,25 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
 
   collectInlineable(ast);
 
-  // Sort by position (descending) and apply replacements from end to start
-  // This prevents position shifts from affecting subsequent replacements
-  inlineableCallsToReplace.sort((a, b) => b.node.start - a.node.start);
+  // Sort by range size (ascending) to process nested calls first, then by position (descending)
+  // This ensures nested calls are inlined before their parent calls
+  inlineableCallsToReplace.sort((a, b) => {
+    const sizeA = a.node.end - a.node.start;
+    const sizeB = b.node.end - b.node.start;
+    if (sizeA !== sizeB) return sizeA - sizeB; // Smaller range first (inner calls)
+    return b.node.start - a.node.start; // If same size, process from end to start
+  });
 
   let inlineCount = 0;
+  const replacedRanges: Array<{ start: number; end: number }> = [];
   for (const { node, replacement } of inlineableCallsToReplace) {
+    // Skip if this node is within the range of a previously replaced node (nested call)
+    const isNested = replacedRanges.some(range => node.start >= range.start && node.end <= range.end);
+    if (isNested) {
+      continue;
+    }
     ms.overwrite(node.start, node.end, replacement);
+    replacedRanges.push({ start: node.start, end: node.end });
     inlineCount++;
   }
 
@@ -297,7 +337,7 @@ export function transform(code: string, options: TransformOptions = {}): Transfo
   // Remove unused declarations
   for (const [name, range] of declRanges) {
     const count = refCounts.get(name) || 0;
-    if (count <= 1) {
+    if (count === 0) {
       let end = range.end;
       while (end < code.length && code[end] !== '\n') end++;
       if (code[end] === '\n') end++;
