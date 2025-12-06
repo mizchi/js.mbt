@@ -173,14 +173,15 @@ pub async fn PageAssertions::toHaveTitle(
   title : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveTitle", [@core.any(title), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -191,14 +192,15 @@ pub async fn PageAssertions::toHaveURL(
   url : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveURL", [@core.any(url), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -210,14 +212,15 @@ pub async fn LocatorAssertions::toBeVisible(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeVisible", [options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -227,12 +230,15 @@ pub async fn LocatorAssertions::toBeHidden(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
-  let promise : @js.Promise[Unit] = self.to_any()._call("toBeHidden", [options])
-    |> @core.identity
+  let options = @core.from_entries(entries)
+  let promise : @js.Promise[Unit] = self
+    .to_any()
+    ._call("toBeHidden", [options])
+    .cast()
   promise.wait()
 }
 
@@ -242,14 +248,15 @@ pub async fn LocatorAssertions::toBeEnabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeEnabled", [options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -259,14 +266,15 @@ pub async fn LocatorAssertions::toBeDisabled(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeDisabled", [options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -277,17 +285,18 @@ pub async fn LocatorAssertions::toBeChecked(
   checked? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if checked is Some(v) {
-    options["checked"] = @core.any(v)
+    entries.push(("checked", @core.any(v)))
   }
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeChecked", [options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -299,17 +308,18 @@ pub async fn LocatorAssertions::toHaveText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if ignoreCase is Some(v) {
-    options["ignoreCase"] = @core.any(v)
+    entries.push(("ignoreCase", @core.any(v)))
   }
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveText", [@core.any(text), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -321,17 +331,18 @@ pub async fn LocatorAssertions::toContainText(
   ignoreCase? : Bool,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if ignoreCase is Some(v) {
-    options["ignoreCase"] = @core.any(v)
+    entries.push(("ignoreCase", @core.any(v)))
   }
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toContainText", [@core.any(text), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -342,14 +353,15 @@ pub async fn LocatorAssertions::toHaveValue(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveValue", [@core.any(value), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -361,14 +373,15 @@ pub async fn LocatorAssertions::toHaveAttribute(
   value : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveAttribute", [@core.any(name), @core.any(value), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -379,14 +392,15 @@ pub async fn LocatorAssertions::toHaveClass(
   class_ : String,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveClass", [@core.any(class_), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -397,14 +411,15 @@ pub async fn LocatorAssertions::toHaveCount(
   count : Int,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toHaveCount", [@core.any(count), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -414,14 +429,15 @@ pub async fn LocatorAssertions::toBeFocused(
   self : LocatorAssertions,
   timeout? : Int,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if timeout is Some(v) {
-    options["timeout"] = @core.any(v)
+    entries.push(("timeout", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("toBeFocused", [options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
@@ -509,19 +525,20 @@ pub async fn TestInfo::attach(
   body? : String,
   contentType? : String,
 ) -> Unit {
-  let options = @core.new_object()
+  let entries : Array[(String, @core.Any)] = []
   if path is Some(v) {
-    options["path"] = @core.any(v)
+    entries.push(("path", @core.any(v)))
   }
   if body is Some(v) {
-    options["body"] = @core.any(v)
+    entries.push(("body", @core.any(v)))
   }
   if contentType is Some(v) {
-    options["contentType"] = @core.any(v)
+    entries.push(("contentType", @core.any(v)))
   }
+  let options = @core.from_entries(entries)
   let promise : @js.Promise[Unit] = self
     .to_any()
     ._call("attach", [@core.any(name), options])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
