@@ -32,6 +32,17 @@ pub(all) struct BigInt64Array {
 }
 pub fn BigInt64Array::as_any(Self) -> @core.Any
 pub fn BigInt64Array::as_typed_array(Self) -> TypedArray
+pub fn BigInt64Array::byteLength(Self) -> Int
+pub fn BigInt64Array::byteOffset(Self) -> Int
+pub fn BigInt64Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn BigInt64Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn BigInt64Array::join(Self, separator? : String) -> String
+pub fn BigInt64Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn BigInt64Array::length(Self) -> Int
+pub fn BigInt64Array::reverse(Self) -> TypedArray
+pub fn BigInt64Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn BigInt64Array::sort(Self) -> TypedArray
+pub fn BigInt64Array::toString(Self) -> String
 
 pub(all) struct BigUint64Array {
   buffer : ArrayBuffer
@@ -41,6 +52,17 @@ pub(all) struct BigUint64Array {
 }
 pub fn BigUint64Array::as_any(Self) -> @core.Any
 pub fn BigUint64Array::as_typed_array(Self) -> TypedArray
+pub fn BigUint64Array::byteLength(Self) -> Int
+pub fn BigUint64Array::byteOffset(Self) -> Int
+pub fn BigUint64Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn BigUint64Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn BigUint64Array::join(Self, separator? : String) -> String
+pub fn BigUint64Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn BigUint64Array::length(Self) -> Int
+pub fn BigUint64Array::reverse(Self) -> TypedArray
+pub fn BigUint64Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn BigUint64Array::sort(Self) -> TypedArray
+pub fn BigUint64Array::toString(Self) -> String
 
 pub(all) struct DataView {
   buffer : ArrayBuffer
@@ -90,6 +112,17 @@ pub(all) struct Float32Array {
 }
 pub fn Float32Array::as_any(Self) -> @core.Any
 pub fn Float32Array::as_typed_array(Self) -> TypedArray
+pub fn Float32Array::byteLength(Self) -> Int
+pub fn Float32Array::byteOffset(Self) -> Int
+pub fn Float32Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Float32Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Float32Array::join(Self, separator? : String) -> String
+pub fn Float32Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Float32Array::length(Self) -> Int
+pub fn Float32Array::reverse(Self) -> TypedArray
+pub fn Float32Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Float32Array::sort(Self) -> TypedArray
+pub fn Float32Array::toString(Self) -> String
 
 pub(all) struct Float64Array {
   buffer : ArrayBuffer
@@ -99,6 +132,17 @@ pub(all) struct Float64Array {
 }
 pub fn Float64Array::as_any(Self) -> @core.Any
 pub fn Float64Array::as_typed_array(Self) -> TypedArray
+pub fn Float64Array::byteLength(Self) -> Int
+pub fn Float64Array::byteOffset(Self) -> Int
+pub fn Float64Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Float64Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Float64Array::join(Self, separator? : String) -> String
+pub fn Float64Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Float64Array::length(Self) -> Int
+pub fn Float64Array::reverse(Self) -> TypedArray
+pub fn Float64Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Float64Array::sort(Self) -> TypedArray
+pub fn Float64Array::toString(Self) -> String
 
 pub(all) struct Int16Array {
   buffer : ArrayBuffer
@@ -107,6 +151,17 @@ pub(all) struct Int16Array {
   length : Int
 }
 pub fn Int16Array::as_typed_array(Self) -> TypedArray
+pub fn Int16Array::byteLength(Self) -> Int
+pub fn Int16Array::byteOffset(Self) -> Int
+pub fn Int16Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Int16Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Int16Array::join(Self, separator? : String) -> String
+pub fn Int16Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Int16Array::length(Self) -> Int
+pub fn Int16Array::reverse(Self) -> TypedArray
+pub fn Int16Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Int16Array::sort(Self) -> TypedArray
+pub fn Int16Array::toString(Self) -> String
 
 pub(all) struct Int32Array {
   buffer : ArrayBuffer
@@ -116,6 +171,17 @@ pub(all) struct Int32Array {
 }
 pub fn Int32Array::as_any(Self) -> @core.Any
 pub fn Int32Array::as_typed_array(Self) -> TypedArray
+pub fn Int32Array::byteLength(Self) -> Int
+pub fn Int32Array::byteOffset(Self) -> Int
+pub fn Int32Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Int32Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Int32Array::join(Self, separator? : String) -> String
+pub fn Int32Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Int32Array::length(Self) -> Int
+pub fn Int32Array::reverse(Self) -> TypedArray
+pub fn Int32Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Int32Array::sort(Self) -> TypedArray
+pub fn Int32Array::toString(Self) -> String
 
 pub(all) struct Int8Array {
   buffer : ArrayBuffer
@@ -125,6 +191,17 @@ pub(all) struct Int8Array {
 }
 pub fn Int8Array::as_any(Self) -> @core.Any
 pub fn Int8Array::as_typed_array(Self) -> TypedArray
+pub fn Int8Array::byteLength(Self) -> Int
+pub fn Int8Array::byteOffset(Self) -> Int
+pub fn Int8Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Int8Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Int8Array::join(Self, separator? : String) -> String
+pub fn Int8Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Int8Array::length(Self) -> Int
+pub fn Int8Array::reverse(Self) -> TypedArray
+pub fn Int8Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Int8Array::sort(Self) -> TypedArray
+pub fn Int8Array::toString(Self) -> String
 
 pub(all) struct SharedArrayBuffer {
   byteLength : Int
@@ -164,7 +241,18 @@ pub(all) struct Uint16Array {
 }
 pub fn Uint16Array::as_any(Self) -> @core.Any
 pub fn Uint16Array::as_typed_array(Self) -> TypedArray
+pub fn Uint16Array::byteLength(Self) -> Int
+pub fn Uint16Array::byteOffset(Self) -> Int
 pub fn Uint16Array::from_array_buffer(ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
+pub fn Uint16Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Uint16Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Uint16Array::join(Self, separator? : String) -> String
+pub fn Uint16Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Uint16Array::length(Self) -> Int
+pub fn Uint16Array::reverse(Self) -> TypedArray
+pub fn Uint16Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Uint16Array::sort(Self) -> TypedArray
+pub fn Uint16Array::toString(Self) -> String
 
 pub(all) struct Uint32Array {
   buffer : ArrayBuffer
@@ -173,6 +261,17 @@ pub(all) struct Uint32Array {
   length : UInt
 }
 pub fn Uint32Array::as_typed_array(Self) -> TypedArray
+pub fn Uint32Array::byteLength(Self) -> Int
+pub fn Uint32Array::byteOffset(Self) -> Int
+pub fn Uint32Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Uint32Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Uint32Array::join(Self, separator? : String) -> String
+pub fn Uint32Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Uint32Array::length(Self) -> Int
+pub fn Uint32Array::reverse(Self) -> TypedArray
+pub fn Uint32Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Uint32Array::sort(Self) -> TypedArray
+pub fn Uint32Array::toString(Self) -> String
 
 pub(all) struct Uint8Array {
   buffer : ArrayBuffer
@@ -182,10 +281,21 @@ pub(all) struct Uint8Array {
 }
 pub fn Uint8Array::as_any(Self) -> @core.Any
 pub fn Uint8Array::as_typed_array(Self) -> TypedArray
+pub fn Uint8Array::byteLength(Self) -> Int
+pub fn Uint8Array::byteOffset(Self) -> Int
 pub fn Uint8Array::from_array(Array[Int]) -> Self
 pub fn Uint8Array::from_array_buffer(ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 pub fn Uint8Array::from_bytes(Bytes) -> Self
 pub fn Uint8Array::from_size(Int) -> Self
+pub fn Uint8Array::includes(Self, UInt, from_index? : Int) -> Bool
+pub fn Uint8Array::indexOf(Self, UInt, from_index? : Int) -> Int
+pub fn Uint8Array::join(Self, separator? : String) -> String
+pub fn Uint8Array::lastIndexOf(Self, Int, from_index? : Int) -> Int
+pub fn Uint8Array::length(Self) -> Int
+pub fn Uint8Array::reverse(Self) -> TypedArray
+pub fn Uint8Array::set(Self, Array[UInt], offset? : Int) -> Unit
+pub fn Uint8Array::sort(Self) -> TypedArray
+pub fn Uint8Array::toString(Self) -> String
 pub fn Uint8Array::to_bytes(Self) -> Bytes
 
 // Type aliases

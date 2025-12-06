@@ -764,133 +764,74 @@ pub async fn[T] QueryBuilder::execute_array(self : QueryBuilder) -> Array[T] {
 // ============ SQL Operators ============
 
 ///|
-extern "js" fn ffi_eq(column : Column, value : @core.Any) -> SQL =
+/// Equal comparison (accepts any value)
+pub extern "js" fn eq(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").eq(column, value)
 
 ///|
-/// Equal comparison (accepts any value)
-pub fn eq(column : Column, value : @core.Any) -> SQL {
-  ffi_eq(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_ne(column : Column, value : @core.Any) -> SQL =
+/// Not equal comparison (accepts any value)
+pub extern "js" fn ne(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").ne(column, value)
 
 ///|
-/// Not equal comparison (accepts any value)
-pub fn ne(column : Column, value : @core.Any) -> SQL {
-  ffi_ne(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_gt(column : Column, value : @core.Any) -> SQL =
+/// Greater than comparison (accepts any value)
+pub extern "js" fn gt(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gt(column, value)
 
 ///|
-/// Greater than comparison (accepts any value)
-pub fn gt(column : Column, value : @core.Any) -> SQL {
-  ffi_gt(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_gte(column : Column, value : @core.Any) -> SQL =
+/// Greater than or equal comparison (accepts any value)
+pub extern "js" fn gte(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").gte(column, value)
 
 ///|
-/// Greater than or equal comparison (accepts any value)
-pub fn gte(column : Column, value : @core.Any) -> SQL {
-  ffi_gte(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_lt(column : Column, value : @core.Any) -> SQL =
+/// Less than comparison (accepts any value)
+pub extern "js" fn lt(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lt(column, value)
 
 ///|
-/// Less than comparison (accepts any value)
-pub fn lt(column : Column, value : @core.Any) -> SQL {
-  ffi_lt(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_lte(column : Column, value : @core.Any) -> SQL =
+/// Less than or equal comparison (accepts any value)
+pub extern "js" fn lte(column : Column, value : @core.Any) -> SQL =
   #| (column, value) => require("drizzle-orm").lte(column, value)
 
 ///|
-/// Less than or equal comparison (accepts any value)
-pub fn lte(column : Column, value : @core.Any) -> SQL {
-  ffi_lte(column, @core.identity(value))
-}
-
-///|
-extern "js" fn ffi_like(column : Column, pattern : String) -> SQL =
+/// LIKE comparison
+pub extern "js" fn like(column : Column, pattern : String) -> SQL =
   #| (column, pattern) => require("drizzle-orm").like(column, pattern)
 
 ///|
-/// LIKE comparison
-pub fn like(column : Column, pattern : String) -> SQL {
-  ffi_like(column, pattern)
-}
-
-///|
-extern "js" fn ffi_ilike(column : Column, pattern : String) -> SQL =
-  #| (column, pattern) => require("drizzle-orm").ilike(column, pattern)
-
-///|
 /// ILIKE comparison (case insensitive)
-pub fn ilike(column : Column, pattern : String) -> SQL {
-  ffi_ilike(column, pattern)
-}
-
-///|
-extern "js" fn ffi_is_null(column : Column) -> SQL =
-  #| (column) => require("drizzle-orm").isNull(column)
+pub extern "js" fn ilike(column : Column, pattern : String) -> SQL =
+  #| (column, pattern) => require("drizzle-orm").ilike(column, pattern)
 
 ///|
 /// IS NULL check
 #alias(is_null)
-pub fn isNull(column : Column) -> SQL {
-  ffi_is_null(column)
-}
-
-///|
-extern "js" fn ffi_is_not_null(column : Column) -> SQL =
-  #| (column) => require("drizzle-orm").isNotNull(column)
+pub extern "js" fn isNull(column : Column) -> SQL =
+  #| (column) => require("drizzle-orm").isNull(column)
 
 ///|
 /// IS NOT NULL check
 #alias(is_not_null)
-pub fn isNotNull(column : Column) -> SQL {
-  ffi_is_not_null(column)
-}
-
-///|
-extern "js" fn ffi_in_array(column : Column, values : Array[@core.Any]) -> SQL =
-  #| (column, values) => require("drizzle-orm").inArray(column, values)
+pub extern "js" fn isNotNull(column : Column) -> SQL =
+  #| (column) => require("drizzle-orm").isNotNull(column)
 
 ///|
 /// IN comparison
-pub fn inArray(column : Column, values : Array[@core.Any]) -> SQL {
-  ffi_in_array(column, values)
-}
+pub extern "js" fn inArray(column : Column, values : Array[@core.Any]) -> SQL =
+  #| (column, values) => require("drizzle-orm").inArray(column, values)
 
 ///|
-extern "js" fn ffi_not_in_array(
+/// NOT IN comparison
+#alias(not_in_array)
+pub extern "js" fn notInArray(
   column : Column,
   values : Array[@core.Any],
 ) -> SQL =
   #| (column, values) => require("drizzle-orm").notInArray(column, values)
 
 ///|
-/// NOT IN comparison
-#alias(not_in_array)
-pub fn notInArray(column : Column, values : Array[@core.Any]) -> SQL {
-  ffi_not_in_array(column, values)
-}
-
-///|
-extern "js" fn ffi_between(
+/// BETWEEN comparison (accepts any values)
+pub extern "js" fn between(
   column : Column,
   min_val : @core.Any,
   max_val : @core.Any,
@@ -898,44 +839,19 @@ extern "js" fn ffi_between(
   #| (column, min, max) => require("drizzle-orm").between(column, min, max)
 
 ///|
-/// BETWEEN comparison (accepts any values)
-pub fn between(
-  column : Column,
-  min_val : @core.Any,
-  max_val : @core.Any,
-) -> SQL {
-  ffi_between(column, @core.identity(min_val), @core.identity(max_val))
-}
-
-///|
-extern "js" fn ffi_and(conditions : Array[SQL]) -> SQL =
+/// AND logical operator
+pub extern "js" fn and_(conditions : Array[SQL]) -> SQL =
   #| (conditions) => require("drizzle-orm").and(...conditions)
 
 ///|
-/// AND logical operator
-pub fn and_(conditions : Array[SQL]) -> SQL {
-  ffi_and(conditions)
-}
-
-///|
-extern "js" fn ffi_or(conditions : Array[SQL]) -> SQL =
+/// OR logical operator
+pub extern "js" fn or_(conditions : Array[SQL]) -> SQL =
   #| (conditions) => require("drizzle-orm").or(...conditions)
 
 ///|
-/// OR logical operator
-pub fn or_(conditions : Array[SQL]) -> SQL {
-  ffi_or(conditions)
-}
-
-///|
-extern "js" fn ffi_not(condition : SQL) -> SQL =
-  #| (condition) => require("drizzle-orm").not(condition)
-
-///|
 /// NOT logical operator
-pub fn not_(condition : SQL) -> SQL {
-  ffi_not(condition)
-}
+pub extern "js" fn not_(condition : SQL) -> SQL =
+  #| (condition) => require("drizzle-orm").not(condition)
 
 // ============ Aggregation Functions ============
 
@@ -957,75 +873,40 @@ pub fn count(column? : Column) -> SQL {
 }
 
 ///|
-extern "js" fn ffi_sum(column : Column) -> SQL =
+/// SUM aggregation
+pub extern "js" fn sum(column : Column) -> SQL =
   #| (column) => require("drizzle-orm").sum(column)
 
 ///|
-/// SUM aggregation
-pub fn sum(column : Column) -> SQL {
-  ffi_sum(column)
-}
-
-///|
-extern "js" fn ffi_avg(column : Column) -> SQL =
+/// AVG aggregation
+pub extern "js" fn avg(column : Column) -> SQL =
   #| (column) => require("drizzle-orm").avg(column)
 
 ///|
-/// AVG aggregation
-pub fn avg(column : Column) -> SQL {
-  ffi_avg(column)
-}
-
-///|
-extern "js" fn ffi_max(column : Column) -> SQL =
+/// MAX aggregation
+pub extern "js" fn max_(column : Column) -> SQL =
   #| (column) => require("drizzle-orm").max(column)
 
 ///|
-/// MAX aggregation
-pub fn max_(column : Column) -> SQL {
-  ffi_max(column)
-}
-
-///|
-extern "js" fn ffi_min(column : Column) -> SQL =
-  #| (column) => require("drizzle-orm").min(column)
-
-///|
 /// MIN aggregation
-pub fn min_(column : Column) -> SQL {
-  ffi_min(column)
-}
+pub extern "js" fn min_(column : Column) -> SQL =
+  #| (column) => require("drizzle-orm").min(column)
 
 // ============ Ordering ============
 
 ///|
-extern "js" fn ffi_asc(column : Column) -> @core.Any =
+/// Ascending order
+pub extern "js" fn asc(column : Column) -> @core.Any =
   #| (column) => require("drizzle-orm").asc(column)
 
 ///|
-/// Ascending order
-pub fn asc(column : Column) -> @core.Any {
-  ffi_asc(column)
-}
-
-///|
-extern "js" fn ffi_desc(column : Column) -> @core.Any =
-  #| (column) => require("drizzle-orm").desc(column)
-
-///|
 /// Descending order
-pub fn desc(column : Column) -> @core.Any {
-  ffi_desc(column)
-}
+pub extern "js" fn desc(column : Column) -> @core.Any =
+  #| (column) => require("drizzle-orm").desc(column)
 
 // ============ Raw SQL ============
 
 ///|
-extern "js" fn ffi_sql_expr(query : String) -> SQL =
-  #| (query) => require("drizzle-orm").sql([query])
-
-///|
 /// Create raw SQL expression
-pub fn sql_expr(query : String) -> SQL {
-  ffi_sql_expr(query)
-}
+pub extern "js" fn sql_expr(query : String) -> SQL =
+  #| (query) => require("drizzle-orm").sql([query])

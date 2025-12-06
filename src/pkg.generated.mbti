@@ -17,6 +17,7 @@ import(
   "mizchi/js/builtins/math"
   "mizchi/js/builtins/object"
   "mizchi/js/builtins/proxy"
+  "mizchi/js/builtins/reflect"
   "mizchi/js/builtins/regexp"
   "mizchi/js/builtins/string"
   "mizchi/js/builtins/symbol"
@@ -28,8 +29,6 @@ import(
 // Values
 pub fn[T] any(T) -> @core.Any
 
-pub fn apply(@core.Any, @core.Any, Array[@core.Any]) -> @core.Any
-
 pub fn atob(String) -> String raise
 
 pub fn btoa(String) -> String raise
@@ -38,21 +37,19 @@ pub fn clearInterval(@global.Timer) -> Unit
 
 pub fn clearTimeout(@global.Timer) -> Unit
 
-pub fn construct(@core.Any, Array[@core.Any], @core.Any?) -> @core.Any
-
 pub fn decodeURI(String) -> String
 
 pub fn decodeURIComponent(String) -> String
-
-pub fn defineProperty(@core.Any, @core.Any, @core.Any) -> Bool
-
-pub fn deleteProperty(@core.Any, @core.Any) -> Bool
 
 pub fn dynamic_import(String) -> @core.Any
 
 pub fn encodeURI(String) -> String
 
 pub fn encodeURIComponent(String) -> String
+
+pub fn[A] from_async(async () -> A) -> @core.Promise[A]
+
+pub fn from_entries(Array[(String, @core.Any)]) -> @core.Any
 
 pub fn[A] from_fn0(() -> A) -> @core.Any
 
@@ -62,19 +59,9 @@ pub fn[A, B, C] from_fn2((A, B) -> C) -> @core.Any
 
 pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @core.Any
 
-pub fn get(@core.Any, @core.Any, @core.Any?) -> @core.Any
-
-pub fn getOwnPropertyDescriptor(@core.Any, @core.Any) -> @core.Any
-
-pub fn getPrototypeOf(@core.Any) -> @core.Any
-
 pub fn globalThis() -> @core.Any
 
-pub fn has(@core.Any, @core.Any) -> Bool
-
 pub fn[A, B] identity(A) -> B
-
-pub fn isExtensible(@core.Any) -> Bool
 
 pub fn isFinite(Double) -> Bool
 
@@ -88,13 +75,9 @@ pub fn new_array() -> @core.Any
 
 pub fn new_object() -> @core.Any
 
-pub fn ownKeys(@core.Any) -> Array[@core.Any]
-
 pub fn parseFloat(String) -> Double?
 
 pub fn parseInt(String, radix? : Int) -> Int?
-
-pub fn preventExtensions(@core.Any) -> Bool
 
 pub fn[R] promisify0(async () -> R) -> () -> @core.Promise[R]
 
@@ -108,11 +91,7 @@ pub fn queueMicrotask(() -> Unit) -> Unit
 
 pub fn run_async(async () -> Unit noraise) -> Unit
 
-pub fn set(@core.Any, @core.Any, @core.Any, @core.Any?) -> Bool
-
 pub fn setInterval(() -> Unit, Int) -> @global.Timer
-
-pub fn setPrototypeOf(@core.Any, @core.Any) -> Bool
 
 pub fn setTimeout(() -> Unit, Int) -> @global.Timer
 
@@ -210,6 +189,8 @@ pub using @proxy {type Proxy}
 pub using @error {type RangeError}
 
 pub using @error {type ReferenceError}
+
+pub using @reflect {type Reflect}
 
 pub using @regexp {type RegExp}
 

@@ -8,14 +8,9 @@ pub type DisposableStack
 pub fn DisposableStack::to_any(self : DisposableStack) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_disposable_stack() -> DisposableStack =
-  #| () => new DisposableStack()
-
-///|
 /// Create a new DisposableStack
-pub fn DisposableStack::new() -> DisposableStack {
-  ffi_new_disposable_stack()
-}
+pub extern "js" fn DisposableStack::new() -> DisposableStack =
+  #| () => new DisposableStack()
 
 ///|
 /// Check if the stack has been disposed
@@ -79,14 +74,9 @@ pub type AsyncDisposableStack
 pub fn AsyncDisposableStack::to_any(self : AsyncDisposableStack) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_async_disposable_stack() -> AsyncDisposableStack =
-  #| () => new AsyncDisposableStack()
-
-///|
 /// Create a new AsyncDisposableStack
-pub fn AsyncDisposableStack::new() -> AsyncDisposableStack {
-  ffi_new_async_disposable_stack()
-}
+pub extern "js" fn AsyncDisposableStack::new() -> AsyncDisposableStack =
+  #| () => new AsyncDisposableStack()
 
 ///|
 /// Check if the stack has been disposed

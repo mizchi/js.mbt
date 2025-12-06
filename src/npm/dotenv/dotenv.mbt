@@ -155,21 +155,16 @@ pub fn DotenvParseOutput::keys(self : DotenvParseOutput) -> Array[String] {
 ///| Helpers for process.env access
 
 ///|
-extern "js" fn ffi_process_env() -> @core.Any =
-  #| () => process.env
-
-///|
 /// Get process.env object
 #alias(process_env)
-pub fn processEnv() -> @core.Any {
-  ffi_process_env()
-}
+pub extern "js" fn processEnv() -> @core.Any =
+  #| () => process.env
 
 ///|
 /// Get an environment variable
 #alias(get_env)
 pub fn getEnv(key : String) -> String? {
-  let env = ffi_process_env()
+  let env = processEnv()
   let v = env[key]
   if @core.is_undefined(v) {
     None
@@ -182,7 +177,7 @@ pub fn getEnv(key : String) -> String? {
 /// Set an environment variable
 #alias(set_env)
 pub fn setEnv(key : String, value : String) -> Unit {
-  let env = ffi_process_env()
+  let env = processEnv()
   env[key] = @core.any(value)
 }
 
@@ -194,6 +189,6 @@ extern "js" fn ffi_delete(obj : @core.Any, key : String) -> Unit =
 /// Delete an environment variable
 #alias(delete_env)
 pub fn deleteEnv(key : String) -> Unit {
-  let env = ffi_process_env()
+  let env = processEnv()
   ffi_delete(env, key)
 }

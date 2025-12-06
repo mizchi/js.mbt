@@ -38,26 +38,21 @@ pub fn PerformanceObserver::new(
 /// JS: observer.observe(options)
 /// Start observing performance entries
 /// Example: observer.observe({ entryTypes: ["measure", "mark"] })
-pub fn PerformanceObserver::observe(
-  self : PerformanceObserver,
-  options : @core.Any,
-) -> Unit {
+pub fn PerformanceObserver::observe(self : Self, options : @core.Any) -> Unit {
   self.as_any()._call("observe", [options]) |> ignore
 }
 
 ///|
 /// JS: observer.disconnect()
 /// Stop observing performance entries
-pub fn PerformanceObserver::disconnect(self : PerformanceObserver) -> Unit {
+pub fn PerformanceObserver::disconnect(self : Self) -> Unit {
   self.as_any()._call("disconnect", []) |> ignore
 }
 
 ///|
 /// JS: observer.takeRecords()
 /// Returns the current list of performance entries and clears the buffer
-pub fn PerformanceObserver::takeRecords(
-  self : PerformanceObserver,
-) -> Array[PerformanceEntry] {
+pub fn PerformanceObserver::takeRecords(self : Self) -> Array[PerformanceEntry] {
   self.as_any()._call("takeRecords", []).cast()
 }
 
@@ -65,7 +60,7 @@ pub fn PerformanceObserver::takeRecords(
 /// JS: list.getEntries()
 /// Returns all observed performance entries
 pub fn PerformanceObserverEntryList::getEntries(
-  self : PerformanceObserverEntryList,
+  self : Self,
 ) -> Array[PerformanceEntry] {
   self.as_any()._call("getEntries", []).cast()
 }
@@ -74,7 +69,7 @@ pub fn PerformanceObserverEntryList::getEntries(
 /// JS: list.getEntriesByType(type)
 /// Returns observed performance entries of the given type
 pub fn PerformanceObserverEntryList::getEntriesByType(
-  self : PerformanceObserverEntryList,
+  self : Self,
   entryType : String,
 ) -> Array[PerformanceEntry] {
   self.as_any()._call("getEntriesByType", [@core.any(entryType)]).cast()
@@ -84,7 +79,7 @@ pub fn PerformanceObserverEntryList::getEntriesByType(
 /// JS: list.getEntriesByName(name)
 /// Returns observed performance entries with the given name
 pub fn PerformanceObserverEntryList::getEntriesByName(
-  self : PerformanceObserverEntryList,
+  self : Self,
   name : String,
 ) -> Array[PerformanceEntry] {
   self.as_any()._call("getEntriesByName", [@core.any(name)]).cast()

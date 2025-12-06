@@ -198,27 +198,17 @@ pub fn reverse(
 }
 
 ///|
-extern "js" fn ffi_get_servers() -> @js.JsArray =
+/// Get the current DNS server addresses
+pub extern "js" fn get_servers() -> @js.JsArray =
   #| () => {
   #|   const dns = require('dns');
   #|   return dns.getServers();
   #| }
 
 ///|
-/// Get the current DNS server addresses
-pub fn get_servers() -> @js.JsArray {
-  ffi_get_servers()
-}
-
-///|
-extern "js" fn ffi_set_servers(servers : Array[String]) -> Unit =
+/// Set the DNS server addresses
+pub extern "js" fn set_servers(servers : Array[String]) -> Unit =
   #| (servers) => {
   #|   const dns = require('dns');
   #|   dns.setServers(servers);
   #| }
-
-///|
-/// Set the DNS server addresses
-pub fn set_servers(servers : Array[String]) -> Unit {
-  ffi_set_servers(servers)
-}
