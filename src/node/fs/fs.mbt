@@ -106,7 +106,10 @@ pub fn statSync(path : String) -> Stat raise @core.ThrowError {
 ///|
 /// Create directory synchronously
 #alias(mkdir_sync)
-pub fn mkdirSync(path : String, recursive? : Bool) -> Unit raise @core.ThrowError {
+pub fn mkdirSync(
+  path : String,
+  recursive? : Bool,
+) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match recursive {
@@ -291,7 +294,10 @@ pub fn truncateSync(path : String, len? : Int) -> Unit raise @core.ThrowError {
 ///|
 /// Remove directory synchronously
 #alias(rmdir_sync)
-pub fn rmdirSync(path : String, recursive? : Bool) -> Unit raise @core.ThrowError {
+pub fn rmdirSync(
+  path : String,
+  recursive? : Bool,
+) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     match recursive {

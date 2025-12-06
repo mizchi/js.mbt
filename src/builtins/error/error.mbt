@@ -1,9 +1,13 @@
 ///| JavaScript Error types
+
 ///|
+
 ///| MDN Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
 
 ///| TypeError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError
+
 ///|
 pub(all) struct TypeError {
   message : String
@@ -11,7 +15,9 @@ pub(all) struct TypeError {
 }
 
 ///| RangeError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError
+
 ///|
 pub(all) struct RangeError {
   message : String
@@ -19,7 +25,9 @@ pub(all) struct RangeError {
 }
 
 ///| ReferenceError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError
+
 ///|
 pub(all) struct ReferenceError {
   message : String
@@ -27,7 +35,9 @@ pub(all) struct ReferenceError {
 }
 
 ///| SyntaxError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError
+
 ///|
 pub(all) struct SyntaxError {
   message : String
@@ -35,7 +45,9 @@ pub(all) struct SyntaxError {
 }
 
 ///| URIError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError
+
 ///|
 pub(all) struct URIError {
   message : String
@@ -43,7 +55,9 @@ pub(all) struct URIError {
 }
 
 ///| EvalError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError
+
 ///|
 pub(all) struct EvalError {
   message : String
@@ -51,7 +65,9 @@ pub(all) struct EvalError {
 }
 
 ///| AggregateError
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError
+
 ///|
 pub(all) struct AggregateError {
   message : String
@@ -59,10 +75,15 @@ pub(all) struct AggregateError {
 }
 
 ///| JsError struct
+
 ///|
+
 ///| This represents the JavaScript Error type.
+
 ///| Named JsError to avoid namespace conflict with MoonBit's reserved Error type.
+
 ///| @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+
 ///|
 pub(all) struct JsError {
   message : String
@@ -189,6 +210,6 @@ pub extern "js" fn AggregateError::instanceof(value : @core.Any) -> Bool =
 ///|
 pub extern "js" fn AggregateError::new(
   errors : @core.Any,
-  message : String
+  message : String,
 ) -> AggregateError =
   #| (errors, message) => new AggregateError(errors, message)

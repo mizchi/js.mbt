@@ -47,7 +47,6 @@ pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @core.Any = "%
 
 ///| ServiceWorkerContainer FFI
 
-
 ///|
 extern "js" fn ffi_sw_register(
   container : ServiceWorkerContainer,

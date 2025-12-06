@@ -25,7 +25,7 @@ test "access globalThis properties" {
 ```moonbit
 ///|
 test "call methods with call()" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("value", 42 |> @core.any)
 
   // call0 - no arguments
@@ -68,12 +68,12 @@ test "feature detection" {
 ///|
 test "nested property access" {
   // Create nested structure
-  let obj = @core.Object::new()
-  let config = @core.Object::new()
-  let api = @core.Object::new()
-  api.set("endpoint", "https://api.example.com")
-  config.set("api", api)
-  obj.set("config", config)
+  let obj = @core.new_object()
+  let config = @core.new_object()
+  let api = @core.new_object()
+  api._set("endpoint", @core.any("https://api.example.com"))
+  config._set("api", api)
+  obj._set("config", config)
 
   // Chain ._get() calls for nested access
   let endpoint : String = @js.identity(
@@ -88,7 +88,7 @@ test "nested property access" {
 ```moonbit
 ///|
 test "safe nested access with undefined checks" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
 
   // Check each level before accessing
   let config = obj._get("config")
@@ -111,8 +111,8 @@ test "safe nested access with undefined checks" {
 test "error handling with throwable" {
   let result = @js.throwable(fn() -> @core.Any {
     // Risky JS operation
-    let obj = @core.Object::new()
-    obj.set("value", 42)
+    let obj = @core.new_object()
+    obj._set("value", @core.any(42))
     obj
   }) catch {
     _ => @js.undefined()
@@ -132,7 +132,7 @@ test "create instances of unsupported classes" {
 
   // Use methods via call()
   map._call("set", ["key" |> @core.any, "value" |> @core.any]) |> ignore
-  let value = map.call1("get", "key" |> @core.any)
+  let value = map._call("get", ["key" |> @core.any])
   inspect(value, content="value")
   let size : Int = @js.identity(map._get("size"))
   assert_eq(size, 1)
@@ -144,8 +144,8 @@ test "create instances of unsupported classes" {
 | Pattern | Use Case |
 |---------|----------|
 | `globalThis()._get("API")` | Access any global API |
-| `obj.call0/call1/call()` | Call any method |
+| `obj._call(method, args)` | Call any method |
 | `@js.identity(val)` | Cast to MoonBit type |
 | `@js.is_undefined(val)` | Check if property exists |
-| `@js.new_(ctor, args)` | Create instance of any class |
+| `@core.new(ctor, args)` | Create instance of any class |
 | `@js.throwable(fn)` | Handle JS exceptions |

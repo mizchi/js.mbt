@@ -114,7 +114,7 @@ test "WeakRef::deref returns None when target is collected" {
   // Create a mock WeakRef that returns undefined to simulate collected object
   let undef_ref : @core.Any = @global.undefined()
   let mock_weakref = @core.new_object()
-  mock_weakref._set("deref", @js.from_fn0(fn() { undef_ref }) |> @core.any)
+  mock_weakref._set("deref", @core.from_fn0(fn() { undef_ref }) |> @core.any)
   let wr : WeakRef[@core.Any] = mock_weakref |> @core.identity
   let result = wr.deref()
   assert_true(result is None)

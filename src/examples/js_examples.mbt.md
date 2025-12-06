@@ -7,9 +7,9 @@ Common usage patterns for the `mizchi/js` library.
 ```moonbit
 ///|
 test "basic object operations" {
-  let obj = @core.Object::new()
-  obj.set("name", "MoonBit")
-  obj.set("version", 1)
+  let obj = @core.new_object()
+  obj._set("name", @core.any("MoonBit"))
+  obj._set("version", @core.any(1))
   inspect(
     @js.JSON::stringify(obj),
     content=(
@@ -21,9 +21,9 @@ test "basic object operations" {
   )
 
   // Property access with different key types
-  obj.set(0, "first") // Int key
+  obj._set("0", @core.any("first")) // String key (numeric)
   let sym = @js.symbol("custom")
-  obj.set(sym, "symbol value") // Symbol key
+  obj["symbol_key"] = @core.any("symbol value") // Bracket notation
 
   // Object methods
   let _keys = @js.Object::keys(obj)
@@ -53,13 +53,12 @@ test "array operations" {
   )
 
   // Higher-order methods
-  let filtered = arr.call1(
-    "filter",
+  let filtered = arr._call("filter", [
     @js.from_fn1(fn(x : @core.Any) -> Bool {
       let n : Int = @js.identity(x)
       n > 2
     }),
-  )
+  ])
   inspect(filtered, content="3,4")
 }
 ```
@@ -80,8 +79,8 @@ test "type conversion" {
   assert_eq(str, "hello")
 
   // Optional values
-  let obj = @core.Object::new()
-  obj.set("exists", "value")
+  let obj = @core.new_object()
+  obj._set("exists", @core.any("value"))
   let exists : String? = @js.identity_option(obj._get("exists"))
   let missing : String? = @js.identity_option(obj._get("missing"))
   assert_eq(exists, Some("value"))
@@ -95,7 +94,7 @@ test "type conversion" {
 ///|
 test "type checking" {
   let arr = @js.JsArray::from([1, 2, 3])
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   let undef = @js.undefined()
   assert_eq(@js.is_array(arr), true)
   assert_eq(@js.is_object(obj), true)
@@ -109,12 +108,12 @@ test "type checking" {
 ```moonbit
 ///|
 test "method calls" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = "test" |> @core.any
 
-  // Specific arities (optimized)
-  inspect(obj.call0("toString"), content="[object Object]")
-  inspect(obj.call1("hasOwnProperty", "name" |> @core.any), content="true")
+  // Method calls
+  inspect(obj._call("toString", []), content="[object Object]")
+  inspect(obj._call("hasOwnProperty", ["name" |> @core.any]), content="true")
 
   // Variable arguments
   let result = obj._call("hasOwnProperty", ["name" |> @core.any])
@@ -164,7 +163,7 @@ test "constructors" {
 ```moonbit
 ///|
 test "json" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj["name"] = "Moonbit" |> @core.any
   let json_str = @js.JSON::stringify(obj)
   assert_eq(json_str.contains("name"), true)

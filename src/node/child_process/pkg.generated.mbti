@@ -2,7 +2,7 @@
 package "mizchi/js/node/child_process"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/error"
   "mizchi/js/core"
   "mizchi/js/node/events"
   "mizchi/js/web/streams"
@@ -10,23 +10,23 @@ import(
 )
 
 // Values
-pub fn exec(String, (@core.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn exec(String, (@core.Nullish[@error.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file)
-pub fn execFile(String, Array[String], (@core.Nullish[@js.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
+pub fn execFile(String, Array[String], (@core.Nullish[@error.JsError], String, String) -> Unit, cwd? : String, env? : @core.Any, timeout? : Int, max_buffer? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(exec_file_sync)
-pub fn execFileSync(String, args? : Array[String], cwd? : String, env? : @core.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @js.ThrowError
+pub fn execFileSync(String, args? : Array[String], cwd? : String, env? : @core.Any, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String) -> String raise @core.ThrowError
 
 #alias(exec_sync)
-pub fn execSync(String, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @js.ThrowError
+pub fn execSync(String, cwd? : String, env? : @core.Any, shell? : String, timeout? : Int, maxBuffer? : Int, input? : String, encoding? : String, stdio? : String) -> String raise @core.ThrowError
 
 pub fn fork(String, args? : Array[String], cwd? : String, env? : @core.Any, silent? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 pub fn spawn(String, args? : Array[String], cwd? : String, env? : @core.Any, shell? : Bool, timeout? : Int, signal? : @js_async.AbortSignal) -> ChildProcess
 
 #alias(spawn_sync)
-pub fn spawnSync(String, args? : Array[String], cwd? : String, env? : @core.Any, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @js.ThrowError
+pub fn spawnSync(String, args? : Array[String], cwd? : String, env? : @core.Any, shell? : Bool, timeout? : Int, input? : String, stdio? : String) -> SpawnSyncResult raise @core.ThrowError
 
 // Errors
 
@@ -41,7 +41,7 @@ pub fn ChildProcess::kill(Self, signal? : String) -> Bool
 pub fn ChildProcess::killed(Self) -> Bool
 pub fn ChildProcess::on_close(Self, (Int?, String?) -> Unit) -> Unit
 pub fn ChildProcess::on_disconnect(Self, () -> Unit) -> Unit
-pub fn ChildProcess::on_error(Self, (@js.JsError) -> Unit) -> Unit
+pub fn ChildProcess::on_error(Self, (@error.JsError) -> Unit) -> Unit
 pub fn ChildProcess::on_exit(Self, (Int?, String?) -> Unit) -> Unit
 pub fn ChildProcess::on_message(Self, (@core.Any, @core.Any?) -> Unit) -> Unit
 pub fn ChildProcess::on_spawn(Self, () -> Unit) -> Unit

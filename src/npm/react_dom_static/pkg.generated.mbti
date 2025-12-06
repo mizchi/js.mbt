@@ -2,7 +2,7 @@
 package "mizchi/js/npm/react_dom_static"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/error"
   "mizchi/js/core"
   "mizchi/js/node/stream"
   "mizchi/js/npm/react"
@@ -29,9 +29,9 @@ pub struct PrerenderToNodeStreamResult {
 #external
 pub type ReactDOMStatic
 pub fn ReactDOMStatic::as_any(Self) -> @core.Any
-pub async fn ReactDOMStatic::prerender(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderResult
+pub async fn ReactDOMStatic::prerender(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@error.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderResult
 #alias(prerender_to_node_stream)
-pub async fn ReactDOMStatic::prerenderToNodeStream(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@js.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderToNodeStreamResult
+pub async fn ReactDOMStatic::prerenderToNodeStream(Self, @react.Element, bootstrap_script_content? : String, bootstrap_scripts? : Array[String], bootstrap_modules? : Array[String], identifier_prefix? : String, namespace_uri? : String, on_error? : (@error.JsError) -> Unit, progressive_chunk_size? : Int, signal? : @js_async.AbortSignal) -> PrerenderToNodeStreamResult
 
 // Type aliases
 

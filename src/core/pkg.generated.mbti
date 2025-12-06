@@ -12,6 +12,12 @@ pub fn assert_throws(() -> Any) -> String raise JsError
 
 pub fn assert_throws_with(() -> Any, String) -> Unit
 
+pub fn dispose(Any) -> Unit
+
+pub async fn dispose_async(Any) -> Unit
+
+pub fn dispose_async_ignore(Any) -> Unit
+
 pub fn equal(Any, Any) -> Bool
 
 pub fn[E : Show + Error] export_sync(() -> Any raise E) -> Any

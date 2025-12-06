@@ -2,7 +2,6 @@
 package "mizchi/js/node/fs"
 
 import(
-  "mizchi/js"
   "mizchi/js/core"
   "mizchi/js/node/buffer"
   "mizchi/js/node/stream"
@@ -10,24 +9,24 @@ import(
 
 // Values
 #alias(access_sync)
-pub fn accessSync(String, mode? : Int) -> Unit raise @js.ThrowError
+pub fn accessSync(String, mode? : Int) -> Unit raise @core.ThrowError
 
 #alias(appendFileSync)
-pub fn append_file_sync(String, @core.Any) -> Unit raise @js.ThrowError
+pub fn append_file_sync(String, @core.Any) -> Unit raise @core.ThrowError
 
 #alias(chmod_sync)
-pub fn chmodSync(String, Int) -> Unit raise @js.ThrowError
+pub fn chmodSync(String, Int) -> Unit raise @core.ThrowError
 
 #alias(chown_sync)
-pub fn chownSync(String, Int, Int) -> Unit raise @js.ThrowError
+pub fn chownSync(String, Int, Int) -> Unit raise @core.ThrowError
 
 #alias(close_sync)
-pub fn closeSync(Int) -> Unit raise @js.ThrowError
+pub fn closeSync(Int) -> Unit raise @core.ThrowError
 
-pub fn copyFileSync(String, String) -> Unit raise @js.ThrowError
+pub fn copyFileSync(String, String) -> Unit raise @core.ThrowError
 
 #alias(cp_sync)
-pub fn cpSync(String, String, recursive? : Bool) -> Unit raise @js.ThrowError
+pub fn cpSync(String, String, recursive? : Bool) -> Unit raise @core.ThrowError
 
 pub fn createReadStream(String) -> @stream.Readable
 
@@ -45,60 +44,60 @@ pub fn fs_W_OK() -> Int
 pub fn fs_X_OK() -> Int
 
 #alias(mkdir_sync)
-pub fn mkdirSync(String, recursive? : Bool) -> Unit raise @js.ThrowError
+pub fn mkdirSync(String, recursive? : Bool) -> Unit raise @core.ThrowError
 
 #alias(open_sync)
-pub fn openSync(String, String, mode? : Int) -> Int raise @js.ThrowError
+pub fn openSync(String, String, mode? : Int) -> Int raise @core.ThrowError
 
 #alias(read_sync)
-pub fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @js.ThrowError
+pub fn readSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @core.ThrowError
 
-pub fn read_file_as_buffer(String) -> @buffer.Buffer raise @js.ThrowError
+pub fn read_file_as_buffer(String) -> @buffer.Buffer raise @core.ThrowError
 
-pub fn read_file_as_string(String, encoding? : String) -> String raise @js.ThrowError
+pub fn read_file_as_string(String, encoding? : String) -> String raise @core.ThrowError
 
 #alias(readFileSync)
-pub fn read_file_sync(String) -> @buffer.Buffer raise @js.ThrowError
+pub fn read_file_sync(String) -> @buffer.Buffer raise @core.ThrowError
 
-pub fn read_file_sync_string(String, String) -> String raise @js.ThrowError
+pub fn read_file_sync_string(String, String) -> String raise @core.ThrowError
 
 #alias(readdir_sync)
-pub fn readdirSync(String) -> Array[String] raise @js.ThrowError
+pub fn readdirSync(String) -> Array[String] raise @core.ThrowError
 
 #alias(readlink_sync)
-pub fn readlinkSync(String) -> String raise @js.ThrowError
+pub fn readlinkSync(String) -> String raise @core.ThrowError
 
 #alias(realpath_sync)
-pub fn realpathSync(String) -> String raise @js.ThrowError
+pub fn realpathSync(String) -> String raise @core.ThrowError
 
 #alias(rename_sync)
-pub fn renameSync(String, String) -> Unit raise @js.ThrowError
+pub fn renameSync(String, String) -> Unit raise @core.ThrowError
 
 #alias(rm_sync)
-pub fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit raise @js.ThrowError
+pub fn rmSync(String, recursive? : Bool, force? : Bool) -> Unit raise @core.ThrowError
 
 #alias(rmdir_sync)
-pub fn rmdirSync(String, recursive? : Bool) -> Unit raise @js.ThrowError
+pub fn rmdirSync(String, recursive? : Bool) -> Unit raise @core.ThrowError
 
 #alias(stat_sync)
-pub fn statSync(String) -> Stat raise @js.ThrowError
+pub fn statSync(String) -> Stat raise @core.ThrowError
 
 #alias(symlink_sync)
-pub fn symlinkSync(String, String, type_? : String) -> Unit raise @js.ThrowError
+pub fn symlinkSync(String, String, type_? : String) -> Unit raise @core.ThrowError
 
 #alias(truncate_sync)
-pub fn truncateSync(String, len? : Int) -> Unit raise @js.ThrowError
+pub fn truncateSync(String, len? : Int) -> Unit raise @core.ThrowError
 
 #alias(unlink_sync)
-pub fn unlinkSync(String) -> Unit raise @js.ThrowError
+pub fn unlinkSync(String) -> Unit raise @core.ThrowError
 
 pub fn watch(String, persistent? : Bool, recursive? : Bool, encoding? : String, listener? : (String, String) -> Unit) -> FSWatcher
 
 #alias(write_file_sync)
-pub fn writeFileSync(String, @core.Any) -> Unit raise @js.ThrowError
+pub fn writeFileSync(String, @core.Any) -> Unit raise @core.ThrowError
 
 #alias(write_sync)
-pub fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @js.ThrowError
+pub fn writeSync(Int, @buffer.Buffer, Int, Int, Int?) -> Int raise @core.ThrowError
 
 // Errors
 

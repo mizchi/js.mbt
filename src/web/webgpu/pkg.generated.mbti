@@ -2,7 +2,7 @@
 package "mizchi/js/web/webgpu"
 
 import(
-  "mizchi/js"
+  "mizchi/js/builtins/array"
   "mizchi/js/builtins/arraybuffer"
   "mizchi/js/core"
 )
@@ -110,7 +110,7 @@ pub fn GPUCommandEncoder::label(Self) -> String
 pub(all) struct GPUCompilationInfo {
 }
 pub fn GPUCompilationInfo::as_any(Self) -> @core.Any
-pub fn GPUCompilationInfo::messages(Self) -> @js.JsArray
+pub fn GPUCompilationInfo::messages(Self) -> @array.JsArray
 
 pub(all) struct GPUCompilationMessage {
 }

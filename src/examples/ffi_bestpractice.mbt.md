@@ -122,7 +122,7 @@ Use `identity_option` to safely convert nullable values from JS objects:
 ```moonbit
 ///|
 test "identity_option for nullable values" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("exists", @core.any("value"))
   let exists : String? = @core.identity_option(obj._get("exists"))
   let missing : String? = @core.identity_option(obj._get("missing"))
@@ -140,7 +140,7 @@ test "identity_option for nullable values" {
 ```moonbit
 ///|
 test "_call methods" {
-  let obj = @core.Object::new()
+  let obj = @core.new_object()
   obj._set("name", @core.any("test"))
 
   // _call with no arguments
@@ -150,10 +150,6 @@ test "_call methods" {
   // _call with one argument
   let has_name : Bool = obj._call("hasOwnProperty", [@core.any("name")]).cast()
   assert_eq(has_name, true)
-
-  // Object.keys
-  let keys = @core.Object::keys(obj)
-  assert_eq(keys.length(), 1)
 }
 ```
 
@@ -179,7 +175,7 @@ pub fn createServer(
   port? : Int,
   timeout? : Int,
 ) -> Server {
-  let options = @core.Object::new()
+  let options = @core.new_object()
   if host is Some(v) { options._set("host", @core.any(v)) }
   if port is Some(v) { options._set("port", @core.any(v)) }
   if timeout is Some(v) { options._set("timeout", @core.any(v)) }
