@@ -1,0 +1,11 @@
+{
+  "is-main": true,
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js/core",
+    "mizchi/js/bun",
+    "mizchi/js/builtins/arraybuffer"
+  ]
+}

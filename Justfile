@@ -55,8 +55,12 @@ check-all: format check test
 test-deno: build
     deno test -A
 
-# Run all tests (MoonBit, Deno)
-test-all: test test-deno
+# Run Bun tests
+test-bun: build
+    bun test target/js/release/build/bun/bun_test/bun_test.js
+
+# Run all tests (MoonBit, Deno, Bun)
+test-all: test test-deno test-bun
 
 # Clean build artifacts
 clean:

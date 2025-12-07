@@ -1,0 +1,10 @@
+{
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js/core",
+    "mizchi/js/builtins/arraybuffer",
+    "mizchi/js/builtins/global"
+  ]
+}

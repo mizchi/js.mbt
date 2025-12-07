@@ -33,7 +33,8 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
       - name: Setup Moon
         uses: illusory0x0/setup-moonbit@v0.1.0
         with:
@@ -53,3 +54,6 @@ jobs:
 
       - name: deno test
         run: deno test -A
+
+      - name: bun test
+        run: bun test target/js/release/build/bun/bun_test/bun_test.js
