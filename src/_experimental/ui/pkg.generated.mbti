@@ -1,0 +1,201 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/_experimental/ui"
+
+import(
+  "mizchi/js/browser/dom"
+  "mizchi/js/core"
+)
+
+// Values
+pub fn a(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn alt(String) -> (String, AttrValue)
+
+pub fn apply_patches(Array[Patch]) -> Unit
+
+pub fn attr(String, String) -> (String, AttrValue)
+
+pub fn attr_bool(String, Bool) -> (String, AttrValue)
+
+pub fn attr_num(String, Int) -> (String, AttrValue)
+
+pub fn br() -> VNode
+
+pub fn button(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn checked(Bool) -> (String, AttrValue)
+
+pub fn class_name(String) -> (String, AttrValue)
+
+pub fn[T] clear_context(Context[T]) -> Unit
+
+pub fn compare_attr_value(AttrValue, AttrValue) -> Bool
+
+pub fn compare_props(Array[(String, AttrValue)], Array[(String, AttrValue)]) -> Bool
+
+pub fn[T] create_context(T) -> Context[T]
+
+pub fn data_(String, String) -> (String, AttrValue)
+
+pub fn diff(VNode?, VNode?, @dom.Node?, @dom.Node?) -> Array[Patch]
+
+pub fn disabled(Bool) -> (String, AttrValue)
+
+pub fn div(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn el(String, Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn el_key(String, Array[(String, AttrValue)], Array[VNode], String) -> VNode
+
+pub fn empty() -> VNode
+
+pub fn for_(String) -> (String, AttrValue)
+
+pub fn form(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn fragment(Array[VNode]) -> VNode
+
+pub fn[T] get_context(Context[T]) -> T
+
+pub fn h1(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn h2(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn h3(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn h4(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn h5(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn h6(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn hr() -> VNode
+
+pub fn href(String) -> (String, AttrValue)
+
+pub fn id(String) -> (String, AttrValue)
+
+pub fn img(Array[(String, AttrValue)]) -> VNode
+
+pub fn input(Array[(String, AttrValue)]) -> VNode
+
+pub fn label(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn li(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn max_length(Int) -> (String, AttrValue)
+
+pub fn name(String) -> (String, AttrValue)
+
+pub fn ol(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn on_blur((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_change((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_click((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_focus((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_input((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_key_down((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_key_up((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_mouse_enter((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_mouse_leave((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn on_submit((@core.Any) -> Unit) -> (String, AttrValue)
+
+pub fn p(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn placeholder(String) -> (String, AttrValue)
+
+pub fn props() -> Array[(String, AttrValue)]
+
+pub fn readonly_(Bool) -> (String, AttrValue)
+
+pub fn render_to_string(VNode) -> String
+
+pub fn required(Bool) -> (String, AttrValue)
+
+pub fn[T] set_context(Context[T], T) -> Unit
+
+pub fn span(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn src(String) -> (String, AttrValue)
+
+pub fn style(Array[(String, String)]) -> (String, AttrValue)
+
+pub fn tab_index(Int) -> (String, AttrValue)
+
+pub fn text(String) -> VNode
+
+pub fn textarea(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn title(String) -> (String, AttrValue)
+
+pub fn type_(String) -> (String, AttrValue)
+
+pub fn ul(Array[(String, AttrValue)], Array[VNode]) -> VNode
+
+pub fn value(String) -> (String, AttrValue)
+
+// Errors
+
+// Types and methods
+pub enum AttrValue {
+  Str(String)
+  Num(Int)
+  Bool(Bool)
+  Handler((@core.Any) -> Unit)
+  StyleObj(Array[(String, String)])
+}
+
+pub struct ComponentNode {
+  render : () -> VNode
+  key : String?
+}
+
+pub struct Context[T] {
+  id : Int
+  default_value : T
+}
+
+pub struct DomRenderer {
+  container : @dom.Element
+  mut root_vnode : VNode?
+  mut root_node : @dom.Node?
+}
+pub fn DomRenderer::new(@dom.Element) -> Self
+pub fn DomRenderer::render(Self, VNode) -> Unit
+
+pub struct ElementNode {
+  tag : String
+  props : Array[(String, AttrValue)]
+  children : Array[VNode]
+  key : String?
+}
+
+type Patch
+
+pub enum VNode {
+  Element(ElementNode)
+  Text(String)
+  Component(ComponentNode)
+  Fragment(Array[VNode])
+  Empty
+}
+pub fn VNode::debug_string(Self) -> String
+pub fn VNode::get_key(Self) -> String?
+pub fn VNode::is_empty(Self) -> Bool
+
+// Type aliases
+pub type EventHandler = (@core.Any) -> Unit
+
+pub type Props = Array[(String, AttrValue)]
+
+// Traits
+
