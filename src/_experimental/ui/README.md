@@ -129,14 +129,19 @@ Props を型安全な `Array[(String, AttrValue)]` に変更:
 
 ### ✅ Phase 6: Context API (完了)
 
-**ファイル**: `context.mbt`, `context_test.mbt`
+**ファイル**: `context.mbt`, `context_storage.mbt`, `context_test.mbt`
 
-グローバル状態管理:
+グローバル状態管理（プラガブルなストレージバックエンド）:
 
 - `create_context[T](default_value : T) -> Context[T]`
 - `set_context[T](context : Context[T], value : T) -> Unit`
 - `get_context[T](context : Context[T]) -> T`
 - `clear_context[T](context : Context[T]) -> Unit`
+
+**ストレージ抽象化**:
+- `ContextStorage` - プラガブルなストレージインターフェース
+- `create_js_storage()` - JavaScript Map実装（デフォルト）
+- `create_memory_storage()` - インメモリ実装（将来実装予定）
 
 **テスト**: 9個 - Context作成、値の設定/取得、複数Context、型安全性
 
@@ -237,6 +242,28 @@ pub fn[T] component(f : Component[T], props : T, key : String?) -> VNode {
 - サンプルアプリケーション
 
 ## アーキテクチャ
+
+### モジュール構成と依存性
+
+**JS非依存モジュール（コアライブラリ）**:
+- `vdom.mbt` - VNode型定義、Props型定義
+- `element.mbt` - Element作成DSL
+- `props_builder.mbt` - 型安全なProps builder API
+
+**プラガブルモジュール（バックエンド切り替え可能）**:
+- `context_storage.mbt` - ストレージインターフェース定義
+- `context.mbt` - Context API（ストレージ抽象化）
+
+**JS依存モジュール（実装固有）**:
+- `reconcile.mbt` - 差分アルゴリズムとDOM patch適用
+- `renderer_dom.mbt` - DOM固有のレンダリング実装
+- `renderer_ssr.mbt` - SSRレンダリング（文字列操作のみ、ほぼJS非依存）
+
+**設計原則**:
+1. コアのデータ構造（VNode, Props）は完全にJS非依存
+2. レンダリングロジックは実装固有（DOM, SSR等）
+3. Context等の機能はストレージバックエンドを抽象化
+4. 将来的に異なるバックエンド（ネイティブUI等）への切り替えが可能
 
 ### VNode 構造
 

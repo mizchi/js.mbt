@@ -35,6 +35,10 @@ pub fn compare_props(Array[(String, AttrValue)], Array[(String, AttrValue)]) -> 
 
 pub fn[T] create_context(T) -> Context[T]
 
+pub fn create_js_storage() -> ContextStorage
+
+pub fn create_memory_storage() -> ContextStorage
+
 pub fn data_(String, String) -> (String, AttrValue)
 
 pub fn diff(VNode?, VNode?, @dom.Node?, @dom.Node?) -> Array[Patch]
@@ -162,6 +166,13 @@ pub struct ComponentNode {
 pub struct Context[T] {
   id : Int
   default_value : T
+}
+
+pub struct ContextStorage {
+  get_value : (Int) -> @core.Any?
+  set_value : (Int, @core.Any) -> Unit
+  delete_value : (Int) -> Unit
+  get_next_id : () -> Int
 }
 
 pub struct DomRenderer {

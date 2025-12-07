@@ -7,45 +7,18 @@
 ///| allowing components to share values without passing props through every level.
 
 ///|
-/// Check if a property exists on an object
-extern "js" fn has_property(obj : @core.Any, key : String) -> Bool =
-  #| (obj, key) => key in obj
+
+///| The storage backend is abstracted and can be switched between:
+
+///| - JavaScript Map (default, for browser/Node.js)
+
+///| - In-memory Map (for testing/non-JS environments, future implementation)
+
+///| Global context storage instance
 
 ///|
-/// Get next available context ID
-fn get_next_context_id() -> Int {
-  let global : @core.Any = @global.globalThis()
-  let storage_key = "__moonbit_context_id"
-  let has_storage : Bool = has_property(global, storage_key)
-  if has_storage {
-    let current : Int = global._get(storage_key).cast()
-    global._set(storage_key, @core.any(current + 1))
-    current
-  } else {
-    global._set(storage_key, @core.any(1))
-    0
-  }
-}
-
-///|
-/// Create a new JavaScript Map
-extern "js" fn new_map() -> @core.Any =
-  #| () => new Map()
-
-///|
-/// Get global context storage Map
-fn get_context_storage() -> @core.Any {
-  let global : @core.Any = @global.globalThis()
-  let storage_key = "__moonbit_context_storage"
-  let has_storage : Bool = has_property(global, storage_key)
-  if has_storage {
-    global._get(storage_key)
-  } else {
-    let map = new_map()
-    global._set(storage_key, map)
-    map
-  }
-}
+/// By default, uses JavaScript-based storage
+let default_storage : ContextStorage = create_js_storage()
 
 ///|
 /// Context type - holds a unique ID and default value
@@ -67,7 +40,7 @@ pub struct Context[T] {
 ///|
 /// ```
 pub fn[T] create_context(default_value : T) -> Context[T] {
-  let id = get_next_context_id()
+  let id = (default_storage.get_next_id)()
   { id, default_value }
 }
 
@@ -92,8 +65,7 @@ pub fn[T] create_context(default_value : T) -> Context[T] {
 ///|
 /// ```
 pub fn[T] set_context(context : Context[T], value : T) -> Unit {
-  let storage = get_context_storage()
-  storage._call("set", [@core.any(context.id), @core.any(value)]) |> ignore
+  (default_storage.set_value)(context.id, @core.any(value))
 }
 
 ///| Get the current value for a context
@@ -115,12 +87,9 @@ pub fn[T] set_context(context : Context[T], value : T) -> Unit {
 ///|
 /// ```
 pub fn[T] get_context(context : Context[T]) -> T {
-  let storage = get_context_storage()
-  let has : Bool = storage._call("has", [@core.any(context.id)]).cast()
-  if has {
-    storage._call("get", [@core.any(context.id)]).cast()
-  } else {
-    context.default_value
+  match (default_storage.get_value)(context.id) {
+    Some(value) => value.cast()
+    None => context.default_value
   }
 }
 
@@ -137,6 +106,5 @@ pub fn[T] get_context(context : Context[T]) -> T {
 ///|
 /// ```
 pub fn[T] clear_context(context : Context[T]) -> Unit {
-  let storage = get_context_storage()
-  storage._call("delete", [@core.any(context.id)]) |> ignore
+  (default_storage.delete_value)(context.id)
 }
