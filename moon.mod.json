@@ -1,6 +1,6 @@
 {
   "name": "mizchi/js",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "deps": {
     "moonbitlang/async": "0.14.2"
   },
@@ -15,7 +15,8 @@
     "dom",
     "async",
     "http",
-    "deno"
+    "deno",
+    "bun"
   ],
   "description": "bindings for js/node/browser/deno etc",
   "source": "src",
