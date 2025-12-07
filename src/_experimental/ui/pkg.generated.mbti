@@ -33,6 +33,10 @@ pub fn[H] compare_attr_value(AttrValue[H], AttrValue[H]) -> Bool
 
 pub fn[H] compare_props(Array[(String, AttrValue[H])], Array[(String, AttrValue[H])]) -> Bool
 
+pub fn[H] component(() -> VNode[H], String?, HooksState) -> VNode[H]
+
+pub fn[H, P] component_with_props((P) -> VNode[H], P, String?, HooksState) -> VNode[H]
+
 pub fn[T] create_context(T) -> Context[T]
 
 pub fn create_js_storage() -> ContextStorage
@@ -52,6 +56,8 @@ pub fn[H] el(String, Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 pub fn[H] el_key(String, Array[(String, AttrValue[H])], Array[VNode[H]], String) -> VNode[H]
 
 pub fn[H] empty() -> VNode[H]
+
+pub fn extract_state_from_html(String) -> String?
 
 pub fn[H] for_(String) -> (String, AttrValue[H])
 
@@ -121,7 +127,13 @@ pub fn[H] props() -> Array[(String, AttrValue[H])]
 
 pub fn[H] readonly_(Bool) -> (String, AttrValue[H])
 
+pub fn[H] render_component(VNode[H]) -> VNode[H]
+
+pub fn[H] render_component_with_effects(VNode[H]) -> VNode[H]
+
 pub fn render_to_string(VNode[(@core.Any) -> Unit]) -> String
+
+pub fn render_to_string_with_state(VNode[(@core.Any) -> Unit], HooksState) -> String
 
 pub fn[H] required(Bool) -> (String, AttrValue[H])
 
@@ -173,6 +185,7 @@ pub enum AttrValue[H] {
 pub struct ComponentNode[H] {
   render : () -> VNode[H]
   key : String?
+  hooks_state : HooksState
 }
 
 pub struct Context[T] {
@@ -193,10 +206,15 @@ pub struct DomRenderer {
   mut root_node : @dom.Node?
 }
 pub fn DomRenderer::hydrate(Self, VNode[(@core.Any) -> Unit]) -> Unit
+pub fn DomRenderer::hydrate_with_state(Self, VNode[(@core.Any) -> Unit], HooksState) -> Unit
 pub fn DomRenderer::new(@dom.Element) -> Self
 pub fn DomRenderer::render(Self, VNode[(@core.Any) -> Unit]) -> Unit
 
-type Effect
+pub struct Effect {
+  cleanup : (() -> Unit)?
+  effect : () -> (() -> Unit)?
+  _deps : Array[@core.Any]?
+}
 
 pub struct ElementNode[H] {
   tag : String
@@ -205,16 +223,17 @@ pub struct ElementNode[H] {
   key : String?
 }
 
-type GlobalHooksStorage
-
 pub struct HooksState {
   hooks : Array[@core.Any]
   mut current_index : Int
   mut effects : Array[Effect]
 }
+pub fn HooksState::from_json(String) -> Self
 pub fn HooksState::new() -> Self
 pub fn HooksState::reset_index(Self) -> Unit
+pub fn HooksState::restore_from_json(Self, String) -> Unit
 pub fn HooksState::run_effects(Self) -> Unit
+pub fn HooksState::serialize_js(Self) -> String
 
 pub struct MutRef[T] {
   mut value : T?
@@ -237,6 +256,10 @@ pub fn[H] VNode::get_key(Self[H]) -> String?
 pub fn[H] VNode::is_empty(Self[H]) -> Bool
 
 // Type aliases
+pub type Component0[H] = () -> VNode[H]
+
+pub type Component1[H, P] = (P) -> VNode[H]
+
 pub type EventHandler = (@core.Any) -> Unit
 
 pub type JSAttrValue = AttrValue[(@core.Any) -> Unit]
