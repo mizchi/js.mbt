@@ -5,20 +5,50 @@
 ///|
 
 ///|
+/// Logger function type - receives warning messages
+pub type Logger = (String) -> Unit
+
+///|
+
+///|
+/// Console logger - outputs to console.warn
+pub let console_logger : Logger = fn(message) { console_warn(message) }
+
+///|
+
+///|
+/// Silent logger - no output (for tests)
+pub let silent_logger : Logger = fn(_message) { () }
+
+///|
+
+///|
 /// DOM Renderer - manages rendering VNode to container element
 /// JS-specific: uses JSVNode
 pub struct DomRenderer {
   container : @dom.Element
   mut root_vnode : JSVNode?
   mut root_node : @dom.Node?
+  logger : Logger
 }
 
 ///|
 
 ///|
-/// Create new DOM renderer
+/// Create new DOM renderer with default console logger
 pub fn DomRenderer::new(container : @dom.Element) -> DomRenderer {
-  { container, root_vnode: None, root_node: None }
+  { container, root_vnode: None, root_node: None, logger: console_logger }
+}
+
+///|
+
+///|
+/// Create new DOM renderer with custom logger
+pub fn DomRenderer::new_with_logger(
+  container : @dom.Element,
+  logger : Logger,
+) -> DomRenderer {
+  { container, root_vnode: None, root_node: None, logger }
 }
 
 ///|
@@ -72,14 +102,14 @@ pub fn DomRenderer::hydrate(self : DomRenderer, vnode : JSVNode) -> Unit {
   match first_child {
     Some(dom_node) => {
       // Hydrate the existing DOM tree
-      let success = hydrate_node(vnode, dom_node)
+      let success = hydrate_node(self.logger, vnode, dom_node)
       if success {
         // Hydration succeeded
         self.root_vnode = Some(vnode)
         self.root_node = Some(dom_node)
       } else {
         // Hydration failed - fallback to full render
-        console_warn(
+        (self.logger)(
           "Hydration failed - falling back to client-side render. This may cause content flash.",
         )
         self.container.as_node().setTextContent("")
@@ -278,9 +308,12 @@ fn console_warn(message : String) -> Unit = "console" "warn"
 ///|
 
 ///|
-/// Log hydration warning (dev mode only)
-fn warn_hydration_mismatch(error : HydrationError, path : String) -> Unit {
-  // In production, you might want to disable this or use a proper logger
+/// Log hydration warning using provided logger
+fn warn_hydration_mismatch(
+  logger : Logger,
+  error : HydrationError,
+  path : String,
+) -> Unit {
   let message = match error {
     TagMismatch(expected, actual) =>
       "Hydration mismatch at '\{path}': expected tag '\{expected}', got '\{actual}'"
@@ -293,8 +326,7 @@ fn warn_hydration_mismatch(error : HydrationError, path : String) -> Unit {
     MissingNode =>
       "Hydration mismatch at '\{path}': expected DOM node, but none found"
   }
-  // Use console.warn
-  console_warn(message)
+  logger(message)
 }
 
 ///|
@@ -303,8 +335,8 @@ fn warn_hydration_mismatch(error : HydrationError, path : String) -> Unit {
 /// Hydrate a VNode with an existing DOM node
 /// Reuses the DOM structure and only attaches event handlers
 /// Returns true if hydration succeeded, false if recovery needed
-fn hydrate_node(vnode : JSVNode, dom_node : @dom.Node) -> Bool {
-  hydrate_node_with_path(vnode, dom_node, "root")
+fn hydrate_node(logger : Logger, vnode : JSVNode, dom_node : @dom.Node) -> Bool {
+  hydrate_node_with_path(logger, vnode, dom_node, "root")
 }
 
 ///|
@@ -312,6 +344,7 @@ fn hydrate_node(vnode : JSVNode, dom_node : @dom.Node) -> Bool {
 ///|
 /// Hydrate with path tracking for better error messages
 fn hydrate_node_with_path(
+  logger : Logger,
   vnode : JSVNode,
   dom_node : @dom.Node,
   path : String,
@@ -322,7 +355,11 @@ fn hydrate_node_with_path(
       let node_type = dom_node.nodeType()
       if node_type != 3 {
         // Not a text node
-        warn_hydration_mismatch(NodeTypeMismatch("TEXT_NODE", node_type), path)
+        warn_hydration_mismatch(
+          logger,
+          NodeTypeMismatch("TEXT_NODE", node_type),
+          path,
+        )
         return false
       }
       true
@@ -332,14 +369,22 @@ fn hydrate_node_with_path(
       let node_type = dom_node.nodeType()
       if node_type != 3 {
         // Not a text node - type mismatch
-        warn_hydration_mismatch(NodeTypeMismatch("TEXT_NODE", node_type), path)
+        warn_hydration_mismatch(
+          logger,
+          NodeTypeMismatch("TEXT_NODE", node_type),
+          path,
+        )
         return false
       }
 
       // Verify text content matches
       let actual_text = dom_node.textContent()
       if actual_text != content {
-        warn_hydration_mismatch(TextMismatch(content, actual_text), path)
+        warn_hydration_mismatch(
+          logger,
+          TextMismatch(content, actual_text),
+          path,
+        )
         // Still recoverable - update text content
         dom_node.setTextContent(content)
       }
@@ -351,6 +396,7 @@ fn hydrate_node_with_path(
       if node_type != 1 {
         // Not an element node
         warn_hydration_mismatch(
+          logger,
           NodeTypeMismatch("ELEMENT_NODE", node_type),
           path,
         )
@@ -361,7 +407,11 @@ fn hydrate_node_with_path(
       let node_name = dom_node.nodeName()
       let expected_name = to_uppercase(tag)
       if node_name != expected_name {
-        warn_hydration_mismatch(TagMismatch(expected_name, node_name), path)
+        warn_hydration_mismatch(
+          logger,
+          TagMismatch(expected_name, node_name),
+          path,
+        )
         // Tag mismatch is critical - cannot recover safely
         return false
       }
@@ -378,6 +428,7 @@ fn hydrate_node_with_path(
       // Warn if child count differs
       if expected_count != actual_count {
         warn_hydration_mismatch(
+          logger,
           ChildCountMismatch(expected_count, actual_count),
           path,
         )
@@ -391,7 +442,7 @@ fn hydrate_node_with_path(
         if i < child_nodes.length() {
           let child_node = child_nodes[i]
           let success = hydrate_node_with_path(
-            child_vnode, child_node, child_path,
+            logger, child_vnode, child_node, child_path,
           )
           if not(success) {
             // Child hydration failed - replace it
@@ -401,7 +452,7 @@ fn hydrate_node_with_path(
           }
         } else {
           // Missing child - create and append
-          warn_hydration_mismatch(MissingNode, child_path)
+          warn_hydration_mismatch(logger, MissingNode, child_path)
           let new_child = create_dom_node(child_vnode)
           dom_node.appendChild(new_child) |> ignore
           all_success = false
@@ -430,6 +481,7 @@ fn hydrate_node_with_path(
       // Warn if child count differs
       if expected_count != actual_count {
         warn_hydration_mismatch(
+          logger,
           ChildCountMismatch(expected_count, actual_count),
           path,
         )
@@ -441,7 +493,7 @@ fn hydrate_node_with_path(
         if i < child_nodes.length() {
           let child_node = child_nodes[i]
           let success = hydrate_node_with_path(
-            child_vnode, child_node, child_path,
+            logger, child_vnode, child_node, child_path,
           )
           if not(success) {
             // Child hydration failed - replace it
@@ -451,7 +503,7 @@ fn hydrate_node_with_path(
           }
         } else {
           // Missing child - create and append
-          warn_hydration_mismatch(MissingNode, child_path)
+          warn_hydration_mismatch(logger, MissingNode, child_path)
           let new_child = create_dom_node(child_vnode)
           dom_node.appendChild(new_child) |> ignore
           all_success = false

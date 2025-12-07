@@ -60,7 +60,6 @@ pub fn[H] render_component(vnode : VNode[H]) -> VNode[H] {
 
       // Clean up hooks context
       set_current_hooks_state(None)
-
       final_vnode
     }
     Element({ tag, props, children, key }) => {
@@ -98,7 +97,6 @@ pub fn[H] render_component_with_effects(vnode : VNode[H]) -> VNode[H] {
 
       // Run effects after rendering
       hooks_state.run_effects()
-
       rendered
     }
     _ => render_component(vnode)

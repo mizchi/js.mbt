@@ -37,6 +37,8 @@ pub fn[H] component(() -> VNode[H], String?, HooksState) -> VNode[H]
 
 pub fn[H, P] component_with_props((P) -> VNode[H], P, String?, HooksState) -> VNode[H]
 
+pub fn console_logger(String) -> Unit
+
 pub fn[T] create_context(T) -> Context[T]
 
 pub fn create_js_storage() -> ContextStorage
@@ -141,6 +143,8 @@ pub fn[T] set_context(Context[T], T) -> Unit
 
 pub fn set_current_hooks_state(HooksState?) -> Unit
 
+pub fn silent_logger(String) -> Unit
+
 pub fn[H] span(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
 pub fn[H] src(String) -> (String, AttrValue[H])
@@ -204,10 +208,12 @@ pub struct DomRenderer {
   container : @dom.Element
   mut root_vnode : VNode[(@core.Any) -> Unit]?
   mut root_node : @dom.Node?
+  logger : (String) -> Unit
 }
 pub fn DomRenderer::hydrate(Self, VNode[(@core.Any) -> Unit]) -> Unit
 pub fn DomRenderer::hydrate_with_state(Self, VNode[(@core.Any) -> Unit], HooksState) -> Unit
 pub fn DomRenderer::new(@dom.Element) -> Self
+pub fn DomRenderer::new_with_logger(@dom.Element, (String) -> Unit) -> Self
 pub fn DomRenderer::render(Self, VNode[(@core.Any) -> Unit]) -> Unit
 
 pub struct Effect {
@@ -271,6 +277,8 @@ pub type JSHandler = (@core.Any) -> Unit
 pub type JSProps = Array[(String, AttrValue[(@core.Any) -> Unit])]
 
 pub type JSVNode = VNode[(@core.Any) -> Unit]
+
+pub type Logger = (String) -> Unit
 
 pub type Props[H] = Array[(String, AttrValue[H])]
 

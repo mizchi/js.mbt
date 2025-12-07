@@ -74,6 +74,7 @@
     "react-dom": "19.2.0",
     "react-router": "7.9.4",
     "semver": "^7.7.3",
+    "sharp": "^0.34.5",
     "simple-git": "^3.30.0",
     "source-map": "^0.7.6",
     "terser": "^5.44.1",

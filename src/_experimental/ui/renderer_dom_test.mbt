@@ -7,7 +7,7 @@ test "render empty node" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(empty())
 
   // Empty renders as empty text node
@@ -19,7 +19,7 @@ test "render text node" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(text("Hello World"))
   inspect(container.as_node().textContent(), content="Hello World")
 }
@@ -29,7 +29,7 @@ test "render simple div" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(div([], [text("content")]))
   let html : String = container.as_any()._get("innerHTML").cast()
   inspect(html, content="<div>content</div>")
@@ -40,7 +40,7 @@ test "render nested elements" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props = []
   renderer.render(
     div(empty_props, [
@@ -57,7 +57,7 @@ test "render fragment" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(fragment([text("A"), text("B"), text("C")]))
   inspect(container.as_node().textContent(), content="ABC")
 }
@@ -69,7 +69,7 @@ test "render element with className" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(div([class_name("container")], [text("content")]))
   let html : String = container.as_any()._get("innerHTML").cast()
   inspect(html, content="<div class=\"container\">content</div>")
@@ -80,7 +80,7 @@ test "render element with id" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(div([id("my-id")], []))
   let html : String = container.as_any()._get("innerHTML").cast()
   inspect(html, content="<div id=\"my-id\"></div>")
@@ -91,7 +91,7 @@ test "render element with multiple attributes" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let props = [class_name("btn"), id("submit"), title("Click me")]
   renderer.render(button(props, [text("Submit")]))
   let html : String = container.as_any()._get("innerHTML").cast()
@@ -106,7 +106,7 @@ test "render element with boolean attributes" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let props = [disabled(true), checked(false)]
   renderer.render(input(props))
 
@@ -124,7 +124,7 @@ test "render element with style object" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let props = [style([("color", "red"), ("fontSize", "16px")])]
   renderer.render(div(props, [text("styled")]))
 
@@ -146,7 +146,7 @@ test "render element with onClick handler" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let mut clicked = false
   let props = [on_click(fn(_event : @core.Any) { clicked = true })]
   renderer.render(button(props, [text("Click")]))
@@ -171,7 +171,7 @@ test "render element with onChange handler" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let mut changed = false
   let props = [on_change(fn(_event : @core.Any) { changed = true })]
   renderer.render(input(props))
@@ -198,7 +198,7 @@ test "render void element br" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.render(br())
   let html : String = container.as_any()._get("innerHTML").cast()
   inspect(html, content="<br>")
@@ -209,7 +209,7 @@ test "render void element img" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let props = [src("/image.png"), alt("Image")]
   renderer.render(img(props))
   let html : String = container.as_any()._get("innerHTML").cast()
@@ -223,7 +223,7 @@ test "render complex nested structure" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
   let container_props = [class_name("container")]
   let button_props = [class_name("btn")]
@@ -246,7 +246,7 @@ test "render list with fragments" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
   let items = fragment([
     li(empty_props, [text("Item 1")]),
@@ -266,7 +266,7 @@ test "render updates container content" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // First render
   renderer.render(div([], [text("First")]))
@@ -284,7 +284,7 @@ test "reconciliation: update text content" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render
   renderer.render(text("Hello"))
@@ -300,7 +300,7 @@ test "reconciliation: update element props" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render
   let props1 = [class_name("old-class"), id("my-id")]
@@ -324,7 +324,7 @@ test "reconciliation: add child elements" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render with 1 child
@@ -349,7 +349,7 @@ test "reconciliation: remove child elements" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render with 3 children
@@ -374,7 +374,7 @@ test "reconciliation: replace element type" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render with div
@@ -397,7 +397,7 @@ test "reconciliation: nested structure updates" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render
@@ -426,7 +426,7 @@ test "reconciliation: update style" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render with style
   let props1 = [style([("color", "red"), ("fontSize", "12px")])]
@@ -454,7 +454,7 @@ test "reconciliation: add attributes" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render without attributes
   let props1 : JSProps = []
@@ -478,7 +478,7 @@ test "reconciliation: remove attributes" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render with attributes
   let props1 = [title("Hello"), data_("data-test", "value")]
@@ -500,7 +500,7 @@ test "reconciliation: update boolean attributes" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render without disabled
   let props1 : JSProps = []
@@ -532,7 +532,7 @@ test "reconciliation: fragment updates" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Initial render with fragment
   renderer.render(fragment([text("A"), text("B")]))
@@ -552,7 +552,7 @@ test "reconciliation: deep nested partial update" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render with deep nesting
@@ -593,7 +593,7 @@ test "reconciliation: multiple consecutive updates" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Update 1
@@ -624,7 +624,7 @@ test "reconciliation: mixed updates (props + children)" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render
@@ -655,7 +655,7 @@ test "reconciliation: empty node handling" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render with empty
@@ -680,7 +680,7 @@ test "reconciliation: reorder children (non-keyed)" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial order: A, B, C
@@ -713,7 +713,7 @@ test "reconciliation: complex real-world scenario" {
   @global_jsdom.register()
   let doc = @dom.document()
   let container = doc.createElement("div")
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   let empty_props : JSProps = []
 
   // Initial render: Login form
@@ -789,7 +789,7 @@ test "hydration: simple text node" {
   container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
 
   // Hydrate
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(text("Hello from SSR"))
 
   // Verify content is preserved
@@ -810,7 +810,7 @@ test "hydration: simple div with text" {
   container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
 
   // Hydrate
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(vnode)
 
   // Verify content is preserved
@@ -836,7 +836,7 @@ test "hydration: nested elements" {
   container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
 
   // Hydrate
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(vnode)
 
   // Verify structure is preserved
@@ -862,7 +862,7 @@ test "hydration: attach event handler" {
     [class_name("btn"), on_click(fn(_event : @core.Any) { clicked = true })],
     [text("Click")],
   )
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Verify structure is preserved
@@ -914,7 +914,7 @@ test "hydration: complex structure with props" {
       ]),
     ],
   )
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Verify structure
@@ -941,7 +941,7 @@ test "hydration: fallback to render when no SSR content" {
 
   // No SSR content - container is empty
   let vnode : JSVNode = div([], [text("Client content")])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(vnode)
 
   // Should fallback to regular render
@@ -965,7 +965,7 @@ test "hydration: with style attributes" {
   container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
 
   // Hydrate
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(vnode)
 
   // Verify style is preserved/applied
@@ -992,7 +992,7 @@ test "hydration mismatch: tag name mismatch triggers re-render" {
 
   // Hydrate with <div> (tag mismatch)
   let hydrate_vnode : JSVNode = div([], [text("Content")])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
 
   // Should trigger warning and re-render
   renderer.hydrate(hydrate_vnode)
@@ -1013,7 +1013,7 @@ test "hydration mismatch: text content mismatch is auto-fixed" {
   container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
 
   // Hydrate with "New Text"
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(text("New Text"))
 
   // Text should be updated
@@ -1041,7 +1041,7 @@ test "hydration mismatch: child count - extra VNode children added" {
     span(empty_props, [text("Child 2")]),
     span(empty_props, [text("Child 3")]),
   ])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Should have 3 children after hydration
@@ -1070,7 +1070,7 @@ test "hydration mismatch: child count - extra DOM children removed" {
     span(empty_props, [text("Child 1")]),
     span(empty_props, [text("Child 2")]),
   ])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Should have only 2 children after hydration
@@ -1098,7 +1098,7 @@ test "hydration mismatch: nested child tag mismatch triggers replacement" {
     h1(empty_props, [text("Title")]),
     p(empty_props, [text("Content")]),
   ])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Should replace span with p
@@ -1131,7 +1131,7 @@ test "hydration mismatch: complex scenario with multiple mismatches" {
     span(empty_props, [text("Extra")]),
     // Extra child
   ])
-  let renderer = DomRenderer::new(container)
+  let renderer = DomRenderer::new_with_logger(container, silent_logger)
   renderer.hydrate(hydrate_vnode)
 
   // Verify final structure
