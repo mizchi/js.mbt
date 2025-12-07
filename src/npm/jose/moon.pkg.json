@@ -1,0 +1,11 @@
+{
+  "supported-targets": [
+    "js"
+  ],
+  "import": [
+    "mizchi/js/core",
+    "mizchi/js/web/encoding",
+    "mizchi/js/builtins/arraybuffer",
+    "moonbitlang/async"
+  ]
+}

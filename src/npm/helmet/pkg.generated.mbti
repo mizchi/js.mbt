@@ -1,0 +1,66 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/helmet"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+#alias(content_security_policy)
+pub fn contentSecurityPolicy(directives? : @core.Any) -> @core.Any
+
+#alias(cross_origin_embedder_policy)
+pub fn crossOriginEmbedderPolicy(policy? : String) -> @core.Any
+
+#alias(cross_origin_opener_policy)
+pub fn crossOriginOpenerPolicy(policy? : String) -> @core.Any
+
+#alias(cross_origin_resource_policy)
+pub fn crossOriginResourcePolicy(policy? : String) -> @core.Any
+
+#alias(csp_directives)
+pub fn cspDirectives(defaultSrc? : Array[String], scriptSrc? : Array[String], styleSrc? : Array[String], imgSrc? : Array[String], connectSrc? : Array[String], fontSrc? : Array[String], objectSrc? : Array[String], mediaSrc? : Array[String], frameSrc? : Array[String], baseUri? : Array[String], formAction? : Array[String]) -> @core.Any
+
+#alias(dns_prefetch_control)
+pub fn dnsPrefetchControl(allow? : Bool) -> @core.Any
+
+#alias(expect_ct)
+pub fn expectCt(maxAge? : Int, enforce? : Bool, reportUri? : String) -> @core.Any
+
+pub fn frameguard(action? : String) -> @core.Any
+
+pub fn helmet() -> @core.Any
+
+pub fn helmetWithOptions(contentSecurityPolicy? : @core.Any, crossOriginEmbedderPolicy? : Bool, crossOriginOpenerPolicy? : @core.Any, crossOriginResourcePolicy? : @core.Any, dnsPrefetchControl? : @core.Any, expectCt? : @core.Any, frameguard? : @core.Any, hidePoweredBy? : Bool, hsts? : @core.Any, ieNoOpen? : Bool, noSniff? : Bool, originAgentCluster? : Bool, permittedCrossDomainPolicies? : @core.Any, referrerPolicy? : @core.Any, xssFilter? : Bool) -> @core.Any
+
+#alias(hide_powered_by)
+pub fn hidePoweredBy() -> @core.Any
+
+pub fn hsts(maxAge? : Int, includeSubDomains? : Bool, preload? : Bool) -> @core.Any
+
+#alias(ie_no_open)
+pub fn ieNoOpen() -> @core.Any
+
+#alias(no_sniff)
+pub fn noSniff() -> @core.Any
+
+#alias(origin_agent_cluster)
+pub fn originAgentCluster() -> @core.Any
+
+#alias(permitted_cross_domain_policies)
+pub fn permittedCrossDomainPolicies(permittedPolicies? : String) -> @core.Any
+
+#alias(referrer_policy)
+pub fn referrerPolicy(policy? : String) -> @core.Any
+
+#alias(xss_filter)
+pub fn xssFilter() -> @core.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
