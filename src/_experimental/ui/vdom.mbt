@@ -2,13 +2,26 @@
 
 ///|
 
+///| This module provides backend-agnostic VNode types.
+
+///| The handler type H is parameterized to support different backends:
+
+///| - JS: H = (@core.Any) -> Unit
+
+///| - Native: H = (NativeEvent) -> Unit
+
+///| - WASM: H = (WasmEvent) -> Unit
+
+///|
+
 ///|
 /// Virtual Node - Pure MoonBit representation of UI tree
-pub enum VNode {
-  Element(ElementNode)
+/// Parameterized by handler type H for multi-backend support
+pub enum VNode[H] {
+  Element(ElementNode[H])
   Text(String)
-  Component(ComponentNode)
-  Fragment(Array[VNode])
+  Component(ComponentNode[H])
+  Fragment(Array[VNode[H]])
   Empty
 }
 
@@ -16,11 +29,11 @@ pub enum VNode {
 
 ///|
 /// DOM Element node
-/// Props is Array[(String, AttrValue)] for type safety and comparability
-pub struct ElementNode {
+/// Props is Array[(String, AttrValue[H])] for type safety and comparability
+pub struct ElementNode[H] {
   tag : String
-  props : Props
-  children : Array[VNode]
+  props : Props[H]
+  children : Array[VNode[H]]
   key : String?
 }
 
@@ -28,8 +41,8 @@ pub struct ElementNode {
 
 ///|
 /// Component function node
-pub struct ComponentNode {
-  render : () -> VNode
+pub struct ComponentNode[H] {
+  render : () -> VNode[H]
   key : String?
   // hooks_state : HooksState  // TODO: Will be added in Phase 5
 }
@@ -37,18 +50,13 @@ pub struct ComponentNode {
 ///|
 
 ///|
-/// Event handler type
-pub type EventHandler = (@core.Any) -> Unit
-
-///|
-
-///|
 /// Attribute value - typed representation of prop values
-pub enum AttrValue {
+/// Parameterized by handler type H (backend-specific)
+pub enum AttrValue[H] {
   Str(String) // String attribute (className, id, href, etc.)
   Num(Int) // Numeric attribute (tabIndex, maxLength, etc.)
   Bool(Bool) // Boolean attribute (disabled, checked, etc.)
-  Handler(EventHandler) // Event handler (onClick, onChange, etc.)
+  Handler(H) // Event handler (onClick, onChange, etc.) - type depends on backend
   StyleObj(Array[(String, String)]) // Style object {color: "red", fontSize: "16px"}
 }
 
@@ -56,14 +64,15 @@ pub enum AttrValue {
 
 ///|
 /// Props - array of key-value pairs
-pub type Props = Array[(String, AttrValue)]
+/// Parameterized by handler type H
+pub type Props[H] = Array[(String, AttrValue[H])]
 
 ///|
 
 ///|
 /// Compare two AttrValue instances for equality
 /// Note: Handlers are always considered different
-pub fn compare_attr_value(a : AttrValue, b : AttrValue) -> Bool {
+pub fn[H] compare_attr_value(a : AttrValue[H], b : AttrValue[H]) -> Bool {
   match (a, b) {
     (Str(s1), Str(s2)) => s1 == s2
     (Num(n1), Num(n2)) => n1 == n2
@@ -99,7 +108,7 @@ fn compare_style_arrays(
 
 ///|
 /// Compare two Props for equality
-pub fn compare_props(p1 : Props, p2 : Props) -> Bool {
+pub fn[H] compare_props(p1 : Props[H], p2 : Props[H]) -> Bool {
   if p1.length() != p2.length() {
     return false
   }
@@ -117,7 +126,7 @@ pub fn compare_props(p1 : Props, p2 : Props) -> Bool {
 
 ///|
 /// Helper to check if VNode is empty
-pub fn VNode::is_empty(self : VNode) -> Bool {
+pub fn[H] VNode::is_empty(self : VNode[H]) -> Bool {
   match self {
     Empty => true
     _ => false
@@ -128,7 +137,7 @@ pub fn VNode::is_empty(self : VNode) -> Bool {
 
 ///|
 /// Get key from VNode if it has one
-pub fn VNode::get_key(self : VNode) -> String? {
+pub fn[H] VNode::get_key(self : VNode[H]) -> String? {
   match self {
     Element({ key, .. }) => key
     Component({ key, .. }) => key
@@ -140,7 +149,7 @@ pub fn VNode::get_key(self : VNode) -> String? {
 
 ///|
 /// Debug representation of VNode
-pub fn VNode::debug_string(self : VNode) -> String {
+pub fn[H] VNode::debug_string(self : VNode[H]) -> String {
   match self {
     Empty => "Empty"
     Text(content) => "Text(\"\{content}\")"

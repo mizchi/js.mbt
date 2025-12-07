@@ -4,35 +4,34 @@
 
 ///|
 test "create empty VNode" {
-  let node = empty()
+  let node : JSVNode = empty()
   inspect(node.is_empty(), content="true")
 }
 
 ///|
 test "create text VNode" {
-  let node = text("Hello")
+  let node : JSVNode = text("Hello")
   inspect(node.debug_string(), content="Text(\"Hello\")")
 }
 
 ///|
 test "create div element with empty props" {
-  let node = div([], [text("content")])
+  let node : JSVNode = div([], [text("content")])
   inspect(node.debug_string(), content="Element(div, 1 children)")
 }
 
 ///|
 test "create nested elements" {
-  let empty_props = []
-  let node = div(empty_props, [
-    h1(empty_props, [text("Title")]),
-    p(empty_props, [text("Paragraph")]),
+  let node : JSVNode = div([], [
+    h1([], [text("Title")]),
+    p([], [text("Paragraph")]),
   ])
   inspect(node.debug_string(), content="Element(div, 2 children)")
 }
 
 ///|
 test "create fragment" {
-  let node = fragment([text("A"), text("B"), text("C")])
+  let node : JSVNode = fragment([text("A"), text("B"), text("C")])
   inspect(node.debug_string(), content="Fragment(3 children)")
 }
 
@@ -40,13 +39,13 @@ test "create fragment" {
 
 ///|
 test "element with props" {
-  let node = div([class_name("container")], [text("content")])
+  let node : JSVNode = div([class_name("container")], [text("content")])
   inspect(node.debug_string(), content="Element(div, 1 children)")
 }
 
 ///|
 test "button with props and handler" {
-  let node = button(
+  let node : JSVNode = button(
     [class_name("btn"), on_click(fn(_event : @core.Any) { () })],
     [text("Click")],
   )
@@ -55,7 +54,7 @@ test "button with props and handler" {
 
 ///|
 test "input with props" {
-  let node = input([type_("text"), placeholder("Enter text")])
+  let node : JSVNode = input([type_("text"), placeholder("Enter text")])
   inspect(node.debug_string(), content="Element(input, 0 children)")
 }
 
@@ -63,15 +62,15 @@ test "input with props" {
 
 ///|
 test "element with multiple props" {
-  let props = [class_name("my-class"), id("my-id")]
-  let node = div(props, [text("content")])
+  let props : JSProps = [class_name("my-class"), id("my-id")]
+  let node : JSVNode = div(props, [text("content")])
   inspect(node.debug_string(), content="Element(div, 1 children)")
 }
 
 ///|
 test "element with style" {
-  let props = [style([("color", "red"), ("fontSize", "16px")])]
-  let node = div(props, [text("styled")])
+  let props : JSProps = [style([("color", "red"), ("fontSize", "16px")])]
+  let node : JSVNode = div(props, [text("styled")])
   inspect(node.debug_string(), content="Element(div, 1 children)")
 }
 
@@ -79,8 +78,8 @@ test "element with style" {
 
 ///|
 test "element with key" {
-  let empty_props = []
-  let node = el_key("li", empty_props, [text("Item")], "item-1")
+  let empty_props : JSProps = []
+  let node : JSVNode = el_key("li", empty_props, [text("Item")], "item-1")
   match node.get_key() {
     Some(key) => inspect(key, content="item-1")
     None => inspect(false, content="true")
@@ -91,8 +90,8 @@ test "element with key" {
 
 ///|
 test "br and hr elements" {
-  let br_node = br()
-  let hr_node = hr()
+  let br_node : JSVNode = br()
+  let hr_node : JSVNode = hr()
   inspect(br_node.debug_string(), content="Element(br, 0 children)")
   inspect(hr_node.debug_string(), content="Element(hr, 0 children)")
 }

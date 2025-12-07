@@ -7,31 +7,31 @@ import(
 )
 
 // Values
-pub fn a(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] a(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn alt(String) -> (String, AttrValue)
+pub fn[H] alt(String) -> (String, AttrValue[H])
 
-pub fn apply_patches(Array[Patch]) -> Unit
+pub fn apply_patches(Array[Patch[(@core.Any) -> Unit]]) -> Unit
 
-pub fn attr(String, String) -> (String, AttrValue)
+pub fn[H] attr(String, String) -> (String, AttrValue[H])
 
-pub fn attr_bool(String, Bool) -> (String, AttrValue)
+pub fn[H] attr_bool(String, Bool) -> (String, AttrValue[H])
 
-pub fn attr_num(String, Int) -> (String, AttrValue)
+pub fn[H] attr_num(String, Int) -> (String, AttrValue[H])
 
-pub fn br() -> VNode
+pub fn[H] br() -> VNode[H]
 
-pub fn button(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] button(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn checked(Bool) -> (String, AttrValue)
+pub fn[H] checked(Bool) -> (String, AttrValue[H])
 
-pub fn class_name(String) -> (String, AttrValue)
+pub fn[H] class_name(String) -> (String, AttrValue[H])
 
 pub fn[T] clear_context(Context[T]) -> Unit
 
-pub fn compare_attr_value(AttrValue, AttrValue) -> Bool
+pub fn[H] compare_attr_value(AttrValue[H], AttrValue[H]) -> Bool
 
-pub fn compare_props(Array[(String, AttrValue)], Array[(String, AttrValue)]) -> Bool
+pub fn[H] compare_props(Array[(String, AttrValue[H])], Array[(String, AttrValue[H])]) -> Bool
 
 pub fn[T] create_context(T) -> Context[T]
 
@@ -39,127 +39,139 @@ pub fn create_js_storage() -> ContextStorage
 
 pub fn create_memory_storage() -> ContextStorage
 
-pub fn data_(String, String) -> (String, AttrValue)
+pub fn[H] data_(String, String) -> (String, AttrValue[H])
 
-pub fn diff(VNode?, VNode?, @dom.Node?, @dom.Node?) -> Array[Patch]
+pub fn[H] diff(VNode[H]?, VNode[H]?, @dom.Node?, @dom.Node?) -> Array[Patch[H]]
 
-pub fn disabled(Bool) -> (String, AttrValue)
+pub fn[H] disabled(Bool) -> (String, AttrValue[H])
 
-pub fn div(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] div(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn el(String, Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] el(String, Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn el_key(String, Array[(String, AttrValue)], Array[VNode], String) -> VNode
+pub fn[H] el_key(String, Array[(String, AttrValue[H])], Array[VNode[H]], String) -> VNode[H]
 
-pub fn empty() -> VNode
+pub fn[H] empty() -> VNode[H]
 
-pub fn for_(String) -> (String, AttrValue)
+pub fn[H] for_(String) -> (String, AttrValue[H])
 
-pub fn form(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] form(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn fragment(Array[VNode]) -> VNode
+pub fn[H] fragment(Array[VNode[H]]) -> VNode[H]
 
 pub fn[T] get_context(Context[T]) -> T
 
-pub fn h1(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h1(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn h2(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h2(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn h3(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h3(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn h4(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h4(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn h5(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h5(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn h6(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] h6(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn hr() -> VNode
+pub fn[H] hr() -> VNode[H]
 
-pub fn href(String) -> (String, AttrValue)
+pub fn[H] href(String) -> (String, AttrValue[H])
 
-pub fn id(String) -> (String, AttrValue)
+pub fn[H] id(String) -> (String, AttrValue[H])
 
-pub fn img(Array[(String, AttrValue)]) -> VNode
+pub fn[H] img(Array[(String, AttrValue[H])]) -> VNode[H]
 
-pub fn input(Array[(String, AttrValue)]) -> VNode
+pub fn[H] input(Array[(String, AttrValue[H])]) -> VNode[H]
 
-pub fn label(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] label(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn li(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] li(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn max_length(Int) -> (String, AttrValue)
+pub fn[H] max_length(Int) -> (String, AttrValue[H])
 
-pub fn name(String) -> (String, AttrValue)
+pub fn[H] name(String) -> (String, AttrValue[H])
 
-pub fn ol(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] ol(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn on_blur((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_blur(H) -> (String, AttrValue[H])
 
-pub fn on_change((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_change(H) -> (String, AttrValue[H])
 
-pub fn on_click((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_click(H) -> (String, AttrValue[H])
 
-pub fn on_focus((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_focus(H) -> (String, AttrValue[H])
 
-pub fn on_input((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_input(H) -> (String, AttrValue[H])
 
-pub fn on_key_down((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_key_down(H) -> (String, AttrValue[H])
 
-pub fn on_key_up((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_key_up(H) -> (String, AttrValue[H])
 
-pub fn on_mouse_enter((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_mouse_enter(H) -> (String, AttrValue[H])
 
-pub fn on_mouse_leave((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_mouse_leave(H) -> (String, AttrValue[H])
 
-pub fn on_submit((@core.Any) -> Unit) -> (String, AttrValue)
+pub fn[H] on_submit(H) -> (String, AttrValue[H])
 
-pub fn p(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] p(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn placeholder(String) -> (String, AttrValue)
+pub fn[H] placeholder(String) -> (String, AttrValue[H])
 
-pub fn props() -> Array[(String, AttrValue)]
+pub fn[H] props() -> Array[(String, AttrValue[H])]
 
-pub fn readonly_(Bool) -> (String, AttrValue)
+pub fn[H] readonly_(Bool) -> (String, AttrValue[H])
 
-pub fn render_to_string(VNode) -> String
+pub fn render_to_string(VNode[(@core.Any) -> Unit]) -> String
 
-pub fn required(Bool) -> (String, AttrValue)
+pub fn[H] required(Bool) -> (String, AttrValue[H])
 
 pub fn[T] set_context(Context[T], T) -> Unit
 
-pub fn span(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn set_current_hooks_state(HooksState?) -> Unit
 
-pub fn src(String) -> (String, AttrValue)
+pub fn[H] span(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn style(Array[(String, String)]) -> (String, AttrValue)
+pub fn[H] src(String) -> (String, AttrValue[H])
 
-pub fn tab_index(Int) -> (String, AttrValue)
+pub fn[H] style(Array[(String, String)]) -> (String, AttrValue[H])
 
-pub fn text(String) -> VNode
+pub fn[H] tab_index(Int) -> (String, AttrValue[H])
 
-pub fn textarea(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] text(String) -> VNode[H]
 
-pub fn title(String) -> (String, AttrValue)
+pub fn[H] textarea(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
 
-pub fn type_(String) -> (String, AttrValue)
+pub fn[H] title(String) -> (String, AttrValue[H])
 
-pub fn ul(Array[(String, AttrValue)], Array[VNode]) -> VNode
+pub fn[H] type_(String) -> (String, AttrValue[H])
 
-pub fn value(String) -> (String, AttrValue)
+pub fn[H] ul(Array[(String, AttrValue[H])], Array[VNode[H]]) -> VNode[H]
+
+pub fn[T] use_callback(T, Array[@core.Any]?) -> T
+
+pub fn use_effect(() -> (() -> Unit)?, Array[@core.Any]?) -> Unit
+
+pub fn[T] use_memo(() -> T, Array[@core.Any]?) -> T
+
+pub fn[T] use_ref(T?) -> MutRef[T]
+
+pub fn[T] use_state(T) -> (T, (T) -> Unit)
+
+pub fn[H] value(String) -> (String, AttrValue[H])
 
 // Errors
 
 // Types and methods
-pub enum AttrValue {
+pub enum AttrValue[H] {
   Str(String)
   Num(Int)
   Bool(Bool)
-  Handler((@core.Any) -> Unit)
+  Handler(H)
   StyleObj(Array[(String, String)])
 }
 
-pub struct ComponentNode {
-  render : () -> VNode
+pub struct ComponentNode[H] {
+  render : () -> VNode[H]
   key : String?
 }
 
@@ -177,36 +189,67 @@ pub struct ContextStorage {
 
 pub struct DomRenderer {
   container : @dom.Element
-  mut root_vnode : VNode?
+  mut root_vnode : VNode[(@core.Any) -> Unit]?
   mut root_node : @dom.Node?
 }
+pub fn DomRenderer::hydrate(Self, VNode[(@core.Any) -> Unit]) -> Unit
 pub fn DomRenderer::new(@dom.Element) -> Self
-pub fn DomRenderer::render(Self, VNode) -> Unit
+pub fn DomRenderer::render(Self, VNode[(@core.Any) -> Unit]) -> Unit
 
-pub struct ElementNode {
+type Effect
+
+pub struct ElementNode[H] {
   tag : String
-  props : Array[(String, AttrValue)]
-  children : Array[VNode]
+  props : Array[(String, AttrValue[H])]
+  children : Array[VNode[H]]
   key : String?
 }
 
-type Patch
+type GlobalHooksStorage
 
-pub enum VNode {
-  Element(ElementNode)
+pub struct HooksState {
+  hooks : Array[@core.Any]
+  mut current_index : Int
+  mut effects : Array[Effect]
+}
+pub fn HooksState::new() -> Self
+pub fn HooksState::reset_index(Self) -> Unit
+pub fn HooksState::run_effects(Self) -> Unit
+
+pub struct MutRef[T] {
+  mut value : T?
+}
+pub fn[T] MutRef::get(Self[T]) -> T?
+pub fn[T] MutRef::new(T?) -> Self[T]
+pub fn[T] MutRef::set(Self[T], T?) -> Unit
+
+type Patch[H]
+
+pub enum VNode[H] {
+  Element(ElementNode[H])
   Text(String)
-  Component(ComponentNode)
-  Fragment(Array[VNode])
+  Component(ComponentNode[H])
+  Fragment(Array[VNode[H]])
   Empty
 }
-pub fn VNode::debug_string(Self) -> String
-pub fn VNode::get_key(Self) -> String?
-pub fn VNode::is_empty(Self) -> Bool
+pub fn[H] VNode::debug_string(Self[H]) -> String
+pub fn[H] VNode::get_key(Self[H]) -> String?
+pub fn[H] VNode::is_empty(Self[H]) -> Bool
 
 // Type aliases
 pub type EventHandler = (@core.Any) -> Unit
 
-pub type Props = Array[(String, AttrValue)]
+pub type JSAttrValue = AttrValue[(@core.Any) -> Unit]
+
+pub type JSElementNode = ElementNode[(@core.Any) -> Unit]
+
+pub type JSHandler = (@core.Any) -> Unit
+
+pub type JSProps = Array[(String, AttrValue[(@core.Any) -> Unit])]
+
+pub type JSVNode = VNode[(@core.Any) -> Unit]
+
+pub type Props[H] = Array[(String, AttrValue[H])]
 
 // Traits
 

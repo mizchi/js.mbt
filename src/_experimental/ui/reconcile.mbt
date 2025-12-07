@@ -2,27 +2,40 @@
 
 ///|
 
+///| The diff algorithm is generic over handler type H, but DOM operations
+
+///| are JS-specific and use JSHandler.
+
+///|
+
 ///|
 /// Patch operations - represents changes to apply to the DOM
-enum Patch {
-  CreateElement(VNode, @dom.Node, @dom.Node?) // vnode, parent, before
+/// Generic over handler type H for VNode compatibility
+enum Patch[H] {
+  CreateElement(VNode[H], @dom.Node, @dom.Node?) // vnode, parent, before
   RemoveNode(@dom.Node, @dom.Node) // node, parent
-  ReplaceNode(@dom.Node, VNode, @dom.Node) // old_node, new_vnode, parent
-  UpdateProps(@dom.Element, Props, Props) // element, old_props, new_props
+  ReplaceNode(@dom.Node, VNode[H], @dom.Node) // old_node, new_vnode, parent
+  UpdateProps(@dom.Element, Props[H], Props[H]) // element, old_props, new_props
   UpdateText(@dom.Text, String) // text_node, new_text
-  ReconcileChildren(@dom.Element, Array[VNode], Array[VNode], Array[@dom.Node]) // parent, old_vnodes, new_vnodes, old_dom_nodes
+  ReconcileChildren(
+    @dom.Element,
+    Array[VNode[H]],
+    Array[VNode[H]],
+    Array[@dom.Node]
+  ) // parent, old_vnodes, new_vnodes, old_dom_nodes
 }
 
 ///|
 
 ///|
 /// Diff two optional VNodes and generate patches
-pub fn diff(
-  old_vnode : VNode?,
-  new_vnode : VNode?,
+/// Generic over handler type H
+pub fn[H] diff(
+  old_vnode : VNode[H]?,
+  new_vnode : VNode[H]?,
   dom_node : @dom.Node?,
   parent : @dom.Node?,
-) -> Array[Patch] {
+) -> Array[Patch[H]] {
   match (old_vnode, new_vnode) {
     (None, Some(new_v)) =>
       // Create new node
@@ -50,7 +63,12 @@ pub fn diff(
 
 ///|
 /// Diff two non-null VNodes
-fn diff_nodes(old : VNode, new : VNode, dom_node : @dom.Node) -> Array[Patch] {
+/// Generic over handler type H
+fn[H] diff_nodes(
+  old : VNode[H],
+  new : VNode[H],
+  dom_node : @dom.Node,
+) -> Array[Patch[H]] {
   match (old, new) {
     (Empty, Empty) => []
     (Text(old_text), Text(new_text)) =>
@@ -114,7 +132,8 @@ fn diff_nodes(old : VNode, new : VNode, dom_node : @dom.Node) -> Array[Patch] {
 
 ///|
 /// Check if two props differ - uses compare_props from vdom.mbt
-fn props_differ(old_props : Props, new_props : Props) -> Bool {
+/// Generic over handler type H
+fn[H] props_differ(old_props : Props[H], new_props : Props[H]) -> Bool {
   not(compare_props(old_props, new_props))
 }
 
@@ -122,7 +141,8 @@ fn props_differ(old_props : Props, new_props : Props) -> Bool {
 
 ///|
 /// Apply an array of patches to the DOM
-pub fn apply_patches(patches : Array[Patch]) -> Unit {
+/// JS-specific: uses JSHandler for event handlers
+pub fn apply_patches(patches : Array[Patch[JSHandler]]) -> Unit {
   for patch in patches {
     apply_patch(patch)
   }
@@ -132,7 +152,8 @@ pub fn apply_patches(patches : Array[Patch]) -> Unit {
 
 ///|
 /// Apply a single patch to the DOM
-fn apply_patch(patch : Patch) -> Unit {
+/// JS-specific: uses JSHandler for event handlers
+fn apply_patch(patch : Patch[JSHandler]) -> Unit {
   match patch {
     CreateElement(vnode, parent, before) => {
       let dom_node = create_dom_node_from_vnode(vnode)
@@ -160,7 +181,8 @@ fn apply_patch(patch : Patch) -> Unit {
 
 ///|
 /// Create DOM node from VNode (imported from renderer_dom logic)
-fn create_dom_node_from_vnode(vnode : VNode) -> @dom.Node {
+/// JS-specific: uses JSHandler for event handlers
+fn create_dom_node_from_vnode(vnode : JSVNode) -> @dom.Node {
   match vnode {
     Empty => @dom.document().createTextNode("").as_node()
     Text(content) => @dom.document().createTextNode(content).as_node()
@@ -190,7 +212,8 @@ fn create_dom_node_from_vnode(vnode : VNode) -> @dom.Node {
 
 ///|
 /// Apply props to DOM element (using typed Props)
-fn apply_props_to_element(element : @dom.Element, props : Props) -> Unit {
+/// JS-specific: uses JSHandler for event handlers
+fn apply_props_to_element(element : @dom.Element, props : JSProps) -> Unit {
   for i = 0; i < props.length(); i = i + 1 {
     let (key, value) = props[i]
     match value {
@@ -225,10 +248,11 @@ fn apply_props_to_element(element : @dom.Element, props : Props) -> Unit {
 
 ///|
 /// Set event handler on element
+/// JS-specific: uses JSHandler = (@core.Any) -> Unit
 fn set_event_handler_on_element(
   element : @dom.Element,
   event_name : String,
-  handler : EventHandler,
+  handler : JSHandler,
 ) -> Unit {
   let event_type = if event_name.length() >= 2 {
     let mut result = ""
@@ -250,7 +274,7 @@ fn set_event_handler_on_element(
   } else {
     event_name
   }
-  // EventHandler is already (@core.Any) -> Unit, so we can cast it directly
+  // JSHandler is (@core.Any) -> Unit, so we can cast it directly
   let handler_any : @core.Any = @core.any(handler)
   element.as_event_target().addEventListener(event_type, handler_any.cast())
 }
@@ -274,10 +298,11 @@ fn apply_style_to_element(
 
 ///|
 /// Update DOM element props (remove old, add new)
+/// JS-specific: uses JSProps
 fn update_dom_props(
   element : @dom.Element,
-  old_props : Props,
-  new_props : Props,
+  old_props : JSProps,
+  new_props : JSProps,
 ) -> Unit {
   // Remove old props that are not in new props
   for i = 0; i < old_props.length(); i = i + 1 {
@@ -315,10 +340,11 @@ fn update_dom_props(
 
 ///|
 /// Reconcile children (simple non-keyed algorithm for now)
+/// JS-specific: uses JSVNode
 fn reconcile_children(
   parent : @dom.Element,
-  old_vnodes : Array[VNode],
-  new_vnodes : Array[VNode],
+  old_vnodes : Array[JSVNode],
+  new_vnodes : Array[JSVNode],
   old_dom_nodes : Array[@dom.Node],
 ) -> Unit {
   let old_len = old_vnodes.length()

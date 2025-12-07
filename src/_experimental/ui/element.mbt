@@ -1,10 +1,14 @@
-///| Element creation DSL
+///| Element creation DSL - Generic over handler type H
 
 ///|
 
 ///|
 /// Create element VNode - accepts Props type
-pub fn el(tag : String, props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] el(
+  tag : String,
+  props : Props[H],
+  children : Array[VNode[H]],
+) -> VNode[H] {
   VNode::Element(ElementNode::{ tag, props, children, key: None })
 }
 
@@ -12,121 +16,121 @@ pub fn el(tag : String, props : Props, children : Array[VNode]) -> VNode {
 
 ///|
 /// Create element with key
-pub fn el_key(
+pub fn[H] el_key(
   tag : String,
-  props : Props,
-  children : Array[VNode],
+  props : Props[H],
+  children : Array[VNode[H]],
   key : String,
-) -> VNode {
+) -> VNode[H] {
   VNode::Element(ElementNode::{ tag, props, children, key: Some(key) })
 }
 
 ///| Common HTML elements
 
 ///|
-pub fn div(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] div(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("div", props, children)
 }
 
 ///|
-pub fn span(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] span(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("span", props, children)
 }
 
 ///|
-pub fn p(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] p(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("p", props, children)
 }
 
 ///|
-pub fn button(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] button(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("button", props, children)
 }
 
 ///|
-pub fn a(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] a(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("a", props, children)
 }
 
 ///|
-pub fn input(props : Props) -> VNode {
+pub fn[H] input(props : Props[H]) -> VNode[H] {
   el("input", props, [])
 }
 
 ///|
-pub fn textarea(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] textarea(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("textarea", props, children)
 }
 
 ///|
-pub fn form(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] form(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("form", props, children)
 }
 
 ///|
-pub fn label(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] label(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("label", props, children)
 }
 
 ///|
-pub fn h1(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h1(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h1", props, children)
 }
 
 ///|
-pub fn h2(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h2(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h2", props, children)
 }
 
 ///|
-pub fn h3(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h3(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h3", props, children)
 }
 
 ///|
-pub fn h4(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h4(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h4", props, children)
 }
 
 ///|
-pub fn h5(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h5(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h5", props, children)
 }
 
 ///|
-pub fn h6(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] h6(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("h6", props, children)
 }
 
 ///|
-pub fn ul(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] ul(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("ul", props, children)
 }
 
 ///|
-pub fn ol(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] ol(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("ol", props, children)
 }
 
 ///|
-pub fn li(props : Props, children : Array[VNode]) -> VNode {
+pub fn[H] li(props : Props[H], children : Array[VNode[H]]) -> VNode[H] {
   el("li", props, children)
 }
 
 ///|
-pub fn img(props : Props) -> VNode {
+pub fn[H] img(props : Props[H]) -> VNode[H] {
   el("img", props, [])
 }
 
 ///|
 /// br with no props
-pub fn br() -> VNode {
+pub fn[H] br() -> VNode[H] {
   el("br", [], [])
 }
 
 ///|
 /// hr with no props
-pub fn hr() -> VNode {
+pub fn[H] hr() -> VNode[H] {
   el("hr", [], [])
 }
 
@@ -136,7 +140,7 @@ pub fn hr() -> VNode {
 
 ///|
 /// Create text node
-pub fn text(content : String) -> VNode {
+pub fn[H] text(content : String) -> VNode[H] {
   VNode::Text(content)
 }
 
@@ -144,7 +148,7 @@ pub fn text(content : String) -> VNode {
 
 ///|
 /// Create fragment
-pub fn fragment(children : Array[VNode]) -> VNode {
+pub fn[H] fragment(children : Array[VNode[H]]) -> VNode[H] {
   VNode::Fragment(children)
 }
 
@@ -152,6 +156,6 @@ pub fn fragment(children : Array[VNode]) -> VNode {
 
 ///|
 /// Empty node (renders nothing)
-pub fn empty() -> VNode {
+pub fn[H] empty() -> VNode[H] {
   VNode::Empty
 }

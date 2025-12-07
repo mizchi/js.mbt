@@ -161,3 +161,46 @@ test "render fragment with mixed content" {
   )
   inspect(html, content="Before<div>Middle</div>After")
 }
+
+///| State serialization tests
+
+///|
+test "render_to_string_with_state: embeds serialized hooks state" {
+  let hooks_state = HooksState::new()
+  set_current_hooks_state(Some(hooks_state))
+
+  // Create some state
+  let (_, _) : (Int, (Int) -> Unit) = use_state(42)
+  let (_, _) : (String, (String) -> Unit) = use_state("hello")
+
+  // Render with state
+  let vnode : JSVNode = div([], [text("Content")])
+  let html = render_to_string_with_state(vnode, hooks_state)
+
+  // Check that HTML contains both content and state script
+  inspect(html.contains("<div>Content</div>"), content="true")
+  inspect(
+    html.contains("<script type=\"application/json\" data-hooks-state>"),
+    content="true",
+  )
+  inspect(html.contains("[42,&quot;hello&quot;]"), content="false")
+  set_current_hooks_state(None)
+}
+
+///|
+test "extract_state_from_html: extracts serialized state" {
+  let html = "<div>Content</div><script type=\"application/json\" data-hooks-state>[1,&quot;test&quot;]</script>"
+  match extract_state_from_html(html) {
+    Some(state_json) => inspect(state_json, content="[1,&quot;test&quot;]")
+    None => inspect(false, content="false")
+  }
+}
+
+///|
+test "extract_state_from_html: returns None when no state found" {
+  let html = "<div>Content</div>"
+  match extract_state_from_html(html) {
+    Some(_) => inspect(false, content="true")
+    None => inspect(true, content="true")
+  }
+}

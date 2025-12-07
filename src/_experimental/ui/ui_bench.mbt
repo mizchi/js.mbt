@@ -1,6 +1,9 @@
 ///| UI Library Benchmarks
+
 ///|
+
 ///| This file contains performance benchmarks for the UI library,
+
 ///| measuring VNode creation, Props manipulation, and Context API operations.
 
 // =============================================================================
@@ -10,37 +13,41 @@
 ///|
 /// Benchmark: Create simple text node
 test "bench: create text node" (b : @bench.T) {
-  b.bench(fn() { b.keep(text("Hello, World!")) })
+  b.bench(fn() { b.keep((text("Hello, World!") : JSVNode)) })
 }
 
 ///|
 /// Benchmark: Create simple element (div with no props, no children)
 test "bench: create empty div" (b : @bench.T) {
-  b.bench(fn() { b.keep(div([], [])) })
+  b.bench(fn() { b.keep((div([], []) : JSVNode)) })
 }
 
 ///|
 /// Benchmark: Create element with single text child
 test "bench: create div with text" (b : @bench.T) {
-  b.bench(fn() { b.keep(div([], [text("Hello")])) })
+  b.bench(fn() { b.keep((div([], [text("Hello")]) : JSVNode)) })
 }
 
 ///|
 /// Benchmark: Create element with multiple text children
 test "bench: create div with 3 text children" (b : @bench.T) {
-  b.bench(fn() { b.keep(div([], [text("Hello"), text(", "), text("World!")])) })
+  b.bench(fn() {
+    b.keep((div([], [text("Hello"), text(", "), text("World!")]) : JSVNode))
+  })
 }
 
 ///|
 /// Benchmark: Create nested elements (2 levels)
 test "bench: create nested elements (2 levels)" (b : @bench.T) {
-  b.bench(fn() { b.keep(div([], [div([], [text("Nested")])])) })
+  b.bench(fn() { b.keep((div([], [div([], [text("Nested")])]) : JSVNode)) })
 }
 
 ///|
 /// Benchmark: Create nested elements (3 levels)
 test "bench: create nested elements (3 levels)" (b : @bench.T) {
-  b.bench(fn() { b.keep(div([], [div([], [div([], [text("Deep nested")])])])) })
+  b.bench(fn() {
+    b.keep((div([], [div([], [div([], [text("Deep nested")])])]) : JSVNode))
+  })
 }
 
 ///|
@@ -48,42 +55,26 @@ test "bench: create nested elements (3 levels)" (b : @bench.T) {
 test "bench: create complex component tree" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      div(
-        [class_name("app")],
-        [
+      (
+        div([class_name("app")], [
           // Header
-          el(
-            "header",
-            [],
-            [
-              el(
-                "nav",
-                [],
-                [
-                  el(
-                    "ul",
-                    [],
-                    [
-                      el("li", [], [el("a", [], [text("Home")])]),
-                      el("li", [], [el("a", [], [text("About")])]),
-                      el("li", [], [el("a", [], [text("Contact")])]),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+          el("header", [], [
+            el("nav", [], [
+              el("ul", [], [
+                el("li", [], [el("a", [], [text("Home")])]),
+                el("li", [], [el("a", [], [text("About")])]),
+                el("li", [], [el("a", [], [text("Contact")])]),
+              ]),
+            ]),
+          ]),
           // Main content
-          el(
-            "main",
-            [],
-            [
-              el("h1", [], [text("Welcome")]),
-              el("p", [], [text("This is a complex component tree for benchmarking.")]),
-            ],
-          ),
-        ],
-      ),
+          el("main", [], [
+            el("h1", [], [text("Welcome")]),
+            el("p", [], [
+              text("This is a complex component tree for benchmarking."),
+            ]),
+          ]),
+        ]) : JSVNode),
     )
   })
 }
@@ -93,13 +84,14 @@ test "bench: create complex component tree" (b : @bench.T) {
 test "bench: create fragment with 5 children" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      fragment([
-        div([], [text("Child 1")]),
-        div([], [text("Child 2")]),
-        div([], [text("Child 3")]),
-        div([], [text("Child 4")]),
-        div([], [text("Child 5")]),
-      ]),
+      (
+        fragment([
+          div([], [text("Child 1")]),
+          div([], [text("Child 2")]),
+          div([], [text("Child 3")]),
+          div([], [text("Child 4")]),
+          div([], [text("Child 5")]),
+        ]) : JSVNode),
     )
   })
 }
@@ -109,10 +101,8 @@ test "bench: create fragment with 5 children" (b : @bench.T) {
 test "bench: create list of 10 items" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      el(
-        "ul",
-        [],
-        [
+      (
+        el("ul", [], [
           el("li", [], [text("Item 1")]),
           el("li", [], [text("Item 2")]),
           el("li", [], [text("Item 3")]),
@@ -123,8 +113,7 @@ test "bench: create list of 10 items" (b : @bench.T) {
           el("li", [], [text("Item 8")]),
           el("li", [], [text("Item 9")]),
           el("li", [], [text("Item 10")]),
-        ],
-      ),
+        ]) : JSVNode),
     )
   })
 }
@@ -136,20 +125,20 @@ test "bench: create list of 10 items" (b : @bench.T) {
 ///|
 /// Benchmark: Create empty props
 test "bench: create empty props" (b : @bench.T) {
-  b.bench(fn() { b.keep([]) })
+  b.bench(fn() { b.keep(([] : JSProps)) })
 }
 
 ///|
 /// Benchmark: Create props with 1 property
 test "bench: create props with 1 property" (b : @bench.T) {
-  b.bench(fn() { b.keep([class_name("button")]) })
+  b.bench(fn() { b.keep(([class_name("button")] : JSProps)) })
 }
 
 ///|
 /// Benchmark: Create props with 3 properties
 test "bench: create props with 3 properties" (b : @bench.T) {
   b.bench(fn() {
-    b.keep([class_name("button"), id("submit"), disabled(false)])
+    b.keep(([class_name("button"), id("submit"), disabled(false)] : JSProps))
   })
 }
 
@@ -157,13 +146,16 @@ test "bench: create props with 3 properties" (b : @bench.T) {
 /// Benchmark: Create props with 5 properties
 test "bench: create props with 5 properties" (b : @bench.T) {
   b.bench(fn() {
-    b.keep([
-      class_name("button"),
-      id("submit"),
-      disabled(false),
-      type_("submit"),
-      attr("aria-label", "Submit form"),
-    ])
+    b.keep(
+      (
+        [
+          class_name("button"),
+          id("submit"),
+          disabled(false),
+          type_("submit"),
+          attr("aria-label", "Submit form"),
+        ] : JSProps),
+    )
   })
 }
 
@@ -171,36 +163,42 @@ test "bench: create props with 5 properties" (b : @bench.T) {
 /// Benchmark: Create props with 10 properties
 test "bench: create props with 10 properties" (b : @bench.T) {
   b.bench(fn() {
-    b.keep([
-      class_name("button"),
-      id("submit"),
-      disabled(false),
-      type_("submit"),
-      attr("aria-label", "Submit form"),
-      data_("data-action", "submit"),
-      data_("data-test-id", "submit-btn"),
-      attr("role", "button"),
-      tab_index(0),
-      name("submit-button"),
-    ])
+    b.keep(
+      (
+        [
+          class_name("button"),
+          id("submit"),
+          disabled(false),
+          type_("submit"),
+          attr("aria-label", "Submit form"),
+          data_("data-action", "submit"),
+          data_("data-test-id", "submit-btn"),
+          attr("role", "button"),
+          tab_index(0),
+          name("submit-button"),
+        ] : JSProps),
+    )
   })
 }
 
 ///|
 /// Benchmark: Create props with event handler
 test "bench: create props with onClick" (b : @bench.T) {
-  b.bench(fn() { b.keep([on_click(fn(_evt) { () })]) })
+  b.bench(fn() { b.keep(([on_click(fn(_evt : @core.Any) { () })] : JSProps)) })
 }
 
 ///|
 /// Benchmark: Create props with multiple event handlers
 test "bench: create props with 3 event handlers" (b : @bench.T) {
   b.bench(fn() {
-    b.keep([
-      on_click(fn(_evt) { () }),
-      on_mouse_enter(fn(_evt) { () }),
-      on_mouse_leave(fn(_evt) { () }),
-    ])
+    b.keep(
+      (
+        [
+          on_click(fn(_evt : @core.Any) { () }),
+          on_mouse_enter(fn(_evt : @core.Any) { () }),
+          on_mouse_leave(fn(_evt : @core.Any) { () }),
+        ] : JSProps),
+    )
   })
 }
 
@@ -281,10 +279,15 @@ test "bench: 5 independent contexts" (b : @bench.T) {
 test "bench: realistic button component" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      button(
-        [class_name("btn btn-primary"), id("submit-btn"), on_click(fn(_evt) { () })],
-        [text("Submit")],
-      ),
+      (
+        button(
+          [
+            class_name("btn btn-primary"),
+            id("submit-btn"),
+            on_click(fn(_evt : @core.Any) { () }),
+          ],
+          [text("Submit")],
+        ) : JSVNode),
     )
   })
 }
@@ -294,14 +297,18 @@ test "bench: realistic button component" (b : @bench.T) {
 test "bench: realistic form component" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      form(
-        [on_submit(fn(_evt) { () })],
-        [
-          div([], [label([], [text("Name:")]), input([type_("text"), id("name")])]),
-          div([], [label([], [text("Email:")]), input([type_("email"), id("email")])]),
+      (
+        form([on_submit(fn(_evt : @core.Any) { () })], [
+          div([], [
+            label([], [text("Name:")]),
+            input([type_("text"), id("name")]),
+          ]),
+          div([], [
+            label([], [text("Email:")]),
+            input([type_("email"), id("email")]),
+          ]),
           button([type_("submit")], [text("Submit")]),
-        ],
-      ),
+        ]) : JSVNode),
     )
   })
 }
@@ -311,23 +318,17 @@ test "bench: realistic form component" (b : @bench.T) {
 test "bench: realistic card component" (b : @bench.T) {
   b.bench(fn() {
     b.keep(
-      div(
-        [class_name("card")],
-        [
+      (
+        div([class_name("card")], [
           div([class_name("card-header")], [h3([], [text("Card Title")])]),
-          div(
-            [class_name("card-body")],
-            [p([], [text("This is the card content with some text.")])],
-          ),
-          div(
-            [class_name("card-footer")],
-            [
-              button([class_name("btn btn-primary")], [text("Action")]),
-              button([class_name("btn btn-secondary")], [text("Cancel")]),
-            ],
-          ),
-        ],
-      ),
+          div([class_name("card-body")], [
+            p([], [text("This is the card content with some text.")]),
+          ]),
+          div([class_name("card-footer")], [
+            button([class_name("btn btn-primary")], [text("Action")]),
+            button([class_name("btn btn-secondary")], [text("Cancel")]),
+          ]),
+        ]) : JSVNode),
     )
   })
 }

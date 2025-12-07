@@ -1,12 +1,15 @@
 ///| DOM Renderer - Render VNode to actual DOM
 
+///| JS-specific: uses JSVNode and JSHandler
+
 ///|
 
 ///|
 /// DOM Renderer - manages rendering VNode to container element
+/// JS-specific: uses JSVNode
 pub struct DomRenderer {
   container : @dom.Element
-  mut root_vnode : VNode?
+  mut root_vnode : JSVNode?
   mut root_node : @dom.Node?
 }
 
@@ -22,7 +25,7 @@ pub fn DomRenderer::new(container : @dom.Element) -> DomRenderer {
 
 ///|
 /// Render VNode to container (Phase 4: Uses reconciliation for updates)
-pub fn DomRenderer::render(self : DomRenderer, vnode : VNode) -> Unit {
+pub fn DomRenderer::render(self : DomRenderer, vnode : JSVNode) -> Unit {
   match self.root_vnode {
     None => {
       // Initial render - create new DOM tree
@@ -61,8 +64,83 @@ pub fn DomRenderer::render(self : DomRenderer, vnode : VNode) -> Unit {
 ///|
 
 ///|
+/// Hydrate existing server-rendered DOM with VNode
+/// Reuses existing DOM nodes and attaches event handlers
+pub fn DomRenderer::hydrate(self : DomRenderer, vnode : JSVNode) -> Unit {
+  // Get first child of container (SSR content)
+  let first_child = self.container.as_node().firstChild()
+  match first_child {
+    Some(dom_node) => {
+      // Hydrate the existing DOM tree
+      let success = hydrate_node(vnode, dom_node)
+      if success {
+        // Hydration succeeded
+        self.root_vnode = Some(vnode)
+        self.root_node = Some(dom_node)
+      } else {
+        // Hydration failed - fallback to full render
+        console_warn(
+          "Hydration failed - falling back to client-side render. This may cause content flash.",
+        )
+        self.container.as_node().setTextContent("")
+        self.render(vnode)
+      }
+    }
+    None =>
+      // No SSR content - fallback to regular render
+      self.render(vnode)
+  }
+}
+
+///|
+
+///|
+/// Hydrate with serialized hooks state (Qwik-like resumability)
+/// Extracts and restores state from embedded script tag
+/// JavaScript backend only (uses JSON deserialization)
+pub fn DomRenderer::hydrate_with_state(
+  self : DomRenderer,
+  vnode : JSVNode,
+  hooks_state : HooksState,
+) -> Unit {
+  // Get container's innerHTML to extract state
+  let container_html : String = self.container.as_any()._get("innerHTML").cast()
+
+  // Extract and restore state if found
+  match extract_state_from_html(container_html) {
+    Some(state_json) => {
+      // Restore hooks state (JavaScript backend)
+      hooks_state.restore_from_json(state_json)
+
+      // Remove the state script tag from DOM
+      remove_state_script(self.container)
+    }
+    None => ()
+  }
+
+  // Proceed with normal hydration
+  self.hydrate(vnode)
+}
+
+///|
+
+///|
+/// Remove state script tag from container
+fn remove_state_script(container : @dom.Element) -> Unit {
+  // Find and remove script tag with data-hooks-state
+  let scripts = container.querySelectorAll("script[data-hooks-state]")
+  for i = 0; i < scripts.length(); i = i + 1 {
+    let script = scripts[i]
+    container.as_node().removeChild(script.as_node()) |> ignore
+  }
+}
+
+///|
+
+///|
 /// Create DOM node from VNode
-fn create_dom_node(vnode : VNode) -> @dom.Node {
+/// JS-specific: uses JSVNode
+fn create_dom_node(vnode : JSVNode) -> @dom.Node {
   match vnode {
     Empty => @dom.document().createTextNode("").as_node()
     Text(content) => @dom.document().createTextNode(content).as_node()
@@ -92,7 +170,8 @@ fn create_dom_node(vnode : VNode) -> @dom.Node {
 
 ///|
 /// Apply props to DOM element (using typed Props)
-fn apply_props(element : @dom.Element, props : Props) -> Unit {
+/// JS-specific: uses JSProps
+fn apply_props(element : @dom.Element, props : JSProps) -> Unit {
   for i = 0; i < props.length(); i = i + 1 {
     let (key, value) = props[i]
     match value {
@@ -127,10 +206,11 @@ fn apply_props(element : @dom.Element, props : Props) -> Unit {
 
 ///|
 /// Set event handler on element
+/// JS-specific: uses JSHandler
 fn set_event_handler(
   element : @dom.Element,
   event_name : String,
-  handler : EventHandler,
+  handler : JSHandler,
 ) -> Unit {
   // Convert "onClick" to "click", "onChange" to "change"
   // Simply lowercase the entire event name after removing "on" prefix
@@ -175,4 +255,229 @@ fn apply_style(
     let (key, value) = styles[i]
     style_prop._set(key, @core.any(value)) |> ignore
   }
+}
+
+///|
+
+///|
+/// Hydration mismatch error types
+priv enum HydrationError {
+  TagMismatch(String, String) // (expected, actual)
+  TextMismatch(String, String) // (expected, actual)
+  NodeTypeMismatch(String, Int) // (expected, actual)
+  ChildCountMismatch(Int, Int) // (expected, actual)
+  MissingNode
+}
+
+///|
+
+///|
+/// Call console.warn from JavaScript
+fn console_warn(message : String) -> Unit = "console" "warn"
+
+///|
+
+///|
+/// Log hydration warning (dev mode only)
+fn warn_hydration_mismatch(error : HydrationError, path : String) -> Unit {
+  // In production, you might want to disable this or use a proper logger
+  let message = match error {
+    TagMismatch(expected, actual) =>
+      "Hydration mismatch at '\{path}': expected tag '\{expected}', got '\{actual}'"
+    TextMismatch(expected, actual) =>
+      "Hydration mismatch at '\{path}': expected text '\{expected}', got '\{actual}'"
+    NodeTypeMismatch(expected, actual) =>
+      "Hydration mismatch at '\{path}': expected node type '\{expected}', got type \{actual}"
+    ChildCountMismatch(expected, actual) =>
+      "Hydration mismatch at '\{path}': expected \{expected} children, got \{actual}"
+    MissingNode =>
+      "Hydration mismatch at '\{path}': expected DOM node, but none found"
+  }
+  // Use console.warn
+  console_warn(message)
+}
+
+///|
+
+///|
+/// Hydrate a VNode with an existing DOM node
+/// Reuses the DOM structure and only attaches event handlers
+/// Returns true if hydration succeeded, false if recovery needed
+fn hydrate_node(vnode : JSVNode, dom_node : @dom.Node) -> Bool {
+  hydrate_node_with_path(vnode, dom_node, "root")
+}
+
+///|
+
+///|
+/// Hydrate with path tracking for better error messages
+fn hydrate_node_with_path(
+  vnode : JSVNode,
+  dom_node : @dom.Node,
+  path : String,
+) -> Bool {
+  match vnode {
+    Empty => {
+      // Empty node should be an empty text node
+      let node_type = dom_node.nodeType()
+      if node_type != 3 {
+        // Not a text node
+        warn_hydration_mismatch(NodeTypeMismatch("TEXT_NODE", node_type), path)
+        return false
+      }
+      true
+    }
+    Text(content) => {
+      // Verify it's a text node
+      let node_type = dom_node.nodeType()
+      if node_type != 3 {
+        // Not a text node - type mismatch
+        warn_hydration_mismatch(NodeTypeMismatch("TEXT_NODE", node_type), path)
+        return false
+      }
+
+      // Verify text content matches
+      let actual_text = dom_node.textContent()
+      if actual_text != content {
+        warn_hydration_mismatch(TextMismatch(content, actual_text), path)
+        // Still recoverable - update text content
+        dom_node.setTextContent(content)
+      }
+      true
+    }
+    Element({ tag, props, children, .. }) => {
+      // Verify it's an element node
+      let node_type = dom_node.nodeType()
+      if node_type != 1 {
+        // Not an element node
+        warn_hydration_mismatch(
+          NodeTypeMismatch("ELEMENT_NODE", node_type),
+          path,
+        )
+        return false
+      }
+
+      // Verify tag name matches
+      let node_name = dom_node.nodeName()
+      let expected_name = to_uppercase(tag)
+      if node_name != expected_name {
+        warn_hydration_mismatch(TagMismatch(expected_name, node_name), path)
+        // Tag mismatch is critical - cannot recover safely
+        return false
+      }
+
+      // Apply props (especially event handlers which SSR skips)
+      let element : @dom.Element = dom_node.as_any().cast()
+      apply_props(element, props)
+
+      // Hydrate children
+      let child_nodes = dom_node.childNodes()
+      let expected_count = children.length()
+      let actual_count = child_nodes.length()
+
+      // Warn if child count differs
+      if expected_count != actual_count {
+        warn_hydration_mismatch(
+          ChildCountMismatch(expected_count, actual_count),
+          path,
+        )
+      }
+
+      // Hydrate existing children and track success
+      let mut all_success = true
+      for i = 0; i < children.length(); i = i + 1 {
+        let child_vnode = children[i]
+        let child_path = path + "[" + i.to_string() + "]"
+        if i < child_nodes.length() {
+          let child_node = child_nodes[i]
+          let success = hydrate_node_with_path(
+            child_vnode, child_node, child_path,
+          )
+          if not(success) {
+            // Child hydration failed - replace it
+            let new_child = create_dom_node(child_vnode)
+            dom_node.replaceChild(new_child, child_node) |> ignore
+            all_success = false
+          }
+        } else {
+          // Missing child - create and append
+          warn_hydration_mismatch(MissingNode, child_path)
+          let new_child = create_dom_node(child_vnode)
+          dom_node.appendChild(new_child) |> ignore
+          all_success = false
+        }
+      }
+
+      // Remove extra DOM children if VNode has fewer children
+      if actual_count > expected_count {
+        for i = expected_count; i < actual_count; i = i + 1 {
+          // Remove from the end backwards to avoid index shifts
+          let last_child = dom_node.lastChild()
+          match last_child {
+            Some(child) => dom_node.removeChild(child) |> ignore
+            None => ()
+          }
+        }
+      }
+      all_success
+    }
+    Fragment(children) => {
+      // For fragments, hydrate children with sibling nodes
+      let child_nodes = dom_node.childNodes()
+      let expected_count = children.length()
+      let actual_count = child_nodes.length()
+
+      // Warn if child count differs
+      if expected_count != actual_count {
+        warn_hydration_mismatch(
+          ChildCountMismatch(expected_count, actual_count),
+          path,
+        )
+      }
+      let mut all_success = true
+      for i = 0; i < children.length(); i = i + 1 {
+        let child_vnode = children[i]
+        let child_path = path + "[" + i.to_string() + "]"
+        if i < child_nodes.length() {
+          let child_node = child_nodes[i]
+          let success = hydrate_node_with_path(
+            child_vnode, child_node, child_path,
+          )
+          if not(success) {
+            // Child hydration failed - replace it
+            let new_child = create_dom_node(child_vnode)
+            dom_node.replaceChild(new_child, child_node) |> ignore
+            all_success = false
+          }
+        } else {
+          // Missing child - create and append
+          warn_hydration_mismatch(MissingNode, child_path)
+          let new_child = create_dom_node(child_vnode)
+          dom_node.appendChild(new_child) |> ignore
+          all_success = false
+        }
+      }
+      all_success
+    }
+    Component(_) =>
+      abort("Components must be rendered to VNode before hydration")
+  }
+}
+
+///|
+
+///|
+/// Convert string to uppercase (helper for tag name comparison)
+fn to_uppercase(s : String) -> String {
+  let mut result = ""
+  let iter = s.iter()
+  for char in iter {
+    let upper_char = if char >= 'a' && char <= 'z' {
+      (char.to_int() - 32).unsafe_to_char()
+    } else {
+      char
+    }
+    result = result + upper_char.to_string()
+  }
+  result
 }

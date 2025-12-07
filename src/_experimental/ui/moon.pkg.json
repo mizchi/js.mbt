@@ -6,7 +6,8 @@
     "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/web/event",
-    "mizchi/js/builtins/global"
+    "mizchi/js/builtins/global",
+    "mizchi/js/builtins/json"
   ],
   "test-import": [
     "mizchi/js/npm/global_jsdom"

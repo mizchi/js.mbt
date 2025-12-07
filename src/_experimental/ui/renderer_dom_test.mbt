@@ -224,7 +224,7 @@ test "render complex nested structure" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
   let container_props = [class_name("container")]
   let button_props = [class_name("btn")]
   renderer.render(
@@ -247,7 +247,7 @@ test "render list with fragments" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
   let items = fragment([
     li(empty_props, [text("Item 1")]),
     li(empty_props, [text("Item 2")]),
@@ -325,7 +325,7 @@ test "reconciliation: add child elements" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render with 1 child
   renderer.render(ul(empty_props, [li(empty_props, [text("Item 1")])]))
@@ -350,7 +350,7 @@ test "reconciliation: remove child elements" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render with 3 children
   renderer.render(
@@ -375,7 +375,7 @@ test "reconciliation: replace element type" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render with div
   renderer.render(div(empty_props, [text("content")]))
@@ -398,7 +398,7 @@ test "reconciliation: nested structure updates" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render
   renderer.render(
@@ -457,7 +457,7 @@ test "reconciliation: add attributes" {
   let renderer = DomRenderer::new(container)
 
   // Initial render without attributes
-  let props1 : Props = []
+  let props1 : JSProps = []
   renderer.render(div(props1, [text("content")]))
   let elem1 = container.querySelector("div").unwrap()
   assert_eq(elem1.hasAttribute("title"), false)
@@ -488,7 +488,7 @@ test "reconciliation: remove attributes" {
   assert_eq(elem1.hasAttribute("data-test"), true)
 
   // Remove attributes
-  let props2 : Props = []
+  let props2 : JSProps = []
   renderer.render(div(props2, [text("content")]))
   let elem2 = container.querySelector("div").unwrap()
   assert_eq(elem2.hasAttribute("title"), false)
@@ -503,7 +503,7 @@ test "reconciliation: update boolean attributes" {
   let renderer = DomRenderer::new(container)
 
   // Initial render without disabled
-  let props1 : Props = []
+  let props1 : JSProps = []
   renderer.render(input(props1))
   let input1 = container.querySelector("input").unwrap()
   assert_eq(input1.hasAttribute("disabled"), false)
@@ -553,7 +553,7 @@ test "reconciliation: deep nested partial update" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render with deep nesting
   renderer.render(
@@ -594,7 +594,7 @@ test "reconciliation: multiple consecutive updates" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Update 1
   renderer.render(div(empty_props, [text("Step 1")]))
@@ -625,7 +625,7 @@ test "reconciliation: mixed updates (props + children)" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render
   let props1 = [class_name("old")]
@@ -656,7 +656,7 @@ test "reconciliation: empty node handling" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render with empty
   renderer.render(div(empty_props, [empty()]))
@@ -681,7 +681,7 @@ test "reconciliation: reorder children (non-keyed)" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial order: A, B, C
   renderer.render(
@@ -714,7 +714,7 @@ test "reconciliation: complex real-world scenario" {
   let doc = @dom.document()
   let container = doc.createElement("div")
   let renderer = DomRenderer::new(container)
-  let empty_props : Props = []
+  let empty_props : JSProps = []
 
   // Initial render: Login form
   let form_props1 = [class_name("login-form")]
@@ -774,4 +774,372 @@ test "reconciliation: complex real-world scenario" {
     container.querySelector("button").unwrap().hasAttribute("disabled"),
     false,
   )
+}
+
+///| Hydration tests
+
+///|
+test "hydration: simple text node" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // Set SSR content
+  let ssr_html = render_to_string(text("Hello from SSR"))
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(text("Hello from SSR"))
+
+  // Verify content is preserved
+  inspect(container.as_node().textContent(), content="Hello from SSR")
+}
+
+///|
+test "hydration: simple div with text" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // Create VNode
+  let vnode : JSVNode = div([], [text("SSR Content")])
+
+  // Set SSR content
+  let ssr_html = render_to_string(vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(vnode)
+
+  // Verify content is preserved
+  let html : String = container.as_any()._get("innerHTML").cast()
+  inspect(html, content="<div>SSR Content</div>")
+}
+
+///|
+test "hydration: nested elements" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // Create VNode
+  let vnode : JSVNode = div(empty_props, [
+    h1(empty_props, [text("Title")]),
+    p(empty_props, [text("Paragraph")]),
+  ])
+
+  // Set SSR content
+  let ssr_html = render_to_string(vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(vnode)
+
+  // Verify structure is preserved
+  inspect(container.querySelectorAll("h1").length(), content="1")
+  inspect(container.querySelectorAll("p").length(), content="1")
+  inspect(container.as_node().textContent(), content="TitleParagraph")
+}
+
+///|
+test "hydration: attach event handler" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // SSR doesn't include event handlers
+  let ssr_vnode : JSVNode = button([class_name("btn")], [text("Click")])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with event handler
+  let mut clicked = false
+  let hydrate_vnode : JSVNode = button(
+    [class_name("btn"), on_click(fn(_event : @core.Any) { clicked = true })],
+    [text("Click")],
+  )
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Verify structure is preserved
+  let html : String = container.as_any()._get("innerHTML").cast()
+  inspect(html, content="<button class=\"btn\">Click</button>")
+
+  // Verify event handler works
+  let btn = container.querySelector("button").unwrap()
+  let event = doc.createEvent("Event")
+  event
+  .as_any()
+  ._call("initEvent", [@core.any("click"), @core.any(false), @core.any(false)])
+  |> ignore
+  btn.as_event_target().dispatchEvent(event.as_event()) |> ignore
+
+  // Check that handler was called
+  assert_eq(clicked, true)
+}
+
+///|
+test "hydration: complex structure with props" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // Create complex VNode
+  let ssr_vnode : JSVNode = div([class_name("app")], [
+    h1([id("title")], [text("App Title")]),
+    div([class_name("content")], [
+      p(empty_props, [text("First paragraph")]),
+      p(empty_props, [text("Second paragraph")]),
+    ]),
+  ])
+
+  // Set SSR content
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with event handlers
+  let mut clicked = false
+  let hydrate_vnode : JSVNode = div(
+    [class_name("app"), on_click(fn(_event : @core.Any) { clicked = true })],
+    [
+      h1([id("title")], [text("App Title")]),
+      div([class_name("content")], [
+        p(empty_props, [text("First paragraph")]),
+        p(empty_props, [text("Second paragraph")]),
+      ]),
+    ],
+  )
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Verify structure
+  inspect(container.querySelectorAll("div").length(), content="2")
+  inspect(container.querySelectorAll("h1").length(), content="1")
+  inspect(container.querySelectorAll("p").length(), content="2")
+
+  // Verify event handler on root div
+  let root_div = container.querySelector("div").unwrap()
+  let event = doc.createEvent("Event")
+  event
+  .as_any()
+  ._call("initEvent", [@core.any("click"), @core.any(false), @core.any(false)])
+  |> ignore
+  root_div.as_event_target().dispatchEvent(event.as_event()) |> ignore
+  assert_eq(clicked, true)
+}
+
+///|
+test "hydration: fallback to render when no SSR content" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // No SSR content - container is empty
+  let vnode : JSVNode = div([], [text("Client content")])
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(vnode)
+
+  // Should fallback to regular render
+  let html : String = container.as_any()._get("innerHTML").cast()
+  inspect(html, content="<div>Client content</div>")
+}
+
+///|
+test "hydration: with style attributes" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // Create VNode with style
+  let vnode : JSVNode = div([style([("color", "red"), ("fontSize", "16px")])], [
+    text("Styled"),
+  ])
+
+  // Set SSR content
+  let ssr_html = render_to_string(vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(vnode)
+
+  // Verify style is preserved/applied
+  let div_elem = container.querySelector("div").unwrap()
+  let style_obj : @core.Any = div_elem.as_any()._get("style")
+  let color : String = style_obj._get("color").cast()
+  let font_size : String = style_obj._get("fontSize").cast()
+  inspect(color, content="red")
+  inspect(font_size, content="16px")
+}
+
+///| Hydration mismatch detection tests
+
+///|
+test "hydration mismatch: tag name mismatch triggers re-render" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // SSR with <span>
+  let ssr_vnode : JSVNode = span([], [text("Content")])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with <div> (tag mismatch)
+  let hydrate_vnode : JSVNode = div([], [text("Content")])
+  let renderer = DomRenderer::new(container)
+
+  // Should trigger warning and re-render
+  renderer.hydrate(hydrate_vnode)
+
+  // After hydration, should have div (re-rendered)
+  let html : String = container.as_any()._get("innerHTML").cast()
+  inspect(html, content="<div>Content</div>")
+}
+
+///|
+test "hydration mismatch: text content mismatch is auto-fixed" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+
+  // SSR with "Old Text"
+  let ssr_html = render_to_string(text("Old Text"))
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with "New Text"
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(text("New Text"))
+
+  // Text should be updated
+  inspect(container.as_node().textContent(), content="New Text")
+}
+
+///|
+test "hydration mismatch: child count - extra VNode children added" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // SSR with 2 children
+  let ssr_vnode : JSVNode = div(empty_props, [
+    span(empty_props, [text("Child 1")]),
+    span(empty_props, [text("Child 2")]),
+  ])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with 3 children (one extra)
+  let hydrate_vnode : JSVNode = div(empty_props, [
+    span(empty_props, [text("Child 1")]),
+    span(empty_props, [text("Child 2")]),
+    span(empty_props, [text("Child 3")]),
+  ])
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Should have 3 children after hydration
+  inspect(container.querySelectorAll("span").length(), content="3")
+  inspect(container.as_node().textContent(), content="Child 1Child 2Child 3")
+}
+
+///|
+test "hydration mismatch: child count - extra DOM children removed" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // SSR with 3 children
+  let ssr_vnode : JSVNode = div(empty_props, [
+    span(empty_props, [text("Child 1")]),
+    span(empty_props, [text("Child 2")]),
+    span(empty_props, [text("Child 3")]),
+  ])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with only 2 children
+  let hydrate_vnode : JSVNode = div(empty_props, [
+    span(empty_props, [text("Child 1")]),
+    span(empty_props, [text("Child 2")]),
+  ])
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Should have only 2 children after hydration
+  inspect(container.querySelectorAll("span").length(), content="2")
+  inspect(container.as_node().textContent(), content="Child 1Child 2")
+}
+
+///|
+test "hydration mismatch: nested child tag mismatch triggers replacement" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // SSR with nested <span>
+  let ssr_vnode : JSVNode = div(empty_props, [
+    h1(empty_props, [text("Title")]),
+    span(empty_props, [text("Content")]),
+  ])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with <p> instead of <span>
+  let hydrate_vnode : JSVNode = div(empty_props, [
+    h1(empty_props, [text("Title")]),
+    p(empty_props, [text("Content")]),
+  ])
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Should replace span with p
+  inspect(container.querySelectorAll("h1").length(), content="1")
+  inspect(container.querySelectorAll("span").length(), content="0")
+  inspect(container.querySelectorAll("p").length(), content="1")
+  inspect(container.as_node().textContent(), content="TitleContent")
+}
+
+///|
+test "hydration mismatch: complex scenario with multiple mismatches" {
+  @global_jsdom.register()
+  let doc = @dom.document()
+  let container = doc.createElement("div")
+  let empty_props : JSProps = []
+
+  // SSR structure
+  let ssr_vnode : JSVNode = div([class_name("app")], [
+    h1(empty_props, [text("Old Title")]),
+    p(empty_props, [text("Paragraph")]),
+  ])
+  let ssr_html = render_to_string(ssr_vnode)
+  container.as_any()._set("innerHTML", @core.any(ssr_html)) |> ignore
+
+  // Hydrate with different structure
+  let hydrate_vnode : JSVNode = div([class_name("app")], [
+    h1(empty_props, [text("New Title")]),
+    // Text mismatch
+    p(empty_props, [text("Paragraph")]),
+    span(empty_props, [text("Extra")]),
+    // Extra child
+  ])
+  let renderer = DomRenderer::new(container)
+  renderer.hydrate(hydrate_vnode)
+
+  // Verify final structure
+  inspect(container.querySelectorAll("h1").length(), content="1")
+  inspect(container.querySelectorAll("p").length(), content="1")
+  inspect(container.querySelectorAll("span").length(), content="1")
+
+  // Text should be updated
+  let h1_text = container.querySelector("h1").unwrap().as_node().textContent()
+  inspect(h1_text, content="New Title")
 }
