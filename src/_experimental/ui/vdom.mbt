@@ -20,7 +20,7 @@
 pub enum VNode[H] {
   Element(ElementNode[H])
   Text(String)
-  Component(ComponentNode[H])
+  Component(ComponentNode[H]) // TODO: Component support (Phase 7 - planned)
   Fragment(Array[VNode[H]])
   Empty
 }
@@ -44,7 +44,7 @@ pub struct ElementNode[H] {
 pub struct ComponentNode[H] {
   render : () -> VNode[H]
   key : String?
-  // hooks_state : HooksState  // TODO: Will be added in Phase 5
+  hooks_state : HooksState
 }
 
 ///|

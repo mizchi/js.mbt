@@ -6,6 +6,7 @@
 
 - ✅ **Virtual DOM** - 効率的なDOM更新
 - ✅ **Hooks API** - `useState`, `useEffect`, `useMemo`, `useCallback`, `useRef`
+- ✅ **Component System** - 関数コンポーネントとHooksサポート
 - ✅ **SSR (Server-Side Rendering)** - HTML文字列生成
 - ✅ **Hydration** - SSRコンテンツのクライアント側復元
 - ✅ **State Serialization** - Qwik風の状態シリアライズ（JS特化）
@@ -23,10 +24,59 @@
 # ✅ 正しい - jsターゲットでテスト
 moon test --target js --package mizchi/js/_experimental/ui
 
-# 全104テストが成功します
+# 全111テストが成功します（コンポーネントテスト7件を含む）
 ```
 
 ## 使用例
+
+### 基本的なコンポーネント
+
+```moonbit
+// カウンターコンポーネント
+fn Counter() -> JSVNode {
+  let (count, set_count) = use_state(0)
+
+  div(
+    [class_name("counter")],
+    [
+      text("Count: " + count.to_string()),
+      button(
+        [on_click(fn(_) { set_count(count + 1) })],
+        [text("Increment")]
+      )
+    ]
+  )
+}
+
+// レンダリング
+let hooks_state = HooksState::new()
+let vnode = component(Counter, None, hooks_state)
+let rendered = render_component(vnode)
+
+let renderer = DomRenderer::new(container_element)
+renderer.render(rendered)
+```
+
+### プロパティ付きコンポーネント
+
+```moonbit
+struct GreetingProps {
+  name : String
+}
+
+fn Greeting(props : GreetingProps) -> JSVNode {
+  div([], [text("Hello, " + props.name)])
+}
+
+let hooks_state = HooksState::new()
+let vnode = component_with_props(
+  Greeting,
+  { name: "Alice" },
+  None,
+  hooks_state
+)
+let rendered = render_component(vnode)
+```
 
 詳細は [RESUMABLE_STATE.md](./RESUMABLE_STATE.md) を参照してください。
 

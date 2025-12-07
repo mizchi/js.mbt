@@ -34,17 +34,17 @@ pub fn HooksState::reset_index(self : HooksState) -> Unit {
 
 ///|
 /// Effect to run after render
-struct Effect {
+pub struct Effect {
   cleanup : (() -> Unit)? // Optional cleanup function
   effect : () -> (() -> Unit)? // Effect function that returns optional cleanup
-  deps : Array[@core.Any]? // Dependencies (None = run every render)
+  _deps : Array[@core.Any]? // Dependencies (None = run every render) - stored for future use
 }
 
 ///|
 
 ///|
 /// Global hooks state storage (using JavaScript global)
-struct GlobalHooksStorage {
+priv struct GlobalHooksStorage {
   mut state : HooksState?
 }
 
@@ -145,7 +145,7 @@ pub fn use_effect(
 
   // Schedule effect to run after render
   if should_run {
-    state.effects.push({ cleanup: None, effect, deps })
+    state.effects.push({ cleanup: None, effect, _deps: deps })
   }
 }
 
@@ -184,7 +184,8 @@ pub fn[T] use_memo(compute : () -> T, deps : Array[@core.Any]?) -> T {
   // Check if we need to recompute
   let result : (Bool, T?) = if index >= state.hooks.length() {
     // First render - always compute
-    state.hooks.push(@core.any((None, deps)))
+    let data : (T?, Array[@core.Any]?) = (None, deps)
+    state.hooks.push(@core.any(data))
     (true, None)
   } else {
     // Check dependencies
@@ -193,19 +194,22 @@ pub fn[T] use_memo(compute : () -> T, deps : Array[@core.Any]?) -> T {
     match deps {
       None => {
         // No deps = compute every time
-        state.hooks[index] = @core.any((None, deps))
+        let data : (T?, Array[@core.Any]?) = (None, deps)
+        state.hooks[index] = @core.any(data)
         (true, prev_val)
       }
       Some(new_deps) =>
         match prev_deps {
           None => {
-            state.hooks[index] = @core.any((None, deps))
+            let data : (T?, Array[@core.Any]?) = (None, deps)
+            state.hooks[index] = @core.any(data)
             (true, prev_val)
           }
           Some(old_deps) => {
             let changed = deps_changed(old_deps, new_deps)
             if changed {
-              state.hooks[index] = @core.any((None, deps))
+              let data : (T?, Array[@core.Any]?) = (None, deps)
+              state.hooks[index] = @core.any(data)
             }
             (changed, prev_val)
           }
