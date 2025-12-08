@@ -45,17 +45,33 @@ pub(all) struct AnimationEvent {
   pseudoElement : String
 }
 pub fn AnimationEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for AnimationEvent
+pub fn AnimationEvent::bubbles(Self) -> Bool
+pub fn AnimationEvent::cancelable(Self) -> Bool
+pub fn AnimationEvent::currentTarget(Self) -> Element
+pub fn AnimationEvent::defaultPrevented(Self) -> Bool
+pub fn AnimationEvent::eventType(Self) -> String
+pub fn AnimationEvent::preventDefault(Self) -> Unit
+pub fn AnimationEvent::stopImmediatePropagation(Self) -> Unit
+pub fn AnimationEvent::stopPropagation(Self) -> Unit
+pub fn AnimationEvent::target(Self) -> Element
 pub impl Show for AnimationEvent
 
 #external
 pub type BeforeUnloadEvent
 pub fn BeforeUnloadEvent::as_any(Self) -> @core.Any
+pub fn BeforeUnloadEvent::bubbles(Self) -> Bool
+pub fn BeforeUnloadEvent::cancelable(Self) -> Bool
+pub fn BeforeUnloadEvent::currentTarget(Self) -> Element
+pub fn BeforeUnloadEvent::defaultPrevented(Self) -> Bool
+pub fn BeforeUnloadEvent::eventType(Self) -> String
+pub fn BeforeUnloadEvent::preventDefault(Self) -> Unit
 #alias(return_value)
 pub fn BeforeUnloadEvent::returnValue(Self) -> String
 #alias(set_return_value)
 pub fn BeforeUnloadEvent::setReturnValue(Self, String) -> Unit
-pub impl EventImpl for BeforeUnloadEvent
+pub fn BeforeUnloadEvent::stopImmediatePropagation(Self) -> Unit
+pub fn BeforeUnloadEvent::stopPropagation(Self) -> Unit
+pub fn BeforeUnloadEvent::target(Self) -> Element
 
 #external
 pub type CSSRule
@@ -95,7 +111,15 @@ pub fn CSSStyleSheet::title(Self) -> String?
 pub(all) struct ChangeEvent {
 }
 pub fn ChangeEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for ChangeEvent
+pub fn ChangeEvent::bubbles(Self) -> Bool
+pub fn ChangeEvent::cancelable(Self) -> Bool
+pub fn ChangeEvent::currentTarget(Self) -> Element
+pub fn ChangeEvent::defaultPrevented(Self) -> Bool
+pub fn ChangeEvent::eventType(Self) -> String
+pub fn ChangeEvent::preventDefault(Self) -> Unit
+pub fn ChangeEvent::stopImmediatePropagation(Self) -> Unit
+pub fn ChangeEvent::stopPropagation(Self) -> Unit
+pub fn ChangeEvent::target(Self) -> Element
 pub impl Show for ChangeEvent
 
 pub(all) struct ClipboardData(DataTransfer)
@@ -106,7 +130,15 @@ pub(all) struct ClipboardEvent {
   clipboardData : ClipboardData?
 }
 pub fn ClipboardEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for ClipboardEvent
+pub fn ClipboardEvent::bubbles(Self) -> Bool
+pub fn ClipboardEvent::cancelable(Self) -> Bool
+pub fn ClipboardEvent::currentTarget(Self) -> Element
+pub fn ClipboardEvent::defaultPrevented(Self) -> Bool
+pub fn ClipboardEvent::eventType(Self) -> String
+pub fn ClipboardEvent::preventDefault(Self) -> Unit
+pub fn ClipboardEvent::stopImmediatePropagation(Self) -> Unit
+pub fn ClipboardEvent::stopPropagation(Self) -> Unit
+pub fn ClipboardEvent::target(Self) -> Element
 
 pub struct CustomElementCallbacks {
   onConnected : () -> Unit
@@ -256,7 +288,15 @@ pub(all) struct DragEvent {
   dataTransfer : @core.Nullable[DataTransfer]
 }
 pub fn DragEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for DragEvent
+pub fn DragEvent::bubbles(Self) -> Bool
+pub fn DragEvent::cancelable(Self) -> Bool
+pub fn DragEvent::currentTarget(Self) -> Element
+pub fn DragEvent::defaultPrevented(Self) -> Bool
+pub fn DragEvent::eventType(Self) -> String
+pub fn DragEvent::preventDefault(Self) -> Unit
+pub fn DragEvent::stopImmediatePropagation(Self) -> Unit
+pub fn DragEvent::stopPropagation(Self) -> Unit
+pub fn DragEvent::target(Self) -> Element
 
 #external
 pub type Element
@@ -299,19 +339,43 @@ pub fn Element::textContent(Self) -> String
 pub type Event
 pub fn Event::as_any(Self) -> @core.Any
 pub fn Event::as_event(Self) -> @event.Event
-pub impl EventImpl for Event
+pub fn Event::bubbles(Self) -> Bool
+pub fn Event::cancelable(Self) -> Bool
+pub fn Event::currentTarget(Self) -> Element
+pub fn Event::defaultPrevented(Self) -> Bool
+pub fn Event::eventType(Self) -> String
+pub fn Event::preventDefault(Self) -> Unit
+pub fn Event::stopImmediatePropagation(Self) -> Unit
+pub fn Event::stopPropagation(Self) -> Unit
+pub fn Event::target(Self) -> Element
 
 #external
 pub type FocusEvent
 pub fn FocusEvent::as_any(Self) -> @core.Any
+pub fn FocusEvent::bubbles(Self) -> Bool
+pub fn FocusEvent::cancelable(Self) -> Bool
+pub fn FocusEvent::currentTarget(Self) -> Element
+pub fn FocusEvent::defaultPrevented(Self) -> Bool
+pub fn FocusEvent::eventType(Self) -> String
+pub fn FocusEvent::preventDefault(Self) -> Unit
 pub fn FocusEvent::relatedTarget(Self) -> Element?
-pub impl EventImpl for FocusEvent
+pub fn FocusEvent::stopImmediatePropagation(Self) -> Unit
+pub fn FocusEvent::stopPropagation(Self) -> Unit
+pub fn FocusEvent::target(Self) -> Element
 
 pub(all) struct FormEvent {
   formData : @http.FormData?
 }
 pub fn FormEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for FormEvent
+pub fn FormEvent::bubbles(Self) -> Bool
+pub fn FormEvent::cancelable(Self) -> Bool
+pub fn FormEvent::currentTarget(Self) -> Element
+pub fn FormEvent::defaultPrevented(Self) -> Bool
+pub fn FormEvent::eventType(Self) -> String
+pub fn FormEvent::preventDefault(Self) -> Unit
+pub fn FormEvent::stopImmediatePropagation(Self) -> Unit
+pub fn FormEvent::stopPropagation(Self) -> Unit
+pub fn FormEvent::target(Self) -> Element
 
 pub(all) struct HTMLAnchorElement {
   mut href : String
@@ -1389,7 +1453,15 @@ pub(all) struct HashChangeEvent {
   newURL : String
 }
 pub fn HashChangeEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for HashChangeEvent
+pub fn HashChangeEvent::bubbles(Self) -> Bool
+pub fn HashChangeEvent::cancelable(Self) -> Bool
+pub fn HashChangeEvent::currentTarget(Self) -> Element
+pub fn HashChangeEvent::defaultPrevented(Self) -> Bool
+pub fn HashChangeEvent::eventType(Self) -> String
+pub fn HashChangeEvent::preventDefault(Self) -> Unit
+pub fn HashChangeEvent::stopImmediatePropagation(Self) -> Unit
+pub fn HashChangeEvent::stopPropagation(Self) -> Unit
+pub fn HashChangeEvent::target(Self) -> Element
 pub impl Show for HashChangeEvent
 
 pub(all) struct InputEvent {
@@ -1399,7 +1471,15 @@ pub(all) struct InputEvent {
   isComposing : Bool
 }
 pub fn InputEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for InputEvent
+pub fn InputEvent::bubbles(Self) -> Bool
+pub fn InputEvent::cancelable(Self) -> Bool
+pub fn InputEvent::currentTarget(Self) -> Element
+pub fn InputEvent::defaultPrevented(Self) -> Bool
+pub fn InputEvent::eventType(Self) -> String
+pub fn InputEvent::preventDefault(Self) -> Unit
+pub fn InputEvent::stopImmediatePropagation(Self) -> Unit
+pub fn InputEvent::stopPropagation(Self) -> Unit
+pub fn InputEvent::target(Self) -> Element
 
 pub(all) struct KeyboardEvent {
   key : String
@@ -1415,7 +1495,15 @@ pub(all) struct KeyboardEvent {
   isComposing : Bool
 }
 pub fn KeyboardEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for KeyboardEvent
+pub fn KeyboardEvent::bubbles(Self) -> Bool
+pub fn KeyboardEvent::cancelable(Self) -> Bool
+pub fn KeyboardEvent::currentTarget(Self) -> Element
+pub fn KeyboardEvent::defaultPrevented(Self) -> Bool
+pub fn KeyboardEvent::eventType(Self) -> String
+pub fn KeyboardEvent::preventDefault(Self) -> Unit
+pub fn KeyboardEvent::stopImmediatePropagation(Self) -> Unit
+pub fn KeyboardEvent::stopPropagation(Self) -> Unit
+pub fn KeyboardEvent::target(Self) -> Element
 pub impl Show for KeyboardEvent
 
 pub(all) struct MediaQueryList {
@@ -1435,8 +1523,16 @@ pub(all) struct MessageEvent {
   ports : Array[@message.MessagePort]
 }
 pub fn MessageEvent::as_any(Self) -> @core.Any
+pub fn MessageEvent::bubbles(Self) -> Bool
+pub fn MessageEvent::cancelable(Self) -> Bool
+pub fn MessageEvent::currentTarget(Self) -> Element
+pub fn MessageEvent::defaultPrevented(Self) -> Bool
+pub fn MessageEvent::eventType(Self) -> String
+pub fn MessageEvent::preventDefault(Self) -> Unit
 pub fn MessageEvent::source(Self) -> Window?
-pub impl EventImpl for MessageEvent
+pub fn MessageEvent::stopImmediatePropagation(Self) -> Unit
+pub fn MessageEvent::stopPropagation(Self) -> Unit
+pub fn MessageEvent::target(Self) -> Element
 pub impl Show for MessageEvent
 
 pub(all) struct MouseEvent {
@@ -1458,8 +1554,16 @@ pub(all) struct MouseEvent {
   metaKey : Bool
 }
 pub fn MouseEvent::as_any(Self) -> @core.Any
+pub fn MouseEvent::bubbles(Self) -> Bool
+pub fn MouseEvent::cancelable(Self) -> Bool
+pub fn MouseEvent::currentTarget(Self) -> Element
+pub fn MouseEvent::defaultPrevented(Self) -> Bool
+pub fn MouseEvent::eventType(Self) -> String
+pub fn MouseEvent::preventDefault(Self) -> Unit
 pub fn MouseEvent::relatedTarget(Self) -> Element?
-pub impl EventImpl for MouseEvent
+pub fn MouseEvent::stopImmediatePropagation(Self) -> Unit
+pub fn MouseEvent::stopPropagation(Self) -> Unit
+pub fn MouseEvent::target(Self) -> Element
 pub impl Show for MouseEvent
 
 #external
@@ -1488,7 +1592,15 @@ pub(all) struct PageTransitionEvent {
   persisted : Bool
 }
 pub fn PageTransitionEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for PageTransitionEvent
+pub fn PageTransitionEvent::bubbles(Self) -> Bool
+pub fn PageTransitionEvent::cancelable(Self) -> Bool
+pub fn PageTransitionEvent::currentTarget(Self) -> Element
+pub fn PageTransitionEvent::defaultPrevented(Self) -> Bool
+pub fn PageTransitionEvent::eventType(Self) -> String
+pub fn PageTransitionEvent::preventDefault(Self) -> Unit
+pub fn PageTransitionEvent::stopImmediatePropagation(Self) -> Unit
+pub fn PageTransitionEvent::stopPropagation(Self) -> Unit
+pub fn PageTransitionEvent::target(Self) -> Element
 pub impl Show for PageTransitionEvent
 
 pub(all) struct PointerEvent {
@@ -1506,14 +1618,30 @@ pub(all) struct PointerEvent {
   isPrimary : Bool
 }
 pub fn PointerEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for PointerEvent
+pub fn PointerEvent::bubbles(Self) -> Bool
+pub fn PointerEvent::cancelable(Self) -> Bool
+pub fn PointerEvent::currentTarget(Self) -> Element
+pub fn PointerEvent::defaultPrevented(Self) -> Bool
+pub fn PointerEvent::eventType(Self) -> String
+pub fn PointerEvent::preventDefault(Self) -> Unit
+pub fn PointerEvent::stopImmediatePropagation(Self) -> Unit
+pub fn PointerEvent::stopPropagation(Self) -> Unit
+pub fn PointerEvent::target(Self) -> Element
 pub impl Show for PointerEvent
 
 #external
 pub type PopStateEvent
 pub fn PopStateEvent::as_any(Self) -> @core.Any
+pub fn PopStateEvent::bubbles(Self) -> Bool
+pub fn PopStateEvent::cancelable(Self) -> Bool
+pub fn PopStateEvent::currentTarget(Self) -> Element
+pub fn PopStateEvent::defaultPrevented(Self) -> Bool
+pub fn PopStateEvent::eventType(Self) -> String
+pub fn PopStateEvent::preventDefault(Self) -> Unit
 pub fn PopStateEvent::state(Self) -> @core.Any?
-pub impl EventImpl for PopStateEvent
+pub fn PopStateEvent::stopImmediatePropagation(Self) -> Unit
+pub fn PopStateEvent::stopPropagation(Self) -> Unit
+pub fn PopStateEvent::target(Self) -> Element
 
 #external
 pub type SVGCircleElement
@@ -1951,7 +2079,15 @@ pub fn SVGTextElement::y(Self) -> Double
 pub(all) struct ScrollEvent {
 }
 pub fn ScrollEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for ScrollEvent
+pub fn ScrollEvent::bubbles(Self) -> Bool
+pub fn ScrollEvent::cancelable(Self) -> Bool
+pub fn ScrollEvent::currentTarget(Self) -> Element
+pub fn ScrollEvent::defaultPrevented(Self) -> Bool
+pub fn ScrollEvent::eventType(Self) -> String
+pub fn ScrollEvent::preventDefault(Self) -> Unit
+pub fn ScrollEvent::stopImmediatePropagation(Self) -> Unit
+pub fn ScrollEvent::stopPropagation(Self) -> Unit
+pub fn ScrollEvent::target(Self) -> Element
 pub impl Show for ScrollEvent
 
 #external
@@ -2009,7 +2145,15 @@ pub(all) struct TouchEvent {
   metaKey : Bool
 }
 pub fn TouchEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for TouchEvent
+pub fn TouchEvent::bubbles(Self) -> Bool
+pub fn TouchEvent::cancelable(Self) -> Bool
+pub fn TouchEvent::currentTarget(Self) -> Element
+pub fn TouchEvent::defaultPrevented(Self) -> Bool
+pub fn TouchEvent::eventType(Self) -> String
+pub fn TouchEvent::preventDefault(Self) -> Unit
+pub fn TouchEvent::stopImmediatePropagation(Self) -> Unit
+pub fn TouchEvent::stopPropagation(Self) -> Unit
+pub fn TouchEvent::target(Self) -> Element
 pub impl Show for TouchEvent
 
 pub(all) struct TransitionEvent {
@@ -2018,7 +2162,15 @@ pub(all) struct TransitionEvent {
   pseudoElement : String
 }
 pub fn TransitionEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for TransitionEvent
+pub fn TransitionEvent::bubbles(Self) -> Bool
+pub fn TransitionEvent::cancelable(Self) -> Bool
+pub fn TransitionEvent::currentTarget(Self) -> Element
+pub fn TransitionEvent::defaultPrevented(Self) -> Bool
+pub fn TransitionEvent::eventType(Self) -> String
+pub fn TransitionEvent::preventDefault(Self) -> Unit
+pub fn TransitionEvent::stopImmediatePropagation(Self) -> Unit
+pub fn TransitionEvent::stopPropagation(Self) -> Unit
+pub fn TransitionEvent::target(Self) -> Element
 pub impl Show for TransitionEvent
 
 pub(all) struct WheelEvent {
@@ -2028,7 +2180,15 @@ pub(all) struct WheelEvent {
   deltaMode : Int
 }
 pub fn WheelEvent::as_any(Self) -> @core.Any
-pub impl EventImpl for WheelEvent
+pub fn WheelEvent::bubbles(Self) -> Bool
+pub fn WheelEvent::cancelable(Self) -> Bool
+pub fn WheelEvent::currentTarget(Self) -> Element
+pub fn WheelEvent::defaultPrevented(Self) -> Bool
+pub fn WheelEvent::eventType(Self) -> String
+pub fn WheelEvent::preventDefault(Self) -> Unit
+pub fn WheelEvent::stopImmediatePropagation(Self) -> Unit
+pub fn WheelEvent::stopPropagation(Self) -> Unit
+pub fn WheelEvent::target(Self) -> Element
 pub impl Show for WheelEvent
 
 #external
@@ -2105,16 +2265,4 @@ pub type KeyboardEventHandler = (KeyboardEvent) -> Unit
 pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
-pub(open) trait EventImpl {
-  as_any(Self) -> @core.Any
-  preventDefault(Self) -> Unit = _
-  stopPropagation(Self) -> Unit = _
-  stopImmediatePropagation(Self) -> Unit = _
-  target(Self) -> Element = _
-  currentTarget(Self) -> Element = _
-  eventType(Self) -> String = _
-  bubbles(Self) -> Bool = _
-  cancelable(Self) -> Bool = _
-  defaultPrevented(Self) -> Bool = _
-}
 

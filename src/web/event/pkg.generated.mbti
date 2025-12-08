@@ -64,10 +64,4 @@ pub fn EventTarget::removeEventListener(Self, String, (@core.Any) -> Unit, captu
 // Type aliases
 
 // Traits
-pub(open) trait EventTargetImpl {
-  as_any(Self) -> @core.Any
-  addEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit = _
-  removeEventListener(Self, String, (@core.Any) -> Unit, capture? : Bool) -> Unit = _
-  dispatchEvent(Self, Event) -> Bool = _
-}
 

@@ -1,64 +1,4 @@
 ///|
-/// EventImpl trait - base interface for all DOM events
-pub(open) trait EventImpl {
-  as_any(Self) -> @core.Any
-  preventDefault(Self) -> Unit = _
-  stopPropagation(Self) -> Unit = _
-  stopImmediatePropagation(Self) -> Unit = _
-  target(Self) -> Element = _
-  currentTarget(Self) -> Element = _
-  eventType(Self) -> String = _
-  bubbles(Self) -> Bool = _
-  cancelable(Self) -> Bool = _
-  defaultPrevented(Self) -> Bool = _
-}
-
-///|
-impl EventImpl with preventDefault(self) -> Unit {
-  self.as_any()._call("preventDefault", []) |> ignore
-}
-
-///|
-impl EventImpl with stopPropagation(self) -> Unit {
-  self.as_any()._call("stopPropagation", []) |> ignore
-}
-
-///|
-impl EventImpl with stopImmediatePropagation(self) -> Unit {
-  self.as_any()._call("stopImmediatePropagation", []) |> ignore
-}
-
-///|
-impl EventImpl with target(self) -> Element {
-  self.as_any()._get("target").cast()
-}
-
-///|
-impl EventImpl with currentTarget(self) -> Element {
-  self.as_any()._get("currentTarget").cast()
-}
-
-///|
-impl EventImpl with eventType(self) -> String {
-  self.as_any()._get("type").cast()
-}
-
-///|
-impl EventImpl with bubbles(self) -> Bool {
-  self.as_any()._get("bubbles").cast()
-}
-
-///|
-impl EventImpl with cancelable(self) -> Bool {
-  self.as_any()._get("cancelable").cast()
-}
-
-///|
-impl EventImpl with defaultPrevented(self) -> Bool {
-  self.as_any()._get("defaultPrevented").cast()
-}
-
-///|
 /// Event represents a DOM event
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event
 #external
@@ -71,8 +11,48 @@ pub fn Event::as_any(self : Event) -> @core.Any = "%identity"
 pub fn Event::as_event(self : Event) -> @event.Event = "%identity"
 
 ///|
-pub impl EventImpl for Event with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn Event::preventDefault(self : Event) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn Event::stopPropagation(self : Event) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn Event::stopImmediatePropagation(self : Event) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn Event::target(self : Event) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn Event::currentTarget(self : Event) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn Event::eventType(self : Event) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn Event::bubbles(self : Event) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn Event::cancelable(self : Event) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn Event::defaultPrevented(self : Event) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -97,8 +77,48 @@ pub(all) struct PointerEvent {
 pub fn PointerEvent::as_any(self : PointerEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for PointerEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn PointerEvent::preventDefault(self : PointerEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn PointerEvent::stopPropagation(self : PointerEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn PointerEvent::stopImmediatePropagation(self : PointerEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn PointerEvent::target(self : PointerEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn PointerEvent::currentTarget(self : PointerEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn PointerEvent::eventType(self : PointerEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn PointerEvent::bubbles(self : PointerEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn PointerEvent::cancelable(self : PointerEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn PointerEvent::defaultPrevented(self : PointerEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -127,8 +147,48 @@ pub(all) struct MouseEvent {
 pub fn MouseEvent::as_any(self : MouseEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for MouseEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn MouseEvent::preventDefault(self : MouseEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn MouseEvent::stopPropagation(self : MouseEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn MouseEvent::stopImmediatePropagation(self : MouseEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn MouseEvent::target(self : MouseEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn MouseEvent::currentTarget(self : MouseEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn MouseEvent::eventType(self : MouseEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn MouseEvent::bubbles(self : MouseEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn MouseEvent::cancelable(self : MouseEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn MouseEvent::defaultPrevented(self : MouseEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -160,8 +220,48 @@ pub(all) struct KeyboardEvent {
 pub fn KeyboardEvent::as_any(self : KeyboardEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for KeyboardEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn KeyboardEvent::preventDefault(self : KeyboardEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn KeyboardEvent::stopPropagation(self : KeyboardEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn KeyboardEvent::stopImmediatePropagation(self : KeyboardEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn KeyboardEvent::target(self : KeyboardEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn KeyboardEvent::currentTarget(self : KeyboardEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn KeyboardEvent::eventType(self : KeyboardEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn KeyboardEvent::bubbles(self : KeyboardEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn KeyboardEvent::cancelable(self : KeyboardEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn KeyboardEvent::defaultPrevented(self : KeyboardEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -172,8 +272,48 @@ pub(all) struct ChangeEvent {} derive(Show)
 pub fn ChangeEvent::as_any(self : ChangeEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ChangeEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn ChangeEvent::preventDefault(self : ChangeEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn ChangeEvent::stopPropagation(self : ChangeEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn ChangeEvent::stopImmediatePropagation(self : ChangeEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn ChangeEvent::target(self : ChangeEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn ChangeEvent::currentTarget(self : ChangeEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn ChangeEvent::eventType(self : ChangeEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn ChangeEvent::bubbles(self : ChangeEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn ChangeEvent::cancelable(self : ChangeEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn ChangeEvent::defaultPrevented(self : ChangeEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -186,10 +326,48 @@ pub type FocusEvent
 pub fn FocusEvent::as_any(self : FocusEvent) -> @core.Any = "%identity"
 
 ///|
+pub fn FocusEvent::preventDefault(self : FocusEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
 
 ///|
-pub impl EventImpl for FocusEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn FocusEvent::stopPropagation(self : FocusEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn FocusEvent::stopImmediatePropagation(self : FocusEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn FocusEvent::target(self : FocusEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn FocusEvent::currentTarget(self : FocusEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn FocusEvent::eventType(self : FocusEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn FocusEvent::bubbles(self : FocusEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn FocusEvent::cancelable(self : FocusEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn FocusEvent::defaultPrevented(self : FocusEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -209,8 +387,48 @@ pub(all) struct FormEvent {
 pub fn FormEvent::as_any(self : FormEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for FormEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn FormEvent::preventDefault(self : FormEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn FormEvent::stopPropagation(self : FormEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn FormEvent::stopImmediatePropagation(self : FormEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn FormEvent::target(self : FormEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn FormEvent::currentTarget(self : FormEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn FormEvent::eventType(self : FormEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn FormEvent::bubbles(self : FormEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn FormEvent::cancelable(self : FormEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn FormEvent::defaultPrevented(self : FormEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -224,8 +442,48 @@ pub(all) struct DragEvent {
 pub fn DragEvent::as_any(self : DragEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for DragEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn DragEvent::preventDefault(self : DragEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn DragEvent::stopPropagation(self : DragEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn DragEvent::stopImmediatePropagation(self : DragEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn DragEvent::target(self : DragEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn DragEvent::currentTarget(self : DragEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn DragEvent::eventType(self : DragEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn DragEvent::bubbles(self : DragEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn DragEvent::cancelable(self : DragEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn DragEvent::defaultPrevented(self : DragEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -242,8 +500,48 @@ pub(all) struct InputEvent {
 pub fn InputEvent::as_any(self : InputEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for InputEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn InputEvent::preventDefault(self : InputEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn InputEvent::stopPropagation(self : InputEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn InputEvent::stopImmediatePropagation(self : InputEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn InputEvent::target(self : InputEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn InputEvent::currentTarget(self : InputEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn InputEvent::eventType(self : InputEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn InputEvent::bubbles(self : InputEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn InputEvent::cancelable(self : InputEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn InputEvent::defaultPrevented(self : InputEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -260,8 +558,48 @@ pub(all) struct WheelEvent {
 pub fn WheelEvent::as_any(self : WheelEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for WheelEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn WheelEvent::preventDefault(self : WheelEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn WheelEvent::stopPropagation(self : WheelEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn WheelEvent::stopImmediatePropagation(self : WheelEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn WheelEvent::target(self : WheelEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn WheelEvent::currentTarget(self : WheelEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn WheelEvent::eventType(self : WheelEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn WheelEvent::bubbles(self : WheelEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn WheelEvent::cancelable(self : WheelEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn WheelEvent::defaultPrevented(self : WheelEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -281,8 +619,48 @@ pub(all) struct TouchEvent {
 pub fn TouchEvent::as_any(self : TouchEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for TouchEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn TouchEvent::preventDefault(self : TouchEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn TouchEvent::stopPropagation(self : TouchEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn TouchEvent::stopImmediatePropagation(self : TouchEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn TouchEvent::target(self : TouchEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn TouchEvent::currentTarget(self : TouchEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn TouchEvent::eventType(self : TouchEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn TouchEvent::bubbles(self : TouchEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn TouchEvent::cancelable(self : TouchEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn TouchEvent::defaultPrevented(self : TouchEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -324,8 +702,48 @@ pub(all) struct ClipboardEvent {
 pub fn ClipboardEvent::as_any(self : ClipboardEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ClipboardEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn ClipboardEvent::preventDefault(self : ClipboardEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn ClipboardEvent::stopPropagation(self : ClipboardEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn ClipboardEvent::stopImmediatePropagation(self : ClipboardEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn ClipboardEvent::target(self : ClipboardEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn ClipboardEvent::currentTarget(self : ClipboardEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn ClipboardEvent::eventType(self : ClipboardEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn ClipboardEvent::bubbles(self : ClipboardEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn ClipboardEvent::cancelable(self : ClipboardEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn ClipboardEvent::defaultPrevented(self : ClipboardEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -341,8 +759,50 @@ pub(all) struct TransitionEvent {
 pub fn TransitionEvent::as_any(self : TransitionEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for TransitionEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn TransitionEvent::preventDefault(self : TransitionEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn TransitionEvent::stopPropagation(self : TransitionEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn TransitionEvent::stopImmediatePropagation(
+  self : TransitionEvent,
+) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn TransitionEvent::target(self : TransitionEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn TransitionEvent::currentTarget(self : TransitionEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn TransitionEvent::eventType(self : TransitionEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn TransitionEvent::bubbles(self : TransitionEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn TransitionEvent::cancelable(self : TransitionEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn TransitionEvent::defaultPrevented(self : TransitionEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -358,8 +818,48 @@ pub(all) struct AnimationEvent {
 pub fn AnimationEvent::as_any(self : AnimationEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for AnimationEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn AnimationEvent::preventDefault(self : AnimationEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn AnimationEvent::stopPropagation(self : AnimationEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn AnimationEvent::stopImmediatePropagation(self : AnimationEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn AnimationEvent::target(self : AnimationEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn AnimationEvent::currentTarget(self : AnimationEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn AnimationEvent::eventType(self : AnimationEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn AnimationEvent::bubbles(self : AnimationEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn AnimationEvent::cancelable(self : AnimationEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn AnimationEvent::defaultPrevented(self : AnimationEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -370,8 +870,48 @@ pub(all) struct ScrollEvent {} derive(Show)
 pub fn ScrollEvent::as_any(self : ScrollEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for ScrollEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn ScrollEvent::preventDefault(self : ScrollEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn ScrollEvent::stopPropagation(self : ScrollEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn ScrollEvent::stopImmediatePropagation(self : ScrollEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn ScrollEvent::target(self : ScrollEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn ScrollEvent::currentTarget(self : ScrollEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn ScrollEvent::eventType(self : ScrollEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn ScrollEvent::bubbles(self : ScrollEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn ScrollEvent::cancelable(self : ScrollEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn ScrollEvent::defaultPrevented(self : ScrollEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -388,10 +928,48 @@ pub(all) struct MessageEvent {
 pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
 
 ///|
+pub fn MessageEvent::preventDefault(self : MessageEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
 
 ///|
-pub impl EventImpl for MessageEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn MessageEvent::stopPropagation(self : MessageEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn MessageEvent::stopImmediatePropagation(self : MessageEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn MessageEvent::target(self : MessageEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn MessageEvent::currentTarget(self : MessageEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn MessageEvent::eventType(self : MessageEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn MessageEvent::bubbles(self : MessageEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn MessageEvent::cancelable(self : MessageEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn MessageEvent::defaultPrevented(self : MessageEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -412,10 +990,48 @@ pub type PopStateEvent
 pub fn PopStateEvent::as_any(self : PopStateEvent) -> @core.Any = "%identity"
 
 ///|
+pub fn PopStateEvent::preventDefault(self : PopStateEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
 
 ///|
-pub impl EventImpl for PopStateEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn PopStateEvent::stopPropagation(self : PopStateEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn PopStateEvent::stopImmediatePropagation(self : PopStateEvent) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn PopStateEvent::target(self : PopStateEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn PopStateEvent::currentTarget(self : PopStateEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn PopStateEvent::eventType(self : PopStateEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn PopStateEvent::bubbles(self : PopStateEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn PopStateEvent::cancelable(self : PopStateEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn PopStateEvent::defaultPrevented(self : PopStateEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -440,8 +1056,50 @@ pub(all) struct HashChangeEvent {
 pub fn HashChangeEvent::as_any(self : HashChangeEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for HashChangeEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn HashChangeEvent::preventDefault(self : HashChangeEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn HashChangeEvent::stopPropagation(self : HashChangeEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn HashChangeEvent::stopImmediatePropagation(
+  self : HashChangeEvent,
+) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn HashChangeEvent::target(self : HashChangeEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn HashChangeEvent::currentTarget(self : HashChangeEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn HashChangeEvent::eventType(self : HashChangeEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn HashChangeEvent::bubbles(self : HashChangeEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn HashChangeEvent::cancelable(self : HashChangeEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn HashChangeEvent::defaultPrevented(self : HashChangeEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -454,10 +1112,50 @@ pub type BeforeUnloadEvent
 pub fn BeforeUnloadEvent::as_any(self : BeforeUnloadEvent) -> @core.Any = "%identity"
 
 ///|
+pub fn BeforeUnloadEvent::preventDefault(self : BeforeUnloadEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
 
 ///|
-pub impl EventImpl for BeforeUnloadEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn BeforeUnloadEvent::stopPropagation(self : BeforeUnloadEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn BeforeUnloadEvent::stopImmediatePropagation(
+  self : BeforeUnloadEvent,
+) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn BeforeUnloadEvent::target(self : BeforeUnloadEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn BeforeUnloadEvent::currentTarget(self : BeforeUnloadEvent) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn BeforeUnloadEvent::eventType(self : BeforeUnloadEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn BeforeUnloadEvent::bubbles(self : BeforeUnloadEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn BeforeUnloadEvent::cancelable(self : BeforeUnloadEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn BeforeUnloadEvent::defaultPrevented(self : BeforeUnloadEvent) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
 
 ///|
@@ -487,6 +1185,52 @@ pub(all) struct PageTransitionEvent {
 pub fn PageTransitionEvent::as_any(self : PageTransitionEvent) -> @core.Any = "%identity"
 
 ///|
-pub impl EventImpl for PageTransitionEvent with as_any(self) -> @core.Any {
-  self.as_any()
+pub fn PageTransitionEvent::preventDefault(self : PageTransitionEvent) -> Unit {
+  self.as_any()._call("preventDefault", []) |> ignore
+}
+
+///|
+pub fn PageTransitionEvent::stopPropagation(self : PageTransitionEvent) -> Unit {
+  self.as_any()._call("stopPropagation", []) |> ignore
+}
+
+///|
+pub fn PageTransitionEvent::stopImmediatePropagation(
+  self : PageTransitionEvent,
+) -> Unit {
+  self.as_any()._call("stopImmediatePropagation", []) |> ignore
+}
+
+///|
+pub fn PageTransitionEvent::target(self : PageTransitionEvent) -> Element {
+  self.as_any()._get("target").cast()
+}
+
+///|
+pub fn PageTransitionEvent::currentTarget(
+  self : PageTransitionEvent,
+) -> Element {
+  self.as_any()._get("currentTarget").cast()
+}
+
+///|
+pub fn PageTransitionEvent::eventType(self : PageTransitionEvent) -> String {
+  self.as_any()._get("type").cast()
+}
+
+///|
+pub fn PageTransitionEvent::bubbles(self : PageTransitionEvent) -> Bool {
+  self.as_any()._get("bubbles").cast()
+}
+
+///|
+pub fn PageTransitionEvent::cancelable(self : PageTransitionEvent) -> Bool {
+  self.as_any()._get("cancelable").cast()
+}
+
+///|
+pub fn PageTransitionEvent::defaultPrevented(
+  self : PageTransitionEvent,
+) -> Bool {
+  self.as_any()._get("defaultPrevented").cast()
 }
