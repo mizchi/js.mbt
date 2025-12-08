@@ -292,12 +292,12 @@ pub fn MagicString::update(
   start : Int,
   end : Int,
   content : String,
-  store_name? : Bool,
+  storeName? : Bool,
   overwrite? : Bool,
 ) -> MagicString {
-  if store_name is Some(_) || overwrite is Some(_) {
+  if storeName is Some(_) || overwrite is Some(_) {
     let obj = @core.new_object()
-    if store_name is Some(s) {
+    if storeName is Some(s) {
       obj["storeName"] = @core.any(s)
     }
     if overwrite is Some(o) {
@@ -316,15 +316,15 @@ pub fn MagicString::overwrite(
   start : Int,
   end : Int,
   content : String,
-  store_name? : Bool,
-  content_only? : Bool,
+  storeName? : Bool,
+  contentOnly? : Bool,
 ) -> MagicString {
-  if store_name is Some(_) || content_only is Some(_) {
+  if storeName is Some(_) || contentOnly is Some(_) {
     let obj = @core.new_object()
-    if store_name is Some(s) {
+    if storeName is Some(s) {
       obj["storeName"] = @core.any(s)
     }
-    if content_only is Some(c) {
+    if contentOnly is Some(c) {
       obj["contentOnly"] = @core.any(c)
     }
     ffi_ms_overwrite(self, start, end, content, Some(obj))

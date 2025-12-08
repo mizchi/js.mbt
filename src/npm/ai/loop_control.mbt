@@ -97,13 +97,13 @@ pub(all) struct PrepareStepResult {
   /// Override model for this step
   model : Model?
   /// Override active tools for this step
-  active_tools : Array[String]?
+  activeTools : Array[String]?
   /// Override messages for this step
   messages : Array[@core.Any]?
   /// Override system prompt for this step
   system : String?
   /// Override max tokens for this step
-  max_tokens : Int?
+  maxTokens : Int?
   /// Override temperature for this step
   temperature : Double?
 }
@@ -113,10 +113,10 @@ pub(all) struct PrepareStepResult {
 pub fn PrepareStepResult::empty() -> PrepareStepResult {
   {
     model: None,
-    active_tools: None,
+    activeTools: None,
     messages: None,
     system: None,
-    max_tokens: None,
+    maxTokens: None,
     temperature: None,
   }
 }
@@ -132,7 +132,7 @@ pub fn PrepareStepResult::with_model(model : Model) -> PrepareStepResult {
 pub fn PrepareStepResult::with_active_tools(
   tools : Array[String],
 ) -> PrepareStepResult {
-  { ..PrepareStepResult::empty(), active_tools: Some(tools) }
+  { ..PrepareStepResult::empty(), activeTools: Some(tools) }
 }
 
 ///|
@@ -154,7 +154,7 @@ pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @core.Any {
   if self.model is Some(m) {
     obj._set("model", m.as_any())
   }
-  if self.active_tools is Some(tools) {
+  if self.activeTools is Some(tools) {
     obj._set("activeTools", tools |> @core.any)
   }
   if self.messages is Some(msgs) {
@@ -163,7 +163,7 @@ pub fn PrepareStepResult::as_any(self : PrepareStepResult) -> @core.Any {
   if self.system is Some(s) {
     obj._set("system", s |> @core.any)
   }
-  if self.max_tokens is Some(t) {
+  if self.maxTokens is Some(t) {
     obj._set("maxTokens", t |> @core.any)
   }
   if self.temperature is Some(t) {

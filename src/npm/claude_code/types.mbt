@@ -432,11 +432,11 @@ pub(all) struct AgentDefinition {
   /// Description of the agent's purpose
   description : String
   /// Allowed tools for this agent
-  allowed_tools : Array[String]?
+  allowedTools : Array[String]?
   /// Disallowed tools for this agent
-  disallowed_tools : Array[String]?
+  disallowedTools : Array[String]?
   /// Custom system prompt
-  system_prompt : String?
+  systemPrompt : String?
   /// Model override
   model : ClaudeModel?
 }
@@ -445,13 +445,13 @@ pub(all) struct AgentDefinition {
 pub fn AgentDefinition::as_any(self : AgentDefinition) -> @core.Any {
   let obj = @core.new_object()
   obj._set("description", self.description |> @core.any)
-  if self.allowed_tools is Some(tools) {
+  if self.allowedTools is Some(tools) {
     obj._set("allowedTools", tools |> @core.any)
   }
-  if self.disallowed_tools is Some(tools) {
+  if self.disallowedTools is Some(tools) {
     obj._set("disallowedTools", tools |> @core.any)
   }
-  if self.system_prompt is Some(prompt) {
+  if self.systemPrompt is Some(prompt) {
     obj._set("systemPrompt", prompt |> @core.any)
   }
   if self.model is Some(m) {
@@ -466,47 +466,47 @@ pub(all) struct QueryOptions {
   /// Model to use
   model : ClaudeModel?
   /// Permission mode
-  permission_mode : PermissionMode?
+  permissionMode : PermissionMode?
   /// System prompt
-  system_prompt : String?
+  systemPrompt : String?
   /// Working directory
   cwd : String?
   /// Maximum turns
-  max_turns : Int?
+  maxTurns : Int?
   /// Maximum thinking tokens
-  max_thinking_tokens : Int?
+  maxThinkingTokens : Int?
   /// Allowed tools
-  allowed_tools : Array[String]?
+  allowedTools : Array[String]?
   /// Disallowed tools
-  disallowed_tools : Array[String]?
+  disallowedTools : Array[String]?
   /// MCP servers
-  mcp_servers : Map[String, McpServerConfig]?
+  mcpServers : Map[String, McpServerConfig]?
   /// Agent definitions
   agents : Map[String, AgentDefinition]?
   /// Setting sources to load
-  setting_sources : Array[SettingSource]?
+  settingSources : Array[SettingSource]?
   /// Include partial messages for streaming
-  include_partial_messages : Bool?
+  includePartialMessages : Bool?
   /// Resume from session ID
-  resume_session : String?
+  resumeSession : String?
 }
 
 ///|
 pub fn QueryOptions::new() -> QueryOptions {
   {
     model: None,
-    permission_mode: None,
-    system_prompt: None,
+    permissionMode: None,
+    systemPrompt: None,
     cwd: None,
-    max_turns: None,
-    max_thinking_tokens: None,
-    allowed_tools: None,
-    disallowed_tools: None,
-    mcp_servers: None,
+    maxTurns: None,
+    maxThinkingTokens: None,
+    allowedTools: None,
+    disallowedTools: None,
+    mcpServers: None,
     agents: None,
-    setting_sources: None,
-    include_partial_messages: None,
-    resume_session: None,
+    settingSources: None,
+    includePartialMessages: None,
+    resumeSession: None,
   }
 }
 
@@ -516,28 +516,28 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @core.Any {
   if self.model is Some(m) {
     obj._set("model", m.to_string() |> @core.any)
   }
-  if self.permission_mode is Some(pm) {
+  if self.permissionMode is Some(pm) {
     obj._set("permissionMode", pm.to_string() |> @core.any)
   }
-  if self.system_prompt is Some(sp) {
+  if self.systemPrompt is Some(sp) {
     obj._set("systemPrompt", sp |> @core.any)
   }
   if self.cwd is Some(c) {
     obj._set("cwd", c |> @core.any)
   }
-  if self.max_turns is Some(mt) {
+  if self.maxTurns is Some(mt) {
     obj._set("maxTurns", mt |> @core.any)
   }
-  if self.max_thinking_tokens is Some(mtt) {
+  if self.maxThinkingTokens is Some(mtt) {
     obj._set("maxThinkingTokens", mtt |> @core.any)
   }
-  if self.allowed_tools is Some(tools) {
+  if self.allowedTools is Some(tools) {
     obj._set("allowedTools", tools |> @core.any)
   }
-  if self.disallowed_tools is Some(tools) {
+  if self.disallowedTools is Some(tools) {
     obj._set("disallowedTools", tools |> @core.any)
   }
-  if self.mcp_servers is Some(servers) {
+  if self.mcpServers is Some(servers) {
     let servers_obj = @core.new_object()
     for name, config in servers {
       servers_obj._set(name, config.as_any())
@@ -551,16 +551,16 @@ pub fn QueryOptions::as_any(self : QueryOptions) -> @core.Any {
     }
     obj._set("agents", agents_obj)
   }
-  if self.setting_sources is Some(sources) {
+  if self.settingSources is Some(sources) {
     obj._set(
       "settingSources",
       sources.map(fn(s) { s.to_string() |> @js.any }) |> @core.any,
     )
   }
-  if self.include_partial_messages is Some(ipm) {
+  if self.includePartialMessages is Some(ipm) {
     obj._set("includePartialMessages", ipm |> @core.any)
   }
-  if self.resume_session is Some(r) {
+  if self.resumeSession is Some(r) {
     obj._set("resume", r |> @core.any)
   }
   obj

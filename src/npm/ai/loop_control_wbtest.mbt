@@ -192,10 +192,10 @@ test "all_of combines conditions with AND" {
 test "PrepareStepResult::empty creates empty result" {
   let result = PrepareStepResult::empty()
   assert_true(result.model is None)
-  assert_true(result.active_tools is None)
+  assert_true(result.activeTools is None)
   assert_true(result.messages is None)
   assert_true(result.system is None)
-  assert_true(result.max_tokens is None)
+  assert_true(result.maxTokens is None)
   assert_true(result.temperature is None)
 }
 
@@ -203,7 +203,7 @@ test "PrepareStepResult::empty creates empty result" {
 test "PrepareStepResult::with_active_tools" {
   let result = PrepareStepResult::with_active_tools(["search", "analyze"])
   assert_true(result.model is None)
-  match result.active_tools {
+  match result.activeTools {
     Some(tools) => {
       assert_eq(tools.length(), 2)
       assert_eq(tools[0], "search")
@@ -218,7 +218,7 @@ test "PrepareStepResult::with_messages" {
   let msgs : Array[@core.Any] = [@core.any("hello")]
   let result = PrepareStepResult::with_messages(msgs)
   assert_true(result.model is None)
-  assert_true(result.active_tools is None)
+  assert_true(result.activeTools is None)
   match result.messages {
     Some(messages) => assert_eq(messages.length(), 1)
     None => fail("Expected Some(messages)")
@@ -229,22 +229,22 @@ test "PrepareStepResult::with_messages" {
 test "PrepareStepResult as_any creates JS object" {
   let result : PrepareStepResult = {
     model: None,
-    active_tools: Some(["search"]),
+    activeTools: Some(["search"]),
     messages: None,
     system: Some("You are helpful"),
-    max_tokens: Some(100),
+    maxTokens: Some(100),
     temperature: None,
   }
   let js_obj = result.as_any()
   // Check activeTools is set
-  let active_tools = js_obj._get("activeTools")
-  assert_false(@core.is_undefined(active_tools))
+  let activeTools = js_obj._get("activeTools")
+  assert_false(@core.is_undefined(activeTools))
   // Check system is set
   let system : String = js_obj._get("system").cast()
   assert_eq(system, "You are helpful")
   // Check maxTokens is set
-  let max_tokens : Int = js_obj._get("maxTokens").cast()
-  assert_eq(max_tokens, 100)
+  let maxTokens : Int = js_obj._get("maxTokens").cast()
+  assert_eq(maxTokens, 100)
   // Check model is not set
   assert_true(@core.is_undefined(js_obj._get("model")))
   // Check temperature is not set

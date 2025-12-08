@@ -44,46 +44,46 @@ pub async fn SDKMessageIterator::next(self : SDKMessageIterator) -> SDKMessage? 
 pub fn query(
   prompt~ : String,
   model? : ClaudeModel,
-  permission_mode? : PermissionMode,
-  system_prompt? : String,
+  permissionMode? : PermissionMode,
+  systemPrompt? : String,
   cwd? : String,
-  max_turns? : Int,
-  max_thinking_tokens? : Int,
-  allowed_tools? : Array[String],
-  disallowed_tools? : Array[String],
-  mcp_servers? : Map[String, McpServerConfig],
+  maxTurns? : Int,
+  maxThinkingTokens? : Int,
+  allowedTools? : Array[String],
+  disallowedTools? : Array[String],
+  mcpServers? : Map[String, McpServerConfig],
   agents? : Map[String, AgentDefinition],
-  setting_sources? : Array[SettingSource],
-  include_partial_messages? : Bool,
-  resume_session? : String,
+  settingSources? : Array[SettingSource],
+  includePartialMessages? : Bool,
+  resumeSession? : String,
 ) -> SDKMessageIterator {
   let opts = @core.new_object()
   opts._set("prompt", prompt |> @core.any)
   if model is Some(m) {
     opts._set("model", m.to_string() |> @core.any)
   }
-  if permission_mode is Some(pm) {
+  if permissionMode is Some(pm) {
     opts._set("permissionMode", pm.to_string() |> @core.any)
   }
-  if system_prompt is Some(sp) {
+  if systemPrompt is Some(sp) {
     opts._set("systemPrompt", sp |> @core.any)
   }
   if cwd is Some(c) {
     opts._set("cwd", c |> @core.any)
   }
-  if max_turns is Some(mt) {
+  if maxTurns is Some(mt) {
     opts._set("maxTurns", mt |> @core.any)
   }
-  if max_thinking_tokens is Some(mtt) {
+  if maxThinkingTokens is Some(mtt) {
     opts._set("maxThinkingTokens", mtt |> @core.any)
   }
-  if allowed_tools is Some(tools) {
+  if allowedTools is Some(tools) {
     opts._set("allowedTools", tools |> @core.any)
   }
-  if disallowed_tools is Some(tools) {
+  if disallowedTools is Some(tools) {
     opts._set("disallowedTools", tools |> @core.any)
   }
-  if mcp_servers is Some(servers) {
+  if mcpServers is Some(servers) {
     let servers_obj = @core.new_object()
     for name, config in servers {
       servers_obj._set(name, config.as_any())
@@ -97,16 +97,16 @@ pub fn query(
     }
     opts._set("agents", agents_obj)
   }
-  if setting_sources is Some(sources) {
+  if settingSources is Some(sources) {
     opts._set(
       "settingSources",
       sources.map(fn(s) { s.to_string() |> @js.any }) |> @core.any,
     )
   }
-  if include_partial_messages is Some(ipm) {
+  if includePartialMessages is Some(ipm) {
     opts._set("includePartialMessages", ipm |> @core.any)
   }
-  if resume_session is Some(r) {
+  if resumeSession is Some(r) {
     opts._set("resume", r |> @core.any)
   }
   let result = claude_code_module()._get("query")._invoke([opts])
@@ -303,34 +303,34 @@ pub fn queryWithAbort(
 pub async fn collectMessages(
   prompt~ : String,
   model? : ClaudeModel,
-  permission_mode? : PermissionMode,
-  system_prompt? : String,
+  permissionMode? : PermissionMode,
+  systemPrompt? : String,
   cwd? : String,
-  max_turns? : Int,
-  max_thinking_tokens? : Int,
-  allowed_tools? : Array[String],
-  disallowed_tools? : Array[String],
-  mcp_servers? : Map[String, McpServerConfig],
+  maxTurns? : Int,
+  maxThinkingTokens? : Int,
+  allowedTools? : Array[String],
+  disallowedTools? : Array[String],
+  mcpServers? : Map[String, McpServerConfig],
   agents? : Map[String, AgentDefinition],
-  setting_sources? : Array[SettingSource],
-  include_partial_messages? : Bool,
-  resume_session? : String,
+  settingSources? : Array[SettingSource],
+  includePartialMessages? : Bool,
+  resumeSession? : String,
 ) -> Array[SDKMessage] {
   let iter = query(
     prompt~,
     model?,
-    permission_mode?,
-    system_prompt?,
+    permissionMode?,
+    systemPrompt?,
     cwd?,
-    max_turns?,
-    max_thinking_tokens?,
-    allowed_tools?,
-    disallowed_tools?,
-    mcp_servers?,
+    maxTurns?,
+    maxThinkingTokens?,
+    allowedTools?,
+    disallowedTools?,
+    mcpServers?,
     agents?,
-    setting_sources?,
-    include_partial_messages?,
-    resume_session?,
+    settingSources?,
+    includePartialMessages?,
+    resumeSession?,
   )
   let messages : Array[SDKMessage] = []
   while true {
@@ -382,34 +382,34 @@ pub fn get_text(messages : Array[SDKMessage]) -> String {
 pub async fn simpleQuery(
   prompt~ : String,
   model? : ClaudeModel,
-  permission_mode? : PermissionMode,
-  system_prompt? : String,
+  permissionMode? : PermissionMode,
+  systemPrompt? : String,
   cwd? : String,
-  max_turns? : Int,
-  max_thinking_tokens? : Int,
-  allowed_tools? : Array[String],
-  disallowed_tools? : Array[String],
-  mcp_servers? : Map[String, McpServerConfig],
+  maxTurns? : Int,
+  maxThinkingTokens? : Int,
+  allowedTools? : Array[String],
+  disallowedTools? : Array[String],
+  mcpServers? : Map[String, McpServerConfig],
   agents? : Map[String, AgentDefinition],
-  setting_sources? : Array[SettingSource],
-  include_partial_messages? : Bool,
-  resume_session? : String,
+  settingSources? : Array[SettingSource],
+  includePartialMessages? : Bool,
+  resumeSession? : String,
 ) -> String {
   let messages = collectMessages(
     prompt~,
     model?,
-    permission_mode?,
-    system_prompt?,
+    permissionMode?,
+    systemPrompt?,
     cwd?,
-    max_turns?,
-    max_thinking_tokens?,
-    allowed_tools?,
-    disallowed_tools?,
-    mcp_servers?,
+    maxTurns?,
+    maxThinkingTokens?,
+    allowedTools?,
+    disallowedTools?,
+    mcpServers?,
     agents?,
-    setting_sources?,
-    include_partial_messages?,
-    resume_session?,
+    settingSources?,
+    includePartialMessages?,
+    resumeSession?,
   )
   get_text(messages)
 }

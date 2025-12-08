@@ -29,13 +29,13 @@ pub fn ServiceWorker::state(Self) -> String
 pub type ServiceWorkerContainer
 pub fn ServiceWorkerContainer::as_any(Self) -> @core.Any
 pub fn ServiceWorkerContainer::controller(Self) -> ServiceWorker?
-pub async fn ServiceWorkerContainer::getRegistration(Self, client_url? : String) -> ServiceWorkerRegistration?
+pub async fn ServiceWorkerContainer::getRegistration(Self, clientURL? : String) -> ServiceWorkerRegistration?
 pub async fn ServiceWorkerContainer::getRegistrations(Self) -> Array[ServiceWorkerRegistration]
 pub fn ServiceWorkerContainer::onControllerChange(Self, (@core.Any) -> Unit) -> Unit
 pub fn ServiceWorkerContainer::onMessage(Self, (@core.Any) -> Unit) -> Unit
 pub fn ServiceWorkerContainer::onMessageError(Self, (@core.Any) -> Unit) -> Unit
 pub fn ServiceWorkerContainer::ready(Self) -> @core.Promise[ServiceWorkerRegistration]
-pub async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, update_via_cache? : String) -> ServiceWorkerRegistration
+pub async fn ServiceWorkerContainer::register(Self, String, scope? : String, type_? : String, updateViaCache? : String) -> ServiceWorkerRegistration
 pub fn ServiceWorkerContainer::startMessages(Self) -> Unit
 
 #external

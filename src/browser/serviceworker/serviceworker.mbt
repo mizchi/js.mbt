@@ -180,11 +180,11 @@ pub async fn ServiceWorkerContainer::register(
   script_url : String,
   scope? : String,
   type_? : String,
-  update_via_cache? : String,
+  updateViaCache? : String,
 ) -> ServiceWorkerRegistration {
   let has_options = scope is Some(_) ||
     type_ is Some(_) ||
-    update_via_cache is Some(_)
+    updateViaCache is Some(_)
   if has_options {
     let options = @core.new_object()
     let o = @core.any(options)
@@ -196,7 +196,7 @@ pub async fn ServiceWorkerContainer::register(
       Some(t) => o._set("type", @core.any(t))
       None => ()
     }
-    match update_via_cache {
+    match updateViaCache {
       Some(u) => o._set("updateViaCache", @core.any(u))
       None => ()
     }
@@ -210,9 +210,9 @@ pub async fn ServiceWorkerContainer::register(
 /// Get a registration for a specific client URL
 pub async fn ServiceWorkerContainer::getRegistration(
   self : ServiceWorkerContainer,
-  client_url? : String,
+  clientURL? : String,
 ) -> ServiceWorkerRegistration? {
-  match client_url {
+  match clientURL {
     Some(url) => ffi_sw_get_registration(self, url).wait()
     None => ffi_sw_get_registration_default(self).wait()
   }

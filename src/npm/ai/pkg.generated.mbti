@@ -32,7 +32,7 @@ pub async fn embedMany(model~ : EmbeddingModel, values~ : Array[String], max_par
 pub fn finish_chunk(String, MockUsage) -> @core.Any
 
 #alias(generate_image)
-pub async fn generateImage(model~ : ImageModel, prompt~ : String, n? : Int, size? : String, aspect_ratio? : String, seed? : Int, provider_options? : @core.Any, max_retries? : Int, abort_signal? : @core.Any, headers? : @core.Any) -> GenerateImageResult
+pub async fn generateImage(model~ : ImageModel, prompt~ : String, n? : Int, size? : String, aspectRatio? : String, seed? : Int, providerOptions? : @core.Any, maxRetries? : Int, abortSignal? : @core.Any, headers? : @core.Any) -> GenerateImageResult
 
 #alias(generate_object)
 pub async fn generateObject(model~ : Model, schema~ : @core.Any, schema_name? : String, schema_description? : String, output? : OutputStrategy, enum_values? : Array[String], prompt? : String, system? : String, messages? : Array[ModelMessage], max_tokens? : Int, temperature? : Double, max_retries? : Int, abort_signal? : @core.Any) -> GenerateObjectResult
@@ -364,10 +364,10 @@ pub(all) struct PrepareStepContext {
 
 pub(all) struct PrepareStepResult {
   model : Model?
-  active_tools : Array[String]?
+  activeTools : Array[String]?
   messages : Array[@core.Any]?
   system : String?
-  max_tokens : Int?
+  maxTokens : Int?
   temperature : Double?
 }
 pub fn PrepareStepResult::as_any(Self) -> @core.Any

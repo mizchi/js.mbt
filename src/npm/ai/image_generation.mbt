@@ -105,15 +105,15 @@ pub async fn generateImage(
   /// Image dimensions (e.g., "1024x1024")
   size? : String,
   /// Aspect ratio (e.g., "16:9")
-  aspect_ratio? : String,
+  aspectRatio? : String,
   /// Seed for reproducible results
   seed? : Int,
   /// Provider-specific options
-  provider_options? : @core.Any,
+  providerOptions? : @core.Any,
   /// Maximum retries
-  max_retries? : Int,
+  maxRetries? : Int,
   /// Abort signal
-  abort_signal? : @core.Any,
+  abortSignal? : @core.Any,
   /// Custom headers
   headers? : @core.Any,
 ) -> GenerateImageResult {
@@ -127,19 +127,19 @@ pub async fn generateImage(
   if size is Some(s) {
     opts._set("size", s |> @core.any)
   }
-  if aspect_ratio is Some(ar) {
+  if aspectRatio is Some(ar) {
     opts._set("aspectRatio", ar |> @core.any)
   }
   if seed is Some(s) {
     opts._set("seed", s |> @core.any)
   }
-  if provider_options is Some(po) {
+  if providerOptions is Some(po) {
     opts._set("providerOptions", po)
   }
-  if max_retries is Some(r) {
+  if maxRetries is Some(r) {
     opts._set("maxRetries", r |> @core.any)
   }
-  if abort_signal is Some(s) {
+  if abortSignal is Some(s) {
     opts._set("abortSignal", s)
   }
   if headers is Some(h) {

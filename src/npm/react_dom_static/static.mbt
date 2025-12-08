@@ -48,35 +48,35 @@ pub struct PrerenderToNodeStreamResult {
 
 ///|
 fn build_options(
-  bootstrap_script_content? : String,
-  bootstrap_scripts? : Array[String],
-  bootstrap_modules? : Array[String],
-  identifier_prefix? : String,
-  namespace_uri? : String,
-  on_error? : (@error.JsError) -> Unit,
-  progressive_chunk_size? : Int,
+  bootstrapScriptContent? : String,
+  bootstrapScripts? : Array[String],
+  bootstrapModules? : Array[String],
+  identifierPrefix? : String,
+  namespaceURI? : String,
+  onError? : (@error.JsError) -> Unit,
+  progressiveChunkSize? : Int,
   signal? : @js.AbortSignal,
 ) -> @core.Any {
   let opts = @core.new_object()
-  if bootstrap_script_content is Some(v) {
+  if bootstrapScriptContent is Some(v) {
     opts._set("bootstrapScriptContent", v |> @core.any)
   }
-  if bootstrap_scripts is Some(v) {
+  if bootstrapScripts is Some(v) {
     opts._set("bootstrapScripts", @core.any(v))
   }
-  if bootstrap_modules is Some(v) {
+  if bootstrapModules is Some(v) {
     opts._set("bootstrapModules", @core.any(v))
   }
-  if identifier_prefix is Some(v) {
+  if identifierPrefix is Some(v) {
     opts._set("identifierPrefix", v |> @core.any)
   }
-  if namespace_uri is Some(v) {
+  if namespaceURI is Some(v) {
     opts._set("namespaceURI", v |> @core.any)
   }
-  if on_error is Some(v) {
+  if onError is Some(v) {
     opts._set("onError", @js.from_fn1(v))
   }
-  if progressive_chunk_size is Some(v) {
+  if progressiveChunkSize is Some(v) {
     opts._set("progressiveChunkSize", v |> @core.any)
   }
   if signal is Some(v) {
@@ -91,23 +91,23 @@ fn build_options(
 pub async fn ReactDOMStatic::prerender(
   self : ReactDOMStatic,
   react_node : @react.Element,
-  bootstrap_script_content? : String,
-  bootstrap_scripts? : Array[String],
-  bootstrap_modules? : Array[String],
-  identifier_prefix? : String,
-  namespace_uri? : String,
-  on_error? : (@error.JsError) -> Unit,
-  progressive_chunk_size? : Int,
+  bootstrapScriptContent? : String,
+  bootstrapScripts? : Array[String],
+  bootstrapModules? : Array[String],
+  identifierPrefix? : String,
+  namespaceURI? : String,
+  onError? : (@error.JsError) -> Unit,
+  progressiveChunkSize? : Int,
   signal? : @js.AbortSignal,
 ) -> PrerenderResult {
   let opts = build_options(
-    bootstrap_script_content?,
-    bootstrap_scripts?,
-    bootstrap_modules?,
-    identifier_prefix?,
-    namespace_uri?,
-    on_error?,
-    progressive_chunk_size?,
+    bootstrapScriptContent?,
+    bootstrapScripts?,
+    bootstrapModules?,
+    identifierPrefix?,
+    namespaceURI?,
+    onError?,
+    progressiveChunkSize?,
     signal?,
   )
   let react_node_js : @core.Any = react_node.as_any().cast()
@@ -128,23 +128,23 @@ pub async fn ReactDOMStatic::prerender(
 pub async fn ReactDOMStatic::prerenderToNodeStream(
   self : ReactDOMStatic,
   react_node : @react.Element,
-  bootstrap_script_content? : String,
-  bootstrap_scripts? : Array[String],
-  bootstrap_modules? : Array[String],
-  identifier_prefix? : String,
-  namespace_uri? : String,
-  on_error? : (@error.JsError) -> Unit,
-  progressive_chunk_size? : Int,
+  bootstrapScriptContent? : String,
+  bootstrapScripts? : Array[String],
+  bootstrapModules? : Array[String],
+  identifierPrefix? : String,
+  namespaceURI? : String,
+  onError? : (@error.JsError) -> Unit,
+  progressiveChunkSize? : Int,
   signal? : @js.AbortSignal,
 ) -> PrerenderToNodeStreamResult {
   let opts = build_options(
-    bootstrap_script_content?,
-    bootstrap_scripts?,
-    bootstrap_modules?,
-    identifier_prefix?,
-    namespace_uri?,
-    on_error?,
-    progressive_chunk_size?,
+    bootstrapScriptContent?,
+    bootstrapScripts?,
+    bootstrapModules?,
+    identifierPrefix?,
+    namespaceURI?,
+    onError?,
+    progressiveChunkSize?,
     signal?,
   )
   let react_node_js : @core.Any = react_node.as_any().cast()

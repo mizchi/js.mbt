@@ -174,7 +174,7 @@ pub fn filter_with_options(
     @core.any(pattern),
     options_to_js(options),
   ])
-  fn(item : @core.Any) -> Bool { filter_fn._call("call", [item]).cast() }
+  item => filter_fn._call("call", [item]).cast()
 }
 
 ///|

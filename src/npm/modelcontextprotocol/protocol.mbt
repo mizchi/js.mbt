@@ -78,13 +78,11 @@ pub(all) struct Tool {
 
 ///|
 pub fn Tool::as_any(self : Tool) -> @core.Any {
-  @core.identity(
-    @core.from_entries([
-      ("name", @core.any(self.name)),
-      ("description", @core.any(self.description)),
-      ("inputSchema", @core.any(self.input_schema)),
-    ]),
-  )
+  @core.from_entries([
+    ("name", @core.any(self.name)),
+    ("description", @core.any(self.description)),
+    ("inputSchema", @core.any(self.input_schema)),
+  ])
 }
 
 ///|
@@ -174,9 +172,7 @@ pub fn ServerCapabilities::as_any(self : ServerCapabilities) -> @core.Any {
   if self.prompts {
     capabilities._set("prompts", @core.new_object())
   }
-  @core.identity(
-    @core.from_entries([("capabilities", @core.any(capabilities))]),
-  )
+  @core.from_entries([("capabilities", @core.any(capabilities))])
 }
 
 ///|
@@ -206,9 +202,8 @@ pub struct ClientInfo {
 ///|
 pub fn ClientInfo::from_js(js : @core.Any) -> ClientInfo? {
   let obj : @js.Object = @core.identity(js)
-  let name : String? = @core.any(obj)._get("name") |> @core.identity_option()
-  let version : String? = @core.any(obj)._get("version")
-    |> @core.identity_option()
+  let name : String? = @core.any(obj)["name"] |> @core.identity_option
+  let version : String? = @core.any(obj)["version"] |> @core.identity_option
   match (name, version) {
     (Some(n), Some(v)) => Some({ name: n, version: v })
     _ => None

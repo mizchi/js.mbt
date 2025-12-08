@@ -211,10 +211,10 @@ test "all_of should combine conditions with AND" {
 test "PrepareStepResult::empty should have all None" {
   let result = @ai.PrepareStepResult::empty()
   assert_true(result.model is None)
-  assert_true(result.active_tools is None)
+  assert_true(result.activeTools is None)
   assert_true(result.messages is None)
   assert_true(result.system is None)
-  assert_true(result.max_tokens is None)
+  assert_true(result.maxTokens is None)
   assert_true(result.temperature is None)
 }
 
@@ -222,7 +222,7 @@ test "PrepareStepResult::empty should have all None" {
 test "PrepareStepResult::with_active_tools should set tools" {
   let result = @ai.PrepareStepResult::with_active_tools(["search", "execute"])
   assert_true(result.model is None)
-  guard result.active_tools is Some(tools)
+  guard result.activeTools is Some(tools)
   assert_eq(tools.length(), 2)
   assert_eq(tools[0], "search")
   assert_eq(tools[1], "execute")
@@ -250,7 +250,7 @@ test "PrepareStepResult::as_any with empty" {
 }
 
 ///|
-test "PrepareStepResult::as_any with active_tools" {
+test "PrepareStepResult::as_any with activeTools" {
   let result = @ai.PrepareStepResult::with_active_tools(["tool1", "tool2"])
   let js_obj = result.as_any()
   let tools_arr : Array[String] = @core.identity(js_obj._get("activeTools"))
@@ -273,14 +273,14 @@ test "PrepareStepResult::as_any with system and temperature" {
 }
 
 ///|
-test "PrepareStepResult::as_any with max_tokens" {
+test "PrepareStepResult::as_any with maxTokens" {
   let result : @ai.PrepareStepResult = {
     ..@ai.PrepareStepResult::empty(),
-    max_tokens: Some(1000),
+    maxTokens: Some(1000),
   }
   let js_obj = result.as_any()
-  let max_tokens : Int = js_obj._get("maxTokens").cast()
-  assert_eq(max_tokens, 1000)
+  let maxTokens : Int = js_obj._get("maxTokens").cast()
+  assert_eq(maxTokens, 1000)
 }
 
 ///|

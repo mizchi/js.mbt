@@ -8,13 +8,13 @@ import(
 
 // Values
 #alias(collect_messages)
-pub async fn collectMessages(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> Array[SDKMessage]
+pub async fn collectMessages(prompt~ : String, model? : ClaudeModel, permissionMode? : PermissionMode, systemPrompt? : String, cwd? : String, maxTurns? : Int, maxThinkingTokens? : Int, allowedTools? : Array[String], disallowedTools? : Array[String], mcpServers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], settingSources? : Array[SettingSource], includePartialMessages? : Bool, resumeSession? : String) -> Array[SDKMessage]
 
 pub fn get_result(Array[SDKMessage]) -> SDKResultMessage?
 
 pub fn get_text(Array[SDKMessage]) -> String
 
-pub fn query(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> SDKMessageIterator
+pub fn query(prompt~ : String, model? : ClaudeModel, permissionMode? : PermissionMode, systemPrompt? : String, cwd? : String, maxTurns? : Int, maxThinkingTokens? : Int, allowedTools? : Array[String], disallowedTools? : Array[String], mcpServers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], settingSources? : Array[SettingSource], includePartialMessages? : Bool, resumeSession? : String) -> SDKMessageIterator
 
 #alias(query_stream)
 pub fn queryStream(prompt~ : @core.Any, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> SDKMessageIterator
@@ -23,7 +23,7 @@ pub fn queryStream(prompt~ : @core.Any, model? : ClaudeModel, permission_mode? :
 pub fn queryWithAbort(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> (SDKMessageIterator, AbortHandle)
 
 #alias(simple_query)
-pub async fn simpleQuery(prompt~ : String, model? : ClaudeModel, permission_mode? : PermissionMode, system_prompt? : String, cwd? : String, max_turns? : Int, max_thinking_tokens? : Int, allowed_tools? : Array[String], disallowed_tools? : Array[String], mcp_servers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], setting_sources? : Array[SettingSource], include_partial_messages? : Bool, resume_session? : String) -> String
+pub async fn simpleQuery(prompt~ : String, model? : ClaudeModel, permissionMode? : PermissionMode, systemPrompt? : String, cwd? : String, maxTurns? : Int, maxThinkingTokens? : Int, allowedTools? : Array[String], disallowedTools? : Array[String], mcpServers? : Map[String, McpServerConfig], agents? : Map[String, AgentDefinition], settingSources? : Array[SettingSource], includePartialMessages? : Bool, resumeSession? : String) -> String
 
 // Errors
 
@@ -35,9 +35,9 @@ pub fn AbortHandle::as_any(Self) -> @core.Any
 
 pub(all) struct AgentDefinition {
   description : String
-  allowed_tools : Array[String]?
-  disallowed_tools : Array[String]?
-  system_prompt : String?
+  allowedTools : Array[String]?
+  disallowedTools : Array[String]?
+  systemPrompt : String?
   model : ClaudeModel?
 }
 pub fn AgentDefinition::as_any(Self) -> @core.Any
@@ -110,18 +110,18 @@ pub fn Query::async_iterator(Self) -> @iterator.AsyncIterator[@core.Any]
 
 pub(all) struct QueryOptions {
   model : ClaudeModel?
-  permission_mode : PermissionMode?
-  system_prompt : String?
+  permissionMode : PermissionMode?
+  systemPrompt : String?
   cwd : String?
-  max_turns : Int?
-  max_thinking_tokens : Int?
-  allowed_tools : Array[String]?
-  disallowed_tools : Array[String]?
-  mcp_servers : Map[String, McpServerConfig]?
+  maxTurns : Int?
+  maxThinkingTokens : Int?
+  allowedTools : Array[String]?
+  disallowedTools : Array[String]?
+  mcpServers : Map[String, McpServerConfig]?
   agents : Map[String, AgentDefinition]?
-  setting_sources : Array[SettingSource]?
-  include_partial_messages : Bool?
-  resume_session : String?
+  settingSources : Array[SettingSource]?
+  includePartialMessages : Bool?
+  resumeSession : String?
 }
 pub fn QueryOptions::as_any(Self) -> @core.Any
 pub fn QueryOptions::new() -> Self

@@ -12,8 +12,7 @@
 pub type Schema
 
 ///|
-pub extern "js" fn Schema::as_any(self : Schema) -> @core.Any =
-  #| (x) => x
+pub fn Schema::as_any(self : Schema) -> @core.Any = "%identity"
 
 ///| FFI Functions
 

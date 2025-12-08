@@ -38,7 +38,7 @@ pub fn MagicString::indent(Self, prefix? : String) -> Self
 pub fn MagicString::is_empty(Self) -> Bool
 pub fn MagicString::new(String, filename? : String, offset? : Int) -> Self
 pub fn MagicString::original(Self) -> String
-pub fn MagicString::overwrite(Self, Int, Int, String, store_name? : Bool, content_only? : Bool) -> Self
+pub fn MagicString::overwrite(Self, Int, Int, String, storeName? : Bool, contentOnly? : Bool) -> Self
 pub fn MagicString::prepend(Self, String) -> Self
 pub fn MagicString::prepend_left(Self, Int, String) -> Self
 pub fn MagicString::prepend_right(Self, Int, String) -> Self
@@ -56,7 +56,7 @@ pub fn MagicString::trim(Self, char_type? : String) -> Self
 pub fn MagicString::trim_end(Self, char_type? : String) -> Self
 pub fn MagicString::trim_lines(Self) -> Self
 pub fn MagicString::trim_start(Self, char_type? : String) -> Self
-pub fn MagicString::update(Self, Int, Int, String, store_name? : Bool, overwrite? : Bool) -> Self
+pub fn MagicString::update(Self, Int, Int, String, storeName? : Bool, overwrite? : Bool) -> Self
 
 #external
 pub type SourceMap
