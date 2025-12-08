@@ -68,16 +68,14 @@ pub fn MessagePort::postMessageWithTransfer(
 ///|
 /// Starts the sending of messages queued on the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/start
-pub fn MessagePort::start(port : MessagePort) -> Unit {
-  port.as_any()._call("start", []) |> ignore
-}
+pub extern "js" fn MessagePort::start(port : MessagePort) -> Unit =
+  #| (port) => port.start()
 
 ///|
 /// Disconnects the port, so it is no longer active
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
-pub fn MessagePort::close(port : MessagePort) -> Unit {
-  port.as_any()._call("close", []) |> ignore
-}
+pub extern "js" fn MessagePort::close(port : MessagePort) -> Unit =
+  #| (port) => port.close()
 
 ///|
 /// MessageChannel creates a new message channel and returns it with two MessagePort objects

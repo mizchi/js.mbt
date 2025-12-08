@@ -55,21 +55,18 @@ pub extern "js" fn Event::cancelable(self : Event) -> Bool =
 
 ///|
 /// Prevent the default action
-pub fn Event::preventDefault(self : Event) -> Unit {
-  self.as_any()._call("preventDefault", []) |> ignore
-}
+pub extern "js" fn Event::preventDefault(self : Event) -> Unit =
+  #| (self) => self.preventDefault()
 
 ///|
 /// Stop event propagation
-pub fn Event::stopPropagation(self : Event) -> Unit {
-  self.as_any()._call("stopPropagation", []) |> ignore
-}
+pub extern "js" fn Event::stopPropagation(self : Event) -> Unit =
+  #| (self) => self.stopPropagation()
 
 ///|
 /// Stop immediate propagation
-pub fn Event::stopImmediatePropagation(self : Event) -> Unit {
-  self.as_any()._call("stopImmediatePropagation", []) |> ignore
-}
+pub extern "js" fn Event::stopImmediatePropagation(self : Event) -> Unit =
+  #| (self) => self.stopImmediatePropagation()
 
 ///|
 /// Check if default was prevented

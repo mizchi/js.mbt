@@ -45,9 +45,8 @@ pub fn PerformanceObserver::observe(self : Self, options : @core.Any) -> Unit {
 ///|
 /// JS: observer.disconnect()
 /// Stop observing performance entries
-pub fn PerformanceObserver::disconnect(self : Self) -> Unit {
-  self.as_any()._call("disconnect", []) |> ignore
-}
+pub extern "js" fn PerformanceObserver::disconnect(self : Self) -> Unit =
+  #| (self) => self.disconnect()
 
 ///|
 /// JS: observer.takeRecords()

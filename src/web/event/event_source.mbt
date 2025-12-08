@@ -52,9 +52,8 @@ pub extern "js" fn EventSource::new(
 ///|
 /// Close the connection
 /// JS: eventSource.close()
-pub fn EventSource::close(self : Self) -> Unit {
-  self.as_any()._call("close", []) |> ignore
-}
+pub extern "js" fn EventSource::close(self : Self) -> Unit =
+  #| (self) => self.close()
 
 ///|
 /// Set onopen event handler

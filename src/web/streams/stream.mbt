@@ -111,11 +111,10 @@ pub async fn ReadableStreamDefaultReader::read(
 ///|
 /// Release the reader's lock on the stream
 #alias(release_lock)
-pub fn ReadableStreamDefaultReader::releaseLock(
+pub extern "js" fn ReadableStreamDefaultReader::releaseLock(
   self : ReadableStreamDefaultReader,
-) -> Unit {
-  @core.any(self)._call("releaseLock", []) |> ignore
-}
+) -> Unit =
+  #| (self) => self.releaseLock()
 
 ///|
 /// Cancel the stream
@@ -235,11 +234,10 @@ pub async fn WritableStreamDefaultWriter::abort(
 ///|
 /// Release the writer's lock on the stream
 #alias(release_lock)
-pub fn WritableStreamDefaultWriter::releaseLock(
+pub extern "js" fn WritableStreamDefaultWriter::releaseLock(
   self : WritableStreamDefaultWriter,
-) -> Unit {
-  @core.any(self)._call("releaseLock", []) |> ignore
-}
+) -> Unit =
+  #| (self) => self.releaseLock()
 
 ///|
 /// Get the closed promise

@@ -54,9 +54,8 @@ pub fn Worker::new(script_url : String, type_? : String) -> Worker {
 }
 
 ///|
-pub fn Worker::terminate(worker : Worker) -> Unit {
-  worker.to_any()._call("terminate", []) |> ignore
-}
+pub extern "js" fn Worker::terminate(worker : Worker) -> Unit =
+  #| (worker) => worker.terminate()
 
 ///|
 extern "js" fn ffi_worker_post_message(
