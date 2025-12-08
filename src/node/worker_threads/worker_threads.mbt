@@ -82,44 +82,52 @@ pub fn Worker::postMessage(
 ///|
 /// Terminate the worker
 /// https://nodejs.org/api/worker_threads.html#workerterminate
-pub fn Worker::terminate(self : Worker) -> Unit {
-  self.as_any()._call("terminate", []) |> ignore
-}
+pub extern "js" fn Worker::terminate(self : Worker) -> Unit =
+  #|(self) => self.terminate()
 
 ///|
 /// Prevent the worker from keeping the event loop active
-pub fn Worker::unref(self : Worker) -> Unit {
-  self.as_any()._call("unref", []) |> ignore
-}
+pub extern "js" fn Worker::unref(self : Worker) -> Unit =
+  #|(self) => self.unref()
 
 ///|
 /// Require the worker to keep the event loop active
-pub fn Worker::ref_(self : Worker) -> Unit {
-  self.as_any()._call("ref", []) |> ignore
-}
+pub extern "js" fn Worker::ref_(self : Worker) -> Unit =
+  #|(self) => self.ref()
 
 ///|
 /// Get the threadId of the worker
-pub fn Worker::threadId(self : Worker) -> Int {
-  self.as_any()._get("threadId").cast()
-}
+pub extern "js" fn Worker::threadId(self : Worker) -> Int =
+  #|(self) => self.threadId
+
+///|
+extern "js" fn Worker::ffi_stdin(self : Worker) -> @core.Nullish[@streams.WritableStream] =
+  #|(self) => self.stdin
 
 ///|
 /// Get the stdin stream of the worker (if enabled)
 pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
-  self.as_any()._get("stdin") |> @core.identity_option()
+  self.ffi_stdin().to_option()
 }
+
+///|
+extern "js" fn Worker::ffi_stdout(self : Worker) -> @core.Nullish[@streams.ReadableStream] =
+  #|(self) => self.stdout
 
 ///|
 /// Get the stdout stream of the worker (if enabled)
 pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stdout") |> @core.identity_option()
+  self.ffi_stdout().to_option()
 }
+
+///|
+extern "js" fn Worker::ffi_stderr(self : Worker) -> @core.Nullish[@streams.ReadableStream] =
+  #|(self) => self.stderr
 
 ///|
 /// Get the stderr stream of the worker (if enabled)
 pub fn Worker::stderr(self : Worker) -> @streams.ReadableStream? {
-  self.as_any()._get("stderr") |> @core.identity_option()
+  self.ffi_stderr().to_option()
 }
 
 ///|
@@ -138,35 +146,40 @@ pub fn MessagePort::postMessage(
 
 ///|
 /// Start receiving messages on this MessagePort
-pub fn MessagePort::start(self : MessagePort) -> Unit {
-  self.as_any()._call("start", []) |> ignore
-}
+pub extern "js" fn MessagePort::start(self : MessagePort) -> Unit =
+  #|(self) => self.start()
 
 ///|
 /// Close the MessagePort
-pub fn MessagePort::close(self : MessagePort) -> Unit {
-  self.as_any()._call("close", []) |> ignore
-}
+pub extern "js" fn MessagePort::close(self : MessagePort) -> Unit =
+  #|(self) => self.close()
 
 ///|
 /// Check if running in the main thread
 /// https://nodejs.org/api/worker_threads.html#workerismainthread
-pub fn isMainThread() -> Bool {
-  ffi_require_worker_threads()._get("isMainThread").cast()
-}
+pub extern "js" fn isMainThread() -> Bool =
+  #|() => require("node:worker_threads").isMainThread
+
+///|
+extern "js" fn ffi_parent_port() -> @core.Nullish[MessagePort] =
+  #|() => require("node:worker_threads").parentPort
 
 ///|
 /// Get the parent port (null in main thread)
 /// https://nodejs.org/api/worker_threads.html#workerparentport
 pub fn parentPort() -> MessagePort? {
-  ffi_require_worker_threads()._get("parentPort") |> @core.identity_option()
+  ffi_parent_port().to_option()
 }
+
+///|
+extern "js" fn ffi_worker_data() -> @core.Nullish[@core.Any] =
+  #|() => require("node:worker_threads").workerData
 
 ///|
 /// Get the worker data passed to the worker
 /// https://nodejs.org/api/worker_threads.html#workerworkerdata
 pub fn workerData() -> @core.Any? {
-  ffi_require_worker_threads()._get("workerData") |> @core.identity_option()
+  ffi_worker_data().to_option()
 }
 
 ///|
