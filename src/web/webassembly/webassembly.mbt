@@ -256,21 +256,11 @@ pub fn instantiate_module(
 }
 
 ///|
-extern "js" fn ffi_validate(bytes : @core.Any) -> Bool =
+/// Validate WebAssembly bytes
+pub extern "js" fn validate(bytes : @arraybuffer.Uint8Array) -> Bool =
   #| (bytes) => WebAssembly.validate(bytes)
 
 ///|
-/// Validate WebAssembly bytes
-pub fn validate(bytes : @arraybuffer.Uint8Array) -> Bool {
-  ffi_validate(bytes.as_any())
-}
-
-///|
-extern "js" fn ffi_compile(bytes : @core.Any) -> @core.Any =
-  #| async (bytes) => await WebAssembly.compile(bytes)
-
-///|
 /// Compile a WebAssembly module (async)
-pub fn compile(bytes : @arraybuffer.Uint8Array) -> @core.Any {
-  ffi_compile(bytes.as_any())
-}
+pub extern "js" fn compile(bytes : @arraybuffer.Uint8Array) -> @core.Any =
+  #| async (bytes) => await WebAssembly.compile(bytes)

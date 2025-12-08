@@ -42,7 +42,9 @@ pub fn TransferHandler::as_any(self : TransferHandler) -> @core.Any = "%identity
 ///| Core FFI
 
 ///|
-extern "js" fn ffi_wrap(endpoint : @core.Any) -> Remote =
+/// Wrap an endpoint to create a proxy to the exposed object
+/// Use this in the main thread to wrap a Worker
+pub extern "js" fn wrap(endpoint : @core.Any) -> Remote =
   #| (endpoint) => require('comlink').wrap(endpoint)
 
 ///|
@@ -61,7 +63,9 @@ extern "js" fn ffi_transfer(
   #| (value, transferables) => require('comlink').transfer(value, transferables)
 
 ///|
-extern "js" fn ffi_proxy(value : @core.Any) -> ProxyMarked =
+/// Mark a callback/function to be kept as a proxy
+/// Useful for event callbacks that need to be called from the worker
+pub extern "js" fn proxy(value : @core.Any) -> ProxyMarked =
   #| (value) => require('comlink').proxy(value)
 
 ///|
@@ -97,22 +101,15 @@ extern "js" fn ffi_get_transfer_handlers() -> @core.Any =
 ///| Core Functions
 
 ///|
-/// Wrap an endpoint to create a proxy to the exposed object
-/// Use this in the main thread to wrap a Worker
-pub fn wrap(endpoint : @core.Any) -> Remote {
-  ffi_wrap(endpoint)
-}
-
-///|
 /// Wrap a Worker directly
 pub fn wrapWorker(worker : @worker.Worker) -> Remote {
-  ffi_wrap(worker.as_any().cast())
+  wrap(worker.as_any().cast())
 }
 
 ///|
 /// Wrap a MessagePort
 pub fn wrapMessagePort(port : @message.MessagePort) -> Remote {
-  ffi_wrap(port.as_any().cast())
+  wrap(port.as_any().cast())
 }
 
 ///|
@@ -148,13 +145,6 @@ pub fn transfer(
   transferables : Array[@core.Any],
 ) -> @core.Any {
   ffi_transfer(value, @core.any(transferables))
-}
-
-///|
-/// Mark a callback/function to be kept as a proxy
-/// Useful for event callbacks that need to be called from the worker
-pub fn proxy(value : @core.Any) -> ProxyMarked {
-  ffi_proxy(value)
 }
 
 ///|
@@ -280,13 +270,13 @@ pub fn Remote::createEndpoint(
 ///|
 /// Wrap a function to be proxied (for callbacks)
 pub fn proxyCallback(f : (@core.Any) -> Unit) -> ProxyMarked {
-  ffi_proxy(@js.from_fn1(f))
+  proxy(@js.from_fn1(f))
 }
 
 ///|
 /// Wrap a function with return value to be proxied
 pub fn proxyFunction(f : (@core.Any) -> @core.Any) -> ProxyMarked {
-  ffi_proxy(@js.from_fn1(f))
+  proxy(@js.from_fn1(f))
 }
 
 ///|

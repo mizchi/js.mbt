@@ -14,35 +14,41 @@ pub type Debug
 ///| FFI Functions
 
 ///|
-extern "js" fn ffi_debug(ns : String) -> Debug =
+/// Create a new debug logger with the given namespace
+pub extern "js" fn debug(ns : String) -> Debug =
   #| (ns) => {
   #|   const debug = require('debug');
   #|   return debug(ns);
   #| }
 
 ///|
-extern "js" fn ffi_enable(namespaces : String) -> Unit =
+/// Enable debug output for the given namespaces
+/// Supports wildcards: "app:*" enables all namespaces starting with "app:"
+pub extern "js" fn enable(namespaces : String) -> Unit =
   #| (namespaces) => {
   #|   const debug = require('debug');
   #|   debug.enable(namespaces);
   #| }
 
 ///|
-extern "js" fn ffi_disable() -> String =
+/// Disable all debug output and return previously enabled namespaces
+pub extern "js" fn disable() -> String =
   #| () => {
   #|   const debug = require('debug');
   #|   return debug.disable();
   #| }
 
 ///|
-extern "js" fn ffi_enabled(ns : String) -> Bool =
+/// Check if a namespace is enabled
+pub extern "js" fn enabled(ns : String) -> Bool =
   #| (ns) => {
   #|   const debug = require('debug');
   #|   return debug.enabled(ns);
   #| }
 
 ///|
-extern "js" fn ffi_coerce(val : @core.Any) -> @core.Any =
+/// Coerce a value (useful for Error objects)
+pub extern "js" fn coerce(val : @core.Any) -> @core.Any =
   #| (val) => {
   #|   const debug = require('debug');
   #|   return debug.coerce(val);
@@ -83,37 +89,6 @@ extern "js" fn ffi_set_enabled(debug : Debug, enabled : Bool) -> Unit =
   #| }
 
 ///| Module Functions
-
-///|
-/// Create a new debug logger with the given namespace
-pub fn debug(ns : String) -> Debug {
-  ffi_debug(ns)
-}
-
-///|
-/// Enable debug output for the given namespaces
-/// Supports wildcards: "app:*" enables all namespaces starting with "app:"
-pub fn enable(namespaces : String) -> Unit {
-  ffi_enable(namespaces)
-}
-
-///|
-/// Disable all debug output and return previously enabled namespaces
-pub fn disable() -> String {
-  ffi_disable()
-}
-
-///|
-/// Check if a namespace is enabled
-pub fn enabled(ns : String) -> Bool {
-  ffi_enabled(ns)
-}
-
-///|
-/// Coerce a value (useful for Error objects)
-pub fn coerce(val : @core.Any) -> @core.Any {
-  ffi_coerce(val)
-}
 
 ///| Debug Methods
 

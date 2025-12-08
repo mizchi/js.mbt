@@ -14,9 +14,8 @@ pub fn Element::as_node(self : Element) -> Node = "%identity"
 ///|
 
 ///|
-pub fn Element::tagName(self : Element) -> String {
-  self.as_any()._get("tagName").cast()
-}
+pub extern "js" fn Element::tagName(self : Element) -> String =
+  #| (self) => self.tagName
 
 ///|
 pub fn Element::append(self : Element, child : Node) -> Unit {
@@ -24,9 +23,8 @@ pub fn Element::append(self : Element, child : Node) -> Unit {
 }
 
 ///|
-pub fn Element::className(self : Element) -> String {
-  self.as_any()._get("className").cast()
-}
+pub extern "js" fn Element::className(self : Element) -> String =
+  #| (self) => self.className
 
 ///|
 pub fn Element::setClassName(self : Element, class_name : String) -> Unit {
@@ -34,9 +32,8 @@ pub fn Element::setClassName(self : Element, class_name : String) -> Unit {
 }
 
 ///|
-pub fn Element::id(self : Element) -> String {
-  self.as_any()._get("id").cast()
-}
+pub extern "js" fn Element::id(self : Element) -> String =
+  #| (self) => self.id
 
 ///|
 pub fn Element::setId(self : Element, id : String) -> Unit {

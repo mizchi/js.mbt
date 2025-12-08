@@ -30,35 +30,28 @@ extern "js" fn ffi_new_event(event_type : String, options : @core.Any) -> Event 
 
 ///|
 /// Get the event type
-pub fn Event::type_(self : Event) -> String {
-  self.as_any()._get("type").cast()
-}
+pub extern "js" fn Event::type_(self : Event) -> String =
+  #| (self) => self.type
 
 ///|
 /// Get the event target
-pub fn Event::target(self : Event) -> EventTarget? {
-  let v : @core.Any = self.as_any()._get("target").cast()
-  v |> @core.identity_option
-}
+pub extern "js" fn Event::target(self : Event) -> EventTarget? =
+  #| (self) => self.target
 
 ///|
 /// Get the current target
-pub fn Event::currentTarget(self : Event) -> EventTarget? {
-  let v : @core.Any = self.as_any()._get("currentTarget").cast()
-  v |> @core.identity_option
-}
+pub extern "js" fn Event::currentTarget(self : Event) -> EventTarget? =
+  #| (self) => self.currentTarget
 
 ///|
 /// Check if the event bubbles
-pub fn Event::bubbles(self : Event) -> Bool {
-  self.as_any()._get("bubbles").cast()
-}
+pub extern "js" fn Event::bubbles(self : Event) -> Bool =
+  #| (self) => self.bubbles
 
 ///|
 /// Check if the event is cancelable
-pub fn Event::cancelable(self : Event) -> Bool {
-  self.as_any()._get("cancelable").cast()
-}
+pub extern "js" fn Event::cancelable(self : Event) -> Bool =
+  #| (self) => self.cancelable
 
 ///|
 /// Prevent the default action
@@ -80,9 +73,8 @@ pub fn Event::stopImmediatePropagation(self : Event) -> Unit {
 
 ///|
 /// Check if default was prevented
-pub fn Event::defaultPrevented(self : Event) -> Bool {
-  self.as_any()._get("defaultPrevented").cast()
-}
+pub extern "js" fn Event::defaultPrevented(self : Event) -> Bool =
+  #| (self) => self.defaultPrevented
 
 ///|
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event/target

@@ -10,19 +10,13 @@ pub type HonoClient
 pub fn HonoClient::as_any(self : HonoClient) -> @core.Any = "%identity"
 
 ///|
-/// Create a new Hono RPC client
+/// Create a Hono RPC client
 /// https://hono.dev/docs/guides/rpc
-extern "js" fn ffi_hc(base_url : String) -> @core.Any =
+pub extern "js" fn hc(base_url : String) -> HonoClient =
   #| (baseUrl) => {
   #|   const { hc } = require('hono/client');
   #|   return hc(baseUrl);
   #| }
-
-///|
-/// Create a Hono RPC client
-pub fn hc(base_url : String) -> HonoClient {
-  ffi_hc(base_url).cast()
-}
 
 ///|
 /// Build request options object from keyword arguments

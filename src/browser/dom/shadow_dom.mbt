@@ -22,37 +22,32 @@ pub fn ShadowRoot::as_node(self : ShadowRoot) -> Node = "%identity"
 ///|
 /// Returns the mode of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode
-pub fn ShadowRoot::mode(self : Self) -> String {
-  self.as_any()._get("mode").cast()
-}
+pub extern "js" fn ShadowRoot::mode(self : Self) -> String =
+  #| (self) => self.mode
 
 ///|
 /// Returns the host element of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/host
-pub fn ShadowRoot::host(self : Self) -> Element {
-  self.as_any()._get("host").cast()
-}
+pub extern "js" fn ShadowRoot::host(self : Self) -> Element =
+  #| (self) => self.host
 
 ///|
 /// Returns whether the shadow root delegates focus
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/delegatesFocus
-pub fn ShadowRoot::delegatesFocus(self : Self) -> Bool {
-  self.as_any()._get("delegatesFocus").cast()
-}
+pub extern "js" fn ShadowRoot::delegatesFocus(self : Self) -> Bool =
+  #| (self) => self.delegatesFocus
 
 ///|
 /// Returns the shadow root's slot assignment mode
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/slotAssignment
-pub fn ShadowRoot::slotAssignment(self : Self) -> String {
-  self.as_any()._get("slotAssignment").cast()
-}
+pub extern "js" fn ShadowRoot::slotAssignment(self : Self) -> String =
+  #| (self) => self.slotAssignment
 
 ///|
 /// Returns the inner HTML of the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/innerHTML
-pub fn ShadowRoot::innerHTML(self : Self) -> String {
-  self.as_any()._get("innerHTML").cast()
-}
+pub extern "js" fn ShadowRoot::innerHTML(self : Self) -> String =
+  #| (self) => self.innerHTML
 
 ///|
 /// Sets the inner HTML of the shadow root

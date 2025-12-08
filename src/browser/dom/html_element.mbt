@@ -17,9 +17,8 @@ pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 ///|
 
 ///|
-pub fn HTMLElement::innerText(self : HTMLElement) -> String {
-  self.as_any()._get("innerText").cast()
-}
+pub extern "js" fn HTMLElement::innerText(self : HTMLElement) -> String =
+  #| (self) => self.innerText
 
 ///|
 pub fn HTMLElement::setInnerText(self : HTMLElement, text : String) -> Unit {
@@ -27,9 +26,8 @@ pub fn HTMLElement::setInnerText(self : HTMLElement, text : String) -> Unit {
 }
 
 ///|
-pub fn HTMLElement::innerHTML(self : HTMLElement) -> String {
-  self.as_any()._get("innerHTML").cast()
-}
+pub extern "js" fn HTMLElement::innerHTML(self : HTMLElement) -> String =
+  #| (self) => self.innerHTML
 
 ///|
 pub fn HTMLElement::setInnerHTML(self : HTMLElement, html : String) -> Unit {
@@ -37,9 +35,8 @@ pub fn HTMLElement::setInnerHTML(self : HTMLElement, html : String) -> Unit {
 }
 
 ///|
-pub fn HTMLElement::outerHTML(self : HTMLElement) -> String {
-  self.as_any()._get("outerHTML").cast()
-}
+pub extern "js" fn HTMLElement::outerHTML(self : HTMLElement) -> String =
+  #| (self) => self.outerHTML
 
 ///|
 pub fn HTMLElement::setOuterHTML(self : HTMLElement, html : String) -> Unit {

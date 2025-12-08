@@ -212,17 +212,12 @@ pub type Gzip
 pub fn Gzip::as_any(self : Gzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gzip(options : @core.Any) -> Gzip =
+/// Create a Gzip compression stream
+pub extern "js" fn create_gzip(options : ZlibOptions) -> Gzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGzip(options);
   #| }
-
-///|
-/// Create a Gzip compression stream
-pub fn create_gzip(options : ZlibOptions) -> Gzip {
-  ffi_create_gzip(options.as_any())
-}
 
 ///|
 /// Gunzip decompression stream
@@ -233,17 +228,12 @@ pub type Gunzip
 pub fn Gunzip::as_any(self : Gunzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gunzip(options : @core.Any) -> Gunzip =
+/// Create a Gunzip decompression stream
+pub extern "js" fn create_gunzip(options : ZlibOptions) -> Gunzip =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createGunzip(options);
   #| }
-
-///|
-/// Create a Gunzip decompression stream
-pub fn create_gunzip(options : ZlibOptions) -> Gunzip {
-  ffi_create_gunzip(options.as_any())
-}
 
 ///|
 /// Deflate compression stream
@@ -254,17 +244,12 @@ pub type Deflate
 pub fn Deflate::as_any(self : Deflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_deflate(options : @core.Any) -> Deflate =
+/// Create a Deflate compression stream
+pub extern "js" fn create_deflate(options : ZlibOptions) -> Deflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createDeflate(options);
   #| }
-
-///|
-/// Create a Deflate compression stream
-pub fn create_deflate(options : ZlibOptions) -> Deflate {
-  ffi_create_deflate(options.as_any())
-}
 
 ///|
 /// Inflate decompression stream
@@ -275,17 +260,12 @@ pub type Inflate
 pub fn Inflate::as_any(self : Inflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_inflate(options : @core.Any) -> Inflate =
+/// Create an Inflate decompression stream
+pub extern "js" fn create_inflate(options : ZlibOptions) -> Inflate =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createInflate(options);
   #| }
-
-///|
-/// Create an Inflate decompression stream
-pub fn create_inflate(options : ZlibOptions) -> Inflate {
-  ffi_create_inflate(options.as_any())
-}
 
 ///|
 /// Brotli compression stream
@@ -296,19 +276,14 @@ pub type BrotliCompress
 pub fn BrotliCompress::as_any(self : BrotliCompress) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_brotli_compress(
-  options : @core.Any,
+/// Create a Brotli compression stream
+pub extern "js" fn create_brotli_compress(
+  options : ZlibOptions,
 ) -> BrotliCompress =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createBrotliCompress(options);
   #| }
-
-///|
-/// Create a Brotli compression stream
-pub fn create_brotli_compress(options : ZlibOptions) -> BrotliCompress {
-  ffi_create_brotli_compress(options.as_any())
-}
 
 ///|
 /// Brotli decompression stream
@@ -319,16 +294,11 @@ pub type BrotliDecompress
 pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_brotli_decompress(
-  options : @core.Any,
+/// Create a Brotli decompression stream
+pub extern "js" fn create_brotli_decompress(
+  options : ZlibOptions,
 ) -> BrotliDecompress =
   #| (options) => {
   #|   const zlib = require('zlib');
   #|   return zlib.createBrotliDecompress(options);
   #| }
-
-///|
-/// Create a Brotli decompression stream
-pub fn create_brotli_decompress(options : ZlibOptions) -> BrotliDecompress {
-  ffi_create_brotli_decompress(options.as_any())
-}
