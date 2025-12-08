@@ -13,18 +13,29 @@ pub type Parser
 
 ///|
 /// DOM Document node
-#external
-pub type Document
+pub(all) struct Document {
+  children : Array[Node]
+}
 
 ///|
 /// DOM Element node
-#external
-pub type Element
+pub(all) struct Element {
+  name : String
+  attribs : @core.Any
+  children : Array[Node]
+  parent : @core.Any
+}
 
 ///|
 /// DOM Node (base type)
-#external
-pub type Node
+pub(all) struct Node {
+  type_ : String
+  name : String
+  data : String
+  children : Array[Node]
+  parent : @core.Any
+  attribs : @core.Any
+}
 
 ///| as_any helpers
 
@@ -33,16 +44,20 @@ pub extern "js" fn Parser::as_any(self : Parser) -> @core.Any =
   #| (x) => x
 
 ///|
-pub extern "js" fn Document::as_any(self : Document) -> @core.Any =
-  #| (x) => x
+pub fn Document::as_any(self : Document) -> @core.Any = "%identity"
 
 ///|
-pub extern "js" fn Element::as_any(self : Element) -> @core.Any =
-  #| (x) => x
+pub fn Element::as_any(self : Element) -> @core.Any = "%identity"
 
 ///|
-pub extern "js" fn Node::as_any(self : Node) -> @core.Any =
-  #| (x) => x
+pub fn Node::as_any(self : Node) -> @core.Any = "%identity"
+
+///| Special getters for reserved keywords
+
+///|
+/// Get node type (accessing JS "type" property)
+pub extern "js" fn Node::get_type(self : Node) -> String =
+  #| (node) => node.type || ''
 
 ///| FFI Functions
 
@@ -107,43 +122,7 @@ extern "js" fn ffi_parser_parse_complete(
   #|   parser.parseComplete(input);
   #| }
 
-///| DOM Traversal FFI
-
-///|
-extern "js" fn ffi_get_children(node : @core.Any) -> @core.Any =
-  #| (node) => {
-  #|   return node.children || [];
-  #| }
-
-///|
-extern "js" fn ffi_get_parent(node : @core.Any) -> @core.Any =
-  #| (node) => {
-  #|   return node.parent;
-  #| }
-
-///|
-extern "js" fn ffi_get_name(node : @core.Any) -> String =
-  #| (node) => {
-  #|   return node.name || '';
-  #| }
-
-///|
-extern "js" fn ffi_get_type(node : @core.Any) -> String =
-  #| (node) => {
-  #|   return node.type || '';
-  #| }
-
-///|
-extern "js" fn ffi_get_data(node : @core.Any) -> String =
-  #| (node) => {
-  #|   return node.data || '';
-  #| }
-
-///|
-extern "js" fn ffi_get_attribs(node : @core.Any) -> @core.Any =
-  #| (node) => {
-  #|   return node.attribs || {};
-  #| }
+///| DOM Traversal FFI (removed - now using get_raw_* functions)
 
 ///|
 extern "js" fn ffi_dom_utils_get_inner_html(node : @core.Any) -> String =
@@ -214,64 +193,66 @@ extern "js" fn ffi_dom_utils_find_one(
 
 ///|
 /// Parse HTML/XML string into a DOM document
-pub fn parseDocument(html : String) -> Document {
-  ffi_parse_document(html)
-}
-
-///|
-/// Parse HTML/XML string with options
-pub fn parseDocumentWithOptions(
+pub fn parseDocument(
   html : String,
   xmlMode? : Bool,
   decodeEntities? : Bool,
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Document {
-  let options = @core.new_object()
-  if xmlMode is Some(v) {
-    options["xmlMode"] = @core.any(v)
+  if xmlMode is None &&
+    decodeEntities is None &&
+    lowerCaseTags is None &&
+    lowerCaseAttributeNames is None {
+    ffi_parse_document(html)
+  } else {
+    let options = @core.new_object()
+    if xmlMode is Some(v) {
+      options["xmlMode"] = @core.any(v)
+    }
+    if decodeEntities is Some(v) {
+      options["decodeEntities"] = @core.any(v)
+    }
+    if lowerCaseTags is Some(v) {
+      options["lowerCaseTags"] = @core.any(v)
+    }
+    if lowerCaseAttributeNames is Some(v) {
+      options["lowerCaseAttributeNames"] = @core.any(v)
+    }
+    ffi_parse_document_with_options(html, options)
   }
-  if decodeEntities is Some(v) {
-    options["decodeEntities"] = @core.any(v)
-  }
-  if lowerCaseTags is Some(v) {
-    options["lowerCaseTags"] = @core.any(v)
-  }
-  if lowerCaseAttributeNames is Some(v) {
-    options["lowerCaseAttributeNames"] = @core.any(v)
-  }
-  ffi_parse_document_with_options(html, options)
 }
 
 ///|
 /// Create a streaming parser with event handlers
-pub fn createParser(handlers : @core.Any) -> Parser {
-  ffi_create_parser(handlers)
-}
-
-///|
-/// Create a streaming parser with options
-pub fn createParserWithOptions(
+pub fn createParser(
   handlers : @core.Any,
   xmlMode? : Bool,
   decodeEntities? : Bool,
   lowerCaseTags? : Bool,
   lowerCaseAttributeNames? : Bool,
 ) -> Parser {
-  let options = @core.new_object()
-  if xmlMode is Some(v) {
-    options["xmlMode"] = @core.any(v)
+  if xmlMode is None &&
+    decodeEntities is None &&
+    lowerCaseTags is None &&
+    lowerCaseAttributeNames is None {
+    ffi_create_parser(handlers)
+  } else {
+    let options = @core.new_object()
+    if xmlMode is Some(v) {
+      options["xmlMode"] = @core.any(v)
+    }
+    if decodeEntities is Some(v) {
+      options["decodeEntities"] = @core.any(v)
+    }
+    if lowerCaseTags is Some(v) {
+      options["lowerCaseTags"] = @core.any(v)
+    }
+    if lowerCaseAttributeNames is Some(v) {
+      options["lowerCaseAttributeNames"] = @core.any(v)
+    }
+    ffi_create_parser_with_options(handlers, options)
   }
-  if decodeEntities is Some(v) {
-    options["decodeEntities"] = @core.any(v)
-  }
-  if lowerCaseTags is Some(v) {
-    options["lowerCaseTags"] = @core.any(v)
-  }
-  if lowerCaseAttributeNames is Some(v) {
-    options["lowerCaseAttributeNames"] = @core.any(v)
-  }
-  ffi_create_parser_with_options(handlers, options)
 }
 
 ///| Parser Methods
@@ -305,7 +286,7 @@ pub fn Parser::parseComplete(self : Parser, input : String) -> Unit {
 ///|
 /// Get children of a document
 pub fn Document::children(self : Document) -> Array[Node] {
-  @core.identity(ffi_get_children(self.as_any()))
+  self.children
 }
 
 ///| Element Methods
@@ -313,13 +294,13 @@ pub fn Document::children(self : Document) -> Array[Node] {
 ///|
 /// Get element tag name
 pub fn Element::name(self : Element) -> String {
-  ffi_get_name(self.as_any())
+  self.name
 }
 
 ///|
 /// Get element attributes as Object
 pub fn Element::attribs(self : Element) -> @core.Any {
-  ffi_get_attribs(self.as_any())
+  self.attribs
 }
 
 ///|
@@ -337,17 +318,16 @@ pub fn Element::getAttribute(self : Element, name : String) -> String? {
 ///|
 /// Get children of an element
 pub fn Element::children(self : Element) -> Array[Node] {
-  @core.identity(ffi_get_children(self.as_any()))
+  self.children
 }
 
 ///|
 /// Get parent of an element
 pub fn Element::parent(self : Element) -> Node? {
-  let parent = ffi_get_parent(self.as_any())
-  if @core.is_nullish(parent) {
+  if @core.is_nullish(self.parent) {
     None
   } else {
-    Some(@core.identity(parent))
+    Some(@core.identity(self.parent))
   }
 }
 
@@ -356,19 +336,19 @@ pub fn Element::parent(self : Element) -> Node? {
 ///|
 /// Get node type ("tag", "text", "comment", "directive", etc.)
 pub fn Node::nodeType(self : Node) -> String {
-  ffi_get_type(self.as_any())
+  self.get_type()
 }
 
 ///|
 /// Get text content (for text nodes)
 pub fn Node::data(self : Node) -> String {
-  ffi_get_data(self.as_any())
+  self.data
 }
 
 ///|
 /// Get node name (for element nodes)
 pub fn Node::name(self : Node) -> String {
-  ffi_get_name(self.as_any())
+  self.name
 }
 
 ///|
@@ -392,30 +372,23 @@ pub fn Node::isComment(self : Node) -> Bool {
 ///|
 /// Cast node to element (unsafe)
 pub fn Node::asElement(self : Node) -> Element {
-  @core.identity(self.as_any())
-}
-
-///|
-/// Get children of a node
-pub fn Node::children(self : Node) -> Array[Node] {
-  @core.identity(ffi_get_children(self.as_any()))
+  self.as_any().cast()
 }
 
 ///|
 /// Get parent of a node
 pub fn Node::parent(self : Node) -> Node? {
-  let parent = ffi_get_parent(self.as_any())
-  if @core.is_nullish(parent) {
+  if @core.is_nullish(self.parent) {
     None
   } else {
-    Some(@core.identity(parent))
+    Some(self.parent.cast())
   }
 }
 
 ///|
 /// Get attributes of a node (if element)
 pub fn Node::attribs(self : Node) -> @core.Any {
-  ffi_get_attribs(self.as_any())
+  self.attribs
 }
 
 ///| DomUtils Functions
@@ -452,14 +425,13 @@ pub fn getElementsByTagName(
   recurse? : Bool = true,
   limit? : Int = 0x7FFFFFFF,
 ) -> Array[Element] {
-  @core.identity(
-    ffi_dom_utils_get_elements_by_tag_name(
-      name,
-      ffi_get_children(doc.as_any()),
-      recurse,
-      limit,
-    ),
+  let result = ffi_dom_utils_get_elements_by_tag_name(
+    name,
+    @core.any(doc.children),
+    recurse,
+    limit,
   )
+  @core.identity(result)
 }
 
 ///|
@@ -467,7 +439,7 @@ pub fn getElementsByTagName(
 pub fn getElementById(doc : Document, id : String) -> Element? {
   let result = ffi_dom_utils_get_element_by_id(
     id,
-    ffi_get_children(doc.as_any()),
+    @core.any(doc.children),
     true,
   )
   if @core.is_nullish(result) {
@@ -481,26 +453,19 @@ pub fn getElementById(doc : Document, id : String) -> Element? {
 /// Find all elements matching a predicate
 pub fn findAll(doc : Document, predicate : (Element) -> Bool) -> Array[Element] {
   let pred_fn = @core.from_fn1(fn(elem : @core.Any) -> Bool {
-    let e : Element = @core.identity(elem)
-    predicate(e)
+    predicate(@core.identity(elem))
   })
-  @core.identity(
-    ffi_dom_utils_find_all(pred_fn, ffi_get_children(doc.as_any())),
-  )
+  let result = ffi_dom_utils_find_all(pred_fn, @core.any(doc.children))
+  @core.identity(result)
 }
 
 ///|
 /// Find first element matching a predicate
 pub fn findOne(doc : Document, predicate : (Element) -> Bool) -> Element? {
   let pred_fn = @core.from_fn1(fn(elem : @core.Any) -> Bool {
-    let e : Element = @core.identity(elem)
-    predicate(e)
+    predicate(@core.identity(elem))
   })
-  let result = ffi_dom_utils_find_one(
-    pred_fn,
-    ffi_get_children(doc.as_any()),
-    true,
-  )
+  let result = ffi_dom_utils_find_one(pred_fn, @core.any(doc.children), true)
   if @core.is_nullish(result) {
     None
   } else {

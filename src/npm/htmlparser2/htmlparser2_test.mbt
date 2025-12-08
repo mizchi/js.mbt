@@ -85,7 +85,7 @@ test "find one with predicate" {
 ///|
 test "parse xml mode" {
   let xml = "<root><item/></root>"
-  let doc = @htmlparser2.parseDocumentWithOptions(xml, xmlMode=true)
+  let doc = @htmlparser2.parseDocument(xml, xmlMode=true)
   let items = @htmlparser2.getElementsByTagName(doc, "item")
   inspect(items.length(), content="1")
 }

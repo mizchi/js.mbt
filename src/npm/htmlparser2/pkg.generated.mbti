@@ -6,9 +6,7 @@ import(
 )
 
 // Values
-pub fn createParser(@core.Any) -> Parser
-
-pub fn createParserWithOptions(@core.Any, xmlMode? : Bool, decodeEntities? : Bool, lowerCaseTags? : Bool, lowerCaseAttributeNames? : Bool) -> Parser
+pub fn createParser(@core.Any, xmlMode? : Bool, decodeEntities? : Bool, lowerCaseTags? : Bool, lowerCaseAttributeNames? : Bool) -> Parser
 
 pub fn findAll(Document, (Element) -> Bool) -> Array[Element]
 
@@ -26,20 +24,23 @@ pub fn getText(Node) -> String
 
 pub fn getTextFromDocument(Document) -> String
 
-pub fn parseDocument(String) -> Document
-
-pub fn parseDocumentWithOptions(String, xmlMode? : Bool, decodeEntities? : Bool, lowerCaseTags? : Bool, lowerCaseAttributeNames? : Bool) -> Document
+pub fn parseDocument(String, xmlMode? : Bool, decodeEntities? : Bool, lowerCaseTags? : Bool, lowerCaseAttributeNames? : Bool) -> Document
 
 // Errors
 
 // Types and methods
-#external
-pub type Document
+pub(all) struct Document {
+  children : Array[Node]
+}
 pub fn Document::as_any(Self) -> @core.Any
 pub fn Document::children(Self) -> Array[Node]
 
-#external
-pub type Element
+pub(all) struct Element {
+  name : String
+  attribs : @core.Any
+  children : Array[Node]
+  parent : @core.Any
+}
 pub fn Element::as_any(Self) -> @core.Any
 pub fn Element::attribs(Self) -> @core.Any
 pub fn Element::children(Self) -> Array[Node]
@@ -47,13 +48,20 @@ pub fn Element::getAttribute(Self, String) -> String?
 pub fn Element::name(Self) -> String
 pub fn Element::parent(Self) -> Node?
 
-#external
-pub type Node
+pub(all) struct Node {
+  type_ : String
+  name : String
+  data : String
+  children : Array[Node]
+  parent : @core.Any
+  attribs : @core.Any
+}
 pub fn Node::asElement(Self) -> Element
 pub fn Node::as_any(Self) -> @core.Any
 pub fn Node::attribs(Self) -> @core.Any
 pub fn Node::children(Self) -> Array[Self]
 pub fn Node::data(Self) -> String
+pub fn Node::get_type(Self) -> String
 pub fn Node::isComment(Self) -> Bool
 pub fn Node::isElement(Self) -> Bool
 pub fn Node::isText(Self) -> Bool
