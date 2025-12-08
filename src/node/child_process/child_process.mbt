@@ -95,9 +95,11 @@ pub fn ChildProcess::kill(self : ChildProcess, signal? : String) -> Bool {
 
 ///|
 /// Send a message to the child process (for IPC)
-pub fn ChildProcess::send(self : ChildProcess, message : @core.Any) -> Bool {
-  self.as_any()._call("send", [message]).cast()
-}
+pub extern "js" fn ChildProcess::send(
+  self : ChildProcess,
+  message : @core.Any,
+) -> Bool =
+  #| (self, message) => self.send(message)
 
 ///|
 /// Close the IPC channel between parent and child

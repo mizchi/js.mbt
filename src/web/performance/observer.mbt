@@ -38,9 +38,11 @@ pub fn PerformanceObserver::new(
 /// JS: observer.observe(options)
 /// Start observing performance entries
 /// Example: observer.observe({ entryTypes: ["measure", "mark"] })
-pub fn PerformanceObserver::observe(self : Self, options : @core.Any) -> Unit {
-  self.as_any()._call("observe", [options]) |> ignore
-}
+pub extern "js" fn PerformanceObserver::observe(
+  self : Self,
+  options : @core.Any,
+) -> Unit =
+  #| (self, options) => self.observe(options)
 
 ///|
 /// JS: observer.disconnect()

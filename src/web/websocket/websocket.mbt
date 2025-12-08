@@ -81,33 +81,32 @@ pub fn WebSocket::close(self : Self, code? : Int, reason? : String) -> Unit {
 ///|
 /// Send data
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_string(self : Self, data : String) -> Unit {
-  self.as_any()._call("send", [@core.any(data)]) |> ignore
-}
+pub extern "js" fn WebSocket::send_string(self : Self, data : String) -> Unit =
+  #| (self, data) => self.send(data)
 
 ///|
 /// Send binary data
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_buffer(self : Self, data : @buffer.Buffer) -> Unit {
-  self.as_any()._call("send", [@core.any(data)]) |> ignore
-}
+pub extern "js" fn WebSocket::send_buffer(
+  self : Self,
+  data : @buffer.Buffer,
+) -> Unit =
+  #| (self, data) => self.send(data)
 
 ///|
 /// Send ArrayBuffer
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_arraybuffer(
+pub extern "js" fn WebSocket::send_arraybuffer(
   self : Self,
   data : @arraybuffer.ArrayBuffer,
-) -> Unit {
-  self.as_any()._call("send", [@core.any(data)]) |> ignore
-}
+) -> Unit =
+  #| (self, data) => self.send(data)
 
 ///|
 /// Send Blob
 /// JS: webSocket.send(data)
-pub fn WebSocket::send_blob(self : Self, data : @blob.Blob) -> Unit {
-  self.as_any()._call("send", [@core.any(data)]) |> ignore
-}
+pub extern "js" fn WebSocket::send_blob(self : Self, data : @blob.Blob) -> Unit =
+  #| (self, data) => self.send(data)
 
 ///|
 /// Set onopen event handler

@@ -46,12 +46,11 @@ pub impl Show for MessagePort with to_string(_self) {
 /// Sends a message through the port
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
 #alias(post_message)
-pub fn MessagePort::postMessage(
+pub extern "js" fn MessagePort::postMessage(
   port : MessagePort,
   message : @core.Any,
-) -> Unit {
-  port.as_any()._call("postMessage", [message]) |> ignore
-}
+) -> Unit =
+  #| (port, message) => port.postMessage(message)
 
 ///|
 /// Sends a message with transferable objects through the port

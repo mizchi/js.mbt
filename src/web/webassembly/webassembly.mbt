@@ -44,9 +44,8 @@ pub fn WebAssemblyMemory::buffer(self : Self) -> @arraybuffer.ArrayBuffer {
 
 ///|
 /// Grow the memory by delta pages
-pub fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int {
-  self.as_any()._call("grow", [@core.any(delta)]).cast()
-}
+pub extern "js" fn WebAssemblyMemory::grow(self : Self, delta : Int) -> Int =
+  #| (self, delta) => self.grow(delta)
 
 ///|
 /// Memory descriptor for creating WebAssembly memory
