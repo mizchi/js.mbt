@@ -47,9 +47,7 @@ pub fn SdkClient::new(name : String, version : String) -> SdkClient {
     ]),
   )
   // Create client instance with empty capabilities
-  let opts = @core.identity(
-    @core.from_entries([("capabilities", @core.any(@core.new_object()))]),
-  )
+  let opts = @core.from_entries([("capabilities", @core.new_object())])
   ffi_construct_client(client_class, [client_info, opts]) |> @core.identity
 }
 
@@ -201,10 +199,9 @@ pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult 
     @core.from_entries([("method", "resources/list" |> @core.any)]),
   )
   let types = require_mcp_client_types()
-  let schema = types._get("ListResourcesResultSchema")
+  let schema = types["ListResourcesResultSchema"]
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
-  let resources : Array[ResourceInfo] = result._get("resources")
-    |> @core.identity
+  let resources : Array[ResourceInfo] = result["resources"] |> @core.identity
   { resources, raw: result }
 }
 
@@ -227,10 +224,9 @@ pub async fn SdkClient::read_resource(
     ("params", @core.any(params)),
   ])
   let types = require_mcp_client_types()
-  let schema = types._get("ReadResourceResultSchema")
+  let schema = types["ReadResourceResultSchema"]
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
-  let contents : Array[ContentResult] = result._get("contents")
-    |> @core.identity
+  let contents : Array[ContentResult] = result["contents"].cast()
   { contents, raw: result }
 }
 
@@ -268,9 +264,9 @@ pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
     @core.from_entries([("method", "prompts/list" |> @core.any)]),
   )
   let types = require_mcp_client_types()
-  let schema = types._get("ListPromptsResultSchema")
+  let schema = types["ListPromptsResultSchema"]
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
-  let prompts : Array[PromptInfo] = result._get("prompts") |> @core.identity
+  let prompts : Array[PromptInfo] = result["prompts"].cast()
   { prompts, raw: result }
 }
 
@@ -297,9 +293,9 @@ pub async fn SdkClient::get_prompt(
   arguments : @core.Any?,
 ) -> GetPromptResult {
   let params = @core.new_object()
-  params._set("name", name |> @core.any)
+  params["name"] = name |> @core.any
   if arguments is Some(args) {
-    params._set("arguments", args)
+    params["arguments"] = args
   }
   let request = @core.identity(
     @core.from_entries([
@@ -308,12 +304,11 @@ pub async fn SdkClient::get_prompt(
     ]),
   )
   let types = require_mcp_client_types()
-  let schema = types._get("GetPromptResultSchema")
+  let schema = types["GetPromptResultSchema"]
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
-  let messages : Array[PromptMessageResult] = result._get("messages")
-    |> @core.identity
+  let messages : Array[PromptMessageResult] = result["messages"].cast()
   {
-    description: result._get("description") |> @core.identity_option(),
+    description: result["description"] |> @core.identity_option(),
     messages,
     raw: result,
   }
@@ -332,17 +327,17 @@ pub fn StdioClientTransport::new(
   cwd? : String,
 ) -> StdioClientTransport {
   let stdio_mod = require_stdio_client_transport()
-  let transport_class = stdio_mod._get("StdioClientTransport")
+  let transport_class = stdio_mod["StdioClientTransport"]
   let opts = @core.new_object()
-  opts._set("command", command |> @core.any)
-  opts._set("args", args |> @core.any)
+  opts["command"] = command |> @core.any
+  opts["args"] = args |> @core.any
   if env is Some(e) {
-    opts._set("env", e)
+    opts["env"] = e
   }
   if cwd is Some(c) {
-    opts._set("cwd", c |> @core.any)
+    opts["cwd"] = c |> @core.any
   }
-  ffi_construct_client(transport_class, [@core.any(opts)]) |> @core.identity
+  ffi_construct_client(transport_class, [opts]) |> @core.identity
 }
 
 ///|
@@ -351,14 +346,14 @@ pub async fn StdioClientTransport::start(self : StdioClientTransport) -> Unit {
   let promise : @js.Promise[Unit] = (self |> @core.any)
     ._get("start")
     ._invoke([])
-    |> @core.identity
+    .cast()
   promise.wait()
 }
 
 ///|
 /// Close the transport
 pub async fn StdioClientTransport::close(self : StdioClientTransport) -> Unit {
-  let promise : @js.Promise[Unit] = self |> @core.any |> @core.identity
+  let promise : @js.Promise[Unit] = self |> @core.identity
   promise.wait()
 }
 
@@ -390,12 +385,12 @@ pub fn SdkClient::on_log_message(
   handler : (String, String, @core.Any) -> Unit,
 ) -> Unit {
   let wrapped = fn(notification : @core.Any) {
-    let params = notification._get("params")
-    let level : String = params._get("level").cast()
-    let logger : String = params._get("logger")
+    let params = notification["params"]
+    let level : String = params["level"].cast()
+    let logger : String = params["logger"]
       |> @core.identity_option()
       |> Option::unwrap_or("")
-    let data = params._get("data")
+    let data = params["data"]
     handler(level, logger, data)
   }
   self.set_notification_handler("notifications/message", wrapped)

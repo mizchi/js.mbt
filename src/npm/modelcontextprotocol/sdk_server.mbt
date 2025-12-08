@@ -45,25 +45,22 @@ pub fn SdkServer::new(
   // Build capabilities object
   let capabilities = @core.new_object()
   if tools {
-    capabilities._set("tools", @core.new_object())
+    capabilities["tools"] = @core.new_object()
   }
   if resources {
-    capabilities._set("resources", @core.new_object())
+    capabilities["resources"] = @core.new_object()
   }
   if prompts {
-    capabilities._set("prompts", @core.new_object())
+    capabilities["prompts"] = @core.new_object()
   }
   // Build server info
-  let server_info = @core.identity(
-    @core.from_entries([
-      ("name", name |> @core.any),
-      ("version", version |> @core.any),
-    ]),
-  )
+  let server_info = @core.from_entries([
+    ("name", name |> @core.any),
+    ("version", version |> @core.any),
+  ])
+
   // Create server instance
-  let opts = @core.identity(
-    @core.from_entries([("capabilities", @core.any(capabilities))]),
-  )
+  let opts = @core.from_entries([("capabilities", @core.any(capabilities))])
   ffi_construct(server_class, [server_info, opts]) |> @core.identity
 }
 
@@ -84,10 +81,8 @@ pub fn SdkServer::set_tools_list_handler(
   let schema = types._get("ListToolsRequestSchema")
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let tools = handler()
-    let tools_arr : Array[@core.Any] = tools.map(fn(t) { t.as_any() })
-    @core.identity(
-      @core.from_entries([("tools", @core.any(@core.any(tools_arr)))]),
-    )
+    let tools_arr : Array[@core.Any] = tools.map(_.as_any())
+    @core.from_entries([("tools", @core.any(tools_arr))])
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
 }
@@ -109,16 +104,14 @@ pub fn SdkServer::set_tools_call_handler(
   let types = require_mcp_types()
   let schema = types._get("CallToolRequestSchema")
   let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
-    let params = request._get("params")
-    let name : String = params._get("name").cast()
-    let args = params._get("arguments")
+    let params = request["params"]
+    let name : String = params["name"].cast()
+    let args = params["arguments"]
     let promise_handler = @js.promisify2(handler)
     promise_handler(name, args).then(fn(contents) {
-      let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@core.Any] = contents.map(_.as_any())
       @js.Promise::resolve(
-        @core.identity(
-          @core.from_entries([("content", @core.any(@core.any(content_arr)))]),
-        ),
+        @core.from_entries([("content", @core.any(content_arr))]),
       )
     })
   }
@@ -129,7 +122,7 @@ pub fn SdkServer::set_tools_call_handler(
 extern "js" fn ffi_set_handler_async(
   server : @core.Any,
   schema : @core.Any,
-  handler : (@core.Any) -> @js.Promise[@core.Any],
+  handler : (@core.Any) -> @core.Promise[@core.Any],
 ) -> Unit =
   #| (server, schema, handler) => server.setRequestHandler(schema, handler)
 
@@ -143,10 +136,8 @@ pub fn SdkServer::set_resources_list_handler(
   let schema = types._get("ListResourcesRequestSchema")
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let resources = handler()
-    let resources_arr : Array[@core.Any] = resources.map(fn(r) { r.as_any() })
-    @core.identity(
-      @core.from_entries([("resources", @core.any(@core.any(resources_arr)))]),
-    )
+    let resources_arr : Array[@core.Any] = resources.map(_.as_any())
+    @core.from_entries([("resources", @core.any(resources_arr))])
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
 }
@@ -159,16 +150,14 @@ pub fn SdkServer::set_resources_read_handler(
 ) -> Unit {
   let types = require_mcp_types()
   let schema = types._get("ReadResourceRequestSchema")
-  let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
-    let params = request._get("params")
-    let uri : String = params._get("uri").cast()
+  let wrapped = fn(request : @core.Any) -> @core.Promise[@core.Any] {
+    let params = request["params"]
+    let uri : String = params["uri"].cast()
     let promise_handler = @js.promisify1(handler)
     promise_handler(uri).then(fn(contents) {
-      let content_arr : Array[@core.Any] = contents.map(fn(c) { c.as_any() })
+      let content_arr : Array[@core.Any] = contents.map(_.as_any())
       @js.Promise::resolve(
-        @core.identity(
-          @core.from_entries([("contents", @core.any(@core.any(content_arr)))]),
-        ),
+        @core.from_entries([("contents", @core.any(content_arr))]),
       )
     })
   }
@@ -185,10 +174,8 @@ pub fn SdkServer::set_prompts_list_handler(
   let schema = types._get("ListPromptsRequestSchema")
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let prompts = handler()
-    let prompts_arr : Array[@core.Any] = prompts.map(fn(p) { p.as_any() })
-    @core.identity(
-      @core.from_entries([("prompts", @core.any(@core.any(prompts_arr)))]),
-    )
+    let prompts_arr : Array[@core.Any] = prompts.map(_.as_any())
+    @core.from_entries([("prompts", @core.any(prompts_arr))])
   }
   ffi_set_handler(self |> @core.any, schema, wrapped)
 }
@@ -203,11 +190,11 @@ pub fn SdkServer::set_prompts_get_handler(
   let schema = types._get("GetPromptRequestSchema")
   let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request._get("params")
-    let name : String = params._get("name").cast()
-    let args = params._get("arguments")
-    let promise_handler = @js.promisify2(handler)
+    let name : String = params["name"].cast()
+    let args = params["arguments"]
+    let promise_handler = @core.promisify2(handler)
     promise_handler(name, args).then(fn(result) {
-      @js.Promise::resolve(result.as_any())
+      @core.Promise::resolve(result.as_any())
     })
   }
   ffi_set_handler_async(self |> @core.any, schema, wrapped)
@@ -229,19 +216,17 @@ pub(all) struct PromptMessage {
 
 ///|
 pub fn PromptMessage::as_any(self : PromptMessage) -> @core.Any {
-  @core.identity(
-    @core.from_entries([
-      ("role", self.role |> @core.any),
-      ("content", @core.any(self.content.as_any())),
-    ]),
-  )
+  @core.from_entries([
+    ("role", self.role |> @core.any),
+    ("content", @core.any(self.content.as_any())),
+  ])
 }
 
 ///|
 pub fn PromptResult::as_any(self : PromptResult) -> @core.Any {
-  let messages_arr : Array[@core.Any] = self.messages.map(fn(m) { m.as_any() })
+  let messages_arr : Array[@core.Any] = self.messages.map(_.as_any())
   let entries : Array[(String, @core.Any)] = [
-    ("messages", @core.identity(@core.any(messages_arr))),
+    ("messages", @core.any(messages_arr)),
   ]
   if self.description is Some(d) {
     entries.push(("description", d |> @core.any))
@@ -265,11 +250,11 @@ pub fn StdioServerTransport::new() -> StdioServerTransport {
 extern "js" fn ffi_server_connect(
   server : @core.Any,
   transport : @core.Any,
-) -> @js.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #| (server, transport) => server.connect(transport)
 
 ///|
-extern "js" fn ffi_server_close(server : @core.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_server_close(server : @core.Any) -> @core.Promise[Unit] =
   #| (server) => server.close()
 
 ///|
@@ -294,12 +279,10 @@ pub fn SdkServer::send_notification(
   method_name : String,
   params : @core.Any,
 ) -> Unit {
-  let notification = @core.identity(
-    @core.from_entries([
-      ("method", method_name |> @core.any),
-      ("params", @core.any(params)),
-    ]),
-  )
+  let notification = @core.from_entries([
+    ("method", method_name |> @core.any),
+    ("params", @core.any(params)),
+  ])
   (self |> @core.any)._get("notification")._invoke([notification]) |> ignore
 }
 
@@ -310,12 +293,10 @@ pub fn SdkServer::log(
   level : String,
   message : String,
 ) -> Unit {
-  let params = @core.identity(
-    @core.from_entries([
-      ("level", level |> @core.any),
-      ("logger", "server" |> @core.any),
-      ("data", message |> @core.any),
-    ]),
-  )
+  let params = @core.from_entries([
+    ("level", level |> @core.any),
+    ("logger", "server" |> @core.any),
+    ("data", message |> @core.any),
+  ])
   self.send_notification("notifications/message", params)
 }
