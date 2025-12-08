@@ -15,28 +15,12 @@ pub type RequestHandler
 pub fn RequestHandler::as_any(self : RequestHandler) -> @core.Any = "%identity"
 
 ///|
-/// Mock server instance (Node.js)
+/// WebSocket handler (for future use)
 #external
-pub type SetupServer
+pub type WebSocketHandler
 
 ///|
-pub fn SetupServer::as_any(self : SetupServer) -> @core.Any = "%identity"
-
-///|
-/// Mock worker instance (Browser)
-#external
-pub type SetupWorker
-
-///|
-pub fn SetupWorker::as_any(self : SetupWorker) -> @core.Any = "%identity"
-
-///|
-/// StartOptions for worker.start()
-#external
-pub type StartOptions
-
-///|
-pub fn StartOptions::as_any(self : StartOptions) -> @core.Any = "%identity"
+pub fn WebSocketHandler::as_any(self : WebSocketHandler) -> @core.Any = "%identity"
 
 ///|
 /// HTTP response
@@ -56,6 +40,11 @@ pub fn RequestInfo::as_any(self : RequestInfo) -> @core.Any = "%identity"
 
 ///|
 /// Response resolver context
+///
+/// Contains information about the intercepted request:
+/// - `request`: The intercepted Request object
+/// - `params`: URL path parameters (e.g., from `/user/:id`)
+/// - `cookies`: Request cookies
 pub(all) struct ResponseResolverInfo {
   request : @core.Any
   params : @core.Any
@@ -129,11 +118,17 @@ extern "js" fn ffi_http_all(
 pub extern "js" fn http_response_json(
   body : @core.Any,
   status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
 ) -> HttpResponse =
-  #| (body, status) => {
+  #| (body, status, statusText, headers) => {
   #|   const msw = require('msw');
-  #|   return status !== undefined ?
-  #|     msw.HttpResponse.json(body, { status }) :
+  #|   const init = {};
+  #|   if (status !== undefined) init.status = status;
+  #|   if (statusText !== undefined) init.statusText = statusText;
+  #|   if (headers !== undefined) init.headers = headers;
+  #|   return Object.keys(init).length > 0 ?
+  #|     msw.HttpResponse.json(body, init) :
   #|     msw.HttpResponse.json(body);
   #| }
 
@@ -141,11 +136,17 @@ pub extern "js" fn http_response_json(
 pub extern "js" fn http_response_text(
   body : String,
   status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
 ) -> HttpResponse =
-  #| (body, status) => {
+  #| (body, status, statusText, headers) => {
   #|   const msw = require('msw');
-  #|   return status !== undefined ?
-  #|     msw.HttpResponse.text(body, { status }) :
+  #|   const init = {};
+  #|   if (status !== undefined) init.status = status;
+  #|   if (statusText !== undefined) init.statusText = statusText;
+  #|   if (headers !== undefined) init.headers = headers;
+  #|   return Object.keys(init).length > 0 ?
+  #|     msw.HttpResponse.text(body, init) :
   #|     msw.HttpResponse.text(body);
   #| }
 
@@ -153,11 +154,17 @@ pub extern "js" fn http_response_text(
 pub extern "js" fn http_response_xml(
   body : String,
   status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
 ) -> HttpResponse =
-  #| (body, status) => {
+  #| (body, status, statusText, headers) => {
   #|   const msw = require('msw');
-  #|   return status !== undefined ?
-  #|     msw.HttpResponse.xml(body, { status }) :
+  #|   const init = {};
+  #|   if (status !== undefined) init.status = status;
+  #|   if (statusText !== undefined) init.statusText = statusText;
+  #|   if (headers !== undefined) init.headers = headers;
+  #|   return Object.keys(init).length > 0 ?
+  #|     msw.HttpResponse.xml(body, init) :
   #|     msw.HttpResponse.xml(body);
   #| }
 
@@ -165,11 +172,17 @@ pub extern "js" fn http_response_xml(
 pub extern "js" fn http_response_html(
   body : String,
   status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
 ) -> HttpResponse =
-  #| (body, status) => {
+  #| (body, status, statusText, headers) => {
   #|   const msw = require('msw');
-  #|   return status !== undefined ?
-  #|     msw.HttpResponse.html(body, { status }) :
+  #|   const init = {};
+  #|   if (status !== undefined) init.status = status;
+  #|   if (statusText !== undefined) init.statusText = statusText;
+  #|   if (headers !== undefined) init.headers = headers;
+  #|   return Object.keys(init).length > 0 ?
+  #|     msw.HttpResponse.html(body, init) :
   #|     msw.HttpResponse.html(body);
   #| }
 
@@ -177,119 +190,23 @@ pub extern "js" fn http_response_html(
 pub extern "js" fn http_response_array_buffer(
   body : @core.Any,
   status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
 ) -> HttpResponse =
-  #| (body, status) => {
+  #| (body, status, statusText, headers) => {
   #|   const msw = require('msw');
-  #|   return status !== undefined ?
-  #|     msw.HttpResponse.arrayBuffer(body, { status }) :
+  #|   const init = {};
+  #|   if (status !== undefined) init.status = status;
+  #|   if (statusText !== undefined) init.statusText = statusText;
+  #|   if (headers !== undefined) init.headers = headers;
+  #|   return Object.keys(init).length > 0 ?
+  #|     msw.HttpResponse.arrayBuffer(body, init) :
   #|     msw.HttpResponse.arrayBuffer(body);
   #| }
 
 ///|
 pub extern "js" fn http_response_error() -> HttpResponse =
   #| () => require('msw').HttpResponse.error()
-
-///| Server FFI (msw/node)
-
-///|
-extern "js" fn ffi_setup_server(handlers : @core.Any) -> SetupServer =
-  #| (handlers) => require('msw/node').setupServer(...handlers)
-
-///|
-extern "js" fn ffi_setup_server_empty() -> SetupServer =
-  #| () => require('msw/node').setupServer()
-
-///|
-pub extern "js" fn server_listen(
-  server : SetupServer,
-  options? : @core.Any,
-) -> Unit =
-  #| (server, options) => {
-  #|   return options !== undefined ?
-  #|     server.listen(options) :
-  #|     server.listen();
-  #| }
-
-///|
-extern "js" fn ffi_server_close(server : SetupServer) -> Unit =
-  #| (server) => server.close()
-
-///|
-extern "js" fn ffi_server_reset_handlers(server : SetupServer) -> Unit =
-  #| (server) => server.resetHandlers()
-
-///|
-extern "js" fn ffi_server_reset_handlers_with(
-  server : SetupServer,
-  handlers : @core.Any,
-) -> Unit =
-  #| (server, handlers) => server.resetHandlers(...handlers)
-
-///|
-extern "js" fn ffi_server_use(
-  server : SetupServer,
-  handlers : @core.Any,
-) -> Unit =
-  #| (server, handlers) => server.use(...handlers)
-
-///|
-extern "js" fn ffi_server_restore_handlers(server : SetupServer) -> Unit =
-  #| (server) => server.restoreHandlers()
-
-///|
-extern "js" fn ffi_server_list_handlers(server : SetupServer) -> @core.Any =
-  #| (server) => server.listHandlers()
-
-///| Worker FFI (msw/browser)
-
-///|
-extern "js" fn ffi_setup_worker(handlers : @core.Any) -> SetupWorker =
-  #| (handlers) => require('msw/browser').setupWorker(...handlers)
-
-///|
-extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
-  #| () => require('msw/browser').setupWorker()
-
-///|
-pub extern "js" fn worker_start(
-  worker : SetupWorker,
-  options? : @core.Any,
-) -> @core.Promise[Unit] =
-  #| (worker, options) => {
-  #|   return options !== undefined ?
-  #|     worker.start(options) :
-  #|     worker.start();
-  #| }
-
-///|
-extern "js" fn ffi_worker_stop(worker : SetupWorker) -> Unit =
-  #| (worker) => worker.stop()
-
-///|
-extern "js" fn ffi_worker_reset_handlers(worker : SetupWorker) -> Unit =
-  #| (worker) => worker.resetHandlers()
-
-///|
-extern "js" fn ffi_worker_reset_handlers_with(
-  worker : SetupWorker,
-  handlers : @core.Any,
-) -> Unit =
-  #| (worker, handlers) => worker.resetHandlers(...handlers)
-
-///|
-extern "js" fn ffi_worker_use(
-  worker : SetupWorker,
-  handlers : @core.Any,
-) -> Unit =
-  #| (worker, handlers) => worker.use(...handlers)
-
-///|
-extern "js" fn ffi_worker_restore_handlers(worker : SetupWorker) -> Unit =
-  #| (worker) => worker.restoreHandlers()
-
-///|
-extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @core.Any =
-  #| (worker) => worker.listHandlers()
 
 ///| Request/Response Info FFI
 
@@ -394,203 +311,88 @@ pub fn httpAll(
 
 ///|
 /// Create JSON response
-pub fn jsonResponse(body : @core.Any, status? : Int) -> HttpResponse {
-  http_response_json(body, status?)
+///
+/// # Options
+/// - `status`: HTTP status code (e.g., 200, 404)
+/// - `statusText`: HTTP status text (e.g., "OK", "Not Found")
+/// - `headers`: Response headers as an object
+pub fn jsonResponse(
+  body : @core.Any,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  http_response_json(body, status?, statusText?, headers?)
 }
 
 ///|
 /// Create text response
-pub fn textResponse(body : String, status? : Int) -> HttpResponse {
-  http_response_text(body, status?)
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn textResponse(
+  body : String,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  http_response_text(body, status?, statusText?, headers?)
 }
 
 ///|
 /// Create XML response
-pub fn xmlResponse(body : String, status? : Int) -> HttpResponse {
-  http_response_xml(body, status?)
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn xmlResponse(
+  body : String,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  http_response_xml(body, status?, statusText?, headers?)
 }
 
 ///|
 /// Create HTML response
-pub fn htmlResponse(body : String, status? : Int) -> HttpResponse {
-  http_response_html(body, status?)
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn htmlResponse(
+  body : String,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  http_response_html(body, status?, statusText?, headers?)
 }
 
 ///|
 /// Create array buffer response
-pub fn arrayBufferResponse(body : @core.Any, status? : Int) -> HttpResponse {
-  http_response_array_buffer(body, status?)
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn arrayBufferResponse(
+  body : @core.Any,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  http_response_array_buffer(body, status?, statusText?, headers?)
 }
 
 ///|
 /// Create network error response
 pub fn errorResponse() -> HttpResponse {
   http_response_error()
-}
-
-///| Server Methods
-
-///|
-/// Setup mock server with handlers
-pub fn setupServer(handlers : Array[RequestHandler]) -> SetupServer {
-  if handlers.length() == 0 {
-    ffi_setup_server_empty()
-  } else {
-    ffi_setup_server(@core.any(handlers.map(fn(h) { h.as_any() })))
-  }
-}
-
-///|
-/// Start listening for requests
-pub fn SetupServer::listen(
-  self : SetupServer,
-  onUnhandledRequest? : String,
-) -> Unit {
-  match onUnhandledRequest {
-    Some(mode) => {
-      let options = @core.new_object()
-      options["onUnhandledRequest"] = @core.any(mode)
-      server_listen(self, options~)
-    }
-    None => server_listen(self)
-  }
-}
-
-///|
-/// Stop the mock server
-pub fn SetupServer::close(self : SetupServer) -> Unit {
-  ffi_server_close(self)
-}
-
-///|
-/// Reset handlers to initial state
-pub fn SetupServer::resetHandlers(self : SetupServer) -> Unit {
-  ffi_server_reset_handlers(self)
-}
-
-///|
-/// Reset handlers with new handlers
-pub fn SetupServer::resetHandlersWith(
-  self : SetupServer,
-  handlers : Array[RequestHandler],
-) -> Unit {
-  ffi_server_reset_handlers_with(
-    self,
-    @core.any(handlers.map(fn(h) { h.as_any() })),
-  )
-}
-
-///|
-/// Add runtime request handlers
-pub fn SetupServer::useHandlers(
-  self : SetupServer,
-  handlers : Array[RequestHandler],
-) -> Unit {
-  ffi_server_use(self, @core.any(handlers.map(fn(h) { h.as_any() })))
-}
-
-///|
-/// Restore handlers to initial state (alias for resetHandlers)
-pub fn SetupServer::restoreHandlers(self : SetupServer) -> Unit {
-  ffi_server_restore_handlers(self)
-}
-
-///|
-/// List all current handlers
-pub fn SetupServer::listHandlers(self : SetupServer) -> @core.Any {
-  ffi_server_list_handlers(self)
-}
-
-///| Worker Methods (Browser)
-
-///|
-/// Setup mock worker with handlers (Browser)
-pub fn setupWorker(handlers : Array[RequestHandler]) -> SetupWorker {
-  if handlers.length() == 0 {
-    ffi_setup_worker_empty()
-  } else {
-    ffi_setup_worker(@core.any(handlers.map(fn(h) { h.as_any() })))
-  }
-}
-
-///|
-/// Start the service worker (async)
-pub async fn SetupWorker::start(
-  self : SetupWorker,
-  serviceWorkerUrl? : String,
-  quiet? : Bool,
-  onUnhandledRequest? : String,
-) -> Unit {
-  let has_options = serviceWorkerUrl is Some(_) ||
-    quiet is Some(_) ||
-    onUnhandledRequest is Some(_)
-  if has_options {
-    let options = @core.new_object()
-    match serviceWorkerUrl {
-      Some(url) => {
-        let sw = @core.new_object()
-        sw["url"] = @core.any(url)
-        options["serviceWorker"] = sw
-      }
-      None => ()
-    }
-    match quiet {
-      Some(q) => options["quiet"] = @core.any(q)
-      None => ()
-    }
-    match onUnhandledRequest {
-      Some(mode) => options["onUnhandledRequest"] = @core.any(mode)
-      None => ()
-    }
-    worker_start(self, options~).wait()
-  } else {
-    worker_start(self).wait()
-  }
-}
-
-///|
-/// Stop the service worker
-pub fn SetupWorker::stop(self : SetupWorker) -> Unit {
-  ffi_worker_stop(self)
-}
-
-///|
-/// Reset handlers to initial state
-pub fn SetupWorker::resetHandlers(self : SetupWorker) -> Unit {
-  ffi_worker_reset_handlers(self)
-}
-
-///|
-/// Reset handlers with new handlers
-pub fn SetupWorker::resetHandlersWith(
-  self : SetupWorker,
-  handlers : Array[RequestHandler],
-) -> Unit {
-  ffi_worker_reset_handlers_with(
-    self,
-    @core.any(handlers.map(fn(h) { h.as_any() })),
-  )
-}
-
-///|
-/// Add runtime request handlers
-pub fn SetupWorker::useHandlers(
-  self : SetupWorker,
-  handlers : Array[RequestHandler],
-) -> Unit {
-  ffi_worker_use(self, @core.any(handlers.map(fn(h) { h.as_any() })))
-}
-
-///|
-/// Restore handlers to initial state
-pub fn SetupWorker::restoreHandlers(self : SetupWorker) -> Unit {
-  ffi_worker_restore_handlers(self)
-}
-
-///|
-/// List all current handlers
-pub fn SetupWorker::listHandlers(self : SetupWorker) -> @core.Any {
-  ffi_worker_list_handlers(self)
 }
 
 ///| ResponseResolverInfo Methods

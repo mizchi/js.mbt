@@ -6,11 +6,11 @@ import(
 )
 
 // Values
-pub fn arrayBufferResponse(@core.Any, status? : Int) -> HttpResponse
+pub fn arrayBufferResponse(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn errorResponse() -> HttpResponse
 
-pub fn htmlResponse(String, status? : Int) -> HttpResponse
+pub fn htmlResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn httpAll(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
@@ -28,19 +28,19 @@ pub fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandle
 
 pub fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
-pub fn http_response_array_buffer(@core.Any, status? : Int) -> HttpResponse
+pub fn http_response_array_buffer(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn http_response_error() -> HttpResponse
 
-pub fn http_response_html(String, status? : Int) -> HttpResponse
+pub fn http_response_html(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
-pub fn http_response_json(@core.Any, status? : Int) -> HttpResponse
+pub fn http_response_json(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
-pub fn http_response_text(String, status? : Int) -> HttpResponse
+pub fn http_response_text(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
-pub fn http_response_xml(String, status? : Int) -> HttpResponse
+pub fn http_response_xml(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
-pub fn jsonResponse(@core.Any, status? : Int) -> HttpResponse
+pub fn jsonResponse(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn mockError(String, Int, String) -> RequestHandler
 
@@ -64,11 +64,11 @@ pub fn setupServer(Array[RequestHandler]) -> SetupServer
 
 pub fn setupWorker(Array[RequestHandler]) -> SetupWorker
 
-pub fn textResponse(String, status? : Int) -> HttpResponse
+pub fn textResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn worker_start(SetupWorker, options? : @core.Any) -> @core.Promise[Unit]
 
-pub fn xmlResponse(String, status? : Int) -> HttpResponse
+pub fn xmlResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 // Errors
 
@@ -126,6 +126,10 @@ pub fn SetupWorker::useHandlers(Self, Array[RequestHandler]) -> Unit
 #external
 pub type StartOptions
 pub fn StartOptions::as_any(Self) -> @core.Any
+
+#external
+pub type WebSocketHandler
+pub fn WebSocketHandler::as_any(Self) -> @core.Any
 
 // Type aliases
 
