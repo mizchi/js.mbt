@@ -103,21 +103,18 @@ pub extern "js" fn ChildProcess::send(
 
 ///|
 /// Close the IPC channel between parent and child
-pub fn ChildProcess::disconnect(self : ChildProcess) -> Unit {
-  self.as_any()._call("disconnect", []) |> ignore
-}
+pub extern "js" fn ChildProcess::disconnect(self : ChildProcess) -> Unit =
+  #| (self) => self.disconnect()
 
 ///|
 /// Prevent the parent process from waiting for this child
-pub fn ChildProcess::unref(self : ChildProcess) -> Unit {
-  self.as_any()._call("unref", []) |> ignore
-}
+pub extern "js" fn ChildProcess::unref(self : ChildProcess) -> Unit =
+  #| (self) => self.unref()
 
 ///|
 /// Require the parent process to wait for this child
-pub fn ChildProcess::ref_(self : ChildProcess) -> Unit {
-  self.as_any()._call("ref", []) |> ignore
-}
+pub extern "js" fn ChildProcess::ref_(self : ChildProcess) -> Unit =
+  #| (self) => self.ref()
 
 ///|
 /// Module Functions

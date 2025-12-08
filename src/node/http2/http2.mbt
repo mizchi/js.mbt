@@ -223,18 +223,16 @@ pub fn connect(authority : String) -> Http2Session {
 
 ///|
 /// Request on an HTTP/2 session
-pub fn Http2Session::request(
+pub extern "js" fn Http2Session::request(
   self : Http2Session,
   headers : @js.Object,
-) -> ClientHttp2Stream {
-  self.as_any()._call("request", [@core.any(headers)]).cast()
-}
+) -> ClientHttp2Stream =
+  #| (self, headers) => self.request(headers)
 
 ///|
 /// Close the session
-pub fn Http2Session::close(self : Http2Session) -> Unit {
-  self.as_any()._call("close", []) |> ignore
-}
+pub extern "js" fn Http2Session::close(self : Http2Session) -> Unit =
+  #| (self) => self.close()
 
 ///|
 /// Send a ping
@@ -245,33 +243,32 @@ pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
 
 ///|
 /// Send response headers (server stream)
-pub fn ServerHttp2Stream::respond(
+pub extern "js" fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
   headers : @js.Object,
-) -> Unit {
-  self.as_any()._call("respond", [@core.any(headers)]) |> ignore
-}
+) -> Unit =
+  #| (self, headers) => self.respond(headers)
 
 ///|
 /// End the stream with data
-pub fn ServerHttp2Stream::end(self : ServerHttp2Stream, data : String) -> Unit {
-  self.as_any()._call("end", [@core.any(data)]) |> ignore
-}
+pub extern "js" fn ServerHttp2Stream::end(
+  self : ServerHttp2Stream,
+  data : String,
+) -> Unit =
+  #| (self, data) => self.end(data)
 
 ///|
 /// Write data to the stream
-pub fn ClientHttp2Stream::write(
+pub extern "js" fn ClientHttp2Stream::write(
   self : ClientHttp2Stream,
   data : String,
-) -> Unit {
-  self.as_any()._call("write", [@core.any(data)]) |> ignore
-}
+) -> Unit =
+  #| (self, data) => self.write(data)
 
 ///|
 /// End the client stream
-pub fn ClientHttp2Stream::end(self : ClientHttp2Stream) -> Unit {
-  self.as_any()._call("end", []) |> ignore
-}
+pub extern "js" fn ClientHttp2Stream::end(self : ClientHttp2Stream) -> Unit =
+  #| (self) => self.end()
 
 ///|
 /// Register 'data' event handler on client stream
