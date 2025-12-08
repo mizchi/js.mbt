@@ -1,8 +1,6 @@
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/web/http",
-    "mizchi/js/core",
-    "mizchi/js/mbtconv"
+    "mizchi/js/core"
   ]
 }

@@ -3,8 +3,7 @@
     "js"
   ],
   "import": [
-    "mizchi/js/core",
-    "moonbitlang/async"
+    "mizchi/js/core"
   ],
   "warn-list": "-4-6-7-27"
 }

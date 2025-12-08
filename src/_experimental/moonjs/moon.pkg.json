@@ -2,7 +2,6 @@
   "is_main": true,
   "import": [
     "moonbitlang/async",
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/node/process",
     "mizchi/js/node/fs",

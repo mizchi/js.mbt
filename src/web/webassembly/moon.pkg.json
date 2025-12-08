@@ -3,10 +3,8 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/builtins/arraybuffer",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/builtins/global"
   ],
   "test-import": [

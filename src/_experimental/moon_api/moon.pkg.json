@@ -1,12 +1,8 @@
 {
   "import": [
-    "mizchi/js",
-    "mizchi/js/core",
-    "mizchi/js/node/child_process",
-    "mizchi/js/node/process"
+    "mizchi/js/core"
   ],
   "test-import": [
-    "moonbitlang/async",
-    "mizchi/js/_experimental/runtime"
+    "mizchi/js/node/process"
   ]
 }

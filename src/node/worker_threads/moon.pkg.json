@@ -3,10 +3,7 @@
     "js"
   ],
   "import": [
-    "mizchi/js/node",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
-    "mizchi/js/node/events",
     "mizchi/js/web/streams"
   ],
   "test-import": [

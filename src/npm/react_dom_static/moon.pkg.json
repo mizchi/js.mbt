@@ -6,11 +6,12 @@
     "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/web/streams",
-    "mizchi/js/web/encoding",
     "mizchi/js/node/stream",
-    "mizchi/js/node",
     "mizchi/js/npm/react",
-    "mizchi/js/npm/react_element",
     "mizchi/js/builtins/error"
+  ],
+  "test-import": [
+    "mizchi/js/node",
+    "mizchi/js/npm/react_element"
   ]
 }

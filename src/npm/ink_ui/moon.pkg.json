@@ -3,12 +3,11 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/react",
-    "mizchi/js/npm/ink"
+    "mizchi/js/npm/react"
   ],
   "test-import": [
+    "mizchi/js/npm/ink",
     "moonbitlang/async"
   ]
 }

@@ -4,7 +4,6 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/builtins/arraybuffer",
     "mizchi/js/node/buffer"
   ],

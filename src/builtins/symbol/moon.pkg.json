@@ -2,8 +2,7 @@
   "supported-targets": [
     "js"
   ],
-  "import": [
+  "test-import": [
     "mizchi/js/core"
-  ],
-  "test-import": []
+  ]
 }

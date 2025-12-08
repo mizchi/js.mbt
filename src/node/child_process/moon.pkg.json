@@ -4,7 +4,6 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/node/events",
     "mizchi/js/web/streams",
     "mizchi/js/builtins/error",
@@ -12,7 +11,6 @@
   ],
   "test-import": [
     "moonbitlang/async",
-    "mizchi/js/node/buffer",
-    "mizchi/js/builtins/global"
+    "mizchi/js/node/buffer"
   ]
 }

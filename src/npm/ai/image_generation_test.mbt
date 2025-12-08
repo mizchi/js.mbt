@@ -3,9 +3,9 @@
 ///|
 test "generated image from_any" {
   let base64_str = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk"
-  let raw = @core.from_entries([
+  let raw = @js.from_entries([
     ("base64", base64_str |> @core.any),
-    ("uint8Array", @global.undefined() |> @core.any),
+    ("uint8Array", @js.undefined() |> @core.any),
   ]).cast()
   let image = @ai.GeneratedImage::from_any(raw)
   assert_true(image.base64.length() > 0)
@@ -15,7 +15,7 @@ test "generated image from_any" {
 test "generate image result from_any" {
   let image_raw_nostd = @core.from_entries([
     ("base64", @core.any("base64data")),
-    ("uint8Array", @global.undefined() |> @core.any),
+    ("uint8Array", @js.undefined() |> @core.any),
   ])
   let empty_warnings : Array[@core.Any] = []
   let raw = @core.from_entries([
@@ -33,11 +33,11 @@ test "generate image result from_any" {
 test "generate image result multiple images" {
   let image1_nostd = @core.from_entries([
     ("base64", @core.any("image1base64")),
-    ("uint8Array", @global.undefined() |> @core.any),
+    ("uint8Array", @core.undefined() |> @core.any),
   ])
   let image2_nostd = @core.from_entries([
     ("base64", @core.any("image2base64")),
-    ("uint8Array", @global.undefined() |> @core.any),
+    ("uint8Array", @core.undefined() |> @core.any),
   ])
   let empty_warnings : Array[@core.Any] = []
   let raw = @core.from_entries([

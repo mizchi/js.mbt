@@ -1,12 +1,10 @@
 {
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/node/path",
     "mizchi/js/node/fs"
   ],
   "test-import": [
-    "moonbitlang/async",
     "mizchi/js/node/process"
   ]
 }

@@ -47,7 +47,7 @@ test "has_tool_call creates stop condition" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "search", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "search", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -57,7 +57,7 @@ test "has_tool_call creates stop condition" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "2", tool_name: "finish", input: @global.undefined() },
+      { tool_call_id: "2", tool_name: "finish", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -73,7 +73,7 @@ test "has_any_tool_call creates stop condition" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "search", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "search", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -83,7 +83,7 @@ test "has_any_tool_call creates stop condition" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "2", tool_name: "done", input: @global.undefined() },
+      { tool_call_id: "2", tool_name: "done", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -99,7 +99,7 @@ test "model_finished creates stop condition" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "search", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "search", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -147,7 +147,7 @@ test "any_of combines conditions with OR" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "finish", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "finish", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -171,7 +171,7 @@ test "all_of combines conditions with AND" {
     step_number: 1,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "finish", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "finish", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }
@@ -181,7 +181,7 @@ test "all_of combines conditions with AND" {
     step_number: 2,
     messages: [],
     tool_calls: [
-      { tool_call_id: "1", tool_name: "finish", input: @global.undefined() },
+      { tool_call_id: "1", tool_name: "finish", input: @js.undefined() },
     ],
     finish_reason: ToolCalls,
   }

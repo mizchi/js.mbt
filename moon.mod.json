@@ -20,6 +20,6 @@
   ],
   "description": "bindings for js/node/browser/deno etc",
   "source": "src",
-  "warn-list": "-29-53",
+  "warn-list": "-53",
   "preferred-target": "js"
 }

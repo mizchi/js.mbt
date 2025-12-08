@@ -25,10 +25,5 @@
     "mizchi/js/builtins/atomics",
     "mizchi/js/builtins/function",
     "mizchi/js/builtins/disposable"
-  ],
-  "test-import": [
-    "moonbitlang/async",
-    "mizchi/js/node/events",
-    "mizchi/js/builtins/global"
   ]
 }

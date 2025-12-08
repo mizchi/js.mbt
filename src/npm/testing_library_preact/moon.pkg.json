@@ -3,14 +3,14 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/browser/dom",
     "mizchi/js/node",
-    "mizchi/js/npm/global_jsdom",
     "mizchi/js/npm/preact",
-    "mizchi/js/npm/testing_library",
+    "mizchi/js/npm/testing_library"
+  ],
+  "test-import": [
+    "mizchi/js/npm/global_jsdom",
     "moonbitlang/async"
   ]
 }

@@ -1,8 +1,6 @@
 {
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/webextensions",
     "mizchi/js/webextensions/storage",
     "mizchi/js/webextensions/runtime",
     "mizchi/js/webextensions/tabs"

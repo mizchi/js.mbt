@@ -8,10 +8,5 @@
     "mizchi/js/browser/dom",
     "mizchi/js/builtins/global"
   ],
-  "test-import": [
-    "mizchi/js/node",
-    "mizchi/js/npm/global_jsdom",
-    "moonbitlang/async"
-  ],
   "warn-list": "-1-5-6"
 }

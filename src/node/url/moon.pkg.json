@@ -4,8 +4,6 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
-    "mizchi/js/web/http",
     {
       "path": "mizchi/js/web/url",
       "alias": "weburl"

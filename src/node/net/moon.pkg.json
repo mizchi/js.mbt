@@ -4,8 +4,6 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
-    "mizchi/js/node/events",
     "mizchi/js/node/stream"
   ],
   "test-import": [

@@ -5,9 +5,10 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/web/event",
-    "mizchi/js/web/message",
     "mizchi/js/builtins/global"
+  ],
+  "test-import": [
+    "mizchi/js/web/message"
   ]
 }

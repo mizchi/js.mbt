@@ -4,9 +4,7 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/web/event",
-    "mizchi/js/node/stream",
     "mizchi/js/builtins/global"
   ]
 }

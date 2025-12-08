@@ -4,8 +4,5 @@
   ],
   "import": [
     "mizchi/js/core"
-  ],
-  "test-import": [
-    "mizchi/js/npm/global_jsdom"
   ]
 }

@@ -4,8 +4,7 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/builtins/arraybuffer",
-    "mizchi/js"
+    "mizchi/js/builtins/arraybuffer"
   ],
   "test-import": [
     "moonbitlang/async",

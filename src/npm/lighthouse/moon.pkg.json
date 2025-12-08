@@ -1,10 +1,11 @@
 {
   "import": [
-    "moonbitlang/async",
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/npm/puppeteer",
     "mizchi/js/builtins/global"
+  ],
+  "test-import": [
+    "moonbitlang/async"
   ]
 }

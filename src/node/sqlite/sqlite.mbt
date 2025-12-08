@@ -299,7 +299,7 @@ pub fn DatabaseSync::applyChangeset(
 pub type StatementSync
 
 ///|
-pub fn StatementSync::get_(
+pub fn StatementSync::get(
   self : StatementSync,
   named_parameters? : Map[String, @core.Any],
   anonymous_parameters? : Array[@core.Any],

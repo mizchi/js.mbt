@@ -4,7 +4,6 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/node/stream",
     "mizchi/js/builtins/regexp",
     "moonbitlang/async/js_async"

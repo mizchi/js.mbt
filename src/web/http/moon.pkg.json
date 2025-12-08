@@ -5,13 +5,13 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/builtins/arraybuffer",
     "mizchi/js/web/blob",
-    "mizchi/js/web/encoding",
     "mizchi/js/web/streams",
-    "mizchi/js/web/url",
     "moonbitlang/async",
     "mizchi/js/builtins/global"
+  ],
+  "test-import": [
+    "mizchi/js/web/encoding"
   ]
 }

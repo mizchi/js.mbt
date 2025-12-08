@@ -3,7 +3,9 @@
     "js"
   ],
   "import": [
-    "mizchi/js/core",
+    "mizchi/js/core"
+  ],
+  "test-import": [
     "moonbitlang/async"
   ]
 }

@@ -4,10 +4,10 @@
   ],
   "import": [
     "mizchi/js",
-    "mizchi/js/core",
-    "moonbitlang/async"
+    "mizchi/js/core"
   ],
   "test-import": [
+    "moonbitlang/async",
     "mizchi/js/web/encoding"
   ]
 }

@@ -2,11 +2,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/mbtconv",
     "mizchi/js/web/http",
-    "mizchi/js/web/url",
-    "mizchi/js/builtins/arraybuffer",
-    "mizchi/js/node",
     "mizchi/js/npm/better_auth"
   ],
   "test-import": [

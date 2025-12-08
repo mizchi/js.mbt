@@ -1,19 +1,4 @@
 {
-  "import": [
-    "moonbitlang/async",
-    "moonbitlang/async/js_async",
-    "mizchi/js",
-    "mizchi/js/core",
-    "mizchi/js/web/http",
-    "mizchi/js/web/event",
-    "mizchi/js/browser/dom",
-    "mizchi/js/browser/storage",
-    "mizchi/js/browser/canvas",
-    "mizchi/js/builtins/bigint",
-    "mizchi/js/builtins/global",
-    "mizchi/js/node/path",
-    "mizchi/js/node/os",
-    "mizchi/js/node/fs_promises"
-  ],
+  "import": [],
   "warn-list": "-1-3-6-7-9"
 }

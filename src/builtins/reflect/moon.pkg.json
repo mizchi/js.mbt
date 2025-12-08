@@ -7,7 +7,6 @@
   ],
   "test-import": [
     "mizchi/js/builtins/object",
-    "mizchi/js/builtins/global",
     "mizchi/js/builtins/symbol"
   ]
 }

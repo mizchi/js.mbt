@@ -4,8 +4,7 @@
   ],
   "import": [
     "mizchi/js/web/webassembly",
-    "mizchi/js/core",
-    "mizchi/js/mbtconv"
+    "mizchi/js/core"
   ],
   "test-import": [
     "mizchi/js/node/fs"

@@ -5,7 +5,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/react",
     "mizchi/js/npm/better_auth"
   ]
 }
