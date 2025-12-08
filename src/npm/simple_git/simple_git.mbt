@@ -12,8 +12,7 @@
 pub type SimpleGit
 
 ///|
-pub extern "js" fn SimpleGit::as_any(self : SimpleGit) -> @core.Any =
-  #| (x) => x
+pub fn SimpleGit::as_any(self : SimpleGit) -> @core.Any = "%identity"
 
 ///|
 /// Git status result
@@ -21,8 +20,7 @@ pub extern "js" fn SimpleGit::as_any(self : SimpleGit) -> @core.Any =
 pub type StatusResult
 
 ///|
-pub extern "js" fn StatusResult::as_any(self : StatusResult) -> @core.Any =
-  #| (x) => x
+pub fn StatusResult::as_any(self : StatusResult) -> @core.Any = "%identity"
 
 ///|
 /// Git log result
@@ -30,8 +28,7 @@ pub extern "js" fn StatusResult::as_any(self : StatusResult) -> @core.Any =
 pub type LogResult
 
 ///|
-pub extern "js" fn LogResult::as_any(self : LogResult) -> @core.Any =
-  #| (x) => x
+pub fn LogResult::as_any(self : LogResult) -> @core.Any = "%identity"
 
 ///|
 /// Git branch summary
@@ -39,8 +36,7 @@ pub extern "js" fn LogResult::as_any(self : LogResult) -> @core.Any =
 pub type BranchSummary
 
 ///|
-pub extern "js" fn BranchSummary::as_any(self : BranchSummary) -> @core.Any =
-  #| (x) => x
+pub fn BranchSummary::as_any(self : BranchSummary) -> @core.Any = "%identity"
 
 ///|
 /// Git diff result
@@ -48,8 +44,7 @@ pub extern "js" fn BranchSummary::as_any(self : BranchSummary) -> @core.Any =
 pub type DiffResult
 
 ///|
-pub extern "js" fn DiffResult::as_any(self : DiffResult) -> @core.Any =
-  #| (x) => x
+pub fn DiffResult::as_any(self : DiffResult) -> @core.Any = "%identity"
 
 ///|
 /// Git fetch result
@@ -57,8 +52,7 @@ pub extern "js" fn DiffResult::as_any(self : DiffResult) -> @core.Any =
 pub type FetchResult
 
 ///|
-pub extern "js" fn FetchResult::as_any(self : FetchResult) -> @core.Any =
-  #| (x) => x
+pub fn FetchResult::as_any(self : FetchResult) -> @core.Any = "%identity"
 
 ///|
 /// Git pull result
@@ -66,8 +60,7 @@ pub extern "js" fn FetchResult::as_any(self : FetchResult) -> @core.Any =
 pub type PullResult
 
 ///|
-pub extern "js" fn PullResult::as_any(self : PullResult) -> @core.Any =
-  #| (x) => x
+pub fn PullResult::as_any(self : PullResult) -> @core.Any = "%identity"
 
 ///|
 /// Commit result
@@ -75,8 +68,7 @@ pub extern "js" fn PullResult::as_any(self : PullResult) -> @core.Any =
 pub type CommitResult
 
 ///|
-pub extern "js" fn CommitResult::as_any(self : CommitResult) -> @core.Any =
-  #| (x) => x
+pub fn CommitResult::as_any(self : CommitResult) -> @core.Any = "%identity"
 
 ///| Constructor FFI
 
@@ -96,6 +88,17 @@ extern "js" fn ffi_simple_git_with_options(options : @core.Any) -> SimpleGit =
 
 ///|
 /// Create a SimpleGit instance
+///
+/// # Options
+/// - `base_dir`: Base directory for git operations
+/// - `binary`: Path to git binary (default: "git")
+/// - `maxConcurrentProcesses`: Maximum number of concurrent git processes
+/// - `trimmed`: Remove trailing whitespace from output
+///
+/// @example
+/// ```moonbit
+/// let git = @simple_git.simpleGit(base_dir="/path/to/repo")
+/// ```
 pub fn simpleGit(
   base_dir? : String,
   binary? : String,
@@ -233,6 +236,20 @@ pub async fn SimpleGit::addAll(self : SimpleGit) -> Unit {
 
 ///|
 /// Commit staged changes
+///
+/// # Parameters
+/// - `message`: Commit message
+/// - `files`: Optional list of files to commit
+/// - `author`: Optional author override (format: "Name <email>")
+///
+/// @example
+/// ```moonbit
+/// let result = git.commit("feat: add new feature").wait()
+///
+/// let result = git
+///   .commit("fix: bug", files=["file.txt"], author="John <john@example.com>")
+///   .wait()
+/// ```
 pub async fn SimpleGit::commit(
   self : SimpleGit,
   message : String,
@@ -308,6 +325,19 @@ extern "js" fn ffi_fetch_default(git : SimpleGit) -> @core.Promise[FetchResult] 
 
 ///|
 /// Push to remote
+///
+/// # Options
+/// - `remote`: Remote name (default: "origin")
+/// - `branch`: Branch name
+/// - `set_upstream`: Set upstream tracking (-u flag)
+/// - `force`: Force push (--force flag)
+/// - `tags`: Push tags (--tags flag)
+///
+/// @example
+/// ```moonbit
+/// git.push().wait()  // Push current branch to origin
+/// git.push(remote="origin", branch="main", set_upstream=true).wait()
+/// ```
 pub async fn SimpleGit::push(
   self : SimpleGit,
   remote? : String,
@@ -340,6 +370,17 @@ pub async fn SimpleGit::push(
 
 ///|
 /// Pull from remote
+///
+/// # Options
+/// - `remote`: Remote name (default: "origin")
+/// - `branch`: Branch name (default: current branch)
+///
+/// @example
+/// ```moonbit
+/// let result = git.pull().wait()
+///
+/// let result = git.pull(remote="origin", branch="main").wait()
+/// ```
 pub async fn SimpleGit::pull(
   self : SimpleGit,
   remote? : String,
