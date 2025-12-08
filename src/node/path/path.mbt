@@ -12,17 +12,13 @@ pub fn join(paths : Array[String]) -> String {
 ///|
 /// Join two path segments
 /// JS: path.join(a, b)
-pub fn join2(a : String, b : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("join", [@core.any(a), @core.any(b)]).cast()
-}
+pub extern "js" fn join2(a : String, b : String) -> String =
+  #|(a, b) => require("node:path").join(a, b)
 
 ///|
 /// JS: path.dirname(path)
-pub fn dirname(path : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("dirname", [@core.any(path)]).cast()
-}
+pub extern "js" fn dirname(path : String) -> String =
+  #|(path) => require("node:path").dirname(path)
 
 ///|
 /// JS: path.basename(path, suffix)
@@ -37,25 +33,19 @@ pub fn basename(path : String, suffix? : String) -> String {
 
 ///|
 /// JS: path.extname(path)
-pub fn extname(path : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("extname", [@core.any(path)]).cast()
-}
+pub extern "js" fn extname(path : String) -> String =
+  #|(path) => require("node:path").extname(path)
 
 ///|
 /// JS: path.isAbsolute(path)
 #alias(is_absolute)
-pub fn isAbsolute(path : String) -> Bool {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("isAbsolute", [@core.any(path)]).cast()
-}
+pub extern "js" fn isAbsolute(path : String) -> Bool =
+  #|(path) => require("node:path").isAbsolute(path)
 
 ///|
 /// JS: path.normalize(path)
-pub fn normalize(path : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("normalize", [@core.any(path)]).cast()
-}
+pub extern "js" fn normalize(path : String) -> String =
+  #|(path) => require("node:path").normalize(path)
 
 ///|
 /// JS: path.resolve(...paths)
@@ -66,24 +56,18 @@ pub fn resolve(paths : Array[String]) -> String {
 
 ///|
 /// JS: path.relative(from, to)
-pub fn relative(from : String, to : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("relative", [@core.any(from), @core.any(to)]).cast()
-}
+pub extern "js" fn relative(from : String, to : String) -> String =
+  #|(from, to) => require("node:path").relative(from, to)
 
 ///|
 /// JS: path.parse(path)
-pub fn parse(path : String) -> ParsedPath {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("parse", [@core.any(path)]) |> @core.identity
-}
+pub extern "js" fn parse(path : String) -> ParsedPath =
+  #|(path) => require("node:path").parse(path)
 
 ///|
 /// JS: path.format(parsed)
-pub fn format(parsed : ParsedPath) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("format", [parsed.to_any()]).cast()
-}
+pub extern "js" fn format(parsed : ParsedPath) -> String =
+  #|(parsed) => require("node:path").format(parsed)
 
 ///|
 pub(all) struct ParsedPath {
@@ -98,27 +82,19 @@ pub(all) struct ParsedPath {
 pub fn ParsedPath::to_any(self : ParsedPath) -> @core.Any = "%identity"
 
 ///|
-pub fn delimiter() -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module["delimiter"].cast()
-}
+pub extern "js" fn delimiter() -> String =
+  #|() => require("node:path").delimiter
 
 ///|
-pub fn sep() -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module["sep"].cast()
-}
+pub extern "js" fn sep() -> String =
+  #|() => require("node:path").sep
 
 ///|
 #alias(to_namespaced_path)
-pub fn toNamespacedPath(path : String) -> String {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("toNamespacedPath", [@core.any(path)]).cast()
-}
+pub extern "js" fn toNamespacedPath(path : String) -> String =
+  #|(path) => require("node:path").toNamespacedPath(path)
 
 ///|
 #alias(matches_glob)
-pub fn matchesGlob(path : String, pattern : String) -> Bool {
-  let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("matchesGlob", [@core.any(path), @core.any(pattern)]).cast()
-}
+pub extern "js" fn matchesGlob(path : String, pattern : String) -> Bool =
+  #|(path, pattern) => require("node:path").matchesGlob(path, pattern)
