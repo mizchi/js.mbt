@@ -23,7 +23,7 @@ pub fn run(
   argv? : Array[String],
   watch? : Bool,
   shard? : TestShard,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
   testNamePatterns? : Array[String],
   testSkipPatterns? : Array[String],
   timeout? : Int,
@@ -109,7 +109,7 @@ pub fn run(
     entries.push(("rerunFailuresFilePath", @core.any(v)))
   }
   if setup is Some(v) {
-    entries.push(("setup", @core.identity(@js.from_fn0(v))))
+    entries.push(("setup", @core.identity(@core.from_fn0(v))))
   }
   let obj = @core.from_entries(entries).cast()
   nodetest()._call("run", [obj]).cast()

@@ -47,7 +47,7 @@ pub fn version() -> String {
 
 ///|
 /// JS: process.versions
-pub fn versions() -> @js.Object {
+pub fn versions() -> @core.Any {
   process_any()["version"].cast()
 }
 
@@ -99,12 +99,16 @@ pub fn stderr() -> @tty.WriteStream {
 ///|
 /// JS: process.on(sig, listener)
 pub fn on(sig : String, listener : () -> Unit) -> Unit {
-  process_any()._call("on", [@core.any(sig), @core.any(@js.from_fn0(listener))])
+  process_any()._call("on", [
+    @core.any(sig),
+    @core.any(@core.from_fn0(listener)),
+  ])
   |> ignore
 }
 
 ///|
 /// JS: process.nextTick(callback)
 pub fn nextTick(callback : () -> Unit) -> Unit {
-  process_any()._call("nextTick", [@core.any(@js.from_fn0(callback))]) |> ignore
+  process_any()._call("nextTick", [@core.any(@core.from_fn0(callback))])
+  |> ignore
 }

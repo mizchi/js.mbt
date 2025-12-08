@@ -3,7 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     {
       "path": "mizchi/js/web/streams",

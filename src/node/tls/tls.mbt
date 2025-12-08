@@ -124,7 +124,7 @@ pub fn connect(
   ca? : String,
   rejectUnauthorized? : Bool,
   alpn_protocols? : Array[String],
-  session? : @js.Object,
+  session? : @core.Any,
 ) -> TLSSocket {
   let cb : @core.Any = @core.identity(callback)
   let alpn_js = alpn_protocols.map(fn(v) -> @core.Any {
@@ -163,7 +163,7 @@ pub fn connect(
 pub fn TLSSocket::get_peer_certificate(
   self : TLSSocket,
   detailed : Bool,
-) -> @js.Object {
+) -> @core.Any {
   let val : @core.Any = self
     .as_any()
     ._call("getPeerCertificate", [@core.any(detailed)])
@@ -172,7 +172,7 @@ pub fn TLSSocket::get_peer_certificate(
 
 ///|
 /// Get the cipher information
-pub fn TLSSocket::get_cipher(self : TLSSocket) -> @js.Object {
+pub fn TLSSocket::get_cipher(self : TLSSocket) -> @core.Any {
   let val : @core.Any = self.as_any()._call("getCipher", [])
   @core.identity(val)
 }
@@ -231,7 +231,7 @@ pub fn TLSSocket::on_secure_connect(
 /// Register 'data' event handler
 pub fn TLSSocket::on_data(
   self : TLSSocket,
-  callback : (@js.Object) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> TLSSocket {
   self
   .as_event_target()
@@ -252,7 +252,7 @@ pub fn TLSSocket::on_end(self : TLSSocket, callback : () -> Unit) -> TLSSocket {
 /// Register 'error' event handler
 pub fn TLSSocket::on_error(
   self : TLSSocket,
-  callback : (@js.Object) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> TLSSocket {
   self
   .as_event_target()

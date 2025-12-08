@@ -131,7 +131,7 @@ pub fn spawn(
   env? : @core.Any,
   shell? : Bool,
   timeout? : Int,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let entries : Array[(String, @core.Any)] = []
@@ -163,13 +163,13 @@ pub fn spawn(
 /// Spawns a shell and executes a command, buffering the output
 pub fn exec(
   command : String,
-  callback : (@js.Nullish[@error.JsError], String, String) -> Unit,
+  callback : (@core.Nullish[@error.JsError], String, String) -> Unit,
   cwd? : String,
   env? : @core.Any,
   shell? : String,
   timeout? : Int,
   max_buffer? : Int,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let entries : Array[(String, @core.Any)] = []
@@ -202,12 +202,12 @@ pub fn exec(
 pub fn execFile(
   file : String,
   args : Array[String],
-  callback : (@js.Nullish[@error.JsError], String, String) -> Unit,
+  callback : (@core.Nullish[@error.JsError], String, String) -> Unit,
   cwd? : String,
   env? : @core.Any,
   timeout? : Int,
   max_buffer? : Int,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let entries : Array[(String, @core.Any)] = []
@@ -247,7 +247,7 @@ pub fn fork(
   env? : @core.Any,
   silent? : Bool,
   timeout? : Int,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
   let cp = ffi_require_child_process()
   let entries : Array[(String, @core.Any)] = []

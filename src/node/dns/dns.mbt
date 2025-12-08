@@ -13,7 +13,7 @@ extern "js" fn ffi_lookup(
 /// Resolve a hostname to an IP address using OS facilities
 pub fn lookup(
   hostname : String,
-  callback : (@js.Object?, @js.Object) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
   family? : Int,
   all? : Bool,
   order? : String,
@@ -52,7 +52,7 @@ extern "js" fn ffi_resolve(
 pub fn resolve(
   hostname : String,
   rrtype : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve(hostname, rrtype, cb)
@@ -69,7 +69,7 @@ extern "js" fn ffi_resolve4(hostname : String, callback : @core.Any) -> Unit =
 /// Resolve a hostname to IPv4 addresses
 pub fn resolve4(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve4(hostname, cb)
@@ -86,7 +86,7 @@ extern "js" fn ffi_resolve6(hostname : String, callback : @core.Any) -> Unit =
 /// Resolve a hostname to IPv6 addresses
 pub fn resolve6(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve6(hostname, cb)
@@ -103,7 +103,7 @@ extern "js" fn ffi_resolve_mx(hostname : String, callback : @core.Any) -> Unit =
 /// Resolve MX records
 pub fn resolve_mx(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve_mx(hostname, cb)
@@ -120,7 +120,7 @@ extern "js" fn ffi_resolve_txt(hostname : String, callback : @core.Any) -> Unit 
 /// Resolve TXT records
 pub fn resolve_txt(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve_txt(hostname, cb)
@@ -137,7 +137,7 @@ extern "js" fn ffi_resolve_srv(hostname : String, callback : @core.Any) -> Unit 
 /// Resolve SRV records
 pub fn resolve_srv(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve_srv(hostname, cb)
@@ -154,7 +154,7 @@ extern "js" fn ffi_resolve_ns(hostname : String, callback : @core.Any) -> Unit =
 /// Resolve NS (name server) records
 pub fn resolve_ns(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve_ns(hostname, cb)
@@ -174,7 +174,7 @@ extern "js" fn ffi_resolve_cname(
 /// Resolve CNAME records
 pub fn resolve_cname(
   hostname : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_resolve_cname(hostname, cb)
@@ -189,17 +189,14 @@ extern "js" fn ffi_reverse(ip : String, callback : @core.Any) -> Unit =
 
 ///|
 /// Perform reverse DNS lookup
-pub fn reverse(
-  ip : String,
-  callback : (@js.Object?, @js.JsArray) -> Unit,
-) -> Unit {
+pub fn reverse(ip : String, callback : (@core.Any?, @core.Any) -> Unit) -> Unit {
   let cb : @core.Any = @core.identity(callback)
   ffi_reverse(ip, cb)
 }
 
 ///|
 /// Get the current DNS server addresses
-pub extern "js" fn get_servers() -> @js.JsArray =
+pub extern "js" fn get_servers() -> @core.Any =
   #| () => {
   #|   const dns = require('dns');
   #|   return dns.getServers();

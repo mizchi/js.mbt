@@ -382,7 +382,7 @@ pub fn StatementSync::iterate(
   self : StatementSync,
   named_parameters? : Map[String, @core.Any],
   anonymous_parameters? : Array[@core.Any],
-) -> @js.JsIterator[@core.Any] {
+) -> @iterator.JsIterator[@core.Any] {
   let args : Array[@core.Any] = []
   if named_parameters is Some(params) {
     let obj = @core.new_object()

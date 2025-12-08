@@ -181,7 +181,7 @@ pub fn Server::listen(
       .as_any()
       ._call("once", [
         @core.any("listening"),
-        @core.any(@js.from_fn1(fn(_ : @core.Any) { cb() })),
+        @core.any(@core.from_fn1(fn(_ : @core.Any) { cb() })),
       ])
       |> ignore
     None => ()

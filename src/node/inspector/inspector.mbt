@@ -44,8 +44,8 @@ pub fn Session::disconnect(self : Session) -> Unit {
 pub fn Session::post(
   self : Session,
   method_ : String,
-  params : @js.Object?,
-  callback : (@js.Object?, @js.Object) -> Unit,
+  params : @core.Any?,
+  callback : (@core.Any?, @core.Any) -> Unit,
 ) -> Unit {
   let cb : @core.Any = callback |> @core.any
   match params {
@@ -58,7 +58,7 @@ pub fn Session::post(
 
 ///|
 /// Module-level functions
-pub fn open(port : Int?, host : String?, wait : Bool?) -> @js.Object {
+pub fn open(port : Int?, host : String?, wait : Bool?) -> @core.Any {
   match (port, host, wait) {
     (Some(p), Some(h), Some(w)) => ffi_open_3(p, h, w)
     (Some(p), Some(h), None) => ffi_open_2(p, h)
@@ -68,19 +68,19 @@ pub fn open(port : Int?, host : String?, wait : Bool?) -> @js.Object {
 }
 
 ///|
-extern "js" fn ffi_open_0() -> @js.Object =
+extern "js" fn ffi_open_0() -> @core.Any =
   #| () => require('node:inspector').open()
 
 ///|
-extern "js" fn ffi_open_1(port : Int) -> @js.Object =
+extern "js" fn ffi_open_1(port : Int) -> @core.Any =
   #| (port) => require('node:inspector').open(port)
 
 ///|
-extern "js" fn ffi_open_2(port : Int, host : String) -> @js.Object =
+extern "js" fn ffi_open_2(port : Int, host : String) -> @core.Any =
   #| (port, host) => require('node:inspector').open(port, host)
 
 ///|
-extern "js" fn ffi_open_3(port : Int, host : String, wait : Bool) -> @js.Object =
+extern "js" fn ffi_open_3(port : Int, host : String, wait : Bool) -> @core.Any =
   #| (port, host, wait) => require('node:inspector').open(port, host, wait)
 
 ///|

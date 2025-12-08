@@ -3,7 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/web/webassembly",
     "mizchi/js/core",
     "mizchi/js/mbtconv"

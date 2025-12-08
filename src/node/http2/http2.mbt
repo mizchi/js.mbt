@@ -91,7 +91,7 @@ extern "js" fn ffi_create_server(
 ///|
 /// Create an unencrypted HTTP/2 server
 pub fn create_server(
-  request_handler : (@js.Object, @js.Object) -> Unit,
+  request_handler : (@core.Any, @core.Any) -> Unit,
   allow_http1? : Bool,
   max_deflate_dynamic_table_size? : Int,
   max_session_memory? : Int,
@@ -123,7 +123,7 @@ pub fn create_server(
     entries.push(("paddingStrategy", @core.any(v)))
   }
   let opts = @core.from_entries(entries)
-  ffi_create_server(opts, @js.from_fn2(request_handler))
+  ffi_create_server(opts, @core.from_fn2(request_handler))
 }
 
 ///|
@@ -139,7 +139,7 @@ extern "js" fn ffi_create_secure_server(
 ///|
 /// Create a TLS-encrypted HTTP/2 server
 pub fn create_secure_server(
-  request_handler : (@js.Object, @js.Object) -> Unit,
+  request_handler : (@core.Any, @core.Any) -> Unit,
   key? : String,
   cert? : String,
   pfx? : String,
@@ -163,7 +163,7 @@ pub fn create_secure_server(
     entries.push(("allowHTTP1", @core.any(v)))
   }
   let opts = @core.from_entries(entries)
-  ffi_create_secure_server(opts, @js.from_fn2(request_handler))
+  ffi_create_secure_server(opts, @core.from_fn2(request_handler))
 }
 
 ///|
@@ -225,7 +225,7 @@ pub fn connect(authority : String) -> Http2Session {
 /// Request on an HTTP/2 session
 pub extern "js" fn Http2Session::request(
   self : Http2Session,
-  headers : @js.Object,
+  headers : @core.Any,
 ) -> ClientHttp2Stream =
   #| (self, headers) => self.request(headers)
 
@@ -245,7 +245,7 @@ pub fn Http2Session::ping(self : Http2Session, callback : () -> Unit) -> Unit {
 /// Send response headers (server stream)
 pub extern "js" fn ServerHttp2Stream::respond(
   self : ServerHttp2Stream,
-  headers : @js.Object,
+  headers : @core.Any,
 ) -> Unit =
   #| (self, headers) => self.respond(headers)
 
@@ -274,7 +274,7 @@ pub extern "js" fn ClientHttp2Stream::end(self : ClientHttp2Stream) -> Unit =
 /// Register 'data' event handler on client stream
 pub fn ClientHttp2Stream::on_data(
   self : ClientHttp2Stream,
-  callback : (@js.Object) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> ClientHttp2Stream {
   self
   .as_event_target()
@@ -286,7 +286,7 @@ pub fn ClientHttp2Stream::on_data(
 /// Register 'response' event handler on client stream
 pub fn ClientHttp2Stream::on_response(
   self : ClientHttp2Stream,
-  callback : (@js.Object) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> ClientHttp2Stream {
   self
   .as_event_target()

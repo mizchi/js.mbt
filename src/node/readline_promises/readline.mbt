@@ -22,7 +22,7 @@ pub fn createInterface(
   crlfDelay? : Int,
   escapeCodeTimeout? : Int,
   tabSize? : Int,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> Interface {
   let entries : Array[(String, @core.Any)] = []
   entries.push(("input", @core.identity(input.as_any())))
@@ -30,7 +30,7 @@ pub fn createInterface(
     entries.push(("output", @core.identity(v.as_any())))
   }
   if completer is Some(v) {
-    entries.push(("completer", @core.identity(@js.from_fn1(v))))
+    entries.push(("completer", @core.identity(@core.from_fn1(v))))
   }
   if terminator is Some(v) {
     entries.push(("terminator", @core.any(v)))
@@ -64,7 +64,7 @@ pub fn createInterface(
 
 ///|
 pub async fn Interface::question(self : Self, query : String) -> String {
-  let promise : @js.Promise[String] = self
+  let promise : @core.Promise[String] = self
     .as_any()
     ._call("question", [@core.any(query)])
     .cast()
@@ -73,7 +73,7 @@ pub async fn Interface::question(self : Self, query : String) -> String {
 
 ///|
 pub async fn Interface::commit(self : Self) -> Unit {
-  let promise : @js.Promise[Unit] = self.as_any()._call("commit", []).cast()
+  let promise : @core.Promise[Unit] = self.as_any()._call("commit", []).cast()
   promise.wait()
 }
 
@@ -85,7 +85,7 @@ pub fn Interface::rollback(self : Self) -> Self {
 ///|
 #alias(cursor_to)
 pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("cursorTo", [@core.any(x), @core.any(y)])
     .cast()
@@ -95,7 +95,7 @@ pub async fn Interface::cursorTo(self : Self, x : Int, y? : Int) -> Unit {
 ///|
 #alias(move_cursor)
 pub async fn Interface::moveCursor(self : Self, dx : Int, dy? : Int) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("moveCursor", [@core.any(dx), @core.any(dy)])
     .cast()

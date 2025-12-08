@@ -29,7 +29,7 @@ pub fn EventEmitter::on(
 ) -> Unit {
   self
   .to_any()
-  ._call("on", [@core.any(name), @core.any(callback |> @js.from_fn1)])
+  ._call("on", [@core.any(name), @core.any(callback |> @core.from_fn1)])
   .cast()
 }
 
@@ -41,7 +41,7 @@ pub fn EventEmitter::on2(
 ) -> Unit {
   self
   .to_any()
-  ._call("on", [@core.any(name), @core.any(callback |> @js.from_fn2)])
+  ._call("on", [@core.any(name), @core.any(callback |> @core.from_fn2)])
   .cast()
 }
 
@@ -53,7 +53,7 @@ pub fn EventEmitter::once(
 ) -> Unit {
   self
   .to_any()
-  ._call("once", [@core.any(name), @core.any(callback |> @js.from_fn1)])
+  ._call("once", [@core.any(name), @core.any(callback |> @core.from_fn1)])
   .cast()
 }
 
@@ -86,7 +86,7 @@ pub fn EventEmitter::off(
 ) -> Unit {
   self
   .to_any()
-  ._call("off", [@core.any(name), @core.any(callback |> @js.from_fn1)])
+  ._call("off", [@core.any(name), @core.any(callback |> @core.from_fn1)])
   .cast()
 }
 
@@ -100,7 +100,7 @@ pub fn EventEmitter::removeListener(
   .to_any()
   ._call("removeListener", [
     @core.any(name),
-    @core.any(callback |> @js.from_fn1),
+    @core.any(callback |> @core.from_fn1),
   ])
   .cast()
 }

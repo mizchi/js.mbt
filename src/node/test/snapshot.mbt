@@ -55,5 +55,5 @@ pub fn setDefaultSnapshotSerializers(serializers : Array[@core.Any]) -> Unit {
 /// setResolveSnapshotPath(fn) - Custom snapshot file location
 pub fn setResolveSnapshotPath(fn_ : (String) -> String) -> Unit {
   let s : @core.Any = @core.any(snapshot_module())
-  s._call("setResolveSnapshotPath", [@core.any(@js.from_fn1(fn_))]) |> ignore
+  s._call("setResolveSnapshotPath", [@core.any(@core.from_fn1(fn_))]) |> ignore
 }

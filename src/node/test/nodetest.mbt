@@ -195,7 +195,7 @@ pub fn TestContext::assert_throws(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let fn_js = @core.any(@js.from_fn0(fn_))
+  let fn_js = @core.any(@core.from_fn0(fn_))
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj._call("throws", [fn_js, err, @core.any(msg)]) |> ignore
@@ -215,7 +215,7 @@ pub fn TestContext::assert_does_not_throw(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let fn_js = @core.any(@js.from_fn0(fn_))
+  let fn_js = @core.any(@core.from_fn0(fn_))
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj._call("doesNotThrow", [fn_js, err, @core.any(msg)]) |> ignore
@@ -237,7 +237,7 @@ pub fn TestContext::assert_rejects(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @core.Any = @js.promisify0(asyncFn)() |> @core.any
+  let promise_js : @core.Any = @core.promisify0(asyncFn)() |> @core.any
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj._call("rejects", [promise_js, err, @core.any(msg)]) |> ignore
@@ -258,7 +258,7 @@ pub fn TestContext::assert_does_not_reject(
   message? : String,
 ) -> Unit {
   let assert_obj = self.assert_obj()
-  let promise_js : @core.Any = @js.promisify0(asyncFn)() |> @core.any
+  let promise_js : @core.Any = @core.promisify0(asyncFn)() |> @core.any
   match (error, message) {
     (Some(err), Some(msg)) =>
       assert_obj._call("doesNotReject", [promise_js, err, @core.any(msg)])
@@ -299,7 +299,7 @@ pub fn test_(
   nodetest()._call("test", [
     @core.any(name),
     options,
-    @core.any(@js.promisify1(f) |> @js.from_fn1),
+    @core.any(@core.promisify1(f) |> @core.from_fn1),
   ])
   |> ignore
 }
@@ -330,7 +330,7 @@ pub fn it(
   nodetest()._call("it", [
     @core.any(name),
     options,
-    @core.any(@js.promisify1(f) |> @js.from_fn1),
+    @core.any(@core.promisify1(f) |> @core.from_fn1),
   ])
   |> ignore
 }
@@ -361,7 +361,7 @@ pub fn describe(
   nodetest()._call("describe", [
     @core.any(name),
     options,
-    @core.any(@js.promisify1(f) |> @js.from_fn1),
+    @core.any(@core.promisify1(f) |> @core.from_fn1),
   ])
   |> ignore
 }
@@ -375,7 +375,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("before", [@js.promisify0(f) |> @js.from_fn0, options])
+  nodetest()._call("before", [@core.promisify0(f) |> @core.from_fn0, options])
   |> ignore
 }
 
@@ -386,7 +386,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("after", [@js.promisify0(f) |> @js.from_fn0, options])
+  nodetest()._call("after", [@core.promisify0(f) |> @core.from_fn0, options])
   |> ignore
 }
 
@@ -397,7 +397,10 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("beforeEach", [@js.promisify0(f) |> @js.from_fn0, options])
+  nodetest()._call("beforeEach", [
+    @core.promisify0(f) |> @core.from_fn0,
+    options,
+  ])
   |> ignore
 }
 
@@ -408,7 +411,7 @@ pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("afterEach", [@js.promisify0(f) |> @js.from_fn0, options])
+  nodetest()._call("afterEach", [@core.promisify0(f) |> @core.from_fn0, options])
   |> ignore
 }
 

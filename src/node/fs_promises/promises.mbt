@@ -65,12 +65,12 @@ pub fn glob(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> @js.AsyncIterator[String] {
+) -> @iterator.AsyncIterator[String] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @core.Any? = match (exclude, exclude_fn) {
     (Some(arr), _) => Some(@core.identity(arr |> @core.any))
-    (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
+    (None, Some(f)) => Some(@core.identity(f |> @core.from_fn1))
     (None, None) => None
   }
   let entries : Array[(String, @core.Any)] = []
@@ -117,12 +117,12 @@ pub fn glob_with_filetype(
   cwd? : String,
   exclude? : Array[String],
   exclude_fn? : (String) -> Bool,
-) -> @js.AsyncIterator[Dirent] {
+) -> @iterator.AsyncIterator[Dirent] {
   let fs = fs_promises_module()
   // exclude can be either an array of patterns or a function
   let exclude_opt : @core.Any? = match (exclude, exclude_fn) {
     (Some(arr), _) => Some(@core.identity(arr |> @core.any))
-    (None, Some(f)) => Some(@core.identity(f |> @js.from_fn1))
+    (None, Some(f)) => Some(@core.identity(f |> @core.from_fn1))
     (None, None) => None
   }
   let entries : Array[(String, @core.Any)] = []
@@ -198,7 +198,7 @@ pub async fn writeFile(
   mode? : Int = 0o666,
   flag? : String = "w",
   flush? : Bool = false,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> Unit {
   let fs = fs_promises_module()
   let entries : Array[(String, @core.Any)] = []

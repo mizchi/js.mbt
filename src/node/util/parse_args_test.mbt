@@ -13,10 +13,10 @@ test "parse_args" {
     allow_positionals=true,
   )
   assert_eq(res.values, {
-    "key": "v" |> @js.any,
-    "name": "alice" |> @js.any,
-    "verbose": true |> @js.any,
-    "help": true |> @js.any,
+    "key": "v" |> @core.any,
+    "name": "alice" |> @core.any,
+    "verbose": true |> @core.any,
+    "help": true |> @core.any,
   })
   assert_eq(res.positionals, ["file1.txt", "file2.txt"])
 }

@@ -180,7 +180,7 @@ pub async fn rejects(
   message? : String,
 ) -> Unit {
   let a = assert_strict_module()
-  let p : @js.Promise[Unit] = match (error, message) {
+  let p : @core.Promise[Unit] = match (error, message) {
     (Some(err), Some(msg)) =>
       a._call("rejects", [promise, err, @core.any(msg)]).cast()
     (Some(err), None) => a._call("rejects", [promise, err]).cast()
@@ -194,7 +194,7 @@ pub async fn rejects(
 /// Assert that a promise does not reject
 pub async fn doesNotReject(promise : @core.Any, message? : String) -> Unit {
   let a = assert_strict_module()
-  let p : @js.Promise[Unit] = match message {
+  let p : @core.Promise[Unit] = match message {
     Some(msg) => a._call("doesNotReject", [promise, @core.any(msg)]).cast()
     None => a._call("doesNotReject", [promise]).cast()
   }

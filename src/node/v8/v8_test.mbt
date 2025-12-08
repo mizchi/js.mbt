@@ -57,7 +57,7 @@ test "write_heap_snapshot returns filename" {
   let filename = @v8.writeHeapSnapshot()
   inspect(filename.length() > 0, content="true")
   // Clean up snapshot file
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     @fs_promises.rm(filename) catch {
       _ => ()
     }
@@ -71,7 +71,7 @@ test "write_heap_snapshot with custom filename" {
   let filename = @v8.writeHeapSnapshot(filename=custom_name)
   inspect(filename == custom_name, content="true")
   // Clean up snapshot file
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     @fs_promises.rm(filename) catch {
       _ => ()
     }

@@ -14,7 +14,7 @@ extern "js" fn ffi_stream_promises_finished(stream : @core.Any) -> @core.Any =
 
 ///|
 pub async fn pipeline(streams : Array[@core.Any]) -> @stream.Stream {
-  let promise : @js.Promise[@stream.Stream] = ffi_stream_promises_pipeline(
+  let promise : @core.Promise[@stream.Stream] = ffi_stream_promises_pipeline(
     @core.identity(streams),
   ).cast()
   promise.wait()
@@ -22,6 +22,6 @@ pub async fn pipeline(streams : Array[@core.Any]) -> @stream.Stream {
 
 ///|
 pub async fn finished(stream : @core.Any) -> Unit {
-  let promise : @js.Promise[Unit] = ffi_stream_promises_finished(stream).cast()
+  let promise : @core.Promise[Unit] = ffi_stream_promises_finished(stream).cast()
   promise.wait()
 }

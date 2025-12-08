@@ -3,8 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
-    "mizchi/js/core",
-    "mizchi/js/node/stream"
+    "mizchi/js/core"
   ]
 }

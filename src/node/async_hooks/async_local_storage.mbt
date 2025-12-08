@@ -31,7 +31,7 @@ pub fn[T] AsyncLocalStorage::run(
 ) -> Unit {
   self
   .as_any()
-  ._call("run", [@core.any(store), @core.any(callback |> @js.from_fn0)])
+  ._call("run", [@core.any(store), @core.any(callback |> @core.from_fn0)])
   |> ignore
 }
 
@@ -42,7 +42,7 @@ pub fn[T] AsyncLocalStorage::exit(
   self : AsyncLocalStorage[T],
   callback : () -> Unit,
 ) -> Unit {
-  self.as_any()._call("exit", [@core.any(callback |> @js.from_fn0)]) |> ignore
+  self.as_any()._call("exit", [@core.any(callback |> @core.from_fn0)]) |> ignore
 }
 
 ///|

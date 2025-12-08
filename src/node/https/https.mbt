@@ -75,13 +75,13 @@ extern "js" fn ffi_create_server(
 ///|
 /// Create an HTTPS server
 pub fn create_server(
-  request_listener : (@js.Object, @js.Object) -> Unit,
+  request_listener : (@core.Any, @core.Any) -> Unit,
   key? : String,
   cert? : String,
   pfx? : String,
   passphrase? : String,
 ) -> Server {
-  let listener = @js.from_fn2(request_listener)
+  let listener = @core.from_fn2(request_listener)
   let entries : Array[(String, @core.Any)] = []
   if key is Some(v) {
     entries.push(("key", @core.any(v)))
@@ -194,7 +194,7 @@ extern "js" fn ffi_get(url : String, callback : @core.Any) -> ClientRequest =
 
 ///|
 /// Make an HTTPS GET request
-pub fn get(url : String, callback : (@js.Object) -> Unit) -> ClientRequest {
+pub fn get(url : String, callback : (@core.Any) -> Unit) -> ClientRequest {
   let cb : @core.Any = @core.identity(callback)
   ffi_get(url, cb)
 }

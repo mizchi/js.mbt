@@ -24,7 +24,7 @@ pub fn FSWatcher::on(
 ) -> Self {
   self
   .as_any()
-  ._call("on", [@core.any(event), @core.any(@js.from_fn2(listener))])
+  ._call("on", [@core.any(event), @core.any(@core.from_fn2(listener))])
   .cast()
 }
 
@@ -60,7 +60,7 @@ pub fn watch(
         ._call("watch", [
           @core.any(filename),
           options,
-          @core.any(@js.from_fn2(l)),
+          @core.any(@core.from_fn2(l)),
         ])
         .cast()
       None => fs._call("watch", [@core.any(filename), options]).cast()
@@ -69,7 +69,7 @@ pub fn watch(
     match listener {
       Some(l) =>
         fs
-        ._call("watch", [@core.any(filename), @core.any(@js.from_fn2(l))])
+        ._call("watch", [@core.any(filename), @core.any(@core.from_fn2(l))])
         .cast()
       None => fs._call("watch", [@core.any(filename)]).cast()
     }

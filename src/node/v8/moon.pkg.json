@@ -3,14 +3,12 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/builtins/arraybuffer",
     "mizchi/js/node/buffer"
   ],
   "test-import": [
-    "mizchi/js",
     "mizchi/js/node/fs_promises"
   ]
 }

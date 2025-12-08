@@ -3,10 +3,10 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     "mizchi/js/node/stream",
-    "mizchi/js/builtins/regexp"
+    "mizchi/js/builtins/regexp",
+    "moonbitlang/async/js_async"
   ]
 }

@@ -244,7 +244,7 @@ async test "Node Stream: pipeline with callback" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @core.identity(writable_js)
   let callback : @core.Any = @core.any(
-    @js.from_fn1(fn(err : @core.Any) -> Unit {
+    @core.from_fn1(fn(err : @core.Any) -> Unit {
       callback_called = true
       ignore(err)
     }),
@@ -263,7 +263,7 @@ async test "Node Stream: finished - stream completion" {
   let writable_js = create_writable_to_array()
   let writable : @stream.Writable = @core.identity(writable_js)
   let callback : @core.Any = @core.any(
-    @js.from_fn1(fn(err : @core.Any) -> Unit {
+    @core.from_fn1(fn(err : @core.Any) -> Unit {
       finished_called = true
       ignore(err)
     }),
@@ -283,7 +283,7 @@ async test "Node Stream: async pipeline with Promise" {
     let writable_js = create_writable_to_array()
     let writable : @stream.Writable = @core.identity(writable_js)
     let callback : @core.Any = @core.any(
-      @js.from_fn1(fn(err : @core.Any) -> Unit {
+      @core.from_fn1(fn(err : @core.Any) -> Unit {
         ignore(err)
         let chunks = get_chunks(writable_js)
         let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"

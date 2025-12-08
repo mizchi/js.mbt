@@ -10,7 +10,7 @@ pub fn ChildProcess::on_exit(
   @core.any(self)._call("on", [
     @core.any("exit"),
     @core.any(
-      @js.from_fn2(fn(code : @core.Any, signal : @core.Any) {
+      @core.from_fn2(fn(code : @core.Any, signal : @core.Any) {
         callback(
           code |> @core.identity_option(),
           signal |> @core.identity_option(),
@@ -31,7 +31,7 @@ pub fn ChildProcess::on_close(
   @core.any(self)._call("on", [
     @core.any("close"),
     @core.any(
-      @js.from_fn2(fn(code : @core.Any, signal : @core.Any) {
+      @core.from_fn2(fn(code : @core.Any, signal : @core.Any) {
         callback(
           code |> @core.identity_option(),
           signal |> @core.identity_option(),
@@ -51,7 +51,7 @@ pub fn ChildProcess::on_error(
 ) -> Unit {
   @core.any(self)._call("on", [
     @core.any("error"),
-    @core.any(@js.from_fn1(callback)),
+    @core.any(@core.from_fn1(callback)),
   ])
   |> ignore
 }
@@ -66,7 +66,7 @@ pub fn ChildProcess::on_message(
   @core.any(self)._call("on", [
     @core.any("message"),
     @core.any(
-      @js.from_fn2(fn(message : @core.Any, sendHandle : @core.Any) {
+      @core.from_fn2(fn(message : @core.Any, sendHandle : @core.Any) {
         callback(message, sendHandle |> @core.identity_option())
       }),
     ),
@@ -83,7 +83,7 @@ pub fn ChildProcess::on_disconnect(
 ) -> Unit {
   @core.any(self)._call("on", [
     @core.any("disconnect"),
-    @core.any(@js.from_fn0(callback)),
+    @core.any(@core.from_fn0(callback)),
   ])
   |> ignore
 }
@@ -97,7 +97,7 @@ pub fn ChildProcess::on_spawn(
 ) -> Unit {
   @core.any(self)._call("on", [
     @core.any("spawn"),
-    @core.any(@js.from_fn0(callback)),
+    @core.any(@core.from_fn0(callback)),
   ])
   |> ignore
 }
@@ -111,7 +111,7 @@ pub fn ChildProcess::on_stdout_data(
 ) -> Unit {
   @core.any(self.stdout())._call("on", [
     @core.any("data"),
-    @core.any(@js.from_fn1(callback)),
+    @core.any(@core.from_fn1(callback)),
   ])
   |> ignore
 }

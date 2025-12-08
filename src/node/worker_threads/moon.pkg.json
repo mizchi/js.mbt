@@ -3,7 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/node",
     "mizchi/js/core",
     "mizchi/js/mbtconv",

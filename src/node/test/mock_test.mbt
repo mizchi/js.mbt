@@ -18,11 +18,11 @@ test "mock.fn creates spy function" {
 test "mock.method mocks object method" {
   let m = mock()
   let obj = @core.new_object()
-  obj._set("getValue", @js.from_fn0(fn() { 42 }))
+  obj._set("getValue", @core.from_fn0(fn() { 42 }))
 
   // Mock the method to return different value
   let obj_js : @core.Any = @core.identity(obj)
-  m.method_(obj_js, "getValue", implementation=@js.from_fn0(fn() { 100 }))
+  m.method_(obj_js, "getValue", implementation=@core.from_fn0(fn() { 100 }))
   |> ignore
   let result : Int = @core.identity(obj._call("getValue", []))
   inspect(result, content="100")
@@ -33,7 +33,7 @@ test "mock.method mocks object method" {
 test "mock.fn with implementation" {
   let m = mock()
   let spy = m.fn_(
-    implementation=@js.from_fn1(fn(x : @core.Any) {
+    implementation=@core.from_fn1(fn(x : @core.Any) {
       let n : Int = @core.identity(x)
       n * 2
     }),
@@ -47,11 +47,11 @@ test "mock.fn with implementation" {
 ///|
 test "mock.fn with both original and implementation" {
   let m = mock()
-  let original_fn = @js.from_fn1(fn(x : @core.Any) {
+  let original_fn = @core.from_fn1(fn(x : @core.Any) {
     let n : Int = @core.identity(x)
     n + 1
   })
-  let implementation_fn = @js.from_fn1(fn(x : @core.Any) {
+  let implementation_fn = @core.from_fn1(fn(x : @core.Any) {
     let n : Int = @core.identity(x)
     n * 2
   })
@@ -64,7 +64,7 @@ test "mock.fn with both original and implementation" {
 test "mock.method without implementation" {
   let m = mock()
   let obj = @core.new_object()
-  obj._set("getValue", @js.from_fn0(fn() { 42 }))
+  obj._set("getValue", @core.from_fn0(fn() { 42 }))
 
   // Mock the method without implementation (spy on original)
   let obj_js : @core.Any = @core.identity(obj)

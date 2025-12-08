@@ -42,7 +42,7 @@ pub fn IncomingMessage::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@core.from_fn0(cb))])
       .cast()
     None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
@@ -195,7 +195,7 @@ pub fn ServerResponse::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@core.from_fn0(cb))])
       |> @core.identity
     None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
@@ -226,7 +226,7 @@ pub fn Server::listen(
       .as_any()
       ._call("once", [
         @core.any("listening"),
-        @core.any(@js.from_fn1(fn(_ : @core.Any) { cb() })),
+        @core.any(@core.from_fn1(fn(_ : @core.Any) { cb() })),
       ])
       |> ignore
     None => ()
@@ -252,7 +252,7 @@ pub fn Server::listen(
 pub fn Server::close(self : Server, callback? : () -> Unit) -> Server {
   match callback {
     Some(cb) =>
-      self.as_any()._call("close", [@core.any(@js.from_fn0(cb))]).cast()
+      self.as_any()._call("close", [@core.any(@core.from_fn0(cb))]).cast()
     None => self.as_any()._call("close", []).cast()
   }
 }
@@ -298,7 +298,7 @@ pub fn Server::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@core.from_fn0(cb))])
       .cast()
     None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
@@ -401,7 +401,7 @@ pub fn ClientRequest::setTimeout(
     Some(cb) =>
       self
       .as_any()
-      ._call("setTimeout", [@core.any(msecs), @core.any(@js.from_fn0(cb))])
+      ._call("setTimeout", [@core.any(msecs), @core.any(@core.from_fn0(cb))])
       .cast()
     None => self.as_any()._call("setTimeout", [@core.any(msecs)]).cast()
   }
@@ -417,7 +417,7 @@ pub fn createServer(
   match requestListener {
     Some(listener) =>
       http_module()
-      ._call("createServer", [@core.any(@js.from_fn2(listener))])
+      ._call("createServer", [@core.any(@core.from_fn2(listener))])
       .cast()
     None => http_module()._call("createServer", []).cast()
   }
@@ -435,14 +435,14 @@ pub fn request(
       http_module()._call("request", [
         @core.any(url),
         opts,
-        @core.any(@js.from_fn1(cb)),
+        @core.any(@core.from_fn1(cb)),
       ])
       |> @core.identity
     (Some(opts), None) =>
       http_module()._call("request", [@core.any(url), opts]).cast()
     (None, Some(cb)) =>
       http_module()
-      ._call("request", [@core.any(url), @core.any(@js.from_fn1(cb))])
+      ._call("request", [@core.any(url), @core.any(@core.from_fn1(cb))])
       .cast()
     (None, None) => http_module()._call("request", [@core.any(url)]).cast()
   }
@@ -458,13 +458,13 @@ pub fn get(
   match (options, callback) {
     (Some(opts), Some(cb)) =>
       http_module()
-      ._call("get", [@core.any(url), opts, @core.any(@js.from_fn1(cb))])
+      ._call("get", [@core.any(url), opts, @core.any(@core.from_fn1(cb))])
       .cast()
     (Some(opts), None) =>
       http_module()._call("get", [@core.any(url), opts]).cast()
     (None, Some(cb)) =>
       http_module()
-      ._call("get", [@core.any(url), @core.any(@js.from_fn1(cb))])
+      ._call("get", [@core.any(url), @core.any(@core.from_fn1(cb))])
       .cast()
     (None, None) => http_module()._call("get", [@core.any(url)]).cast()
   }

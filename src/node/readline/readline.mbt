@@ -91,7 +91,7 @@ pub extern "js" fn Interface::prompt(
 pub extern "js" fn Interface::write(
   self : Interface,
   data : String,
-  key : @js.Object?,
+  key : @core.Any?,
 ) -> Unit =
   #|(self, data, key) => self.write(data, key)
 
