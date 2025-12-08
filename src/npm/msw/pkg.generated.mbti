@@ -28,6 +28,18 @@ pub fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandle
 
 pub fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
 
+pub fn http_response_array_buffer(@core.Any, status? : Int) -> HttpResponse
+
+pub fn http_response_error() -> HttpResponse
+
+pub fn http_response_html(String, status? : Int) -> HttpResponse
+
+pub fn http_response_json(@core.Any, status? : Int) -> HttpResponse
+
+pub fn http_response_text(String, status? : Int) -> HttpResponse
+
+pub fn http_response_xml(String, status? : Int) -> HttpResponse
+
 pub fn jsonResponse(@core.Any, status? : Int) -> HttpResponse
 
 pub fn mockError(String, Int, String) -> RequestHandler
@@ -36,11 +48,25 @@ pub fn mockGet(String, @core.Any) -> RequestHandler
 
 pub fn mockPost(String, @core.Any) -> RequestHandler
 
+pub fn request_headers(@core.Any) -> @core.Any
+
+pub fn request_json(@core.Any) -> @core.Promise[@core.Any]
+
+pub fn request_method(@core.Any) -> String
+
+pub fn request_text(@core.Any) -> @core.Promise[String]
+
+pub fn request_url(@core.Any) -> String
+
+pub fn server_listen(SetupServer, options? : @core.Any) -> Unit
+
 pub fn setupServer(Array[RequestHandler]) -> SetupServer
 
 pub fn setupWorker(Array[RequestHandler]) -> SetupWorker
 
 pub fn textResponse(String, status? : Int) -> HttpResponse
+
+pub fn worker_start(SetupWorker, options? : @core.Any) -> @core.Promise[Unit]
 
 pub fn xmlResponse(String, status? : Int) -> HttpResponse
 
@@ -59,8 +85,11 @@ pub fn RequestHandler::as_any(Self) -> @core.Any
 pub type RequestInfo
 pub fn RequestInfo::as_any(Self) -> @core.Any
 
-#external
-pub type ResponseResolverInfo
+pub(all) struct ResponseResolverInfo {
+  request : @core.Any
+  params : @core.Any
+  cookies : @core.Any
+}
 pub fn ResponseResolverInfo::as_any(Self) -> @core.Any
 pub fn ResponseResolverInfo::cookies(Self) -> @core.Any
 pub fn ResponseResolverInfo::getParam(Self, String) -> String

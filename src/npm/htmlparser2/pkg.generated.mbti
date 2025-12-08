@@ -59,7 +59,6 @@ pub(all) struct Node {
 pub fn Node::asElement(Self) -> Element
 pub fn Node::as_any(Self) -> @core.Any
 pub fn Node::attribs(Self) -> @core.Any
-pub fn Node::children(Self) -> Array[Self]
 pub fn Node::data(Self) -> String
 pub fn Node::get_type(Self) -> String
 pub fn Node::isComment(Self) -> Bool

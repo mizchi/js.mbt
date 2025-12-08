@@ -56,8 +56,11 @@ pub fn RequestInfo::as_any(self : RequestInfo) -> @core.Any = "%identity"
 
 ///|
 /// Response resolver context
-#external
-pub type ResponseResolverInfo
+pub(all) struct ResponseResolverInfo {
+  request : @core.Any
+  params : @core.Any
+  cookies : @core.Any
+}
 
 ///|
 pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @core.Any = "%identity"
@@ -123,58 +126,67 @@ extern "js" fn ffi_http_all(
 ///| HTTP Response FFI
 
 ///|
-extern "js" fn ffi_http_response_json(
+pub extern "js" fn http_response_json(
   body : @core.Any,
-  status : Int,
+  status? : Int,
 ) -> HttpResponse =
-  #| (body, status) => require('msw').HttpResponse.json(body, { status })
+  #| (body, status) => {
+  #|   const msw = require('msw');
+  #|   return status !== undefined ?
+  #|     msw.HttpResponse.json(body, { status }) :
+  #|     msw.HttpResponse.json(body);
+  #| }
 
 ///|
-extern "js" fn ffi_http_response_json_default(body : @core.Any) -> HttpResponse =
-  #| (body) => require('msw').HttpResponse.json(body)
-
-///|
-extern "js" fn ffi_http_response_text(
+pub extern "js" fn http_response_text(
   body : String,
-  status : Int,
+  status? : Int,
 ) -> HttpResponse =
-  #| (body, status) => require('msw').HttpResponse.text(body, { status })
+  #| (body, status) => {
+  #|   const msw = require('msw');
+  #|   return status !== undefined ?
+  #|     msw.HttpResponse.text(body, { status }) :
+  #|     msw.HttpResponse.text(body);
+  #| }
 
 ///|
-extern "js" fn ffi_http_response_text_default(body : String) -> HttpResponse =
-  #| (body) => require('msw').HttpResponse.text(body)
-
-///|
-extern "js" fn ffi_http_response_xml(
+pub extern "js" fn http_response_xml(
   body : String,
-  status : Int,
+  status? : Int,
 ) -> HttpResponse =
-  #| (body, status) => require('msw').HttpResponse.xml(body, { status })
+  #| (body, status) => {
+  #|   const msw = require('msw');
+  #|   return status !== undefined ?
+  #|     msw.HttpResponse.xml(body, { status }) :
+  #|     msw.HttpResponse.xml(body);
+  #| }
 
 ///|
-extern "js" fn ffi_http_response_xml_default(body : String) -> HttpResponse =
-  #| (body) => require('msw').HttpResponse.xml(body)
-
-///|
-extern "js" fn ffi_http_response_html(
+pub extern "js" fn http_response_html(
   body : String,
-  status : Int,
+  status? : Int,
 ) -> HttpResponse =
-  #| (body, status) => require('msw').HttpResponse.html(body, { status })
+  #| (body, status) => {
+  #|   const msw = require('msw');
+  #|   return status !== undefined ?
+  #|     msw.HttpResponse.html(body, { status }) :
+  #|     msw.HttpResponse.html(body);
+  #| }
 
 ///|
-extern "js" fn ffi_http_response_html_default(body : String) -> HttpResponse =
-  #| (body) => require('msw').HttpResponse.html(body)
-
-///|
-extern "js" fn ffi_http_response_array_buffer(
+pub extern "js" fn http_response_array_buffer(
   body : @core.Any,
-  status : Int,
+  status? : Int,
 ) -> HttpResponse =
-  #| (body, status) => require('msw').HttpResponse.arrayBuffer(body, { status })
+  #| (body, status) => {
+  #|   const msw = require('msw');
+  #|   return status !== undefined ?
+  #|     msw.HttpResponse.arrayBuffer(body, { status }) :
+  #|     msw.HttpResponse.arrayBuffer(body);
+  #| }
 
 ///|
-extern "js" fn ffi_http_response_error() -> HttpResponse =
+pub extern "js" fn http_response_error() -> HttpResponse =
   #| () => require('msw').HttpResponse.error()
 
 ///| Server FFI (msw/node)
@@ -188,15 +200,15 @@ extern "js" fn ffi_setup_server_empty() -> SetupServer =
   #| () => require('msw/node').setupServer()
 
 ///|
-extern "js" fn ffi_server_listen(server : SetupServer) -> Unit =
-  #| (server) => server.listen()
-
-///|
-extern "js" fn ffi_server_listen_with_options(
+pub extern "js" fn server_listen(
   server : SetupServer,
-  options : @core.Any,
+  options? : @core.Any,
 ) -> Unit =
-  #| (server, options) => server.listen(options)
+  #| (server, options) => {
+  #|   return options !== undefined ?
+  #|     server.listen(options) :
+  #|     server.listen();
+  #| }
 
 ///|
 extern "js" fn ffi_server_close(server : SetupServer) -> Unit =
@@ -239,15 +251,15 @@ extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
   #| () => require('msw/browser').setupWorker()
 
 ///|
-extern "js" fn ffi_worker_start(worker : SetupWorker) -> @core.Promise[Unit] =
-  #| (worker) => worker.start()
-
-///|
-extern "js" fn ffi_worker_start_with_options(
+pub extern "js" fn worker_start(
   worker : SetupWorker,
-  options : @core.Any,
+  options? : @core.Any,
 ) -> @core.Promise[Unit] =
-  #| (worker, options) => worker.start(options)
+  #| (worker, options) => {
+  #|   return options !== undefined ?
+  #|     worker.start(options) :
+  #|     worker.start();
+  #| }
 
 ///|
 extern "js" fn ffi_worker_stop(worker : SetupWorker) -> Unit =
@@ -282,37 +294,26 @@ extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @core.Any =
 ///| Request/Response Info FFI
 
 ///|
-extern "js" fn ffi_info_request(info : ResponseResolverInfo) -> @core.Any =
-  #| (info) => info.request
-
-///|
-extern "js" fn ffi_info_params(info : ResponseResolverInfo) -> @core.Any =
-  #| (info) => info.params
-
-///|
-extern "js" fn ffi_info_cookies(info : ResponseResolverInfo) -> @core.Any =
-  #| (info) => info.cookies
-
-///|
-extern "js" fn ffi_request_url(request : @core.Any) -> String =
+/// Request property accessors
+pub extern "js" fn request_url(request : @core.Any) -> String =
   #| (request) => request.url
 
 ///|
-extern "js" fn ffi_request_method(request : @core.Any) -> String =
+pub extern "js" fn request_method(request : @core.Any) -> String =
   #| (request) => request.method
 
 ///|
-extern "js" fn ffi_request_headers(request : @core.Any) -> @core.Any =
+pub extern "js" fn request_headers(request : @core.Any) -> @core.Any =
   #| (request) => request.headers
 
 ///|
-extern "js" fn ffi_request_json(
+pub extern "js" fn request_json(
   request : @core.Any,
 ) -> @core.Promise[@core.Any] =
   #| (request) => request.json()
 
 ///|
-extern "js" fn ffi_request_text(request : @core.Any) -> @core.Promise[String] =
+pub extern "js" fn request_text(request : @core.Any) -> @core.Promise[String] =
   #| (request) => request.text()
 
 ///| HTTP Handler Methods
@@ -393,57 +394,38 @@ pub fn httpAll(
 
 ///|
 /// Create JSON response
-pub fn jsonResponse(body : @core.Any, status? : Int = 200) -> HttpResponse {
-  if status == 200 {
-    ffi_http_response_json_default(body)
-  } else {
-    ffi_http_response_json(body, status)
-  }
+pub fn jsonResponse(body : @core.Any, status? : Int) -> HttpResponse {
+  http_response_json(body, status?)
 }
 
 ///|
 /// Create text response
-pub fn textResponse(body : String, status? : Int = 200) -> HttpResponse {
-  if status == 200 {
-    ffi_http_response_text_default(body)
-  } else {
-    ffi_http_response_text(body, status)
-  }
+pub fn textResponse(body : String, status? : Int) -> HttpResponse {
+  http_response_text(body, status?)
 }
 
 ///|
 /// Create XML response
-pub fn xmlResponse(body : String, status? : Int = 200) -> HttpResponse {
-  if status == 200 {
-    ffi_http_response_xml_default(body)
-  } else {
-    ffi_http_response_xml(body, status)
-  }
+pub fn xmlResponse(body : String, status? : Int) -> HttpResponse {
+  http_response_xml(body, status?)
 }
 
 ///|
 /// Create HTML response
-pub fn htmlResponse(body : String, status? : Int = 200) -> HttpResponse {
-  if status == 200 {
-    ffi_http_response_html_default(body)
-  } else {
-    ffi_http_response_html(body, status)
-  }
+pub fn htmlResponse(body : String, status? : Int) -> HttpResponse {
+  http_response_html(body, status?)
 }
 
 ///|
 /// Create array buffer response
-pub fn arrayBufferResponse(
-  body : @core.Any,
-  status? : Int = 200,
-) -> HttpResponse {
-  ffi_http_response_array_buffer(body, status)
+pub fn arrayBufferResponse(body : @core.Any, status? : Int) -> HttpResponse {
+  http_response_array_buffer(body, status?)
 }
 
 ///|
 /// Create network error response
 pub fn errorResponse() -> HttpResponse {
-  ffi_http_response_error()
+  http_response_error()
 }
 
 ///| Server Methods
@@ -468,9 +450,9 @@ pub fn SetupServer::listen(
     Some(mode) => {
       let options = @core.new_object()
       options["onUnhandledRequest"] = @core.any(mode)
-      ffi_server_listen_with_options(self, options)
+      server_listen(self, options~)
     }
-    None => ffi_server_listen(self)
+    None => server_listen(self)
   }
 }
 
@@ -560,9 +542,9 @@ pub async fn SetupWorker::start(
       Some(mode) => options["onUnhandledRequest"] = @core.any(mode)
       None => ()
     }
-    ffi_worker_start_with_options(self, options).wait()
+    worker_start(self, options~).wait()
   } else {
-    ffi_worker_start(self).wait()
+    worker_start(self).wait()
   }
 }
 
@@ -616,37 +598,37 @@ pub fn SetupWorker::listHandlers(self : SetupWorker) -> @core.Any {
 ///|
 /// Get the request object
 pub fn ResponseResolverInfo::request(self : ResponseResolverInfo) -> @core.Any {
-  ffi_info_request(self)
+  self.request
 }
 
 ///|
 /// Get URL parameters
 pub fn ResponseResolverInfo::params(self : ResponseResolverInfo) -> @core.Any {
-  ffi_info_params(self)
+  self.params
 }
 
 ///|
 /// Get cookies
 pub fn ResponseResolverInfo::cookies(self : ResponseResolverInfo) -> @core.Any {
-  ffi_info_cookies(self)
+  self.cookies
 }
 
 ///|
 /// Get request URL
 pub fn ResponseResolverInfo::url(self : ResponseResolverInfo) -> String {
-  ffi_request_url(self.request())
+  request_url(self.request)
 }
 
 ///|
 /// Get request method
 pub fn ResponseResolverInfo::httpMethod(self : ResponseResolverInfo) -> String {
-  ffi_request_method(self.request())
+  request_method(self.request)
 }
 
 ///|
 /// Get request headers
 pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @core.Any {
-  ffi_request_headers(self.request())
+  request_headers(self.request)
 }
 
 ///| Request body methods
@@ -656,7 +638,7 @@ pub fn ResponseResolverInfo::headers(self : ResponseResolverInfo) -> @core.Any {
 pub fn ResponseResolverInfo::json(
   self : ResponseResolverInfo,
 ) -> @core.Promise[@core.Any] {
-  ffi_request_json(self.request())
+  request_json(self.request)
 }
 
 ///|
@@ -664,7 +646,7 @@ pub fn ResponseResolverInfo::json(
 pub fn ResponseResolverInfo::text(
   self : ResponseResolverInfo,
 ) -> @core.Promise[String] {
-  ffi_request_text(self.request())
+  request_text(self.request)
 }
 
 ///| Param helper
@@ -675,7 +657,7 @@ pub fn ResponseResolverInfo::getParam(
   self : ResponseResolverInfo,
   name : String,
 ) -> String {
-  self.params()[name].cast()
+  self.params[name].cast()
 }
 
 ///| Convenience builders
