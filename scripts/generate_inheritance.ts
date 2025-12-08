@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * 継承関係の自動生成スクリプト（汎用版）
  *
@@ -14,7 +12,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
-import { hierarchies, type InheritanceChain, type HierarchyConfig } from "./inheritance-config.js";
+import { hierarchies, type InheritanceChain, type HierarchyConfig } from "./inheritance-config.ts";
 
 const execAsync = promisify(exec);
 
