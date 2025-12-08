@@ -109,7 +109,7 @@ test "chained matchers" {
   let comp = _ => @react_element.button(class="btn primary", type_="submit", [
     "Submit",
   ])
-  render(@react.component(comp, ())) |> ignore
+  @testing_library_react.render(@react.component(comp, ())) |> ignore
   // Chained matchers on same element
   expect(screen().getByText("Submit"))
   ..toBeInTheDocument()

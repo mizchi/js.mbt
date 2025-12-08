@@ -11,5 +11,6 @@
   ],
   "test-import": [
     "mizchi/js/node"
-  ]
+  ],
+  "warn-list": "-25"
 }

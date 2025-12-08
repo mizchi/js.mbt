@@ -31,7 +31,7 @@ extern "js" fn get_valid_callback() -> @core.Any =
 ///|
 test "Nullish[T]::to_option with null value" {
   let obj = create_object_with_null_field()
-  let field : Nullish[Int] = obj["value"].cast()
+  let field : @core.Nullish[Int] = obj["value"].cast()
   let opt = field.to_option()
   // null should become None
   assert_true(opt is None)
@@ -40,7 +40,7 @@ test "Nullish[T]::to_option with null value" {
 ///|
 test "Nullish[T]::to_option with undefined value" {
   let obj = create_object_with_undefined_field()
-  let field : Nullish[Int] = obj["value"].cast()
+  let field : @core.Nullish[Int] = obj["value"].cast()
   let opt = field.to_option()
   // undefined should become None
   assert_true(opt is None)
@@ -49,7 +49,7 @@ test "Nullish[T]::to_option with undefined value" {
 ///|
 test "Nullish[T]::to_option with actual value" {
   let obj = create_object_with_value()
-  let field : Nullish[Int] = obj["value"].cast()
+  let field : @core.Nullish[Int] = obj["value"].cast()
   let opt = field.to_option()
   // actual value should become Some
   assert_true(not(opt is None))
@@ -62,7 +62,7 @@ test "Nullish[T]::to_option with actual value" {
 ///|
 test "Nullish[T]::to_option with missing field (undefined)" {
   let obj = create_object_with_missing_field()
-  let field : Nullish[Int] = obj["value"].cast()
+  let field : @core.Nullish[Int] = obj["value"].cast()
   let opt = field.to_option()
   // missing field (undefined) should become None
   assert_true(opt is None)
@@ -71,9 +71,9 @@ test "Nullish[T]::to_option with missing field (undefined)" {
 // Test Nullable[T] type behavior
 
 ///|
-test "Nullable[T]::to_option with null value" {
+test "@core.Nullable[T]::to_option with null value" {
   let obj = create_object_with_null_field()
-  let field : Nullable[Int] = obj["value"].cast()
+  let field : @core.Nullable[Int] = obj["value"].cast()
   let opt = field.to_option()
   // null should become None
   assert_true(opt is None)
@@ -86,13 +86,13 @@ test "Nullable[T]::to_option with undefined value" {
   // When T=JsValue, undefined becomes Some(undefined)
   // But when T=Int, we get Some(NaN) which is problematic
   // For JsValue, we can verify it works correctly:
-  let field : Nullable[Any] = obj["value"].cast()
+  let field : @core.Nullable[@core.Any] = obj["value"].cast()
   let opt = field.to_option()
   // undefined is NOT null, so Nullable should return Some(undefined)
   assert_true(not(opt is None))
   // The value inside is undefined (nullish but not null)
   match opt {
-    Some(v) => assert_true(is_undefined(v))
+    Some(v) => assert_true(@core.is_undefined(v))
     None => assert_true(false)
   }
 }
@@ -100,7 +100,7 @@ test "Nullable[T]::to_option with undefined value" {
 ///|
 test "Nullable[T]::to_option with actual value" {
   let obj = create_object_with_value()
-  let field : Nullable[Int] = obj["value"].cast()
+  let field : @core.Nullable[Int] = obj["value"].cast()
   let opt = field.to_option()
   // actual value should become Some
   assert_true(not(opt is None))
@@ -114,7 +114,7 @@ test "Nullable[T]::to_option with actual value" {
 
 ///|
 test "null callback with Nullish[T]" {
-  let callback : Nullish[Any] = get_null_callback().cast()
+  let callback : @core.Nullish[@core.Any] = get_null_callback().cast()
   let opt = callback.to_option()
   // null callback should become None
   assert_true(opt is None)
@@ -122,7 +122,7 @@ test "null callback with Nullish[T]" {
 
 ///|
 test "valid callback with Nullish[T]" {
-  let callback : Nullish[@core.Any] = get_valid_callback().cast()
+  let callback : @core.Nullish[@core.Any] = get_valid_callback().cast()
   let opt = callback.to_option()
   // valid callback should become Some
   assert_true(not(opt is None))
@@ -130,7 +130,7 @@ test "valid callback with Nullish[T]" {
 
 ///|
 test "null callback with Nullable[T]" {
-  let callback : Nullable[@core.Any] = get_null_callback().cast()
+  let callback : @core.Nullable[@core.Any] = get_null_callback().cast()
   let opt = callback.to_option()
   // null callback should become None
   assert_true(opt is None)
@@ -144,15 +144,15 @@ test "null callback with Nullable[T]" {
 
 ///|
 priv struct MyStruct {
-  foo : Nullish[Int]
+  foo : @core.Nullish[Int]
 }
 
 ///|
-extern "js" fn create_struct_with_null_foo() -> Any =
+extern "js" fn create_struct_with_null_foo() -> @core.Any =
   #| () => ({ foo: null })
 
 ///|
-extern "js" fn create_struct_with_undefined_foo() -> Any =
+extern "js" fn create_struct_with_undefined_foo() -> @core.Any =
   #| () => ({ foo: undefined })
 
 ///|
@@ -196,7 +196,7 @@ test "struct field Nullish[Int] with value - should be Some(123)" {
 
 ///|
 priv struct MyStructNullable {
-  bar : Nullable[Int]
+  bar : @core.Nullable[Int]
 }
 
 // ============================================================================
@@ -212,7 +212,7 @@ priv struct Inner {
 
 ///|
 priv struct Outer {
-  inner : Nullish[Inner]
+  inner : @core.Nullish[Inner]
   name : String
 }
 
@@ -271,12 +271,12 @@ priv struct Level3 {
 
 ///|
 priv struct Level2 {
-  level3 : Nullish[Level3]
+  level3 : @core.Nullish[Level3]
 }
 
 ///|
 priv struct Level1 {
-  level2 : Nullish[Level2]
+  level2 : @core.Nullish[Level2]
 }
 
 ///|
@@ -338,7 +338,7 @@ priv struct Container[T] {
 
 ///|
 priv struct NullishContainer[T] {
-  data : Nullish[T]
+  data : @core.Nullish[T]
   id : Int
 }
 
@@ -450,8 +450,8 @@ test "generic struct NullishContainer[Point] with null" {
 
 ///|
 priv struct Pair[A, B] {
-  first : Nullish[A]
-  second : Nullish[B]
+  first : @core.Nullish[A]
+  second : @core.Nullish[B]
 }
 
 ///|

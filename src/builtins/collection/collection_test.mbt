@@ -2,7 +2,7 @@
 
 ///|
 test "JsMap creation and basic operations" {
-  let map : JsMap[String, Int] = JsMap::new()
+  let map : @collection.JsMap[String, Int] = @collection.JsMap::new()
 
   // Add items
   map.set("one", 1) |> ignore
@@ -133,7 +133,7 @@ test "JsSet delete and clear" {
 
 ///|
 test "JsSet iteration" {
-  let set = JsSet::from_array([5, 10, 15])
+  let set = @collection.JsSet::from_array([5, 10, 15])
 
   // Test values
   let values = set.values().toArray()
@@ -158,7 +158,7 @@ test "JsSet forEach" {
 
 ///|
 test "JsSet with strings" {
-  let set = JsSet::from_array(["apple", "banana", "cherry"])
+  let set = @collection.JsSet::from_array(["apple", "banana", "cherry"])
   assert_eq(set.size(), 3)
   assert_true(set.has("apple"))
   assert_false(set.has("orange"))

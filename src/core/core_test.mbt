@@ -1,10 +1,10 @@
 ///|
 test "get and set property" {
-  let global = global_this()
+  let global = @core.global_this()
   let obj = global["Object"]
   // Object.create(null) to create empty object
-  let empty_obj = obj._call("create", [null()])
-  empty_obj["foo"] = any("bar")
+  let empty_obj = obj._call("create", [@core.null()])
+  empty_obj["foo"] = @core.any("bar")
   let value = empty_obj["foo"]
   // value should be "bar" but we can't easily assert without std lib
   // just verify no runtime error
@@ -14,38 +14,38 @@ test "get and set property" {
 ///|
 #skip("Test with IO")
 test "call method with Array[Any]" {
-  let global = global_this()
+  let global = @core.global_this()
   let console = global["console"]
-  console._call("log", [any("test message from nostd")]) |> ignore
+  console._call("log", [@core.any("test message from nostd")]) |> ignore
 }
 
 ///|
 test "is_nullish" {
-  let global = global_this()
+  let global = @core.global_this()
   let undef = global["nonexistent_property_xyz"]
-  assert_true(is_nullish(undef))
+  assert_true(@core.is_nullish(undef))
   let console = global["console"]
-  assert_true(is_nullish(console) == false)
+  assert_true(@core.is_nullish(console) == false)
 }
 
 ///|
 test "undefined" {
-  let undef = undefined()
-  assert_true(is_nullish(undef))
+  let undef = @core.undefined()
+  assert_true(@core.is_nullish(undef))
 }
 
 ///|
 test "int conversion" {
-  let n = any(42)
+  let n = @core.any(42)
   let _ = n
   // verify no runtime error
 }
 
 ///|
 test "invoke" {
-  let global = global_this()
+  let global = @core.global_this()
   let parse_int = global["parseInt"]
-  let result = parse_int._invoke([any("42")])
+  let result = parse_int._invoke([@core.any("42")])
   let _ = result
   // verify no runtime error
 }
@@ -56,7 +56,7 @@ test "invoke" {
 test "any and cast - Int" {
   // Int -> Any -> Int (zero-cost conversion)
   let n : Int = 42
-  let js_val : Any = any(n)
+  let js_val : @core.Any = @core.any(n)
   let back : Int = js_val.cast()
   assert_eq(back, 42)
 }
@@ -65,7 +65,7 @@ test "any and cast - Int" {
 test "any and cast - Double" {
   // Double -> Any -> Double (zero-cost conversion)
   let d : Double = 3.14
-  let js_val : Any = any(d)
+  let js_val : @core.Any = @core.any(d)
   let back : Double = js_val.cast()
   assert_true(back > 3.13 && back < 3.15)
 }
@@ -74,7 +74,7 @@ test "any and cast - Double" {
 test "any and cast - Bool" {
   // Bool -> Any -> Bool (zero-cost conversion)
   let b : Bool = true
-  let js_val : Any = any(b)
+  let js_val : @core.Any = @core.any(b)
   let back : Bool = js_val.cast()
   assert_eq(back, true)
 }
@@ -83,7 +83,7 @@ test "any and cast - Bool" {
 test "any and cast - String" {
   // String -> Any -> String (zero-cost conversion)
   let s : String = "hello"
-  let js_val : Any = any(s)
+  let js_val : @core.Any = @core.any(s)
   let back : String = js_val.cast()
   assert_eq(back, "hello")
 }
@@ -91,18 +91,18 @@ test "any and cast - String" {
 ///|
 test "parseInt with any" {
   // Use any instead of str() for zero-cost conversion
-  let global = global_this()
+  let global = @core.global_this()
   let parse_int = global["parseInt"]
-  let result = parse_int._invoke([any("123")])
+  let result = parse_int._invoke([@core.any("123")])
   let n : Int = result.cast()
   assert_eq(n, 123)
 }
 
 ///|
 test "Math operations with cast" {
-  let global = global_this()
+  let global = @core.global_this()
   let math = global["Math"]
-  let result = math._call("sqrt", [any(16.0)])
+  let result = math._call("sqrt", [@core.any(16.0)])
   let n : Double = result.cast()
   assert_eq(n, 4.0)
 }
@@ -111,19 +111,19 @@ test "Math operations with cast" {
 
 ///|
 test "Any::_get with bracket syntax" {
-  let global = global_this()
+  let global = @core.global_this()
   // Using bracket syntax: global["console"]
   let console = global["console"]
-  assert_true(is_nullish(console) == false)
+  assert_true(@core.is_nullish(console) == false)
 }
 
 ///|
 test "Any::_set with bracket syntax" {
-  let global = global_this()
+  let global = @core.global_this()
   let obj = global["Object"]
-  let empty_obj = obj._call("create", [null()])
+  let empty_obj = obj._call("create", [@core.null()])
   // Using bracket syntax: empty_obj["foo"] = value
-  empty_obj["foo"] = any("bar")
+  empty_obj["foo"] = @core.any("bar")
   let value = empty_obj["foo"]
   let s : String = value.cast()
   assert_eq(s, "bar")
@@ -131,7 +131,7 @@ test "Any::_set with bracket syntax" {
 
 ///|
 test "nested property access with bracket syntax" {
-  let global = global_this()
+  let global = @core.global_this()
   let math = global["Math"]
   let pi = math["PI"]
   let n : Double = pi.cast()
@@ -141,26 +141,28 @@ test "nested property access with bracket syntax" {
 // Error handling tests
 
 ///|
-extern "js" fn throwing_op() -> Any =
+extern "js" fn throwing_op() -> @core.Any =
   #| () => { throw new Error("Test error"); }
 
 ///|
-extern "js" fn succeeding_op() -> Any =
+extern "js" fn succeeding_op() -> @core.Any =
   #| () => 42
 
 ///|
 test "try_sync - success" {
-  let result = try_sync(succeeding_op) catch { JsError(_) => any(-1) }
+  let result = @core.try_sync(succeeding_op) catch {
+    JsError(_) => @core.any(-1)
+  }
   let n : Int = result.cast()
   assert_eq(n, 42)
 }
 
 ///|
 test "try_sync - catch error" {
-  let caught = try_sync(throwing_op) catch {
+  let caught = @core.try_sync(throwing_op) catch {
     JsError(msg) => {
       assert_eq(msg, "Test error")
-      any(true)
+      @core.any(true)
     }
   }
   let success : Bool = caught.cast()
@@ -171,26 +173,28 @@ test "try_sync - catch error" {
 priv suberror TestError String derive(Show)
 
 ///|
-fn moonbit_throwing_op() -> Any raise TestError {
+fn moonbit_throwing_op() -> @core.Any raise TestError {
   raise TestError("MoonBit error")
 }
 
 ///|
-fn moonbit_success_op() -> Any raise TestError {
+fn moonbit_success_op() -> @core.Any raise TestError {
   if false {
     raise TestError("This should not happen")
   }
-  any(123)
+  @core.any(123)
 }
 
 ///|
 /// JS wrapper to test export_sync catches MoonBit errors
-extern "js" fn js_catch_moonbit_error(op : () -> Any) -> Any =
+extern "js" fn js_catch_moonbit_error(op : () -> @core.Any) -> @core.Any =
   #| (op) => { try { return { ok: true, value: op() }; } catch (e) { return { ok: false, message: e.message }; } }
 
 ///|
 test "export_sync - success" {
-  let result = js_catch_moonbit_error(fn() { export_sync(moonbit_success_op) })
+  let result = js_catch_moonbit_error(fn() {
+    @core.export_sync(moonbit_success_op)
+  })
   let ok : Bool = result["ok"].cast()
   assert_eq(ok, true)
   let value : Int = result["value"].cast()
@@ -199,7 +203,9 @@ test "export_sync - success" {
 
 ///|
 test "export_sync - converts MoonBit error to JS exception" {
-  let result = js_catch_moonbit_error(fn() { export_sync(moonbit_throwing_op) })
+  let result = js_catch_moonbit_error(fn() {
+    @core.export_sync(moonbit_throwing_op)
+  })
   let ok : Bool = result["ok"].cast()
   assert_eq(ok, false)
   let msg : String = result["message"].cast()
@@ -213,66 +219,66 @@ test "export_sync - converts MoonBit error to JS exception" {
 
 ///|
 test "assert_throws - catches exception" {
-  let msg = assert_throws(throwing_op) catch { JsError(m) => m }
+  let msg = @core.assert_throws(throwing_op) catch { JsError(m) => m }
   assert_eq(msg, "Test error")
 }
 
 ///|
 test "assert_throws - fails when no exception" {
   // assert_throws raises JsError when no exception is thrown
-  let result = assert_throws(succeeding_op) catch { JsError(m) => m }
+  let result = @core.assert_throws(succeeding_op) catch { JsError(m) => m }
   assert_true(result.contains("Expected exception"))
 }
 
 ///|
 test "assert_throws_with - passes on matching message" {
-  assert_throws_with(throwing_op, "Test error")
+  @core.assert_throws_with(throwing_op, "Test error")
 }
 
 ///|
 test "assert_throws_with - partial match" {
-  assert_throws_with(throwing_op, "error")
+  @core.assert_throws_with(throwing_op, "error")
 }
 
 ///|
-extern "js" fn throw_custom_error() -> Any =
+extern "js" fn throw_custom_error() -> @core.Any =
   #| () => { throw new Error("Custom error message"); }
 
 // typeof_, instance_of, new tests
 
 ///|
 test "typeof_" {
-  assert_eq(typeof_(any(42)), "number")
-  assert_eq(typeof_(any("hello")), "string")
-  assert_eq(typeof_(any(true)), "boolean")
-  assert_eq(typeof_(undefined()), "undefined")
-  assert_eq(typeof_(null()), "object") // JS quirk
-  assert_eq(typeof_(new_object()), "object")
+  assert_eq(@core.typeof_(@core.any(42)), "number")
+  assert_eq(@core.typeof_(@core.any("hello")), "string")
+  assert_eq(@core.typeof_(@core.any(true)), "boolean")
+  assert_eq(@core.typeof_(@core.undefined()), "undefined")
+  assert_eq(@core.typeof_(@core.null()), "object") // JS quirk
+  assert_eq(@core.typeof_(@core.new_object()), "object")
 }
 
 ///|
 test "instance_of" {
-  let global = global_this()
-  let arr : Any = global["Array"]._call("from", [any([1, 2, 3])])
-  assert_true(instanceof_(arr, global["Array"]))
-  assert_true(instanceof_(arr, global["Object"]))
-  assert_true(not(instanceof_(arr, global["String"])))
+  let global = @core.global_this()
+  let arr : @core.Any = global["Array"]._call("from", [@core.any([1, 2, 3])])
+  assert_true(@core.instanceof_(arr, global["Array"]))
+  assert_true(@core.instanceof_(arr, global["Object"]))
+  assert_true(not(@core.instanceof_(arr, global["String"])))
 }
 
 ///|
 test "new - create Date" {
-  let global = global_this()
-  let date = new(global["Date"], [any(0)]) // Unix epoch
-  assert_true(instanceof_(date, global["Date"]))
+  let global = @core.global_this()
+  let date = @core.new(global["Date"], [@core.any(0)]) // Unix epoch
+  assert_true(@core.instanceof_(date, global["Date"]))
   let time : Int = date._call("getTime", []).cast()
   assert_eq(time, 0)
 }
 
 ///|
 test "new - create Error" {
-  let global = global_this()
-  let err = new(global["Error"], [any("test error")])
-  assert_true(instanceof_(err, global["Error"]))
+  let global = @core.global_this()
+  let err = @core.new(global["Error"], [@core.any("test error")])
+  assert_true(@core.instanceof_(err, global["Error"]))
   let msg : String = err["message"].cast()
   assert_eq(msg, "test error")
 }
@@ -280,9 +286,9 @@ test "new - create Error" {
 ///|
 test "assert_throws_with - fails on mismatch" {
   // assert_throws_with throws when message doesn't match
-  let result : String = try_sync(fn() {
-    assert_throws_with(throw_custom_error, "wrong message")
-    any(())
+  let result : String = @core.try_sync(fn() {
+    @core.assert_throws_with(throw_custom_error, "wrong message")
+    @core.any(())
   }).cast() catch {
     JsError(m) => m
   }
@@ -292,9 +298,9 @@ test "assert_throws_with - fails on mismatch" {
 ///|
 test "assert_throws_with - no exception throws" {
   // assert_throws_with fails when op doesn't throw
-  let result : String = try_sync(fn() {
-    assert_throws_with(succeeding_op, "any message")
-    any(())
+  let result : String = @core.try_sync(fn() {
+    @core.assert_throws_with(succeeding_op, "any message")
+    @core.any(())
   }).cast() catch {
     JsError(m) => m
   }
@@ -360,8 +366,8 @@ test "from_fn3 converts 3-arg function to Js" {
   assert_eq(@core.identity(result), 6)
 }
 
-///| Nullable[T] type tests
-/// Tests for the Nullable[T] type which handles explicit null values in FFI
+///| @core.Nullable[T] type tests
+/// Tests for the @core.Nullable[T] type which handles explicit null values in FFI
 
 ///|
 extern "js" fn create_null() -> @core.Any =
@@ -380,8 +386,8 @@ extern "js" fn create_object_with_value_field(v : Int) -> @core.Any =
   #|(v) => ({ value: v })
 
 ///|
-test "Nullable[Int]::to_option() - null value returns None" {
-  let nullable : Nullable[Int] = create_null() |> identity
+test "@core.Nullable[Int]::to_option() - null value returns None" {
+  let nullable : @core.Nullable[Int] = create_null() |> @core.identity
   match nullable.to_option() {
     Some(_) => fail("Expected None for null value")
     None => ()
@@ -389,8 +395,8 @@ test "Nullable[Int]::to_option() - null value returns None" {
 }
 
 ///|
-test "Nullable[Int]::to_option() - actual value returns Some" {
-  let nullable : Nullable[Int] = create_value(42) |> identity
+test "@core.Nullable[Int]::to_option() - actual value returns Some" {
+  let nullable : @core.Nullable[Int] = create_value(42) |> @core.identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 42)
     None => fail("Expected Some(42) for actual value")
@@ -398,8 +404,8 @@ test "Nullable[Int]::to_option() - actual value returns Some" {
 }
 
 ///|
-test "Nullable[Int]::to_option() - undefined behavior" {
-  let nullable : Nullable[Int] = create_undefined() |> identity
+test "@core.Nullable[Int]::to_option() - undefined behavior" {
+  let nullable : @core.Nullable[Int] = create_undefined() |> @core.identity
   // Note: The actual behavior of undefined with Nullable may vary
   // This test documents the current behavior
   match nullable.to_option() {
@@ -409,20 +415,20 @@ test "Nullable[Int]::to_option() - undefined behavior" {
 }
 
 ///|
-test "Nullable[Int]::is_null() - null returns true" {
-  let nullable : Nullable[Int] = create_null() |> identity
+test "@core.Nullable[Int]::is_null() - null returns true" {
+  let nullable : @core.Nullable[Int] = create_null() |> @core.identity
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Int]::is_null() - value returns false" {
-  let nullable : Nullable[Int] = create_value(42) |> identity
+test "@core.Nullable[Int]::is_null() - value returns false" {
+  let nullable : @core.Nullable[Int] = create_value(42) |> @core.identity
   assert_false(nullable.is_null())
 }
 
 ///|
-test "Nullable[Int]::is_null() - undefined behavior" {
-  let nullable : Nullable[Int] = create_undefined() |> identity
+test "@core.Nullable[Int]::is_null() - undefined behavior" {
+  let nullable : @core.Nullable[Int] = create_undefined() |> @core.identity
   // The behavior of is_null() with undefined may vary
   // This test documents that we don't make assumptions about it
   let _ = nullable.is_null()
@@ -430,8 +436,8 @@ test "Nullable[Int]::is_null() - undefined behavior" {
 }
 
 ///|
-test "Nullable[String] - null value" {
-  let nullable : Nullable[String] = create_null() |> identity
+test "@core.Nullable[String] - null value" {
+  let nullable : @core.Nullable[String] = create_null() |> @core.identity
   assert_true(nullable.is_null())
   match nullable.to_option() {
     Some(_) => fail("Expected None for null string")
@@ -440,9 +446,9 @@ test "Nullable[String] - null value" {
 }
 
 ///|
-test "Nullable[String] - actual value" {
+test "@core.Nullable[String] - actual value" {
   let js_str : @core.Any = @core.identity("hello")
-  let nullable : Nullable[String] = js_str |> identity
+  let nullable : @core.Nullable[String] = js_str |> @core.identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(s) => assert_eq(s, "hello")
@@ -451,15 +457,15 @@ test "Nullable[String] - actual value" {
 }
 
 ///|
-test "Nullable[Bool] - null value" {
-  let nullable : Nullable[Bool] = create_null() |> identity
+test "@core.Nullable[Bool] - null value" {
+  let nullable : @core.Nullable[Bool] = create_null() |> @core.identity
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Bool] - false value is not null" {
+test "@core.Nullable[Bool] - false value is not null" {
   let js_false : @core.Any = @core.identity(false)
-  let nullable : Nullable[Bool] = js_false |> identity
+  let nullable : @core.Nullable[Bool] = js_false |> @core.identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_false(b)
@@ -468,9 +474,9 @@ test "Nullable[Bool] - false value is not null" {
 }
 
 ///|
-test "Nullable[Bool] - true value" {
+test "@core.Nullable[Bool] - true value" {
   let js_true : @core.Any = @core.identity(true)
-  let nullable : Nullable[Bool] = js_true |> identity
+  let nullable : @core.Nullable[Bool] = js_true |> @core.identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(b) => assert_true(b)
@@ -479,15 +485,15 @@ test "Nullable[Bool] - true value" {
 }
 
 ///|
-test "Nullable[Double] - null value" {
-  let nullable : Nullable[Double] = create_null() |> identity
+test "@core.Nullable[Double] - null value" {
+  let nullable : @core.Nullable[Double] = create_null() |> @core.identity
   assert_true(nullable.is_null())
 }
 
 ///|
-test "Nullable[Double] - zero is not null" {
+test "@core.Nullable[Double] - zero is not null" {
   let js_zero : @core.Any = @core.identity(0.0)
-  let nullable : Nullable[Double] = js_zero |> identity
+  let nullable : @core.Nullable[Double] = js_zero |> @core.identity
   assert_false(nullable.is_null())
   match nullable.to_option() {
     Some(v) => assert_eq(v, 0.0)
@@ -496,9 +502,9 @@ test "Nullable[Double] - zero is not null" {
 }
 
 ///|
-test "Nullable[Double] - actual value" {
+test "@core.Nullable[Double] - actual value" {
   let js_val : @core.Any = @core.identity(3.14)
-  let nullable : Nullable[Double] = js_val |> identity
+  let nullable : @core.Nullable[Double] = js_val |> @core.identity
   match nullable.to_option() {
     Some(v) => assert_eq(v, 3.14)
     None => fail("Expected Some(3.14)")
@@ -508,13 +514,13 @@ test "Nullable[Double] - actual value" {
 ///|
 /// Test struct with Nullable field
 pub(all) struct TestRecord {
-  value : Nullable[Int]
+  value : @core.Nullable[Int]
 }
 
 ///|
 test "struct with Nullable field - null value" {
   let obj = create_object_with_null_field()
-  let record : TestRecord = obj |> identity
+  let record : TestRecord = obj |> @core.identity
   assert_true(record.value.is_null())
   match record.value.to_option() {
     Some(_) => fail("Expected None for null field")
@@ -525,7 +531,7 @@ test "struct with Nullable field - null value" {
 ///|
 test "struct with Nullable field - actual value" {
   let obj = create_object_with_value_field(99)
-  let record : TestRecord = obj |> identity
+  let record : TestRecord = obj |> @core.identity
   assert_false(record.value.is_null())
   match record.value.to_option() {
     Some(v) => assert_eq(v, 99)
@@ -536,9 +542,9 @@ test "struct with Nullable field - actual value" {
 ///|
 /// Test multiple Nullable fields
 pub(all) struct MultiNullableRecord {
-  str_field : Nullable[String]
-  int_field : Nullable[Int]
-  bool_field : Nullable[Bool]
+  str_field : @core.Nullable[String]
+  int_field : @core.Nullable[Int]
+  bool_field : @core.Nullable[Bool]
 }
 
 ///|
@@ -556,7 +562,7 @@ extern "js" fn create_multi_nullable(
 ///|
 test "multiple Nullable fields - all null" {
   let obj = create_multi_nullable(true, true, true)
-  let record : MultiNullableRecord = obj |> identity
+  let record : MultiNullableRecord = obj |> @core.identity
   assert_true(record.str_field.is_null())
   assert_true(record.int_field.is_null())
   assert_true(record.bool_field.is_null())
@@ -565,7 +571,7 @@ test "multiple Nullable fields - all null" {
 ///|
 test "multiple Nullable fields - all non-null" {
   let obj = create_multi_nullable(false, false, false)
-  let record : MultiNullableRecord = obj |> identity
+  let record : MultiNullableRecord = obj |> @core.identity
   assert_false(record.str_field.is_null())
   assert_false(record.int_field.is_null())
   assert_false(record.bool_field.is_null())
@@ -586,7 +592,7 @@ test "multiple Nullable fields - all non-null" {
 ///|
 test "multiple Nullable fields - mixed null and non-null" {
   let obj = create_multi_nullable(true, false, true)
-  let record : MultiNullableRecord = obj |> identity
+  let record : MultiNullableRecord = obj |> @core.identity
   assert_true(record.str_field.is_null())
   assert_false(record.int_field.is_null())
   assert_true(record.bool_field.is_null())
@@ -597,7 +603,7 @@ test "multiple Nullable fields - mixed null and non-null" {
 
 ///|
 test "@core.Nullish[Int]::to_option() - null value returns None" {
-  let nullish : Nullish[Int] = create_null() |> identity
+  let nullish : @core.Nullish[Int] = create_null() |> @core.identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for null value")
     None => ()
@@ -606,7 +612,7 @@ test "@core.Nullish[Int]::to_option() - null value returns None" {
 
 ///|
 test "@core.Nullish[Int]::to_option() - undefined returns None" {
-  let nullish : Nullish[Int] = create_undefined() |> identity
+  let nullish : @core.Nullish[Int] = create_undefined() |> @core.identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for undefined")
     None => ()
@@ -615,7 +621,7 @@ test "@core.Nullish[Int]::to_option() - undefined returns None" {
 
 ///|
 test "@core.Nullish[Int]::to_option() - actual value returns Some" {
-  let nullish : Nullish[Int] = create_value(42) |> identity
+  let nullish : @core.Nullish[Int] = create_value(42) |> @core.identity
   match nullish.to_option() {
     Some(v) => assert_eq(v, 42)
     None => fail("Expected Some(42) for actual value")
@@ -624,7 +630,7 @@ test "@core.Nullish[Int]::to_option() - actual value returns Some" {
 
 ///|
 test "@core.Nullish[String]::to_option() - null returns None" {
-  let nullish : Nullish[String] = create_null() |> identity
+  let nullish : @core.Nullish[String] = create_null() |> @core.identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for null")
     None => ()
@@ -633,7 +639,7 @@ test "@core.Nullish[String]::to_option() - null returns None" {
 
 ///|
 test "@core.Nullish[String]::to_option() - undefined returns None" {
-  let nullish : Nullish[String] = create_undefined() |> identity
+  let nullish : @core.Nullish[String] = create_undefined() |> @core.identity
   match nullish.to_option() {
     Some(_) => fail("Expected None for undefined")
     None => ()
@@ -643,7 +649,7 @@ test "@core.Nullish[String]::to_option() - undefined returns None" {
 ///|
 test "@core.Nullish[String]::to_option() - actual value returns Some" {
   let js_str : @core.Any = @core.identity("hello")
-  let nullish : Nullish[String] = js_str |> identity
+  let nullish : @core.Nullish[String] = js_str |> @core.identity
   match nullish.to_option() {
     Some(s) => assert_eq(s, "hello")
     None => fail("Expected Some for actual string")
@@ -655,8 +661,8 @@ test "identity_option for nullish detection" {
   let obj = @core.new_object()
   let result : @core.Any? = @core.identity_option(obj)
   assert_false(result is None)
-  let null_result : @core.Any? = @core.identity_option(null())
+  let null_result : @core.Any? = @core.identity_option(@core.null())
   assert_true(null_result is None)
-  let undef_result : @core.Any? = @core.identity_option(undefined())
+  let undef_result : @core.Any? = @core.identity_option(@core.undefined())
   assert_true(undef_result is None)
 }

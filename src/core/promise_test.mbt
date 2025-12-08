@@ -155,17 +155,17 @@ async test "Promise: Promise.resolve to async unwrap" {
 }
 
 ///|
-async test "Promise: promisify0 converts async function to Promise function" {
+async test "Promise: @core.promisify0 converts async function to Promise function" {
   let async_fn = async fn() { "hello" }
-  let promise_fn = promisify0(async_fn)
+  let promise_fn = @core.promisify0(async_fn)
   let result = promise_fn().wait()
   inspect(result, content="hello")
 }
 
 ///|
-async test "Promise: promisify1 converts async function to Promise function" {
+async test "Promise: @core.promisify1 converts async function to Promise function" {
   let async_fn = async fn(x : Int) { x * 2 }
-  let promise_fn = promisify1(async_fn)
+  let promise_fn = @core.promisify1(async_fn)
   let result = promise_fn(21).wait()
   inspect(result, content="42")
 }
@@ -294,48 +294,48 @@ async test "Promise: Promise.finally_ always executes (2)" {
 async test "Promise: Promise.finally_ always executes (3)" {
   // async function that returns String
   let string_fn = async fn() { "test" }
-  let promise_string_fn = promisify0(string_fn)
+  let promise_string_fn = @core.promisify0(string_fn)
   let str_result = promise_string_fn().wait()
   inspect(str_result, content="test")
 
   // async function that returns Bool
   let bool_fn = async fn(x : Int) { x > 10 }
-  let promise_bool_fn = promisify1(bool_fn)
+  let promise_bool_fn = @core.promisify1(bool_fn)
   let bool_result = promise_bool_fn(20).wait()
   inspect(bool_result, content="true")
 }
 
 ///|
-async test "Promise: promisify0" {
+async test "Promise: @core.promisify0" {
   let async_fn = async fn() { 42 }
-  let promise_fn = promisify0(async_fn)
+  let promise_fn = @core.promisify0(async_fn)
   let p = promise_fn()
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
-async test "Promise: promisify1" {
+async test "Promise: @core.promisify1" {
   let async_fn = async fn(x : Int) { x * 2 }
-  let promise_fn = promisify1(async_fn)
+  let promise_fn = @core.promisify1(async_fn)
   let p = promise_fn(21)
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
-async test "Promise: promisify2" {
+async test "Promise: @core.promisify2" {
   let async_fn = async fn(x : Int, y : Int) { x + y }
-  let promise_fn = promisify2(async_fn)
+  let promise_fn = @core.promisify2(async_fn)
   let p = promise_fn(20, 22)
   let result = p.wait()
   assert_eq(result, 42)
 }
 
 ///|
-async test "Promise: promisify3" {
+async test "Promise: @core.promisify3" {
   let async_fn = async fn(x : Int, y : Int, z : Int) { x + y + z }
-  let promise_fn = promisify3(async_fn)
+  let promise_fn = @core.promisify3(async_fn)
   let p = promise_fn(10, 20, 12)
   let result = p.wait()
   assert_eq(result, 42)
@@ -662,7 +662,7 @@ async test "JS Async: sleep multiple times" {
 ///|
 async test "promisify0: handles error by rejecting promise" {
   let failing_fn = async fn() -> Int { fail("test error") }
-  let promise_fn = promisify0(failing_fn)
+  let promise_fn = @core.promisify0(failing_fn)
   let promise = promise_fn()
 
   // Promise should be rejected
@@ -685,7 +685,7 @@ async test "promisify1: handles error by rejecting promise" {
       x * 2
     }
   }
-  let promise_fn = promisify1(failing_fn)
+  let promise_fn = @core.promisify1(failing_fn)
   let promise = promise_fn(-5)
 
   // Promise should be rejected
@@ -708,7 +708,7 @@ async test "promisify2: handles error by rejecting promise" {
       x + y
     }
   }
-  let promise_fn = promisify2(failing_fn)
+  let promise_fn = @core.promisify2(failing_fn)
   let promise = promise_fn(-10, 5)
 
   // Promise should be rejected
@@ -731,7 +731,7 @@ async test "promisify3: handles error by rejecting promise" {
       x + y + z
     }
   }
-  let promise_fn = promisify3(failing_fn)
+  let promise_fn = @core.promisify3(failing_fn)
   let promise = promise_fn(-10, 3, 2)
 
   // Promise should be rejected
@@ -779,13 +779,13 @@ async test "JS Async: run_async with multiple sleep calls" {
 }
 
 ///|
-/// Test that promisify0 creates a Promise
+/// Test that @core.promisify0 creates a Promise
 test "promisify0 creates a Promise" {
   async fn test_fn0() -> Int {
     42
   }
 
-  let promise_fn = promisify0(test_fn0)
+  let promise_fn = @core.promisify0(test_fn0)
   let promise = promise_fn()
   // Verify that a Promise was created by checking if it's a JS object
   let js_val : @core.Any = @core.identity(promise)
@@ -793,39 +793,39 @@ test "promisify0 creates a Promise" {
 }
 
 ///|
-/// Test that promisify1 creates a Promise
+/// Test that @core.promisify1 creates a Promise
 test "promisify1 creates a Promise" {
   async fn test_fn1(x : Int) -> Int {
     x * 2
   }
 
-  let promise_fn = promisify1(test_fn1)
+  let promise_fn = @core.promisify1(test_fn1)
   let promise = promise_fn(21)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")
 }
 
 ///|
-/// Test that promisify2 creates a Promise
+/// Test that @core.promisify2 creates a Promise
 test "promisify2 creates a Promise" {
   async fn test_fn2(x : Int, y : Int) -> Int {
     x + y
   }
 
-  let promise_fn = promisify2(test_fn2)
+  let promise_fn = @core.promisify2(test_fn2)
   let promise = promise_fn(10, 32)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")
 }
 
 ///|
-/// Test that promisify3 creates a Promise
+/// Test that @core.promisify3 creates a Promise
 test "promisify3 creates a Promise" {
   async fn test_fn3(x : Int, y : Int, z : Int) -> Int {
     x + y + z
   }
 
-  let promise_fn = promisify3(test_fn3)
+  let promise_fn = @core.promisify3(test_fn3)
   let promise = promise_fn(10, 20, 12)
   let js_val : @core.Any = @core.identity(promise)
   inspect(@core.typeof_(js_val), content="object")

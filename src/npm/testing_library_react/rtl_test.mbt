@@ -313,7 +313,7 @@ test "configure function exists" {
   // Just test that configure can be called without error
   let config = @core.new_object()
   let config_any : @core.Any = config.cast()
-  configure(config_any)
+  @testing_library_react.configure(config_any)
 }
 
 ///| React Hooks Tests with renderHook
@@ -327,7 +327,7 @@ test "renderHook: useState" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let hook_result = result.result()
   // result.current is the hook return value
   let current = hook_result["current"]
@@ -345,7 +345,7 @@ test "renderHook: useState with updates" {
     let (state, _set_state) = @react.use_state(0)
     state
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   // Get initial state
   let current1 = result.result()["current"]
   let state1 : Int = current1.cast()
@@ -370,7 +370,7 @@ test "renderHook: useEffect" {
     )
     count
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let count : Int = current.cast()
   // After useEffect runs, count should be 1
@@ -386,7 +386,7 @@ test "renderHook: useCallback" {
     let (count, _set_count) = @react.use_state(0)
     @react.useCallback(fn() { count * 2 }, [@core.any(count)])
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   // callback is a function
   @core.typeof_(current) |> assert_eq("function")
@@ -401,7 +401,7 @@ test "renderHook: useMemo" {
     let (count, _set_count) = @react.use_state(5)
     @react.useMemo(fn() { count * 2 }, [@core.any(count)])
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let doubled : Int = current.cast()
   assert_eq(doubled, 10)
@@ -413,7 +413,7 @@ test "renderHook: useRef" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   // ref has a current property
   let ref_current = current["current"]
@@ -428,7 +428,7 @@ test "renderHook: useContext" {
   defer @testing_library_react.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let value : Int = current.cast()
   assert_eq(value, 100)
@@ -444,7 +444,7 @@ test "renderHook: useReducer" {
     let (state, _dispatch) = @react.use_reducer(reducer, 0)
     state
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current = result.result()["current"]
   let state : Int = current.cast()
   assert_eq(state, 0)
@@ -463,7 +463,7 @@ test "renderHook: rerender method" {
     let (count, _set_count) = @react.use_state(10)
     count * multiplier_ref.val
   }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   let current1 = result.result()["current"]
   let value1 : Int = current1.cast()
   assert_eq(value1, 20)
@@ -481,7 +481,7 @@ test "renderHook: unmount method" {
   @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.use_state(0) }
-  let result = renderHook(@core.identity(hook))
+  let result = @testing_library_react.renderHook(@core.identity(hook))
   // Verify hook is mounted
   let current = result.result()["current"]
   @core.typeof_(current) |> assert_eq("object")

@@ -1,7 +1,7 @@
 ///|
 
 ///|
-fn render_to_string(element : Element) -> String {
+fn render_to_string(element : @react.Element) -> String {
   let react_dom_server : @core.Any = @node.require("react-dom/server")
   let element_js : @core.Any = element.as_any().cast()
   react_dom_server._get("renderToString")._invoke([element_js]).cast()
@@ -31,7 +31,7 @@ test "React createElement" {
   let class_name : String = with_attrs.as_any()["props"]["className"].cast()
   assert_eq(class_name, "my-button")
   let c1 = (_ : Unit) => {
-    let r : ReactRef[@dom.Element] = useRef(None)
+    let r : @react.ReactRef[@dom.Element] = @react.useRef(None)
     @react.createElement("span", ref_=r, [])
   }
   @react.component(c1, ()) |> ignore
@@ -71,7 +71,7 @@ test "createElement with style" {
 test "createElement with ref" {
   @react.init_react_api(@node.require("react"))
   let comp = (_props : Unit) => {
-    let r : ReactRef[@dom.Element] = useRef(None)
+    let r : @react.ReactRef[@dom.Element] = @react.useRef(None)
     @react.createElement("span", ["test"], ref_=r)
   }
   let el = @react.component(comp, ())
@@ -102,8 +102,8 @@ test "component with children" {
 ///|
 test "fragment" {
   @react.init_react_api(@node.require("react"))
-  let el = fragment([
-    createElement("div", ["1"]),
+  let el = @react.fragment([
+    @react.createElement("div", ["1"]),
     @react.createElement("div", ["2"]),
   ])
   let s = render_to_string(el)
@@ -113,7 +113,10 @@ test "fragment" {
 ///|
 test "fragment with key" {
   @react.init_react_api(@node.require("react"))
-  let el = fragment([createElement("div", ["item"])], key="frag-key")
+  let el = @react.fragment(
+    [@react.createElement("div", ["item"])],
+    key="frag-key",
+  )
   let key : String = el.as_any()["key"].cast()
   assert_eq(key, "frag-key")
 }
@@ -123,7 +126,7 @@ test "suspense" {
   @react.init_react_api(@node.require("react"))
   let fallback_el = @react.createElement("div", ["Loading..."])
   let child = @react.createElement("div", ["Content"])
-  let el = suspense([child], fallback=fallback_el)
+  let el = @react.suspense([child], fallback=fallback_el)
   let s = render_to_string(el)
   assert_eq(s.contains("Content"), true)
 }
@@ -131,9 +134,9 @@ test "suspense" {
 ///|
 test "provider" {
   @react.init_react_api(@node.require("react"))
-  let ctx : Context[Int] = create_context(Some(42))
+  let ctx : @react.Context[Int] = @react.create_context(Some(42))
   let child = @react.createElement("div", ["child"])
-  let el = provider(ctx, [child], value=100)
+  let el = @react.provider(ctx, [child], value=100)
   let s = render_to_string(el)
   assert_eq(s.contains("child"), true)
 }
@@ -183,7 +186,7 @@ test "ReactNode Option None" {
 ///|
 test "ReactNode Array of ReactNode" {
   @react.init_react_api(@node.require("react"))
-  let items : Array[&ReactNode] = ["item1", "item2", "item3"]
+  let items : Array[&@react.ReactNode] = ["item1", "item2", "item3"]
   let el = @react.createElement("div", [items])
   let s = render_to_string(el)
   assert_eq(s, "<div>item1<!-- -->item2<!-- -->item3</div>")
@@ -192,7 +195,7 @@ test "ReactNode Array of ReactNode" {
 ///|
 test "ReactNode nested Array with Elements" {
   @react.init_react_api(@node.require("react"))
-  let nested : Array[&ReactNode] = [
+  let nested : Array[&@react.ReactNode] = [
     @react.createElement("span", ["a"], key="a"),
     @react.createElement("span", ["b"], key="b"),
     @react.createElement("span", ["c"], key="c"),
@@ -205,7 +208,7 @@ test "ReactNode nested Array with Elements" {
 ///|
 test "ReactNode Array with mixed types" {
   @react.init_react_api(@node.require("react"))
-  let mixed : Array[&ReactNode] = [
+  let mixed : Array[&@react.ReactNode] = [
     "text",
     42,
     @react.createElement("strong", ["bold"], key="bold"),
@@ -218,8 +221,8 @@ test "ReactNode Array with mixed types" {
 ///|
 test "ReactNode deeply nested Arrays" {
   @react.init_react_api(@node.require("react"))
-  let inner : Array[&ReactNode] = ["inner1", "inner2"]
-  let outer : Array[&ReactNode] = ["outer", inner, "end"]
+  let inner : Array[&@react.ReactNode] = ["inner1", "inner2"]
+  let outer : Array[&@react.ReactNode] = ["outer", inner, "end"]
   let el = @react.createElement("div", [outer])
   let s = render_to_string(el)
   assert_eq(s, "<div>outer<!-- -->inner1<!-- -->inner2<!-- -->end</div>")
@@ -230,7 +233,9 @@ test "ReactNode Array with Option values" {
   @react.init_react_api(@node.require("react"))
   let opt_some : String? = Some("middle")
   let opt_none : String? = None
-  let with_option : Array[&ReactNode] = ["start", opt_some, opt_none, "end"]
+  let with_option : Array[&@react.ReactNode] = [
+    "start", opt_some, opt_none, "end",
+  ]
   let el = @react.createElement("div", [with_option])
   let s = render_to_string(el)
   assert_eq(s, "<div>start<!-- -->middle<!-- -->end</div>")
@@ -240,7 +245,7 @@ test "ReactNode Array with Option values" {
 test "ReactNode Array with for expression" {
   @react.init_react_api(@node.require("react"))
   let items = ["apple", "banana", "cherry"]
-  let children : Array[&ReactNode] = items.map(fn(item) {
+  let children : Array[&@react.ReactNode] = items.map(fn(item) {
     @react.createElement("li", [item], key=item)
   })
   let el = @react.createElement("ul", [children])
@@ -252,10 +257,10 @@ test "ReactNode Array with for expression" {
 test "ReactNode fragment with for expression" {
   @react.init_react_api(@node.require("react"))
   let items = [1, 2, 3]
-  let children : Array[&ReactNode] = items.map(fn(i) {
+  let children : Array[&@react.ReactNode] = items.map(fn(i) {
     @react.createElement("div", [i], key=i.to_string())
   })
-  let el = fragment(children)
+  let el = @react.fragment(children)
   let s = render_to_string(el)
   assert_eq(s, "<div>1</div><div>2</div><div>3</div>")
 }
@@ -264,10 +269,10 @@ test "ReactNode fragment with for expression" {
 test "ReactNode Array with map in fragment" {
   @react.init_react_api(@node.require("react"))
   let numbers = [10, 20, 30]
-  let mapped : Array[&ReactNode] = numbers.map(fn(n) {
+  let mapped : Array[&@react.ReactNode] = numbers.map(fn(n) {
     @react.createElement("span", [n], key=n.to_string())
   })
-  let el = fragment(mapped)
+  let el = @react.fragment(mapped)
   let s = render_to_string(el)
   assert_eq(s, "<span>10</span><span>20</span><span>30</span>")
 }
@@ -276,7 +281,7 @@ test "ReactNode Array with map in fragment" {
 test "ReactNode conditional rendering in for expression" {
   @react.init_react_api(@node.require("react"))
   let items = [1, 2, 3, 4, 5]
-  let children : Array[&ReactNode] = items.map(fn(i) {
+  let children : Array[&@react.ReactNode] = items.map(fn(i) {
     if i % 2 == 0 {
       @react.createElement("strong", [i], key=i.to_string())
     } else {
@@ -297,10 +302,12 @@ extern "js" fn load_lazy_component_stub() -> @core.Promise[@core.Any] =
 ///|
 test "lazy_ with Unit" {
   @react.init_react_api(@node.require("react"))
-  let lazy_comp : Component[Unit] = lazy_(load_lazy_component_stub)
+  let lazy_comp : @react.Component[Unit] = @react.lazy_(
+    load_lazy_component_stub,
+  )
   let fallback = @react.createElement("div", ["Loading..."])
   let lazy_el = @react.component(lazy_comp, ())
-  let el = suspense([lazy_el], fallback~)
+  let el = @react.suspense([lazy_el], fallback~)
   let s = render_to_string(el)
   // Lazy components render fallback during SSR with renderToString
   assert_eq(s.contains("Loading..."), true)
@@ -313,10 +320,12 @@ extern "js" fn load_lazy_typed_component_stub() -> @core.Promise[@core.Any] =
 ///|
 test "lazy_ with custom props" {
   @react.init_react_api(@node.require("react"))
-  let lazy_comp : Component[TestProps] = lazy_(load_lazy_typed_component_stub)
+  let lazy_comp : @react.Component[TestProps] = @react.lazy_(
+    load_lazy_typed_component_stub,
+  )
   let fallback = @react.createElement("div", ["Loading..."])
   let lazy_el = @react.component(lazy_comp, { v: "World" })
-  let el = suspense([lazy_el], fallback~)
+  let el = @react.suspense([lazy_el], fallback~)
   let s = render_to_string(el)
   // Lazy components render fallback during SSR with renderToString
   assert_eq(s.contains("Loading..."), true)
@@ -543,7 +552,7 @@ test "Component[Unit] with children" {
 test "Component[Unit] with ref" {
   init_react()
   let comp : @react.Component[Unit] = fn(_props) {
-    let r : ReactRef[@dom.Element] = useRef(None)
+    let r : @react.ReactRef[@dom.Element] = @react.useRef(None)
     @react.createElement("span", ["with ref"], ref_=r)
   }
   let el = @react.component(comp, ())

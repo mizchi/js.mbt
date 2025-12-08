@@ -48,12 +48,12 @@ test "JsImpl::to_string" {
 ///|
 test "type checking" {
   // Test is_array
-  let arr = new_array()
+  let arr = @core.new_array()
   assert_true(@core.is_array(arr))
   assert_false(@core.is_array(42 |> @core.any))
 
   // Test is_object
-  let obj = new_object()
+  let obj = @core.new_object()
   assert_true(@core.is_object(obj))
   assert_false(@core.is_object(42 |> @core.any))
   assert_false(@core.is_object(@core.null()))
@@ -180,8 +180,8 @@ test "Val Show trait" {
   assert_eq(@core.any(true).to_string(), "true")
   assert_eq(@core.any(false).to_string(), "false")
   assert_eq(@core.null().to_string(), "null")
-  assert_eq(new_object().to_string(), "[object Object]")
-  assert_eq(new_array().to_string(), "")
+  assert_eq(@core.new_object().to_string(), "[object Object]")
+  assert_eq(@core.new_array().to_string(), "")
 }
 
 ///|
