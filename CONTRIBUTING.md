@@ -12,14 +12,17 @@ Thank you for your interest in contributing to js.mbt! This document provides gu
 
 ## Getting Started
 
-js.mbt is a MoonBit library providing JavaScript FFI bindings for various runtimes including Node.js, Deno, and browsers.
+mizchi/js is a MoonBit library providing JavaScript FFI bindings for various runtimes including Node.js, Deno, and browsers.
 
 ### Prerequisites
 
 - [MoonBit](https://www.moonbitlang.com/) - Install the MoonBit toolchain
 - [Node.js](https://nodejs.org/) (v18 or later) - For Node.js tests
 - [pnpm](https://pnpm.io/) - Package manager for JavaScript dependencies
-- [Deno](https://deno.land/) (optional) - For running Deno tests
+- Optional
+  - [Deno](https://deno.land/) - For running Deno tests
+  - [Bun](https://bun.com/docs) - For running Bun tests
+  - Playwright and Chrome - For browser tests
 
 ## Development Setup
 
@@ -27,17 +30,15 @@ js.mbt is a MoonBit library providing JavaScript FFI bindings for various runtim
 ```bash
 git clone https://github.com/mizchi/js.mbt.git
 cd js.mbt
-```
 
-2. Install dependencies:
-```bash
+# install node.js deps
 pnpm install
+
+# moonbit test and build
+moon test
+moon build
 ```
 
-3. Build the project:
-```bash
-moon build --target js
-```
 
 ## Running Tests
 
@@ -51,28 +52,16 @@ Run the standard MoonBit test suite:
 moon test
 ```
 
-This runs 915+ tests covering core APIs including:
-- URL and URLSearchParams
-- HTTP client and server
-- Promise and async operations
-- Node.js APIs
-- DOM APIs
-
 ### 2. Deno Runtime Tests
 
 Build the project and run Deno-specific tests:
 
 ```bash
-moon build --target js
+moon build
 deno test --allow-all target/js/release/build/examples/deno/deno.js
+
+# or just test-deno
 ```
-
-These tests cover 37+ test cases including:
-- File system operations
-- Process and system information
-- Network APIs
-- Permissions management
-
 ### 3. Playwright Tests
 
 Playwright tests require browser installation and run separately from the main test suite.
@@ -103,10 +92,7 @@ moon test
 
 # 2. Deno tests
 moon build --target js
-deno test --allow-all target/js/release/build/examples/deno/deno.js
-
-# 3. Cloudflare tests
-pnpm test:cloudflare
+deno test -A target/js/release/build/examples/deno/deno.js
 ```
 
 ## Code Style
