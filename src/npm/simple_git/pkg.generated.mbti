@@ -8,6 +8,8 @@ import(
 // Values
 pub fn simpleGit(base_dir? : String, binary? : String, maxConcurrentProcesses? : Int, trimmed? : Bool) -> SimpleGit
 
+pub fn status_is_clean_method(StatusResult) -> Bool
+
 // Errors
 
 // Types and methods
@@ -88,8 +90,18 @@ pub async fn SimpleGit::stashPop(Self) -> Unit
 pub async fn SimpleGit::status(Self) -> StatusResult
 pub async fn SimpleGit::tags(Self) -> @core.Any
 
-#external
-pub type StatusResult
+pub(all) struct StatusResult {
+  current : String
+  tracking : String
+  not_added : Array[String]
+  modified : Array[String]
+  staged : Array[String]
+  deleted : Array[String]
+  created : Array[String]
+  conflicted : Array[String]
+  ahead : Int
+  behind : Int
+}
 pub fn StatusResult::ahead(Self) -> Int
 pub fn StatusResult::as_any(Self) -> @core.Any
 pub fn StatusResult::behind(Self) -> Int

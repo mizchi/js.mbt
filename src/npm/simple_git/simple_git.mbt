@@ -16,8 +16,30 @@ pub fn SimpleGit::as_any(self : SimpleGit) -> @core.Any = "%identity"
 
 ///|
 /// Git status result
-#external
-pub type StatusResult
+///
+/// Contains information about the working directory status:
+/// - `current`: Current branch name
+/// - `tracking`: Tracking branch name
+/// - `not_added`: Untracked files
+/// - `modified`: Modified files
+/// - `staged`: Staged files
+/// - `deleted`: Deleted files
+/// - `created`: Created files
+/// - `conflicted`: Conflicted files
+/// - `ahead`: Commits ahead of tracking branch
+/// - `behind`: Commits behind tracking branch
+pub(all) struct StatusResult {
+  current : String
+  tracking : String
+  not_added : Array[String]
+  modified : Array[String]
+  staged : Array[String]
+  deleted : Array[String]
+  created : Array[String]
+  conflicted : Array[String]
+  ahead : Int
+  behind : Int
+}
 
 ///|
 pub fn StatusResult::as_any(self : StatusResult) -> @core.Any = "%identity"
@@ -421,116 +443,79 @@ pub async fn SimpleGit::status(self : SimpleGit) -> StatusResult {
 
 ///| StatusResult accessors
 
-///|
-extern "js" fn ffi_status_current(status : StatusResult) -> String =
-  #| (status) => status.current || ''
+///| StatusResult isClean FFI
 
 ///|
-extern "js" fn ffi_status_tracking(status : StatusResult) -> String =
-  #| (status) => status.tracking || ''
-
-///|
-extern "js" fn ffi_status_is_clean(status : StatusResult) -> Bool =
+/// Check if working directory is clean (calls JavaScript isClean() method)
+pub extern "js" fn status_is_clean_method(status : StatusResult) -> Bool =
   #| (status) => status.isClean()
-
-///|
-extern "js" fn ffi_status_not_added(status : StatusResult) -> @core.Any =
-  #| (status) => status.not_added
-
-///|
-extern "js" fn ffi_status_modified(status : StatusResult) -> @core.Any =
-  #| (status) => status.modified
-
-///|
-extern "js" fn ffi_status_staged(status : StatusResult) -> @core.Any =
-  #| (status) => status.staged
-
-///|
-extern "js" fn ffi_status_deleted(status : StatusResult) -> @core.Any =
-  #| (status) => status.deleted
-
-///|
-extern "js" fn ffi_status_created(status : StatusResult) -> @core.Any =
-  #| (status) => status.created
-
-///|
-extern "js" fn ffi_status_conflicted(status : StatusResult) -> @core.Any =
-  #| (status) => status.conflicted
-
-///|
-extern "js" fn ffi_status_ahead(status : StatusResult) -> Int =
-  #| (status) => status.ahead
-
-///|
-extern "js" fn ffi_status_behind(status : StatusResult) -> Int =
-  #| (status) => status.behind
 
 ///| StatusResult Methods
 
 ///|
 /// Get current branch name
 pub fn StatusResult::current(self : StatusResult) -> String {
-  ffi_status_current(self)
+  self.current
 }
 
 ///|
 /// Get tracking branch name
 pub fn StatusResult::tracking(self : StatusResult) -> String {
-  ffi_status_tracking(self)
+  self.tracking
 }
 
 ///|
 /// Check if working directory is clean
 pub fn StatusResult::isClean(self : StatusResult) -> Bool {
-  ffi_status_is_clean(self)
+  status_is_clean_method(self)
 }
 
 ///|
 /// Get untracked files
 pub fn StatusResult::notAdded(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_not_added(self))
+  self.not_added
 }
 
 ///|
 /// Get modified files
 pub fn StatusResult::modified(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_modified(self))
+  self.modified
 }
 
 ///|
 /// Get staged files
 pub fn StatusResult::staged(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_staged(self))
+  self.staged
 }
 
 ///|
 /// Get deleted files
 pub fn StatusResult::deleted(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_deleted(self))
+  self.deleted
 }
 
 ///|
 /// Get created files
 pub fn StatusResult::created(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_created(self))
+  self.created
 }
 
 ///|
 /// Get conflicted files
 pub fn StatusResult::conflicted(self : StatusResult) -> Array[String] {
-  @core.identity(ffi_status_conflicted(self))
+  self.conflicted
 }
 
 ///|
 /// Get commits ahead of tracking branch
 pub fn StatusResult::ahead(self : StatusResult) -> Int {
-  ffi_status_ahead(self)
+  self.ahead
 }
 
 ///|
 /// Get commits behind tracking branch
 pub fn StatusResult::behind(self : StatusResult) -> Int {
-  ffi_status_behind(self)
+  self.behind
 }
 
 ///| Log FFI
