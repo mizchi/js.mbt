@@ -11,17 +11,17 @@ test "global_this" {
 ///|
 test "is_nan" {
   let nan_val : @core.Any = @core.any(0.0 / 0.0)
-  assert_true(is_nan(nan_val))
-  assert_false(is_nan(@core.any(42)))
-  assert_false(is_nan(@core.any(3.14)))
+  assert_true(isNaN(nan_val))
+  assert_false(isNaN(@core.any(42)))
+  assert_false(isNaN(@core.any(3.14)))
 }
 
 ///|
 test "is_finite" {
-  assert_true(is_finite(3.14))
-  assert_true(is_finite(0.0))
-  assert_false(is_finite(1.0 / 0.0)) // Infinity
-  assert_false(is_finite(0.0 / 0.0)) // NaN
+  assert_true(isFinite(3.14))
+  assert_true(isFinite(0.0))
+  assert_false(isFinite(1.0 / 0.0)) // Infinity
+  assert_false(isFinite(0.0 / 0.0)) // NaN
 }
 
 ///| Number Parsing
@@ -29,32 +29,32 @@ test "is_finite" {
 ///|
 test "parse_int" {
   // Basic parsing
-  assert_eq(parse_int("42"), Some(42))
-  assert_eq(parse_int("-123"), Some(-123))
-  assert_eq(parse_int("0"), Some(0))
+  assert_eq(parseInt("42"), Some(42))
+  assert_eq(parseInt("-123"), Some(-123))
+  assert_eq(parseInt("0"), Some(0))
 
   // With radix
-  assert_eq(parse_int("ff", radix=16), Some(255))
-  assert_eq(parse_int("FF", radix=16), Some(255))
-  assert_eq(parse_int("1010", radix=2), Some(10))
-  assert_eq(parse_int("77", radix=8), Some(63))
+  assert_eq(parseInt("ff", radix=16), Some(255))
+  assert_eq(parseInt("FF", radix=16), Some(255))
+  assert_eq(parseInt("1010", radix=2), Some(10))
+  assert_eq(parseInt("77", radix=8), Some(63))
 
   // Invalid input
-  assert_eq(parse_int("hello"), None)
-  assert_eq(parse_int(""), None)
+  assert_eq(parseInt("hello"), None)
+  assert_eq(parseInt(""), None)
 }
 
 ///|
 test "parse_float" {
   // Basic parsing
-  assert_eq(parse_float("3.14"), Some(3.14))
-  assert_eq(parse_float("-2.5"), Some(-2.5))
-  assert_eq(parse_float("0.0"), Some(0.0))
-  assert_eq(parse_float("42"), Some(42.0))
+  assert_eq(parseFloat("3.14"), Some(3.14))
+  assert_eq(parseFloat("-2.5"), Some(-2.5))
+  assert_eq(parseFloat("0.0"), Some(0.0))
+  assert_eq(parseFloat("42"), Some(42.0))
 
   // Invalid input
-  assert_eq(parse_float("hello"), None)
-  assert_eq(parse_float(""), None)
+  assert_eq(parseFloat("hello"), None)
+  assert_eq(parseFloat(""), None)
 }
 
 ///| String Encoding (Base64)

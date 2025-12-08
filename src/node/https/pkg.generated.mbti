@@ -2,15 +2,14 @@
 package "mizchi/js/node/https"
 
 import(
-  "mizchi/js/builtins/object"
   "mizchi/js/core"
   "mizchi/js/web/event"
 )
 
 // Values
-pub fn create_server((@object.Object, @object.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String) -> Server
+pub fn create_server((@core.Any, @core.Any) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String) -> Server
 
-pub fn get(String, (@object.Object) -> Unit) -> ClientRequest
+pub fn get(String, (@core.Any) -> Unit) -> ClientRequest
 
 pub fn global_agent() -> Agent
 

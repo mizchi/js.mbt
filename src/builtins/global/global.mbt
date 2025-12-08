@@ -22,23 +22,15 @@ pub extern "js" fn undefined() -> @core.Any =
 
 ///|
 /// JS: isNaN(v)
+#alias(is_nan)
 pub extern "js" fn isNaN(v : @core.Any) -> Bool =
   #| (v) => isNaN(v)
 
 ///|
-pub fn is_nan(v : @core.Any) -> Bool {
-  isNaN(v)
-}
-
-///|
 /// JS: isFinite(v)
+#alias(is_finite)
 pub extern "js" fn isFinite(v : Double) -> Bool =
   #| (v) => isFinite(v)
-
-///|
-pub fn is_finite(v : Double) -> Bool {
-  isFinite(v)
-}
 
 ///| Number Parsing
 
@@ -55,6 +47,7 @@ extern "js" fn ffi_parse_float(string : String) -> @core.Any =
 ///
 /// Parse a string and return an integer.
 /// If radix is not provided, it defaults to 10 (or 16 if string starts with "0x").
+#alias(parse_int)
 pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
   let result = ffi_parse_int(string, radix)
   if isNaN(result) {
@@ -65,15 +58,11 @@ pub fn parseInt(string : String, radix? : Int = 10) -> Int? {
 }
 
 ///|
-pub fn parse_int(string : String, radix? : Int = 10) -> Int? {
-  parseInt(string, radix~)
-}
-
-///|
 /// JS: parseFloat(string)
 ///
 /// Parse a string and return a floating point number.
 /// Returns None if the string cannot be parsed as a number.
+#alias(parse_float)
 pub fn parseFloat(string : String) -> Double? {
   let result = ffi_parse_float(string)
   if isNaN(result) {
@@ -81,11 +70,6 @@ pub fn parseFloat(string : String) -> Double? {
   } else {
     Some(@core.identity(result))
   }
-}
-
-///|
-pub fn parse_float(string : String) -> Double? {
-  parseFloat(string)
 }
 
 ///| String Encoding (Base64)
@@ -102,7 +86,7 @@ extern "js" fn ffi_btoa(data : String) -> String =
 /// JS: atob(encodedData)
 ///
 /// Decodes a string of data which has been encoded using Base64 encoding.
-pub fn atob(encoded_data : String) -> String raise {
+pub fn atob(encoded_data : String) -> String raise @core.ThrowError {
   @core.throwable(() => ffi_atob(encoded_data))
 }
 
@@ -110,7 +94,7 @@ pub fn atob(encoded_data : String) -> String raise {
 /// JS: btoa(data)
 ///
 /// Creates a Base64-encoded ASCII string from a binary string.
-pub fn btoa(data : String) -> String raise {
+pub fn btoa(data : String) -> String raise @core.ThrowError {
   @core.throwable(() => ffi_btoa(data))
 }
 

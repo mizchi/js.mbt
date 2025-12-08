@@ -2,7 +2,6 @@
 package "mizchi/js/node/process"
 
 import(
-  "mizchi/js/builtins/object"
   "mizchi/js/core"
   "mizchi/js/node/tty"
 )
@@ -36,7 +35,7 @@ pub fn stdout() -> @tty.WriteStream
 
 pub fn version() -> String
 
-pub fn versions() -> @object.Object
+pub fn versions() -> @core.Any
 
 // Errors
 

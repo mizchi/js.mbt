@@ -273,7 +273,9 @@ pub extern "js" fn CanvasRenderingContext2D::setTransform(
   #|(self, a, b, c, d, e, f) => self.setTransform(a, b, c, d, e, f)
 
 ///|
-pub extern "js" fn CanvasRenderingContext2D::resetTransform(self : Self) -> Unit =
+pub extern "js" fn CanvasRenderingContext2D::resetTransform(
+  self : Self,
+) -> Unit =
   #|(self) => self.resetTransform()
 
 ///|

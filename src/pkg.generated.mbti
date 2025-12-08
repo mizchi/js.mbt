@@ -29,9 +29,9 @@ import(
 // Values
 pub fn[T] any(T) -> @core.Any
 
-pub fn atob(String) -> String raise
+pub fn atob(String) -> String raise @core.ThrowError
 
-pub fn btoa(String) -> String raise
+pub fn btoa(String) -> String raise @core.ThrowError
 
 pub fn clearInterval(@global.Timer) -> Unit
 

@@ -2,7 +2,6 @@
 package "mizchi/js/node/http2"
 
 import(
-  "mizchi/js/builtins/object"
   "mizchi/js/core"
   "mizchi/js/web/event"
 )
@@ -10,9 +9,9 @@ import(
 // Values
 pub fn connect(String) -> Http2Session
 
-pub fn create_secure_server((@object.Object, @object.Object) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String, allow_http1? : Bool) -> Http2SecureServer
+pub fn create_secure_server((@core.Any, @core.Any) -> Unit, key? : String, cert? : String, pfx? : String, passphrase? : String, allow_http1? : Bool) -> Http2SecureServer
 
-pub fn create_server((@object.Object, @object.Object) -> Unit, allow_http1? : Bool, max_deflate_dynamic_table_size? : Int, max_session_memory? : Int, max_header_list_size? : Int, max_outstanding_pings? : Int, max_send_header_block_length? : Int, padding_strategy? : Int) -> Http2Server
+pub fn create_server((@core.Any, @core.Any) -> Unit, allow_http1? : Bool, max_deflate_dynamic_table_size? : Int, max_session_memory? : Int, max_header_list_size? : Int, max_outstanding_pings? : Int, max_send_header_block_length? : Int, padding_strategy? : Int) -> Http2Server
 
 // Errors
 
@@ -22,9 +21,9 @@ pub type ClientHttp2Stream
 pub fn ClientHttp2Stream::as_any(Self) -> @core.Any
 pub fn ClientHttp2Stream::as_event_target(Self) -> @event.EventTarget
 pub fn ClientHttp2Stream::end(Self) -> Unit
-pub fn ClientHttp2Stream::on_data(Self, (@object.Object) -> Unit) -> Self
+pub fn ClientHttp2Stream::on_data(Self, (@core.Any) -> Unit) -> Self
 pub fn ClientHttp2Stream::on_end(Self, () -> Unit) -> Self
-pub fn ClientHttp2Stream::on_response(Self, (@object.Object) -> Unit) -> Self
+pub fn ClientHttp2Stream::on_response(Self, (@core.Any) -> Unit) -> Self
 pub fn ClientHttp2Stream::write(Self, String) -> Unit
 
 #external
@@ -47,7 +46,7 @@ pub fn Http2Session::as_any(Self) -> @core.Any
 pub fn Http2Session::as_event_target(Self) -> @event.EventTarget
 pub fn Http2Session::close(Self) -> Unit
 pub fn Http2Session::ping(Self, () -> Unit) -> Unit
-pub fn Http2Session::request(Self, @object.Object) -> ClientHttp2Stream
+pub fn Http2Session::request(Self, @core.Any) -> ClientHttp2Stream
 
 #external
 pub type Http2Stream
@@ -59,7 +58,7 @@ pub type ServerHttp2Stream
 pub fn ServerHttp2Stream::as_any(Self) -> @core.Any
 pub fn ServerHttp2Stream::as_event_target(Self) -> @event.EventTarget
 pub fn ServerHttp2Stream::end(Self, String) -> Unit
-pub fn ServerHttp2Stream::respond(Self, @object.Object) -> Unit
+pub fn ServerHttp2Stream::respond(Self, @core.Any) -> Unit
 
 // Type aliases
 

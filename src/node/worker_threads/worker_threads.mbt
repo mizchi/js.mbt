@@ -101,7 +101,9 @@ pub extern "js" fn Worker::threadId(self : Worker) -> Int =
   #|(self) => self.threadId
 
 ///|
-extern "js" fn Worker::ffi_stdin(self : Worker) -> @core.Nullish[@streams.WritableStream] =
+extern "js" fn Worker::ffi_stdin(
+  self : Worker,
+) -> @core.Nullish[@streams.WritableStream] =
   #|(self) => self.stdin
 
 ///|
@@ -111,7 +113,9 @@ pub fn Worker::stdin(self : Worker) -> @streams.WritableStream? {
 }
 
 ///|
-extern "js" fn Worker::ffi_stdout(self : Worker) -> @core.Nullish[@streams.ReadableStream] =
+extern "js" fn Worker::ffi_stdout(
+  self : Worker,
+) -> @core.Nullish[@streams.ReadableStream] =
   #|(self) => self.stdout
 
 ///|
@@ -121,7 +125,9 @@ pub fn Worker::stdout(self : Worker) -> @streams.ReadableStream? {
 }
 
 ///|
-extern "js" fn Worker::ffi_stderr(self : Worker) -> @core.Nullish[@streams.ReadableStream] =
+extern "js" fn Worker::ffi_stderr(
+  self : Worker,
+) -> @core.Nullish[@streams.ReadableStream] =
   #|(self) => self.stderr
 
 ///|

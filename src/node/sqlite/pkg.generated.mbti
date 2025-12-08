@@ -158,7 +158,7 @@ pub fn StatementSync::all(Self, named_parameters? : Map[String, @core.Any], anon
 pub fn StatementSync::columns(Self) -> Array[@core.Any]
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(Self) -> String
-pub fn StatementSync::get_(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> @core.Any?
+pub fn StatementSync::get(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> @core.Any?
 pub fn StatementSync::iterate(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> @iterator.JsIterator[@core.Any]
 pub fn StatementSync::run(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)

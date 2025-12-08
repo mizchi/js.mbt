@@ -2,32 +2,31 @@
 package "mizchi/js/node/dns"
 
 import(
-  "mizchi/js/builtins/array"
-  "mizchi/js/builtins/object"
+  "mizchi/js/core"
 )
 
 // Values
-pub fn get_servers() -> @array.JsArray
+pub fn get_servers() -> @core.Any
 
-pub fn lookup(String, (@object.Object?, @object.Object) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
+pub fn lookup(String, (@core.Any?, @core.Any) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
 
-pub fn resolve(String, String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve(String, String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve4(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve4(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve6(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve6(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve_cname(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve_cname(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve_mx(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve_mx(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve_ns(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve_ns(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve_srv(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve_srv(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn resolve_txt(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn resolve_txt(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
-pub fn reverse(String, (@object.Object?, @array.JsArray) -> Unit) -> Unit
+pub fn reverse(String, (@core.Any?, @core.Any) -> Unit) -> Unit
 
 pub fn set_servers(Array[String]) -> Unit
 

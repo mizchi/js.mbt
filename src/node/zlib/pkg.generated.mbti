@@ -6,31 +6,31 @@ import(
 )
 
 // Values
-pub fn brotli_compress(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn brotli_compress(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn brotli_decompress(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn brotli_decompress(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn create_brotli_compress(ZlibOptions) -> BrotliCompress
+pub fn create_brotli_compress(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> BrotliCompress
 
-pub fn create_brotli_decompress(ZlibOptions) -> BrotliDecompress
+pub fn create_brotli_decompress(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> BrotliDecompress
 
-pub fn create_deflate(ZlibOptions) -> Deflate
+pub fn create_deflate(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Deflate
 
-pub fn create_gunzip(ZlibOptions) -> Gunzip
+pub fn create_gunzip(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Gunzip
 
-pub fn create_gzip(ZlibOptions) -> Gzip
+pub fn create_gzip(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Gzip
 
-pub fn create_inflate(ZlibOptions) -> Inflate
+pub fn create_inflate(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Inflate
 
-pub fn deflate(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn deflate(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn gunzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn gunzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn gzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn gzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn inflate(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn inflate(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn unzip(@core.Any, ZlibOptions, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn unzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
 // Errors
 
@@ -58,16 +58,6 @@ pub fn Gzip::as_any(Self) -> @core.Any
 #external
 pub type Inflate
 pub fn Inflate::as_any(Self) -> @core.Any
-
-pub struct ZlibOptions {
-  level : Int?
-  chunk_size : Int?
-  mem_level : Int?
-  strategy : Int?
-  window_bits : Int?
-}
-pub fn ZlibOptions::as_any(Self) -> @core.Any
-pub fn ZlibOptions::new() -> Self
 
 // Type aliases
 
