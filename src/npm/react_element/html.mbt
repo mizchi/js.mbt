@@ -87,12 +87,24 @@ fn[T] common_node(
     props._set("onDrop", f |> @js.from_fn1)
   }
   // Only set children if not empty (void elements like <input> cannot have children)
-  if not(children.is_empty()) {
-    let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
-    props._set("children", children_js)
+  let children_count = children.length()
+  if children_count > 0 {
+    if children_count == 1 {
+      // Single child - pass directly, not as array
+      props._set("children", children[0].to_react_node())
+    } else {
+      // Multiple children - pass as array
+      let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+      props._set("children", children_js)
+    }
   }
   let props_js : @core.Any = props.cast()
-  @react.createElementWithKey(@core.any(tag_name), props_js, key)
+  @react.createElementWithKey(
+    @core.any(tag_name),
+    props_js,
+    key,
+    children_count~,
+  )
 }
 
 ///|

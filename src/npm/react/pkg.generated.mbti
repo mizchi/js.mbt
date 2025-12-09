@@ -28,7 +28,7 @@ pub fn createElementDirect(String, @core.Any, @core.Any) -> Element
 
 pub fn createElementRaw(@core.Any, @core.Any) -> Element
 
-pub fn createElementWithKey(@core.Any, @core.Any, String?) -> Element
+pub fn createElementWithKey(@core.Any, @core.Any, String?, children_count? : Int) -> Element
 
 #alias(createContext)
 pub fn[T] create_context(T?) -> Context[T]

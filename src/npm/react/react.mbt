@@ -41,14 +41,20 @@ pub fn createElementRaw(tag : @core.Any, props : @core.Any) -> Element {
 
 ///|
 /// Create React element with props and key - key is passed as 3rd argument to jsx runtime
+/// Use children_count to determine jsx vs jsxs
 pub fn createElementWithKey(
   tag : @core.Any,
   props : @core.Any,
   key : String?,
+  children_count? : Int = 0,
 ) -> Element {
   let key_val : @core.Any = match key {
     Some(k) => @core.any(k)
     None => @core.undefined()
   }
-  ffi_jsx(tag, props, key_val).cast()
+  if children_count <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
 }
