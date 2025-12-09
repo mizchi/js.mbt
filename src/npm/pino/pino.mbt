@@ -6,9 +6,38 @@
 // ============================================================
 
 ///|
+/// Dynamic import for pino module
+extern "js" fn import_pino() -> @core.Promise[@core.Any] =
+  #|() => import("pino")
+
+///|
+extern "js" fn get_pino_global() -> @core.Any =
+  #|() => globalThis.__pino
+
+///|
+extern "js" fn set_pino_global(pino : @core.Any) -> Unit =
+  #|(pino) => { globalThis.__pino = pino; }
+
+///|
+/// Initialize pino globals asynchronously (recommended for ESM)
+pub async fn init_global() -> Unit {
+  if @core.is_nullish(get_pino_global()) {
+    let mod = import_pino().wait()
+    set_pino_global(mod._get("default"))
+  }
+}
+
+///|
+/// Initialize pino globals synchronously (for testing with require)
+pub fn init_pino(pino_module : @core.Any) -> Unit {
+  set_pino_global(pino_module)
+}
+
+///|
 /// Get the pino module
-extern "js" fn pino_module() -> @core.Any =
-  #| () => require("pino")
+fn pino_module() -> @core.Any {
+  get_pino_global()
+}
 
 // ============================================================
 // Level enum
@@ -66,6 +95,14 @@ pub extern "js" fn Logger::as_any(self : Logger) -> @core.Any =
   #| (x) => x
 
 ///|
+extern "js" fn ffi_pino_call(pino : @core.Any, opts : @core.Any) -> Logger =
+  #|(pino, opts) => pino(opts)
+
+///|
+extern "js" fn ffi_pino_default(pino : @core.Any) -> Logger =
+  #|(pino) => pino()
+
+///|
 /// Create a pino logger with options
 pub fn pino(
   level? : Level = Info,
@@ -79,14 +116,13 @@ pub fn pino(
     opts["name"] = @core.any(name)
   }
   opts["timestamp"] = @core.any(timestamp)
-  mod._call("default", [opts]).cast()
+  ffi_pino_call(mod, opts)
 }
 
 ///|
 /// Create a pino logger with default options
 pub fn pino_default() -> Logger {
-  let mod = pino_module()
-  mod._call("default", []).cast()
+  ffi_pino_default(pino_module())
 }
 
 // ============================================================
