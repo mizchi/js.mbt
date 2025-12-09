@@ -12,6 +12,7 @@ Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details
 - [ ] react_router - **Blocked**: RouterProvider is a component, not a function. Uses `init_global()` workaround.
 - [x] preact
 - [x] vue - Fragment uses Symbol.for('v-fgt') internally
+- [x] ink - ESM-only with top-level await, uses dynamic import pattern
 
 ### Node.js Built-ins (High Priority - ESM behavior changes)
 
@@ -45,22 +46,48 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 
 - [x] zod - schema validation (high priority)
   - Note: `coerce_*` functions still use `require()` because `coerce` is an object, not a function export
-- [ ] hono - web framework (high priority, but `new Hono()` requires workaround)
-  - Migrate non-constructor parts first (middleware, context helpers, etc.)
-- [ ] msw - mock service worker (high priority)
-- [ ] pino - logger (high priority)
-- [ ] debug - debug utility (high priority)
-- [ ] semver - version parsing (high priority)
-- [ ] vite - build tool (high priority)
-- [ ] vitest - test runner (high priority)
-- [ ] drizzle - database ORM
-- [ ] jose - JWT/JWE/JWS
+- [x] comlink - WebWorker communication
+  - Note: Symbols (`createEndpoint`, `releaseProxy`, `proxyMarker`) and `transferHandlers` (Map) still use require()
+- [x] semver - version parsing
+  - Note: `max`, `min` (array spread needed) still use require()
 - [x] date_fns - date utilities
+- [ ] hono - **Blocked**: `new Hono()` class constructor cannot use #module
+- [ ] jose - **Blocked**: `new SignJWT()` class constructor cannot use #module
+- [ ] pino - **Blocked**: `pino()` factory function, uses inline require()
+- [ ] debug - **Blocked**: `debug()` factory function, uses inline require()
+- [ ] chalk - **Blocked**: `chalk.red()` etc. are method calls on object, uses inline require()
+- [ ] msw - mock service worker
+- [ ] vite - build tool
+- [ ] vitest - test runner
+- [ ] drizzle - database ORM
 
 ### Testing Libraries (Low Priority - Node.js only)
 
 - [ ] testing_library_react
 - [ ] testing_library_preact
+
+---
+
+## Limitations of `#module` directive
+
+The `#module` directive can only be applied to **functions with fixed arguments**:
+
+✅ Can use `#module`:
+- Functions with fixed parameters: `useState`, `useEffect`, `parse`, `compare`, etc.
+- Functions returning values: `gt`, `lt`, `eq`, `satisfies`, etc.
+
+❌ Cannot use `#module`:
+- **Class constructors**: `new Hono()`, `new SignJWT()`, `new Database()`
+- **Factory functions**: `pino()`, `debug()`, `chalk()`
+- **Method calls on objects**: `chalk.red()`, `semver.coerce`
+- **Property access**: `path.delimiter`, `process.env`, `os.EOL`
+- **Symbols**: `comlink.createEndpoint`, `comlink.releaseProxy`
+- **Variadic functions**: `path.join(...args)`, `path.resolve(...args)`
+
+Workarounds:
+1. **Inline require()**: `#| () => require('pkg').fn()`
+2. **Dynamic import + global**: For ESM-only packages (ink)
+3. **Symbol.for()**: For React symbols (Fragment, StrictMode, Suspense)
 
 ---
 
