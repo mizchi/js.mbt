@@ -14,12 +14,10 @@ extern "js" fn ffi_create_element(
 ) -> @react.Element = "createElement"
 
 ///|
-/// Dynamic import and initialize React Router API asynchronously
-/// NOTE: This uses dynamic import which doesn't support tree-shaking.
-/// When MoonBit adds native ESM support, this should be replaced with static imports.
-///
-/// Implementation detail: Stores the module in globalThis for internal use.
-pub async fn dynamic_import() -> Unit {
+/// Initialize React Router API by storing module in globalThis.
+/// NOTE: This is a workaround until MoonBit adds native ESM support.
+/// When ESM support is available, this function should be removed.
+pub async fn init_global() -> Unit {
   if @core.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @global.global_this()._set("__ReactRouterApi", v)
@@ -27,9 +25,15 @@ pub async fn dynamic_import() -> Unit {
 }
 
 ///|
-/// @deprecated Use dynamic_import() instead
+/// @deprecated Use init_global() instead
+pub async fn dynamic_import() -> Unit {
+  init_global()
+}
+
+///|
+/// @deprecated Use init_global() instead
 pub async fn init_react_router_async() -> Unit {
-  dynamic_import()
+  init_global()
 }
 
 ///|

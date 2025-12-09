@@ -14,6 +14,8 @@ pub fn create_memory_router(Array[Route], options? : MemoryRouterOptions) -> Rou
 
 pub async fn dynamic_import() -> Unit
 
+pub async fn init_global() -> Unit
+
 pub async fn init_react_router_async() -> Unit
 
 pub fn link(to~ : String, Array[&@react.ReactNode]) -> @react.Element

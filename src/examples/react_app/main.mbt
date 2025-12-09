@@ -252,8 +252,9 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 async fn main {
-  // react_router requires dynamic_import() for __ReactRouterApi global
-  @react_router.dynamic_import()
+  // react_router requires init_global() for __ReactRouterApi global
+  // TODO: Remove when MoonBit adds native ESM support
+  @react_router.init_global()
   guard @dom.document().getElementById("app") is Some(app_root)
   init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {
