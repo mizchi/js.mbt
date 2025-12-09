@@ -2,9 +2,7 @@
 
 ///|
 fn render_to_string(element : @react.Element) -> String {
-  let react_dom_server : @core.Any = @node.require("react-dom/server")
-  let element_js : @core.Any = element.as_any().cast()
-  react_dom_server._get("renderToString")._invoke([element_js]).cast()
+  @react_dom_server.renderToString(element)
 }
 
 ///|
@@ -14,7 +12,6 @@ priv struct TestProps {
 
 ///|
 test "React createElement" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [])
   let el_type : String = el.as_any()["type"].cast()
   assert_eq(el_type, "div")
@@ -41,7 +38,6 @@ test "React createElement" {
 
 ///|
 test "render_to_string" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("h1", ["ssr"])
   let s = render_to_string(el)
   assert_eq(s, "<h1>ssr</h1>")
@@ -49,7 +45,6 @@ test "render_to_string" {
 
 ///|
 test "createElement with key" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", ["test"], key="my-key")
   let key : String = el.as_any()["key"].cast()
   assert_eq(key, "my-key")
@@ -57,7 +52,6 @@ test "createElement with key" {
 
 ///|
 test "createElement with style" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [], style={
     "color": "red",
     "fontSize": "16px",
@@ -69,7 +63,6 @@ test "createElement with style" {
 
 ///|
 test "createElement with ref" {
-  @react.init_react_api(@node.require("react"))
   let comp = (_props : Unit) => {
     let r : @react.ReactRef[@dom.Element] = @react.useRef(None)
     @react.createElement("span", ["test"], ref_=r)
@@ -81,7 +74,6 @@ test "createElement with ref" {
 
 ///|
 test "component with key" {
-  @react.init_react_api(@node.require("react"))
   let c = (props : TestProps) => @react.createElement("div", [props.v])
   let el = @react.component(c, { v: "keyed-value" }, key="comp-key")
   let s = render_to_string(el)
@@ -90,7 +82,6 @@ test "component with key" {
 
 ///|
 test "component with children" {
-  @react.init_react_api(@node.require("react"))
   let c = (_props : Unit) => @react.createElement("div", ["parent"])
   let el = @react.component(c, (), children=[
     @react.createElement("span", ["child"]),
@@ -101,7 +92,6 @@ test "component with children" {
 
 ///|
 test "fragment" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.fragment([
     @react.createElement("div", ["1"]),
     @react.createElement("div", ["2"]),
@@ -112,7 +102,6 @@ test "fragment" {
 
 ///|
 test "fragment with key" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.fragment(
     [@react.createElement("div", ["item"])],
     key="frag-key",
@@ -123,7 +112,6 @@ test "fragment with key" {
 
 ///|
 test "suspense" {
-  @react.init_react_api(@node.require("react"))
   let fallback_el = @react.createElement("div", ["Loading..."])
   let child = @react.createElement("div", ["Content"])
   let el = @react.suspense([child], fallback=fallback_el)
@@ -133,7 +121,6 @@ test "suspense" {
 
 ///|
 test "provider" {
-  @react.init_react_api(@node.require("react"))
   let ctx : @react.Context[Int] = @react.create_context(Some(42))
   let child = @react.createElement("div", ["child"])
   let el = @react.provider(ctx, [child], value=100)
@@ -143,7 +130,6 @@ test "provider" {
 
 ///|
 test "ReactNode Int" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [42])
   let s = render_to_string(el)
   assert_eq(s, "<div>42</div>")
@@ -151,7 +137,6 @@ test "ReactNode Int" {
 
 ///|
 test "ReactNode Double" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [3.14])
   let s = render_to_string(el)
   assert_eq(s.contains("3.14"), true)
@@ -159,7 +144,6 @@ test "ReactNode Double" {
 
 ///|
 test "ReactNode Bool" {
-  @react.init_react_api(@node.require("react"))
   let el = @react.createElement("div", [true])
   let s = render_to_string(el)
   assert_eq(s, "<div></div>")
@@ -167,7 +151,6 @@ test "ReactNode Bool" {
 
 ///|
 test "ReactNode Option Some" {
-  @react.init_react_api(@node.require("react"))
   let text : String? = Some("hello")
   let el = @react.createElement("div", [text])
   let s = render_to_string(el)
@@ -176,7 +159,6 @@ test "ReactNode Option Some" {
 
 ///|
 test "ReactNode Option None" {
-  @react.init_react_api(@node.require("react"))
   let text : String? = None
   let el = @react.createElement("div", [text])
   let s = render_to_string(el)
@@ -185,7 +167,6 @@ test "ReactNode Option None" {
 
 ///|
 test "ReactNode Array of ReactNode" {
-  @react.init_react_api(@node.require("react"))
   let items : Array[&@react.ReactNode] = ["item1", "item2", "item3"]
   let el = @react.createElement("div", [items])
   let s = render_to_string(el)
@@ -194,7 +175,6 @@ test "ReactNode Array of ReactNode" {
 
 ///|
 test "ReactNode nested Array with Elements" {
-  @react.init_react_api(@node.require("react"))
   let nested : Array[&@react.ReactNode] = [
     @react.createElement("span", ["a"], key="a"),
     @react.createElement("span", ["b"], key="b"),
@@ -207,7 +187,6 @@ test "ReactNode nested Array with Elements" {
 
 ///|
 test "ReactNode Array with mixed types" {
-  @react.init_react_api(@node.require("react"))
   let mixed : Array[&@react.ReactNode] = [
     "text",
     42,
@@ -220,7 +199,6 @@ test "ReactNode Array with mixed types" {
 
 ///|
 test "ReactNode deeply nested Arrays" {
-  @react.init_react_api(@node.require("react"))
   let inner : Array[&@react.ReactNode] = ["inner1", "inner2"]
   let outer : Array[&@react.ReactNode] = ["outer", inner, "end"]
   let el = @react.createElement("div", [outer])
@@ -230,7 +208,6 @@ test "ReactNode deeply nested Arrays" {
 
 ///|
 test "ReactNode Array with Option values" {
-  @react.init_react_api(@node.require("react"))
   let opt_some : String? = Some("middle")
   let opt_none : String? = None
   let with_option : Array[&@react.ReactNode] = [
@@ -243,7 +220,6 @@ test "ReactNode Array with Option values" {
 
 ///|
 test "ReactNode Array with for expression" {
-  @react.init_react_api(@node.require("react"))
   let items = ["apple", "banana", "cherry"]
   let children : Array[&@react.ReactNode] = items.map(fn(item) {
     @react.createElement("li", [item], key=item)
@@ -255,7 +231,6 @@ test "ReactNode Array with for expression" {
 
 ///|
 test "ReactNode fragment with for expression" {
-  @react.init_react_api(@node.require("react"))
   let items = [1, 2, 3]
   let children : Array[&@react.ReactNode] = items.map(fn(i) {
     @react.createElement("div", [i], key=i.to_string())
@@ -267,7 +242,6 @@ test "ReactNode fragment with for expression" {
 
 ///|
 test "ReactNode Array with map in fragment" {
-  @react.init_react_api(@node.require("react"))
   let numbers = [10, 20, 30]
   let mapped : Array[&@react.ReactNode] = numbers.map(fn(n) {
     @react.createElement("span", [n], key=n.to_string())
@@ -279,7 +253,6 @@ test "ReactNode Array with map in fragment" {
 
 ///|
 test "ReactNode conditional rendering in for expression" {
-  @react.init_react_api(@node.require("react"))
   let items = [1, 2, 3, 4, 5]
   let children : Array[&@react.ReactNode] = items.map(fn(i) {
     if i % 2 == 0 {
@@ -337,16 +310,10 @@ test "lazy_ with custom props" {
   assert_eq(s.contains("Loading..."), true)
 }
 
-///|
-fn init_react() -> Unit {
-  @react.init_react_api(@node.require("react"))
-}
-
 ///| renderToString test
 
 ///|
 async test "React DOM Server: renderToString should render a simple element" {
-  init_react()
   let element = @react.createElement("div", [])
   let html = @react_dom_server.renderToString(element)
   inspect(html, content="<div></div>")
@@ -354,7 +321,6 @@ async test "React DOM Server: renderToString should render a simple element" {
 
 ///|
 async test "React DOM Server: renderToString should render an element with text" {
-  init_react()
   let element = @react.createElement("p", ["Hello, World!"])
   let html = @react_dom_server.renderToString(element)
   inspect(html, content="<p>Hello, World!</p>")
@@ -364,7 +330,6 @@ async test "React DOM Server: renderToString should render an element with text"
 
 ///|
 async test "React DOM Server: renderToReadableStream should return a Promise of ReadableStream" {
-  init_react()
   let element = @react.createElement("div", [])
   let stream = @react_dom_server.renderToReadableStream(element)
   let reader = stream.getReader()
@@ -380,7 +345,6 @@ async test "React DOM Server: renderToReadableStream should return a Promise of 
 
 ///|
 async test "React DOM Server: renderToReadableStream should render HTML content" {
-  init_react()
   let element = @react.createElement("h1", ["Test Title"])
   let stream = @react_dom_server.renderToReadableStream(element)
   let reader = stream.getReader()
@@ -409,7 +373,6 @@ async test "React DOM Server: renderToReadableStream should render HTML content"
 
 ///|
 async test "React DOM Server: renderToReadableStream should handle nested elements" {
-  init_react()
   let inner = @react.createElement("span", ["Inner"])
   let outer = @react.createElement("div", [inner])
   let stream = @react_dom_server.renderToReadableStream(outer)
@@ -442,7 +405,6 @@ async test "React DOM Server: renderToReadableStream should handle nested elemen
 
 ///|
 test "error_boundary renders children normally" {
-  init_react()
   let child = @react.createElement("div", ["child content"])
   let el = @react.error_boundary(children=[child], fallback=fn(_error, _reset) {
     @react.createElement("div", ["Error occurred"])
@@ -453,7 +415,6 @@ test "error_boundary renders children normally" {
 
 ///|
 test "error_boundary with on_error callback" {
-  init_react()
   let child = @react.createElement("span", ["test"])
   let el = @react.error_boundary(
     children=[child],
@@ -466,7 +427,6 @@ test "error_boundary with on_error callback" {
 
 ///|
 test "error_boundary without fallback" {
-  init_react()
   let child = @react.createElement("div", ["content"])
   let el = @react.error_boundary(children=[child])
   let s = render_to_string(el)
@@ -484,7 +444,6 @@ extern "js" fn create_throwing_component() -> @react.Component[Unit] =
 
 ///|
 test "error_boundary structure with throwing component" {
-  init_react()
   let throwing_comp = create_throwing_component()
   let _el = @react.error_boundary(
     children=[@react.component(throwing_comp, ())],
@@ -503,7 +462,6 @@ test "error_boundary structure with throwing component" {
 
 ///|
 test "error_boundary with nested children" {
-  init_react()
   let el = @react.error_boundary(
     children=[
       @react.createElement("div", [
@@ -518,7 +476,6 @@ test "error_boundary with nested children" {
 
 ///|
 test "error_boundary multiple children" {
-  init_react()
   let el = @react.error_boundary(children=[
     @react.createElement("p", ["first"], key="1"),
     @react.createElement("p", ["second"], key="2"),
@@ -532,7 +489,6 @@ test "error_boundary multiple children" {
 
 ///|
 test "Component[Unit] basic" {
-  init_react()
   let comp : @react.Component[Unit] = fn(_props) {
     @react.createElement("div", ["unit props"])
   }
@@ -543,7 +499,6 @@ test "Component[Unit] basic" {
 
 ///|
 test "Component[Unit] with children" {
-  init_react()
   let comp : @react.Component[Unit] = fn(_props) {
     @react.createElement("div", ["parent"])
   }
@@ -556,7 +511,6 @@ test "Component[Unit] with children" {
 
 ///|
 test "Component[Unit] with ref" {
-  init_react()
   let comp : @react.Component[Unit] = fn(_props) {
     let r : @react.ReactRef[@dom.Element] = @react.useRef(None)
     @react.createElement("span", ["with ref"], ref_=r)
@@ -568,7 +522,6 @@ test "Component[Unit] with ref" {
 
 ///|
 test "Component[Unit] with key" {
-  init_react()
   let comp : @react.Component[Unit] = fn(_props) {
     @react.createElement("div", ["unit with key"])
   }
@@ -587,7 +540,6 @@ priv struct PropsWithChildren {
 
 ///|
 test "component: props.children is accessible in component" {
-  init_react()
   // Component that uses props.children
   let comp = (props : PropsWithChildren) => @react.createElement("div", [
     @react.createElement("h1", [props.title]),
@@ -609,7 +561,6 @@ test "component: props.children is accessible in component" {
 
 ///|
 test "component: argument children passed to React.createElement" {
-  init_react()
   // Component that renders its structure, ignoring props
   let wrapper = (_props : Unit) => @react.createElement("section", ["wrapper"])
   // Pass children via argument - these go to React.createElement's children
@@ -628,7 +579,6 @@ extern "js" fn get_props_children(props : @core.Any) -> @react.Element =
 
 ///|
 test "component: children argument becomes props.children in React" {
-  init_react()
   // Component that accesses props.children via FFI and renders them
   let wrapper : @react.Component[Unit] = fn(props) {
     let props_any : @core.Any = @core.identity(props)

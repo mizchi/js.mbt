@@ -9,7 +9,6 @@
   ],
   "test-import": [
     "moonbitlang/async",
-    "mizchi/js/node",
     "mizchi/js/npm/testing_library_react",
     "mizchi/js/npm/react_element",
     "mizchi/js/npm/react_dom_server",
