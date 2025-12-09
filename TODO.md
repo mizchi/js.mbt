@@ -2,7 +2,7 @@
 
 Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details.
 
-### Frontend Libraries (High Priority)
+### Frontend Libraries (High Priority - Tree-shaking)
 
 - [x] react - jsx/jsxs from react/jsx-runtime
 - [x] react_element - uses @react.createElementWithKey (jsx runtime internally)
@@ -11,20 +11,33 @@ Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details
 - [ ] preact
 - [ ] vue
 
-### Testing Libraries
+### Node.js Built-ins (High Priority - ESM behavior changes)
+
+These use `require()` which behaves differently in ESM. Migrate to `#module("node:xxx")`.
+
+- [ ] node:fs - readFileSync, writeFileSync, etc.
+- [ ] node:path - join, resolve, dirname, etc.
+- [ ] node:process - env, cwd, argv, etc.
+- [ ] node:vm - runInContext, Script, etc.
+- [ ] node:child_process - exec, spawn, etc.
+- [ ] node:url - URL, URLSearchParams
+- [ ] node:buffer - Buffer
+- [ ] node:os - platform, homedir, etc.
+- [ ] node:crypto - randomBytes, createHash, etc. (if exists)
+
+### npm Libraries (Medium Priority)
+
+- [ ] zod - schema validation
+- [ ] hono - web framework
+- [ ] drizzle - database ORM
+- [ ] jose - JWT/JWE/JWS
+- [ ] date_fns - date utilities
+
+### Testing Libraries (Low Priority - Node.js only)
 
 - [ ] testing_library_react
 - [ ] testing_library_preact
-- [ ] testing_library_vue
 - [ ] vitest
-
-### Server-side / Tools (Lower Priority)
-
-- [ ] hono
-- [ ] drizzle
-- [ ] jose
-- [ ] zod
-- [ ] Other npm packages...
 
 ---
 
