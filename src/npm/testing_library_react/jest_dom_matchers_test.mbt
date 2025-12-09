@@ -8,7 +8,6 @@
 /// Usage: let dispose = setup(); defer dispose()
 fn setup() -> () -> Unit {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   @testing_library_react.setup_matchers()
   cleanup()
   () => cleanup()
