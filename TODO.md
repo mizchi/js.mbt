@@ -8,7 +8,7 @@ Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details
 
 - [x] react - jsx/jsxs from react/jsx-runtime
 - [x] react_element - uses @react.createElementWithKey (jsx runtime internally)
-- [ ] react_dom_client - createRoot, hydrateRoot
+- [x] react_dom_client - createRoot, hydrateRoot
 - [ ] react_router - **Blocked**: RouterProvider is a component, not a function. Uses `init_global()` workaround.
 - [ ] preact
 - [ ] vue
@@ -17,21 +17,34 @@ Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details
 
 These use `require()` which behaves differently in ESM. Migrate to `#module("node:xxx")`.
 
-- [ ] node:fs - readFileSync, writeFileSync, etc.
-- [ ] node:path - join, resolve, dirname, etc.
-- [ ] node:process - env, cwd, argv, etc.
-- [ ] node:module - createRequire, etc.
-- [ ] node:sqlite - Database (new requires workaround)
+- [x] node:path - join2, dirname, extname, isAbsolute, normalize, relative, parse, format, etc.
+  - Note: `join/resolve` (variadic), `delimiter/sep` (properties) still use require()
+- [x] node:fs - existsSync, unlinkSync, createReadStream, createWriteStream, etc.
+  - Note: Functions with optional args (readFileSync with encoding, mkdir with recursive, etc.) still use require()
+- [x] node:process - cwd, chdir, exit, nextTick
+  - Note: Property access (env, argv, stdin, stdout, stderr) still uses require()
+- [x] node:os - arch, cpus, homedir, hostname, platform, tmpdir, totalmem, uptime, etc.
+  - Note: Properties (EOL, devNull) and functions with optional args still use require()
+- [x] node:module - createRequire, isBuiltin, syncBuiltinESMExports, findSourceMap, etc.
+  - Note: builtinModules (property) and stripTypeScriptTypes (optional args) still use require()
+- [x] node:net - isIPv4, isIPv6, isIP
+  - Note: createConnection, createServer (optional args) still use require()
+- [x] node:stream - addAbortSignal, isErrored, isReadable, isWritable, getDefaultHighWaterMark, etc.
+  - Note: Class static methods and variadic functions still use require()
+- [x] node:inspector - close, url, waitForDebugger
+  - Note: Session class and open() (optional args) still use require()
+- [ ] node:buffer - **Blocked**: Buffer class static methods
+- [ ] node:http - **Blocked**: All functions have callbacks/optional args
+- [ ] node:sqlite - **Blocked**: Database class constructor
 - [ ] node:vm - runInContext, Script, etc.
 - [ ] node:child_process - exec, spawn, etc.
 - [ ] node:url - URL, URLSearchParams
-- [ ] node:buffer - Buffer
-- [ ] node:os - platform, homedir, etc.
 - [ ] node:crypto - randomBytes, createHash, etc. (if exists)
 
 ### npm Libraries (High/Medium Priority)
 
-- [ ] zod - schema validation (high priority)
+- [x] zod - schema validation (high priority)
+  - Note: `coerce_*` functions still use `require()` because `coerce` is an object, not a function export
 - [ ] hono - web framework (high priority, but `new Hono()` requires workaround)
   - Migrate non-constructor parts first (middleware, context helpers, etc.)
 - [ ] msw - mock service worker (high priority)
