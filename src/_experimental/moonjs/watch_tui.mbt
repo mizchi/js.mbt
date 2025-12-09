@@ -69,7 +69,7 @@ extern "js" fn ffi_exec_sync(cmd : String) -> @moon_api.CommandResult =
 /// TUI mode for vite command
 async fn cmd_vite_tui() -> Unit {
   // Import ink dynamically
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let ink_ui = @ink_ui.dynamic_import()
   // Get terminal dimensions
   let term_width = ffi_get_terminal_width()

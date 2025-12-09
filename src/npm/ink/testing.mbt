@@ -13,17 +13,16 @@ pub fn InkTestingLibrary::as_any(self : InkTestingLibrary) -> @core.Any = "%iden
 /// Dynamic import for ink-testing-library module (internal)
 /// NOTE: This uses dynamic import which doesn't support tree-shaking.
 /// When MoonBit adds native ESM support, this should be replaced with static imports.
-extern "js" fn import_ink_testing_library_internal() -> @js.Promise[
+extern "js" fn import_ink_testing_library_internal() -> @core.Promise[
   InkTestingLibrary,
 ] =
   #| () => import("ink-testing-library")
 
 ///|
 /// Dynamic import for ink-testing-library module
-/// NOTE: This uses dynamic import which doesn't support tree-shaking.
-/// When MoonBit adds native ESM support, this should be replaced with static imports.
-pub async fn dynamic_import_testing_library() -> InkTestingLibrary {
-  import_ink_testing_library_internal().wait()
+/// Returns a Promise that resolves to the ink-testing-library module
+pub fn dynamic_import_testing_library() -> @core.Promise[InkTestingLibrary] {
+  import_ink_testing_library_internal()
 }
 
 // ============================================================

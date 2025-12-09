@@ -1,107 +1,31 @@
 ///| Ink - React for interactive command-line apps
 /// Bindings for https://github.com/vadimdemedes/ink
+///
+/// NOTE: ink is ESM-only with top-level await, so #module cannot be used.
+/// All imports must use dynamic import pattern.
 
 // ============================================================
-// FFI - Direct module bindings
-// ============================================================
-
-///|
-#module("ink")
-extern "js" fn ffi_render(
-  element : @core.Any,
-  options : @core.Any,
-) -> @core.Any = "render"
-
-///|
-#module("ink")
-extern "js" fn ffi_Text() -> @core.Any = "Text"
-
-///|
-#module("ink")
-extern "js" fn ffi_Box() -> @core.Any = "Box"
-
-///|
-#module("ink")
-extern "js" fn ffi_Newline() -> @core.Any = "Newline"
-
-///|
-#module("ink")
-extern "js" fn ffi_Spacer() -> @core.Any = "Spacer"
-
-///|
-#module("ink")
-extern "js" fn ffi_Static() -> @core.Any = "Static"
-
-///|
-#module("ink")
-extern "js" fn ffi_Transform() -> @core.Any = "Transform"
-
-///|
-#module("ink")
-extern "js" fn ffi_useInput(handler : @core.Any, options : @core.Any) -> Unit = "useInput"
-
-///|
-#module("ink")
-extern "js" fn ffi_useApp() -> @core.Any = "useApp"
-
-///|
-#module("ink")
-extern "js" fn ffi_useFocus(options : @core.Any) -> @core.Any = "useFocus"
-
-///|
-#module("ink")
-extern "js" fn ffi_useFocusManager() -> @core.Any = "useFocusManager"
-
-///|
-#module("ink")
-extern "js" fn ffi_useStdin() -> @core.Any = "useStdin"
-
-///|
-#module("ink")
-extern "js" fn ffi_useStdout() -> @core.Any = "useStdout"
-
-///|
-#module("ink")
-extern "js" fn ffi_useStderr() -> @core.Any = "useStderr"
-
-// ============================================================
-// Components (exposed as getters for createElement)
+// Dynamic Import
 // ============================================================
 
 ///|
-/// Get Text component
-pub fn text_component() -> @core.Any {
-  ffi_Text()
-}
+/// Ink module handle
+#external
+pub type Ink
 
 ///|
-/// Get Box component
-pub fn box_component() -> @core.Any {
-  ffi_Box()
-}
+pub fn Ink::as_any(self : Ink) -> @core.Any = "%identity"
 
 ///|
-/// Get Newline component
-pub fn newline_component() -> @core.Any {
-  ffi_Newline()
-}
+/// Dynamic import for ink module (internal)
+extern "js" fn import_ink_internal() -> @core.Promise[Ink] =
+  #| () => import("ink")
 
 ///|
-/// Get Spacer component
-pub fn spacer_component() -> @core.Any {
-  ffi_Spacer()
-}
-
-///|
-/// Get Static component
-pub fn static_component() -> @core.Any {
-  ffi_Static()
-}
-
-///|
-/// Get Transform component
-pub fn transform_component() -> @core.Any {
-  ffi_Transform()
+/// Dynamic import for ink module
+/// Returns a Promise that resolves to the ink module
+pub fn dynamic_import() -> @core.Promise[Ink] {
+  import_ink_internal()
 }
 
 // ============================================================
@@ -286,13 +210,37 @@ pub fn Display::to_string(self : Display) -> String {
 }
 
 // ============================================================
-// Component helper functions
+// FFI helpers
+// ============================================================
+
+///|
+extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @core.Any =
+  #|(f) => f
+
+///|
+extern "js" fn ffi_call_fn2(
+  fn_ : @core.Any,
+  arg1 : @core.Any,
+  arg2 : @core.Any,
+) -> @core.Any =
+  #|(fn, a1, a2) => fn(a1, a2)
+
+///|
+extern "js" fn ffi_call_fn1(fn_ : @core.Any, arg : @core.Any) -> @core.Any =
+  #|(fn, a) => fn(a)
+
+///|
+extern "js" fn ffi_call_fn0(fn_ : @core.Any) -> @core.Any =
+  #|(fn) => fn()
+
+// ============================================================
+// Components
 // ============================================================
 
 ///|
 /// Text component for displaying styled text in the terminal
-/// Only accepts text nodes and nested <Text> components
-pub fn text(
+pub fn Ink::text(
+  self : Ink,
   children : Array[&@react.ReactNode],
   color? : String,
   background_color? : String,
@@ -304,6 +252,7 @@ pub fn text(
   dim_color? : Bool,
   wrap? : TextWrap,
 ) -> @react.Element {
+  let text_component = self.as_any()["Text"]
   let props = @core.new_object()
   if color is Some(c) {
     props["color"] = @core.any(c)
@@ -333,12 +282,13 @@ pub fn text(
     props["wrap"] = @core.any(w.to_string())
   }
   props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
-  @react.createElementRaw(ffi_Text(), props)
+  @react.createElementRaw(text_component, props)
 }
 
 ///|
 /// Box component for layout using Flexbox
-pub fn box_(
+pub fn Ink::box_(
+  self : Ink,
   children : Array[&@react.ReactNode],
   // Dimensions
   width? : Int,
@@ -388,6 +338,7 @@ pub fn box_(
   column_gap? : Int,
   row_gap? : Int,
 ) -> @react.Element {
+  let box_component = self.as_any()["Box"]
   let props = @core.new_object()
   // Dimensions
   if width is Some(w) {
@@ -519,53 +470,56 @@ pub fn box_(
     props["rowGap"] = @core.any(g)
   }
   props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
-  @react.createElementRaw(ffi_Box(), props)
+  @react.createElementRaw(box_component, props)
 }
 
 ///|
 /// Newline component - renders a newline character
-pub fn newline(count? : Int) -> @react.Element {
+pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
+  let newline_component = self.as_any()["Newline"]
   let props = @core.new_object()
   if count is Some(c) {
     props["count"] = @core.any(c)
   }
-  @react.createElementRaw(ffi_Newline(), props)
+  @react.createElementRaw(newline_component, props)
 }
 
 ///|
 /// Spacer component - fills available space (flex-grow: 1)
-pub fn spacer() -> @react.Element {
-  @react.createElementRaw(ffi_Spacer(), @core.new_object())
+pub fn Ink::spacer(self : Ink) -> @react.Element {
+  let spacer_component = self.as_any()["Spacer"]
+  @react.createElementRaw(spacer_component, @core.new_object())
 }
 
 ///|
 /// Static component - renders content that won't update after initial render
-pub fn static_(
+pub fn Ink::static_(
+  self : Ink,
   children : Array[&@react.ReactNode],
   items? : Array[@core.Any],
 ) -> @react.Element {
+  let static_component = self.as_any()["Static"]
   let props = @core.new_object()
   if items is Some(i) {
     props["items"] = @core.any(i)
   }
   props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
-  @react.createElementRaw(ffi_Static(), props)
+  @react.createElementRaw(static_component, props)
 }
 
 ///|
-extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @core.Any =
-  #|(f) => f
-
-///|
 /// Transform component - applies transformations to output content
-pub fn transform(
+pub fn Ink::transform(
+  self : Ink,
   children : Array[&@react.ReactNode],
   transform_fn : (String) -> String,
 ) -> @react.Element {
+  let transform_component = self.as_any()["Transform"]
   let props = @core.new_object()
-  props["transform"] = ffi_wrap_transform(transform_fn)
+  let wrapped_fn = ffi_wrap_transform(transform_fn)
+  props["transform"] = wrapped_fn
   props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
-  @react.createElementRaw(ffi_Transform(), props)
+  @react.createElementRaw(transform_component, props)
 }
 
 // ============================================================
@@ -582,7 +536,8 @@ pub fn InkInstance::as_any(self : InkInstance) -> @core.Any = "%identity"
 
 ///|
 /// Render a React element to the terminal
-pub fn render(
+pub fn Ink::render(
+  self : Ink,
   element : @react.Element,
   stdout? : @core.Any,
   stdin? : @core.Any,
@@ -594,6 +549,7 @@ pub fn render(
   maxFps? : Int,
   onRender? : () -> Unit,
 ) -> InkInstance {
+  let render_fn = self.as_any()["render"]
   let obj = @core.new_object()
   if stdout is Some(s) {
     obj["stdout"] = s
@@ -622,16 +578,8 @@ pub fn render(
   if onRender is Some(callback) {
     obj["onRender"] = @core.any(callback)
   }
-  ffi_render(element.as_any(), obj).cast()
+  ffi_call_fn2(render_fn, element.as_any(), obj).cast()
 }
-
-///|
-extern "js" fn ffi_call_fn1(fn_ : @core.Any, arg : @core.Any) -> @core.Any =
-  #|(fn, a) => fn(a)
-
-///|
-extern "js" fn ffi_call_fn0(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => fn()
 
 ///|
 /// Rerender with a new element
@@ -661,411 +609,4 @@ pub async fn InkInstance::waitUntilExit(self : InkInstance) -> Unit {
 /// Clear the output
 pub fn InkInstance::clear(self : InkInstance) -> Unit {
   ffi_call_fn0(self.as_any()["clear"]) |> ignore
-}
-
-// ============================================================
-// Hooks
-// ============================================================
-
-///|
-/// Input handler info
-#external
-pub type InputInfo
-
-///|
-pub fn InputInfo::as_any(self : InputInfo) -> @core.Any = "%identity"
-
-///|
-/// useInput hook - handle keyboard input
-pub fn useInput(
-  handler : (String, InputInfo) -> Unit,
-  isActive? : Bool,
-) -> Unit {
-  let opts = @core.new_object()
-  if isActive is Some(a) {
-    opts["isActive"] = @core.any(a)
-  }
-  ffi_useInput(handler |> @core.identity, opts)
-}
-
-///|
-/// App context returned by useApp
-#external
-pub type AppContext
-
-///|
-pub fn AppContext::as_any(self : AppContext) -> @core.Any = "%identity"
-
-///|
-/// Exit the app
-pub fn AppContext::exit(self : AppContext, error? : @core.Any) -> Unit {
-  match error {
-    Some(e) => ffi_call_fn1(self.as_any()["exit"], e) |> ignore
-    None => ffi_call_fn0(self.as_any()["exit"]) |> ignore
-  }
-}
-
-///|
-/// useApp hook - access app context
-pub fn useApp() -> AppContext {
-  ffi_useApp().cast()
-}
-
-///|
-/// Focus context returned by useFocus
-#external
-pub type FocusContext
-
-///|
-pub fn FocusContext::as_any(self : FocusContext) -> @core.Any = "%identity"
-
-///|
-/// Check if focused
-pub fn FocusContext::isFocused(self : FocusContext) -> Bool {
-  self.as_any()["isFocused"].cast()
-}
-
-///|
-/// useFocus hook - manage focus
-pub fn useFocus(
-  autoFocus? : Bool,
-  isActive? : Bool,
-  id? : String,
-) -> FocusContext {
-  let opts = @core.new_object()
-  if autoFocus is Some(a) {
-    opts["autoFocus"] = @core.any(a)
-  }
-  if isActive is Some(a) {
-    opts["isActive"] = @core.any(a)
-  }
-  if id is Some(i) {
-    opts["id"] = @core.any(i)
-  }
-  ffi_useFocus(opts).cast()
-}
-
-///|
-/// Focus manager returned by useFocusManager
-#external
-pub type FocusManager
-
-///|
-pub fn FocusManager::as_any(self : FocusManager) -> @core.Any = "%identity"
-
-///|
-/// Focus next element
-pub fn FocusManager::focusNext(self : FocusManager) -> Unit {
-  ffi_call_fn0(self.as_any()["focusNext"]) |> ignore
-}
-
-///|
-/// Focus previous element
-pub fn FocusManager::focusPrevious(self : FocusManager) -> Unit {
-  ffi_call_fn0(self.as_any()["focusPrevious"]) |> ignore
-}
-
-///|
-/// Focus specific element by id
-pub fn FocusManager::focus(self : FocusManager, id : String) -> Unit {
-  ffi_call_fn1(self.as_any()["focus"], @core.any(id)) |> ignore
-}
-
-///|
-/// useFocusManager hook - manage focus programmatically
-pub fn useFocusManager() -> FocusManager {
-  ffi_useFocusManager().cast()
-}
-
-///|
-/// Stdin context returned by useStdin
-#external
-pub type StdinContext
-
-///|
-pub fn StdinContext::as_any(self : StdinContext) -> @core.Any = "%identity"
-
-///|
-/// Get stdin stream
-pub fn StdinContext::stdin(self : StdinContext) -> @core.Any {
-  self.as_any()["stdin"]
-}
-
-///|
-/// Check if raw mode is supported
-pub fn StdinContext::isRawModeSupported(self : StdinContext) -> Bool {
-  self.as_any()["isRawModeSupported"].cast()
-}
-
-///|
-/// Set raw mode
-pub fn StdinContext::setRawMode(self : StdinContext, value : Bool) -> Unit {
-  ffi_call_fn1(self.as_any()["setRawMode"], @core.any(value)) |> ignore
-}
-
-///|
-/// useStdin hook - access stdin
-pub fn useStdin() -> StdinContext {
-  ffi_useStdin().cast()
-}
-
-///|
-/// Stdout context returned by useStdout
-#external
-pub type StdoutContext
-
-///|
-pub fn StdoutContext::as_any(self : StdoutContext) -> @core.Any = "%identity"
-
-///|
-/// Get stdout stream
-pub fn StdoutContext::stdout(self : StdoutContext) -> @core.Any {
-  self.as_any()["stdout"]
-}
-
-///|
-/// Write to stdout
-pub fn StdoutContext::write(self : StdoutContext, data : String) -> Unit {
-  ffi_call_fn1(self.as_any()["write"], @core.any(data)) |> ignore
-}
-
-///|
-/// useStdout hook - access stdout
-pub fn useStdout() -> StdoutContext {
-  ffi_useStdout().cast()
-}
-
-///|
-/// Stderr context returned by useStderr
-#external
-pub type StderrContext
-
-///|
-pub fn StderrContext::as_any(self : StderrContext) -> @core.Any = "%identity"
-
-///|
-/// Get stderr stream
-pub fn StderrContext::stderr(self : StderrContext) -> @core.Any {
-  self.as_any()["stderr"]
-}
-
-///|
-/// Write to stderr
-pub fn StderrContext::write(self : StderrContext, data : String) -> Unit {
-  ffi_call_fn1(self.as_any()["write"], @core.any(data)) |> ignore
-}
-
-///|
-/// useStderr hook - access stderr
-pub fn useStderr() -> StderrContext {
-  ffi_useStderr().cast()
-}
-
-// ============================================================
-// Deprecated - for backwards compatibility
-// ============================================================
-
-///|
-/// @deprecated Use direct functions instead (text, box_, etc.)
-#external
-pub type Ink
-
-///|
-/// @deprecated No longer needed
-pub fn Ink::as_any(self : Ink) -> @core.Any = "%identity"
-
-///|
-/// @deprecated Use direct functions instead
-pub async fn dynamic_import() -> Ink {
-  @core.undefined().cast()
-}
-
-///|
-/// @deprecated Use text() directly
-pub fn Ink::text(
-  self : Ink,
-  children : Array[&@react.ReactNode],
-  color? : String,
-  background_color? : String,
-  bold? : Bool,
-  italic? : Bool,
-  underline? : Bool,
-  strikethrough? : Bool,
-  inverse? : Bool,
-  dim_color? : Bool,
-  wrap? : TextWrap,
-) -> @react.Element {
-  let _ = self
-  text(
-    children,
-    color?,
-    background_color?,
-    bold?,
-    italic?,
-    underline?,
-    strikethrough?,
-    inverse?,
-    dim_color?,
-    wrap?,
-  )
-}
-
-///|
-/// @deprecated Use box_() directly
-pub fn Ink::box_(
-  self : Ink,
-  children : Array[&@react.ReactNode],
-  width? : Int,
-  height? : Int,
-  min_width? : Int,
-  min_height? : Int,
-  padding? : Int,
-  padding_x? : Int,
-  padding_y? : Int,
-  padding_top? : Int,
-  padding_bottom? : Int,
-  padding_left? : Int,
-  padding_right? : Int,
-  margin? : Int,
-  margin_x? : Int,
-  margin_y? : Int,
-  margin_top? : Int,
-  margin_bottom? : Int,
-  margin_left? : Int,
-  margin_right? : Int,
-  flex_direction? : FlexDirection,
-  flex_grow? : Int,
-  flex_shrink? : Int,
-  flex_basis? : Int,
-  flex_wrap? : FlexWrapMode,
-  justify_content? : JustifyContent,
-  align_items? : AlignItems,
-  align_self? : AlignSelf,
-  border_style? : BorderStyle,
-  border_color? : String,
-  border_top? : Bool,
-  border_bottom? : Bool,
-  border_left? : Bool,
-  border_right? : Bool,
-  border_top_color? : String,
-  border_bottom_color? : String,
-  border_left_color? : String,
-  border_right_color? : String,
-  overflow? : Overflow,
-  display? : Display,
-  gap? : Int,
-  column_gap? : Int,
-  row_gap? : Int,
-) -> @react.Element {
-  let _ = self
-  box_(
-    children,
-    width?,
-    height?,
-    min_width?,
-    min_height?,
-    padding?,
-    padding_x?,
-    padding_y?,
-    padding_top?,
-    padding_bottom?,
-    padding_left?,
-    padding_right?,
-    margin?,
-    margin_x?,
-    margin_y?,
-    margin_top?,
-    margin_bottom?,
-    margin_left?,
-    margin_right?,
-    flex_direction?,
-    flex_grow?,
-    flex_shrink?,
-    flex_basis?,
-    flex_wrap?,
-    justify_content?,
-    align_items?,
-    align_self?,
-    border_style?,
-    border_color?,
-    border_top?,
-    border_bottom?,
-    border_left?,
-    border_right?,
-    border_top_color?,
-    border_bottom_color?,
-    border_left_color?,
-    border_right_color?,
-    overflow?,
-    display?,
-    gap?,
-    column_gap?,
-    row_gap?,
-  )
-}
-
-///|
-/// @deprecated Use newline() directly
-pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
-  let _ = self
-  newline(count?)
-}
-
-///|
-/// @deprecated Use spacer() directly
-pub fn Ink::spacer(self : Ink) -> @react.Element {
-  let _ = self
-  spacer()
-}
-
-///|
-/// @deprecated Use static_() directly
-pub fn Ink::static_(
-  self : Ink,
-  children : Array[&@react.ReactNode],
-  items? : Array[@core.Any],
-) -> @react.Element {
-  let _ = self
-  static_(children, items?)
-}
-
-///|
-/// @deprecated Use transform() directly
-pub fn Ink::transform(
-  self : Ink,
-  children : Array[&@react.ReactNode],
-  transform_fn : (String) -> String,
-) -> @react.Element {
-  let _ = self
-  transform(children, transform_fn)
-}
-
-///|
-/// @deprecated Use render() directly
-pub fn Ink::render(
-  self : Ink,
-  element : @react.Element,
-  stdout? : @core.Any,
-  stdin? : @core.Any,
-  stderr? : @core.Any,
-  debug? : Bool,
-  exitOnCtrlC? : Bool,
-  patchConsole? : Bool,
-  incrementalRendering? : Bool,
-  maxFps? : Int,
-  onRender? : () -> Unit,
-) -> InkInstance {
-  let _ = self
-  render(
-    element,
-    stdout?,
-    stdin?,
-    stderr?,
-    debug?,
-    exitOnCtrlC?,
-    patchConsole?,
-    incrementalRendering?,
-    maxFps?,
-    onRender?,
-  )
 }
