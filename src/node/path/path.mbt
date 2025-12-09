@@ -12,13 +12,13 @@ pub fn join(paths : Array[String]) -> String {
 ///|
 /// Join two path segments
 /// JS: path.join(a, b)
-pub extern "js" fn join2(a : String, b : String) -> String =
-  #|(a, b) => require("node:path").join(a, b)
+#module("node:path")
+pub extern "js" fn join2(a : String, b : String) -> String = "join"
 
 ///|
 /// JS: path.dirname(path)
-pub extern "js" fn dirname(path : String) -> String =
-  #|(path) => require("node:path").dirname(path)
+#module("node:path")
+pub extern "js" fn dirname(path : String) -> String = "dirname"
 
 ///|
 /// JS: path.basename(path, suffix)
@@ -33,19 +33,19 @@ pub fn basename(path : String, suffix? : String) -> String {
 
 ///|
 /// JS: path.extname(path)
-pub extern "js" fn extname(path : String) -> String =
-  #|(path) => require("node:path").extname(path)
+#module("node:path")
+pub extern "js" fn extname(path : String) -> String = "extname"
 
 ///|
 /// JS: path.isAbsolute(path)
 #alias(is_absolute)
-pub extern "js" fn isAbsolute(path : String) -> Bool =
-  #|(path) => require("node:path").isAbsolute(path)
+#module("node:path")
+pub extern "js" fn isAbsolute(path : String) -> Bool = "isAbsolute"
 
 ///|
 /// JS: path.normalize(path)
-pub extern "js" fn normalize(path : String) -> String =
-  #|(path) => require("node:path").normalize(path)
+#module("node:path")
+pub extern "js" fn normalize(path : String) -> String = "normalize"
 
 ///|
 /// JS: path.resolve(...paths)
@@ -56,18 +56,18 @@ pub fn resolve(paths : Array[String]) -> String {
 
 ///|
 /// JS: path.relative(from, to)
-pub extern "js" fn relative(from : String, to : String) -> String =
-  #|(from, to) => require("node:path").relative(from, to)
+#module("node:path")
+pub extern "js" fn relative(from : String, to : String) -> String = "relative"
 
 ///|
 /// JS: path.parse(path)
-pub extern "js" fn parse(path : String) -> ParsedPath =
-  #|(path) => require("node:path").parse(path)
+#module("node:path")
+pub extern "js" fn parse(path : String) -> ParsedPath = "parse"
 
 ///|
 /// JS: path.format(parsed)
-pub extern "js" fn format(parsed : ParsedPath) -> String =
-  #|(parsed) => require("node:path").format(parsed)
+#module("node:path")
+pub extern "js" fn format(parsed : ParsedPath) -> String = "format"
 
 ///|
 pub(all) struct ParsedPath {
@@ -91,10 +91,10 @@ pub extern "js" fn sep() -> String =
 
 ///|
 #alias(to_namespaced_path)
-pub extern "js" fn toNamespacedPath(path : String) -> String =
-  #|(path) => require("node:path").toNamespacedPath(path)
+#module("node:path")
+pub extern "js" fn toNamespacedPath(path : String) -> String = "toNamespacedPath"
 
 ///|
 #alias(matches_glob)
-pub extern "js" fn matchesGlob(path : String, pattern : String) -> Bool =
-  #|(path, pattern) => require("node:path").matchesGlob(path, pattern)
+#module("node:path")
+pub extern "js" fn matchesGlob(path : String, pattern : String) -> Bool = "matchesGlob"
