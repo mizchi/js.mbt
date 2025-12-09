@@ -30,6 +30,10 @@ pub async fn generateSecret(String, extractable? : Bool) -> @core.Any
 
 pub async fn importJWK(@core.Any, alg? : String) -> @core.Any
 
+pub async fn init_global() -> Unit
+
+pub fn init_jose(@core.Any) -> Unit
+
 pub async fn signJWT(@core.Any, String, alg? : String, expiresIn? : String, issuer? : String, audience? : String, subject? : String, jti? : String) -> String
 
 pub async fn verifyJWT(String, String, issuer? : String, audience? : String) -> @core.Any
