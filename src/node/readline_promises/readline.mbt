@@ -1,6 +1,6 @@
 ///|
-extern "js" fn readline_promises_module() -> @core.Any =
-  #| () => require("node:readline/promises")
+#module("node:readline/promises")
+extern "js" fn ffi_create_interface(opts : @core.Any) -> Interface = "createInterface"
 
 ///|
 #external
@@ -57,9 +57,7 @@ pub fn createInterface(
     entries.push(("signal", @core.identity(v)))
   }
   let opts = @core.from_entries(entries)
-  @core.identity(
-    readline_promises_module()._get("createInterface")._invoke([opts]),
-  )
+  ffi_create_interface(opts)
 }
 
 ///|

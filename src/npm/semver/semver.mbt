@@ -158,8 +158,7 @@ pub fn min_satisfying(versions : Array[String], range : String) -> String? {
 /// Return the highest version in the list
 /// https://github.com/npm/node-semver#ranges
 #module("semver")
-extern "js" fn ffi_max(versions : Array[String]) -> @core.Any =
-  #|(versions) => semver.max(versions)
+extern "js" fn ffi_max(versions : Array[String]) -> @core.Any = "max"
 
 ///|
 pub fn max(versions : Array[String]) -> String? {
@@ -175,8 +174,7 @@ pub fn max(versions : Array[String]) -> String? {
 /// Return the lowest version in the list
 /// https://github.com/npm/node-semver#ranges
 #module("semver")
-extern "js" fn ffi_min(versions : Array[String]) -> @core.Any =
-  #|(versions) => semver.min(versions)
+extern "js" fn ffi_min(versions : Array[String]) -> @core.Any = "min"
 
 ///|
 pub fn min(versions : Array[String]) -> String? {

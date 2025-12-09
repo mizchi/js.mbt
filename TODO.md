@@ -38,6 +38,7 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
   - Note: Functions with windows? option still use require()
 - [x] node:vm - isContext
   - Note: Script class and functions with many optional args still use require()
+- [x] node:readline/promises - createInterface
 - [ ] node:buffer - **Blocked**: Buffer class static methods
 - [ ] node:http - **Blocked**: All functions have callbacks/optional args
 - [ ] node:sqlite - **Blocked**: Database class constructor
@@ -50,13 +51,15 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
   - Note: `coerce_*` functions still use `require()` because `coerce` is an object, not a function export
 - [x] comlink - WebWorker communication
   - Note: Symbols (`createEndpoint`, `releaseProxy`, `proxyMarker`) and `transferHandlers` (Map) still use require()
-- [x] semver - version parsing
-  - Note: `max`, `min` (array spread needed) still use require()
+- [x] semver - version parsing (fully migrated to #module)
 - [x] date_fns - date utilities
 - [x] hono - ESM with dynamic import for `new Hono()`, `#module` for helpers
   - Note: `Hono::new()` is now async, uses `import("hono").then(m => new m.Hono())`
   - Note: `hono/cookie`, `hono/cors`, `hono/jwt`, `hono/testing`, `hono/client` use `#module`
   - Note: `hono/jsx` and `hono/html` still use require() for JSX processing (complex children handling)
+- [x] esbuild - build tool, uses `#module("esbuild")` for build, buildSync, transform, transformSync
+  - Note: **API Changed** - `Esbuild` type removed, now uses standalone functions: `@esbuild.build()`, `@esbuild.transform_sync()`, etc.
+- [x] react_dom_server - uses `#module("react-dom/server")` for renderToString, renderToReadableStream
 - [ ] jose - **Blocked**: `new SignJWT()` class constructor cannot use #module
 - [ ] pino - **Blocked**: `pino()` factory function, uses inline require()
 - [ ] debug - **Blocked**: `debug()` factory function, uses inline require()
@@ -64,13 +67,29 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [x] msw - mock service worker, uses `import("msw")` pattern for browser compatibility
   - Note: All `require()` calls removed, uses dynamic import for `init_global()`, `init_node_global()`, `init_browser_global()`
 - [x] vite - build tool, uses `#module("vite")` for createServer and defineConfig
+- [x] terser - JS minifier, uses `#module("terser")` for minify, minify_sync
+- [x] ignore - gitignore parser, uses `#module("ignore")` for isPathValid
+  - Note: Factory function `ignore()` still uses require()
 - [ ] vitest - test runner
-- [ ] drizzle - database ORM
+- [ ] drizzle - database ORM (many functions can be migrated, low priority due to size)
+- [x] htmlparser2 - HTML parser, uses `#module("htmlparser2")` for parseDocument
+  - Note: DomUtils functions still use require() (accessed via htmlparser2.DomUtils)
+- [x] ai - AI SDK providers, uses `#module` for createOpenAI, createAnthropic, createGoogleGenerativeAI
+  - Note: Default providers (openai, anthropic, google) still use require() (property access)
 
 ### Testing Libraries (Low Priority - Node.js only)
 
-- [ ] testing_library_react
-- [ ] testing_library_preact
+- [ ] testing_library_react - **Blocked**: `screen`, `fireEvent` are value exports (objects), not functions
+- [ ] testing_library_preact - **Blocked**: Same as above
+- [ ] testing_library_vue - **Blocked**: Same as above
+
+### Experimental Packages (src/_experimental)
+
+- [x] zod_codegen - uses `#module("zod")` for toJSONSchema
+  - Removed `mizchi/js/node` dependency
+- [x] moonbit_lsp_api - partially migrated
+  - `fileURLToPath` uses `#module("node:url")`
+  - `ffi_get_lsp_path`, `ffi_path_to_uri` remain inline JS (complex multi-module logic)
 
 ---
 

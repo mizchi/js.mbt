@@ -1,21 +1,23 @@
 ///|
+#module("react-dom/server")
+extern "js" fn ffi_render_to_string(element : @core.Any) -> String = "renderToString"
+
+///|
 #alias(render_to_string)
 pub fn renderToString(element : @react.Element) -> String {
-  let react_dom_server = @node.require("react-dom/server")
-  let element_js : @core.Any = element.as_any().cast()
-  react_dom_server._get("renderToString")._invoke([element_js]).cast()
+  ffi_render_to_string(element.as_any())
 }
+
+///|
+#module("react-dom/server")
+extern "js" fn ffi_render_to_readable_stream(
+  element : @core.Any,
+) -> @js.Promise[@streams.ReadableStream] = "renderToReadableStream"
 
 ///|
 #alias(render_to_readable_stream)
 pub async fn renderToReadableStream(
   element : @react.Element,
 ) -> @streams.ReadableStream {
-  let react_dom_server = @node.require("react-dom/server")
-  let element_js : @core.Any = element.as_any().cast()
-  let promise : @js.Promise[@streams.ReadableStream] = react_dom_server
-    ._get("renderToReadableStream")
-    ._invoke([element_js])
-    .cast()
-  promise.wait()
+  ffi_render_to_readable_stream(element.as_any()).wait()
 }

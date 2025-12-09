@@ -6,7 +6,13 @@ import(
 )
 
 // Values
-pub fn esbuild() -> Esbuild
+pub async fn build(entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
+
+pub fn build_sync(entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
+
+pub async fn transform(String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
+
+pub fn transform_sync(String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
 
 // Errors
 
@@ -17,14 +23,6 @@ pub fn BuildResult::as_any(Self) -> @core.Any
 pub fn BuildResult::errors(Self) -> Array[Message]
 pub fn BuildResult::output_files(Self) -> Array[OutputFile]
 pub fn BuildResult::warnings(Self) -> Array[Message]
-
-#external
-pub type Esbuild
-pub fn Esbuild::as_any(Self) -> @core.Any
-pub async fn Esbuild::build(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
-pub fn Esbuild::build_sync(Self, entry_points? : Array[String], outdir? : String, outfile? : String, bundle? : Bool, minify? : Bool, format? : Format, target? : String, platform? : Platform, sourcemap? : Bool, write? : Bool, external? : Array[String], definitions? : Array[(String, String)]) -> BuildResult
-pub async fn Esbuild::transform(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
-pub fn Esbuild::transform_sync(Self, String, loader? : Loader, minify? : Bool, format? : Format, target? : String, sourcemap? : Bool) -> TransformResult
 
 pub(all) enum Format {
   Iife

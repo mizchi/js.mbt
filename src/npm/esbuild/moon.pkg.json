@@ -4,8 +4,7 @@
   ],
   "import": [
     "mizchi/js",
-    "mizchi/js/core",
-    "mizchi/js/node"
+    "mizchi/js/core"
   ],
   "test-import": [
     "mizchi/js/node/fs",

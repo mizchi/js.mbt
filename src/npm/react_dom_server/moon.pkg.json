@@ -6,7 +6,6 @@
     "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/web/streams",
-    "mizchi/js/node",
     "mizchi/js/npm/react"
   ]
 }

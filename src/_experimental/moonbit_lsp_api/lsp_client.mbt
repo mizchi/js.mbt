@@ -1012,11 +1012,8 @@ pub fn uri_to_path(uri : String) -> String {
 }
 
 ///|
-extern "js" fn ffi_uri_to_path(uri : String) -> String =
-  #|(uri) => {
-  #|  const { fileURLToPath } = require('node:url');
-  #|  return fileURLToPath(uri);
-  #|}
+#module("node:url")
+extern "js" fn ffi_uri_to_path(uri : String) -> String = "fileURLToPath"
 
 ///|
 /// Helper: Create client, initialize, run action, then shutdown and exit

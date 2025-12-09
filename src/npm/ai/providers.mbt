@@ -46,17 +46,22 @@ pub fn OpenAIProvider::as_any(self : OpenAIProvider) -> @core.Any = "%identity"
 ///|
 /// Load the OpenAI provider module
 /// Returns the default openai provider function from @ai-sdk/openai
+extern "js" fn ffi_openai_require() -> OpenAIProvider =
+  #| () => require("@ai-sdk/openai").openai
+
+///|
 pub fn OpenAIProvider::require() -> OpenAIProvider {
-  let pkg = @node.require("@ai-sdk/openai")
-  pkg._get("openai") |> @core.identity
+  ffi_openai_require()
 }
+
+///|
+#module("@ai-sdk/openai")
+extern "js" fn ffi_create_openai(options : @core.Any) -> OpenAIProvider = "createOpenAI"
 
 ///|
 /// Create a customized OpenAI provider with options
 pub fn OpenAIProvider::create(options : OpenAIOptions) -> OpenAIProvider {
-  let pkg = @node.require("@ai-sdk/openai")
-  let create_fn = pkg._get("createOpenAI")
-  create_fn._invoke([options.as_any()]) |> @core.identity
+  ffi_create_openai(options.as_any())
 }
 
 ///|
@@ -117,19 +122,24 @@ pub fn AnthropicProvider::as_any(self : AnthropicProvider) -> @core.Any = "%iden
 ///|
 /// Load the Anthropic provider module
 /// Returns the default anthropic provider function from @ai-sdk/anthropic
+extern "js" fn ffi_anthropic_require() -> AnthropicProvider =
+  #| () => require("@ai-sdk/anthropic").anthropic
+
+///|
 pub fn AnthropicProvider::require() -> AnthropicProvider {
-  let pkg = @node.require("@ai-sdk/anthropic")
-  pkg._get("anthropic") |> @core.identity
+  ffi_anthropic_require()
 }
+
+///|
+#module("@ai-sdk/anthropic")
+extern "js" fn ffi_create_anthropic(options : @core.Any) -> AnthropicProvider = "createAnthropic"
 
 ///|
 /// Create a customized Anthropic provider with options
 pub fn AnthropicProvider::create(
   options : AnthropicOptions,
 ) -> AnthropicProvider {
-  let pkg = @node.require("@ai-sdk/anthropic")
-  let create_fn = pkg._get("createAnthropic")
-  create_fn._invoke([options.as_any()]) |> @core.identity
+  ffi_create_anthropic(options.as_any())
 }
 
 ///|
@@ -196,17 +206,22 @@ pub fn GoogleProvider::as_any(self : GoogleProvider) -> @core.Any = "%identity"
 ///|
 /// Load the Google Generative AI provider module
 /// Returns the default google provider function from @ai-sdk/google
+extern "js" fn ffi_google_require() -> GoogleProvider =
+  #| () => require("@ai-sdk/google").google
+
+///|
 pub fn GoogleProvider::require() -> GoogleProvider {
-  let pkg = @node.require("@ai-sdk/google")
-  pkg._get("google") |> @core.identity
+  ffi_google_require()
 }
+
+///|
+#module("@ai-sdk/google")
+extern "js" fn ffi_create_google(options : @core.Any) -> GoogleProvider = "createGoogleGenerativeAI"
 
 ///|
 /// Create a customized Google provider with options
 pub fn GoogleProvider::create(options : GoogleOptions) -> GoogleProvider {
-  let pkg = @node.require("@ai-sdk/google")
-  let create_fn = pkg._get("createGoogleGenerativeAI")
-  create_fn._invoke([options.as_any()]) |> @core.identity
+  ffi_create_google(options.as_any())
 }
 
 ///|

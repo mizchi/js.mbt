@@ -1,6 +1,7 @@
 {
   "import": [
-    "mizchi/js/core"
+    "mizchi/js/core",
+    "mizchi/js/node/child_process"
   ],
   "test-import": [
     "mizchi/js/node/process"

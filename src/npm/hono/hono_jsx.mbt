@@ -413,10 +413,15 @@ extern "js" fn ffi_stream_response(
   #|}
 
 ///| Legacy API - now uses #module for ESM compatibility
+
 ///|
+
 ///| TODO: Fragment is a value (not a function), so #module cannot be used.
+
 ///| Currently using globalThis initialization pattern. Consider:
+
 ///| - Using HonoJsx API instead (recommended for new code)
+
 ///| - Finding a better pattern for value exports in MoonBit FFI
 
 ///|
