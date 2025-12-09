@@ -63,7 +63,7 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] chalk - **Blocked**: `chalk.red()` etc. are method calls on object, uses inline require()
 - [x] msw - mock service worker, uses `import("msw")` pattern for browser compatibility
   - Note: All `require()` calls removed, uses dynamic import for `init_global()`, `init_node_global()`, `init_browser_global()`
-- [ ] vite - build tool
+- [x] vite - build tool, uses `#module("vite")` for createServer and defineConfig
 - [ ] vitest - test runner
 - [ ] drizzle - database ORM
 

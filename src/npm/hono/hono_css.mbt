@@ -33,10 +33,13 @@ pub impl CssClassName for CssClass with value(self) {
 ///| FFI
 
 ///|
-/// Get the class name string from CssClass
-pub fn CssClass::to_string(self : CssClass) -> String {
-  ffi_css_to_string(self.as_any())
-}
+extern "js" fn ffi_import_hono_css() -> @js.Promise[@core.Any] =
+  #|() => import("hono/css")
+
+///|
+/// jsxs for Style component - uses #module for ESM compatibility
+#module("hono/jsx/jsx-runtime")
+extern "js" fn ffi_jsxs(component : @core.Any, props : @core.Any) -> @core.Any = "jsxs"
 
 ///|
 extern "js" fn ffi_css_to_string(c : @core.Any) -> String =
@@ -50,58 +53,74 @@ extern "js" fn ffi_css_to_string(c : @core.Any) -> String =
   #|  return '';
   #|}
 
-///|
-/// Note: css() uses tagged template literal syntax internally
-extern "js" fn ffi_css(styles : String) -> @core.Any =
-  #|(styles) => require("hono/css").css([styles])
+///| HonoCss type - initialized instance
 
 ///|
-/// Note: keyframes() uses tagged template literal syntax internally
-extern "js" fn ffi_keyframes(animation : String) -> @core.Any =
-  #|(animation) => require("hono/css").keyframes([animation])
+#external
+pub type HonoCss
 
 ///|
-/// Note: cx() uses variadic args, need spread
-extern "js" fn ffi_cx(classes : @core.Any) -> @core.Any =
-  #|(classes) => require("hono/css").cx(...classes)
+extern "js" fn ffi_hono_css_css(m : HonoCss, styles : @core.Any) -> @core.Any =
+  #|(m, styles) => m.css(styles)
 
 ///|
-/// Note: Style is a component
-extern "js" fn ffi_style() -> @core.Any =
-  #|() => require("hono/jsx/jsx-runtime").jsxs(require("hono/css").Style, {})
+extern "js" fn ffi_hono_css_keyframes(
+  m : HonoCss,
+  animation : @core.Any,
+) -> @core.Any =
+  #|(m, animation) => m.keyframes(animation)
 
 ///|
-extern "js" fn ffi_style_with_nonce(nonce : String) -> @core.Any =
-  #|(nonce) => require("hono/jsx/jsx-runtime").jsxs(require("hono/css").Style, { nonce })
+extern "js" fn ffi_hono_css_cx(m : HonoCss, classes : @core.Any) -> @core.Any =
+  #|(m, classes) => m.cx(...classes)
+
+///|
+extern "js" fn ffi_hono_css_style(m : HonoCss) -> @core.Any =
+  #|(m) => m.Style
 
 ///| Public API
 
 ///|
+/// Import hono/css module
+pub async fn import_hono_css() -> HonoCss {
+  ffi_import_hono_css().wait().cast()
+}
+
+///|
+/// Get the class name string from CssClass
+pub fn CssClass::to_string(self : CssClass) -> String {
+  ffi_css_to_string(self.as_any())
+}
+
+///|
 /// Create a CSS class from a style string
 /// Returns a CssClass that can be used with jsx class attribute
-pub fn css(styles : String) -> CssClass {
-  ffi_css(styles).cast()
+pub fn HonoCss::css(self : HonoCss, styles : String) -> CssClass {
+  // css uses tagged template literal syntax, wrap in array
+  ffi_hono_css_css(self, @core.any([styles])).cast()
 }
 
 ///|
 /// Create keyframes animation
 /// Returns a CssClass for the animation
-pub fn keyframes(animation : String) -> CssClass {
-  ffi_keyframes(animation).cast()
+pub fn HonoCss::keyframes(self : HonoCss, animation : String) -> CssClass {
+  // keyframes uses tagged template literal syntax, wrap in array
+  ffi_hono_css_keyframes(self, @core.any([animation])).cast()
 }
 
 ///|
 /// Combine multiple CSS classes
-pub fn cx(classes : Array[CssClass]) -> CssClass {
-  ffi_cx(@core.any(classes.map(fn(c) { c.as_any() }))).cast()
+pub fn HonoCss::cx(self : HonoCss, classes : Array[CssClass]) -> CssClass {
+  ffi_hono_css_cx(self, @core.any(classes.map(fn(c) { c.as_any() }))).cast()
 }
 
 ///|
 /// Style component - renders collected CSS in head
 /// Must be included in the document head for CSS to work
-pub fn style_component(nonce? : String) -> JSXNode {
-  match nonce {
-    Some(n) => ffi_style_with_nonce(n).cast()
-    None => ffi_style().cast()
+pub fn HonoCss::style_component(self : HonoCss, nonce? : String) -> JSXNode {
+  let props = @core.new_object()
+  if nonce is Some(n) {
+    props["nonce"] = @core.any(n)
   }
+  ffi_jsxs(ffi_hono_css_style(self), props).cast()
 }

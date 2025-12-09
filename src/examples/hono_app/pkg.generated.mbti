@@ -13,6 +13,8 @@ pub async fn create_app() -> @hono.Hono[Unit, Unit]
 // Types and methods
 type LayoutProps
 
+type Styles
+
 // Type aliases
 
 // Traits

@@ -15,7 +15,7 @@ type App = @hono.Hono[Env, ExecutionContext]
 type Ctx = @hono.Context[Env, ExecutionContext]
 
 ///|
-using @hono {h, css, style_component}
+using @hono {h}
 
 // ============ Database ============
 
@@ -111,54 +111,48 @@ fn create_todo_schema() -> @zod.ZodSchema {
 // ============ CSS Styles ============
 
 ///|
-let html_style : @hono.CssClass = css(
-  "margin: 0; padding: 0; font-family: system-ui, sans-serif;",
-)
+priv struct Styles {
+  html : @hono.CssClass
+  body : @hono.CssClass
+  container : @hono.CssClass
+  card : @hono.CssClass
+  button : @hono.CssClass
+  button_danger : @hono.CssClass
+  input : @hono.CssClass
+  todo_item : @hono.CssClass
+  nav : @hono.CssClass
+  nav_link : @hono.CssClass
+}
 
 ///|
-let body_style : @hono.CssClass = css(
-  "margin: 0; padding: 0; background: #f5f5f5;",
-)
-
-///|
-let container_style : @hono.CssClass = css(
-  "max-width: 800px; margin: 0 auto; padding: 2rem;",
-)
-
-///|
-let card_style : @hono.CssClass = css(
-  "background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
-)
-
-///|
-let button_style : @hono.CssClass = css(
-  "padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;",
-)
-
-///|
-let button_danger_style : @hono.CssClass = css(
-  "padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;",
-)
-
-///|
-let input_style : @hono.CssClass = css(
-  "padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-right: 0.5rem;",
-)
-
-///|
-let todo_item_style : @hono.CssClass = css(
-  "display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid #eee;",
-)
-
-///|
-let nav_style : @hono.CssClass = css(
-  "background: #333; color: white; padding: 1rem;",
-)
-
-///|
-let nav_link_style : @hono.CssClass = css(
-  "color: white; text-decoration: none; margin-right: 1rem;",
-)
+fn create_styles(hono_css : @hono.HonoCss) -> Styles {
+  {
+    html: hono_css.css(
+      "margin: 0; padding: 0; font-family: system-ui, sans-serif;",
+    ),
+    body: hono_css.css("margin: 0; padding: 0; background: #f5f5f5;"),
+    container: hono_css.css("max-width: 800px; margin: 0 auto; padding: 2rem;"),
+    card: hono_css.css(
+      "background: white; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);",
+    ),
+    button: hono_css.css(
+      "padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;",
+    ),
+    button_danger: hono_css.css(
+      "padding: 0.5rem 1rem; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;",
+    ),
+    input: hono_css.css(
+      "padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; margin-right: 0.5rem;",
+    ),
+    todo_item: hono_css.css(
+      "display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid #eee;",
+    ),
+    nav: hono_css.css("background: #333; color: white; padding: 1rem;"),
+    nav_link: hono_css.css(
+      "color: white; text-decoration: none; margin-right: 1rem;",
+    ),
+  }
+}
 
 // ============ Auth Setup ============
 
@@ -213,6 +207,8 @@ priv struct LayoutProps {
   title : String
   children : Array[&@hono.HonoNode]
   user : @better_auth.User?
+  styles : Styles
+  hono_css : @hono.HonoCss
 }
 
 ///|
@@ -223,7 +219,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
       h("head", [
         h("title", [props.title]),
         h("meta", [], props={ "charset": @core.any("UTF-8") }),
-        style_component(),
+        props.hono_css.style_component(),
       ]),
       h(
         "body",
@@ -239,7 +235,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                     "a",
                     ["Home"],
                     props={ "href": @core.any("/") },
-                    class=nav_link_style,
+                    class=props.styles.nav_link,
                   ),
                   match props.user {
                     Some(user) =>
@@ -249,7 +245,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                           "a",
                           [" | Logout"],
                           props={ "href": @core.any("/auth/logout") },
-                          class=nav_link_style,
+                          class=props.styles.nav_link,
                         ),
                       ])
                     None =>
@@ -258,28 +254,28 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                           "a",
                           ["Login"],
                           props={ "href": @core.any("/auth/login") },
-                          class=nav_link_style,
+                          class=props.styles.nav_link,
                         ),
                         h(
                           "a",
                           ["Register"],
                           props={ "href": @core.any("/auth/register") },
-                          class=nav_link_style,
+                          class=props.styles.nav_link,
                         ),
                       ])
                   },
                 ],
-                class=container_style,
+                class=props.styles.container,
               ),
             ],
-            class=nav_style,
+            class=props.styles.nav,
           ),
-          h("main", props.children, class=container_style),
+          h("main", props.children, class=props.styles.container),
         ],
-        class=body_style,
+        class=props.styles.body,
       ),
     ],
-    class=html_style,
+    class=props.styles.html,
   )
 }
 
@@ -290,6 +286,8 @@ pub async fn create_app(
   db : @sqlite.DatabaseSync,
   auth : @better_auth.Auth,
 ) -> App {
+  let hono_css = @hono.import_hono_css()
+  let styles = create_styles(hono_css)
   let app : App = @hono.Hono::new()
 
   // Mount better-auth routes
@@ -305,6 +303,8 @@ pub async fn create_app(
         let content = default_layout({
           title: "My TODOs",
           user: Some(u),
+          styles,
+          hono_css,
           children: [
             h(
               "div",
@@ -323,13 +323,13 @@ pub async fn create_app(
                         "placeholder": @core.any("Add a new TODO..."),
                         "required": @core.any(true),
                       },
-                      class=input_style,
+                      class=styles.input,
                     ),
                     h(
                       "button",
                       ["Add"],
                       props={ "type": @core.any("submit") },
-                      class=button_style,
+                      class=styles.button,
                     ),
                   ],
                   props={
@@ -338,7 +338,7 @@ pub async fn create_app(
                   },
                 ),
               ],
-              class=card_style,
+              class=styles.card,
             ),
             h(
               "div",
@@ -395,7 +395,7 @@ pub async fn create_app(
                           "button",
                           ["Delete"],
                           props={ "type": @core.any("submit") },
-                          class=button_danger_style,
+                          class=styles.button_danger,
                         ),
                       ],
                       props={
@@ -407,10 +407,10 @@ pub async fn create_app(
                       },
                     ),
                   ],
-                  class=todo_item_style,
+                  class=styles.todo_item,
                 )
               }),
-              class=card_style,
+              class=styles.card,
             ),
           ],
         })
@@ -483,6 +483,8 @@ pub async fn create_app(
     let content = default_layout({
       title: "Login",
       user: None,
+      styles,
+      hono_css,
       children: [
         h(
           "div",
@@ -501,7 +503,7 @@ pub async fn create_app(
                       "name": @core.any("email"),
                       "required": @core.any(true),
                     },
-                    class=input_style,
+                    class=styles.input,
                   ),
                 ]),
                 h("div", [
@@ -514,14 +516,14 @@ pub async fn create_app(
                       "name": @core.any("password"),
                       "required": @core.any(true),
                     },
-                    class=input_style,
+                    class=styles.input,
                   ),
                 ]),
                 h(
                   "button",
                   ["Login"],
                   props={ "type": @core.any("submit") },
-                  class=button_style,
+                  class=styles.button,
                 ),
               ],
               props={
@@ -534,7 +536,7 @@ pub async fn create_app(
               h("a", ["Register"], props={ "href": @core.any("/auth/register") }),
             ]),
           ],
-          class=card_style,
+          class=styles.card,
         ),
       ],
     })
@@ -561,6 +563,8 @@ pub async fn create_app(
       let content = default_layout({
         title: "Login Error",
         user: None,
+        styles,
+        hono_css,
         children: [
           h(
             "div",
@@ -569,7 +573,7 @@ pub async fn create_app(
               h("p", [error_msg]),
               h("a", ["Try again"], props={ "href": @core.any("/auth/login") }),
             ],
-            class=card_style,
+            class=styles.card,
           ),
         ],
       })
@@ -584,6 +588,8 @@ pub async fn create_app(
     let content = default_layout({
       title: "Register",
       user: None,
+      styles,
+      hono_css,
       children: [
         h(
           "div",
@@ -602,7 +608,7 @@ pub async fn create_app(
                       "name": @core.any("name"),
                       "required": @core.any(true),
                     },
-                    class=input_style,
+                    class=styles.input,
                   ),
                 ]),
                 h("div", [
@@ -615,7 +621,7 @@ pub async fn create_app(
                       "name": @core.any("email"),
                       "required": @core.any(true),
                     },
-                    class=input_style,
+                    class=styles.input,
                   ),
                 ]),
                 h("div", [
@@ -629,14 +635,14 @@ pub async fn create_app(
                       "required": @core.any(true),
                       "minlength": @core.any(8),
                     },
-                    class=input_style,
+                    class=styles.input,
                   ),
                 ]),
                 h(
                   "button",
                   ["Register"],
                   props={ "type": @core.any("submit") },
-                  class=button_style,
+                  class=styles.button,
                 ),
               ],
               props={
@@ -649,7 +655,7 @@ pub async fn create_app(
               h("a", ["Login"], props={ "href": @core.any("/auth/login") }),
             ]),
           ],
-          class=card_style,
+          class=styles.card,
         ),
       ],
     })
@@ -668,6 +674,8 @@ pub async fn create_app(
       let content = default_layout({
         title: "Register Error",
         user: None,
+        styles,
+        hono_css,
         children: [
           h(
             "div",
@@ -678,7 +686,7 @@ pub async fn create_app(
                 "href": @core.any("/auth/register"),
               }),
             ],
-            class=card_style,
+            class=styles.card,
           ),
         ],
       })
@@ -819,14 +827,13 @@ extern "js" fn ffi_parse_body(c : Ctx) -> @js.Promise[@core.Any] =
   #|(c) => c.req.parseBody()
 
 ///|
-pub fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @core.identity, port)
+pub async fn serve(app : App, port : Int) -> Unit {
+  ffi_serve(app |> @core.identity, port).wait()
 }
 
 ///|
-extern "js" fn ffi_serve(app : @core.Any, port : Int) -> Unit =
-  #|(app, port) => {
-  #|  const { serve } = require('@hono/node-server');
+extern "js" fn ffi_serve(app : @core.Any, port : Int) -> @js.Promise[Unit] =
+  #|(app, port) => import('@hono/node-server').then(({ serve }) => {
   #|  serve({ fetch: app.fetch, port });
   #|  console.log(`Server running at http://localhost:${port}`);
-  #|}
+  #|})

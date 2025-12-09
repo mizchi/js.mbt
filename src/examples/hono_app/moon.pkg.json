@@ -3,14 +3,6 @@
   "supported-targets": [
     "js"
   ],
-  "link": {
-    "js": {
-      "exports": [
-        "create_app"
-      ],
-      "format": "cjs"
-    }
-  },
   "import": [
     "mizchi/js",
     "mizchi/js/core",

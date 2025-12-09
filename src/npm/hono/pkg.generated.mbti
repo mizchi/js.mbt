@@ -14,10 +14,6 @@ pub fn cors(origin? : String, allowMethods? : Array[String], allowHeaders? : Arr
 
 pub fn[T] create_context(T?) -> HonoContext[T]
 
-pub fn css(String) -> CssClass
-
-pub fn cx(Array[CssClass]) -> CssClass
-
 pub fn[Env, ExecutionContext] delete_cookie(Context[Env, ExecutionContext], String, path? : String, secure? : Bool, domain? : String) -> String?
 
 pub fn fragment(Array[&HonoNode], key? : String) -> JSXNode
@@ -32,6 +28,12 @@ pub fn hc(String) -> HonoClient
 
 pub fn html(String) -> HtmlEscapedString
 
+pub async fn import_hono_css() -> HonoCss
+
+pub async fn import_hono_jsx() -> HonoJsx
+
+pub async fn init_jsx_runtime() -> Unit
+
 #alias(h)
 pub fn jsx(String, Array[&HonoNode], props? : Map[String, @core.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
 
@@ -44,8 +46,6 @@ pub async fn jwt_sign(@core.Any, String, alg? : JwtAlgorithm) -> String
 pub async fn jwt_sign_payload(JwtPayload, String, alg? : JwtAlgorithm) -> String
 
 pub async fn jwt_verify(String, String, alg? : JwtAlgorithm) -> @core.Any
-
-pub fn keyframes(String) -> CssClass
 
 pub fn[T] memo((T) -> JSXNode) -> (T) -> JSXNode
 
@@ -60,8 +60,6 @@ pub fn render_to_string(JSXNode) -> String
 pub fn[Env, ExecutionContext] set_cookie(Context[Env, ExecutionContext], String, String, domain? : String, expires? : @core.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
 
 pub async fn[Env, ExecutionContext] set_signed_cookie(Context[Env, ExecutionContext], String, String, String, domain? : String, expires? : @core.Any, httpOnly? : Bool, maxAge? : Int, path? : String, secure? : Bool, sameSite? : String, priority? : String, prefix? : String, partitioned? : Bool) -> Unit
-
-pub fn style_component(nonce? : String) -> JSXNode
 
 pub fn[Env, ExecutionContext] test_client(Hono[Env, ExecutionContext]) -> HonoClient
 
@@ -116,7 +114,7 @@ pub fn[Env, ExecutionContext] Context::set(Self[Env, ExecutionContext], String, 
 #alias(set_renderer)
 pub fn[Env, ExecutionContext] Context::setRenderer(Self[Env, ExecutionContext], (String) -> @http.Response) -> Unit
 pub fn[Env, ExecutionContext] Context::status(Self[Env, ExecutionContext], Int) -> Unit
-pub async fn[Env, ExecutionContext] Context::stream_jsx(Self[Env, ExecutionContext], JSXNode, status? : Int) -> @http.Response
+pub async fn[Env, ExecutionContext] Context::stream_jsx(Self[Env, ExecutionContext], HonoJsx, JSXNode, status? : Int) -> @http.Response
 pub fn[Env, ExecutionContext] Context::text(Self[Env, ExecutionContext], String, status? : Int) -> @http.Response
 pub fn[Env, ExecutionContext] Context::var_(Self[Env, ExecutionContext], String) -> @core.Any
 
@@ -163,6 +161,27 @@ pub fn HonoClient::path(Self, String) -> ClientEndpoint
 #external
 pub type HonoContext[T]
 pub fn[T] HonoContext::as_any(Self[T]) -> @core.Any
+
+#external
+pub type HonoCss
+pub fn HonoCss::css(Self, String) -> CssClass
+pub fn HonoCss::cx(Self, Array[CssClass]) -> CssClass
+pub fn HonoCss::keyframes(Self, String) -> CssClass
+pub fn HonoCss::style_component(Self, nonce? : String) -> JSXNode
+
+#external
+pub type HonoJsx
+pub fn[T] HonoJsx::context_provider(Self, HonoContext[T], Array[&HonoNode], value~ : T) -> JSXNode
+pub fn[T] HonoJsx::create_context(Self, T?) -> HonoContext[T]
+pub fn HonoJsx::fragment(Self, Array[&HonoNode], key? : String) -> JSXNode
+pub fn HonoJsx::h(Self, String, Array[&HonoNode], props? : Map[String, @core.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
+pub fn HonoJsx::html(Self, String) -> HtmlEscapedString
+pub fn HonoJsx::jsx(Self, String, Array[&HonoNode], props? : Map[String, @core.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
+pub fn[T] HonoJsx::jsx_component(Self, (T) -> JSXNode, T, children? : Array[&HonoNode], key? : String) -> JSXNode
+pub fn[T] HonoJsx::memo(Self, (T) -> JSXNode) -> (T) -> JSXNode
+pub fn HonoJsx::raw(Self, String) -> JSXNode
+pub fn HonoJsx::render_to_readable_stream(Self, JSXNode) -> @core.Any
+pub fn[T] HonoJsx::use_context(Self, HonoContext[T]) -> T
 
 pub(all) struct HonoRequest {
   url : String

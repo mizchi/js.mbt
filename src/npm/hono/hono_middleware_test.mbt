@@ -91,34 +91,39 @@ async test "Hono::cors applies cors to specific path" {
 
 ///|
 async test "css returns CssClass" {
-  let class_name = @hono.css("color: red;")
+  let hono_css = @hono.import_hono_css()
+  let class_name = hono_css.css("color: red;")
   assert_true(class_name.to_string().length() > 0)
 }
 
 ///|
 async test "CssClass::to_string" {
-  let class_name = @hono.css("color: blue;")
+  let hono_css = @hono.import_hono_css()
+  let class_name = hono_css.css("color: blue;")
   let str = class_name.to_string()
   assert_true(str.length() > 0)
 }
 
 ///|
 async test "keyframes returns CssClass animation" {
-  let animation = @hono.keyframes("from { opacity: 0; } to { opacity: 1; }")
+  let hono_css = @hono.import_hono_css()
+  let animation = hono_css.keyframes("from { opacity: 0; } to { opacity: 1; }")
   assert_true(animation.to_string().length() > 0)
 }
 
 ///|
 async test "cx combines CssClass instances" {
-  let c1 = @hono.css("color: red;")
-  let c2 = @hono.css("color: blue;")
-  let combined = @hono.cx([c1, c2])
+  let hono_css = @hono.import_hono_css()
+  let c1 = hono_css.css("color: red;")
+  let c2 = hono_css.css("color: blue;")
+  let combined = hono_css.cx([c1, c2])
   assert_true(combined.to_string().length() > 0)
 }
 
 ///|
 async test "style_component returns JSXNode" {
-  let style = @hono.style_component()
+  let hono_css = @hono.import_hono_css()
+  let style = hono_css.style_component()
   @core.typeof_(style.as_any()) |> assert_eq("object")
 }
 

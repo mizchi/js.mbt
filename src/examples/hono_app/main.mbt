@@ -19,40 +19,39 @@ type App = @hono.Hono[Env, ExecutionContext]
 type Ctx = @hono.Context[Env, ExecutionContext]
 
 ///|
-using @hono {h, css, style_component, get_cookie, set_cookie, delete_cookie}
+using @hono {h, get_cookie, set_cookie, delete_cookie}
 
 // ============ CSS Styles ============
 
 ///|
-let html_style : @hono.CssClass = css("margin: 0; padding: 0;")
+struct Styles {
+  html : @hono.CssClass
+  body : @hono.CssClass
+  nav : @hono.CssClass
+  nav_link : @hono.CssClass
+  main : @hono.CssClass
+  button : @hono.CssClass
+  error : @hono.CssClass
+}
 
 ///|
-let body_style : @hono.CssClass = css("margin: 0; padding: 0;")
-
-///|
-let nav_style : @hono.CssClass = css(
-  "display: flex; gap: 1rem; align-items: center; padding: 1rem; background: #333; color: white;",
-)
-
-///|
-let nav_link_style : @hono.CssClass = css(
-  "color: white; text-decoration: none;",
-)
-
-///|
-let main_style : @hono.CssClass = css(
-  "padding: 2rem; max-width: 800px; margin: 0 auto;",
-)
-
-///|
-let button_style : @hono.CssClass = css(
-  "padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;",
-)
-
-///|
-let error_style : @hono.CssClass = css(
-  "color: red; padding: 1rem; background: #fee; border-radius: 4px;",
-)
+fn create_styles(hono_css : @hono.HonoCss) -> Styles {
+  {
+    html: hono_css.css("margin: 0; padding: 0;"),
+    body: hono_css.css("margin: 0; padding: 0;"),
+    nav: hono_css.css(
+      "display: flex; gap: 1rem; align-items: center; padding: 1rem; background: #333; color: white;",
+    ),
+    nav_link: hono_css.css("color: white; text-decoration: none;"),
+    main: hono_css.css("padding: 2rem; max-width: 800px; margin: 0 auto;"),
+    button: hono_css.css(
+      "padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;",
+    ),
+    error: hono_css.css(
+      "color: red; padding: 1rem; background: #fee; border-radius: 4px;",
+    ),
+  }
+}
 
 // ============ Layout ============
 
@@ -62,6 +61,8 @@ struct LayoutProps {
   title : String
   children : Array[&@hono.HonoNode]
   user : String?
+  styles : Styles
+  hono_css : @hono.HonoCss
 }
 
 ///|
@@ -73,7 +74,7 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
       h("head", [
         h("title", [props.title]),
         h("meta", [], props={ "charset": @core.any("UTF-8") }),
-        style_component(),
+        props.hono_css.style_component(),
       ]),
       h(
         "body",
@@ -87,19 +88,19 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                   "a",
                   ["Home"],
                   props={ "href": @core.any("/") },
-                  class=nav_link_style,
+                  class=props.styles.nav_link,
                 ),
                 h(
                   "a",
                   ["About"],
                   props={ "href": @core.any("/about") },
-                  class=nav_link_style,
+                  class=props.styles.nav_link,
                 ),
                 h(
                   "a",
                   ["Auth"],
                   props={ "href": @core.any("/auth") },
-                  class=nav_link_style,
+                  class=props.styles.nav_link,
                 ),
                 match props.user {
                   Some(name) =>
@@ -107,15 +108,15 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
                   None => h("span", ["Not logged in"])
                 },
               ],
-              class=nav_style,
+              class=props.styles.nav,
             ),
           ]),
-          h("main", props.children, class=main_style),
+          h("main", props.children, class=props.styles.main),
         ],
-        class=body_style,
+        class=props.styles.body,
       ),
     ],
-    class=html_style,
+    class=props.styles.html,
   )
 }
 
@@ -131,6 +132,10 @@ fn get_current_user(c : Ctx) -> String? {
 ///|
 /// Create the Hono application
 pub async fn create_app() -> App {
+  // Initialize JSX runtime for ESM compatibility (required for legacy jsx/fragment API)
+  @hono.init_jsx_runtime()
+  let hono_css = @hono.import_hono_css()
+  let styles = create_styles(hono_css)
   let app : App = @hono.Hono::new()
   // Apply CORS middleware to API routes only
   app.cors("/api/*", origin="*") |> ignore
@@ -141,6 +146,8 @@ pub async fn create_app() -> App {
     let content = default_layout({
       title: "Hono App",
       user,
+      styles,
+      hono_css,
       children: [
         h("h1", ["Welcome to Hono + MoonBit"]),
         h("p", ["A fast, lightweight web framework with CSS-in-JS"]),
@@ -168,6 +175,8 @@ pub async fn create_app() -> App {
     let content = default_layout({
       title: "About",
       user,
+      styles,
+      hono_css,
       children: [
         h("h1", ["About"]),
         h("p", ["This is a Hono application built with MoonBit."]),
@@ -184,6 +193,8 @@ pub async fn create_app() -> App {
     let content = default_layout({
       title: "Auth",
       user,
+      styles,
+      hono_css,
       children: match user {
         Some(name) =>
           [
@@ -196,7 +207,7 @@ pub async fn create_app() -> App {
                   "button",
                   ["Logout"],
                   props={ "type": @core.any("submit") },
-                  class=button_style,
+                  class=styles.button,
                 ),
               ],
               props={
@@ -222,7 +233,7 @@ pub async fn create_app() -> App {
                   "button",
                   ["Login"],
                   props={ "type": @core.any("submit") },
-                  class=button_style,
+                  class=styles.button,
                 ),
               ],
               props={
@@ -246,8 +257,10 @@ pub async fn create_app() -> App {
       let content = default_layout({
         title: "Login Error",
         user: None,
+        styles,
+        hono_css,
         children: [
-          h("div", ["Username is required"], class=error_style),
+          h("div", ["Username is required"], class=styles.error),
           h("a", ["Back to login"], props={ "href": @core.any("/auth") }),
         ],
       })
@@ -275,6 +288,8 @@ pub async fn create_app() -> App {
     let content = default_layout({
       title: "404 Not Found",
       user,
+      styles,
+      hono_css,
       children: [
         h("h1", ["404 - Page Not Found"]),
         h("p", ["The page you are looking for does not exist."]),
@@ -291,17 +306,16 @@ extern "js" fn ffi_parse_body(c : @core.Any) -> @js.Promise[@core.Any] =
 
 ///|
 /// Serve the Hono app using @hono/node-server
-fn serve(app : App, port : Int) -> Unit {
-  ffi_serve(app |> @core.identity, port)
+async fn serve(app : App, port : Int) -> Unit {
+  ffi_serve(app |> @core.identity, port).wait()
 }
 
 ///|
-extern "js" fn ffi_serve(app : @core.Any, port : Int) -> Unit =
-  #|(app, port) => {
-  #|  const { serve } = require('@hono/node-server');
+extern "js" fn ffi_serve(app : @core.Any, port : Int) -> @js.Promise[Unit] =
+  #|(app, port) => import('@hono/node-server').then(({ serve }) => {
   #|  serve({ fetch: app.fetch, port });
   #|  console.log(`Server running at http://localhost:${port}`);
-  #|}
+  #|})
 
 ///|
 async fn main {

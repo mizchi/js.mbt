@@ -14,7 +14,7 @@ pub fn create_auth(@sqlite.DatabaseSync) -> @better_auth.Auth
 
 pub fn init_db() -> @sqlite.DatabaseSync
 
-pub fn serve(@hono.Hono[Unit, Unit], Int) -> Unit
+pub async fn serve(@hono.Hono[Unit, Unit], Int) -> Unit
 
 // Errors
 
