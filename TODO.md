@@ -32,6 +32,12 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] zod - schema validation (high priority)
 - [ ] hono - web framework (high priority, but `new Hono()` requires workaround)
   - Migrate non-constructor parts first (middleware, context helpers, etc.)
+- [ ] msw - mock service worker (high priority)
+- [ ] pino - logger (high priority)
+- [ ] debug - debug utility (high priority)
+- [ ] semver - version parsing (high priority)
+- [ ] vite - build tool (high priority)
+- [ ] vitest - test runner (high priority)
 - [ ] drizzle - database ORM
 - [ ] jose - JWT/JWE/JWS
 - [ ] date_fns - date utilities
@@ -40,7 +46,6 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 
 - [ ] testing_library_react
 - [ ] testing_library_preact
-- [ ] vitest
 
 ---
 
