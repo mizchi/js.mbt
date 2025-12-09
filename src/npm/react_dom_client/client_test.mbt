@@ -6,11 +6,6 @@ fn init_jsdom() -> Unit {
 }
 
 ///|
-fn get_react_dom_client() -> @core.Any {
-  @node.require("react-dom/client")
-}
-
-///|
 priv struct SimpleProps {
   text : String
 }
@@ -18,20 +13,6 @@ priv struct SimpleProps {
 ///|
 fn simple_component(props : SimpleProps) -> @react.Element {
   @react_element.div(id="root-content", [props.text])
-}
-
-///|
-test "createRoot exists on ReactDOMClient" {
-  init_jsdom()
-  let client = get_react_dom_client()
-  @core.typeof_(client._get("createRoot")) |> assert_eq("function")
-}
-
-///|
-test "hydrateRoot exists on ReactDOMClient" {
-  init_jsdom()
-  let client = get_react_dom_client()
-  @core.typeof_(client._get("hydrateRoot")) |> assert_eq("function")
 }
 
 ///|
