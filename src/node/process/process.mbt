@@ -3,6 +3,22 @@ extern "js" fn process_module() -> @core.Any =
   #| () => require("node:process")
 
 ///|
+#module("node:process")
+extern "js" fn internal_cwd() -> String = "cwd"
+
+///|
+#module("node:process")
+extern "js" fn internal_chdir(path : String) -> Unit = "chdir"
+
+///|
+#module("node:process")
+extern "js" fn internal_exit(code : Int) -> Unit = "exit"
+
+///|
+#module("node:process")
+extern "js" fn internal_next_tick(callback : @core.Any) -> Unit = "nextTick"
+
+///|
 #external
 pub type Process
 
@@ -36,7 +52,7 @@ pub fn argv() -> Array[String] {
 ///|
 /// JS: process.cwd()
 pub fn cwd() -> String {
-  process_any()._call("cwd", []).cast()
+  internal_cwd()
 }
 
 ///|
@@ -60,13 +76,13 @@ pub fn isTTY() -> Bool {
 ///|
 /// JS: process.chdir(path)
 pub fn chdir(path : String) -> Unit {
-  process_any()["chdir"]._invoke([@core.any(path)]) |> ignore
+  internal_chdir(path)
 }
 
 ///|
 /// JS: process.exit(code)
 pub fn exit(code : Int) -> Unit {
-  process_any()["exit"]._invoke([@core.any(code)]) |> ignore
+  internal_exit(code)
 }
 
 ///|
@@ -109,6 +125,5 @@ pub fn on(sig : String, listener : () -> Unit) -> Unit {
 ///|
 /// JS: process.nextTick(callback)
 pub fn nextTick(callback : () -> Unit) -> Unit {
-  process_any()._call("nextTick", [@core.any(@core.from_fn0(callback))])
-  |> ignore
+  internal_next_tick(@core.from_fn0(callback))
 }
