@@ -151,10 +151,11 @@ extern "js" fn ffi_use_state(initial : @core.Any) -> @core.Any = "useState"
 
 Due to `extern "js"` constraints, `#module` can only be applied to **functions**:
 
-- ✅ Functions (hooks, utilities, etc.)
+- ✅ Functions with fixed arguments (hooks, utilities, etc.)
 - ❌ Components (React components are objects/classes)
-- ❌ Constants/Symbols (Fragment, StrictMode, etc.)
-- ❌ Classes
+- ❌ Constants/Symbols (Fragment, StrictMode, delimiter, sep, etc.)
+- ❌ Classes (new Hono(), new Database(), etc.)
+- ❌ Variadic functions (path.join(...paths), path.resolve(...paths)) - no auto-spread
 
 For non-function exports, use one of these workarounds:
 
