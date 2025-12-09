@@ -2,6 +2,8 @@
 
 Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details.
 
+**Goal**: Eliminate all `require()` calls → `git grep 'require('` should return nothing.
+
 ### Frontend Libraries (High Priority - Tree-shaking)
 
 - [x] react - jsx/jsxs from react/jsx-runtime
