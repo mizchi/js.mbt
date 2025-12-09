@@ -26,12 +26,57 @@ pub fn StartOptions::as_any(self : StartOptions) -> @core.Any = "%identity"
 ///| Worker FFI (msw/browser)
 
 ///|
-extern "js" fn ffi_setup_worker(handlers : @core.Any) -> SetupWorker =
-  #| (handlers) => require('msw/browser').setupWorker(...handlers)
+/// Dynamic import for msw/browser module
+extern "js" fn import_msw_browser() -> @core.Promise[@core.Any] =
+  #|() => import("msw/browser")
 
 ///|
-extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
-  #| () => require('msw/browser').setupWorker()
+/// Initialize msw/browser globals (setupWorker)
+/// Must be called before using setupWorker
+pub async fn init_browser_global() -> Unit {
+  if @core.is_nullish(get_setup_worker()) {
+    let msw_browser : @core.Any = import_msw_browser().wait()
+    ffi_set_msw_browser_globals(msw_browser._get("setupWorker"))
+  }
+}
+
+///|
+/// Initialize msw/browser globals synchronously using provided module
+pub extern "js" fn init_msw_browser(msw_browser : @core.Any) -> Unit =
+  #|(msw_browser) => {
+  #|  globalThis.__msw_setupWorker = msw_browser.setupWorker;
+  #|}
+
+///|
+extern "js" fn ffi_set_msw_browser_globals(setup_worker : @core.Any) -> Unit =
+  #|(sw) => {
+  #|  globalThis.__msw_setupWorker = sw;
+  #|}
+
+///|
+extern "js" fn get_setup_worker() -> @core.Any =
+  #|() => globalThis.__msw_setupWorker
+
+///|
+extern "js" fn call_setup_worker(
+  setup_worker : @core.Any,
+  handlers : @core.Any,
+) -> SetupWorker =
+  #| (sw, handlers) => sw(...handlers)
+
+///|
+extern "js" fn call_setup_worker_empty(setup_worker : @core.Any) -> SetupWorker =
+  #| (sw) => sw()
+
+///|
+fn ffi_setup_worker(handlers : @core.Any) -> SetupWorker {
+  call_setup_worker(get_setup_worker(), handlers)
+}
+
+///|
+fn ffi_setup_worker_empty() -> SetupWorker {
+  call_setup_worker_empty(get_setup_worker())
+}
 
 ///|
 pub extern "js" fn worker_start(

@@ -18,12 +18,57 @@ pub fn SetupServer::as_any(self : SetupServer) -> @core.Any = "%identity"
 ///| Server FFI (msw/node)
 
 ///|
-extern "js" fn ffi_setup_server(handlers : @core.Any) -> SetupServer =
-  #| (handlers) => require('msw/node').setupServer(...handlers)
+/// Dynamic import for msw/node module
+extern "js" fn import_msw_node() -> @core.Promise[@core.Any] =
+  #|() => import("msw/node")
 
 ///|
-extern "js" fn ffi_setup_server_empty() -> SetupServer =
-  #| () => require('msw/node').setupServer()
+/// Initialize msw/node globals (setupServer)
+/// Must be called before using setupServer
+pub async fn init_node_global() -> Unit {
+  if @core.is_nullish(get_setup_server()) {
+    let msw_node : @core.Any = import_msw_node().wait()
+    ffi_set_msw_node_globals(msw_node._get("setupServer"))
+  }
+}
+
+///|
+/// Initialize msw/node globals synchronously using require() (for testing in Node.js)
+pub extern "js" fn init_msw_node(msw_node : @core.Any) -> Unit =
+  #|(msw_node) => {
+  #|  globalThis.__msw_setupServer = msw_node.setupServer;
+  #|}
+
+///|
+extern "js" fn ffi_set_msw_node_globals(setup_server : @core.Any) -> Unit =
+  #|(ss) => {
+  #|  globalThis.__msw_setupServer = ss;
+  #|}
+
+///|
+extern "js" fn get_setup_server() -> @core.Any =
+  #|() => globalThis.__msw_setupServer
+
+///|
+extern "js" fn call_setup_server(
+  setup_server : @core.Any,
+  handlers : @core.Any,
+) -> SetupServer =
+  #| (ss, handlers) => ss(...handlers)
+
+///|
+extern "js" fn call_setup_server_empty(setup_server : @core.Any) -> SetupServer =
+  #| (ss) => ss()
+
+///|
+fn ffi_setup_server(handlers : @core.Any) -> SetupServer {
+  call_setup_server(get_setup_server(), handlers)
+}
+
+///|
+fn ffi_setup_server_empty() -> SetupServer {
+  call_setup_server_empty(get_setup_server())
+}
 
 ///|
 pub extern "js" fn server_listen(

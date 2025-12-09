@@ -40,6 +40,18 @@ pub fn http_response_text(String, status? : Int, statusText? : String, headers? 
 
 pub fn http_response_xml(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
+pub async fn init_browser_global() -> Unit
+
+pub async fn init_global() -> Unit
+
+pub fn init_msw(@core.Any) -> Unit
+
+pub fn init_msw_browser(@core.Any) -> Unit
+
+pub fn init_msw_node(@core.Any) -> Unit
+
+pub async fn init_node_global() -> Unit
+
 pub fn jsonResponse(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 pub fn mockError(String, Int, String) -> RequestHandler

@@ -57,156 +57,254 @@ pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @core.Any = 
 ///| HTTP Handler FFI
 
 ///|
-extern "js" fn ffi_http_get(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.get(path, resolver)
+/// Dynamic import for msw module
+extern "js" fn import_msw() -> @core.Promise[@core.Any] =
+  #|() => import("msw")
 
 ///|
-extern "js" fn ffi_http_post(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.post(path, resolver)
+/// Initialize msw globals (http and HttpResponse)
+/// Must be called before using any msw functions
+pub async fn init_global() -> Unit {
+  if @core.is_nullish(get_http()) {
+    let msw : @core.Any = import_msw().wait()
+    ffi_set_msw_globals(msw._get("http"), msw._get("HttpResponse"))
+  }
+}
 
 ///|
-extern "js" fn ffi_http_put(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.put(path, resolver)
+/// Initialize msw globals synchronously using require() (for testing in Node.js)
+pub extern "js" fn init_msw(msw : @core.Any) -> Unit =
+  #|(msw) => {
+  #|  globalThis.__msw_http = msw.http;
+  #|  globalThis.__msw_HttpResponse = msw.HttpResponse;
+  #|}
 
 ///|
-extern "js" fn ffi_http_patch(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.patch(path, resolver)
+extern "js" fn ffi_set_msw_globals(
+  http : @core.Any,
+  http_response : @core.Any,
+) -> Unit =
+  #|(http, hr) => {
+  #|  globalThis.__msw_http = http;
+  #|  globalThis.__msw_HttpResponse = hr;
+  #|}
 
 ///|
-extern "js" fn ffi_http_delete(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.delete(path, resolver)
+extern "js" fn get_http() -> @core.Any =
+  #|() => globalThis.__msw_http
 
 ///|
-extern "js" fn ffi_http_options(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.options(path, resolver)
+extern "js" fn get_http_response() -> @core.Any =
+  #|() => globalThis.__msw_HttpResponse
 
 ///|
-extern "js" fn ffi_http_head(
+extern "js" fn call_http_method(
+  http : @core.Any,
+  method_name : String,
   path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
+  resolver : @core.Any,
 ) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.head(path, resolver)
+  #| (http, method_name, path, resolver) => http[method_name](path, resolver)
 
 ///|
-extern "js" fn ffi_http_all(
+fn ffi_http_get(
   path : String,
   resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.all(path, resolver)
+) -> RequestHandler {
+  call_http_method(get_http(), "get", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_post(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "post", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_put(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "put", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_patch(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "patch", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_delete(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "delete", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_options(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "options", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_head(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "head", path, resolver |> @core.identity)
+}
+
+///|
+fn ffi_http_all(
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(), "all", path, resolver |> @core.identity)
+}
 
 ///| HTTP Response FFI
 
 ///|
-pub extern "js" fn http_response_json(
+extern "js" fn call_http_response_method(
+  http_response : @core.Any,
+  method_name : String,
+  body : @core.Any,
+  init : @core.Any,
+) -> HttpResponse =
+  #| (hr, method_name, body, init) => {
+  #|   return Object.keys(init).length > 0 ?
+  #|     hr[method_name](body, init) :
+  #|     hr[method_name](body);
+  #| }
+
+///|
+extern "js" fn call_http_response_error(
+  http_response : @core.Any,
+) -> HttpResponse =
+  #| (hr) => hr.error()
+
+///|
+pub fn http_response_json(
   body : @core.Any,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.json(body, init) :
-  #|     msw.HttpResponse.json(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(get_http_response(), "json", body, init)
+}
 
 ///|
-pub extern "js" fn http_response_text(
+pub fn http_response_text(
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.text(body, init) :
-  #|     msw.HttpResponse.text(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(),
+    "text",
+    body |> @core.any,
+    init,
+  )
+}
 
 ///|
-pub extern "js" fn http_response_xml(
+pub fn http_response_xml(
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.xml(body, init) :
-  #|     msw.HttpResponse.xml(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(get_http_response(), "xml", body |> @core.any, init)
+}
 
 ///|
-pub extern "js" fn http_response_html(
+pub fn http_response_html(
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.html(body, init) :
-  #|     msw.HttpResponse.html(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(),
+    "html",
+    body |> @core.any,
+    init,
+  )
+}
 
 ///|
-pub extern "js" fn http_response_array_buffer(
+pub fn http_response_array_buffer(
   body : @core.Any,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.arrayBuffer(body, init) :
-  #|     msw.HttpResponse.arrayBuffer(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(get_http_response(), "arrayBuffer", body, init)
+}
 
 ///|
-pub extern "js" fn http_response_error() -> HttpResponse =
-  #| () => require('msw').HttpResponse.error()
+pub fn http_response_error() -> HttpResponse {
+  call_http_response_error(get_http_response())
+}
 
 ///| Request/Response Info FFI
 

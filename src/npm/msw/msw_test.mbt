@@ -2,7 +2,14 @@
 /// MSW bindings tests
 
 ///|
+fn setup() -> Unit {
+  @msw.init_msw(@node.require("msw"))
+  @msw.init_msw_node(@node.require("msw/node"))
+}
+
+///|
 test "create json response" {
+  setup()
   let body = @core.new_object()
   body["message"] = @core.any("hello")
   let response = @msw.jsonResponse(body)
@@ -11,6 +18,7 @@ test "create json response" {
 
 ///|
 test "create json response with status" {
+  setup()
   let body = @core.new_object()
   body["error"] = @core.any("not found")
   let response = @msw.jsonResponse(body, status=404)
@@ -19,36 +27,42 @@ test "create json response with status" {
 
 ///|
 test "create text response" {
+  setup()
   let response = @msw.textResponse("Hello, World!")
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create text response with status" {
+  setup()
   let response = @msw.textResponse("Created", status=201)
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create html response" {
+  setup()
   let response = @msw.htmlResponse("<h1>Hello</h1>")
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create xml response" {
+  setup()
   let response = @msw.xmlResponse("<root><item>test</item></root>")
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create error response" {
+  setup()
   let response = @msw.errorResponse()
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create http get handler" {
+  setup()
   let handler = @msw.httpGet("/api/users", fn(_info) {
     @msw.jsonResponse(@core.new_object())
   })
@@ -57,6 +71,7 @@ test "create http get handler" {
 
 ///|
 test "create http post handler" {
+  setup()
   let handler = @msw.httpPost("/api/users", fn(_info) {
     @msw.jsonResponse(@core.new_object(), status=201)
   })
@@ -65,6 +80,7 @@ test "create http post handler" {
 
 ///|
 test "create http put handler" {
+  setup()
   let handler = @msw.httpPut("/api/users/:id", fn(_info) {
     @msw.jsonResponse(@core.new_object())
   })
@@ -73,6 +89,7 @@ test "create http put handler" {
 
 ///|
 test "create http patch handler" {
+  setup()
   let handler = @msw.httpPatch("/api/users/:id", fn(_info) {
     @msw.jsonResponse(@core.new_object())
   })
@@ -81,6 +98,7 @@ test "create http patch handler" {
 
 ///|
 test "create http delete handler" {
+  setup()
   let handler = @msw.httpDelete("/api/users/:id", fn(_info) {
     @msw.textResponse("Deleted")
   })
@@ -89,6 +107,7 @@ test "create http delete handler" {
 
 ///|
 test "create http options handler" {
+  setup()
   let handler = @msw.httpOptions("/api/users", fn(_info) {
     @msw.textResponse("")
   })
@@ -97,12 +116,14 @@ test "create http options handler" {
 
 ///|
 test "create http head handler" {
+  setup()
   let handler = @msw.httpHead("/api/users", fn(_info) { @msw.textResponse("") })
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "create http all handler" {
+  setup()
   let handler = @msw.httpAll("/api/*", fn(_info) {
     @msw.jsonResponse(@core.new_object())
   })
@@ -111,6 +132,7 @@ test "create http all handler" {
 
 ///|
 test "setup server empty" {
+  setup()
   let empty : Array[@msw.RequestHandler] = []
   let server = @msw.setupServer(empty)
   inspect(server.as_any() |> @core.is_nullish |> not, content="true")
@@ -118,6 +140,7 @@ test "setup server empty" {
 
 ///|
 test "setup server with handlers" {
+  setup()
   let body = @core.new_object()
   body["ok"] = @core.any(true)
   let handler = @msw.httpGet("/test", fn(_info) { @msw.jsonResponse(body) })
@@ -127,6 +150,7 @@ test "setup server with handlers" {
 
 ///|
 test "server listen and close" {
+  setup()
   let server = @msw.setupServer([])
   defer server.close()
   server.listen(onUnhandledRequest="bypass")
@@ -134,6 +158,7 @@ test "server listen and close" {
 
 ///|
 test "server reset handlers" {
+  setup()
   let server = @msw.setupServer([])
   defer server.close()
   server.listen(onUnhandledRequest="bypass")
@@ -142,6 +167,7 @@ test "server reset handlers" {
 
 ///|
 test "server use handlers" {
+  setup()
   let server = @msw.setupServer([])
   server.listen(onUnhandledRequest="bypass")
   defer server.close()
@@ -153,6 +179,7 @@ test "server use handlers" {
 
 ///|
 test "server restore handlers" {
+  setup()
   let server = @msw.setupServer([])
   server.listen(onUnhandledRequest="bypass")
   server.restoreHandlers()
@@ -161,6 +188,7 @@ test "server restore handlers" {
 
 ///|
 test "server list handlers" {
+  setup()
   let handler = @msw.httpGet("/test", fn(_info) { @msw.textResponse("ok") })
   let server = @msw.setupServer([handler])
   let handlers = server.listHandlers()
@@ -169,6 +197,7 @@ test "server list handlers" {
 
 ///|
 test "server reset handlers with new" {
+  setup()
   let server = @msw.setupServer([])
   server.listen(onUnhandledRequest="bypass")
   let newHandler = @msw.httpGet("/new", fn(_info) { @msw.textResponse("new") })
@@ -178,6 +207,7 @@ test "server reset handlers with new" {
 
 ///|
 test "mockGet convenience" {
+  setup()
   let data = @core.new_object()
   data["users"] = @core.any([1])
   let handler = @msw.mockGet("/api/users", data)
@@ -186,6 +216,7 @@ test "mockGet convenience" {
 
 ///|
 test "mockPost convenience" {
+  setup()
   let data = @core.new_object()
   data["id"] = @core.any(1)
   let handler = @msw.mockPost("/api/users", data)
@@ -194,12 +225,14 @@ test "mockPost convenience" {
 
 ///|
 test "mockError convenience" {
+  setup()
   let handler = @msw.mockError("/api/fail", 500, "Internal Server Error")
   inspect(handler.as_any() |> @core.is_nullish |> not, content="true")
 }
 
 ///|
 test "handler with resolver accessing info" {
+  setup()
   let body = @core.new_object()
   body["ok"] = @core.any(true)
   let handler = @msw.httpGet("/api/items/:id", fn(info) {
@@ -220,6 +253,7 @@ extern "js" fn ffi_new_array_buffer(size : Int) -> @core.Any =
 
 ///|
 test "array buffer response" {
+  setup()
   let buffer = ffi_new_array_buffer(8)
   let response = @msw.arrayBufferResponse(buffer)
   inspect(response.as_any() |> @core.is_nullish |> not, content="true")
