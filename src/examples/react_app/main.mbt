@@ -251,10 +251,7 @@ fn app(props : AppProps) -> @react.Element {
 }
 
 ///|
-async fn main {
-  @react.dynamic_import()
-  @react_router.dynamic_import()
-  let client = @react_dom_client.dynamic_import()
+fn main {
   guard @dom.document().getElementById("app") is Some(app_root)
   init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {
@@ -271,5 +268,5 @@ async fn main {
       ]),
     ),
   ])
-  client.create_root(app_root).render(router_provider(routes))
+  @react_dom_client.createRoot(app_root).render(router_provider(routes))
 }

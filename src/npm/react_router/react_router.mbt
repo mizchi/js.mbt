@@ -6,15 +6,12 @@ extern "js" fn import_react_router() -> @js.Promise[@core.Any] =
   #|() => import("react-router")
 
 ///|
-/// Internal FFI to create React element with component
+/// Internal FFI to create React element with component (using #module)
+#module("react")
 extern "js" fn ffi_create_element(
   tag : @core.Any,
   props : @core.Any,
-  children : @core.Any,
-) -> @react.Element =
-  #|(tag, props, children) => {
-  #|  return __ReactApi.createElement(tag, props, ...children)
-  #|}
+) -> @react.Element = "createElement"
 
 ///|
 /// Dynamic import and initialize React Router API asynchronously
@@ -395,8 +392,7 @@ pub fn nav_link(
   let children_js : @core.Any = children_arr.map(fn(c) -> @core.Any { c.cast() })
     |> @core.any
   props._set("children", children_js)
-  let empty : Array[@core.Any] = []
-  ffi_create_element(nav_link_component, props, @core.any(empty))
+  ffi_create_element(nav_link_component, props)
 }
 
 ///|
@@ -409,8 +405,7 @@ pub fn nav_link_render(
   let props = @core.new_object()
   props._set("to", to |> @core.any)
   props._set("children", @js.from_fn1(render))
-  let empty : Array[@core.Any] = []
-  ffi_create_element(nav_link_component, props, @core.any(empty))
+  ffi_create_element(nav_link_component, props)
 }
 
 // =============================================================================
@@ -426,8 +421,7 @@ extern "js" fn get_outlet() -> @core.Any =
 /// https://reactrouter.com/en/main/components/outlet
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
-  let empty : Array[@core.Any] = []
-  ffi_create_element(outlet_component, @core.null(), @core.any(empty))
+  ffi_create_element(outlet_component, @core.new_object())
 }
 
 // =============================================================================

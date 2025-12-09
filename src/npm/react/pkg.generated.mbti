@@ -26,6 +26,8 @@ pub fn createElement(String, Array[&ReactNode], props? : Map[String, @core.Any],
 
 pub fn createElementDirect(String, @core.Any, @core.Any) -> Element
 
+pub fn createElementRaw(@core.Any, @core.Any) -> Element
+
 #alias(createContext)
 pub fn[T] create_context(T?) -> Context[T]
 
@@ -39,6 +41,10 @@ pub fn init_react_api(@core.Any, global_key? : String) -> Unit
 
 #alias(initReactAsync)
 pub async fn init_react_async() -> Unit
+
+pub fn init_react_from_module(@core.Any) -> Unit
+
+pub async fn init_react_symbols() -> Unit
 
 pub fn[T] lazy_(() -> @core.Promise[@core.Any]) -> (T) -> Element
 

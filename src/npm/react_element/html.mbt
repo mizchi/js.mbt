@@ -88,9 +88,13 @@ fn[T] common_node(
   if on_drop is Some(f) {
     props._set("onDrop", f |> @js.from_fn1)
   }
-  let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+  // Only set children if not empty (void elements like <input> cannot have children)
+  if not(children.is_empty()) {
+    let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+    props._set("children", children_js)
+  }
   let props_js : @core.Any = props.cast()
-  @react.createElementDirect(tag_name, props_js, children_js)
+  @react.createElementRaw(@core.any(tag_name), props_js)
 }
 
 ///|

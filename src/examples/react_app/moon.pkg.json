@@ -4,7 +4,6 @@
   ],
   "is-main": true,
   "import": [
-    "moonbitlang/async",
     "mizchi/js/core",
     "mizchi/js",
     "mizchi/js/browser/dom",

@@ -633,7 +633,6 @@ test "useImperativeHandle hook" {
 ///|
 async fn init_react_router() -> Unit {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   @testing_library_react.setup_matchers()
   @testing_library_react.cleanup()
   @react_router.dynamic_import()

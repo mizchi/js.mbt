@@ -3,7 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/npm/react"

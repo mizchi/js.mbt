@@ -296,15 +296,20 @@ test "ReactNode conditional rendering in for expression" {
 }
 
 ///|
-extern "js" fn load_lazy_component_stub() -> @core.Promise[@core.Any] =
-  #|() => Promise.resolve({ default: () => globalThis.__ReactApi.createElement("div", null, "lazy_component") })
+#module("react")
+extern "js" fn test_create_element() -> @core.Any = "createElement"
+
+///|
+extern "js" fn load_lazy_component_stub(
+  ce : @core.Any,
+) -> @core.Promise[@core.Any] =
+  #|(createElement) => Promise.resolve({ default: () => createElement("div", null, "lazy_component") })
 
 ///|
 test "lazy_ with Unit" {
-  @react.init_react_api(@node.require("react"))
-  let lazy_comp : @react.Component[Unit] = @react.lazy_(
-    load_lazy_component_stub,
-  )
+  let lazy_comp : @react.Component[Unit] = @react.lazy_(fn() {
+    load_lazy_component_stub(test_create_element())
+  })
   let fallback = @react.createElement("div", ["Loading..."])
   let lazy_el = @react.component(lazy_comp, ())
   let el = @react.suspense([lazy_el], fallback~)
@@ -314,15 +319,16 @@ test "lazy_ with Unit" {
 }
 
 ///|
-extern "js" fn load_lazy_typed_component_stub() -> @core.Promise[@core.Any] =
-  #|() => Promise.resolve({ default: (props) => globalThis.__ReactApi.createElement("div", null, "Hello, " + props.v) })
+extern "js" fn load_lazy_typed_component_stub(
+  ce : @core.Any,
+) -> @core.Promise[@core.Any] =
+  #|(createElement) => Promise.resolve({ default: (props) => createElement("div", null, "Hello, " + props.v) })
 
 ///|
 test "lazy_ with custom props" {
-  @react.init_react_api(@node.require("react"))
-  let lazy_comp : @react.Component[TestProps] = @react.lazy_(
-    load_lazy_typed_component_stub,
-  )
+  let lazy_comp : @react.Component[TestProps] = @react.lazy_(fn() {
+    load_lazy_typed_component_stub(test_create_element())
+  })
   let fallback = @react.createElement("div", ["Loading..."])
   let lazy_el = @react.component(lazy_comp, { v: "World" })
   let el = @react.suspense([lazy_el], fallback~)

@@ -15,8 +15,13 @@ pub fn read_file_sync(path : String) -> @buffer.Buffer raise @core.ThrowError {
   @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path)]).cast()
+    // internal_read_file_sync2(path)
   })
 }
+
+// ///|
+// #module("node:fs")
+// fn internal_read_file_sync2(path : String) -> @buffer.Buffer = "readFileSync"
 
 ///|
 /// Read file synchronously as string with encoding

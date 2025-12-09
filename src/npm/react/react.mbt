@@ -17,7 +17,7 @@ pub fn createElement(
   key? : String,
 ) -> Element {
   let tag = @core.any(tag)
-  let children = @core.any(children.map(_.to_react_node()))
+  let children_arr = @core.any(children.map(_.to_react_node()))
   let val = @core.new_object()
   if props is Some(props) {
     for k, v in props {
@@ -37,16 +37,27 @@ pub fn createElement(
     }
     val["style"] = style_obj
   }
-  ffi_create_element(tag, val, children).cast()
+  // Only set children if not empty (void elements like <input> cannot have children)
+  if not(children.is_empty()) {
+    val["children"] = children_arr
+  }
+  ffi_create_element(tag, val).cast()
 }
 
 ///|
-/// Intenal FFI to create React element
+/// Internal FFI to create React element
 /// Directly create a React element with given tag, props, and children.
 pub fn createElementDirect(
   tag : String,
   props : @core.Any,
   children : @core.Any,
 ) -> Element {
-  ffi_create_element(@core.any(tag), props, children).cast()
+  props["children"] = children
+  ffi_create_element(@core.any(tag), props).cast()
+}
+
+///|
+/// Create React element with props only (no children) - for void elements like <input>
+pub fn createElementRaw(tag : @core.Any, props : @core.Any) -> Element {
+  ffi_create_element(tag, props).cast()
 }

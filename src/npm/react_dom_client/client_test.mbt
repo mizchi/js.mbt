@@ -1,14 +1,13 @@
 ///|
 fn init_jsdom() -> Unit {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   @testing_library_react.setup_matchers()
   @testing_library_react.cleanup()
 }
 
 ///|
-fn get_react_dom_client() -> ReactDOMClient {
-  @node.require("react-dom/client") |> @core.identity
+fn get_react_dom_client() -> @core.Any {
+  @node.require("react-dom/client")
 }
 
 ///|
@@ -25,14 +24,14 @@ fn simple_component(props : SimpleProps) -> @react.Element {
 test "createRoot exists on ReactDOMClient" {
   init_jsdom()
   let client = get_react_dom_client()
-  @core.typeof_(client.as_any()._get("createRoot")) |> assert_eq("function")
+  @core.typeof_(client._get("createRoot")) |> assert_eq("function")
 }
 
 ///|
 test "hydrateRoot exists on ReactDOMClient" {
   init_jsdom()
   let client = get_react_dom_client()
-  @core.typeof_(client.as_any()._get("hydrateRoot")) |> assert_eq("function")
+  @core.typeof_(client._get("hydrateRoot")) |> assert_eq("function")
 }
 
 ///|
@@ -52,12 +51,11 @@ test "createRoot and render" {
 ///|
 test "ReactDOMRoot has render method" {
   init_jsdom()
-  let client = get_react_dom_client()
   let document : @dom.Document = @global.global_this()._get("document").cast()
   guard document.body() is Some(body)
   let container = document.createElement("div")
   body.as_node().appendChild(container.as_node()) |> ignore
-  let root = client.createRoot(container)
+  let root = @react_dom_client.createRoot(container)
   // Verify render method exists
   @core.typeof_(root.as_any()._get("render")) |> assert_eq("function")
   // Verify unmount method exists
