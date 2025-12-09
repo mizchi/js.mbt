@@ -91,6 +91,7 @@ pub fn jsx(
 }
 
 ///|
+/// Note: ffi_jsx needs inline import because it combines children processing with jsxs call
 extern "js" fn ffi_jsx(
   tag : @core.Any,
   props : @core.Any,
@@ -140,10 +141,7 @@ pub fn fragment(children : Array[&HonoNode], key? : String) -> JSXNode {
 
 ///|
 extern "js" fn ffi_get_fragment() -> @core.Any =
-  #|() => {
-  #|  const { Fragment } = require('hono/jsx/jsx-runtime');
-  #|  return Fragment;
-  #|}
+  #|() => require('hono/jsx/jsx-runtime').Fragment
 
 ///|
 /// Render JSX to string
@@ -165,11 +163,8 @@ pub fn render_to_readable_stream(node : JSXNode) -> @core.Any {
 }
 
 ///|
-extern "js" fn ffi_render_to_readable_stream(node : @core.Any) -> @core.Any =
-  #|(node) => {
-  #|  const { renderToReadableStream } = require('hono/jsx/streaming');
-  #|  return renderToReadableStream(node);
-  #|}
+#module("hono/jsx/streaming")
+extern "js" fn ffi_render_to_readable_stream(node : @core.Any) -> @core.Any = "renderToReadableStream"
 
 ///|
 /// Memo - memoize a component
@@ -178,11 +173,8 @@ pub fn[T] memo(component : FC[T]) -> FC[T] {
 }
 
 ///|
-extern "js" fn ffi_memo(component : @core.Any) -> @core.Any =
-  #|(component) => {
-  #|  const { memo } = require('hono/jsx');
-  #|  return memo(component);
-  #|}
+#module("hono/jsx")
+extern "js" fn ffi_memo(component : @core.Any) -> @core.Any = "memo"
 
 ///|
 /// Context type
@@ -199,11 +191,8 @@ pub fn[T] create_context(defaultValue : T?) -> HonoContext[T] {
 }
 
 ///|
-extern "js" fn ffi_create_context(defaultValue : @core.Any) -> @core.Any =
-  #|(defaultValue) => {
-  #|  const { createContext } = require('hono/jsx');
-  #|  return createContext(defaultValue);
-  #|}
+#module("hono/jsx")
+extern "js" fn ffi_create_context(defaultValue : @core.Any) -> @core.Any = "createContext"
 
 ///|
 /// Use context value
@@ -212,11 +201,8 @@ pub fn[T] use_context(ctx : HonoContext[T]) -> T {
 }
 
 ///|
-extern "js" fn ffi_use_context(ctx : @core.Any) -> @core.Any =
-  #|(ctx) => {
-  #|  const { useContext } = require('hono/jsx');
-  #|  return useContext(ctx);
-  #|}
+#module("hono/jsx")
+extern "js" fn ffi_use_context(ctx : @core.Any) -> @core.Any = "useContext"
 
 ///|
 /// Context Provider
@@ -243,11 +229,8 @@ pub fn raw(html : String) -> JSXNode {
 }
 
 ///|
-extern "js" fn ffi_raw(html : String) -> JSXNode =
-  #|(html) => {
-  #|  const { raw } = require('hono/html');
-  #|  return raw(html);
-  #|}
+#module("hono/html")
+extern "js" fn ffi_raw(html : String) -> JSXNode = "raw"
 
 ///|
 /// HTML tagged template helper result
@@ -269,11 +252,13 @@ pub fn html(template : String) -> HtmlEscapedString {
 }
 
 ///|
-extern "js" fn ffi_html(template : String) -> HtmlEscapedString =
-  #|(template) => {
-  #|  const { html } = require('hono/html');
-  #|  return html([template]);
-  #|}
+#module("hono/html")
+extern "js" fn ffi_html_raw(template : Array[String]) -> HtmlEscapedString = "html"
+
+///|
+fn ffi_html(template : String) -> HtmlEscapedString {
+  ffi_html_raw([template])
+}
 
 ///|
 /// Extend Context with JSX html method

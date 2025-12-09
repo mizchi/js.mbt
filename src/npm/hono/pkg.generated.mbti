@@ -143,7 +143,7 @@ pub fn[Env, ExecutionContext] Hono::fetch(Self[Env, ExecutionContext], @http.Req
 pub fn[Env, ExecutionContext] Hono::fire(Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
 pub fn[Env, ExecutionContext] Hono::get(Self[Env, ExecutionContext], String, async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 pub fn[Env, ExecutionContext] Hono::mount(Self[Env, ExecutionContext], String, Self[Env, ExecutionContext]) -> Self[Env, ExecutionContext]
-pub fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContext]
+pub async fn[Env, ExecutionContext] Hono::new(strict? : Bool) -> Self[Env, ExecutionContext]
 #alias(not_found)
 pub fn[Env, ExecutionContext] Hono::notFound(Self[Env, ExecutionContext], async (Context[Env, ExecutionContext]) -> @http.Response) -> Self[Env, ExecutionContext]
 #alias(on_error)

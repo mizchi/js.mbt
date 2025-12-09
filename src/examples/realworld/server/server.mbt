@@ -286,7 +286,10 @@ fn default_layout(props : LayoutProps) -> @hono.JSXNode {
 // ============ App ============
 
 ///|
-pub fn create_app(db : @sqlite.DatabaseSync, auth : @better_auth.Auth) -> App {
+pub async fn create_app(
+  db : @sqlite.DatabaseSync,
+  auth : @better_auth.Auth,
+) -> App {
   let app : App = @hono.Hono::new()
 
   // Mount better-auth routes

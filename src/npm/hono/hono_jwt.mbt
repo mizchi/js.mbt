@@ -99,6 +99,44 @@ pub struct JwtDecoded {
   payload : @core.Any
 }
 
+///| FFI with #module for ESM
+
+///|
+#module("hono/jwt")
+extern "js" fn ffi_jwt_sign(
+  payload : @core.Any,
+  secret : String,
+) -> @js.Promise[String] = "sign"
+
+///|
+#module("hono/jwt")
+extern "js" fn ffi_jwt_sign_with_alg(
+  payload : @core.Any,
+  secret : String,
+  alg : String,
+) -> @js.Promise[String] = "sign"
+
+///|
+#module("hono/jwt")
+extern "js" fn ffi_jwt_verify(
+  token : String,
+  secret : String,
+) -> @js.Promise[@core.Any] = "verify"
+
+///|
+#module("hono/jwt")
+extern "js" fn ffi_jwt_verify_with_alg(
+  token : String,
+  secret : String,
+  alg : String,
+) -> @js.Promise[@core.Any] = "verify"
+
+///|
+#module("hono/jwt")
+extern "js" fn ffi_jwt_decode(token : String) -> @core.Any = "decode"
+
+///| Public API
+
 ///|
 /// Sign a JWT token
 /// https://hono.dev/docs/helpers/jwt#sign
@@ -125,27 +163,6 @@ pub async fn jwt_sign_payload(
 }
 
 ///|
-extern "js" fn ffi_jwt_sign(
-  payload : @core.Any,
-  secret : String,
-) -> @core.Promise[String] =
-  #|(payload, secret) => {
-  #|  const { sign } = require('hono/jwt');
-  #|  return sign(payload, secret);
-  #|}
-
-///|
-extern "js" fn ffi_jwt_sign_with_alg(
-  payload : @core.Any,
-  secret : String,
-  alg : String,
-) -> @core.Promise[String] =
-  #|(payload, secret, alg) => {
-  #|  const { sign } = require('hono/jwt');
-  #|  return sign(payload, secret, alg);
-  #|}
-
-///|
 /// Verify a JWT token
 /// Returns the payload if valid, throws on invalid token
 /// https://hono.dev/docs/helpers/jwt#verify
@@ -162,37 +179,9 @@ pub async fn jwt_verify(
 }
 
 ///|
-extern "js" fn ffi_jwt_verify(
-  token : String,
-  secret : String,
-) -> @core.Promise[@core.Any] =
-  #|(token, secret) => {
-  #|  const { verify } = require('hono/jwt');
-  #|  return verify(token, secret);
-  #|}
-
-///|
-extern "js" fn ffi_jwt_verify_with_alg(
-  token : String,
-  secret : String,
-  alg : String,
-) -> @core.Promise[@core.Any] =
-  #|(token, secret, alg) => {
-  #|  const { verify } = require('hono/jwt');
-  #|  return verify(token, secret, alg);
-  #|}
-
-///|
 /// Decode a JWT token without verification
 /// https://hono.dev/docs/helpers/jwt#decode
 pub fn jwt_decode(token : String) -> JwtDecoded {
   let result = ffi_jwt_decode(token)
   { header: result["header"], payload: result["payload"] }
 }
-
-///|
-extern "js" fn ffi_jwt_decode(token : String) -> @core.Any =
-  #|(token) => {
-  #|  const { decode } = require('hono/jwt');
-  #|  return decode(token);
-  #|}

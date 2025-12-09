@@ -30,6 +30,8 @@ pub impl CssClassName for CssClass with value(self) {
   self.as_any()
 }
 
+///| FFI
+
 ///|
 /// Get the class name string from CssClass
 pub fn CssClass::to_string(self : CssClass) -> String {
@@ -49,18 +51,37 @@ extern "js" fn ffi_css_to_string(c : @core.Any) -> String =
   #|}
 
 ///|
+/// Note: css() uses tagged template literal syntax internally
+extern "js" fn ffi_css(styles : String) -> @core.Any =
+  #|(styles) => require("hono/css").css([styles])
+
+///|
+/// Note: keyframes() uses tagged template literal syntax internally
+extern "js" fn ffi_keyframes(animation : String) -> @core.Any =
+  #|(animation) => require("hono/css").keyframes([animation])
+
+///|
+/// Note: cx() uses variadic args, need spread
+extern "js" fn ffi_cx(classes : @core.Any) -> @core.Any =
+  #|(classes) => require("hono/css").cx(...classes)
+
+///|
+/// Note: Style is a component
+extern "js" fn ffi_style() -> @core.Any =
+  #|() => require("hono/jsx/jsx-runtime").jsxs(require("hono/css").Style, {})
+
+///|
+extern "js" fn ffi_style_with_nonce(nonce : String) -> @core.Any =
+  #|(nonce) => require("hono/jsx/jsx-runtime").jsxs(require("hono/css").Style, { nonce })
+
+///| Public API
+
+///|
 /// Create a CSS class from a style string
 /// Returns a CssClass that can be used with jsx class attribute
 pub fn css(styles : String) -> CssClass {
   ffi_css(styles).cast()
 }
-
-///|
-extern "js" fn ffi_css(styles : String) -> @core.Any =
-  #|(styles) => {
-  #|  const { css } = require('hono/css');
-  #|  return css([styles]);
-  #|}
 
 ///|
 /// Create keyframes animation
@@ -70,24 +91,10 @@ pub fn keyframes(animation : String) -> CssClass {
 }
 
 ///|
-extern "js" fn ffi_keyframes(animation : String) -> @core.Any =
-  #|(animation) => {
-  #|  const { keyframes } = require('hono/css');
-  #|  return keyframes([animation]);
-  #|}
-
-///|
 /// Combine multiple CSS classes
 pub fn cx(classes : Array[CssClass]) -> CssClass {
   ffi_cx(@core.any(classes.map(fn(c) { c.as_any() }))).cast()
 }
-
-///|
-extern "js" fn ffi_cx(classes : @core.Any) -> @core.Any =
-  #|(classes) => {
-  #|  const { cx } = require('hono/css');
-  #|  return cx(...classes);
-  #|}
 
 ///|
 /// Style component - renders collected CSS in head
@@ -98,19 +105,3 @@ pub fn style_component(nonce? : String) -> JSXNode {
     None => ffi_style().cast()
   }
 }
-
-///|
-extern "js" fn ffi_style() -> @core.Any =
-  #|() => {
-  #|  const { jsxs } = require('hono/jsx/jsx-runtime');
-  #|  const { Style } = require('hono/css');
-  #|  return jsxs(Style, {});
-  #|}
-
-///|
-extern "js" fn ffi_style_with_nonce(nonce : String) -> @core.Any =
-  #|(nonce) => {
-  #|  const { jsxs } = require('hono/jsx/jsx-runtime');
-  #|  const { Style } = require('hono/css');
-  #|  return jsxs(Style, { nonce });
-  #|}

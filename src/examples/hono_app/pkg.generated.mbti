@@ -6,7 +6,7 @@ import(
 )
 
 // Values
-pub fn create_app() -> @hono.Hono[Unit, Unit]
+pub async fn create_app() -> @hono.Hono[Unit, Unit]
 
 // Errors
 

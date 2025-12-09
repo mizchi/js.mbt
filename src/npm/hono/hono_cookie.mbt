@@ -49,6 +49,61 @@ fn build_cookie_options(
   obj
 }
 
+///| FFI with #module for ESM
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_get_cookie(c : @core.Any, name : String) -> @core.Any = "getCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_get_cookie_with_prefix(
+  c : @core.Any,
+  name : String,
+  prefix : String,
+) -> @core.Any = "getCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_get_all_cookies(c : @core.Any) -> @core.Any = "getCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_set_cookie_with_options(
+  c : @core.Any,
+  name : String,
+  value : String,
+  options : @core.Any,
+) -> Unit = "setCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_delete_cookie_with_options(
+  c : @core.Any,
+  name : String,
+  options : @core.Any,
+) -> @core.Any = "deleteCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_get_signed_cookie(
+  c : @core.Any,
+  secret : String,
+  name : String,
+) -> @js.Promise[@core.Any] = "getSignedCookie"
+
+///|
+#module("hono/cookie")
+extern "js" fn ffi_set_signed_cookie_with_options(
+  c : @core.Any,
+  name : String,
+  value : String,
+  secret : String,
+  options : @core.Any,
+) -> @js.Promise[Unit] = "setSignedCookie"
+
+///| Public API
+
 ///|
 /// Get a cookie value by name
 /// https://hono.dev/docs/helpers/cookie#getcookie
@@ -69,24 +124,6 @@ pub fn[Env, ExecutionContext] get_cookie(
 }
 
 ///|
-extern "js" fn ffi_get_cookie(c : @core.Any, name : String) -> @core.Any =
-  #|(c, name) => {
-  #|  const { getCookie } = require('hono/cookie');
-  #|  return getCookie(c, name);
-  #|}
-
-///|
-extern "js" fn ffi_get_cookie_with_prefix(
-  c : @core.Any,
-  name : String,
-  prefix : String,
-) -> @core.Any =
-  #|(c, name, prefix) => {
-  #|  const { getCookie } = require('hono/cookie');
-  #|  return getCookie(c, name, prefix);
-  #|}
-
-///|
 /// Get all cookies as a Map
 pub fn[Env, ExecutionContext] get_all_cookies(
   c : Context[Env, ExecutionContext],
@@ -103,13 +140,6 @@ pub fn[Env, ExecutionContext] get_all_cookies(
   }
   result
 }
-
-///|
-extern "js" fn ffi_get_all_cookies(c : @core.Any) -> @core.Any =
-  #|(c) => {
-  #|  const { getCookie } = require('hono/cookie');
-  #|  return getCookie(c);
-  #|}
 
 ///|
 /// Set a cookie
@@ -145,18 +175,6 @@ pub fn[Env, ExecutionContext] set_cookie(
 }
 
 ///|
-extern "js" fn ffi_set_cookie_with_options(
-  c : @core.Any,
-  name : String,
-  value : String,
-  options : @core.Any,
-) -> Unit =
-  #|(c, name, value, options) => {
-  #|  const { setCookie } = require('hono/cookie');
-  #|  setCookie(c, name, value, options);
-  #|}
-
-///|
 /// Delete a cookie
 /// https://hono.dev/docs/helpers/cookie#deletecookie
 pub fn[Env, ExecutionContext] delete_cookie(
@@ -176,17 +194,6 @@ pub fn[Env, ExecutionContext] delete_cookie(
 }
 
 ///|
-extern "js" fn ffi_delete_cookie_with_options(
-  c : @core.Any,
-  name : String,
-  options : @core.Any,
-) -> @core.Any =
-  #|(c, name, options) => {
-  #|  const { deleteCookie } = require('hono/cookie');
-  #|  return deleteCookie(c, name, options);
-  #|}
-
-///|
 /// Get a signed cookie (async)
 /// https://hono.dev/docs/helpers/cookie#getsignedcookie
 pub async fn[Env, ExecutionContext] get_signed_cookie(
@@ -201,17 +208,6 @@ pub async fn[Env, ExecutionContext] get_signed_cookie(
     Some(result.cast())
   }
 }
-
-///|
-extern "js" fn ffi_get_signed_cookie(
-  c : @core.Any,
-  secret : String,
-  name : String,
-) -> @core.Promise[@core.Any] =
-  #|(c, secret, name) => {
-  #|  const { getSignedCookie } = require('hono/cookie');
-  #|  return getSignedCookie(c, secret, name);
-  #|}
 
 ///|
 /// Set a signed cookie (async)
@@ -246,16 +242,3 @@ pub async fn[Env, ExecutionContext] set_signed_cookie(
   )
   ffi_set_signed_cookie_with_options(c.as_any(), name, value, secret, opts).wait()
 }
-
-///|
-extern "js" fn ffi_set_signed_cookie_with_options(
-  c : @core.Any,
-  name : String,
-  value : String,
-  secret : String,
-  options : @core.Any,
-) -> @core.Promise[Unit] =
-  #|(c, name, value, secret, options) => {
-  #|  const { setSignedCookie } = require('hono/cookie');
-  #|  return setSignedCookie(c, name, value, secret, options);
-  #|}

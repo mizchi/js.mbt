@@ -130,7 +130,7 @@ fn get_current_user(c : Ctx) -> String? {
 
 ///|
 /// Create the Hono application
-pub fn create_app() -> App {
+pub async fn create_app() -> App {
   let app : App = @hono.Hono::new()
   // Apply CORS middleware to API routes only
   app.cors("/api/*", origin="*") |> ignore
@@ -304,7 +304,7 @@ extern "js" fn ffi_serve(app : @core.Any, port : Int) -> Unit =
   #|}
 
 ///|
-fn main {
+async fn main {
   let app = create_app()
   let port = 3000
   println("Starting Hono server on port " + port.to_string() + "...")

@@ -13,43 +13,38 @@ pub fn[Env, ExecutionContext] Hono::as_any(
   self : Hono[Env, ExecutionContext],
 ) -> @core.Any = "%identity"
 
-///|
-/// Create a new Hono instance without options
-/// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono() -> @core.Any =
-  #| () => {
-  #|   const { Hono } = require('hono');
-  #|   return new Hono();
-  #| }
+///| FFI with dynamic import for ESM
 
 ///|
-/// Create a new Hono instance with options
-/// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono_with_options(options : @core.Any) -> @core.Any =
-  #| (options) => {
-  #|   const { Hono } = require('hono');
-  #|   return new Hono(options);
-  #| }
+/// Create a new Hono instance without options (async)
+extern "js" fn ffi_new_hono_async() -> @js.Promise[@core.Any] =
+  #| () => import("hono").then(m => new m.Hono())
 
 ///|
-/// Build Hono options object
-extern "js" fn build_hono_options(strict : Bool) -> @core.Any =
-  #| (strict) => {
-  #|   return { strict };
-  #| }
+/// Create a new Hono instance with options (async)
+extern "js" fn ffi_new_hono_with_options_async(
+  options : @core.Any,
+) -> @js.Promise[@core.Any] =
+  #| (options) => import("hono").then(m => new m.Hono(options))
 
 ///|
-/// Create a new Hono instance
+/// Create a new Hono instance (async)
 /// Example with strict mode disabled:
 /// ```moonbit no-check
-/// let app = Hono::new(strict=false)
+/// let app = Hono::new()
+///
+/// let app_strict = Hono::new(strict=false)
 /// ```
-pub fn[Env, ExecutionContext] Hono::new(
+pub async fn[Env, ExecutionContext] Hono::new(
   strict? : Bool,
 ) -> Hono[Env, ExecutionContext] {
   match strict {
-    Some(s) => ffi_new_hono_with_options(build_hono_options(s)).cast()
-    None => ffi_new_hono().cast()
+    Some(s) => {
+      let options = @core.new_object()
+      options["strict"] = @core.any(s)
+      ffi_new_hono_with_options_async(options).wait().cast()
+    }
+    None => ffi_new_hono_async().wait().cast()
   }
 }
 

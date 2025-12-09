@@ -59,8 +59,8 @@ extern "js" fn ffi_test(ig : Ignore, pathname : String) -> TestResult =
   #| (ig, pathname) => ig.test(pathname)
 
 ///|
-extern "js" fn ffi_is_path_valid(pathname : String) -> Bool =
-  #| (pathname) => require('ignore').isPathValid(pathname)
+#module("ignore")
+extern "js" fn ffi_is_path_valid(pathname : String) -> Bool = "isPathValid"
 
 ///| TestResult accessors
 

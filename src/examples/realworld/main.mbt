@@ -3,7 +3,7 @@
 /// A TODO app with user authentication
 
 ///|
-fn main {
+async fn main {
   let db = @server.init_db()
   let auth = @server.create_auth(db)
   let app = @server.create_app(db, auth)

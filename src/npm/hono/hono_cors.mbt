@@ -10,6 +10,14 @@ pub type CorsMiddleware
 ///|
 pub fn CorsMiddleware::as_any(self : CorsMiddleware) -> @core.Any = "%identity"
 
+///| FFI with #module for ESM
+
+///|
+#module("hono/cors")
+extern "js" fn ffi_cors_with_options(options : @core.Any) -> @core.Any = "cors"
+
+///| Public API
+
 ///|
 fn build_cors_options(
   origin? : String,
@@ -63,13 +71,6 @@ pub fn cors(
     ),
   ).cast()
 }
-
-///|
-extern "js" fn ffi_cors_with_options(options : @core.Any) -> @core.Any =
-  #|(options) => {
-  #|  const { cors } = require('hono/cors');
-  #|  return cors(options);
-  #|}
 
 ///|
 /// Apply CORS middleware to Hono app for a specific path

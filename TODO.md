@@ -53,7 +53,10 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [x] semver - version parsing
   - Note: `max`, `min` (array spread needed) still use require()
 - [x] date_fns - date utilities
-- [ ] hono - **Blocked**: `new Hono()` class constructor cannot use #module
+- [x] hono - ESM with dynamic import for `new Hono()`, `#module` for helpers
+  - Note: `Hono::new()` is now async, uses `import("hono").then(m => new m.Hono())`
+  - Note: `hono/cookie`, `hono/cors`, `hono/jwt`, `hono/testing`, `hono/client` use `#module`
+  - Note: `hono/jsx` and `hono/html` still use require() for JSX processing (complex children handling)
 - [ ] jose - **Blocked**: `new SignJWT()` class constructor cannot use #module
 - [ ] pino - **Blocked**: `pino()` factory function, uses inline require()
 - [ ] debug - **Blocked**: `debug()` factory function, uses inline require()
@@ -123,3 +126,20 @@ $PanicError
 - [ ] Fix JWS compact sign implementation (payload should be Uint8Array)
 - [ ] Fix JWE compact encrypt implementation
 - [ ] Re-enable commented tests after async driver issue is resolved
+
+### Flaky tests with NEW_MOON=0 (2025-12-09)
+
+**Problem**: Running `NEW_MOON=0 moon test` occasionally fails with PanicError in async driver:
+
+**Error**:
+```
+$PanicError
+    at $bytes_literal$0 (/Users/mizchi/.moon/lib/core/builtin/hasher.mbt:1:1)
+    at *async_driver (/Users/mizchi/mizchi/js.mbt/src/core/promise.mbt:322:3)
+```
+
+**Note**: This appears to be a flaky test issue, not consistently reproducible. The error originates from the async driver in `src/core/promise.mbt:322`.
+
+**TODO**:
+- [ ] Identify which specific tests are flaky
+- [ ] Investigate async driver stability with legacy moon runtime

@@ -8,7 +8,7 @@ import(
 )
 
 // Values
-pub fn create_app(@sqlite.DatabaseSync, @better_auth.Auth) -> @hono.Hono[Unit, Unit]
+pub async fn create_app(@sqlite.DatabaseSync, @better_auth.Auth) -> @hono.Hono[Unit, Unit]
 
 pub fn create_auth(@sqlite.DatabaseSync) -> @better_auth.Auth
 

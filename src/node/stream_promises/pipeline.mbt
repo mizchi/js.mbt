@@ -6,11 +6,8 @@ extern "js" fn ffi_stream_promises_pipeline(streams : @core.Any) -> @core.Any =
   #| }
 
 ///|
-extern "js" fn ffi_stream_promises_finished(stream : @core.Any) -> @core.Any =
-  #| (stream) => {
-  #|   const { finished } = require('node:stream/promises');
-  #|   return finished(stream);
-  #| }
+#module("node:stream/promises")
+extern "js" fn ffi_stream_promises_finished(stream : @core.Any) -> @core.Any = "finished"
 
 ///|
 pub async fn pipeline(streams : Array[@core.Any]) -> @stream.Stream {

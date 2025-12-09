@@ -14,6 +14,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/hono"
+    "mizchi/js/npm/hono",
+    "moonbitlang/async"
   ]
 }
