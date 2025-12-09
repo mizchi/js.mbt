@@ -16,8 +16,6 @@ pub fn[T] computedWritable(() -> T, (T) -> Unit) -> Ref[T]
 
 pub fn createApp(@core.Any, props? : @core.Any) -> @core.Any
 
-pub async fn dynamic_import() -> Unit
-
 pub fn fragment(Array[&VueNode], key? : String) -> VNode
 
 #alias(get_current_instance)
@@ -25,8 +23,14 @@ pub fn getCurrentInstance() -> @core.Any?
 
 pub fn h(String, Array[&VueNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
 
+pub fn init_fragment(@core.Any) -> Unit
+
+pub async fn init_global() -> Unit
+
+#deprecated
 pub fn init_vue_api(@core.Any, global_key? : String) -> Unit
 
+#deprecated
 pub fn init_vue_ssr(@core.Any) -> Unit
 
 pub fn[T] inject(String, default_value? : T) -> T

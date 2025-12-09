@@ -1,9 +1,9 @@
 ///|
-/// Initialize the Vue API and store it in globalThis.__VueApi
-/// Node.js: globalThis.__VueApi = require('vue')
-pub fn init_vue_api(vue : @core.Any, global_key? : String = "__VueApi") -> Unit {
-  if @core.is_nullish(@global.global_this()._get(global_key)) {
-    @global.global_this()._set(global_key, vue)
+/// Initialize the Vue Fragment symbol
+/// Required for fragment() function since #module cannot import symbols
+pub fn init_fragment(vue_module : @core.Any) -> Unit {
+  if @core.is_nullish(@global.global_this()._get("__VueFragment")) {
+    @global.global_this()._set("__VueFragment", vue_module._get("Fragment"))
   }
 }
 
@@ -13,10 +13,18 @@ extern "js" fn import_vue() -> @js.Promise[@core.Any] =
   #|() => import("vue")
 
 ///|
-/// Dynamic import and initialize Vue API asynchronously
-pub async fn dynamic_import() -> Unit {
-  if @core.is_nullish(@global.global_this()._get("__VueApi")) {
+/// Dynamic import and initialize Vue Fragment asynchronously
+pub async fn init_global() -> Unit {
+  if @core.is_nullish(@global.global_this()._get("__VueFragment")) {
     let vue : @core.Any = import_vue().wait()
-    init_vue_api(vue)
+    init_fragment(vue)
   }
+}
+
+///|
+/// Deprecated - use init_fragment instead
+#deprecated("Use init_fragment instead")
+pub fn init_vue_api(vue : @core.Any, global_key? : String = "__VueApi") -> Unit {
+  ignore(global_key)
+  init_fragment(vue)
 }
