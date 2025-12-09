@@ -214,19 +214,6 @@ pub fn Display::to_string(self : Display) -> String {
 // ============================================================
 
 ///|
-/// Wrap children with auto-generated keys for React lists
-extern "js" fn ffi_with_auto_keys(children : @core.Any) -> @core.Any =
-  #| (children) => {
-  #|   const React = require('react');
-  #|   if (!Array.isArray(children)) return children;
-  #|   return children.map((child, i) =>
-  #|     React.isValidElement(child) && child.key == null
-  #|       ? React.cloneElement(child, { key: `auto-${i}` })
-  #|       : child
-  #|   );
-  #| }
-
-///|
 extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @core.Any =
   #|(f) => f
 
@@ -294,8 +281,12 @@ pub fn Ink::text(
   if wrap is Some(w) {
     props["wrap"] = @core.any(w.to_string())
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  props["children"] = ffi_with_auto_keys(children_arr)
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
   @react.createElementRaw(
     text_component,
     props,
@@ -487,8 +478,12 @@ pub fn Ink::box_(
   if row_gap is Some(g) {
     props["rowGap"] = @core.any(g)
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  props["children"] = ffi_with_auto_keys(children_arr)
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
   @react.createElementRaw(
     box_component,
     props,
@@ -526,8 +521,12 @@ pub fn Ink::static_(
   if items is Some(i) {
     props["items"] = @core.any(i)
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  props["children"] = ffi_with_auto_keys(children_arr)
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
   @react.createElementRaw(
     static_component,
     props,
@@ -546,8 +545,12 @@ pub fn Ink::transform(
   let props = @core.new_object()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
   props["transform"] = wrapped_fn
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  props["children"] = ffi_with_auto_keys(children_arr)
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
   @react.createElementRaw(
     transform_component,
     props,
