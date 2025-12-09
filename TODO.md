@@ -34,12 +34,15 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
   - Note: Class static methods and variadic functions still use require()
 - [x] node:inspector - close, url, waitForDebugger
   - Note: Session class and open() (optional args) still use require()
+- [x] node:url - fileURLToPath, pathToFileURL, urlToHttpOptions, format
+  - Note: Functions with windows? option still use require()
+- [x] node:vm - isContext
+  - Note: Script class and functions with many optional args still use require()
 - [ ] node:buffer - **Blocked**: Buffer class static methods
 - [ ] node:http - **Blocked**: All functions have callbacks/optional args
 - [ ] node:sqlite - **Blocked**: Database class constructor
-- [ ] node:vm - runInContext, Script, etc.
 - [ ] node:child_process - exec, spawn, etc.
-- [ ] node:url - URL, URLSearchParams
+- [ ] node:crypto - randomBytes, createHash, etc. (if exists)
 
 ### npm Libraries (High/Medium Priority)
 
