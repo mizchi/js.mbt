@@ -7,9 +7,49 @@ import(
 )
 
 // Values
+pub fn box_(Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
+
+pub fn box_component() -> @core.Any
+
 pub async fn dynamic_import() -> Ink
 
 pub async fn dynamic_import_testing_library() -> InkTestingLibrary
+
+pub fn newline(count? : Int) -> @react.Element
+
+pub fn newline_component() -> @core.Any
+
+pub fn render(@react.Element, stdout? : @core.Any, stdin? : @core.Any, stderr? : @core.Any, debug? : Bool, exitOnCtrlC? : Bool, patchConsole? : Bool, incrementalRendering? : Bool, maxFps? : Int, onRender? : () -> Unit) -> InkInstance
+
+pub fn spacer() -> @react.Element
+
+pub fn spacer_component() -> @core.Any
+
+pub fn static_(Array[&@react.ReactNode], items? : Array[@core.Any]) -> @react.Element
+
+pub fn static_component() -> @core.Any
+
+pub fn text(Array[&@react.ReactNode], color? : String, background_color? : String, bold? : Bool, italic? : Bool, underline? : Bool, strikethrough? : Bool, inverse? : Bool, dim_color? : Bool, wrap? : TextWrap) -> @react.Element
+
+pub fn text_component() -> @core.Any
+
+pub fn transform(Array[&@react.ReactNode], (String) -> String) -> @react.Element
+
+pub fn transform_component() -> @core.Any
+
+pub fn useApp() -> AppContext
+
+pub fn useFocus(autoFocus? : Bool, isActive? : Bool, id? : String) -> FocusContext
+
+pub fn useFocusManager() -> FocusManager
+
+pub fn useInput((String, InputInfo) -> Unit, isActive? : Bool) -> Unit
+
+pub fn useStderr() -> StderrContext
+
+pub fn useStdin() -> StdinContext
+
+pub fn useStdout() -> StdoutContext
 
 // Errors
 
@@ -30,6 +70,11 @@ pub(all) enum AlignSelf {
   Stretch
 }
 pub fn AlignSelf::to_string(Self) -> String
+
+#external
+pub type AppContext
+pub fn AppContext::as_any(Self) -> @core.Any
+pub fn AppContext::exit(Self, error? : @core.Any) -> Unit
 
 pub(all) enum BorderStyle {
   Single
@@ -65,6 +110,18 @@ pub(all) enum FlexWrapMode {
 pub fn FlexWrapMode::to_string(Self) -> String
 
 #external
+pub type FocusContext
+pub fn FocusContext::as_any(Self) -> @core.Any
+pub fn FocusContext::isFocused(Self) -> Bool
+
+#external
+pub type FocusManager
+pub fn FocusManager::as_any(Self) -> @core.Any
+pub fn FocusManager::focus(Self, String) -> Unit
+pub fn FocusManager::focusNext(Self) -> Unit
+pub fn FocusManager::focusPrevious(Self) -> Unit
+
+#external
 pub type Ink
 pub fn Ink::as_any(Self) -> @core.Any
 pub fn Ink::box_(Self, Array[&@react.ReactNode], width? : Int, height? : Int, min_width? : Int, min_height? : Int, padding? : Int, padding_x? : Int, padding_y? : Int, padding_top? : Int, padding_bottom? : Int, padding_left? : Int, padding_right? : Int, margin? : Int, margin_x? : Int, margin_y? : Int, margin_top? : Int, margin_bottom? : Int, margin_left? : Int, margin_right? : Int, flex_direction? : FlexDirection, flex_grow? : Int, flex_shrink? : Int, flex_basis? : Int, flex_wrap? : FlexWrapMode, justify_content? : JustifyContent, align_items? : AlignItems, align_self? : AlignSelf, border_style? : BorderStyle, border_color? : String, border_top? : Bool, border_bottom? : Bool, border_left? : Bool, border_right? : Bool, border_top_color? : String, border_bottom_color? : String, border_left_color? : String, border_right_color? : String, overflow? : Overflow, display? : Display, gap? : Int, column_gap? : Int, row_gap? : Int) -> @react.Element
@@ -94,6 +151,10 @@ pub async fn InkInstance::waitUntilExit(Self) -> Unit
 pub type InkTestingLibrary
 pub fn InkTestingLibrary::as_any(Self) -> @core.Any
 pub fn InkTestingLibrary::render(Self, @react.Element) -> RenderResult
+
+#external
+pub type InputInfo
+pub fn InputInfo::as_any(Self) -> @core.Any
 
 pub(all) enum JustifyContent {
   FlexStart
@@ -139,10 +200,29 @@ pub fn RenderResult::stdin(Self) -> StdinMock
 pub fn RenderResult::stdout(Self) -> StreamOutput
 pub fn RenderResult::unmount(Self) -> Unit
 
+#external
+pub type StderrContext
+pub fn StderrContext::as_any(Self) -> @core.Any
+pub fn StderrContext::stderr(Self) -> @core.Any
+pub fn StderrContext::write(Self, String) -> Unit
+
+#external
+pub type StdinContext
+pub fn StdinContext::as_any(Self) -> @core.Any
+pub fn StdinContext::isRawModeSupported(Self) -> Bool
+pub fn StdinContext::setRawMode(Self, Bool) -> Unit
+pub fn StdinContext::stdin(Self) -> @core.Any
+
 pub(all) struct StdinMock {
   raw : @core.Any
 }
 pub fn StdinMock::write(Self, String) -> Unit
+
+#external
+pub type StdoutContext
+pub fn StdoutContext::as_any(Self) -> @core.Any
+pub fn StdoutContext::stdout(Self) -> @core.Any
+pub fn StdoutContext::write(Self, String) -> Unit
 
 pub(all) struct StreamOutput {
   raw : @core.Any
