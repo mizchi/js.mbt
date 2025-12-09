@@ -40,7 +40,6 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] node:vm - runInContext, Script, etc.
 - [ ] node:child_process - exec, spawn, etc.
 - [ ] node:url - URL, URLSearchParams
-- [ ] node:crypto - randomBytes, createHash, etc. (if exists)
 
 ### npm Libraries (High/Medium Priority)
 

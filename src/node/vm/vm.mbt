@@ -1,5 +1,16 @@
+///| node:vm module bindings
+/// https://nodejs.org/api/vm.html
+
+// Simple functions with #module
+
 ///|
-/// node:vm module
+/// Check if object is a context
+#module("node:vm")
+pub extern "js" fn isContext(object : @core.Any) -> Bool = "isContext"
+
+// Functions with optional args need inline require()
+
+///|
 extern "js" fn vm_module() -> @core.Any =
   #| () => require("node:vm")
 
@@ -9,7 +20,7 @@ extern "js" fn vm_module() -> @core.Any =
 /// These APIs will be added once they are stabilized.
 /// See: https://nodejs.org/api/vm.html#class-vmmodule
 
-///| Script clasqs
+///| Script class
 
 ///|
 #external
@@ -17,9 +28,6 @@ pub type Script
 
 ///|
 pub fn Script::as_any(self : Script) -> @core.Any = "%identity"
-
-///|
-/// Note: Keep JsImpl for backward compatibility with code expecting &JsImpl
 
 ///|
 /// Create a new Script object
@@ -354,13 +362,6 @@ pub fn createContext(
       @core.any(vm)._call("createContext", [@core.any(ctx), options]).cast()
     None => @core.any(vm)._call("createContext", [options]).cast()
   }
-}
-
-///|
-/// Check if object is a context
-pub fn isContext(object : @core.Any) -> Bool {
-  let vm = vm_module()
-  @core.any(vm)._call("isContext", [@core.any(object)]).cast()
 }
 
 ///|
