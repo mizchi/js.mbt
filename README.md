@@ -2,6 +2,10 @@
 
 Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
+v0.9 use nightly featuers to use #module
+If you want to keep stabel, use v0.8
+
+
 ## Installation
 
 ```bash
