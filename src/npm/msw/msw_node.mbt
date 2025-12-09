@@ -3,9 +3,17 @@
 /// https://mswjs.io/docs/api/setup-server
 ///
 /// Node.js specific functionality for MSW testing.
-/// Use SetupServer for mocking in Node.js environments.
+/// Use MswNode for mocking in Node.js environments.
 
 ///| Node.js Server Types
+
+///|
+/// MSW Node module instance containing setupServer
+#external
+pub type MswNode
+
+///|
+pub fn MswNode::as_any(self : MswNode) -> @core.Any = "%identity"
 
 ///|
 /// Mock server instance (Node.js)
@@ -19,35 +27,18 @@ pub fn SetupServer::as_any(self : SetupServer) -> @core.Any = "%identity"
 
 ///|
 /// Dynamic import for msw/node module
-extern "js" fn import_msw_node() -> @core.Promise[@core.Any] =
+extern "js" fn ffi_import_msw_node() -> @core.Promise[@core.Any] =
   #|() => import("msw/node")
 
 ///|
-/// Initialize msw/node globals (setupServer)
-/// Must be called before using setupServer
-pub async fn init_node_global() -> Unit {
-  if @core.is_nullish(get_setup_server()) {
-    let msw_node : @core.Any = import_msw_node().wait()
-    ffi_set_msw_node_globals(msw_node._get("setupServer"))
-  }
+/// Import msw/node module and return MswNode instance
+pub async fn import_msw_node() -> MswNode {
+  ffi_import_msw_node().wait().cast()
 }
 
 ///|
-/// Initialize msw/node globals synchronously using require() (for testing in Node.js)
-pub extern "js" fn init_msw_node(msw_node : @core.Any) -> Unit =
-  #|(msw_node) => {
-  #|  globalThis.__msw_setupServer = msw_node.setupServer;
-  #|}
-
-///|
-extern "js" fn ffi_set_msw_node_globals(setup_server : @core.Any) -> Unit =
-  #|(ss) => {
-  #|  globalThis.__msw_setupServer = ss;
-  #|}
-
-///|
-extern "js" fn get_setup_server() -> @core.Any =
-  #|() => globalThis.__msw_setupServer
+extern "js" fn get_setup_server_fn(msw_node : MswNode) -> @core.Any =
+  #|(msw_node) => msw_node.setupServer
 
 ///|
 extern "js" fn call_setup_server(
@@ -59,16 +50,6 @@ extern "js" fn call_setup_server(
 ///|
 extern "js" fn call_setup_server_empty(setup_server : @core.Any) -> SetupServer =
   #| (ss) => ss()
-
-///|
-fn ffi_setup_server(handlers : @core.Any) -> SetupServer {
-  call_setup_server(get_setup_server(), handlers)
-}
-
-///|
-fn ffi_setup_server_empty() -> SetupServer {
-  call_setup_server_empty(get_setup_server())
-}
 
 ///|
 pub extern "js" fn server_listen(
@@ -111,17 +92,26 @@ extern "js" fn ffi_server_restore_handlers(server : SetupServer) -> Unit =
 extern "js" fn ffi_server_list_handlers(server : SetupServer) -> @core.Any =
   #| (server) => server.listHandlers()
 
-///| Server Methods
+///| MswNode Methods
 
 ///|
 /// Setup mock server with handlers
-pub fn setupServer(handlers : Array[RequestHandler]) -> SetupServer {
+pub fn MswNode::setupServer(
+  self : MswNode,
+  handlers : Array[RequestHandler],
+) -> SetupServer {
+  let setup_server_fn = get_setup_server_fn(self)
   if handlers.length() == 0 {
-    ffi_setup_server_empty()
+    call_setup_server_empty(setup_server_fn)
   } else {
-    ffi_setup_server(@core.any(handlers.map(fn(h) { h.as_any() })))
+    call_setup_server(
+      setup_server_fn,
+      @core.any(handlers.map(fn(h) { h.as_any() })),
+    )
   }
 }
+
+///| SetupServer Methods
 
 ///|
 /// Start listening for requests

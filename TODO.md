@@ -61,7 +61,8 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] pino - **Blocked**: `pino()` factory function, uses inline require()
 - [ ] debug - **Blocked**: `debug()` factory function, uses inline require()
 - [ ] chalk - **Blocked**: `chalk.red()` etc. are method calls on object, uses inline require()
-- [ ] msw - mock service worker
+- [x] msw - mock service worker, uses `import("msw")` pattern for browser compatibility
+  - Note: All `require()` calls removed, uses dynamic import for `init_global()`, `init_node_global()`, `init_browser_global()`
 - [ ] vite - build tool
 - [ ] vitest - test runner
 - [ ] drizzle - database ORM

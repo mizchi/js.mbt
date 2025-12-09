@@ -2,9 +2,17 @@
 /// MSW (Mock Service Worker) bindings for MoonBit
 /// https://mswjs.io/
 ///
-/// API mocking library for Node.js testing.
+/// API mocking library for browser and Node.js testing.
 
 ///| Types
+
+///|
+/// MSW module instance containing http and HttpResponse
+#external
+pub type Msw
+
+///|
+pub fn Msw::as_any(self : Msw) -> @core.Any = "%identity"
 
 ///|
 /// Request handler
@@ -54,48 +62,28 @@ pub(all) struct ResponseResolverInfo {
 ///|
 pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @core.Any = "%identity"
 
-///| HTTP Handler FFI
+///| MSW Import
 
 ///|
 /// Dynamic import for msw module
-extern "js" fn import_msw() -> @core.Promise[@core.Any] =
+extern "js" fn ffi_import_msw() -> @core.Promise[@core.Any] =
   #|() => import("msw")
 
 ///|
-/// Initialize msw globals (http and HttpResponse)
-/// Must be called before using any msw functions
-pub async fn init_global() -> Unit {
-  if @core.is_nullish(get_http()) {
-    let msw : @core.Any = import_msw().wait()
-    ffi_set_msw_globals(msw._get("http"), msw._get("HttpResponse"))
-  }
+/// Import msw module and return Msw instance
+pub async fn import_msw() -> Msw {
+  ffi_import_msw().wait().cast()
 }
 
-///|
-/// Initialize msw globals synchronously using require() (for testing in Node.js)
-pub extern "js" fn init_msw(msw : @core.Any) -> Unit =
-  #|(msw) => {
-  #|  globalThis.__msw_http = msw.http;
-  #|  globalThis.__msw_HttpResponse = msw.HttpResponse;
-  #|}
+///| HTTP Handler FFI
 
 ///|
-extern "js" fn ffi_set_msw_globals(
-  http : @core.Any,
-  http_response : @core.Any,
-) -> Unit =
-  #|(http, hr) => {
-  #|  globalThis.__msw_http = http;
-  #|  globalThis.__msw_HttpResponse = hr;
-  #|}
+extern "js" fn get_http(msw : Msw) -> @core.Any =
+  #|(msw) => msw.http
 
 ///|
-extern "js" fn get_http() -> @core.Any =
-  #|() => globalThis.__msw_http
-
-///|
-extern "js" fn get_http_response() -> @core.Any =
-  #|() => globalThis.__msw_HttpResponse
+extern "js" fn get_http_response(msw : Msw) -> @core.Any =
+  #|(msw) => msw.HttpResponse
 
 ///|
 extern "js" fn call_http_method(
@@ -105,70 +93,6 @@ extern "js" fn call_http_method(
   resolver : @core.Any,
 ) -> RequestHandler =
   #| (http, method_name, path, resolver) => http[method_name](path, resolver)
-
-///|
-fn ffi_http_get(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "get", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_post(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "post", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_put(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "put", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_patch(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "patch", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_delete(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "delete", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_options(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "options", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_head(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "head", path, resolver |> @core.identity)
-}
-
-///|
-fn ffi_http_all(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  call_http_method(get_http(), "all", path, resolver |> @core.identity)
-}
 
 ///| HTTP Response FFI
 
@@ -191,8 +115,99 @@ extern "js" fn call_http_response_error(
 ) -> HttpResponse =
   #| (hr) => hr.error()
 
+///| Msw Methods - HTTP Handlers
+
 ///|
-pub fn http_response_json(
+/// Create GET request handler
+pub fn Msw::httpGet(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "get", path, resolver |> @core.identity)
+}
+
+///|
+/// Create POST request handler
+pub fn Msw::httpPost(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "post", path, resolver |> @core.identity)
+}
+
+///|
+/// Create PUT request handler
+pub fn Msw::httpPut(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "put", path, resolver |> @core.identity)
+}
+
+///|
+/// Create PATCH request handler
+pub fn Msw::httpPatch(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "patch", path, resolver |> @core.identity)
+}
+
+///|
+/// Create DELETE request handler
+pub fn Msw::httpDelete(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "delete", path, resolver |> @core.identity)
+}
+
+///|
+/// Create OPTIONS request handler
+pub fn Msw::httpOptions(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "options", path, resolver |> @core.identity)
+}
+
+///|
+/// Create HEAD request handler
+pub fn Msw::httpHead(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "head", path, resolver |> @core.identity)
+}
+
+///|
+/// Create handler for all HTTP methods
+pub fn Msw::httpAll(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "all", path, resolver |> @core.identity)
+}
+
+///| Msw Methods - HTTP Responses
+
+///|
+/// Create JSON response
+///
+/// # Options
+/// - `status`: HTTP status code (e.g., 200, 404)
+/// - `statusText`: HTTP status text (e.g., "OK", "Not Found")
+/// - `headers`: Response headers as an object
+pub fn Msw::jsonResponse(
+  self : Msw,
   body : @core.Any,
   status? : Int,
   statusText? : String,
@@ -208,11 +223,18 @@ pub fn http_response_json(
   if headers is Some(h) {
     init._set("headers", h)
   }
-  call_http_response_method(get_http_response(), "json", body, init)
+  call_http_response_method(get_http_response(self), "json", body, init)
 }
 
 ///|
-pub fn http_response_text(
+/// Create text response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::textResponse(
+  self : Msw,
   body : String,
   status? : Int,
   statusText? : String,
@@ -229,7 +251,7 @@ pub fn http_response_text(
     init._set("headers", h)
   }
   call_http_response_method(
-    get_http_response(),
+    get_http_response(self),
     "text",
     body |> @core.any,
     init,
@@ -237,27 +259,14 @@ pub fn http_response_text(
 }
 
 ///|
-pub fn http_response_xml(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  let init = @core.new_object()
-  if status is Some(s) {
-    init._set("status", s |> @core.any)
-  }
-  if statusText is Some(st) {
-    init._set("statusText", st |> @core.any)
-  }
-  if headers is Some(h) {
-    init._set("headers", h)
-  }
-  call_http_response_method(get_http_response(), "xml", body |> @core.any, init)
-}
-
-///|
-pub fn http_response_html(
+/// Create XML response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::xmlResponse(
+  self : Msw,
   body : String,
   status? : Int,
   statusText? : String,
@@ -274,7 +283,39 @@ pub fn http_response_html(
     init._set("headers", h)
   }
   call_http_response_method(
-    get_http_response(),
+    get_http_response(self),
+    "xml",
+    body |> @core.any,
+    init,
+  )
+}
+
+///|
+/// Create HTML response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::htmlResponse(
+  self : Msw,
+  body : String,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(self),
     "html",
     body |> @core.any,
     init,
@@ -282,7 +323,14 @@ pub fn http_response_html(
 }
 
 ///|
-pub fn http_response_array_buffer(
+/// Create array buffer response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::arrayBufferResponse(
+  self : Msw,
   body : @core.Any,
   status? : Int,
   statusText? : String,
@@ -298,12 +346,50 @@ pub fn http_response_array_buffer(
   if headers is Some(h) {
     init._set("headers", h)
   }
-  call_http_response_method(get_http_response(), "arrayBuffer", body, init)
+  call_http_response_method(get_http_response(self), "arrayBuffer", body, init)
 }
 
 ///|
-pub fn http_response_error() -> HttpResponse {
-  call_http_response_error(get_http_response())
+/// Create network error response
+pub fn Msw::errorResponse(self : Msw) -> HttpResponse {
+  call_http_response_error(get_http_response(self))
+}
+
+///| Msw Methods - Convenience builders
+
+///|
+/// Create a simple JSON GET handler
+pub fn Msw::mockGet(
+  self : Msw,
+  path : String,
+  response_body : @core.Any,
+) -> RequestHandler {
+  self.httpGet(path, fn(_info) { self.jsonResponse(response_body) })
+}
+
+///|
+/// Create a simple JSON POST handler
+pub fn Msw::mockPost(
+  self : Msw,
+  path : String,
+  response_body : @core.Any,
+) -> RequestHandler {
+  self.httpPost(path, fn(_info) { self.jsonResponse(response_body) })
+}
+
+///|
+/// Create a handler that returns an error status
+pub fn Msw::mockError(
+  self : Msw,
+  path : String,
+  status : Int,
+  message : String,
+) -> RequestHandler {
+  self.httpGet(path, fn(_info) {
+    let body = @core.new_object()
+    body["error"] = @core.any(message)
+    self.jsonResponse(body, status~)
+  })
 }
 
 ///| Request/Response Info FFI
@@ -330,168 +416,6 @@ pub extern "js" fn request_json(
 ///|
 pub extern "js" fn request_text(request : @core.Any) -> @core.Promise[String] =
   #| (request) => request.text()
-
-///| HTTP Handler Methods
-
-///|
-/// Create GET request handler
-pub fn httpGet(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_get(path, resolver)
-}
-
-///|
-/// Create POST request handler
-pub fn httpPost(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_post(path, resolver)
-}
-
-///|
-/// Create PUT request handler
-pub fn httpPut(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_put(path, resolver)
-}
-
-///|
-/// Create PATCH request handler
-pub fn httpPatch(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_patch(path, resolver)
-}
-
-///|
-/// Create DELETE request handler
-pub fn httpDelete(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_delete(path, resolver)
-}
-
-///|
-/// Create OPTIONS request handler
-pub fn httpOptions(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_options(path, resolver)
-}
-
-///|
-/// Create HEAD request handler
-pub fn httpHead(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_head(path, resolver)
-}
-
-///|
-/// Create handler for all HTTP methods
-pub fn httpAll(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_all(path, resolver)
-}
-
-///| HTTP Response Methods
-
-///|
-/// Create JSON response
-///
-/// # Options
-/// - `status`: HTTP status code (e.g., 200, 404)
-/// - `statusText`: HTTP status text (e.g., "OK", "Not Found")
-/// - `headers`: Response headers as an object
-pub fn jsonResponse(
-  body : @core.Any,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_json(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create text response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn textResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_text(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create XML response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn xmlResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_xml(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create HTML response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn htmlResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_html(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create array buffer response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn arrayBufferResponse(
-  body : @core.Any,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_array_buffer(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create network error response
-pub fn errorResponse() -> HttpResponse {
-  http_response_error()
-}
 
 ///| ResponseResolverInfo Methods
 
@@ -558,32 +482,4 @@ pub fn ResponseResolverInfo::getParam(
   name : String,
 ) -> String {
   self.params[name].cast()
-}
-
-///| Convenience builders
-
-///|
-/// Create a simple JSON GET handler
-pub fn mockGet(path : String, response_body : @core.Any) -> RequestHandler {
-  httpGet(path, fn(_info) { jsonResponse(response_body) })
-}
-
-///|
-/// Create a simple JSON POST handler
-pub fn mockPost(path : String, response_body : @core.Any) -> RequestHandler {
-  httpPost(path, fn(_info) { jsonResponse(response_body) })
-}
-
-///|
-/// Create a handler that returns an error status
-pub fn mockError(
-  path : String,
-  status : Int,
-  message : String,
-) -> RequestHandler {
-  httpGet(path, fn(_info) {
-    let body = @core.new_object()
-    body["error"] = @core.any(message)
-    jsonResponse(body, status~)
-  })
 }

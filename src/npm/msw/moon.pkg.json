@@ -3,6 +3,6 @@
     "mizchi/js/core"
   ],
   "test-import": [
-    "mizchi/js/node"
+    "moonbitlang/async"
   ]
 }
