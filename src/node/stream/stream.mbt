@@ -1,7 +1,37 @@
 ///|
-/// node:stream
+/// node:stream (kept for class static methods and variadic functions)
 extern "js" fn stream_module() -> @core.Any =
   #| () => require("node:stream")
+
+///|
+#module("node:stream")
+extern "js" fn internal_add_abort_signal(
+  signal : @core.Any,
+  stream : @core.Any,
+) -> @core.Any = "addAbortSignal"
+
+///|
+#module("node:stream")
+extern "js" fn internal_is_errored(stream : @core.Any) -> Bool = "isErrored"
+
+///|
+#module("node:stream")
+extern "js" fn internal_is_readable(stream : @core.Any) -> Bool = "isReadable"
+
+///|
+#module("node:stream")
+extern "js" fn internal_is_writable(stream : @core.Any) -> Bool = "isWritable"
+
+///|
+#module("node:stream")
+extern "js" fn internal_get_default_high_water_mark(objectMode : Bool) -> Int = "getDefaultHighWaterMark"
+
+///|
+#module("node:stream")
+extern "js" fn internal_set_default_high_water_mark(
+  objectMode : Bool,
+  value : Int,
+) -> Unit = "setDefaultHighWaterMark"
 
 ///|
 #external
@@ -393,36 +423,30 @@ pub fn compose(streams : Array[@core.Any]) -> @core.Any {
 
 ///|
 pub fn addAbortSignal(signal : @core.Any, stream : @core.Any) -> @core.Any {
-  stream_module()._call("addAbortSignal", [signal, stream])
+  internal_add_abort_signal(signal, stream)
 }
 
 ///|
 pub fn isErrored(stream : @core.Any) -> Bool {
-  stream_module()._call("isErrored", [stream]).cast()
+  internal_is_errored(stream)
 }
 
 ///|
 pub fn isReadable(stream : @core.Any) -> Bool {
-  stream_module()._call("isReadable", [stream]).cast()
+  internal_is_readable(stream)
 }
 
 ///|
 pub fn isWritable(stream : @core.Any) -> Bool {
-  stream_module()._call("isWritable", [stream]).cast()
+  internal_is_writable(stream)
 }
 
 ///|
 pub fn getDefaultHighWaterMark(objectMode : Bool) -> Int {
-  stream_module()
-  ._call("getDefaultHighWaterMark", [@core.any(objectMode)])
-  .cast()
+  internal_get_default_high_water_mark(objectMode)
 }
 
 ///|
 pub fn setDefaultHighWaterMark(objectMode : Bool, value : Int) -> Unit {
-  stream_module()._call("setDefaultHighWaterMark", [
-    @core.any(objectMode),
-    @core.any(value),
-  ])
-  |> ignore
+  internal_set_default_high_water_mark(objectMode, value)
 }
