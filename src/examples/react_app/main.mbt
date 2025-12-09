@@ -251,7 +251,9 @@ fn app(props : AppProps) -> @react.Element {
 }
 
 ///|
-fn main {
+async fn main {
+  // react_router requires dynamic_import() for __ReactRouterApi global
+  @react_router.dynamic_import()
   guard @dom.document().getElementById("app") is Some(app_root)
   init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {
