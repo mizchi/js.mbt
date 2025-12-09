@@ -18,6 +18,8 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] node:fs - readFileSync, writeFileSync, etc.
 - [ ] node:path - join, resolve, dirname, etc.
 - [ ] node:process - env, cwd, argv, etc.
+- [ ] node:module - createRequire, etc.
+- [ ] node:sqlite - Database (new requires workaround)
 - [ ] node:vm - runInContext, Script, etc.
 - [ ] node:child_process - exec, spawn, etc.
 - [ ] node:url - URL, URLSearchParams
