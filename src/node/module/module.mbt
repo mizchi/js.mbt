@@ -2,9 +2,33 @@
 // Based on @types/node module definitions
 
 ///|
-/// Module Functions
+/// Module Functions (kept for property access and functions with optional args)
 extern "js" fn ffi_require_module() -> @core.Any =
   #|() => require("node:module")
+
+///|
+#module("node:module")
+extern "js" fn internal_create_require(filename : String) -> @core.Any = "createRequire"
+
+///|
+#module("node:module")
+extern "js" fn internal_is_builtin(module_name : String) -> Bool = "isBuiltin"
+
+///|
+#module("node:module")
+extern "js" fn internal_sync_builtin_esm_exports() -> Unit = "syncBuiltinESMExports"
+
+///|
+#module("node:module")
+extern "js" fn internal_find_source_map(path : String) -> @core.Any = "findSourceMap"
+
+///|
+#module("node:module")
+extern "js" fn internal_flush_compile_cache() -> Unit = "flushCompileCache"
+
+///|
+#module("node:module")
+extern "js" fn internal_get_compile_cache_dir() -> @core.Any = "getCompileCacheDir"
 
 ///|
 /// Get the builtin modules list
@@ -21,8 +45,7 @@ pub fn builtinModules() -> Array[String] {
 /// Create a require function from a file URL or path
 #alias(create_require)
 pub fn createRequire(filename : String) -> @core.Any {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  mod._call("createRequire", [@core.any(filename)]) |> @core.identity
+  internal_create_require(filename)
 }
 
 ///|
@@ -30,8 +53,7 @@ pub fn createRequire(filename : String) -> @core.Any {
 /// Returns true if the module is a built-in Node.js module
 #alias(is_builtin)
 pub fn isBuiltin(module_name : String) -> Bool {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  mod._call("isBuiltin", [@core.any(module_name)]).cast()
+  internal_is_builtin(module_name)
 }
 
 ///|
@@ -39,8 +61,7 @@ pub fn isBuiltin(module_name : String) -> Bool {
 /// Updates the CommonJS exports to match the ES module exports
 #alias(sync_builtin_esm_exports)
 pub fn syncBuiltinESMExports() -> Unit {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  mod._call("syncBuiltinESMExports", []) |> ignore
+  internal_sync_builtin_esm_exports()
 }
 
 ///|
@@ -48,8 +69,7 @@ pub fn syncBuiltinESMExports() -> Unit {
 /// Returns the source map for the given path if it exists
 #alias(find_source_map)
 pub fn findSourceMap(path : String) -> SourceMap? {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  let result = mod._call("findSourceMap", [@core.any(path)])
+  let result = internal_find_source_map(path)
   if @core.is_nullish(result) {
     None
   } else {
@@ -77,8 +97,7 @@ pub fn enableCompileCache(cache_dir? : String) -> Unit {
 /// Flush the compile cache to disk
 #alias(flush_compile_cache)
 pub fn flushCompileCache() -> Unit {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  mod._call("flushCompileCache", []) |> ignore
+  internal_flush_compile_cache()
 }
 
 ///|
@@ -86,8 +105,7 @@ pub fn flushCompileCache() -> Unit {
 /// Get the compile cache directory path
 #alias(get_compile_cache_dir)
 pub fn getCompileCacheDir() -> String? {
-  let mod : @core.Any = ffi_require_module() |> @core.any
-  let result = mod._call("getCompileCacheDir", [])
+  let result = internal_get_compile_cache_dir()
   if @core.is_nullish(result) {
     None
   } else {
