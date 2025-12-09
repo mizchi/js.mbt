@@ -2,39 +2,11 @@
 /// https://github.com/chalk/chalk
 
 ///|
-/// Dynamic import for chalk module
-extern "js" fn import_chalk() -> @core.Promise[@core.Any] =
-  #|() => import("chalk")
-
-///|
-extern "js" fn get_chalk_global() -> @core.Any =
-  #|() => globalThis.__chalk
-
-///|
-extern "js" fn set_chalk_global(chalk : @core.Any) -> Unit =
-  #|(chalk) => { globalThis.__chalk = chalk; }
-
-///|
-/// Initialize chalk globals asynchronously (recommended for ESM)
-pub async fn init_global() -> Unit {
-  if @core.is_nullish(get_chalk_global()) {
-    let mod = import_chalk().wait()
-    let c = mod._get("default")
-    set_chalk_global(if @core.is_nullish(c) { mod } else { c })
-  }
-}
-
-///|
-/// Initialize chalk globals synchronously (for testing with require)
-pub fn init_chalk(chalk_module : @core.Any) -> Unit {
-  let c = chalk_module._get("default")
-  set_chalk_global(if @core.is_nullish(c) { chalk_module } else { c })
-}
-
-///|
-fn chalk() -> @core.Any {
-  get_chalk_global()
-}
+extern "js" fn chalk() -> @core.Any =
+  #| () => {
+  #|   const c = require("chalk");
+  #|   return c.default !== undefined ? c.default : c;
+  #| }
 
 ///|
 /// ChalkInstance for chaining styles

@@ -16,10 +16,6 @@ pub fn enable(String) -> Unit
 
 pub fn enabled(String) -> Bool
 
-pub fn init_debug(@core.Any) -> Unit
-
-pub async fn init_global() -> Unit
-
 // Errors
 
 // Types and methods

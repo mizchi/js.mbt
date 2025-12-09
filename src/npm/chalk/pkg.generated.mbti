@@ -65,10 +65,6 @@ pub fn hex(String) -> ChalkInstance
 
 pub fn hidden(String) -> String
 
-pub fn init_chalk(@core.Any) -> Unit
-
-pub async fn init_global() -> Unit
-
 pub fn instance() -> ChalkInstance
 
 pub fn inverse(String) -> String

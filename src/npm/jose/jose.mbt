@@ -3,40 +3,9 @@
 /// https://www.npmjs.com/package/jose
 /// JavaScript module for JSON Object Signing and Encryption (JOSE)
 
-///| Global initialization
-
 ///|
-/// Dynamic import for jose module
-extern "js" fn import_jose() -> @core.Promise[@core.Any] =
-  #|() => import("jose")
-
-///|
-extern "js" fn get_jose_global() -> @core.Any =
-  #|() => globalThis.__jose
-
-///|
-extern "js" fn set_jose_global(jose : @core.Any) -> Unit =
-  #|(jose) => { globalThis.__jose = jose; }
-
-///|
-/// Initialize jose globals asynchronously (recommended for ESM)
-pub async fn init_global() -> Unit {
-  if @core.is_nullish(get_jose_global()) {
-    let mod = import_jose().wait()
-    set_jose_global(mod)
-  }
-}
-
-///|
-/// Initialize jose globals synchronously (for testing with require)
-pub fn init_jose(jose_module : @core.Any) -> Unit {
-  set_jose_global(jose_module)
-}
-
-///|
-fn jose_module() -> @core.Any {
-  get_jose_global()
-}
+extern "js" fn jose_module() -> @core.Any =
+  #| () => require("jose")
 
 ///|
 extern "js" fn ffi_new_sign_jwt(

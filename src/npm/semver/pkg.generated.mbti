@@ -26,10 +26,6 @@ pub fn gtr(String, String) -> Bool
 
 pub fn inc(String, String, identifier? : String) -> String?
 
-pub async fn init_global() -> Unit
-
-pub fn init_semver(@core.Any) -> Unit
-
 pub fn lt(String, String) -> Bool
 
 pub fn lte(String, String) -> Bool

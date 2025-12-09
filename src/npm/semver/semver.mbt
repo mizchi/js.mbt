@@ -3,38 +3,9 @@
 /// https://github.com/npm/node-semver
 
 ///|
-/// Dynamic import for semver module
-extern "js" fn import_semver() -> @core.Promise[@core.Any] =
-  #|() => import("semver")
-
-///|
-extern "js" fn get_semver_global() -> @core.Any =
-  #|() => globalThis.__semver
-
-///|
-extern "js" fn set_semver_global(semver : @core.Any) -> Unit =
-  #|(semver) => { globalThis.__semver = semver; }
-
-///|
-/// Initialize semver globals asynchronously (recommended for ESM)
-pub async fn init_global() -> Unit {
-  if @core.is_nullish(get_semver_global()) {
-    let mod = import_semver().wait()
-    set_semver_global(mod)
-  }
-}
-
-///|
-/// Initialize semver globals synchronously (for testing with require)
-pub fn init_semver(semver_module : @core.Any) -> Unit {
-  set_semver_global(semver_module)
-}
-
-///|
 /// Get the semver module instance
-fn semver() -> @core.Any {
-  get_semver_global()
-}
+extern "js" fn semver() -> @core.Any =
+  #| () => require("semver")
 
 ///|
 /// SemVer type represents a parsed semantic version
@@ -175,10 +146,17 @@ pub fn min_satisfying(versions : Array[String], range : String) -> String? {
 }
 
 ///|
+extern "js" fn ffi_max(versions : Array[String]) -> @core.Any =
+  #| (versions) => {
+  #|   const semver = require('semver');
+  #|   return semver.max(versions);
+  #| }
+
+///|
 /// Return the highest version in the list
 /// https://github.com/npm/node-semver#ranges
 pub fn max(versions : Array[String]) -> String? {
-  let result = semver()._call("max", [@core.any(versions)])
+  let result = ffi_max(versions)
   if @core.is_null(result) {
     None
   } else {
@@ -187,10 +165,17 @@ pub fn max(versions : Array[String]) -> String? {
 }
 
 ///|
+extern "js" fn ffi_min(versions : Array[String]) -> @core.Any =
+  #| (versions) => {
+  #|   const semver = require('semver');
+  #|   return semver.min(versions);
+  #| }
+
+///|
 /// Return the lowest version in the list
 /// https://github.com/npm/node-semver#ranges
 pub fn min(versions : Array[String]) -> String? {
-  let result = semver()._call("min", [@core.any(versions)])
+  let result = ffi_min(versions)
   if @core.is_null(result) {
     None
   } else {
