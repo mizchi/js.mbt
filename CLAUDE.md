@@ -124,3 +124,60 @@ async test "Socket test example" {
 | `@immut/hashmap.HashMap` | iterate + set | +11.6KB |
 
 See [docs/runtime-cost.md](docs/runtime-cost.md) for detailed analysis.
+
+## ESM Migration with `#module`
+
+This project is migrating to ESM imports using MoonBit's `#module` directive for better tree-shaking and smaller bundle sizes.
+
+### Usage
+
+```moonbit
+///|
+/// Import a function from an npm package
+#module("react/jsx-runtime")
+extern "js" fn ffi_jsx(
+  tag : @core.Any,
+  props : @core.Any,
+  key : @core.Any,
+) -> @core.Any = "jsx"
+
+///|
+/// Import from a specific package path
+#module("react")
+extern "js" fn ffi_use_state(initial : @core.Any) -> @core.Any = "useState"
+```
+
+### Limitations
+
+Due to `extern "js"` constraints, `#module` can only be applied to **functions**:
+
+- ✅ Functions (hooks, utilities, etc.)
+- ❌ Components (React components are objects/classes)
+- ❌ Constants/Symbols (Fragment, StrictMode, etc.)
+- ❌ Classes
+
+For non-function exports, use one of these workarounds:
+
+1. **Symbol.for** for React symbols:
+```moonbit
+extern "js" fn ffi_react_fragment() -> @core.Any =
+  #| () => Symbol.for('react.fragment')
+```
+
+2. **Dynamic import with global** for components (e.g., RouterProvider):
+```moonbit
+extern "js" fn import_react_router() -> @js.Promise[@core.Any] =
+  #|() => import("react-router")
+
+pub async fn init_global() -> Unit {
+  let v = import_react_router().wait()
+  @global.global_this()._set("__ReactRouterApi", v)
+}
+```
+
+### Migration Priority
+
+Prioritize frontend libraries for tree-shaking benefits:
+1. react, react_element, react_dom_client (high impact)
+2. preact, vue (frontend frameworks)
+3. Server-side libraries (lower priority)

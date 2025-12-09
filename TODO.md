@@ -1,16 +1,32 @@
-- [ ] Waiting Moonbit(Js): `raise?` for FFI
-- [ ] Waiting Moonbit(Js): static `import` support
-  - [ ] bug: moon test can't generate ESM
-- [ ] Waiting Moonbit: `moon.pkg`
+## ESM Migration Progress
 
-## Planned npm bindings
+Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details.
 
-- [x] esbuild - Fast bundler/transpiler
-- [x] pino - Fast logger
-- [ ] kysely - Type-safe SQL query builder
-- [ ] sharp - Image processing
-- [x] jose - JWT/JWE/JWS (partially implemented, see Known Issues below)
-- [ ] helmet - Security headers for Hono
+### Frontend Libraries (High Priority)
+
+- [x] react - jsx/jsxs from react/jsx-runtime
+- [x] react_element - uses @react.createElementWithKey (jsx runtime internally)
+- [ ] react_dom_client - createRoot, hydrateRoot
+- [ ] react_router - **Blocked**: RouterProvider is a component, not a function. Uses `init_global()` workaround.
+- [ ] preact
+- [ ] vue
+
+### Testing Libraries
+
+- [ ] testing_library_react
+- [ ] testing_library_preact
+- [ ] testing_library_vue
+- [ ] vitest
+
+### Server-side / Tools (Lower Priority)
+
+- [ ] hono
+- [ ] drizzle
+- [ ] jose
+- [ ] zod
+- [ ] Other npm packages...
+
+---
 
 ## Known Issues
 
