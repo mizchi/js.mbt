@@ -41,6 +41,10 @@ pub fn hsts(maxAge? : Int, includeSubDomains? : Bool, preload? : Bool) -> @core.
 #alias(ie_no_open)
 pub fn ieNoOpen() -> @core.Any
 
+pub async fn init_global() -> Unit
+
+pub fn init_helmet(@core.Any) -> Unit
+
 #alias(no_sniff)
 pub fn noSniff() -> @core.Any
 
