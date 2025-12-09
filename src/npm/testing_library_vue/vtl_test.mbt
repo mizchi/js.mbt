@@ -1,8 +1,6 @@
 ///|
 fn setup() -> () -> Unit {
   @global_jsdom.register()
-  @vue.init_vue_api(@node.require("vue"))
-  @vue.init_vue_ssr(@node.require("@vue/server-renderer"))
   fn() { @testing_library_vue.cleanup() }
 }
 

@@ -18,9 +18,10 @@ extern "js" fn ffi_mount(app : @core.Any, container : @core.Any) -> Unit =
   #|(app, container) => app.mount(container)
 
 ///|
-/// Fragment from Vue - requires init_fragment() or init_global() to be called first
+/// Fragment from Vue - Symbol.for('v-fgt') is Vue's internal Fragment symbol
+/// See: https://github.com/vuejs/core/blob/main/packages/runtime-core/src/vnode.ts
 extern "js" fn get_fragment() -> @core.Any =
-  #|() => globalThis.__VueFragment
+  #|() => Symbol.for('v-fgt')
 
 ///|
 #module("vue")

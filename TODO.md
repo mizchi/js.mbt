@@ -11,7 +11,7 @@ Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details
 - [x] react_dom_client - createRoot, hydrateRoot
 - [ ] react_router - **Blocked**: RouterProvider is a component, not a function. Uses `init_global()` workaround.
 - [x] preact
-- [x] vue - Fragment requires init_fragment() or init_global() for dynamic import
+- [x] vue - Fragment uses Symbol.for('v-fgt') internally
 
 ### Node.js Built-ins (High Priority - ESM behavior changes)
 

@@ -23,13 +23,6 @@ pub fn getCurrentInstance() -> @core.Any?
 
 pub fn h(String, Array[&VueNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
 
-pub fn init_fragment(@core.Any) -> Unit
-
-pub async fn init_global() -> Unit
-
-#deprecated
-pub fn init_vue_api(@core.Any, global_key? : String) -> Unit
-
 #deprecated
 pub fn init_vue_ssr(@core.Any) -> Unit
 
