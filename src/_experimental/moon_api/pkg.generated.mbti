@@ -45,7 +45,7 @@ pub(all) enum BuildMode {
 }
 pub impl Show for BuildMode
 
-pub struct CommandResult {
+pub(all) struct CommandResult {
   exit_code : Int
   stdout : String
   stderr : String

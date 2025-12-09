@@ -485,20 +485,12 @@ fn has_target_option(args : Array[String]) -> Bool {
 
 ///|
 fn exec_moon_raw(args : Array[String]) -> @moon_api.CommandResult {
-  ffi_exec_moon(args)
+  // Use @child_process.spawnSync with stdio: "inherit"
+  try {
+    let result = @child_process.spawnSync("moon", args~, stdio="inherit")
+    let exit_code = result.status().unwrap_or(0)
+    { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
+  } catch {
+    _ => { exit_code: 1, stdout: "", stderr: "", success: false }
+  }
 }
-
-///|
-extern "js" fn ffi_exec_moon(args : Array[String]) -> @moon_api.CommandResult =
-  #|(args) => {
-  #|  const { spawnSync } = require('node:child_process');
-  #|  const result = spawnSync('moon', args, {
-  #|    stdio: 'inherit'
-  #|  });
-  #|  return {
-  #|    exit_code: result.status || 0,
-  #|    stdout: '',
-  #|    stderr: '',
-  #|    success: result.status === 0
-  #|  };
-  #|}

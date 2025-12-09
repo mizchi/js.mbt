@@ -28,28 +28,28 @@ extern "js" fn ffi_urlToHttpOptions(url : @weburl.URL) -> @core.Any = "urlToHttp
 #module("node:url")
 extern "js" fn ffi_format(url : @weburl.URL) -> String = "format"
 
-// Functions with optional parameters need inline require()
+// Functions with optional parameters - using #module with 2 args
 
 ///|
+#module("node:url")
 extern "js" fn ffi_fileURLToPath_with_options(
   url : String,
   options : @core.Any,
-) -> String =
-  #| (url, options) => require("node:url").fileURLToPath(url, options)
+) -> String = "fileURLToPath"
 
 ///|
+#module("node:url")
 extern "js" fn ffi_fileURLToPath_url_with_options(
   url : @weburl.URL,
   options : @core.Any,
-) -> String =
-  #| (url, options) => require("node:url").fileURLToPath(url, options)
+) -> String = "fileURLToPath"
 
 ///|
+#module("node:url")
 extern "js" fn ffi_pathToFileURL_with_options(
   path : String,
   options : @core.Any,
-) -> @weburl.URL =
-  #| (path, options) => require("node:url").pathToFileURL(path, options)
+) -> @weburl.URL = "pathToFileURL"
 
 // Public API
 

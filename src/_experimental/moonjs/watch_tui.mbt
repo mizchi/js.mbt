@@ -53,17 +53,16 @@ async fn cmd_vite(args : Array[String]) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_exec_sync(cmd : String) -> @moon_api.CommandResult =
-  #|(cmd) => {
-  #|  const { spawnSync } = require('node:child_process');
-  #|  const result = spawnSync(cmd, { shell: true, stdio: 'inherit' });
-  #|  return {
-  #|    exit_code: result.status || 0,
-  #|    stdout: '',
-  #|    stderr: '',
-  #|    success: result.status === 0
-  #|  };
-  #|}
+fn ffi_exec_sync(cmd : String) -> @moon_api.CommandResult {
+  // Use @child_process.spawnSync with shell: true, stdio: "inherit"
+  try {
+    let result = @child_process.spawnSync(cmd, shell=true, stdio="inherit")
+    let exit_code = result.status().unwrap_or(0)
+    { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
+  } catch {
+    _ => { exit_code: 1, stdout: "", stderr: "", success: false }
+  }
+}
 
 ///|
 /// TUI mode for vite command
@@ -601,20 +600,23 @@ extern "js" fn ffi_clear_interval(id : Int) -> Unit =
 
 ///|
 fn setup_keyboard_input_extended(handler : (String, String) -> Unit) -> Unit {
-  ffi_setup_keyboard_extended(handler)
+  // Use @readline.emit_keypress_events and @process.stdin
+  let stdin = @process.stdin()
+  @readline.emit_keypress_events(stdin.as_any().cast(), None)
+  if stdin.is_tty() {
+    stdin.set_raw_mode(true)
+  }
+  // Register keypress handler via low-level API
+  ffi_register_keypress_handler(stdin.as_any(), handler)
 }
 
 ///|
-extern "js" fn ffi_setup_keyboard_extended(
+extern "js" fn ffi_register_keypress_handler(
+  stdin : @core.Any,
   handler : (String, String) -> Unit,
 ) -> Unit =
-  #|(handler) => {
-  #|  const readline = require('readline');
-  #|  readline.emitKeypressEvents(process.stdin);
-  #|  if (process.stdin.isTTY) {
-  #|    process.stdin.setRawMode(true);
-  #|  }
-  #|  process.stdin.on('keypress', (str, key) => {
+  #|(stdin, handler) => {
+  #|  stdin.on('keypress', (str, key) => {
   #|    if (key && key.ctrl && key.name === 'c') {
   #|      handler('q', 'q');
   #|    } else {

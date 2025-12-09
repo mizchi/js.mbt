@@ -141,34 +141,63 @@ extern "js" fn ffi_fetch_source_map(url : String) -> @core.Promise[@core.Any] =
 /// Try to find and load source map for a JS file
 /// Looks for //# sourceMappingURL= comment or .map file
 pub async fn find_source_map_for_file(js_file_path : String) -> @core.Any? {
-  ffi_find_source_map(js_file_path).wait().cast()
+  // Try to read the JS file and find sourceMappingURL
+  let content = try_read_file(js_file_path)
+  match content {
+    None => None
+    Some(content) => {
+      let map_url = ffi_extract_source_mapping_url(content)
+      match map_url {
+        Some(url) =>
+          if url.has_prefix("data:") {
+            // If it's a data URL, parse it
+            let base64 = ffi_split_get_second(url, ",")
+            let decoded = @buffer.Buffer::from_string(base64, encoding="base64").toString()
+            Some(ffi_json_parse(decoded))
+          } else {
+            // Otherwise load from file
+            let dir = @path.dirname(js_file_path)
+            let map_path = @path.resolve([dir, url])
+            match try_read_file(map_path) {
+              Some(map_content) => Some(ffi_json_parse(map_content))
+              None => None
+            }
+          }
+        None => {
+          // Try .map file
+          let map_path = js_file_path + ".map"
+          match try_read_file(map_path) {
+            Some(map_content) => Some(ffi_json_parse(map_content))
+            None => None
+          }
+        }
+      }
+    }
+  }
 }
 
 ///|
-extern "js" fn ffi_find_source_map(path : String) -> @core.Promise[@core.Any] =
-  #|async (path) => {
-  #|  const fs = require('fs').promises;
-  #|  try {
-  #|    // Try to read the JS file and find sourceMappingURL
-  #|    const content = await fs.readFile(path, 'utf8');
-  #|    const match = content.match(/\/\/[#@]\s*sourceMappingURL=(.+)/);
-  #|    if (match) {
-  #|      const mapUrl = match[1].trim();
-  #|      // If it's a data URL, parse it
-  #|      if (mapUrl.startsWith('data:')) {
-  #|        const base64 = mapUrl.split(',')[1];
-  #|        return JSON.parse(Buffer.from(base64, 'base64').toString());
-  #|      }
-  #|      // Otherwise load from file
-  #|      const mapPath = require('path').resolve(require('path').dirname(path), mapUrl);
-  #|      const mapContent = await fs.readFile(mapPath, 'utf8');
-  #|      return JSON.parse(mapContent);
-  #|    }
-  #|    // Try .map file
-  #|    const mapPath = path + '.map';
-  #|    const mapContent = await fs.readFile(mapPath, 'utf8');
-  #|    return JSON.parse(mapContent);
-  #|  } catch {
-  #|    return null;
-  #|  }
+/// Try to read file, return None on error
+fn try_read_file(path : String) -> String? {
+  Some(@fs.read_file_as_string(path, encoding="utf8")) catch {
+    _ => None
+  }
+}
+
+///|
+/// Extract sourceMappingURL from JS content
+extern "js" fn ffi_extract_source_mapping_url(content : String) -> String? =
+  #|(content) => {
+  #|  const match = content.match(/\/\/[#@]\s*sourceMappingURL=(.+)/);
+  #|  return match ? match[1].trim() : null;
   #|}
+
+///|
+/// Split string and get second part
+extern "js" fn ffi_split_get_second(s : String, delimiter : String) -> String =
+  #|(s, d) => s.split(d)[1] || ''
+
+///|
+/// Parse JSON string
+extern "js" fn ffi_json_parse(s : String) -> @core.Any =
+  #|(s) => JSON.parse(s)

@@ -4,7 +4,7 @@
 
 ///|
 /// Result of a CLI command execution
-pub struct CommandResult {
+pub(all) struct CommandResult {
   /// Exit code (0 = success)
   exit_code : Int
   /// Standard output

@@ -1,6 +1,50 @@
+// Dynamic import based getter for other modules to use
+
 ///|
 extern "js" fn nodetest() -> @core.Any =
   #| () => require("node:test")
+
+// FFI functions using #module
+
+///|
+#module("node:test")
+extern "js" fn ffi_test(
+  name : String,
+  options : @core.Any,
+  fn_ : @core.Any,
+) -> Unit = "test"
+
+///|
+#module("node:test")
+extern "js" fn ffi_it(
+  name : String,
+  options : @core.Any,
+  fn_ : @core.Any,
+) -> Unit = "it"
+
+///|
+#module("node:test")
+extern "js" fn ffi_describe(
+  name : String,
+  options : @core.Any,
+  fn_ : @core.Any,
+) -> Unit = "describe"
+
+///|
+#module("node:test")
+extern "js" fn ffi_before(fn_ : @core.Any, options : @core.Any) -> Unit = "before"
+
+///|
+#module("node:test")
+extern "js" fn ffi_after(fn_ : @core.Any, options : @core.Any) -> Unit = "after"
+
+///|
+#module("node:test")
+extern "js" fn ffi_before_each(fn_ : @core.Any, options : @core.Any) -> Unit = "beforeEach"
+
+///|
+#module("node:test")
+extern "js" fn ffi_after_each(fn_ : @core.Any, options : @core.Any) -> Unit = "afterEach"
 
 ///|
 #external
@@ -296,12 +340,7 @@ pub fn test_(
   if timeout is Some(t) {
     options._set("timeout", @core.any(t))
   }
-  nodetest()._call("test", [
-    @core.any(name),
-    options,
-    @core.any(@core.promisify1(f) |> @core.from_fn1),
-  ])
-  |> ignore
+  ffi_test(name, options, @core.any(@core.promisify1(f) |> @core.from_fn1))
 }
 
 ///|
@@ -327,12 +366,7 @@ pub fn it(
   if timeout is Some(t) {
     options._set("timeout", @core.any(t))
   }
-  nodetest()._call("it", [
-    @core.any(name),
-    options,
-    @core.any(@core.promisify1(f) |> @core.from_fn1),
-  ])
-  |> ignore
+  ffi_it(name, options, @core.any(@core.promisify1(f) |> @core.from_fn1))
 }
 
 ///|
@@ -358,12 +392,7 @@ pub fn describe(
   if timeout is Some(t) {
     options._set("timeout", @core.any(t))
   }
-  nodetest()._call("describe", [
-    @core.any(name),
-    options,
-    @core.any(@core.promisify1(f) |> @core.from_fn1),
-  ])
-  |> ignore
+  ffi_describe(name, options, @core.any(@core.promisify1(f) |> @core.from_fn1))
 }
 
 ///| Lifecycle hooks
@@ -375,8 +404,7 @@ pub fn before(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("before", [@core.promisify0(f) |> @core.from_fn0, options])
-  |> ignore
+  ffi_before(@core.promisify0(f) |> @core.from_fn0, options)
 }
 
 ///|
@@ -386,8 +414,7 @@ pub fn after(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("after", [@core.promisify0(f) |> @core.from_fn0, options])
-  |> ignore
+  ffi_after(@core.promisify0(f) |> @core.from_fn0, options)
 }
 
 ///|
@@ -397,11 +424,7 @@ pub fn beforeEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("beforeEach", [
-    @core.promisify0(f) |> @core.from_fn0,
-    options,
-  ])
-  |> ignore
+  ffi_before_each(@core.promisify0(f) |> @core.from_fn0, options)
 }
 
 ///|
@@ -411,8 +434,7 @@ pub fn afterEach(f : async () -> Unit, timeout? : Int) -> Unit {
   if timeout is Some(t) {
     options._set("timeout", t |> @core.any)
   }
-  nodetest()._call("afterEach", [@core.promisify0(f) |> @core.from_fn0, options])
-  |> ignore
+  ffi_after_each(@core.promisify0(f) |> @core.from_fn0, options)
 }
 
 ///|
