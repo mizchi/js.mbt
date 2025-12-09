@@ -3,11 +3,6 @@
 /// https://github.com/colinhacks/zod
 
 ///|
-// TODO: migrate to dynamic import when MoonBit supports ESM
-extern "js" fn zod() -> @core.Any =
-  #| () => require("zod")
-
-///|
 /// ZodSchema - base schema type
 #external
 pub type ZodSchema
@@ -49,203 +44,185 @@ pub struct ZodIssue {
 
 ///|
 /// Create a string schema
-pub fn string() -> ZodSchema {
-  zod()._call("string", []).cast()
-}
+#module("zod")
+pub extern "js" fn string() -> ZodSchema = "string"
 
 ///|
 /// Create a number schema
-pub fn number() -> ZodSchema {
-  zod()._call("number", []).cast()
-}
+#module("zod")
+pub extern "js" fn number() -> ZodSchema = "number"
 
 ///|
 /// Create a boolean schema
-pub fn boolean() -> ZodSchema {
-  zod()._call("boolean", []).cast()
-}
+#module("zod")
+pub extern "js" fn boolean() -> ZodSchema = "boolean"
 
 ///|
 /// Create a bigint schema
-pub fn bigint() -> ZodSchema {
-  zod()._call("bigint", []).cast()
-}
+#module("zod")
+pub extern "js" fn bigint() -> ZodSchema = "bigint"
 
 ///|
 /// Create a date schema
-pub fn date() -> ZodSchema {
-  zod()._call("date", []).cast()
-}
+#module("zod")
+pub extern "js" fn date() -> ZodSchema = "date"
 
 ///|
 /// Create an undefined schema
+#module("zod")
+extern "js" fn ffi_undefined() -> ZodSchema = "undefined"
+
+///|
 pub fn undefined_() -> ZodSchema {
-  zod()._call("undefined", []).cast()
+  ffi_undefined()
 }
 
 ///|
 /// Create a null schema
+#module("zod")
+extern "js" fn ffi_null() -> ZodSchema = "null"
+
+///|
 pub fn null_() -> ZodSchema {
-  zod()._call("null", []).cast()
+  ffi_null()
 }
 
 ///|
 /// Create a void schema
+#module("zod")
+extern "js" fn ffi_void() -> ZodSchema = "void"
+
+///|
 pub fn void_() -> ZodSchema {
-  zod()._call("void", []).cast()
+  ffi_void()
 }
 
 ///|
 /// Create an any schema
+#module("zod")
+extern "js" fn ffi_any() -> ZodSchema = "any"
+
+///|
 pub fn any_() -> ZodSchema {
-  zod()._call("any", []).cast()
+  ffi_any()
 }
 
 ///|
 /// Create an unknown schema
-pub fn unknown() -> ZodSchema {
-  zod()._call("unknown", []).cast()
-}
+#module("zod")
+pub extern "js" fn unknown() -> ZodSchema = "unknown"
 
 ///|
 /// Create a never schema
-pub fn never() -> ZodSchema {
-  zod()._call("never", []).cast()
-}
+#module("zod")
+pub extern "js" fn never() -> ZodSchema = "never"
 
 ///| Complex schemas
+
+///|
+#module("zod")
+extern "js" fn ffi_object(shape : @core.Any) -> ZodSchema = "object"
 
 ///|
 /// Create an object schema from a Map
 pub fn object(shape : Map[String, ZodSchema]) -> ZodSchema {
   let obj = @core.new_object()
   shape.each(fn(key, value) { obj[key] = value.as_any() })
-  zod()._call("object", [obj]).cast()
+  ffi_object(obj)
 }
 
 ///|
 /// Create an object schema from raw @core.Any
 pub fn object_from_any(shape : @core.Any) -> ZodSchema {
-  zod()._call("object", [shape]).cast()
+  ffi_object(shape)
 }
 
 ///|
 /// Create an array schema
-pub fn array(element : ZodSchema) -> ZodSchema {
-  zod()._call("array", [element.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn array(element : ZodSchema) -> ZodSchema = "array"
 
 ///|
 /// Create a tuple schema from an Array
-pub fn tuple(items : Array[ZodSchema]) -> ZodSchema {
-  zod()._call("tuple", [items |> @core.identity]).cast()
-}
+#module("zod")
+pub extern "js" fn tuple(items : Array[ZodSchema]) -> ZodSchema = "tuple"
 
 ///|
 /// Create a union schema from an Array
-pub fn union(options : Array[ZodSchema]) -> ZodSchema {
-  zod()._call("union", [options |> @core.identity]).cast()
-}
+#module("zod")
+pub extern "js" fn union(options : Array[ZodSchema]) -> ZodSchema = "union"
 
 ///|
 /// Create an enum schema from string values
+#module("zod")
+extern "js" fn ffi_enum(values : Array[String]) -> ZodSchema = "enum"
+
+///|
 pub fn enum_(values : Array[String]) -> ZodSchema {
-  zod()._call("enum", [values |> @core.identity]).cast()
+  ffi_enum(values)
 }
 
 ///|
 /// Create a literal schema
-pub fn literal(value : @core.Any) -> ZodSchema {
-  zod()._call("literal", [value]).cast()
-}
+#module("zod")
+pub extern "js" fn literal(value : @core.Any) -> ZodSchema = "literal"
 
 ///|
 /// Create a record schema (object with dynamic keys)
-pub fn record(key_schema : ZodSchema, value_schema : ZodSchema) -> ZodSchema {
-  zod()._call("record", [key_schema.as_any(), value_schema.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn record(
+  key_schema : ZodSchema,
+  value_schema : ZodSchema,
+) -> ZodSchema = "record"
 
 ///|
 /// Create a map schema
-pub fn map(key_schema : ZodSchema, value_schema : ZodSchema) -> ZodSchema {
-  zod()._call("map", [key_schema.as_any(), value_schema.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn map(
+  key_schema : ZodSchema,
+  value_schema : ZodSchema,
+) -> ZodSchema = "map"
 
 ///|
 /// Create a set schema
-pub fn set(element : ZodSchema) -> ZodSchema {
-  zod()._call("set", [element.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn set(element : ZodSchema) -> ZodSchema = "set"
 
 ///|
 /// Create an intersection schema
-pub fn intersection(left : ZodSchema, right : ZodSchema) -> ZodSchema {
-  zod()._call("intersection", [left.as_any(), right.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn intersection(
+  left : ZodSchema,
+  right : ZodSchema,
+) -> ZodSchema = "intersection"
 
 ///|
 /// Create a discriminated union schema
-pub fn discriminated_union(
+#module("zod")
+pub extern "js" fn discriminated_union(
   discriminator : String,
   options : Array[ZodSchema],
-) -> ZodSchema {
-  zod()
-  ._call("discriminatedUnion", [
-    @core.any(discriminator),
-    options |> @core.identity,
-  ])
-  .cast()
-}
+) -> ZodSchema = "discriminatedUnion"
 
 ///|
 /// Create a promise schema
-pub fn promise(schema : ZodSchema) -> ZodSchema {
-  zod()._call("promise", [schema.as_any()]).cast()
-}
+#module("zod")
+pub extern "js" fn promise(schema : ZodSchema) -> ZodSchema = "promise"
 
 ///|
 /// Create a lazy schema (for recursive types)
+#module("zod")
+extern "js" fn ffi_lazy(getter : () -> @core.Any) -> ZodSchema = "lazy"
+
+///|
 pub fn lazy_(getter : () -> ZodSchema) -> ZodSchema {
-  zod()._call("lazy", [@core.from_fn0(fn() { getter().as_any() })]).cast()
+  ffi_lazy(fn() { getter().as_any() })
 }
 
 ///|
 /// Create a native enum schema from JS object
-pub fn native_enum(enum_obj : @core.Any) -> ZodSchema {
-  zod()._call("nativeEnum", [enum_obj]).cast()
-}
-
-///| Coercion schemas (convert input to type before validation)
-
-///|
-/// Create a coerced string schema (converts input to string)
-pub fn coerce_string() -> ZodSchema {
-  zod()["coerce"]._call("string", []).cast()
-}
-
-///|
-/// Create a coerced number schema (converts input to number)
-pub fn coerce_number() -> ZodSchema {
-  zod()["coerce"]._call("number", []).cast()
-}
-
-///|
-/// Create a coerced boolean schema (converts input to boolean)
-pub fn coerce_boolean() -> ZodSchema {
-  zod()["coerce"]._call("boolean", []).cast()
-}
-
-///|
-/// Create a coerced bigint schema (converts input to bigint)
-pub fn coerce_bigint() -> ZodSchema {
-  zod()["coerce"]._call("bigint", []).cast()
-}
-
-///|
-/// Create a coerced date schema (converts input to Date)
-pub fn coerce_date() -> ZodSchema {
-  zod()["coerce"]._call("date", []).cast()
-}
+#module("zod")
+pub extern "js" fn native_enum(enum_obj : @core.Any) -> ZodSchema = "nativeEnum"
 
 ///| Schema methods
 
