@@ -93,10 +93,9 @@ extern "js" fn ffi_clone_element(
 extern "js" fn ffi_to_child_array(children : @core.Any) -> @core.Any = "toChildArray"
 
 ///|
-/// Fragment needs to be a reference, not a function call
-/// #module would call Fragment() instead of returning the Fragment function
+/// Fragment equivalent - returns props.children (same as Preact's Fragment)
 extern "js" fn get_fragment() -> @core.Any =
-  #|() => require("preact").Fragment
+  #|() => (props) => props.children
 
 ///|
 #module("preact/hooks")
