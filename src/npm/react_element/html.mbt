@@ -45,9 +45,7 @@ fn[T] common_node(
     let ref_js : @core.Any = ref_.as_any().cast()
     props._set("ref", ref_js)
   }
-  if key is Some(key) {
-    props._set("key", key |> @core.any)
-  }
+  // key is NOT set in props - passed as 3rd argument to jsx runtime
   if on_click is Some(f) {
     props._set("onClick", f |> @js.from_fn1)
   }
@@ -94,7 +92,7 @@ fn[T] common_node(
     props._set("children", children_js)
   }
   let props_js : @core.Any = props.cast()
-  @react.createElementRaw(@core.any(tag_name), props_js)
+  @react.createElementWithKey(@core.any(tag_name), props_js, key)
 }
 
 ///|

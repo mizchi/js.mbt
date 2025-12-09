@@ -28,6 +28,8 @@ pub fn createElementDirect(String, @core.Any, @core.Any) -> Element
 
 pub fn createElementRaw(@core.Any, @core.Any) -> Element
 
+pub fn createElementWithKey(@core.Any, @core.Any, String?) -> Element
+
 #alias(createContext)
 pub fn[T] create_context(T?) -> Context[T]
 
@@ -45,6 +47,12 @@ pub async fn init_react_async() -> Unit
 pub fn init_react_from_module(@core.Any) -> Unit
 
 pub async fn init_react_symbols() -> Unit
+
+pub fn jsx(@core.Any, Array[&ReactNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
+
+pub fn jsx_fragment(Array[&ReactNode], key? : String) -> Element
+
+pub fn jsx_tag(String, Array[&ReactNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : ReactRef[@dom.Element], key? : String) -> Element
 
 pub fn[T] lazy_(() -> @core.Promise[@core.Any]) -> (T) -> Element
 

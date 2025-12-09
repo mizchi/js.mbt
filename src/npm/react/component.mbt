@@ -3,7 +3,7 @@ pub type Component[T] = (T) -> Element
 
 ///|
 /// render component
-/// JS: React.createElement(component, props, ...children)
+/// JS: jsx(component, props, key)
 #alias(c)
 pub fn[T] component(
   tag : Component[T],
@@ -12,75 +12,98 @@ pub fn[T] component(
   key? : String,
 ) -> Element {
   let tag = @core.any(tag)
-  let children_arr = @core.any(children.map(_.to_react_node()))
   let val : @core.Any = @core.any(props)
   // Handle key: if props is undefined/null (e.g. Unit), create a new object
-  if @core.is_nullish(val) {
-    let obj = @core.new_object()
-    if key is Some(key) {
-      obj["key"] = @core.any(key)
-    }
-    if not(children.is_empty()) {
+  let obj = if @core.is_nullish(val) { @core.new_object() } else { val }
+  // Only set children if explicitly provided (non-empty)
+  if not(children.is_empty()) {
+    let children_arr = @core.any(children.map(_.to_react_node()))
+    if children.length() == 1 {
+      obj["children"] = children[0].to_react_node()
+    } else {
       obj["children"] = children_arr
     }
-    return ffi_create_element(tag, obj).cast()
   }
-  if key is Some(key) {
-    val["key"] = @core.any(key)
+  // key is passed as 3rd argument to jsx runtime
+  let key_val : @core.Any = match key {
+    Some(k) => @core.any(k)
+    None => @core.undefined()
   }
-  // Only set children if explicitly provided (non-empty)
-  // This preserves props.children when user passes children in props directly
-  if not(children.is_empty()) {
-    val["children"] = children_arr
+  if children.length() <= 1 {
+    ffi_jsx(tag, obj, key_val).cast()
+  } else {
+    ffi_jsxs(tag, obj, key_val).cast()
   }
-  ffi_create_element(tag, val).cast()
 }
 
 ///|
-/// JS: <React.Fragment key=...>{children}</React.Fragment>
+/// JS: jsx(React.StrictMode, {children})
 pub fn strict_mode(children : Array[&ReactNode]) -> Element {
   let tag = @core.any(get_strict_mode())
-  let children_arr = @core.any(children.map(_.to_react_node()))
   let props = @core.new_object()
-  props["children"] = children_arr
-  ffi_create_element(tag, props).cast()
-}
-
-///|
-/// JS: <React.Fragment key=...>{children}</React.Fragment>
-pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
-  let tag = @core.any(get_fragment())
-  let children_arr = @core.any(children.map(_.to_react_node()))
-  let val = @core.new_object()
-  if key is Some(key) {
-    val["key"] = @core.any(key)
+  if not(children.is_empty()) {
+    if children.length() == 1 {
+      props["children"] = children[0].to_react_node()
+    } else {
+      props["children"] = @core.any(children.map(_.to_react_node()))
+    }
   }
-  val["children"] = children_arr
-  ffi_create_element(tag, val).cast()
+  let key_val : @core.Any = @core.undefined()
+  if children.length() <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
 }
 
 ///|
-/// JS: <React.Suspense fallback=...>{children}</React.Suspense>
+/// JS: jsx(Fragment, {children}, key)
+pub fn fragment(children : Array[&ReactNode], key? : String) -> Element {
+  jsx_fragment(children, key?)
+}
+
+///|
+/// JS: jsx(Suspense, {fallback, children})
 pub fn suspense(children : Array[&ReactNode], fallback~ : Element) -> Element {
   let tag = get_suspense()
-  let children_arr = @core.any(children.map(_.to_react_node()))
   let props = @core.new_object()
   props["fallback"] = fallback.as_any()
-  props["children"] = children_arr
-  ffi_create_element(tag, props).cast()
+  if not(children.is_empty()) {
+    if children.length() == 1 {
+      props["children"] = children[0].to_react_node()
+    } else {
+      props["children"] = @core.any(children.map(_.to_react_node()))
+    }
+  }
+  let key_val : @core.Any = @core.undefined()
+  if children.length() <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
 }
 
 ///|
 /// React.Provider
-/// JS: <Context.Provider value=...>{children}</Context.Provider>
+/// JS: jsx(Context.Provider, {value, children})
 pub fn[T] provider(
   tag : Context[T],
   children : Array[&ReactNode],
   value~ : T,
 ) -> Element {
-  let children_arr = @core.any(children.map(_.to_react_node()))
   let props = @core.new_object()
   props["value"] = @core.any(value)
-  props["children"] = children_arr
-  ffi_create_element(tag.as_any(), props).cast()
+  if not(children.is_empty()) {
+    if children.length() == 1 {
+      props["children"] = children[0].to_react_node()
+    } else {
+      props["children"] = @core.any(children.map(_.to_react_node()))
+    }
+  }
+  let key_val : @core.Any = @core.undefined()
+  if children.length() <= 1 {
+    ffi_jsx(tag.as_any(), props, key_val).cast()
+  } else {
+    ffi_jsxs(tag.as_any(), props, key_val).cast()
+  }
 }
