@@ -3,11 +3,6 @@
 /// https://github.com/npm/node-semver
 
 ///|
-/// Get the semver module instance
-extern "js" fn semver() -> @core.Any =
-  #| () => require("semver")
-
-///|
 /// SemVer type represents a parsed semantic version
 #external
 pub type SemVer
@@ -16,8 +11,12 @@ pub type SemVer
 /// Parse a semantic version string
 /// Returns null if invalid
 /// https://github.com/npm/node-semver#usage
+#module("semver")
+extern "js" fn ffi_parse(version : String) -> @core.Any = "parse"
+
+///|
 pub fn parse(version : String) -> String? {
-  let result = semver()._call("parse", [@core.any(version)])
+  let result = ffi_parse(version)
   if @core.is_null(result) {
     None
   } else {
@@ -28,8 +27,12 @@ pub fn parse(version : String) -> String? {
 ///|
 /// Return the parsed version, or null if it's not valid
 /// https://github.com/npm/node-semver#usage
+#module("semver")
+extern "js" fn ffi_valid(version : String) -> @core.Any = "valid"
+
+///|
 pub fn valid(version : String) -> String? {
-  let result = semver()._call("valid", [@core.any(version)])
+  let result = ffi_valid(version)
   if @core.is_null(result) {
     None
   } else {
@@ -40,8 +43,12 @@ pub fn valid(version : String) -> String? {
 ///|
 /// Return a cleaned version string, or null if invalid
 /// https://github.com/npm/node-semver#usage
+#module("semver")
+extern "js" fn ffi_clean(version : String) -> @core.Any = "clean"
+
+///|
 pub fn clean(version : String) -> String? {
-  let result = semver()._call("clean", [@core.any(version)])
+  let result = ffi_clean(version)
   if @core.is_null(result) {
     None
   } else {
@@ -53,76 +60,74 @@ pub fn clean(version : String) -> String? {
 /// Compare two versions
 /// Returns 0 if v1 == v2, or 1 if v1 is greater, or -1 if v2 is greater
 /// https://github.com/npm/node-semver#comparison
-pub fn compare(v1 : String, v2 : String) -> Int {
-  semver()._call("compare", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn compare(v1 : String, v2 : String) -> Int = "compare"
 
 ///|
 /// Compare two versions loosely
 /// https://github.com/npm/node-semver#comparison
+#module("semver")
+extern "js" fn ffi_compare_loose(v1 : String, v2 : String, loose : Bool) -> Int = "compare"
+
+///|
 pub fn compare_loose(v1 : String, v2 : String) -> Int {
-  semver()
-  ._call("compare", [@core.any(v1), @core.any(v2), @core.any(true)])
-  .cast()
+  ffi_compare_loose(v1, v2, true)
 }
 
 ///|
 /// v1 > v2
 /// https://github.com/npm/node-semver#comparison
-pub fn gt(v1 : String, v2 : String) -> Bool {
-  semver()._call("gt", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn gt(v1 : String, v2 : String) -> Bool = "gt"
 
 ///|
 /// v1 >= v2
 /// https://github.com/npm/node-semver#comparison
-pub fn gte(v1 : String, v2 : String) -> Bool {
-  semver()._call("gte", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn gte(v1 : String, v2 : String) -> Bool = "gte"
 
 ///|
 /// v1 < v2
 /// https://github.com/npm/node-semver#comparison
-pub fn lt(v1 : String, v2 : String) -> Bool {
-  semver()._call("lt", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn lt(v1 : String, v2 : String) -> Bool = "lt"
 
 ///|
 /// v1 <= v2
 /// https://github.com/npm/node-semver#comparison
-pub fn lte(v1 : String, v2 : String) -> Bool {
-  semver()._call("lte", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn lte(v1 : String, v2 : String) -> Bool = "lte"
 
 ///|
 /// v1 == v2
 /// https://github.com/npm/node-semver#comparison
-pub fn eq(v1 : String, v2 : String) -> Bool {
-  semver()._call("eq", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn eq(v1 : String, v2 : String) -> Bool = "eq"
 
 ///|
 /// v1 != v2
 /// https://github.com/npm/node-semver#comparison
-pub fn neq(v1 : String, v2 : String) -> Bool {
-  semver()._call("neq", [@core.any(v1), @core.any(v2)]).cast()
-}
+#module("semver")
+pub extern "js" fn neq(v1 : String, v2 : String) -> Bool = "neq"
 
 ///|
 /// Check if version satisfies a range
 /// https://github.com/npm/node-semver#ranges
-pub fn satisfies(version : String, range : String) -> Bool {
-  semver()._call("satisfies", [@core.any(version), @core.any(range)]).cast()
-}
+#module("semver")
+pub extern "js" fn satisfies(version : String, range : String) -> Bool = "satisfies"
 
 ///|
 /// Return the highest version in the list that satisfies the range, or null if none of them do
 /// https://github.com/npm/node-semver#ranges
+#module("semver")
+extern "js" fn ffi_max_satisfying(
+  versions : Array[String],
+  range : String,
+) -> @core.Any = "maxSatisfying"
+
+///|
 pub fn max_satisfying(versions : Array[String], range : String) -> String? {
-  let result = semver()._call("maxSatisfying", [
-    @core.any(versions),
-    @core.any(range),
-  ])
+  let result = ffi_max_satisfying(versions, range)
   if @core.is_null(result) {
     None
   } else {
@@ -133,11 +138,15 @@ pub fn max_satisfying(versions : Array[String], range : String) -> String? {
 ///|
 /// Return the lowest version in the list that satisfies the range, or null if none of them do
 /// https://github.com/npm/node-semver#ranges
+#module("semver")
+extern "js" fn ffi_min_satisfying(
+  versions : Array[String],
+  range : String,
+) -> @core.Any = "minSatisfying"
+
+///|
 pub fn min_satisfying(versions : Array[String], range : String) -> String? {
-  let result = semver()._call("minSatisfying", [
-    @core.any(versions),
-    @core.any(range),
-  ])
+  let result = ffi_min_satisfying(versions, range)
   if @core.is_null(result) {
     None
   } else {
@@ -146,15 +155,13 @@ pub fn min_satisfying(versions : Array[String], range : String) -> String? {
 }
 
 ///|
-extern "js" fn ffi_max(versions : Array[String]) -> @core.Any =
-  #| (versions) => {
-  #|   const semver = require('semver');
-  #|   return semver.max(versions);
-  #| }
-
-///|
 /// Return the highest version in the list
 /// https://github.com/npm/node-semver#ranges
+#module("semver")
+extern "js" fn ffi_max(versions : Array[String]) -> @core.Any =
+  #|(versions) => semver.max(versions)
+
+///|
 pub fn max(versions : Array[String]) -> String? {
   let result = ffi_max(versions)
   if @core.is_null(result) {
@@ -165,15 +172,13 @@ pub fn max(versions : Array[String]) -> String? {
 }
 
 ///|
-extern "js" fn ffi_min(versions : Array[String]) -> @core.Any =
-  #| (versions) => {
-  #|   const semver = require('semver');
-  #|   return semver.min(versions);
-  #| }
-
-///|
 /// Return the lowest version in the list
 /// https://github.com/npm/node-semver#ranges
+#module("semver")
+extern "js" fn ffi_min(versions : Array[String]) -> @core.Any =
+  #|(versions) => semver.min(versions)
+
+///|
 pub fn min(versions : Array[String]) -> String? {
   let result = ffi_min(versions)
   if @core.is_null(result) {
@@ -186,31 +191,34 @@ pub fn min(versions : Array[String]) -> String? {
 ///|
 /// Return true if the version is greater than all the versions in the range
 /// https://github.com/npm/node-semver#ranges
-pub fn gtr(version : String, range : String) -> Bool {
-  semver()._call("gtr", [@core.any(version), @core.any(range)]).cast()
-}
+#module("semver")
+pub extern "js" fn gtr(version : String, range : String) -> Bool = "gtr"
 
 ///|
 /// Return true if the version is less than all the versions in the range
 /// https://github.com/npm/node-semver#ranges
-pub fn ltr(version : String, range : String) -> Bool {
-  semver()._call("ltr", [@core.any(version), @core.any(range)]).cast()
-}
+#module("semver")
+pub extern "js" fn ltr(version : String, range : String) -> Bool = "ltr"
 
 ///|
 /// Return true if version is outside the range
 /// https://github.com/npm/node-semver#ranges
-pub fn outside(version : String, range : String, hilo : String) -> Bool {
-  semver()
-  ._call("outside", [@core.any(version), @core.any(range), @core.any(hilo)])
-  .cast()
-}
+#module("semver")
+pub extern "js" fn outside(
+  version : String,
+  range : String,
+  hilo : String,
+) -> Bool = "outside"
 
 ///|
 /// Return the valid range or null if it's not valid
 /// https://github.com/npm/node-semver#ranges
+#module("semver")
+extern "js" fn ffi_valid_range(range : String) -> @core.Any = "validRange"
+
+///|
 pub fn valid_range(range : String) -> String? {
-  let result = semver()._call("validRange", [@core.any(range)])
+  let result = ffi_valid_range(range)
   if @core.is_null(result) {
     None
   } else {
@@ -222,19 +230,27 @@ pub fn valid_range(range : String) -> String? {
 /// Increment a version
 /// release_type: major, premajor, minor, preminor, patch, prepatch, or prerelease
 /// https://github.com/npm/node-semver#functions
+#module("semver")
+extern "js" fn ffi_inc(version : String, release_type : String) -> @core.Any = "inc"
+
+///|
+#module("semver")
+extern "js" fn ffi_inc_with_identifier(
+  version : String,
+  release_type : String,
+  identifier : String,
+) -> @core.Any = "inc"
+
+///|
 pub fn inc(
   version : String,
   release_type : String,
   identifier? : String = "",
 ) -> String? {
   let result = if identifier == "" {
-    semver()._call("inc", [@core.any(version), @core.any(release_type)])
+    ffi_inc(version, release_type)
   } else {
-    semver()._call("inc", [
-      @core.any(version),
-      @core.any(release_type),
-      @core.any(identifier),
-    ])
+    ffi_inc_with_identifier(version, release_type, identifier)
   }
   if @core.is_null(result) {
     None
@@ -246,37 +262,37 @@ pub fn inc(
 ///|
 /// Return the major version number
 /// https://github.com/npm/node-semver#functions
-pub fn major(version : String) -> Int {
-  semver()._call("major", [@core.any(version)]).cast()
-}
+#module("semver")
+pub extern "js" fn major(version : String) -> Int = "major"
 
 ///|
 /// Return the minor version number
 /// https://github.com/npm/node-semver#functions
-pub fn minor(version : String) -> Int {
-  semver()._call("minor", [@core.any(version)]).cast()
-}
+#module("semver")
+pub extern "js" fn minor(version : String) -> Int = "minor"
 
 ///|
 /// Return the patch version number
 /// https://github.com/npm/node-semver#functions
-pub fn patch(version : String) -> Int {
-  semver()._call("patch", [@core.any(version)]).cast()
-}
+#module("semver")
+pub extern "js" fn patch(version : String) -> Int = "patch"
 
 ///|
 /// Return the prerelease components, or null if none exist
 /// https://github.com/npm/node-semver#functions
-pub fn prerelease(version : String) -> @core.Any {
-  semver()._call("prerelease", [@core.any(version)])
-}
+#module("semver")
+pub extern "js" fn prerelease(version : String) -> @core.Any = "prerelease"
 
 ///|
 /// Return the difference between two versions
 /// Returns: 'major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', or 'prerelease'
 /// https://github.com/npm/node-semver#functions
+#module("semver")
+extern "js" fn ffi_diff(v1 : String, v2 : String) -> @core.Any = "diff"
+
+///|
 pub fn diff(v1 : String, v2 : String) -> String? {
-  let result = semver()._call("diff", [@core.any(v1), @core.any(v2)])
+  let result = ffi_diff(v1, v2)
   if @core.is_null(result) {
     None
   } else {
@@ -287,22 +303,24 @@ pub fn diff(v1 : String, v2 : String) -> String? {
 ///|
 /// Sort an array of semver strings
 /// https://github.com/npm/node-semver#functions
-pub fn sort(versions : Array[String]) -> Array[String] {
-  semver()._call("sort", [@core.any(versions)]).cast()
-}
+#module("semver")
+pub extern "js" fn sort(versions : Array[String]) -> Array[String] = "sort"
 
 ///|
 /// Sort an array of semver strings in reverse order
 /// https://github.com/npm/node-semver#functions
-pub fn rsort(versions : Array[String]) -> Array[String] {
-  semver()._call("rsort", [@core.any(versions)]).cast()
-}
+#module("semver")
+pub extern "js" fn rsort(versions : Array[String]) -> Array[String] = "rsort"
 
 ///|
 /// Coerce a string to semver if possible
 /// https://github.com/npm/node-semver#coercion
+#module("semver")
+extern "js" fn ffi_coerce(version : String) -> @core.Any = "coerce"
+
+///|
 pub fn coerce(version : String) -> String? {
-  let result = semver()._call("coerce", [@core.any(version)])
+  let result = ffi_coerce(version)
   if @core.is_null(result) {
     None
   } else {

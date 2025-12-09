@@ -44,57 +44,64 @@ pub fn TransferHandler::as_any(self : TransferHandler) -> @core.Any = "%identity
 ///|
 /// Wrap an endpoint to create a proxy to the exposed object
 /// Use this in the main thread to wrap a Worker
-pub extern "js" fn wrap(endpoint : @core.Any) -> Remote =
-  #| (endpoint) => require('comlink').wrap(endpoint)
+#module("comlink")
+pub extern "js" fn wrap(endpoint : @core.Any) -> Remote = "wrap"
 
 ///|
+#module("comlink")
 extern "js" fn ffi_expose(obj : @core.Any, endpoint : @core.Any) -> Unit =
-  #| (obj, endpoint) => require('comlink').expose(obj, endpoint)
+  #|(...args) => Comlink.expose(...args)
 
 ///|
+#module("comlink")
 extern "js" fn ffi_expose_self(obj : @core.Any) -> Unit =
-  #| (obj) => require('comlink').expose(obj)
+  #|(obj) => Comlink.expose(obj)
 
 ///|
+#module("comlink")
 extern "js" fn ffi_transfer(
   value : @core.Any,
   transferables : @core.Any,
-) -> @core.Any =
-  #| (value, transferables) => require('comlink').transfer(value, transferables)
+) -> @core.Any = "transfer"
 
 ///|
 /// Mark a callback/function to be kept as a proxy
 /// Useful for event callbacks that need to be called from the worker
-pub extern "js" fn proxy(value : @core.Any) -> ProxyMarked =
-  #| (value) => require('comlink').proxy(value)
+#module("comlink")
+pub extern "js" fn proxy(value : @core.Any) -> ProxyMarked = "proxy"
 
 ///|
+#module("comlink")
 extern "js" fn ffi_window_endpoint(
   window : @core.Any,
   context : @core.Any,
   target_origin : String,
-) -> Endpoint =
-  #| (window, context, targetOrigin) => require('comlink').windowEndpoint(window, context, targetOrigin)
+) -> Endpoint = "windowEndpoint"
 
 ///|
+#module("comlink")
 extern "js" fn ffi_window_endpoint_default(window : @core.Any) -> Endpoint =
-  #| (window) => require('comlink').windowEndpoint(window)
+  #|(w) => Comlink.windowEndpoint(w)
 
 ///|
+/// Note: createEndpoint is a Symbol, not a function
 extern "js" fn ffi_create_endpoint() -> @core.Any =
   #| () => require('comlink').createEndpoint
 
 ///|
+/// Note: releaseProxy is a Symbol, not a function
 extern "js" fn ffi_release_proxy() -> @core.Any =
   #| () => require('comlink').releaseProxy
 
 ///|
+/// Note: proxyMarker is a Symbol, not a function
 extern "js" fn ffi_proxy_marker() -> @core.Any =
   #| () => require('comlink').proxyMarker
 
 ///| TransferHandler FFI
 
 ///|
+/// Note: transferHandlers is a Map, not a function
 extern "js" fn ffi_get_transfer_handlers() -> @core.Any =
   #| () => require('comlink').transferHandlers
 
@@ -199,13 +206,13 @@ extern "js" fn ffi_remote_call(
 
 ///|
 extern "js" fn ffi_remote_release(remote : Remote) -> Unit =
-  #| (remote) => remote[require('comlink').releaseProxy]()
+  #| (remote) => { const { releaseProxy } = require('comlink'); remote[releaseProxy](); }
 
 ///|
 extern "js" fn ffi_remote_create_endpoint(
   remote : Remote,
 ) -> @js.Promise[@message.MessagePort] =
-  #| (remote) => remote[require('comlink').createEndpoint]()
+  #| (remote) => { const { createEndpoint } = require('comlink'); return remote[createEndpoint](); }
 
 ///|
 /// Call a method on the remote object
