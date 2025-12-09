@@ -14,29 +14,36 @@ pub type Schema
 ///|
 pub fn Schema::as_any(self : Schema) -> @core.Any = "%identity"
 
-///| FFI Functions
+///| FFI Functions with #module directive
 
 ///|
-extern "js" fn ffi_load(str : String) -> @core.Any =
-  #| (str) => {
-  #|   const yaml = require('js-yaml');
-  #|   return yaml.load(str);
-  #| }
+#module("js-yaml")
+extern "js" fn ffi_load(str : String) -> @core.Any = "load"
 
 ///|
+#module("js-yaml")
 extern "js" fn ffi_load_with_options(
   str : String,
   options : @core.Any,
-) -> @core.Any =
-  #| (str, options) => {
-  #|   const yaml = require('js-yaml');
-  #|   return yaml.load(str, options);
-  #| }
+) -> @core.Any = "load"
+
+///|
+#module("js-yaml")
+extern "js" fn ffi_dump(obj : @core.Any) -> String = "dump"
+
+///|
+#module("js-yaml")
+extern "js" fn ffi_dump_with_options(
+  obj : @core.Any,
+  options : @core.Any,
+) -> String = "dump"
+
+///| loadAll requires a wrapper because it uses a callback pattern
 
 ///|
 extern "js" fn ffi_load_all(str : String) -> @core.Any =
-  #| (str) => {
-  #|   const yaml = require('js-yaml');
+  #| async (str) => {
+  #|   const yaml = await import("js-yaml");
   #|   const result = [];
   #|   yaml.loadAll(str, (doc) => result.push(doc));
   #|   return result;
@@ -47,61 +54,44 @@ extern "js" fn ffi_load_all_with_options(
   str : String,
   options : @core.Any,
 ) -> @core.Any =
-  #| (str, options) => {
-  #|   const yaml = require('js-yaml');
+  #| async (str, options) => {
+  #|   const yaml = await import("js-yaml");
   #|   const result = [];
   #|   yaml.loadAll(str, (doc) => result.push(doc), options);
   #|   return result;
   #| }
 
-///|
-extern "js" fn ffi_dump(obj : @core.Any) -> String =
-  #| (obj) => {
-  #|   const yaml = require('js-yaml');
-  #|   return yaml.dump(obj);
-  #| }
-
-///|
-extern "js" fn ffi_dump_with_options(
-  obj : @core.Any,
-  options : @core.Any,
-) -> String =
-  #| (obj, options) => {
-  #|   const yaml = require('js-yaml');
-  #|   return yaml.dump(obj, options);
-  #| }
-
-///| Schema Constants
+///| Schema Constants - these are object properties, need dynamic import
 
 ///|
 /// Default schema - all supported YAML types
 pub extern "js" fn defaultSchema() -> Schema =
-  #| () => {
-  #|   const yaml = require('js-yaml');
+  #| async () => {
+  #|   const yaml = await import("js-yaml");
   #|   return yaml.DEFAULT_SCHEMA;
   #| }
 
 ///|
 /// Failsafe schema - strings, arrays, plain objects only
 pub extern "js" fn failsafeSchema() -> Schema =
-  #| () => {
-  #|   const yaml = require('js-yaml');
+  #| async () => {
+  #|   const yaml = await import("js-yaml");
   #|   return yaml.FAILSAFE_SCHEMA;
   #| }
 
 ///|
 /// JSON schema - all JSON-supported types
 pub extern "js" fn jsonSchema() -> Schema =
-  #| () => {
-  #|   const yaml = require('js-yaml');
+  #| async () => {
+  #|   const yaml = await import("js-yaml");
   #|   return yaml.JSON_SCHEMA;
   #| }
 
 ///|
 /// Core schema - equivalent to JSON_SCHEMA
 pub extern "js" fn coreSchema() -> Schema =
-  #| () => {
-  #|   const yaml = require('js-yaml');
+  #| async () => {
+  #|   const yaml = await import("js-yaml");
   #|   return yaml.CORE_SCHEMA;
   #| }
 
@@ -132,13 +122,13 @@ pub fn load(
 }
 
 ///|
-/// Parse multi-document YAML string
+/// Parse multi-document YAML string (returns Promise)
 pub fn loadAll(
   str : String,
   filename? : String,
   schema? : Schema,
   json? : Bool,
-) -> Array[@core.Any] {
+) -> @core.Promise[Array[@core.Any]] {
   if filename is None && schema is None && json is None {
     return ffi_load_all(str).cast()
   }

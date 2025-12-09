@@ -3,41 +3,20 @@
 /// https://www.npmjs.com/package/helmet
 /// Help secure Express/Connect apps with various HTTP headers
 
-///|
-/// Dynamic import for helmet module
-extern "js" fn import_helmet() -> @core.Promise[@core.Any] =
-  #|() => import("helmet")
+///| Main helmet middleware - default export is a function
 
 ///|
-/// Initialize helmet global
-/// Must be called before using any helmet functions
-pub async fn init_global() -> Unit {
-  if @core.is_nullish(get_helmet_module()) {
-    let helmet : @core.Any = import_helmet().wait()
-    ffi_set_helmet_global(helmet._get("default"))
-  }
-}
+#module("helmet")
+extern "js" fn ffi_helmet() -> @core.Any = "default"
 
 ///|
-/// Initialize helmet global synchronously (for testing with require)
-pub fn init_helmet(helmet : @core.Any) -> Unit {
-  ffi_set_helmet_global(helmet)
-}
-
-///|
-extern "js" fn ffi_set_helmet_global(helmet : @core.Any) -> Unit =
-  #|(h) => { globalThis.__helmet = h; }
-
-///|
-extern "js" fn get_helmet_module() -> @core.Any =
-  #|() => globalThis.__helmet
-
-///| Main helmet middleware
+#module("helmet")
+extern "js" fn ffi_helmet_with_options(options : @core.Any) -> @core.Any = "default"
 
 ///|
 /// Get the default helmet middleware with all protections enabled
 pub fn helmet() -> @core.Any {
-  get_helmet_module()._invoke([])
+  ffi_helmet()
 }
 
 ///|
@@ -120,126 +99,162 @@ pub fn helmetWithOptions(
     Some(v) => opts["xssFilter"] = @core.any(v)
     None => ()
   }
-  get_helmet_module()._invoke([opts])
+  ffi_helmet_with_options(opts)
 }
 
-///| Individual middleware functions
+///| Individual middleware functions with #module directive
+
+///|
+#module("helmet")
+extern "js" fn ffi_contentSecurityPolicy() -> @core.Any = "contentSecurityPolicy"
+
+///|
+#module("helmet")
+extern "js" fn ffi_contentSecurityPolicy_with_opts(
+  opts : @core.Any,
+) -> @core.Any = "contentSecurityPolicy"
 
 ///|
 /// Content Security Policy middleware
 #alias(content_security_policy)
 pub fn contentSecurityPolicy(directives? : @core.Any) -> @core.Any {
-  let helmet = get_helmet_module()
   match directives {
     Some(v) => {
       let opts = @core.from_entries([("directives", v)])
-      helmet["contentSecurityPolicy"]._invoke([opts])
+      ffi_contentSecurityPolicy_with_opts(opts)
     }
-    None => helmet["contentSecurityPolicy"]._invoke([])
+    None => ffi_contentSecurityPolicy()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginEmbedderPolicy() -> @core.Any = "crossOriginEmbedderPolicy"
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginEmbedderPolicy_with_opts(
+  opts : @core.Any,
+) -> @core.Any = "crossOriginEmbedderPolicy"
 
 ///|
 /// Cross-Origin-Embedder-Policy middleware
 #alias(cross_origin_embedder_policy)
 pub fn crossOriginEmbedderPolicy(policy? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match policy {
     Some(v) => {
       let opts = @core.from_entries([("policy", @core.any(v))])
-      helmet["crossOriginEmbedderPolicy"]._invoke([opts])
+      ffi_crossOriginEmbedderPolicy_with_opts(opts)
     }
-    None => helmet["crossOriginEmbedderPolicy"]._invoke([])
+    None => ffi_crossOriginEmbedderPolicy()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginOpenerPolicy() -> @core.Any = "crossOriginOpenerPolicy"
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginOpenerPolicy_with_opts(
+  opts : @core.Any,
+) -> @core.Any = "crossOriginOpenerPolicy"
 
 ///|
 /// Cross-Origin-Opener-Policy middleware
 #alias(cross_origin_opener_policy)
 pub fn crossOriginOpenerPolicy(policy? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match policy {
     Some(v) => {
       let opts = @core.from_entries([("policy", @core.any(v))])
-      helmet["crossOriginOpenerPolicy"]._invoke([opts])
+      ffi_crossOriginOpenerPolicy_with_opts(opts)
     }
-    None => helmet["crossOriginOpenerPolicy"]._invoke([])
+    None => ffi_crossOriginOpenerPolicy()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginResourcePolicy() -> @core.Any = "crossOriginResourcePolicy"
+
+///|
+#module("helmet")
+extern "js" fn ffi_crossOriginResourcePolicy_with_opts(
+  opts : @core.Any,
+) -> @core.Any = "crossOriginResourcePolicy"
 
 ///|
 /// Cross-Origin-Resource-Policy middleware
 #alias(cross_origin_resource_policy)
 pub fn crossOriginResourcePolicy(policy? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match policy {
     Some(v) => {
       let opts = @core.from_entries([("policy", @core.any(v))])
-      helmet["crossOriginResourcePolicy"]._invoke([opts])
+      ffi_crossOriginResourcePolicy_with_opts(opts)
     }
-    None => helmet["crossOriginResourcePolicy"]._invoke([])
+    None => ffi_crossOriginResourcePolicy()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_dnsPrefetchControl() -> @core.Any = "dnsPrefetchControl"
+
+///|
+#module("helmet")
+extern "js" fn ffi_dnsPrefetchControl_with_opts(opts : @core.Any) -> @core.Any = "dnsPrefetchControl"
 
 ///|
 /// X-DNS-Prefetch-Control middleware
 #alias(dns_prefetch_control)
 pub fn dnsPrefetchControl(allow? : Bool) -> @core.Any {
-  let helmet = get_helmet_module()
   match allow {
     Some(v) => {
       let opts = @core.from_entries([("allow", @core.any(v))])
-      helmet["dnsPrefetchControl"]._invoke([opts])
+      ffi_dnsPrefetchControl_with_opts(opts)
     }
-    None => helmet["dnsPrefetchControl"]._invoke([])
+    None => ffi_dnsPrefetchControl()
   }
 }
 
 ///|
-/// Expect-CT middleware (deprecated)
-#alias(expect_ct)
-pub fn expectCt(
-  maxAge? : Int,
-  enforce? : Bool,
-  reportUri? : String,
-) -> @core.Any {
-  let helmet = get_helmet_module()
-  let opts = @core.new_object()
-  match maxAge {
-    Some(v) => opts["maxAge"] = @core.any(v)
-    None => ()
-  }
-  match enforce {
-    Some(v) => opts["enforce"] = @core.any(v)
-    None => ()
-  }
-  match reportUri {
-    Some(v) => opts["reportUri"] = @core.any(v)
-    None => ()
-  }
-  helmet["expectCt"]._invoke([opts])
-}
+#module("helmet")
+extern "js" fn ffi_frameguard() -> @core.Any = "frameguard"
+
+///|
+#module("helmet")
+extern "js" fn ffi_frameguard_with_opts(opts : @core.Any) -> @core.Any = "frameguard"
 
 ///|
 /// X-Frame-Options middleware
 pub fn frameguard(action? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match action {
     Some(v) => {
       let opts = @core.from_entries([("action", @core.any(v))])
-      helmet["frameguard"]._invoke([opts])
+      ffi_frameguard_with_opts(opts)
     }
-    None => helmet["frameguard"]._invoke([])
+    None => ffi_frameguard()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_hidePoweredBy() -> @core.Any = "hidePoweredBy"
 
 ///|
 /// Hide X-Powered-By middleware
 #alias(hide_powered_by)
 pub fn hidePoweredBy() -> @core.Any {
-  let helmet = get_helmet_module()
-  helmet["hidePoweredBy"]._invoke([])
+  ffi_hidePoweredBy()
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_hsts_with_opts(opts : @core.Any) -> @core.Any = "hsts"
+
+///|
+#module("helmet")
+extern "js" fn ffi_hsts() -> @core.Any = "hsts"
 
 ///|
 /// Strict-Transport-Security middleware
@@ -248,7 +263,9 @@ pub fn hsts(
   includeSubDomains? : Bool,
   preload? : Bool,
 ) -> @core.Any {
-  let helmet = get_helmet_module()
+  if maxAge is None && includeSubDomains is None && preload is None {
+    return ffi_hsts()
+  }
   let opts = @core.new_object()
   match maxAge {
     Some(v) => opts["maxAge"] = @core.any(v)
@@ -262,67 +279,95 @@ pub fn hsts(
     Some(v) => opts["preload"] = @core.any(v)
     None => ()
   }
-  helmet["hsts"]._invoke([opts])
+  ffi_hsts_with_opts(opts)
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_ieNoOpen() -> @core.Any = "ieNoOpen"
 
 ///|
 /// X-Download-Options middleware for IE8+
 #alias(ie_no_open)
 pub fn ieNoOpen() -> @core.Any {
-  let helmet = get_helmet_module()
-  helmet["ieNoOpen"]._invoke([])
+  ffi_ieNoOpen()
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_noSniff() -> @core.Any = "noSniff"
 
 ///|
 /// X-Content-Type-Options middleware
 #alias(no_sniff)
 pub fn noSniff() -> @core.Any {
-  let helmet = get_helmet_module()
-  helmet["noSniff"]._invoke([])
+  ffi_noSniff()
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_originAgentCluster() -> @core.Any = "originAgentCluster"
 
 ///|
 /// Origin-Agent-Cluster middleware
 #alias(origin_agent_cluster)
 pub fn originAgentCluster() -> @core.Any {
-  let helmet = get_helmet_module()
-  helmet["originAgentCluster"]._invoke([])
+  ffi_originAgentCluster()
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_permittedCrossDomainPolicies() -> @core.Any = "permittedCrossDomainPolicies"
+
+///|
+#module("helmet")
+extern "js" fn ffi_permittedCrossDomainPolicies_with_opts(
+  opts : @core.Any,
+) -> @core.Any = "permittedCrossDomainPolicies"
 
 ///|
 /// X-Permitted-Cross-Domain-Policies middleware
 #alias(permitted_cross_domain_policies)
 pub fn permittedCrossDomainPolicies(permittedPolicies? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match permittedPolicies {
     Some(v) => {
       let opts = @core.from_entries([("permittedPolicies", @core.any(v))])
-      helmet["permittedCrossDomainPolicies"]._invoke([opts])
+      ffi_permittedCrossDomainPolicies_with_opts(opts)
     }
-    None => helmet["permittedCrossDomainPolicies"]._invoke([])
+    None => ffi_permittedCrossDomainPolicies()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_referrerPolicy() -> @core.Any = "referrerPolicy"
+
+///|
+#module("helmet")
+extern "js" fn ffi_referrerPolicy_with_opts(opts : @core.Any) -> @core.Any = "referrerPolicy"
 
 ///|
 /// Referrer-Policy middleware
 #alias(referrer_policy)
 pub fn referrerPolicy(policy? : String) -> @core.Any {
-  let helmet = get_helmet_module()
   match policy {
     Some(v) => {
       let opts = @core.from_entries([("policy", @core.any(v))])
-      helmet["referrerPolicy"]._invoke([opts])
+      ffi_referrerPolicy_with_opts(opts)
     }
-    None => helmet["referrerPolicy"]._invoke([])
+    None => ffi_referrerPolicy()
   }
 }
+
+///|
+#module("helmet")
+extern "js" fn ffi_xssFilter() -> @core.Any = "xssFilter"
 
 ///|
 /// X-XSS-Protection middleware (legacy, not recommended for modern browsers)
 #alias(xss_filter)
 pub fn xssFilter() -> @core.Any {
-  let helmet = get_helmet_module()
-  helmet["xssFilter"]._invoke([])
+  ffi_xssFilter()
 }
 
 ///| Helper functions for building CSP directives
