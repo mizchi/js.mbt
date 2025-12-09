@@ -16,6 +16,10 @@ pub fn exposeToMessagePort(@core.Any, @message.MessagePort) -> Unit
 
 pub fn exposeToWorker(@core.Any, @worker.Worker) -> Unit
 
+pub fn init_comlink(@core.Any) -> Unit
+
+pub async fn init_global() -> Unit
+
 pub fn proxy(@core.Any) -> ProxyMarked
 
 pub fn proxyCallback((@core.Any) -> Unit) -> ProxyMarked
