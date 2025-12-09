@@ -25,10 +25,11 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] node:os - platform, homedir, etc.
 - [ ] node:crypto - randomBytes, createHash, etc. (if exists)
 
-### npm Libraries (Medium Priority)
+### npm Libraries (High/Medium Priority)
 
-- [ ] zod - schema validation
-- [ ] hono - web framework
+- [ ] zod - schema validation (high priority)
+- [ ] hono - web framework (high priority, but `new Hono()` requires workaround)
+  - Migrate non-constructor parts first (middleware, context helpers, etc.)
 - [ ] drizzle - database ORM
 - [ ] jose - JWT/JWE/JWS
 - [ ] date_fns - date utilities
