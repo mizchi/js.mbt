@@ -1,12 +1,12 @@
 ///|
-test "expect toBe basic" {
+async test "expect toBe basic" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(1 + 1)).toBe(@core.any(2))
   @vitest.expect(@core.any("hello")).toBe(@core.any("hello"))
 }
 
 ///|
-test "expect toEqual" {
+async test "expect toEqual" {
   @vitest.setup_standalone()
   let obj = @core.new_object()
   obj["a"] = @core.any(1)
@@ -18,20 +18,20 @@ test "expect toEqual" {
 }
 
 ///|
-test "expect toBeDefined and toBeUndefined" {
+async test "expect toBeDefined and toBeUndefined" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(42)).toBeDefined()
   @vitest.expect(@core.undefined()).toBeUndefined()
 }
 
 ///|
-test "expect toBeNull" {
+async test "expect toBeNull" {
   @vitest.setup_standalone()
   @vitest.expect(@core.null()).toBeNull()
 }
 
 ///|
-test "expect toBeTruthy and toBeFalsy" {
+async test "expect toBeTruthy and toBeFalsy" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(true)).toBeTruthy()
   @vitest.expect(@core.any(1)).toBeTruthy()
@@ -42,7 +42,7 @@ test "expect toBeTruthy and toBeFalsy" {
 }
 
 ///|
-test "expect numeric comparisons" {
+async test "expect numeric comparisons" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(10)).toBeGreaterThan(5.0)
   @vitest.expect(@core.any(10)).toBeGreaterThanOrEqual(10.0)
@@ -51,13 +51,13 @@ test "expect numeric comparisons" {
 }
 
 ///|
-test "expect toBeCloseTo" {
+async test "expect toBeCloseTo" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(0.1 + 0.2)).toBeCloseTo(0.3)
 }
 
 ///|
-test "expect toContain" {
+async test "expect toContain" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any("hello world")).toContain(@core.any("world"))
   let arr = @core.any([1, 2, 3])
@@ -65,7 +65,7 @@ test "expect toContain" {
 }
 
 ///|
-test "expect toHaveLength" {
+async test "expect toHaveLength" {
   @vitest.setup_standalone()
   let arr = @core.any([1, 2, 3])
   @vitest.expect(arr).toHaveLength(3)
@@ -73,14 +73,14 @@ test "expect toHaveLength" {
 }
 
 ///|
-test "expect not_ negation" {
+async test "expect not_ negation" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any(1)).not_().toBe(@core.any(2))
   @vitest.expect(@core.any("hello")).not_().toContain(@core.any("xyz"))
 }
 
 ///|
-test "expect toHaveProperty" {
+async test "expect toHaveProperty" {
   @vitest.setup_standalone()
   let obj = @core.new_object()
   obj["name"] = @core.any("Alice")
@@ -90,7 +90,7 @@ test "expect toHaveProperty" {
 }
 
 ///|
-test "expect toMatch" {
+async test "expect toMatch" {
   @vitest.setup_standalone()
   @vitest.expect(@core.any("hello world")).toMatch("world")
   @vitest.expect(@core.any("test@example.com")).toMatch("@")
