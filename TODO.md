@@ -55,7 +55,7 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] vitest - test runner (high priority)
 - [ ] drizzle - database ORM
 - [ ] jose - JWT/JWE/JWS
-- [ ] date_fns - date utilities
+- [x] date_fns - date utilities
 
 ### Testing Libraries (Low Priority - Node.js only)
 
