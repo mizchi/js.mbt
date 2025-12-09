@@ -2,6 +2,41 @@
 /// Hono - Web framework for Cloudflare Workers, Deno, Bun, etc.
 /// https://hono.dev/
 
+///| Global initialization
+
+///|
+/// Dynamic import for hono module
+extern "js" fn import_hono() -> @core.Promise[@core.Any] =
+  #|() => import("hono")
+
+///|
+extern "js" fn get_hono_global() -> @core.Any =
+  #|() => globalThis.__hono_Hono
+
+///|
+extern "js" fn set_hono_global(hono : @core.Any) -> Unit =
+  #|(hono) => { globalThis.__hono_Hono = hono; }
+
+///|
+/// Initialize hono globals asynchronously (recommended for ESM)
+pub async fn init_global() -> Unit {
+  if @core.is_nullish(get_hono_global()) {
+    let mod = import_hono().wait()
+    set_hono_global(mod._get("Hono"))
+  }
+}
+
+///|
+/// Initialize hono globals synchronously (for testing with require)
+pub fn init_hono(hono_module : @core.Any) -> Unit {
+  set_hono_global(hono_module._get("Hono"))
+}
+
+///|
+fn hono_class() -> @core.Any {
+  get_hono_global()
+}
+
 ///|
 /// Hono application instance
 /// Type parameters: Env (environment bindings), ExecutionContext
@@ -14,22 +49,15 @@ pub fn[Env, ExecutionContext] Hono::as_any(
 ) -> @core.Any = "%identity"
 
 ///|
-/// Create a new Hono instance without options
-/// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono() -> @core.Any =
-  #| () => {
-  #|   const { Hono } = require('hono');
-  #|   return new Hono();
-  #| }
+extern "js" fn ffi_new_hono(hono_class : @core.Any) -> @core.Any =
+  #|(Hono) => new Hono()
 
 ///|
-/// Create a new Hono instance with options
-/// https://hono.dev/docs/api/hono#new-hono
-extern "js" fn ffi_new_hono_with_options(options : @core.Any) -> @core.Any =
-  #| (options) => {
-  #|   const { Hono } = require('hono');
-  #|   return new Hono(options);
-  #| }
+extern "js" fn ffi_new_hono_with_options(
+  hono_class : @core.Any,
+  options : @core.Any,
+) -> @core.Any =
+  #|(Hono, options) => new Hono(options)
 
 ///|
 /// Build Hono options object
@@ -48,8 +76,9 @@ pub fn[Env, ExecutionContext] Hono::new(
   strict? : Bool,
 ) -> Hono[Env, ExecutionContext] {
   match strict {
-    Some(s) => ffi_new_hono_with_options(build_hono_options(s)).cast()
-    None => ffi_new_hono().cast()
+    Some(s) =>
+      ffi_new_hono_with_options(hono_class(), build_hono_options(s)).cast()
+    None => ffi_new_hono(hono_class()).cast()
   }
 }
 
