@@ -20,11 +20,6 @@ pub fn ChildProcess::to_event_emitter(
 ) -> @events.EventEmitter = "%identity"
 
 ///|
-// pub impl @events.EventEmitterImpl for ChildProcess with to_any(self) -> @core.Any {
-//   self.to_any()
-// }
-
-///|
 pub fn ChildProcess::as_event_emitter(
   self : ChildProcess,
 ) -> @events.EventEmitter = "%identity"
@@ -116,10 +111,90 @@ pub extern "js" fn ChildProcess::unref(self : ChildProcess) -> Unit =
 pub extern "js" fn ChildProcess::ref_(self : ChildProcess) -> Unit =
   #| (self) => self.ref()
 
+///| FFI with #module
+
 ///|
-/// Module Functions
-extern "js" fn ffi_require_child_process() -> @core.Any =
-  #|() => require("node:child_process")
+#module("node:child_process")
+extern "js" fn ffi_spawn(
+  command : String,
+  args : Array[String],
+  options : @core.Any,
+) -> ChildProcess = "spawn"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_spawn_no_args(
+  command : String,
+  options : @core.Any,
+) -> ChildProcess = "spawn"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_exec(
+  command : String,
+  options : @core.Any,
+  callback : @core.Any,
+) -> ChildProcess = "exec"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_execFile(
+  file : String,
+  args : Array[String],
+  options : @core.Any,
+  callback : @core.Any,
+) -> ChildProcess = "execFile"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_fork(
+  modulePath : String,
+  args : Array[String],
+  options : @core.Any,
+) -> ChildProcess = "fork"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_fork_no_args(
+  modulePath : String,
+  options : @core.Any,
+) -> ChildProcess = "fork"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_spawnSync(
+  command : String,
+  args : Array[String],
+  options : @core.Any,
+) -> SpawnSyncResult = "spawnSync"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_spawnSync_no_args(
+  command : String,
+  options : @core.Any,
+) -> SpawnSyncResult = "spawnSync"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_execSync(command : String, options : @core.Any) -> @core.Any = "execSync"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_execFileSync(
+  file : String,
+  args : Array[String],
+  options : @core.Any,
+) -> @core.Any = "execFileSync"
+
+///|
+#module("node:child_process")
+extern "js" fn ffi_execFileSync_no_args(
+  file : String,
+  options : @core.Any,
+) -> @core.Any = "execFileSync"
+
+///| Public API
 
 ///|
 /// spawn(command[, args][, options])
@@ -133,28 +208,25 @@ pub fn spawn(
   timeout? : Int,
   signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
-  let cp = ffi_require_child_process()
-  let entries : Array[(String, @core.Any)] = []
+  let options = @core.new_object()
   if cwd is Some(v) {
-    entries.push(("cwd", @core.any(v)))
+    options["cwd"] = @core.any(v)
   }
   if env is Some(v) {
-    entries.push(("env", v))
+    options["env"] = v
   }
   if shell is Some(v) {
-    entries.push(("shell", @core.any(v)))
+    options["shell"] = @core.any(v)
   }
   if timeout is Some(v) {
-    entries.push(("timeout", @core.any(v)))
+    options["timeout"] = @core.any(v)
   }
   if signal is Some(v) {
-    entries.push(("signal", @core.any(v)))
+    options["signal"] = @core.any(v)
   }
-  let options = @core.from_entries(entries)
   match args {
-    Some(a) =>
-      cp._call("spawn", [@core.any(command), @core.any(a), options]).cast()
-    None => cp._call("spawn", [@core.any(command), options]).cast()
+    Some(a) => ffi_spawn(command, a, options)
+    None => ffi_spawn_no_args(command, options)
   }
 }
 
@@ -171,28 +243,26 @@ pub fn exec(
   max_buffer? : Int,
   signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
-  let cp = ffi_require_child_process()
-  let entries : Array[(String, @core.Any)] = []
+  let options = @core.new_object()
   if cwd is Some(v) {
-    entries.push(("cwd", @core.any(v)))
+    options["cwd"] = @core.any(v)
   }
   if env is Some(v) {
-    entries.push(("env", v))
+    options["env"] = v
   }
   if shell is Some(v) {
-    entries.push(("shell", @core.any(v)))
+    options["shell"] = @core.any(v)
   }
   if timeout is Some(v) {
-    entries.push(("timeout", @core.any(v)))
+    options["timeout"] = @core.any(v)
   }
   if max_buffer is Some(v) {
-    entries.push(("maxBuffer", @core.any(v)))
+    options["maxBuffer"] = @core.any(v)
   }
   if signal is Some(v) {
-    entries.push(("signal", @core.any(v)))
+    options["signal"] = @core.any(v)
   }
-  let options = @core.from_entries(entries)
-  cp._call("exec", [@core.any(command), options, @core.any(callback)]).cast()
+  ffi_exec(command, options, @core.any(callback))
 }
 
 ///|
@@ -209,32 +279,23 @@ pub fn execFile(
   max_buffer? : Int,
   signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
-  let cp = ffi_require_child_process()
-  let entries : Array[(String, @core.Any)] = []
+  let options = @core.new_object()
   if cwd is Some(v) {
-    entries.push(("cwd", @core.any(v)))
+    options["cwd"] = @core.any(v)
   }
   if env is Some(v) {
-    entries.push(("env", v))
+    options["env"] = v
   }
   if timeout is Some(v) {
-    entries.push(("timeout", @core.any(v)))
+    options["timeout"] = @core.any(v)
   }
   if max_buffer is Some(v) {
-    entries.push(("maxBuffer", @core.any(v)))
+    options["maxBuffer"] = @core.any(v)
   }
   if signal is Some(v) {
-    entries.push(("signal", @core.any(v)))
+    options["signal"] = @core.any(v)
   }
-  let options = @core.from_entries(entries)
-  cp
-  ._call("execFile", [
-    @core.any(file),
-    @core.any(args),
-    options,
-    @core.any(callback),
-  ])
-  .cast()
+  ffi_execFile(file, args, options, @core.any(callback))
 }
 
 ///|
@@ -249,28 +310,25 @@ pub fn fork(
   timeout? : Int,
   signal? : @js_async.AbortSignal,
 ) -> ChildProcess {
-  let cp = ffi_require_child_process()
-  let entries : Array[(String, @core.Any)] = []
+  let options = @core.new_object()
   if cwd is Some(v) {
-    entries.push(("cwd", @core.any(v)))
+    options["cwd"] = @core.any(v)
   }
   if env is Some(v) {
-    entries.push(("env", v))
+    options["env"] = v
   }
   if silent is Some(v) {
-    entries.push(("silent", @core.any(v)))
+    options["silent"] = @core.any(v)
   }
   if timeout is Some(v) {
-    entries.push(("timeout", @core.any(v)))
+    options["timeout"] = @core.any(v)
   }
   if signal is Some(v) {
-    entries.push(("signal", @core.any(v)))
+    options["signal"] = @core.any(v)
   }
-  let options = @core.from_entries(entries)
   match args {
-    Some(a) =>
-      cp._call("fork", [@core.any(module_path), @core.any(a), options]).cast()
-    None => cp._call("fork", [@core.any(module_path), options]).cast()
+    Some(a) => ffi_fork(module_path, a, options)
+    None => ffi_fork_no_args(module_path, options)
   }
 }
 
@@ -349,33 +407,28 @@ pub fn spawnSync(
   stdio? : String,
 ) -> SpawnSyncResult raise @core.ThrowError {
   @core.throwable(fn() {
-    let cp = ffi_require_child_process()
-    let entries : Array[(String, @core.Any)] = []
+    let options = @core.new_object()
     if cwd is Some(v) {
-      entries.push(("cwd", @core.any(v)))
+      options["cwd"] = @core.any(v)
     }
     if env is Some(v) {
-      entries.push(("env", v))
+      options["env"] = v
     }
     if shell is Some(v) {
-      entries.push(("shell", @core.any(v)))
+      options["shell"] = @core.any(v)
     }
     if timeout is Some(v) {
-      entries.push(("timeout", @core.any(v)))
+      options["timeout"] = @core.any(v)
     }
     if input is Some(v) {
-      entries.push(("input", @core.any(v)))
+      options["input"] = @core.any(v)
     }
     if stdio is Some(v) {
-      entries.push(("stdio", @core.any(v)))
+      options["stdio"] = @core.any(v)
     }
-    let options = @core.from_entries(entries)
     match args {
-      Some(a) =>
-        cp
-        ._call("spawnSync", [@core.any(command), @core.any(a), options])
-        .cast()
-      None => cp._call("spawnSync", [@core.any(command), options]).cast()
+      Some(a) => ffi_spawnSync(command, a, options)
+      None => ffi_spawnSync_no_args(command, options)
     }
   })
 }
@@ -396,32 +449,30 @@ pub fn execSync(
   stdio? : String,
 ) -> String raise @core.ThrowError {
   @core.throwable(fn() {
-    let cp = ffi_require_child_process()
-    let entries : Array[(String, @core.Any)] = []
+    let options = @core.new_object()
     if cwd is Some(v) {
-      entries.push(("cwd", @core.any(v)))
+      options["cwd"] = @core.any(v)
     }
     if env is Some(v) {
-      entries.push(("env", v))
+      options["env"] = v
     }
     if shell is Some(v) {
-      entries.push(("shell", @core.any(v)))
+      options["shell"] = @core.any(v)
     }
     if timeout is Some(v) {
-      entries.push(("timeout", @core.any(v)))
+      options["timeout"] = @core.any(v)
     }
     if maxBuffer is Some(v) {
-      entries.push(("maxBuffer", @core.any(v)))
+      options["maxBuffer"] = @core.any(v)
     }
     if input is Some(v) {
-      entries.push(("input", @core.any(v)))
+      options["input"] = @core.any(v)
     }
-    entries.push(("encoding", @core.any(encoding.unwrap_or("utf8"))))
+    options["encoding"] = @core.any(encoding.unwrap_or("utf8"))
     if stdio is Some(v) {
-      entries.push(("stdio", @core.any(v)))
+      options["stdio"] = @core.any(v)
     }
-    let options = @core.from_entries(entries)
-    cp._call("execSync", [@core.any(command), options]).cast()
+    ffi_execSync(command, options).cast()
   })
 }
 
@@ -440,31 +491,26 @@ pub fn execFileSync(
   encoding? : String,
 ) -> String raise @core.ThrowError {
   @core.throwable(fn() {
-    let cp = ffi_require_child_process()
-    let entries : Array[(String, @core.Any)] = []
+    let options = @core.new_object()
     if cwd is Some(v) {
-      entries.push(("cwd", @core.any(v)))
+      options["cwd"] = @core.any(v)
     }
     if env is Some(v) {
-      entries.push(("env", v))
+      options["env"] = v
     }
     if timeout is Some(v) {
-      entries.push(("timeout", @core.any(v)))
+      options["timeout"] = @core.any(v)
     }
     if maxBuffer is Some(v) {
-      entries.push(("maxBuffer", @core.any(v)))
+      options["maxBuffer"] = @core.any(v)
     }
     if input is Some(v) {
-      entries.push(("input", @core.any(v)))
+      options["input"] = @core.any(v)
     }
-    entries.push(("encoding", @core.any(encoding.unwrap_or("utf8"))))
-    let options = @core.from_entries(entries)
+    options["encoding"] = @core.any(encoding.unwrap_or("utf8"))
     match args {
-      Some(a) =>
-        cp
-        ._call("execFileSync", [@core.any(file), @core.any(a), options])
-        .cast()
-      None => cp._call("execFileSync", [@core.any(file), options]).cast()
+      Some(a) => ffi_execFileSync(file, a, options).cast()
+      None => ffi_execFileSync_no_args(file, options).cast()
     }
   })
 }

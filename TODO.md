@@ -41,7 +41,8 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] node:buffer - **Blocked**: Buffer class static methods
 - [ ] node:http - **Blocked**: All functions have callbacks/optional args
 - [ ] node:sqlite - **Blocked**: Database class constructor
-- [ ] node:child_process - **Blocked**: All functions (spawn, exec, fork, etc.) have many optional args and callbacks
+- [x] node:child_process - spawn, exec, execFile, fork, spawnSync, execSync, execFileSync
+  - Note: All functions use #module FFI internally, wrapped with optional args
 
 ### npm Libraries (High/Medium Priority)
 
