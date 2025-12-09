@@ -1,24 +1,14 @@
 ///|
 /// Initialize the Preact API and store it in globalThis.__PreactApi
-/// Node.js: globalThis.__PreactApi = require('preact')
+/// @deprecated No longer needed with ESM imports
 pub fn init_preact_api(
   preact : @core.Any,
   hooks : @core.Any,
   global_key? : String = "__PreactApi",
 ) -> Unit {
-  if @core.is_nullish(@global.global_this()._get(global_key)) {
-    // Merge preact and hooks into a single API object
-    let api = @core.new_object()
-    // Copy preact exports
-    for key in @core.object_keys(preact) {
-      api._set(key, preact._get(key))
-    }
-    // Copy hooks exports
-    for key in @core.object_keys(hooks) {
-      api._set(key, hooks._get(key))
-    }
-    @global.global_this()._set(global_key, api)
-  }
+  ignore(preact)
+  ignore(hooks)
+  ignore(global_key)
 }
 
 ///|

@@ -9,7 +9,6 @@
     "mizchi/js/builtins/global"
   ],
   "test-import": [
-    "mizchi/js/node",
     "mizchi/js/npm/global_jsdom",
     "moonbitlang/async"
   ],

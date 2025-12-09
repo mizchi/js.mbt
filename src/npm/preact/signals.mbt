@@ -78,8 +78,8 @@ pub fn[T] signal(initial : T) -> Signal[T] {
 }
 
 ///|
-extern "js" fn ffi_signal(initial : @core.Any) -> @core.Any =
-  #|(v) => globalThis.__PreactSignals.signal(v)
+#module("@preact/signals")
+extern "js" fn ffi_signal(initial : @core.Any) -> @core.Any = "signal"
 
 ///|
 /// Create a computed signal from a function
@@ -90,8 +90,8 @@ pub fn[T] computed(fn_ : () -> T) -> ReadonlySignal[T] {
 }
 
 ///|
-extern "js" fn ffi_computed(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => globalThis.__PreactSignals.computed(fn)
+#module("@preact/signals")
+extern "js" fn ffi_computed(fn_ : @core.Any) -> @core.Any = "computed"
 
 ///|
 /// Create an effect that runs when its dependencies change
@@ -109,8 +109,8 @@ pub fn effectWithCleanup(fn_ : () -> () -> Unit) -> () -> Unit {
 }
 
 ///|
-extern "js" fn ffi_effect(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => globalThis.__PreactSignals.effect(fn)
+#module("@preact/signals")
+extern "js" fn ffi_effect(fn_ : @core.Any) -> @core.Any = "effect"
 
 ///|
 /// Batch multiple signal updates together
@@ -120,8 +120,8 @@ pub fn batch(fn_ : () -> Unit) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_batch(fn_ : @core.Any) -> Unit =
-  #|(fn) => globalThis.__PreactSignals.batch(fn)
+#module("@preact/signals")
+extern "js" fn ffi_batch(fn_ : @core.Any) -> Unit = "batch"
 
 ///|
 /// Untracked read - read signals without subscribing
@@ -131,15 +131,14 @@ pub fn[T] untracked(fn_ : () -> T) -> T {
 }
 
 ///|
-extern "js" fn ffi_untracked(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => globalThis.__PreactSignals.untracked(fn)
+#module("@preact/signals")
+extern "js" fn ffi_untracked(fn_ : @core.Any) -> @core.Any = "untracked"
 
 ///|
 /// Initialize the Preact Signals API
+/// @deprecated No longer needed with ESM imports
 pub fn init_preact_signals(signals : @core.Any) -> Unit {
-  if @core.is_nullish(@core.global_this()["__PreactSignals"]) {
-    @core.global_this()["__PreactSignals"] = signals
-  }
+  ignore(signals)
 }
 
 ///|
@@ -150,8 +149,8 @@ pub fn[T] useSignal(initial : T) -> Signal[T] {
 }
 
 ///|
-extern "js" fn ffi_use_signal(initial : @core.Any) -> @core.Any =
-  #|(v) => globalThis.__PreactSignals.useSignal(v)
+#module("@preact/signals")
+extern "js" fn ffi_use_signal(initial : @core.Any) -> @core.Any = "useSignal"
 
 ///|
 /// useComputed hook - Create a computed signal in a component
@@ -162,8 +161,8 @@ pub fn[T] useComputed(fn_ : () -> T) -> ReadonlySignal[T] {
 }
 
 ///|
-extern "js" fn ffi_use_computed(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => globalThis.__PreactSignals.useComputed(fn)
+#module("@preact/signals")
+extern "js" fn ffi_use_computed(fn_ : @core.Any) -> @core.Any = "useComputed"
 
 ///|
 /// useSignalEffect hook - Run an effect that tracks signal dependencies
@@ -173,5 +172,5 @@ pub fn useSignalEffect(fn_ : () -> Unit) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_use_signal_effect(fn_ : @core.Any) -> Unit =
-  #|(fn) => globalThis.__PreactSignals.useSignalEffect(fn)
+#module("@preact/signals")
+extern "js" fn ffi_use_signal_effect(fn_ : @core.Any) -> Unit = "useSignalEffect"

@@ -7,11 +7,6 @@ priv struct MutBox[T] {
 ///|
 fn setup() -> () -> Unit {
   @global_jsdom.register()
-  init_preact_api(@node.require("preact"), @node.require("preact/hooks"))
-  let signals : @core.Any = @node.require("@preact/signals").cast()
-  init_preact_signals(signals)
-  let ssr : @core.Any = @node.require("preact-render-to-string").cast()
-  init_preact_ssr(ssr)
   fn() { () }
 }
 
