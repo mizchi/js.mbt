@@ -33,10 +33,20 @@ pub fn createElementDirect(
 }
 
 ///|
-/// Create React element with props only (no children) - for void elements like <input>
-pub fn createElementRaw(tag : @core.Any, props : @core.Any) -> Element {
+/// Create React element with props - uses jsx or jsxs based on children count
+/// When props contains children array with >1 elements, uses jsxs
+pub fn createElementRaw(
+  tag : @core.Any,
+  props : @core.Any,
+  children_count? : Int,
+) -> Element {
   let key_val : @core.Any = @core.undefined()
-  ffi_jsx(tag, props, key_val).cast()
+  let count = children_count.unwrap_or(0)
+  if count <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
 }
 
 ///|

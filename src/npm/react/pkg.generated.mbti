@@ -26,7 +26,7 @@ pub fn createElement(String, Array[&ReactNode], props? : Map[String, @core.Any],
 
 pub fn createElementDirect(String, @core.Any, @core.Any) -> Element
 
-pub fn createElementRaw(@core.Any, @core.Any) -> Element
+pub fn createElementRaw(@core.Any, @core.Any, children_count? : Int) -> Element
 
 pub fn createElementWithKey(@core.Any, @core.Any, String?, children_count? : Int) -> Element
 
