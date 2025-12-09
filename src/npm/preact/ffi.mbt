@@ -1,25 +1,18 @@
 ///|
-/// createElement and h use variadic children, keep with inline JS
+#module("preact")
 extern "js" fn ffi_create_element(
   tag : @core.Any,
   props : @core.Any,
   children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  const { createElement } = require("preact")
-  #|  return createElement(tag, props, ...children)
-  #|}
+) -> @core.Any = "createElement"
 
 ///|
+#module("preact")
 extern "js" fn ffi_h(
   tag : @core.Any,
   props : @core.Any,
   children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  const { h } = require("preact")
-  #|  return h(tag, props, ...children)
-  #|}
+) -> @core.Any = "h"
 
 ///|
 #module("preact")
@@ -100,7 +93,8 @@ extern "js" fn ffi_clone_element(
 extern "js" fn ffi_to_child_array(children : @core.Any) -> @core.Any = "toChildArray"
 
 ///|
-/// Fragment is a property export, not a function
+/// Fragment needs to be a reference, not a function call
+/// #module would call Fragment() instead of returning the Fragment function
 extern "js" fn get_fragment() -> @core.Any =
   #|() => require("preact").Fragment
 
