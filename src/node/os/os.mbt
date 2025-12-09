@@ -3,8 +3,81 @@
 // https://nodejs.org/api/os.html
 
 ///|
+/// os_module kept for property access (EOL, devNull) and functions with optional args
 extern "js" fn os_module() -> @core.Any =
   #| () => require("node:os")
+
+///|
+#module("node:os")
+extern "js" fn internal_arch() -> String = "arch"
+
+///|
+#module("node:os")
+extern "js" fn internal_cpus() -> Array[CpuInfo] = "cpus"
+
+///|
+#module("node:os")
+extern "js" fn internal_endianness() -> String = "endianness"
+
+///|
+#module("node:os")
+extern "js" fn internal_freemem() -> Double = "freemem"
+
+///|
+#module("node:os")
+extern "js" fn internal_homedir() -> String = "homedir"
+
+///|
+#module("node:os")
+extern "js" fn internal_hostname() -> String = "hostname"
+
+///|
+#module("node:os")
+extern "js" fn internal_loadavg() -> Array[Double] = "loadavg"
+
+///|
+#module("node:os")
+extern "js" fn internal_network_interfaces() -> @core.Any = "networkInterfaces"
+
+///|
+#module("node:os")
+extern "js" fn internal_platform() -> String = "platform"
+
+///|
+#module("node:os")
+extern "js" fn internal_release() -> String = "release"
+
+///|
+#module("node:os")
+extern "js" fn internal_tmpdir() -> String = "tmpdir"
+
+///|
+#module("node:os")
+extern "js" fn internal_totalmem() -> Double = "totalmem"
+
+///|
+#module("node:os")
+extern "js" fn internal_type() -> String = "type"
+
+///|
+#module("node:os")
+extern "js" fn internal_uptime() -> Double = "uptime"
+
+///|
+#module("node:os")
+extern "js" fn internal_user_info() -> UserInfo = "userInfo"
+
+///|
+#module("node:os")
+extern "js" fn internal_version() -> String = "version"
+
+///|
+#module("node:os")
+extern "js" fn internal_available_parallelism() -> Int = "availableParallelism"
+
+///|
+#module("node:os")
+extern "js" fn internal_machine() -> String = "machine"
 
 ///|
 /// CPU information returned by cpus()
@@ -108,8 +181,7 @@ pub fn UserInfo::homedir(self : UserInfo) -> String {
 ///
 /// The CPU architecture: 'arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 's390', 's390x', 'x64'
 pub fn arch() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("arch", []).cast()
+  internal_arch()
 }
 
 ///|
@@ -121,8 +193,7 @@ pub fn arch() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn cpus() -> Array[CpuInfo] {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("cpus", []) |> @core.identity
+  internal_cpus()
 }
 
 ///|
@@ -132,29 +203,25 @@ pub fn cpus() -> Array[CpuInfo] {
 ///
 /// 'BE' for big endian or 'LE' for little endian
 pub fn endianness() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("endianness", []).cast()
+  internal_endianness()
 }
 
 ///|
 /// Returns the amount of free system memory in bytes
 pub fn freemem() -> Double {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("freemem", []).cast()
+  internal_freemem()
 }
 
 ///|
 /// Returns the home directory of the current user
 pub fn homedir() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("homedir", []).cast()
+  internal_homedir()
 }
 
 ///|
 /// Returns the host name of the operating system
 pub fn hostname() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("hostname", []).cast()
+  internal_hostname()
 }
 
 ///|
@@ -166,8 +233,7 @@ pub fn hostname() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn loadavg() -> Array[Double] {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("loadavg", []) |> @core.identity
+  internal_loadavg()
 }
 
 ///|
@@ -178,8 +244,7 @@ pub fn loadavg() -> Array[Double] {
 /// An object with interface names as keys
 #alias(network_interfaces)
 pub fn networkInterfaces() -> @core.Any {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("networkInterfaces", []) |> @core.identity
+  internal_network_interfaces()
 }
 
 ///|
@@ -189,29 +254,25 @@ pub fn networkInterfaces() -> @core.Any {
 ///
 /// Platform: 'aix', 'darwin', 'freebsd', 'linux', 'openbsd', 'sunos', 'win32'
 pub fn platform() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("platform", []).cast()
+  internal_platform()
 }
 
 ///|
 /// Returns the operating system release
 pub fn release() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("release", []).cast()
+  internal_release()
 }
 
 ///|
 /// Returns the operating system's default directory for temporary files
 pub fn tmpdir() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("tmpdir", []).cast()
+  internal_tmpdir()
 }
 
 ///|
 /// Returns the total amount of system memory in bytes
 pub fn totalmem() -> Double {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("totalmem", []).cast()
+  internal_totalmem()
 }
 
 ///|
@@ -221,15 +282,13 @@ pub fn totalmem() -> Double {
 ///
 /// OS name (e.g., 'Linux', 'Darwin', 'Windows_NT')
 pub fn type_() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("type", []).cast()
+  internal_type()
 }
 
 ///|
 /// Returns the system uptime in seconds
 pub fn uptime() -> Double {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("uptime", []).cast()
+  internal_uptime()
 }
 
 ///|
@@ -240,8 +299,7 @@ pub fn uptime() -> Double {
 /// An object containing uid, gid, username, homedir, shell
 #alias(userinfo)
 pub fn userInfo() -> UserInfo {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("userInfo", []) |> @core.identity
+  internal_user_info()
 }
 
 ///|
@@ -260,8 +318,7 @@ pub fn userInfoWithEncoding(encoding : String) -> UserInfo {
 ///|
 /// Returns the operating system version
 pub fn version() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("version", []).cast()
+  internal_version()
 }
 
 ///| OS Constants
@@ -304,8 +361,7 @@ pub fn setPriority(priority : Int, pid~ : Int?) -> Unit {
 /// Returns the number of logical CPU cores available
 #alias(available_parallelism)
 pub fn availableParallelism() -> Int {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("availableParallelism", []).cast()
+  internal_available_parallelism()
 }
 
 ///|
@@ -315,8 +371,7 @@ pub fn availableParallelism() -> Int {
 ///
 /// Machine type (e.g., 'x86_64', 'arm64')
 pub fn machine() -> String {
-  let os : @core.Any = os_module() |> @core.any
-  os._call("machine", []).cast()
+  internal_machine()
 }
 
 ///|
