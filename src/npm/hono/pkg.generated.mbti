@@ -32,10 +32,6 @@ pub fn hc(String) -> HonoClient
 
 pub fn html(String) -> HtmlEscapedString
 
-pub async fn init_global() -> Unit
-
-pub fn init_hono(@core.Any) -> Unit
-
 #alias(h)
 pub fn jsx(String, Array[&HonoNode], props? : Map[String, @core.Any], style? : Map[String, String], class? : &CssClassName, id? : String, key? : String) -> JSXNode
 
