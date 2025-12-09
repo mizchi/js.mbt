@@ -11,48 +11,88 @@
 #external
 pub type Debug
 
+///| Global initialization
+
+///|
+/// Dynamic import for debug module
+extern "js" fn import_debug() -> @core.Promise[@core.Any] =
+  #|() => import("debug")
+
+///|
+extern "js" fn get_debug_global() -> @core.Any =
+  #|() => globalThis.__debug
+
+///|
+extern "js" fn set_debug_global(debug : @core.Any) -> Unit =
+  #|(debug) => { globalThis.__debug = debug; }
+
+///|
+/// Initialize debug globals asynchronously (recommended for ESM)
+pub async fn init_global() -> Unit {
+  if @core.is_nullish(get_debug_global()) {
+    let mod = import_debug().wait()
+    set_debug_global(mod._get("default"))
+  }
+}
+
+///|
+/// Initialize debug globals synchronously (for testing with require)
+pub fn init_debug(debug_module : @core.Any) -> Unit {
+  set_debug_global(debug_module)
+}
+
 ///| FFI Functions
 
 ///|
+extern "js" fn ffi_debug(debug : @core.Any, ns : String) -> Debug =
+  #|(debug, ns) => debug(ns)
+
+///|
+extern "js" fn ffi_enable(debug : @core.Any, namespaces : String) -> Unit =
+  #|(debug, namespaces) => debug.enable(namespaces)
+
+///|
+extern "js" fn ffi_disable(debug : @core.Any) -> String =
+  #|(debug) => debug.disable()
+
+///|
+extern "js" fn ffi_enabled(debug : @core.Any, ns : String) -> Bool =
+  #|(debug, ns) => debug.enabled(ns)
+
+///|
+extern "js" fn ffi_coerce(debug : @core.Any, val : @core.Any) -> @core.Any =
+  #|(debug, val) => debug.coerce(val)
+
+///|
 /// Create a new debug logger with the given namespace
-pub extern "js" fn debug(ns : String) -> Debug =
-  #| (ns) => {
-  #|   const debug = require('debug');
-  #|   return debug(ns);
-  #| }
+pub fn debug(ns : String) -> Debug {
+  ffi_debug(get_debug_global(), ns)
+}
 
 ///|
 /// Enable debug output for the given namespaces
 /// Supports wildcards: "app:*" enables all namespaces starting with "app:"
-pub extern "js" fn enable(namespaces : String) -> Unit =
-  #| (namespaces) => {
-  #|   const debug = require('debug');
-  #|   debug.enable(namespaces);
-  #| }
+pub fn enable(namespaces : String) -> Unit {
+  ffi_enable(get_debug_global(), namespaces)
+}
 
 ///|
 /// Disable all debug output and return previously enabled namespaces
-pub extern "js" fn disable() -> String =
-  #| () => {
-  #|   const debug = require('debug');
-  #|   return debug.disable();
-  #| }
+pub fn disable() -> String {
+  ffi_disable(get_debug_global())
+}
 
 ///|
 /// Check if a namespace is enabled
-pub extern "js" fn enabled(ns : String) -> Bool =
-  #| (ns) => {
-  #|   const debug = require('debug');
-  #|   return debug.enabled(ns);
-  #| }
+pub fn enabled(ns : String) -> Bool {
+  ffi_enabled(get_debug_global(), ns)
+}
 
 ///|
 /// Coerce a value (useful for Error objects)
-pub extern "js" fn coerce(val : @core.Any) -> @core.Any =
-  #| (val) => {
-  #|   const debug = require('debug');
-  #|   return debug.coerce(val);
-  #| }
+pub fn coerce(val : @core.Any) -> @core.Any {
+  ffi_coerce(get_debug_global(), val)
+}
 
 ///|
 extern "js" fn ffi_log(
