@@ -403,6 +403,91 @@ test "EventTarget - addEventListener and dispatchEvent" {
 }
 
 ///|
+test "cast_from - upcast Node to specific Element types" {
+  @test_utils.global_jsdom_register()
+  let doc = document()
+  let parent = doc.createElement("div")
+  let child = doc.createElement("span")
+  parent.as_node().appendChild(child.as_node()) |> ignore
+
+  // Get first child as Node
+  let first_child_node = parent.as_node().firstChild().unwrap()
+
+  // Upcast Node to Element using cast_from_node
+  let first_child_element = Element::cast_from_node(first_child_node)
+  first_child_element.tagName() |> inspect(content="SPAN")
+
+  // Upcast Node to HTMLElement using cast_from_node
+  let first_child_html = HTMLElement::cast_from_node(first_child_node)
+  // innerText requires using extern "js" fn directly - use setInnerText/innerText pair
+  first_child_html.setInnerText("test")
+  first_child_html.innerText() |> inspect(content="test")
+
+  // Upcast Element to HTMLElement using cast_from_element
+  let html_from_element = HTMLElement::cast_from_element(first_child_element)
+  html_from_element.innerText() |> inspect(content="test")
+
+  // Upcast Node directly to HTMLSpanElement
+  let span = HTMLSpanElement::cast_from_node(first_child_node)
+  span.tagName() |> inspect(content="SPAN")
+}
+
+///|
+test "cast_from - upcast childNodes to specific types" {
+  @test_utils.global_jsdom_register()
+  let doc = document()
+  let parent = doc.createElement("div")
+  let span = doc.createElement("span")
+  let p = doc.createElement("p")
+  span.as_node().setTextContent("Hello")
+  p.as_node().setTextContent("World")
+  parent.as_node().appendChild(span.as_node()) |> ignore
+  parent.as_node().appendChild(p.as_node()) |> ignore
+
+  // childNodes returns Array[Node] - upcast each to Element
+  let children = parent.as_node().childNodes()
+  let elements = children.map(fn(node) { Element::cast_from_node(node) })
+  elements.length() |> inspect(content="2")
+  elements[0].tagName() |> inspect(content="SPAN")
+  elements[1].tagName() |> inspect(content="P")
+
+  // Upcast to HTMLElement to access textContent (via Node inheritance)
+  let html_elements = children.map(fn(node) {
+    HTMLElement::cast_from_node(node)
+  })
+  html_elements[0].textContent() |> inspect(content="Hello")
+  html_elements[1].textContent() |> inspect(content="World")
+}
+
+///|
+test "cast_from_event_target - upcast EventTarget to DOM types" {
+  @test_utils.global_jsdom_register()
+  let doc = document()
+  let div = doc.createElement("div")
+  div.setId("cast-test")
+  div.as_node().setTextContent("Test Content")
+
+  // Get as EventTarget
+  let event_target = div.as_event_target()
+
+  // Upcast EventTarget to Node
+  let as_node = Node::cast_from_event_target(event_target)
+  as_node.nodeName() |> inspect(content="DIV")
+
+  // Upcast EventTarget to Element
+  let as_element = Element::cast_from_event_target(event_target)
+  as_element.tagName() |> inspect(content="DIV")
+
+  // Upcast EventTarget to HTMLElement
+  let as_html = HTMLElement::cast_from_event_target(event_target)
+  as_html.textContent() |> inspect(content="Test Content")
+
+  // Upcast EventTarget directly to HTMLDivElement
+  let as_div = HTMLDivElement::cast_from_event_target(event_target)
+  as_div.id() |> inspect(content="cast-test")
+}
+
+///|
 test "EventTarget - removeEventListener" {
   @test_utils.global_jsdom_register()
   let doc = document()
