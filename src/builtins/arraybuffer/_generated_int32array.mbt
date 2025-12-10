@@ -23,7 +23,7 @@ pub fn Int32Array::byteOffset(self : Self) -> Int {
 /// Inherited from TypedArray
 pub fn Int32Array::indexOf(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
   self.as_typed_array().indexOf(search_element, from_index~)
@@ -42,13 +42,13 @@ pub fn Int32Array::lastIndexOf(
 ///|
 /// Inherited from TypedArray
 pub fn Int32Array::reverse(self : Self) -> TypedArray {
-  @core.identity(self.as_typed_array().reverse())
+  self.as_typed_array().reverse()
 }
 
 ///|
 /// Inherited from TypedArray
 pub fn Int32Array::sort(self : Self) -> TypedArray {
-  @core.identity(self.as_typed_array().sort())
+  self.as_typed_array().sort()
 }
 
 ///|
@@ -65,9 +65,21 @@ pub fn Int32Array::toString(self : Self) -> String {
 
 ///|
 /// Inherited from TypedArray
+pub fn Int32Array::set_at(self : Self, index : Int, value : Int) -> Unit {
+  self.as_typed_array().set_at(index, value)
+}
+
+///|
+/// Inherited from TypedArray
+pub fn Int32Array::get_at(self : Self, index : Int) -> Int {
+  self.as_typed_array().get_at(index)
+}
+
+///|
+/// Inherited from TypedArray
 pub fn Int32Array::set(
   self : Self,
-  array : Array[UInt],
+  array : Array[Int],
   offset? : Int = 0,
 ) -> Unit {
   self.as_typed_array().set(array, offset~)
@@ -77,7 +89,7 @@ pub fn Int32Array::set(
 /// Inherited from TypedArray
 pub fn Int32Array::includes(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
   self.as_typed_array().includes(search_element, from_index~)

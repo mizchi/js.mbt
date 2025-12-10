@@ -23,7 +23,7 @@ pub fn Int8Array::byteOffset(self : Self) -> Int {
 /// Inherited from TypedArray
 pub fn Int8Array::indexOf(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
   self.as_typed_array().indexOf(search_element, from_index~)
@@ -42,13 +42,13 @@ pub fn Int8Array::lastIndexOf(
 ///|
 /// Inherited from TypedArray
 pub fn Int8Array::reverse(self : Self) -> TypedArray {
-  @core.identity(self.as_typed_array().reverse())
+  self.as_typed_array().reverse()
 }
 
 ///|
 /// Inherited from TypedArray
 pub fn Int8Array::sort(self : Self) -> TypedArray {
-  @core.identity(self.as_typed_array().sort())
+  self.as_typed_array().sort()
 }
 
 ///|
@@ -65,9 +65,21 @@ pub fn Int8Array::toString(self : Self) -> String {
 
 ///|
 /// Inherited from TypedArray
+pub fn Int8Array::set_at(self : Self, index : Int, value : Int) -> Unit {
+  self.as_typed_array().set_at(index, value)
+}
+
+///|
+/// Inherited from TypedArray
+pub fn Int8Array::get_at(self : Self, index : Int) -> Int {
+  self.as_typed_array().get_at(index)
+}
+
+///|
+/// Inherited from TypedArray
 pub fn Int8Array::set(
   self : Self,
-  array : Array[UInt],
+  array : Array[Int],
   offset? : Int = 0,
 ) -> Unit {
   self.as_typed_array().set(array, offset~)
@@ -77,7 +89,7 @@ pub fn Int8Array::set(
 /// Inherited from TypedArray
 pub fn Int8Array::includes(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
   self.as_typed_array().includes(search_element, from_index~)

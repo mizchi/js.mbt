@@ -52,7 +52,7 @@ pub fn TypedArray::subarray(
 ///|
 pub fn TypedArray::indexOf(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Int {
   self
@@ -118,8 +118,8 @@ pub fn TypedArray::toString(self : TypedArray) -> String {
 #alias("_[_]=_")
 pub extern "js" fn TypedArray::set_at(
   self : Self,
-  index : UInt,
-  value : UInt,
+  index : Int,
+  value : Int,
 ) -> Unit =
   #| (arr, i, v) => arr[i] = v
 
@@ -131,7 +131,7 @@ pub extern "js" fn TypedArray::get_at(self : Self, index : Int) -> Int =
 ///|
 pub fn TypedArray::set(
   self : Self,
-  array : Array[UInt],
+  array : Array[Int],
   offset? : Int = 0,
 ) -> Unit {
   let arr : @core.Any = @core.any(array) |> @core.any
@@ -142,7 +142,7 @@ pub fn TypedArray::set(
 ///|
 pub fn TypedArray::fill(
   self : Self,
-  value : UInt,
+  value : Int,
   start? : Int = 0,
   end? : Int,
 ) -> Self {
@@ -160,7 +160,7 @@ pub fn TypedArray::fill(
 ///|
 pub fn TypedArray::includes(
   self : Self,
-  search_element : UInt,
+  search_element : Int,
   from_index? : Int = 0,
 ) -> Bool {
   self

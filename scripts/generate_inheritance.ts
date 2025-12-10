@@ -43,9 +43,9 @@ async function extractPublicMethods(
     const methods: MethodSignature[] = [];
 
     // メソッド定義の正規表現
-    // pub (async)? fn TypeName::methodName(self : Self, params) -> ReturnType
+    // pub (async)? (extern "js")? fn TypeName::methodName(self : Self, params) -> ReturnType
     const methodRegex = new RegExp(
-      `(#alias\\((\\w+)\\)\\s+)?pub (async )?fn ${typeName}::(\\w+)\\(([^)]*)\\)\\s*->\\s*([^{=]+)`,
+      `(#alias\\((\\w+)\\)\\s+)?pub (async )?(extern "js" )?fn ${typeName}::(\\w+)\\(([^)]*)\\)\\s*->\\s*([^{=]+)`,
       'g'
     );
 
@@ -60,9 +60,10 @@ async function extractPublicMethods(
 
       const alias = match[2];
       const isAsync = match[3] === 'async ';
-      const methodName = match[4];
-      const params = match[5];
-      const returnType = match[6].trim();
+      // match[4] is extern "js" (optional)
+      const methodName = match[5];
+      const params = match[6];
+      const returnType = match[7].trim();
 
       // selfパラメータがないメソッド（静的メソッド）はスキップ
       if (!params.includes('self')) {
@@ -164,17 +165,22 @@ function generateWrapperMethod(
     : selfParam;
 
   // 引数名の抽出（型を除く）
-  // オプショナルパラメータ（param?）は名前付き引数として渡す
+  // オプショナルパラメータの呼び出し:
+  // - デフォルト値なし（param? : Type）: param? で渡す
+  // - デフォルト値あり（param? : Type = default）: param~ で渡す
   const paramNames = method.params
     .split(',')
     .map(p => {
       const trimmed = p.trim();
-      const match = trimmed.match(/^(\w+)(\??)(\s*:\s*)/);
+      // パラメータ名、オプショナル?、型、デフォルト値を抽出
+      const match = trimmed.match(/^(\w+)(\??)(\s*:\s*[^=]+)(=.*)?$/);
       if (!match) return '';
       const paramName = match[1];
       const isOptional = match[2] === '?';
-      // オプショナルパラメータは名前付き引数として渡す
-      return isOptional ? `${paramName}=${paramName}` : paramName;
+      const hasDefault = match[4] !== undefined;
+      if (!isOptional) return paramName;
+      // デフォルト値ありなら ~ 記法、なしなら ? 記法
+      return hasDefault ? `${paramName}~` : `${paramName}?`;
     })
     .filter(n => n.length > 0)
     .join(', ');
@@ -189,9 +195,8 @@ function generateWrapperMethod(
     ? `self${castExpression}.${method.name}(${paramNames})`
     : `self${castExpression}.${method.name}()`;
 
-  // 戻り値の型が Self や親型の場合は @core.identity でキャスト
-  const needsCast = method.returnType === 'Self' || method.returnType === parentType;
-  const finalMethodCall = needsCast ? `@core.identity(${methodCall})` : methodCall;
+  // 継承ラッパーでは @core.identity は不要（MoonBit の型システムが自動解決）
+  const finalMethodCall = methodCall;
 
   return `///|
 /// Inherited from ${parentType}
