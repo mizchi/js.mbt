@@ -28,7 +28,7 @@ jobs:
       - name: Setup Moon
         uses: illusory0x0/setup-moonbit@v0.1.0
         with:
-          version: nightly
+          version: stable
       - name: moon version
         run: |
           moon version --all
