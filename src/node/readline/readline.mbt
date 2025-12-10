@@ -17,11 +17,8 @@ extern "js" fn wrap_completer(
   #|}
 
 ///|
-extern "js" fn create_interface_impl(options : @core.Any) -> Interface =
-  #|(options) => {
-  #|  const readline = require('node:readline');
-  #|  return readline.createInterface(options);
-  #|}
+#module("node:readline")
+extern "js" fn create_interface_impl(options : @core.Any) -> Interface = "createInterface"
 
 ///|
 /// Create a readline interface
@@ -219,51 +216,36 @@ pub extern "js" fn Interface::on_history(
 
 ///|
 /// Clear the current line
-pub extern "js" fn clear_line(stream : @stream.Writable, dir : Int) -> Bool =
-  #|(stream, dir) => {
-  #|  const readline = require('node:readline');
-  #|  return readline.clearLine(stream, dir);
-  #|}
+#module("node:readline")
+pub extern "js" fn clear_line(stream : @stream.Writable, dir : Int) -> Bool = "clearLine"
 
 ///|
 /// Clear the screen from cursor down
-pub extern "js" fn clear_screen_down(stream : @stream.Writable) -> Bool =
-  #|(stream) => {
-  #|  const readline = require('node:readline');
-  #|  return readline.clearScreenDown(stream);
-  #|}
+#module("node:readline")
+pub extern "js" fn clear_screen_down(stream : @stream.Writable) -> Bool = "clearScreenDown"
 
 ///|
 /// Move cursor to specified position
+#module("node:readline")
 pub extern "js" fn cursor_to(
   stream : @stream.Writable,
   x : Int,
   y : Int?,
-) -> Bool =
-  #|(stream, x, y) => {
-  #|  const readline = require('node:readline');
-  #|  return readline.cursorTo(stream, x, y);
-  #|}
+) -> Bool = "cursorTo"
 
 ///|
 /// Move cursor relative to current position
+#module("node:readline")
 pub extern "js" fn move_cursor(
   stream : @stream.Writable,
   dx : Int,
   dy : Int,
-) -> Bool =
-  #|(stream, dx, dy) => {
-  #|  const readline = require('node:readline');
-  #|  return readline.moveCursor(stream, dx, dy);
-  #|}
+) -> Bool = "moveCursor"
 
 ///|
 /// Emit a keypress event
+#module("node:readline")
 pub extern "js" fn emit_keypress_events(
   stream : @stream.Readable,
   interface_ : Interface?,
-) -> Unit =
-  #|(stream, interface_) => {
-  #|  const readline = require('node:readline');
-  #|  readline.emitKeypressEvents(stream, interface_);
-  #|}
+) -> Unit = "emitKeypressEvents"
