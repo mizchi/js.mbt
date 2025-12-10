@@ -1,154 +1,22 @@
-## ESM Migration Progress
+## ESM Migration (Blocked)
 
-Migrating to `#module` for tree-shaking support. See CLAUDE.md for usage details.
+The following Node.js modules cannot use `#module` directive due to technical limitations:
 
-**Goal**: Eliminate all `require()` calls → `git grep 'require('` should return nothing.
+- [ ] node:buffer - Buffer class static methods
+- [ ] node:http - All functions have callbacks/optional args
+- [ ] node:sqlite - Database class constructor
 
-### Frontend Libraries (High Priority - Tree-shaking)
-
-- [x] react - jsx/jsxs from react/jsx-runtime
-- [x] react_element - uses @react.createElementWithKey (jsx runtime internally)
-- [x] react_dom_client - createRoot, hydrateRoot
-- [ ] react_router - **Blocked**: RouterProvider is a component, not a function. Uses `init_global()` workaround.
-- [x] preact
-- [x] vue - Fragment uses Symbol.for('v-fgt') internally
-- [x] ink - ESM-only with top-level await, uses dynamic import pattern
-
-### Node.js Built-ins (High Priority - ESM behavior changes)
-
-These use `require()` which behaves differently in ESM. Migrate to `#module("node:xxx")`.
-
-- [x] node:path - join2, dirname, extname, isAbsolute, normalize, relative, parse, format, etc.
-  - Note: `join/resolve` (variadic), `delimiter/sep` (properties) still use require()
-- [x] node:fs - existsSync, unlinkSync, createReadStream, createWriteStream, etc.
-  - Note: Functions with optional args (readFileSync with encoding, mkdir with recursive, etc.) still use require()
-- [x] node:process - cwd, chdir, exit, nextTick
-  - Note: Property access (env, argv, stdin, stdout, stderr) still uses require()
-- [x] node:os - arch, cpus, homedir, hostname, platform, tmpdir, totalmem, uptime, etc.
-  - Note: Properties (EOL, devNull) and functions with optional args still use require()
-- [x] node:module - createRequire, isBuiltin, syncBuiltinESMExports, findSourceMap, etc.
-  - Note: builtinModules (property) and stripTypeScriptTypes (optional args) still use require()
-- [x] node:net - isIPv4, isIPv6, isIP
-  - Note: createConnection, createServer (optional args) still use require()
-- [x] node:stream - addAbortSignal, isErrored, isReadable, isWritable, getDefaultHighWaterMark, etc.
-  - Note: Class static methods and variadic functions still use require()
-- [x] node:inspector - close, url, waitForDebugger, open (all 4 overloads)
-  - Note: Session class still uses require()
-- [x] node:url - fileURLToPath, pathToFileURL, urlToHttpOptions, format
-  - Note: Functions with windows? option still use require()
-- [x] node:vm - isContext
-  - Note: Script class and functions with many optional args still use require()
-- [x] node:readline - createInterface, clearLine, clearScreenDown, cursorTo, moveCursor, emitKeypressEvents
-- [x] node:fs/promises - stat, rename, chmod, chown, readlink, realpath, copyFile, readdir, unlink
-  - Note: Functions with optional args (mkdir, rm, writeFile, readFile, glob, etc.) still use require()
-- [ ] node:buffer - **Blocked**: Buffer class static methods
-- [ ] node:http - **Blocked**: All functions have callbacks/optional args
-- [ ] node:sqlite - **Blocked**: Database class constructor
-- [x] node:child_process - spawn, exec, execFile, fork, spawnSync, execSync, execFileSync
-  - Note: All functions use #module FFI internally, wrapped with optional args
-
-### npm Libraries (High/Medium Priority)
-
-- [x] zod - schema validation (high priority)
-  - Note: `coerce_*` functions still use `require()` because `coerce` is an object, not a function export
-- [x] comlink - WebWorker communication
-  - Note: Symbols (`createEndpoint`, `releaseProxy`, `proxyMarker`) and `transferHandlers` (Map) still use require()
-- [x] semver - version parsing (fully migrated to #module)
-- [x] date_fns - date utilities
-- [x] hono - ESM with dynamic import for `new Hono()`, `#module` for helpers
-  - Note: `Hono::new()` is now async, uses `import("hono").then(m => new m.Hono())`
-  - Note: `hono/cookie`, `hono/cors`, `hono/jwt`, `hono/testing`, `hono/client` use `#module`
-  - Note: `hono/jsx` and `hono/html` still use require() for JSX processing (complex children handling)
-- [x] esbuild - build tool, uses `#module("esbuild")` for build, buildSync, transform, transformSync
-  - Note: **API Changed** - `Esbuild` type removed, now uses standalone functions: `@esbuild.build()`, `@esbuild.transform_sync()`, etc.
-- [x] react_dom_server - uses `#module("react-dom/server")` for renderToString, renderToReadableStream
-- [ ] jose - **Blocked**: `new SignJWT()` class constructor cannot use #module
-- [ ] pino - **Blocked**: `pino()` factory function, uses inline require()
-- [ ] debug - **Blocked**: `debug()` factory function, uses inline require()
-- [ ] chalk - **Blocked**: `chalk.red()` etc. are method calls on object, uses inline require()
-- [x] msw - mock service worker, uses `import("msw")` pattern for browser compatibility
-  - Note: All `require()` calls removed, uses dynamic import for `init_global()`, `init_node_global()`, `init_browser_global()`
-- [x] vite - build tool, uses `#module("vite")` for createServer and defineConfig
-- [x] terser - JS minifier, uses `#module("terser")` for minify, minify_sync
-- [x] ignore - gitignore parser, uses `#module("ignore")` for isPathValid
-  - Note: Factory function `ignore()` still uses require()
-- [ ] vitest - test runner
-- [ ] drizzle - database ORM (many functions can be migrated, low priority due to size)
-- [x] htmlparser2 - HTML parser, uses `#module("htmlparser2")` for parseDocument
-  - Note: DomUtils functions still use require() (accessed via htmlparser2.DomUtils)
-- [x] ai - AI SDK providers, uses `#module` for all provider functions
-  - `createOpenAI`, `createAnthropic`, `createGoogleGenerativeAI` (factory functions)
-  - `openai`, `anthropic`, `google` (default providers)
-
-### Testing Libraries (Low Priority - Node.js only)
-
-- [ ] testing_library_react - **Blocked**: `screen`, `fireEvent` are value exports (objects), not functions
-- [ ] testing_library_preact - **Blocked**: Same as above
-- [ ] testing_library_vue - **Blocked**: Same as above
-
-### Experimental Packages (src/_experimental)
-
-- [x] zod_codegen - uses `#module("zod")` for toJSONSchema
-  - Removed `mizchi/js/node` dependency
-- [x] moonbit_lsp_api - partially migrated
-  - `fileURLToPath` uses `#module("node:url")`
-  - `ffi_get_lsp_path`, `ffi_path_to_uri` remain inline JS (complex multi-module logic)
-
----
-
-## Limitations of `#module` directive
-
-The `#module` directive can only be applied to **functions with fixed arguments**:
-
-✅ Can use `#module`:
-- Functions with fixed parameters: `useState`, `useEffect`, `parse`, `compare`, etc.
-- Functions returning values: `gt`, `lt`, `eq`, `satisfies`, etc.
+### `#module` Limitations
 
 ❌ Cannot use `#module`:
-- **Class constructors**: `new Hono()`, `new SignJWT()`, `new Database()`
-- **Factory functions**: `pino()`, `debug()`, `chalk()`
-- **Method calls on objects**: `chalk.red()`, `semver.coerce`
+- **Class constructors**: `new Database()`, `new Session()`
 - **Property access**: `path.delimiter`, `process.env`, `os.EOL`
-- **Symbols**: `comlink.createEndpoint`, `comlink.releaseProxy`
 - **Variadic functions**: `path.join(...args)`, `path.resolve(...args)`
-
-Workarounds:
-1. **Inline require()**: `#| () => require('pkg').fn()`
-2. **Dynamic import + global**: For ESM-only packages (ink)
-3. **Symbol.for()**: For React symbols (Fragment, StrictMode, Suspense)
+- **Functions with optional args**: `readFileSync(path, encoding?)`, `mkdir(path, options?)`
 
 ---
 
 ## Known Issues
-
-### jose package: Async test PanicError (2025-12-08)
-
-**Problem**: Three async tests in `src/npm/jose/jose_test.mbt` cause PanicError in async driver:
-- `JWS compact sign and verify`
-- `JWE compact encrypt and decrypt`
-- `Generate secret key`
-
-**Error**:
-```
-$PanicError
-    at $bytes_literal$0 (/Users/mizchi/.moon/lib/core/builtin/hasher.mbt:1:1)
-    at moonbitlang$core$option$$Option$unwrap$7$ (/Users/mizchi/.moon/lib/core/builtin/option.mbt:38:13)
-```
-
-**Temporary Fix**: Tests are commented out with `// FIXME:` comments
-
-**Working Tests**:
-- ✅ JWT sign and verify
-- ✅ JWT with expiration and issuer
-- ✅ base64url encode/decode
-- ✅ Decode JWT without verification
-- ✅ Decode protected header
-
-**TODO**:
-- [ ] Investigate root cause of async driver panic
-- [ ] Fix JWS compact sign implementation (payload should be Uint8Array)
-- [ ] Fix JWE compact encrypt implementation
-- [ ] Re-enable commented tests after async driver issue is resolved
 
 ### Flaky tests with NEW_MOON=0 (2025-12-09)
 

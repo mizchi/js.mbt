@@ -5,6 +5,61 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2025-12-10
+
+### Breaking Changes
+
+- **NPM package bindings moved to separate repository**: All `mizchi/js/npm/*` packages have been moved to [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
+
+  If you are using any npm package bindings (React, Hono, AI SDK, etc.), please update your `moon.pkg.json`:
+
+  **Before (v0.9.x and earlier):**
+  ```json
+  {
+    "import": ["mizchi/js/npm/react", "mizchi/js/npm/hono"]
+  }
+  ```
+
+  **After (v0.10.0+):**
+  ```json
+  {
+    "import": ["mizchi/npm_typed/react", "mizchi/npm_typed/hono"]
+  }
+  ```
+
+  Also add the new dependency in `moon.mod.json`:
+  ```json
+  {
+    "deps": {
+      "mizchi/npm_typed": "0.1.0"
+    }
+  }
+  ```
+
+- **Removed examples depending on npm packages**: Examples that required npm packages (e.g., `react_app`) have been removed from this repository. See [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) for updated examples.
+
+### Removed
+
+- `src/npm/` - All npm package bindings (React, Preact, Hono, AI SDK, etc.)
+- `global_jsdom` dependency
+- npm-dependent example files
+
+### Changed
+
+- Updated `moonbitlang/async` dependency to 0.14.3
+
+### What Remains in This Repository
+
+This repository continues to provide:
+
+- **Core JavaScript FFI** (`mizchi/js/core`) - Type system, object manipulation, async/await
+- **JavaScript Built-ins** (`mizchi/js/builtins/*`) - Object, Array, Map, Set, Date, Math, RegExp, etc.
+- **Web Standard APIs** (`mizchi/js/web/*`) - fetch, URL, Streams, Crypto, WebSocket, etc.
+- **Node.js APIs** (`mizchi/js/node/*`) - fs, path, process, child_process, http, etc.
+- **Browser APIs** (`mizchi/js/browser/*`) - DOM, Canvas, Storage, etc.
+- **Deno APIs** (`mizchi/js/deno`) - Deno runtime bindings
+- **Bun APIs** (`mizchi/js/bun`) - Bun runtime bindings
+
 ## [0.8.8] - 2025-12-08
 
 ### Changed

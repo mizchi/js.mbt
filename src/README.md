@@ -381,7 +381,7 @@ This core package is used by:
 - `mizchi/js/web/*` - Web Standard APIs
 - `mizchi/js/browser/*` - Browser DOM APIs
 - `mizchi/js/node/*` - Node.js runtime APIs
-- `mizchi/js/npm/*` - NPM package bindings
+- [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) - NPM package bindings (React, Hono, AI SDK, etc.)
 
 See the main [project README](../README.md) for the complete package list.
 

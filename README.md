@@ -4,7 +4,7 @@ Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes
 
 ## Version Requirements
 
-**v0.9.x** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
+**v0.10.0** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
 
 ```
 moon 0.1.20251209 (8d6e473 2025-12-09)
@@ -14,8 +14,9 @@ moonrun 0.1.20251209 (8d6e473 2025-12-09)
 
 If you need stable toolchain compatibility, use **v0.8.x**.
 
-**v0.10.0 (planned)**: `src/npm` packages will be moved to a separate repository: `mizchi/npm_typed`
+### Breaking Change in v0.10.0
 
+**NPM package bindings have moved**: All `mizchi/js/npm/*` packages are now in a separate repository: [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
 
 ## Installation
 
@@ -45,7 +46,7 @@ Add to your `moon.pkg.json`:
 | **Browser** | [src/browser/README.md](src/browser/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/browser_examples.mbt.md) | 🧪 Tested |
 | **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🧪 Tested |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
-| **React** | [src/npm/react/](src/npm/react/) | [react_app/](src/examples/react_app/) | 🧪 Tested |
+| **React** | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) | See npm_typed repo | 📦 Moved |
 
 ### 📖 Learning Resources
 
@@ -217,21 +218,21 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ### NPM Package Bindings
 
-> See **[src/npm/README.md](src/npm/README.md)** for full npm package documentation
+> **Moved to separate repository**: NPM package bindings are now maintained at [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
 
-| Category | Packages | Status |
-|----------|----------|--------|
-| **UI Frameworks** | React, React DOM, React Router, Preact, Ink | 🧪 Tested |
-| **Web Frameworks** | Hono, better-auth | 🧪 Tested |
-| **AI / LLM** | Vercel AI SDK, MCP SDK, Claude Code SDK | 🧪 Tested |
-| **Cloud Services** | @aws-sdk/client-s3 (S3, R2, GCS, MinIO) | 🧪 Tested |
-| **Database** | PGlite, DuckDB, Drizzle, pg | 🧪 Tested |
-| **Validation** | Zod, AJV | 🧪 Tested |
-| **Build Tools** | Terser, Vite, Unplugin, Lighthouse | 🧪 Tested |
-| **Utilities** | date-fns, semver, chalk, dotenv, chokidar, yargs, debug | 🧪 Tested |
-| **Testing** | Testing Library, Puppeteer, Playwright, Vitest, JSDOM, MSW | 🧪 Tested |
-| **Parsing** | htmlparser2, js-yaml | 🧪 Tested |
-| **Other** | simple-git, ignore, memfs, source-map, comlink | 🧪 Tested |
+| Category | Packages | Repository |
+|----------|----------|------------|
+| **UI Frameworks** | React, React DOM, React Router, Preact, Ink | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Web Frameworks** | Hono, better-auth | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **AI / LLM** | Vercel AI SDK, MCP SDK, Claude Code SDK | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Cloud Services** | @aws-sdk/client-s3 (S3, R2, GCS, MinIO) | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Database** | PGlite, DuckDB, Drizzle, pg | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Validation** | Zod, AJV | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Build Tools** | Terser, Vite, Unplugin, Lighthouse | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Utilities** | date-fns, semver, chalk, dotenv, chokidar, yargs, debug | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Testing** | Testing Library, Puppeteer, Playwright, Vitest, JSDOM, MSW | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Parsing** | htmlparser2, js-yaml | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
+| **Other** | simple-git, ignore, memfs, source-map, comlink | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) |
 
 ### Limited Support APIs
 
@@ -242,21 +243,24 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ## Project Status
 
-- ✅ **React SPA** - Full support with SSR/CSR
 - ✅ **Node.js Core APIs** - `fs`, `path`, `process`, `child_process`, etc.
-- ✅ **Cloudflare Workers** - KV, D1, R2, Durable Objects
 - ✅ **Deno Runtime** - File system, permissions, testing
+- ✅ **Bun Runtime** - Process, hashing, glob, file operations
 - ✅ **DOM APIs** - Full browser DOM manipulation
-- 🤖 **AI-Generated Bindings** - Many APIs generated from TypeScript definitions
+- ✅ **Web Standard APIs** - fetch, URL, Streams, Crypto, WebSocket
+- 📦 **React/NPM Packages** - Moved to [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
+- 📦 **Cloudflare Workers** - Moved to [mizchi/cloudflare.mbt](https://github.com/mizchi/cloudflare.mbt)
 
 ## Goals
 
-- Provide comprehensive JavaScript bindings for MoonBit
+- Provide comprehensive JavaScript FFI bindings for MoonBit
 - **Platform Coverage**
-  - ✅ Browser + React for frontend development
-  - ✅ Node.js/Deno support to replace TypeScript
-  - ✅ Cloudflare Workers for edge computing
-  - ✅ MCP server/client support
+  - ✅ Browser DOM and Web APIs
+  - ✅ Node.js/Deno/Bun runtime support
+  - ✅ JavaScript built-in objects and Web Standard APIs
+- **Ecosystem**
+  - 📦 NPM package bindings: [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
+  - 📦 Cloudflare Workers: [mizchi/cloudflare.mbt](https://github.com/mizchi/cloudflare.mbt)
 
 ## Quick Start
 
