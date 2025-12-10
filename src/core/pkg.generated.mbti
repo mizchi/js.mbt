@@ -68,6 +68,8 @@ pub fn new(Any, Array[Any]) -> Any
 
 pub fn new_array() -> Any
 
+pub fn[T] new_instance(TypeOf[T], Array[Any]) -> T
+
 pub fn new_object() -> Any
 
 pub fn null() -> Any
@@ -178,6 +180,11 @@ pub fn TemplateStringsArray::op_get(Self, Int) -> String
 pub fn TemplateStringsArray::raw(Self) -> Array[String]
 pub fn TemplateStringsArray::raw_get(Self, Int) -> String
 pub fn TemplateStringsArray::to_any(Self) -> Any
+
+#external
+pub type TypeOf[T]
+pub fn[T] TypeOf::as_any(Self[T]) -> Any
+pub fn[T] TypeOf::is_instanceof(Self[T], Any) -> Bool
 
 #external
 pub type Union2[A, B]

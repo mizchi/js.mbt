@@ -29,7 +29,7 @@ A quick reference for MoonBit syntax, highlighting differences from Rust.
 
 ## Basic Syntax
 
-```moonbit
+```mbt check
 ///|
 // Variables
 fn variables() -> Unit {
@@ -96,7 +96,7 @@ fn cascade_example() -> Unit {
 
 ## Pattern Matching
 
-```moonbit
+```mbt check
 ///|
 fn option_match(opt : String?) -> Int {
   match opt {
@@ -125,7 +125,7 @@ fn check_status(status : Status) -> String {
 
 ## Structs and Methods
 
-```moonbit
+```mbt check
 ///|
 /// Do not use ,
 struct Coord {
@@ -151,7 +151,7 @@ fn Counter::increment(self : Self) -> Unit {
 
 ## Error Handling
 
-```moonbit
+```mbt check
 ///|
 fn parse_example(s : String) -> Result[Int, String] {
   if s == "42" {
@@ -179,10 +179,10 @@ fn with_map(s : String) -> Result[Int, String] {
 
 ## Generics
 
-```moonbit
+```mbt check
 ///|
 // Use [T], fn[T] order
-pub fn[T] identity(x : T) -> T {
+pub fn[T] my_identity(x : T) -> T {
   x
 }
 
@@ -247,7 +247,7 @@ cat .mooncakes/username/package/lib.mbti
 
 ## Testing
 
-```moonbit
+```mbt check
 ///|
 fn sum(a : Int, b : Int) -> Int {
   a + b

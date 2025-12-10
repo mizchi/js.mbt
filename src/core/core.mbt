@@ -6,6 +6,23 @@
 pub type Any
 
 ///|
+/// Represents a JavaScript constructor/class type.
+/// Similar to TypeScript's `typeof ClassName`.
+///
+/// Usage:
+/// ```moonbit
+/// // Define a constructor type
+/// extern "js" fn get_date_constructor() -> TypeOf[Date] = ...
+///
+/// // Use with instanceof
+/// fn is_date(v : Any) -> Bool {
+///   instanceof_(v, Date.constructor_())
+/// }
+/// ```
+#external
+pub type TypeOf[T]
+
+///|
 pub impl Eq for Any with equal(self, other) -> Bool {
   equal(self, other)
 }
@@ -227,6 +244,22 @@ pub extern "js" fn array_from(v : Any) -> Array[Any] =
 ///|
 pub extern "js" fn instanceof_(v : Any, cls : Any) -> Bool =
   #|(v, cls) => v instanceof cls
+
+///|
+/// Type-safe instanceof check: TypeOf[T].is_instanceof(value)
+pub fn[T] TypeOf::is_instanceof(self : TypeOf[T], v : Any) -> Bool {
+  instanceof_(v, identity(self))
+}
+
+///|
+/// Convert TypeOf[T] to Any for use with generic functions
+pub fn[T] TypeOf::as_any(self : TypeOf[T]) -> Any = "%identity"
+
+///|
+/// Type-safe constructor call: new cls(...args) -> T
+pub fn[T] new_instance(cls : TypeOf[T], args : Array[Any]) -> T {
+  identity(new(identity(cls), args))
+}
 
 ///|
 /// JS: typeof v
