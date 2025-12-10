@@ -8,8 +8,6 @@ import(
 // Values
 pub fn[UserOptions] createUnplugin((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> (UserOptions) -> UnpluginInstance
 
-pub async fn[UserOptions] createUnpluginAsync((UserOptions, UnpluginContextMeta) -> UnpluginOptions) -> ((UserOptions) -> UnpluginInstance)
-
 pub fn createUnpluginSimple((UnpluginContextMeta) -> UnpluginOptions) -> () -> UnpluginInstance
 
 pub fn resolve_external(String) -> @core.Any

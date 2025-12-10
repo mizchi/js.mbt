@@ -7,12 +7,10 @@
 ///| FFI
 
 ///|
-extern "js" fn ffi_require_unplugin() -> @core.Any =
-  #|() => require("unplugin")
-
-///|
-extern "js" fn ffi_import_unplugin() -> @js.Promise[@core.Any] =
-  #|() => import("unplugin")
+#module("unplugin")
+extern "js" fn ffi_create_unplugin(
+  factory : (@core.Any, @core.Any) -> @core.Any,
+) -> @core.Any = "createUnplugin"
 
 ///| Core Types
 
@@ -374,58 +372,35 @@ pub fn UnpluginInstance::raw(self : UnpluginInstance) -> @core.Any {
 pub type UnpluginFactory[UserOptions] = (UserOptions, UnpluginContextMeta) -> UnpluginOptions
 
 ///|
-/// Create an unplugin with a factory function (sync, requires)
+/// Create an unplugin with a factory function
 /// The factory receives user options and context meta
 pub fn[UserOptions] createUnplugin(
   factory : (UserOptions, UnpluginContextMeta) -> UnpluginOptions,
 ) -> (UserOptions) -> UnpluginInstance {
-  let unplugin_mod = ffi_require_unplugin()
-  let create_fn = unplugin_mod["createUnplugin"]
   let js_factory = fn(options : @core.Any, meta : @core.Any) -> @core.Any {
     let user_options : UserOptions = @core.identity(options)
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(user_options, context_meta)
     unplugin_options.to_any()
   }
-  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
+  let instance = ffi_create_unplugin(js_factory)
   fn(options : UserOptions) -> UnpluginInstance {
     instance._invoke([@core.any(options)]) |> @core.identity
   }
 }
 
 ///|
-/// Create an unplugin without user options (sync, requires)
+/// Create an unplugin without user options
 pub fn createUnpluginSimple(
   factory : (UnpluginContextMeta) -> UnpluginOptions,
 ) -> () -> UnpluginInstance {
-  let unplugin_mod = ffi_require_unplugin()
-  let create_fn = unplugin_mod["createUnplugin"]
   let js_factory = fn(_options : @core.Any, meta : @core.Any) -> @core.Any {
     let context_meta = meta_from_js(meta)
     let unplugin_options = factory(context_meta)
     unplugin_options.to_any()
   }
-  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
+  let instance = ffi_create_unplugin(js_factory)
   fn() -> UnpluginInstance { instance._invoke([]) |> @core.identity }
-}
-
-///|
-/// Create an unplugin with async import
-pub async fn[UserOptions] createUnpluginAsync(
-  factory : (UserOptions, UnpluginContextMeta) -> UnpluginOptions,
-) -> (UserOptions) -> UnpluginInstance {
-  let unplugin_mod = ffi_import_unplugin().wait()
-  let create_fn = unplugin_mod["createUnplugin"]
-  let js_factory = fn(options : @core.Any, meta : @core.Any) -> @core.Any {
-    let user_options : UserOptions = @core.identity(options)
-    let context_meta = meta_from_js(meta)
-    let unplugin_options = factory(user_options, context_meta)
-    unplugin_options.to_any()
-  }
-  let instance = create_fn._invoke([@core.any(@js.from_fn2(js_factory))])
-  fn(options : UserOptions) -> UnpluginInstance {
-    instance._invoke([@core.any(options)]) |> @core.identity
-  }
 }
 
 ///| Transform Result Helpers
