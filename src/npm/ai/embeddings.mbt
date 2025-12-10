@@ -111,11 +111,7 @@ pub async fn embed(
   if headers is Some(h) {
     opts._set("headers", h)
   }
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("embed")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_embed(opts).wait()
   EmbedResult::from_any(result)
 }
 
@@ -152,11 +148,7 @@ pub async fn embedMany(
   if headers is Some(h) {
     opts._set("headers", h)
   }
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("embedMany")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_embed_many(opts).wait()
   EmbedManyResult::from_any(result)
 }
 

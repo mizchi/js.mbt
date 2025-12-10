@@ -59,9 +59,36 @@ pub type Model
 pub fn Model::as_any(self : Model) -> @core.Any = "%identity"
 
 ///|
-fn ai_module() -> @core.Any {
-  @node.require("ai")
-}
+#module("ai")
+extern "js" fn ffi_generate_text(options : @core.Any) -> @js.Promise[@core.Any] = "generateText"
+
+///|
+#module("ai")
+extern "js" fn ffi_stream_text(options : @core.Any) -> @core.Any = "streamText"
+
+///|
+#module("ai")
+extern "js" fn ffi_embed(options : @core.Any) -> @js.Promise[@core.Any] = "embed"
+
+///|
+#module("ai")
+extern "js" fn ffi_embed_many(options : @core.Any) -> @js.Promise[@core.Any] = "embedMany"
+
+///|
+#module("ai")
+extern "js" fn ffi_json_schema(schema : @core.Any) -> @core.Any = "jsonSchema"
+
+///|
+#module("ai")
+extern "js" fn ffi_generate_object(
+  options : @core.Any,
+) -> @js.Promise[@core.Any] = "generateObject"
+
+///|
+#module("ai")
+extern "js" fn ffi_experimental_generate_image(
+  options : @core.Any,
+) -> @js.Promise[@core.Any] = "experimental_generateImage"
 
 ///|
 /// Generate text using the AI SDK (non-streaming)
@@ -115,11 +142,7 @@ pub async fn generateText(
   if active_tools is Some(at) {
     opts._set("activeTools", at |> @core.any)
   }
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("generateText")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_generate_text(opts).wait()
   GenerateTextResult::from_any(result)
 }
 
@@ -186,8 +209,7 @@ pub fn streamText(
   if active_tools is Some(at) {
     opts._set("activeTools", at |> @core.any)
   }
-  let result = ai_module()._get("streamText")._invoke([opts])
-  @core.identity(result)
+  ffi_stream_text(opts) |> @core.identity
 }
 
 ///|
