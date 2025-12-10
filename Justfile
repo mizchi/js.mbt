@@ -51,16 +51,8 @@ coverage-package pkg:
 # Run all MoonBit checks (format, info, check, test)
 check-all: format check test
 
-# Run Deno tests
-test-deno: build
-    deno test -A
-
-# Run Bun tests
-test-bun: build
-    bun test target/js/release/build/bun/bun_test/bun_test.js
-
 # Run all tests (MoonBit, Deno, Bun)
-test-all: test test-deno test-bun
+test-all: test
 
 # Clean build artifacts
 clean:

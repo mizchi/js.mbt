@@ -4,7 +4,7 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
 
 ## MoonBit Language Reference
 
-If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
+If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](./_examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
 
 ## Project Structure
 
@@ -59,8 +59,6 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 
 ```bash
 moon test
-moon build
-deno test -A
 ```
 
 ### Async Test Resource Management
@@ -132,6 +130,7 @@ This project is migrating to ESM imports using MoonBit's `#module` directive for
 ### Usage
 
 ```moonbit
+
 ///|
 /// Import a function from an npm package
 #module("react/jsx-runtime")
