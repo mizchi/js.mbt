@@ -38,3 +38,11 @@ let result : Result[Int, @test_utils.TimeoutError] = try? @test_utils.wait_for(
 )
 // result is Err(TimeoutError("Operation timed out after 10ms"))
 ```
+
+## jsdom
+
+For browser testing, use `global_jsdom_register()` to set up a global jsdom environment:
+
+```moonbit
+@test_utils.global_jsdom_register()
+```
