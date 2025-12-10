@@ -32,7 +32,7 @@ pub fn Bun::exit(Self, code? : Int) -> Unit
 pub async fn Bun::file_arrayBuffer(Self, String) -> @arraybuffer.ArrayBuffer
 pub async fn Bun::file_text(Self, String) -> String
 pub fn Bun::hash_(Self, @core.Any, algorithm? : String) -> @core.Any
-pub fn Bun::main(Self) -> String
+pub fn Bun::main_(Self) -> String
 pub fn Bun::nanoseconds(Self) -> Int
 pub async fn Bun::password_hash(Self, String) -> String
 pub async fn Bun::password_verify(Self, String, String) -> Bool

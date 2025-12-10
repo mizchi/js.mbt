@@ -550,3 +550,100 @@ test "EventTarget - removeEventListener" {
   // Count should still be 1
   assert_eq(call_count, 1)
 }
+
+///|
+test "ShadowRoot - attachShadow and basic properties" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let div = doc.createElement("div")
+  let div_html = HTMLElement::cast_from_element(div)
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(div.as_node()) |> ignore
+
+  // attachShadow test with open mode
+  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+
+  // mode test
+  shadow.mode() |> inspect(content="open")
+
+  // host test
+  shadow.host().tagName() |> inspect(content="DIV")
+
+  // shadowRoot should be accessible for open mode
+  let retrieved = div_html.shadowRoot()
+  assert_eq(retrieved is None, false)
+}
+
+///|
+test "ShadowRoot - closed mode" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let div = doc.createElement("div")
+  let div_html = HTMLElement::cast_from_element(div)
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(div.as_node()) |> ignore
+
+  // attachShadow with closed mode
+  let shadow = div_html.attachShadow(ShadowRootInit::new("closed"))
+  shadow.mode() |> inspect(content="closed")
+
+  // shadowRoot should NOT be accessible for closed mode
+  let retrieved = div_html.shadowRoot()
+  assert_eq(retrieved is None, true)
+}
+
+///|
+test "ShadowRoot - innerHTML" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let div = doc.createElement("div")
+  let div_html = HTMLElement::cast_from_element(div)
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(div.as_node()) |> ignore
+  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+
+  // setInnerHTML test
+  shadow.setInnerHTML("<span>Shadow Content</span>")
+  shadow.innerHTML() |> inspect(content="<span>Shadow Content</span>")
+}
+
+///|
+test "ShadowRoot - as_node operations" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let div = doc.createElement("div")
+  let div_html = HTMLElement::cast_from_element(div)
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(div.as_node()) |> ignore
+  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+
+  // Add elements to shadow root via as_node
+  let span = doc.createElement("span")
+  span.as_node().setTextContent("Hello Shadow DOM")
+  shadow.as_node().appendChild(span.as_node()) |> ignore
+
+  // Verify children
+  assert_eq(shadow.as_node().hasChildNodes(), true)
+  shadow.as_node().childNodes().length() |> inspect(content="1")
+}
+
+///|
+test "ShadowRoot - ShadowRootInit options" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let div = doc.createElement("div")
+  let div_html = HTMLElement::cast_from_element(div)
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(div.as_node()) |> ignore
+
+  // Test with slotAssignment option
+  let init = ShadowRootInit::new("open", slotAssignment="named")
+  let shadow = div_html.attachShadow(init)
+  shadow.mode() |> inspect(content="open")
+  shadow.slotAssignment() |> inspect(content="named")
+}
