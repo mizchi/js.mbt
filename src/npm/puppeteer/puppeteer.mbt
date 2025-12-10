@@ -12,11 +12,8 @@ pub fn Browser::to_any(self : Browser) -> @core.Any = "%identity"
 
 ///|
 /// FFI: Launch browser with options
-extern "js" fn ffi_launch(options : @core.Any) -> @core.Any =
-  #| (options) => {
-  #|   const puppeteer = require('puppeteer');
-  #|   return puppeteer.launch(options);
-  #| }
+#module("puppeteer")
+extern "js" fn ffi_launch(options : @core.Any) -> @js.Promise[Browser] = "launch"
 
 ///|
 /// Launch browser with labeled arguments
@@ -88,8 +85,7 @@ pub async fn launch(
   if handleSIGTERM is Some(v) {
     options["handleSIGTERM"] = @core.any(v)
   }
-  let promise : @js.Promise[Browser] = ffi_launch(options) |> @core.identity
-  promise.wait()
+  ffi_launch(options).wait()
 }
 
 ///| Browser methods
