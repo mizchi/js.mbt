@@ -20,87 +20,74 @@ pub fn customElements() -> CustomElementRegistry {
 }
 
 ///|
-/// Lifecycle callbacks for custom elements
-pub struct CustomElementCallbacks {
-  onConnected : () -> Unit
-  onDisconnected : () -> Unit
-  onAdopted : () -> Unit
-  onAttributeChanged : (String, String?, String?, String?) -> Unit
-}
-
-///|
 /// Creates a custom element class with lifecycle callbacks
-/// https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
-extern "js" fn create_custom_element_class(
-  callbacks : CustomElementCallbacks,
+/// Supports optional HTMLElement base class and observed attributes
+extern "js" fn create_custom_element_class_full(
+  on_connected : () -> Unit,
+  on_disconnected : () -> Unit,
+  on_adopted : () -> Unit,
+  on_attribute_changed : (String, String?, String?, String?) -> Unit,
+  html_element_class : @core.Any,
+  observed_attributes : @core.Any,
 ) -> @core.Any =
-  #|(callbacks) => {
-  #|  return class extends HTMLElement {
+  #|(onConnected, onDisconnected, onAdopted, onAttributeChanged, HTMLElement, observedAttributes) => {
+  #|  const cls = class extends HTMLElement {
   #|    connectedCallback() {
-  #|      callbacks.onConnected();
+  #|      onConnected();
   #|    }
   #|    disconnectedCallback() {
-  #|      callbacks.onDisconnected();
+  #|      onDisconnected();
   #|    }
   #|    adoptedCallback() {
-  #|      callbacks.onAdopted();
+  #|      onAdopted();
   #|    }
   #|    attributeChangedCallback(name, oldValue, newValue, namespace) {
-  #|      callbacks.onAttribute_changed(name, oldValue, newValue, namespace);
+  #|      onAttributeChanged(name, oldValue, newValue, namespace);
   #|    }
   #|  };
+  #|  if (observedAttributes) {
+  #|    Object.defineProperty(cls, 'observedAttributes', {
+  #|      get() { return observedAttributes; }
+  #|    });
+  #|  }
+  #|  return cls;
   #|}
 
 ///|
-/// Defines a custom element with the given name and callbacks
+/// Defines a custom element with the given name and lifecycle callbacks
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
+///
+/// Options:
+/// - `on_connected`: Called when the element is added to the document
+/// - `on_disconnected`: Called when the element is removed from the document
+/// - `on_adopted`: Called when the element is moved to a new document
+/// - `on_attribute_changed`: Called when an observed attribute changes
+/// - `observed_attributes`: Array of attribute names to observe for changes
+/// - `html_element_class`: HTMLElement class to extend (for environments like happy-dom)
 pub fn CustomElementRegistry::define_(
   self : Self,
   name : String,
-  callbacks : CustomElementCallbacks,
+  on_connected? : () -> Unit,
+  on_disconnected? : () -> Unit,
+  on_adopted? : () -> Unit,
+  on_attribute_changed? : (String, String?, String?, String?) -> Unit,
+  observed_attributes? : Array[String],
+  html_element_class? : @core.Any,
 ) -> Unit {
-  let element_class = create_custom_element_class(callbacks)
-  self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
-  |> ignore
-}
-
-///|
-/// Defines a custom element with observed attributes
-/// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/define
-extern "js" fn create_custom_element_class_with_attributes(
-  callbacks : CustomElementCallbacks,
-  observedAttributes : Array[String],
-) -> @core.Any =
-  #|(callbacks, observedAttributes) => {
-  #|  return class extends HTMLElement {
-  #|    static get observedAttributes() {
-  #|      return observedAttributes;
-  #|    }
-  #|    connectedCallback() {
-  #|      callbacks.on_connected();
-  #|    }
-  #|    disconnectedCallback() {
-  #|      callbacks.on_disconnected();
-  #|    }
-  #|    adoptedCallback() {
-  #|      callbacks.on_adopted();
-  #|    }
-  #|    attributeChangedCallback(name, oldValue, newValue, namespace) {
-  #|      callbacks.on_attribute_changed(name, oldValue, newValue, namespace);
-  #|    }
-  #|  };
-  #|}
-
-///|
-/// Defines a custom element with observed attributes
-pub fn CustomElementRegistry::define_element_with_attributes(
-  self : Self,
-  name : String,
-  callbacks : CustomElementCallbacks,
-  observed_attributes : Array[String],
-) -> Unit {
-  let element_class = create_custom_element_class_with_attributes(
-    callbacks, observed_attributes,
+  let base_class : @core.Any = match html_element_class {
+    Some(c) => c
+    None => @global.global_this()._get("HTMLElement").cast()
+  }
+  let attrs : @core.Any = match observed_attributes {
+    Some(a) => @core.any(a)
+    None => @core.null()
+  }
+  let connected = on_connected.unwrap_or(fn() {  })
+  let disconnected = on_disconnected.unwrap_or(fn() {  })
+  let adopted = on_adopted.unwrap_or(fn() {  })
+  let attr_changed = on_attribute_changed.unwrap_or(fn(_, _, _, _) {  })
+  let element_class = create_custom_element_class_full(
+    connected, disconnected, adopted, attr_changed, base_class, attrs,
   )
   self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
   |> ignore
@@ -147,62 +134,4 @@ pub async fn CustomElementRegistry::whenDefined(
 /// https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry/upgrade
 pub fn CustomElementRegistry::upgrade(self : Self, root : Node) -> Unit {
   self.as_any()._call("upgrade", [root.as_any()]) |> ignore
-}
-
-///|
-/// Helper function to create default callbacks
-pub fn CustomElementCallbacks::new(
-  onConnected? : () -> Unit = fn() { () },
-  onDisconnected? : () -> Unit = fn() { () },
-  onAdopted? : () -> Unit = fn() { () },
-  onAttributeChanged? : (String, String?, String?, String?) -> Unit = fn(
-    _,
-    _,
-    _,
-    _,
-  ) {
-    ()
-  },
-) -> CustomElementCallbacks {
-  { onConnected, onDisconnected, onAdopted, onAttributeChanged }
-}
-
-///|
-/// Creates a custom element class with lifecycle callbacks using a provided HTMLElement class
-/// This is useful in environments where HTMLElement is not globally available (e.g., happy-dom)
-extern "js" fn create_custom_element_class_with_base(
-  callbacks : CustomElementCallbacks,
-  html_element_class : @core.Any,
-) -> @core.Any =
-  #|(callbacks, HTMLElement) => {
-  #|  return class extends HTMLElement {
-  #|    connectedCallback() {
-  #|      callbacks.onConnected();
-  #|    }
-  #|    disconnectedCallback() {
-  #|      callbacks.onDisconnected();
-  #|    }
-  #|    adoptedCallback() {
-  #|      callbacks.onAdopted();
-  #|    }
-  #|    attributeChangedCallback(name, oldValue, newValue, namespace) {
-  #|      callbacks.onAttributeChanged(name, oldValue, newValue, namespace);
-  #|    }
-  #|  };
-  #|}
-
-///|
-/// Defines a custom element with the given name and callbacks, using a provided HTMLElement class
-/// This is useful in environments where HTMLElement is not globally available (e.g., happy-dom)
-pub fn CustomElementRegistry::define_with_base(
-  self : Self,
-  name : String,
-  callbacks : CustomElementCallbacks,
-  html_element_class : @core.Any,
-) -> Unit {
-  let element_class = create_custom_element_class_with_base(
-    callbacks, html_element_class,
-  )
-  self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
-  |> ignore
 }

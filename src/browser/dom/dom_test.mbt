@@ -649,7 +649,7 @@ test "ShadowRoot - ShadowRootInit options" {
 }
 
 ///|
-test "CustomElementRegistry - get and define_with_base" {
+test "CustomElementRegistry - get and define_" {
   let window = @test_utils.create_happy_window()
   defer window.close()
   let registry = window.customElements()
@@ -659,9 +659,8 @@ test "CustomElementRegistry - get and define_with_base" {
   let before = registry.get("my-test-element")
   assert_eq(before is None, true)
 
-  // Define a custom element using define_with_base
-  let callbacks = CustomElementCallbacks::new()
-  registry.define_with_base("my-test-element", callbacks, html_element)
+  // Define a custom element using define_ with html_element_class
+  registry.define_("my-test-element", html_element_class=html_element)
 
   // After defining, get should return the constructor
   let after = registry.get("my-test-element")
@@ -674,8 +673,7 @@ test "CustomElementRegistry - getName with happy-dom" {
   defer window.close()
   let registry = window.customElements()
   let html_element = window.html_element_class()
-  let callbacks = CustomElementCallbacks::new()
-  registry.define_with_base("my-named-element", callbacks, html_element)
+  registry.define_("my-named-element", html_element_class=html_element)
 
   // Get the constructor
   let ctor = registry.get("my-named-element").unwrap()
@@ -699,8 +697,7 @@ test "CustomElementRegistry - upgrade with happy-dom" {
   body.as_node().appendChild(element.as_node()) |> ignore
 
   // Define the custom element
-  let callbacks = CustomElementCallbacks::new()
-  registry.define_with_base("my-upgrade-element", callbacks, html_element)
+  registry.define_("my-upgrade-element", html_element_class=html_element)
 
   // Upgrade should work without error
   registry.upgrade(element.as_node())
@@ -715,11 +712,12 @@ test "CustomElementRegistry - lifecycle callbacks with happy-dom" {
   let html_element = window.html_element_class()
   let mut connected_called = false
   let mut disconnected_called = false
-  let callbacks = CustomElementCallbacks::new(
-    onConnected=fn() { connected_called = true },
-    onDisconnected=fn() { disconnected_called = true },
+  registry.define_(
+    "my-lifecycle-element",
+    on_connected=fn() { connected_called = true },
+    on_disconnected=fn() { disconnected_called = true },
+    html_element_class=html_element,
   )
-  registry.define_with_base("my-lifecycle-element", callbacks, html_element)
 
   // Create and append element
   let element = doc.createElement("my-lifecycle-element")
@@ -734,4 +732,21 @@ test "CustomElementRegistry - lifecycle callbacks with happy-dom" {
 
   // disconnectedCallback should have been called
   assert_eq(disconnected_called, true)
+}
+
+///|
+test "CustomElementRegistry - define_ with observed_attributes" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let registry = window.customElements()
+  let html_element = window.html_element_class()
+  registry.define_(
+    "my-observed-element",
+    observed_attributes=["data-value", "data-name"],
+    html_element_class=html_element,
+  )
+
+  // Verify element is defined
+  let ctor = registry.get("my-observed-element")
+  assert_eq(ctor is None, false)
 }

@@ -140,20 +140,10 @@ pub fn ClipboardEvent::stopImmediatePropagation(Self) -> Unit
 pub fn ClipboardEvent::stopPropagation(Self) -> Unit
 pub fn ClipboardEvent::target(Self) -> Element
 
-pub struct CustomElementCallbacks {
-  onConnected : () -> Unit
-  onDisconnected : () -> Unit
-  onAdopted : () -> Unit
-  onAttributeChanged : (String, String?, String?, String?) -> Unit
-}
-pub fn CustomElementCallbacks::new(onConnected? : () -> Unit, onDisconnected? : () -> Unit, onAdopted? : () -> Unit, onAttributeChanged? : (String, String?, String?, String?) -> Unit) -> Self
-
 #external
 pub type CustomElementRegistry
 pub fn CustomElementRegistry::as_any(Self) -> @core.Any
-pub fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
-pub fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
-pub fn CustomElementRegistry::define_with_base(Self, String, CustomElementCallbacks, @core.Any) -> Unit
+pub fn CustomElementRegistry::define_(Self, String, on_connected? : () -> Unit, on_disconnected? : () -> Unit, on_adopted? : () -> Unit, on_attribute_changed? : (String, String?, String?, String?) -> Unit, observed_attributes? : Array[String], html_element_class? : @core.Any) -> Unit
 pub fn CustomElementRegistry::get(Self, String) -> @core.Any?
 pub fn CustomElementRegistry::getName(Self, @core.Any) -> String?
 pub fn CustomElementRegistry::upgrade(Self, Node) -> Unit
