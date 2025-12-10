@@ -99,6 +99,226 @@ pub fn HTMLElement::querySelectorAll(
 }
 
 ///|
+/// Inherited from Element
+pub fn HTMLElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::remove(self : Self) -> Unit {
+  self.as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::closest(self : Self, selector : String) -> Element? {
+  self.as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::matches(self : Self, selector : String) -> Bool {
+  self.as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::hasAttributes(self : Self) -> Bool {
+  self.as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::innerHTML(self : Self) -> String {
+  self.as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::outerHTML(self : Self) -> String {
+  self.as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::children(self : Self) -> Array[Element] {
+  self.as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::childElementCount(self : Self) -> Int {
+  self.as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::firstElementChild(self : Self) -> Element? {
+  self.as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::lastElementChild(self : Self) -> Element? {
+  self.as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::parentElement(self : Self) -> Element? {
+  self.as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::nextElementSibling(self : Self) -> Element? {
+  self.as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::previousElementSibling(self : Self) -> Element? {
+  self.as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::scrollIntoView(self : Self) -> Unit {
+  self.as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::clientWidth(self : Self) -> Int {
+  self.as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::clientHeight(self : Self) -> Int {
+  self.as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::scrollWidth(self : Self) -> Int {
+  self.as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::scrollHeight(self : Self) -> Int {
+  self.as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::scrollLeft(self : Self) -> Int {
+  self.as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::scrollTop(self : Self) -> Int {
+  self.as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_element().setScrollTop(value)
+}
+
+///|
 /// Inherited from Node
 pub fn HTMLElement::nodeType(self : Self) -> Int {
   self.as_element().as_node().nodeType()
@@ -206,4 +426,68 @@ pub fn HTMLElement::textContent(self : Self) -> String {
 /// Inherited from Node
 pub fn HTMLElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_element().as_node().setTextContent(content)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::compareDocumentPosition(self : Self, other : Node) -> Int {
+  self.as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::getRootNode(self : Self) -> Node {
+  self.as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::normalize(self : Self) -> Unit {
+  self.as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::nodeValue(self : Self) -> String? {
+  self.as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::ownerDocument(self : Self) -> Document? {
+  self.as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn HTMLElement::isConnected(self : Self) -> Bool {
+  self.as_element().as_node().isConnected()
 }

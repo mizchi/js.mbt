@@ -85,6 +85,226 @@ pub fn SVGElement::querySelectorAll(
 }
 
 ///|
+/// Inherited from Element
+pub fn SVGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::remove(self : Self) -> Unit {
+  self.as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::closest(self : Self, selector : String) -> Element? {
+  self.as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::matches(self : Self, selector : String) -> Bool {
+  self.as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::hasAttributes(self : Self) -> Bool {
+  self.as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::innerHTML(self : Self) -> String {
+  self.as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::outerHTML(self : Self) -> String {
+  self.as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::children(self : Self) -> Array[Element] {
+  self.as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::childElementCount(self : Self) -> Int {
+  self.as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::firstElementChild(self : Self) -> Element? {
+  self.as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::lastElementChild(self : Self) -> Element? {
+  self.as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::parentElement(self : Self) -> Element? {
+  self.as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::nextElementSibling(self : Self) -> Element? {
+  self.as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::previousElementSibling(self : Self) -> Element? {
+  self.as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::scrollIntoView(self : Self) -> Unit {
+  self.as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::clientWidth(self : Self) -> Int {
+  self.as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::clientHeight(self : Self) -> Int {
+  self.as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::scrollWidth(self : Self) -> Int {
+  self.as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::scrollHeight(self : Self) -> Int {
+  self.as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::scrollLeft(self : Self) -> Int {
+  self.as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::scrollTop(self : Self) -> Int {
+  self.as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_element().setScrollTop(value)
+}
+
+///|
 /// Inherited from Node
 pub fn SVGElement::nodeType(self : Self) -> Int {
   self.as_element().as_node().nodeType()
@@ -194,6 +414,70 @@ pub fn SVGElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::compareDocumentPosition(self : Self, other : Node) -> Int {
+  self.as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::getRootNode(self : Self) -> Node {
+  self.as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::normalize(self : Self) -> Unit {
+  self.as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::nodeValue(self : Self) -> String? {
+  self.as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::ownerDocument(self : Self) -> Document? {
+  self.as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGElement::isConnected(self : Self) -> Bool {
+  self.as_element().as_node().isConnected()
+}
+
 ///| SVGSVGElement inherited methods
 
 ///|
@@ -275,6 +559,226 @@ pub fn SVGSVGElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGSVGElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -391,6 +895,70 @@ pub fn SVGSVGElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::compareDocumentPosition(self : Self, other : Node) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGSVGElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGCircleElement inherited methods
 
 ///|
@@ -481,6 +1049,229 @@ pub fn SVGCircleElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGCircleElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -597,6 +1388,73 @@ pub fn SVGCircleElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGCircleElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGRectElement inherited methods
 
 ///|
@@ -687,6 +1545,229 @@ pub fn SVGRectElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGRectElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -803,6 +1884,73 @@ pub fn SVGRectElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGRectElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGRectElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGPathElement inherited methods
 
 ///|
@@ -893,6 +2041,229 @@ pub fn SVGPathElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPathElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -1009,6 +2380,73 @@ pub fn SVGPathElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGPathElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPathElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGLineElement inherited methods
 
 ///|
@@ -1099,6 +2537,229 @@ pub fn SVGLineElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGLineElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -1215,6 +2876,73 @@ pub fn SVGLineElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGLineElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGLineElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGPolylineElement inherited methods
 
 ///|
@@ -1308,6 +3036,232 @@ pub fn SVGPolylineElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::replaceWith(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolylineElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -1427,6 +3381,73 @@ pub fn SVGPolylineElement::setTextContent(
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolylineElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGPolygonElement inherited methods
 
 ///|
@@ -1520,6 +3541,229 @@ pub fn SVGPolygonElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGPolygonElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -1636,6 +3880,73 @@ pub fn SVGPolygonElement::setTextContent(self : Self, content : String) -> Unit 
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGPolygonElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGTextElement inherited methods
 
 ///|
@@ -1726,6 +4037,229 @@ pub fn SVGTextElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::replaceChildren(
+  self : Self,
+  nodes : Array[Node],
+) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGTextElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -1842,6 +4376,73 @@ pub fn SVGTextElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
 }
 
+///|
+/// Inherited from Node
+pub fn SVGTextElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::compareDocumentPosition(
+  self : Self,
+  other : Node,
+) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGTextElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
+}
+
 ///| SVGGElement inherited methods
 
 ///|
@@ -1929,6 +4530,226 @@ pub fn SVGGElement::querySelectorAll(
   selector : String,
 ) -> Array[Element] {
   self.as_svg_element().as_element().querySelectorAll(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().before(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().after(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().prepend(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceWith(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::remove(self : Self) -> Unit {
+  self.as_svg_element().as_element().remove()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+  self.as_svg_element().as_element().replaceChildren(nodes)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::insertAdjacentElement(
+  self : Self,
+  position : String,
+  element : Element,
+) -> Element? {
+  self.as_svg_element().as_element().insertAdjacentElement(position, element)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::insertAdjacentHTML(
+  self : Self,
+  position : String,
+  html : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentHTML(position, html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::insertAdjacentText(
+  self : Self,
+  position : String,
+  text : String,
+) -> Unit {
+  self.as_svg_element().as_element().insertAdjacentText(position, text)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::closest(self : Self, selector : String) -> Element? {
+  self.as_svg_element().as_element().closest(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::matches(self : Self, selector : String) -> Bool {
+  self.as_svg_element().as_element().matches(selector)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::toggleAttribute(
+  self : Self,
+  name : String,
+  force? : Bool,
+) -> Bool {
+  self.as_svg_element().as_element().toggleAttribute(name, force?)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::getAttributeNames(self : Self) -> Array[String] {
+  self.as_svg_element().as_element().getAttributeNames()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::hasAttributes(self : Self) -> Bool {
+  self.as_svg_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::innerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::outerHTML(self : Self) -> String {
+  self.as_svg_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_svg_element().as_element().setOuterHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::children(self : Self) -> Array[Element] {
+  self.as_svg_element().as_element().children()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::childElementCount(self : Self) -> Int {
+  self.as_svg_element().as_element().childElementCount()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::firstElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().firstElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::lastElementChild(self : Self) -> Element? {
+  self.as_svg_element().as_element().lastElementChild()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::parentElement(self : Self) -> Element? {
+  self.as_svg_element().as_element().parentElement()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::nextElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().nextElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::previousElementSibling(self : Self) -> Element? {
+  self.as_svg_element().as_element().previousElementSibling()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::scrollIntoView(self : Self) -> Unit {
+  self.as_svg_element().as_element().scrollIntoView()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::clientWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().clientWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::clientHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().clientHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::scrollWidth(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollWidth()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::scrollHeight(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollHeight()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::scrollLeft(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollLeft()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::setScrollLeft(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollLeft(value)
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::scrollTop(self : Self) -> Int {
+  self.as_svg_element().as_element().scrollTop()
+}
+
+///|
+/// Inherited from Element
+pub fn SVGGElement::setScrollTop(self : Self, value : Int) -> Unit {
+  self.as_svg_element().as_element().setScrollTop(value)
 }
 
 ///|
@@ -2043,4 +4864,68 @@ pub fn SVGGElement::textContent(self : Self) -> String {
 /// Inherited from Node
 pub fn SVGGElement::setTextContent(self : Self, content : String) -> Unit {
   self.as_svg_element().as_element().as_node().setTextContent(content)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_svg_element().as_element().as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::compareDocumentPosition(self : Self, other : Node) -> Int {
+  self.as_svg_element().as_element().as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::getRootNode(self : Self) -> Node {
+  self.as_svg_element().as_element().as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_svg_element().as_element().as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::normalize(self : Self) -> Unit {
+  self.as_svg_element().as_element().as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::nodeValue(self : Self) -> String? {
+  self.as_svg_element().as_element().as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_svg_element().as_element().as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::ownerDocument(self : Self) -> Document? {
+  self.as_svg_element().as_element().as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn SVGGElement::isConnected(self : Self) -> Bool {
+  self.as_svg_element().as_element().as_node().isConnected()
 }

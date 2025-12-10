@@ -110,3 +110,67 @@ pub fn Document::textContent(self : Self) -> String {
 pub fn Document::setTextContent(self : Self, content : String) -> Unit {
   self.as_node().setTextContent(content)
 }
+
+///|
+/// Inherited from Node
+pub fn Document::moveBefore(
+  self : Self,
+  moved_node : Node,
+  ref_node : Node?,
+) -> Unit {
+  self.as_node().moveBefore(moved_node, ref_node)
+}
+
+///|
+/// Inherited from Node
+pub fn Document::compareDocumentPosition(self : Self, other : Node) -> Int {
+  self.as_node().compareDocumentPosition(other)
+}
+
+///|
+/// Inherited from Node
+pub fn Document::getRootNode(self : Self) -> Node {
+  self.as_node().getRootNode()
+}
+
+///|
+/// Inherited from Node
+pub fn Document::isEqualNode(self : Self, other : Node?) -> Bool {
+  self.as_node().isEqualNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn Document::isSameNode(self : Self, other : Node?) -> Bool {
+  self.as_node().isSameNode(other)
+}
+
+///|
+/// Inherited from Node
+pub fn Document::normalize(self : Self) -> Unit {
+  self.as_node().normalize()
+}
+
+///|
+/// Inherited from Node
+pub fn Document::nodeValue(self : Self) -> String? {
+  self.as_node().nodeValue()
+}
+
+///|
+/// Inherited from Node
+pub fn Document::setNodeValue(self : Self, value : String?) -> Unit {
+  self.as_node().setNodeValue(value)
+}
+
+///|
+/// Inherited from Node
+pub fn Document::ownerDocument(self : Self) -> Document? {
+  self.as_node().ownerDocument()
+}
+
+///|
+/// Inherited from Node
+pub fn Document::isConnected(self : Self) -> Bool {
+  self.as_node().isConnected()
+}
