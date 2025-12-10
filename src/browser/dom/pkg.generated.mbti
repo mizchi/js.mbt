@@ -153,6 +153,7 @@ pub type CustomElementRegistry
 pub fn CustomElementRegistry::as_any(Self) -> @core.Any
 pub fn CustomElementRegistry::define_(Self, String, CustomElementCallbacks) -> Unit
 pub fn CustomElementRegistry::define_element_with_attributes(Self, String, CustomElementCallbacks, Array[String]) -> Unit
+pub fn CustomElementRegistry::define_with_base(Self, String, CustomElementCallbacks, @core.Any) -> Unit
 pub fn CustomElementRegistry::get(Self, String) -> @core.Any?
 pub fn CustomElementRegistry::getName(Self, @core.Any) -> String?
 pub fn CustomElementRegistry::upgrade(Self, Node) -> Unit

@@ -21,3 +21,17 @@ pub extern "js" fn HappyWindow::close(self : HappyWindow) -> Unit =
 ///|
 /// Get the window as Any for accessing additional properties
 pub fn HappyWindow::as_any(self : HappyWindow) -> @core.Any = "%identity"
+
+///|
+/// Get the customElements registry from a HappyDOM Window
+pub extern "js" fn HappyWindow::customElements(
+  self : HappyWindow,
+) -> @dom.CustomElementRegistry =
+  #|(w) => w.customElements
+
+///|
+/// Get HTMLElement class from HappyDOM Window (for extending in custom elements)
+pub extern "js" fn HappyWindow::html_element_class(
+  self : HappyWindow,
+) -> @core.Any =
+  #|(w) => w.HTMLElement

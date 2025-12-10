@@ -647,3 +647,91 @@ test "ShadowRoot - ShadowRootInit options" {
   shadow.mode() |> inspect(content="open")
   shadow.slotAssignment() |> inspect(content="named")
 }
+
+///|
+test "CustomElementRegistry - get and define_with_base" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let registry = window.customElements()
+  let html_element = window.html_element_class()
+
+  // Before defining, get should return None
+  let before = registry.get("my-test-element")
+  assert_eq(before is None, true)
+
+  // Define a custom element using define_with_base
+  let callbacks = CustomElementCallbacks::new()
+  registry.define_with_base("my-test-element", callbacks, html_element)
+
+  // After defining, get should return the constructor
+  let after = registry.get("my-test-element")
+  assert_eq(after is None, false)
+}
+
+///|
+test "CustomElementRegistry - getName with happy-dom" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let registry = window.customElements()
+  let html_element = window.html_element_class()
+  let callbacks = CustomElementCallbacks::new()
+  registry.define_with_base("my-named-element", callbacks, html_element)
+
+  // Get the constructor
+  let ctor = registry.get("my-named-element").unwrap()
+
+  // getName should return the element name
+  let name = registry.getName(ctor)
+  name |> inspect(content="Some(\"my-named-element\")")
+}
+
+///|
+test "CustomElementRegistry - upgrade with happy-dom" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let registry = window.customElements()
+  let html_element = window.html_element_class()
+
+  // Create element before defining
+  let element = doc.createElement("my-upgrade-element")
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(element.as_node()) |> ignore
+
+  // Define the custom element
+  let callbacks = CustomElementCallbacks::new()
+  registry.define_with_base("my-upgrade-element", callbacks, html_element)
+
+  // Upgrade should work without error
+  registry.upgrade(element.as_node())
+}
+
+///|
+test "CustomElementRegistry - lifecycle callbacks with happy-dom" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let registry = window.customElements()
+  let html_element = window.html_element_class()
+  let mut connected_called = false
+  let mut disconnected_called = false
+  let callbacks = CustomElementCallbacks::new(
+    onConnected=fn() { connected_called = true },
+    onDisconnected=fn() { disconnected_called = true },
+  )
+  registry.define_with_base("my-lifecycle-element", callbacks, html_element)
+
+  // Create and append element
+  let element = doc.createElement("my-lifecycle-element")
+  let body = doc.body().unwrap()
+  body.as_node().appendChild(element.as_node()) |> ignore
+
+  // connectedCallback should have been called
+  assert_eq(connected_called, true)
+
+  // Remove element
+  body.as_node().removeChild(element.as_node()) |> ignore
+
+  // disconnectedCallback should have been called
+  assert_eq(disconnected_called, true)
+}

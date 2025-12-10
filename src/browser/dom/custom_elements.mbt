@@ -166,3 +166,43 @@ pub fn CustomElementCallbacks::new(
 ) -> CustomElementCallbacks {
   { onConnected, onDisconnected, onAdopted, onAttributeChanged }
 }
+
+///|
+/// Creates a custom element class with lifecycle callbacks using a provided HTMLElement class
+/// This is useful in environments where HTMLElement is not globally available (e.g., happy-dom)
+extern "js" fn create_custom_element_class_with_base(
+  callbacks : CustomElementCallbacks,
+  html_element_class : @core.Any,
+) -> @core.Any =
+  #|(callbacks, HTMLElement) => {
+  #|  return class extends HTMLElement {
+  #|    connectedCallback() {
+  #|      callbacks.onConnected();
+  #|    }
+  #|    disconnectedCallback() {
+  #|      callbacks.onDisconnected();
+  #|    }
+  #|    adoptedCallback() {
+  #|      callbacks.onAdopted();
+  #|    }
+  #|    attributeChangedCallback(name, oldValue, newValue, namespace) {
+  #|      callbacks.onAttributeChanged(name, oldValue, newValue, namespace);
+  #|    }
+  #|  };
+  #|}
+
+///|
+/// Defines a custom element with the given name and callbacks, using a provided HTMLElement class
+/// This is useful in environments where HTMLElement is not globally available (e.g., happy-dom)
+pub fn CustomElementRegistry::define_with_base(
+  self : Self,
+  name : String,
+  callbacks : CustomElementCallbacks,
+  html_element_class : @core.Any,
+) -> Unit {
+  let element_class = create_custom_element_class_with_base(
+    callbacks, html_element_class,
+  )
+  self.as_any()._call("define", [@core.any(name), @core.any(element_class)])
+  |> ignore
+}

@@ -30,7 +30,9 @@ pub fn TimeoutError::to_string(Self) -> String
 pub type HappyWindow
 pub fn HappyWindow::as_any(Self) -> @core.Any
 pub fn HappyWindow::close(Self) -> Unit
+pub fn HappyWindow::customElements(Self) -> @dom.CustomElementRegistry
 pub fn HappyWindow::document(Self) -> @dom.Document
+pub fn HappyWindow::html_element_class(Self) -> @core.Any
 
 // Type aliases
 
