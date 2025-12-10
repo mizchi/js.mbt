@@ -9,8 +9,5 @@
     "mizchi/js/web/http",
     "mizchi/js/npm/react"
   ],
-  "test-import": [
-    "mizchi/js/node"
-  ],
   "warn-list": "-25"
 }
