@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.10.0] - 2025-12-10
+## [0.10.0] - 2025-12-11
 
 ### Breaking Changes
 
@@ -38,15 +38,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Removed examples depending on npm packages**: Examples that required npm packages (e.g., `react_app`) have been removed from this repository. See [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) for updated examples.
 
+- **DOM API changes**:
+  - `CustomElementRegistry::define_` API simplified
+  - `HappyWindow` unified with `Window` type
+
+### Added
+
+- **`TypeOf[T]` type for JavaScript constructors** (`@core.TypeOf[T]`):
+  - Represents JavaScript constructor/class types (similar to TypeScript's `typeof ClassName`)
+  - `TypeOf::is_instanceof(value)` - Type-safe instanceof check
+  - `TypeOf::as_any()` - Convert to `@core.Any`
+  - `new_instance(cls, args)` - Type-safe constructor call
+
+- **DOM improvements**:
+  - `cast_from_event_target` for DOM types - Safe upcast from EventTarget
+  - `cast_from_*` upcast methods for inheritance hierarchies
+  - Advanced DOM manipulation APIs for UI frameworks
+  - Comprehensive DOM tests with happy-dom
+
+- **Test utilities**:
+  - `retry` function with timeout support in `test_utils`
+  - Improved test stability with event-based waiting
+
+### Changed
+
+- **DOM**: Fixed innerHTML/outerHTML inheritance path
+- **TypedArray**: Changed `UInt` to `Int` for consistency
+- **Testing**: Replaced jsdom with happy-dom for DOM tests
+- Updated `moonbitlang/async` dependency to 0.14.3
+- Documentation uses `mbt test` / `mbt check` format for testable examples
+
 ### Removed
 
 - `src/npm/` - All npm package bindings (React, Preact, Hono, AI SDK, etc.)
 - `global_jsdom` dependency
 - npm-dependent example files
-
-### Changed
-
-- Updated `moonbitlang/async` dependency to 0.14.3
 
 ### What Remains in This Repository
 
