@@ -9,11 +9,11 @@
   ],
   "test-import": [
     "moonbitlang/async",
-    "mizchi/js/npm/testing_library_react",
-    "mizchi/js/npm/react_element",
-    "mizchi/js/npm/react_dom_server",
-    "mizchi/js/npm/global_jsdom",
-    "mizchi/js/npm/testing_library",
+    "mizchi/npm_typed/testing_library_react",
+    "mizchi/npm_typed/react_element",
+    "mizchi/npm_typed/react_dom_server",
+    "mizchi/npm_typed/global_jsdom",
+    "mizchi/npm_typed/testing_library",
     "mizchi/js/web/streams",
     "mizchi/js/web/encoding",
     "mizchi/js/builtins/arraybuffer"

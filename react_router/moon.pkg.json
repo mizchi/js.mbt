@@ -5,7 +5,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/react",
+    "mizchi/npm_typed/react",
     "mizchi/js/web/url",
     "mizchi/js/builtins/global"
   ]

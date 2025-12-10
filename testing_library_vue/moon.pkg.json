@@ -7,11 +7,11 @@
     "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/node",
-    "mizchi/js/npm/vue",
-    "mizchi/js/npm/testing_library"
+    "mizchi/npm_typed/vue",
+    "mizchi/npm_typed/testing_library"
   ],
   "test-import": [
-    "mizchi/js/npm/global_jsdom",
+    "mizchi/npm_typed/global_jsdom",
     "moonbitlang/async"
   ]
 }

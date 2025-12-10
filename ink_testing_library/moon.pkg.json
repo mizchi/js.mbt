@@ -4,10 +4,10 @@
   ],
   "import": [
     "mizchi/js/core",
-    "mizchi/js/npm/react"
+    "mizchi/npm_typed/react"
   ],
   "test-import": [
-    "mizchi/js/npm/ink",
+    "mizchi/npm_typed/ink",
     "moonbitlang/async"
   ]
 }

@@ -7,10 +7,10 @@
     "mizchi/js/core",
     "mizchi/js/web/streams",
     "mizchi/js/node/stream",
-    "mizchi/js/npm/react",
+    "mizchi/npm_typed/react",
     "mizchi/js/builtins/error"
   ],
   "test-import": [
-    "mizchi/js/npm/react_element"
+    "mizchi/npm_typed/react_element"
   ]
 }

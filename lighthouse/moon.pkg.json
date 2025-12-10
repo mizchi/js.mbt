@@ -2,7 +2,7 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/puppeteer",
+    "mizchi/npm_typed/puppeteer",
     "mizchi/js/builtins/global"
   ],
   "test-import": [

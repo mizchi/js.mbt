@@ -7,8 +7,8 @@
     "mizchi/js/node/buffer",
     "mizchi/js/node/fs",
     "mizchi/js/node/path",
-    "mizchi/js/npm/source_map",
-    "mizchi/js/npm/error_stack_parser"
+    "mizchi/npm_typed/source_map",
+    "mizchi/npm_typed/error_stack_parser"
   ],
   "test-import": [
     "moonbitlang/async"

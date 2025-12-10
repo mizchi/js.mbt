@@ -2,7 +2,7 @@
   "is_main": true,
   "import": [
     "mizchi/js/core",
-    "mizchi/js/npm/chokidar",
+    "mizchi/npm_typed/chokidar",
     "mizchi/js/builtins/global"
   ]
 }

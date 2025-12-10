@@ -3,7 +3,7 @@
     "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/web/http",
-    "mizchi/js/npm/better_auth"
+    "mizchi/npm_typed/better_auth"
   ],
   "test-import": [
     "moonbitlang/async"

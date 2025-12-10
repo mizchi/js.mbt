@@ -9,10 +9,10 @@
     "mizchi/js",
     "mizchi/js/browser/dom",
     "mizchi/js/web/http",
-    "mizchi/js/npm/react",
-    "mizchi/js/npm/react_element",
-    "mizchi/js/npm/react_dom_client",
-    "mizchi/js/npm/react_router"
+    "mizchi/npm_typed/react",
+    "mizchi/npm_typed/react_element",
+    "mizchi/npm_typed/react_dom_client",
+    "mizchi/npm_typed/react_router"
   ],
   "warn-list": "-1-2"
 }

@@ -3,7 +3,7 @@
     "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/mbtconv",
-    "mizchi/js/npm/vite",
+    "mizchi/npm_typed/vite",
     "mizchi/js/builtins/global"
   ],
   "is-main": true

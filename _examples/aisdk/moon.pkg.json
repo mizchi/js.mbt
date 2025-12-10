@@ -4,9 +4,9 @@
     "mizchi/js/core",
     "mizchi/js/node/process",
     "mizchi/js/node/tty",
-    "mizchi/js/npm/ai",
+    "mizchi/npm_typed/ai",
     "mizchi/js/builtins/iterator",
-    "mizchi/js/npm/dotenv",
+    "mizchi/npm_typed/dotenv",
     "moonbitlang/async"
   ]
 }

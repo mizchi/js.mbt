@@ -6,7 +6,7 @@
     "mizchi/js/node",
     "mizchi/js/node/process",
     "mizchi/js/node/tty",
-    "mizchi/js/npm/ai",
+    "mizchi/npm_typed/ai",
     "mizchi/js/core",
     "mizchi/js/builtins/iterator",
     "mizchi/js/builtins/json"

@@ -7,7 +7,7 @@
     "mizchi/js/core"
   ],
   "test-import": [
-    "mizchi/js/npm/global_jsdom",
+    "mizchi/npm_typed/global_jsdom",
     "moonbitlang/async"
   ],
   "warn-list": "-1-5-6"

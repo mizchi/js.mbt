@@ -7,7 +7,7 @@
     "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/web/http",
-    "mizchi/js/npm/react"
+    "mizchi/npm_typed/react"
   ],
   "warn-list": "-25"
 }

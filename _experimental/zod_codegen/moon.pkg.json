@@ -7,6 +7,6 @@
     "mizchi/js/core",
     "mizchi/js/builtins/object",
     "mizchi/js/builtins/json",
-    "mizchi/js/npm/zod"
+    "mizchi/npm_typed/zod"
   ]
 }

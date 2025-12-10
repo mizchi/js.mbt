@@ -5,13 +5,13 @@
   "import": [
     "mizchi/js/core",
     "mizchi/js/browser/dom",
-    "mizchi/js/npm/react"
+    "mizchi/npm_typed/react"
   ],
   "test-import": [
-    "mizchi/js/npm/testing_library",
+    "mizchi/npm_typed/testing_library",
     "mizchi/js/builtins/global",
-    "mizchi/js/npm/react_element",
-    "mizchi/js/npm/testing_library_react",
-    "mizchi/js/npm/global_jsdom"
+    "mizchi/npm_typed/react_element",
+    "mizchi/npm_typed/testing_library_react",
+    "mizchi/npm_typed/global_jsdom"
   ]
 }

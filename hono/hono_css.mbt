@@ -62,18 +62,28 @@ pub type HonoCss
 ///|
 extern "js" fn ffi_hono_css_css(
   m : HonoCss,
-  strings : @core.TemplateStringsArray,
-  values : Array[@core.Any],
+  template : String,
+  args : Array[@core.Any],
 ) -> @core.Any =
-  #|(m, strings, values) => m.css(strings, ...values)
+  #|(m, template, args) => {
+  #|  const [strings, values] = template.split(/\$\{@(\d+)\}/).reduce(
+  #|    ([s, v], x, i) => i % 2 ? [s, [...v, args[+x]]] : [[...s, x], v], [[], []]
+  #|  );
+  #|  return m.css((strings.raw = strings, strings), ...values);
+  #|}
 
 ///|
 extern "js" fn ffi_hono_css_keyframes(
   m : HonoCss,
-  strings : @core.TemplateStringsArray,
-  values : Array[@core.Any],
+  template : String,
+  args : Array[@core.Any],
 ) -> @core.Any =
-  #|(m, strings, values) => m.keyframes(strings, ...values)
+  #|(m, template, args) => {
+  #|  const [strings, values] = template.split(/\$\{@(\d+)\}/).reduce(
+  #|    ([s, v], x, i) => i % 2 ? [s, [...v, args[+x]]] : [[...s, x], v], [[], []]
+  #|  );
+  #|  return m.keyframes((strings.raw = strings, strings), ...values);
+  #|}
 
 ///|
 extern "js" fn ffi_hono_css_cx(m : HonoCss, classes : @core.Any) -> @core.Any =
@@ -125,14 +135,7 @@ pub fn HonoCss::css(
   template : String,
   args? : Array[@core.Any] = [],
 ) -> CssClass {
-  fn tag_fn(
-    strings : @core.TemplateStringsArray,
-    values : Array[@core.Any],
-  ) -> CssClass {
-    ffi_hono_css_css(self, strings, values).cast()
-  }
-
-  @core.tag(tag_fn, template, args)
+  ffi_hono_css_css(self, template, args).cast()
 }
 
 ///|
@@ -163,14 +166,7 @@ pub fn HonoCss::keyframes(
   template : String,
   args? : Array[@core.Any] = [],
 ) -> CssClass {
-  fn tag_fn(
-    strings : @core.TemplateStringsArray,
-    values : Array[@core.Any],
-  ) -> CssClass {
-    ffi_hono_css_keyframes(self, strings, values).cast()
-  }
-
-  @core.tag(tag_fn, template, args)
+  ffi_hono_css_keyframes(self, template, args).cast()
 }
 
 ///|

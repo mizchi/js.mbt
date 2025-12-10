@@ -4,7 +4,7 @@
     "mizchi/js/core",
     "mizchi/js/mbtconv",
     {
-      "path": "mizchi/js/npm/modelcontextprotocol",
+      "path": "mizchi/npm_typed/modelcontextprotocol",
       "alias": "mcp"
     },
     "moonbitlang/async"

@@ -2,6 +2,6 @@
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/playwright"
+    "mizchi/npm_typed/playwright"
   ]
 }
