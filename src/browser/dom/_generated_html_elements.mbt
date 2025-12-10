@@ -4,6 +4,20 @@
 ///| HTMLDivElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLDivElement
+pub fn HTMLDivElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLDivElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLDivElement
+pub fn HTMLDivElement::cast_from_element(value : Element) -> HTMLDivElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLDivElement
+pub fn HTMLDivElement::cast_from_node(value : Node) -> HTMLDivElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLDivElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -532,6 +546,20 @@ pub fn HTMLDivElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLSpanElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLSpanElement
+pub fn HTMLSpanElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLSpanElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLSpanElement
+pub fn HTMLSpanElement::cast_from_element(value : Element) -> HTMLSpanElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLSpanElement
+pub fn HTMLSpanElement::cast_from_node(value : Node) -> HTMLSpanElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -1064,6 +1092,20 @@ pub fn HTMLSpanElement::isConnected(self : Self) -> Bool {
 ///| HTMLBodyElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLBodyElement
+pub fn HTMLBodyElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLBodyElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLBodyElement
+pub fn HTMLBodyElement::cast_from_element(value : Element) -> HTMLBodyElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLBodyElement
+pub fn HTMLBodyElement::cast_from_node(value : Node) -> HTMLBodyElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLBodyElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -1592,6 +1634,20 @@ pub fn HTMLBodyElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLHeadElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLHeadElement
+pub fn HTMLHeadElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLHeadElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLHeadElement
+pub fn HTMLHeadElement::cast_from_element(value : Element) -> HTMLHeadElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLHeadElement
+pub fn HTMLHeadElement::cast_from_node(value : Node) -> HTMLHeadElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -2124,6 +2180,20 @@ pub fn HTMLHeadElement::isConnected(self : Self) -> Bool {
 ///| HTMLHtmlElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLHtmlElement
+pub fn HTMLHtmlElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLHtmlElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLHtmlElement
+pub fn HTMLHtmlElement::cast_from_element(value : Element) -> HTMLHtmlElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLHtmlElement
+pub fn HTMLHtmlElement::cast_from_node(value : Node) -> HTMLHtmlElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLHtmlElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -2652,6 +2722,22 @@ pub fn HTMLHtmlElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLAnchorElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLAnchorElement
+pub fn HTMLAnchorElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLAnchorElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLAnchorElement
+pub fn HTMLAnchorElement::cast_from_element(
+  value : Element,
+) -> HTMLAnchorElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLAnchorElement
+pub fn HTMLAnchorElement::cast_from_node(value : Node) -> HTMLAnchorElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -3187,6 +3273,22 @@ pub fn HTMLAnchorElement::isConnected(self : Self) -> Bool {
 ///| HTMLButtonElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLButtonElement
+pub fn HTMLButtonElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLButtonElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLButtonElement
+pub fn HTMLButtonElement::cast_from_element(
+  value : Element,
+) -> HTMLButtonElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLButtonElement
+pub fn HTMLButtonElement::cast_from_node(value : Node) -> HTMLButtonElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLButtonElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -3720,6 +3822,20 @@ pub fn HTMLButtonElement::isConnected(self : Self) -> Bool {
 ///| HTMLInputElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLInputElement
+pub fn HTMLInputElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLInputElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLInputElement
+pub fn HTMLInputElement::cast_from_element(value : Element) -> HTMLInputElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLInputElement
+pub fn HTMLInputElement::cast_from_node(value : Node) -> HTMLInputElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLInputElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -4248,6 +4364,22 @@ pub fn HTMLInputElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLTextAreaElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLTextAreaElement
+pub fn HTMLTextAreaElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLTextAreaElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLTextAreaElement
+pub fn HTMLTextAreaElement::cast_from_element(
+  value : Element,
+) -> HTMLTextAreaElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLTextAreaElement
+pub fn HTMLTextAreaElement::cast_from_node(value : Node) -> HTMLTextAreaElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -4789,6 +4921,22 @@ pub fn HTMLTextAreaElement::isConnected(self : Self) -> Bool {
 ///| HTMLCanvasElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLCanvasElement
+pub fn HTMLCanvasElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLCanvasElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLCanvasElement
+pub fn HTMLCanvasElement::cast_from_element(
+  value : Element,
+) -> HTMLCanvasElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLCanvasElement
+pub fn HTMLCanvasElement::cast_from_node(value : Node) -> HTMLCanvasElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLCanvasElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -5320,6 +5468,22 @@ pub fn HTMLCanvasElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLIFrameElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLIFrameElement
+pub fn HTMLIFrameElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLIFrameElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLIFrameElement
+pub fn HTMLIFrameElement::cast_from_element(
+  value : Element,
+) -> HTMLIFrameElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLIFrameElement
+pub fn HTMLIFrameElement::cast_from_node(value : Node) -> HTMLIFrameElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -5855,6 +6019,20 @@ pub fn HTMLIFrameElement::isConnected(self : Self) -> Bool {
 ///| HTMLFormElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLFormElement
+pub fn HTMLFormElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLFormElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLFormElement
+pub fn HTMLFormElement::cast_from_element(value : Element) -> HTMLFormElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLFormElement
+pub fn HTMLFormElement::cast_from_node(value : Node) -> HTMLFormElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLFormElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -6383,6 +6561,22 @@ pub fn HTMLFormElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLSelectElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLSelectElement
+pub fn HTMLSelectElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLSelectElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLSelectElement
+pub fn HTMLSelectElement::cast_from_element(
+  value : Element,
+) -> HTMLSelectElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLSelectElement
+pub fn HTMLSelectElement::cast_from_node(value : Node) -> HTMLSelectElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -6918,6 +7112,22 @@ pub fn HTMLSelectElement::isConnected(self : Self) -> Bool {
 ///| HTMLOptionElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLOptionElement
+pub fn HTMLOptionElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLOptionElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLOptionElement
+pub fn HTMLOptionElement::cast_from_element(
+  value : Element,
+) -> HTMLOptionElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLOptionElement
+pub fn HTMLOptionElement::cast_from_node(value : Node) -> HTMLOptionElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLOptionElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -7451,6 +7661,20 @@ pub fn HTMLOptionElement::isConnected(self : Self) -> Bool {
 ///| HTMLLabelElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLLabelElement
+pub fn HTMLLabelElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLLabelElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLLabelElement
+pub fn HTMLLabelElement::cast_from_element(value : Element) -> HTMLLabelElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLLabelElement
+pub fn HTMLLabelElement::cast_from_node(value : Node) -> HTMLLabelElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLLabelElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -7981,6 +8205,20 @@ pub fn HTMLLabelElement::isConnected(self : Self) -> Bool {
 ///| HTMLImageElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLImageElement
+pub fn HTMLImageElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLImageElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLImageElement
+pub fn HTMLImageElement::cast_from_element(value : Element) -> HTMLImageElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLImageElement
+pub fn HTMLImageElement::cast_from_node(value : Node) -> HTMLImageElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLImageElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -8509,6 +8747,24 @@ pub fn HTMLImageElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLParagraphElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLParagraphElement
+pub fn HTMLParagraphElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLParagraphElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLParagraphElement
+pub fn HTMLParagraphElement::cast_from_element(
+  value : Element,
+) -> HTMLParagraphElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLParagraphElement
+pub fn HTMLParagraphElement::cast_from_node(
+  value : Node,
+) -> HTMLParagraphElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -9059,6 +9315,22 @@ pub fn HTMLParagraphElement::isConnected(self : Self) -> Bool {
 ///| HTMLHeadingElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLHeadingElement
+pub fn HTMLHeadingElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLHeadingElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLHeadingElement
+pub fn HTMLHeadingElement::cast_from_element(
+  value : Element,
+) -> HTMLHeadingElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLHeadingElement
+pub fn HTMLHeadingElement::cast_from_node(value : Node) -> HTMLHeadingElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLHeadingElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -9598,6 +9870,20 @@ pub fn HTMLHeadingElement::isConnected(self : Self) -> Bool {
 ///| HTMLUListElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLUListElement
+pub fn HTMLUListElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLUListElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLUListElement
+pub fn HTMLUListElement::cast_from_element(value : Element) -> HTMLUListElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLUListElement
+pub fn HTMLUListElement::cast_from_node(value : Node) -> HTMLUListElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLUListElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -10128,6 +10414,20 @@ pub fn HTMLUListElement::isConnected(self : Self) -> Bool {
 ///| HTMLOListElement inherited methods
 
 ///|
+/// Upcast from HTMLElement to HTMLOListElement
+pub fn HTMLOListElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLOListElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLOListElement
+pub fn HTMLOListElement::cast_from_element(value : Element) -> HTMLOListElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLOListElement
+pub fn HTMLOListElement::cast_from_node(value : Node) -> HTMLOListElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLOListElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -10656,6 +10956,20 @@ pub fn HTMLOListElement::isConnected(self : Self) -> Bool {
 }
 
 ///| HTMLLIElement inherited methods
+
+///|
+/// Upcast from HTMLElement to HTMLLIElement
+pub fn HTMLLIElement::cast_from_html_element(
+  value : HTMLElement,
+) -> HTMLLIElement = "%identity"
+
+///|
+/// Upcast from Element to HTMLLIElement
+pub fn HTMLLIElement::cast_from_element(value : Element) -> HTMLLIElement = "%identity"
+
+///|
+/// Upcast from Node to HTMLLIElement
+pub fn HTMLLIElement::cast_from_node(value : Node) -> HTMLLIElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement

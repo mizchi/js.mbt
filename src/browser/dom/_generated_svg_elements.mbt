@@ -4,6 +4,14 @@
 ///| SVGElement inherited methods
 
 ///|
+/// Upcast from Element to SVGElement
+pub fn SVGElement::cast_from_element(value : Element) -> SVGElement = "%identity"
+
+///|
+/// Upcast from Node to SVGElement
+pub fn SVGElement::cast_from_node(value : Node) -> SVGElement = "%identity"
+
+///|
 /// Inherited from Element
 pub fn SVGElement::tagName(self : Self) -> String {
   self.as_element().tagName()
@@ -479,6 +487,20 @@ pub fn SVGElement::isConnected(self : Self) -> Bool {
 }
 
 ///| SVGSVGElement inherited methods
+
+///|
+/// Upcast from SVGElement to SVGSVGElement
+pub fn SVGSVGElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGSVGElement = "%identity"
+
+///|
+/// Upcast from Element to SVGSVGElement
+pub fn SVGSVGElement::cast_from_element(value : Element) -> SVGSVGElement = "%identity"
+
+///|
+/// Upcast from Node to SVGSVGElement
+pub fn SVGSVGElement::cast_from_node(value : Node) -> SVGSVGElement = "%identity"
 
 ///|
 /// Inherited from Element
@@ -960,6 +982,20 @@ pub fn SVGSVGElement::isConnected(self : Self) -> Bool {
 }
 
 ///| SVGCircleElement inherited methods
+
+///|
+/// Upcast from SVGElement to SVGCircleElement
+pub fn SVGCircleElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGCircleElement = "%identity"
+
+///|
+/// Upcast from Element to SVGCircleElement
+pub fn SVGCircleElement::cast_from_element(value : Element) -> SVGCircleElement = "%identity"
+
+///|
+/// Upcast from Node to SVGCircleElement
+pub fn SVGCircleElement::cast_from_node(value : Node) -> SVGCircleElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -1458,6 +1494,20 @@ pub fn SVGCircleElement::isConnected(self : Self) -> Bool {
 ///| SVGRectElement inherited methods
 
 ///|
+/// Upcast from SVGElement to SVGRectElement
+pub fn SVGRectElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGRectElement = "%identity"
+
+///|
+/// Upcast from Element to SVGRectElement
+pub fn SVGRectElement::cast_from_element(value : Element) -> SVGRectElement = "%identity"
+
+///|
+/// Upcast from Node to SVGRectElement
+pub fn SVGRectElement::cast_from_node(value : Node) -> SVGRectElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGRectElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -1952,6 +2002,20 @@ pub fn SVGRectElement::isConnected(self : Self) -> Bool {
 }
 
 ///| SVGPathElement inherited methods
+
+///|
+/// Upcast from SVGElement to SVGPathElement
+pub fn SVGPathElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGPathElement = "%identity"
+
+///|
+/// Upcast from Element to SVGPathElement
+pub fn SVGPathElement::cast_from_element(value : Element) -> SVGPathElement = "%identity"
+
+///|
+/// Upcast from Node to SVGPathElement
+pub fn SVGPathElement::cast_from_node(value : Node) -> SVGPathElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -2450,6 +2514,20 @@ pub fn SVGPathElement::isConnected(self : Self) -> Bool {
 ///| SVGLineElement inherited methods
 
 ///|
+/// Upcast from SVGElement to SVGLineElement
+pub fn SVGLineElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGLineElement = "%identity"
+
+///|
+/// Upcast from Element to SVGLineElement
+pub fn SVGLineElement::cast_from_element(value : Element) -> SVGLineElement = "%identity"
+
+///|
+/// Upcast from Node to SVGLineElement
+pub fn SVGLineElement::cast_from_node(value : Node) -> SVGLineElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGLineElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -2944,6 +3022,22 @@ pub fn SVGLineElement::isConnected(self : Self) -> Bool {
 }
 
 ///| SVGPolylineElement inherited methods
+
+///|
+/// Upcast from SVGElement to SVGPolylineElement
+pub fn SVGPolylineElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGPolylineElement = "%identity"
+
+///|
+/// Upcast from Element to SVGPolylineElement
+pub fn SVGPolylineElement::cast_from_element(
+  value : Element,
+) -> SVGPolylineElement = "%identity"
+
+///|
+/// Upcast from Node to SVGPolylineElement
+pub fn SVGPolylineElement::cast_from_node(value : Node) -> SVGPolylineElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -3451,6 +3545,22 @@ pub fn SVGPolylineElement::isConnected(self : Self) -> Bool {
 ///| SVGPolygonElement inherited methods
 
 ///|
+/// Upcast from SVGElement to SVGPolygonElement
+pub fn SVGPolygonElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGPolygonElement = "%identity"
+
+///|
+/// Upcast from Element to SVGPolygonElement
+pub fn SVGPolygonElement::cast_from_element(
+  value : Element,
+) -> SVGPolygonElement = "%identity"
+
+///|
+/// Upcast from Node to SVGPolygonElement
+pub fn SVGPolygonElement::cast_from_node(value : Node) -> SVGPolygonElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGPolygonElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -3950,6 +4060,20 @@ pub fn SVGPolygonElement::isConnected(self : Self) -> Bool {
 ///| SVGTextElement inherited methods
 
 ///|
+/// Upcast from SVGElement to SVGTextElement
+pub fn SVGTextElement::cast_from_svg_element(
+  value : SVGElement,
+) -> SVGTextElement = "%identity"
+
+///|
+/// Upcast from Element to SVGTextElement
+pub fn SVGTextElement::cast_from_element(value : Element) -> SVGTextElement = "%identity"
+
+///|
+/// Upcast from Node to SVGTextElement
+pub fn SVGTextElement::cast_from_node(value : Node) -> SVGTextElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGTextElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -4444,6 +4568,18 @@ pub fn SVGTextElement::isConnected(self : Self) -> Bool {
 }
 
 ///| SVGGElement inherited methods
+
+///|
+/// Upcast from SVGElement to SVGGElement
+pub fn SVGGElement::cast_from_svg_element(value : SVGElement) -> SVGGElement = "%identity"
+
+///|
+/// Upcast from Element to SVGGElement
+pub fn SVGGElement::cast_from_element(value : Element) -> SVGGElement = "%identity"
+
+///|
+/// Upcast from Node to SVGGElement
+pub fn SVGGElement::cast_from_node(value : Node) -> SVGGElement = "%identity"
 
 ///|
 /// Inherited from SVGElement

@@ -211,6 +211,7 @@ pub fn Document::as_any(Self) -> @core.Any
 pub fn Document::as_event_target(Self) -> @event.EventTarget
 pub fn Document::as_node(Self) -> Node
 pub fn Document::body(Self) -> HTMLBodyElement?
+pub fn Document::cast_from_node(Node) -> Self
 #alias(character_set)
 pub fn Document::characterSet(Self) -> String
 pub fn Document::childNodes(Self) -> Array[Node]
@@ -317,6 +318,7 @@ pub fn Element::as_any(Self) -> @core.Any
 pub fn Element::as_event_target(Self) -> @event.EventTarget
 pub fn Element::as_node(Self) -> Node
 pub fn Element::before(Self, Array[Node]) -> Unit
+pub fn Element::cast_from_node(Node) -> Self
 pub fn Element::childElementCount(Self) -> Int
 pub fn Element::childNodes(Self) -> Array[Node]
 pub fn Element::children(Self) -> Array[Self]
@@ -444,6 +446,9 @@ pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLAnchorElement::as_node(Self) -> Node
 pub fn HTMLAnchorElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLAnchorElement::cast_from_element(Element) -> Self
+pub fn HTMLAnchorElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLAnchorElement::cast_from_node(Node) -> Self
 pub fn HTMLAnchorElement::childElementCount(Self) -> Int
 pub fn HTMLAnchorElement::childNodes(Self) -> Array[Node]
 pub fn HTMLAnchorElement::children(Self) -> Array[Element]
@@ -531,6 +536,9 @@ pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLBodyElement::as_node(Self) -> Node
 pub fn HTMLBodyElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLBodyElement::cast_from_element(Element) -> Self
+pub fn HTMLBodyElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLBodyElement::cast_from_node(Node) -> Self
 pub fn HTMLBodyElement::childElementCount(Self) -> Int
 pub fn HTMLBodyElement::childNodes(Self) -> Array[Node]
 pub fn HTMLBodyElement::children(Self) -> Array[Element]
@@ -619,6 +627,9 @@ pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLButtonElement::as_node(Self) -> Node
 pub fn HTMLButtonElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLButtonElement::cast_from_element(Element) -> Self
+pub fn HTMLButtonElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLButtonElement::cast_from_node(Node) -> Self
 pub fn HTMLButtonElement::childElementCount(Self) -> Int
 pub fn HTMLButtonElement::childNodes(Self) -> Array[Node]
 pub fn HTMLButtonElement::children(Self) -> Array[Element]
@@ -708,6 +719,9 @@ pub fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLCanvasElement::as_node(Self) -> Node
 pub fn HTMLCanvasElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLCanvasElement::cast_from_element(Element) -> Self
+pub fn HTMLCanvasElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLCanvasElement::cast_from_node(Node) -> Self
 pub fn HTMLCanvasElement::childElementCount(Self) -> Int
 pub fn HTMLCanvasElement::childNodes(Self) -> Array[Node]
 pub fn HTMLCanvasElement::children(Self) -> Array[Element]
@@ -799,6 +813,9 @@ pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLDivElement::as_node(Self) -> Node
 pub fn HTMLDivElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLDivElement::cast_from_element(Element) -> Self
+pub fn HTMLDivElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLDivElement::cast_from_node(Node) -> Self
 pub fn HTMLDivElement::childElementCount(Self) -> Int
 pub fn HTMLDivElement::childNodes(Self) -> Array[Node]
 pub fn HTMLDivElement::children(Self) -> Array[Element]
@@ -886,6 +903,8 @@ pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLElement::as_node(Self) -> Node
 pub fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
 pub fn HTMLElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLElement::cast_from_element(Element) -> Self
+pub fn HTMLElement::cast_from_node(Node) -> Self
 pub fn HTMLElement::childElementCount(Self) -> Int
 pub fn HTMLElement::childNodes(Self) -> Array[Node]
 pub fn HTMLElement::children(Self) -> Array[Element]
@@ -974,6 +993,9 @@ pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLFormElement::as_node(Self) -> Node
 pub fn HTMLFormElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLFormElement::cast_from_element(Element) -> Self
+pub fn HTMLFormElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLFormElement::cast_from_node(Node) -> Self
 pub fn HTMLFormElement::childElementCount(Self) -> Int
 pub fn HTMLFormElement::childNodes(Self) -> Array[Node]
 pub fn HTMLFormElement::children(Self) -> Array[Element]
@@ -1061,6 +1083,9 @@ pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadElement::as_node(Self) -> Node
 pub fn HTMLHeadElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHeadElement::cast_from_element(Element) -> Self
+pub fn HTMLHeadElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLHeadElement::cast_from_node(Node) -> Self
 pub fn HTMLHeadElement::childElementCount(Self) -> Int
 pub fn HTMLHeadElement::childNodes(Self) -> Array[Node]
 pub fn HTMLHeadElement::children(Self) -> Array[Element]
@@ -1148,6 +1173,9 @@ pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadingElement::as_node(Self) -> Node
 pub fn HTMLHeadingElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHeadingElement::cast_from_element(Element) -> Self
+pub fn HTMLHeadingElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLHeadingElement::cast_from_node(Node) -> Self
 pub fn HTMLHeadingElement::childElementCount(Self) -> Int
 pub fn HTMLHeadingElement::childNodes(Self) -> Array[Node]
 pub fn HTMLHeadingElement::children(Self) -> Array[Element]
@@ -1235,6 +1263,9 @@ pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHtmlElement::as_node(Self) -> Node
 pub fn HTMLHtmlElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHtmlElement::cast_from_element(Element) -> Self
+pub fn HTMLHtmlElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLHtmlElement::cast_from_node(Node) -> Self
 pub fn HTMLHtmlElement::childElementCount(Self) -> Int
 pub fn HTMLHtmlElement::childNodes(Self) -> Array[Node]
 pub fn HTMLHtmlElement::children(Self) -> Array[Element]
@@ -1327,6 +1358,9 @@ pub fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLIFrameElement::as_node(Self) -> Node
 pub fn HTMLIFrameElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLIFrameElement::cast_from_element(Element) -> Self
+pub fn HTMLIFrameElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLIFrameElement::cast_from_node(Node) -> Self
 pub fn HTMLIFrameElement::childElementCount(Self) -> Int
 pub fn HTMLIFrameElement::childNodes(Self) -> Array[Node]
 pub fn HTMLIFrameElement::children(Self) -> Array[Element]
@@ -1419,6 +1453,9 @@ pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLImageElement::as_node(Self) -> Node
 pub fn HTMLImageElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLImageElement::cast_from_element(Element) -> Self
+pub fn HTMLImageElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLImageElement::cast_from_node(Node) -> Self
 pub fn HTMLImageElement::childElementCount(Self) -> Int
 pub fn HTMLImageElement::childNodes(Self) -> Array[Node]
 pub fn HTMLImageElement::children(Self) -> Array[Element]
@@ -1510,6 +1547,9 @@ pub fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLInputElement::as_node(Self) -> Node
 pub fn HTMLInputElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLInputElement::cast_from_element(Element) -> Self
+pub fn HTMLInputElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLInputElement::cast_from_node(Node) -> Self
 pub fn HTMLInputElement::childElementCount(Self) -> Int
 pub fn HTMLInputElement::childNodes(Self) -> Array[Node]
 pub fn HTMLInputElement::children(Self) -> Array[Element]
@@ -1599,6 +1639,9 @@ pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLIElement::as_node(Self) -> Node
 pub fn HTMLLIElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLLIElement::cast_from_element(Element) -> Self
+pub fn HTMLLIElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLLIElement::cast_from_node(Node) -> Self
 pub fn HTMLLIElement::childElementCount(Self) -> Int
 pub fn HTMLLIElement::childNodes(Self) -> Array[Node]
 pub fn HTMLLIElement::children(Self) -> Array[Element]
@@ -1687,6 +1730,9 @@ pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLabelElement::as_node(Self) -> Node
 pub fn HTMLLabelElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLLabelElement::cast_from_element(Element) -> Self
+pub fn HTMLLabelElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLLabelElement::cast_from_node(Node) -> Self
 pub fn HTMLLabelElement::childElementCount(Self) -> Int
 pub fn HTMLLabelElement::childNodes(Self) -> Array[Node]
 pub fn HTMLLabelElement::children(Self) -> Array[Element]
@@ -1774,6 +1820,9 @@ pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOListElement::as_node(Self) -> Node
 pub fn HTMLOListElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLOListElement::cast_from_element(Element) -> Self
+pub fn HTMLOListElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLOListElement::cast_from_node(Node) -> Self
 pub fn HTMLOListElement::childElementCount(Self) -> Int
 pub fn HTMLOListElement::childNodes(Self) -> Array[Node]
 pub fn HTMLOListElement::children(Self) -> Array[Element]
@@ -1863,6 +1912,9 @@ pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOptionElement::as_node(Self) -> Node
 pub fn HTMLOptionElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLOptionElement::cast_from_element(Element) -> Self
+pub fn HTMLOptionElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLOptionElement::cast_from_node(Node) -> Self
 pub fn HTMLOptionElement::childElementCount(Self) -> Int
 pub fn HTMLOptionElement::childNodes(Self) -> Array[Node]
 pub fn HTMLOptionElement::children(Self) -> Array[Element]
@@ -1950,6 +2002,9 @@ pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLParagraphElement::as_node(Self) -> Node
 pub fn HTMLParagraphElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLParagraphElement::cast_from_element(Element) -> Self
+pub fn HTMLParagraphElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLParagraphElement::cast_from_node(Node) -> Self
 pub fn HTMLParagraphElement::childElementCount(Self) -> Int
 pub fn HTMLParagraphElement::childNodes(Self) -> Array[Node]
 pub fn HTMLParagraphElement::children(Self) -> Array[Element]
@@ -2039,6 +2094,9 @@ pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSelectElement::as_node(Self) -> Node
 pub fn HTMLSelectElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLSelectElement::cast_from_element(Element) -> Self
+pub fn HTMLSelectElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLSelectElement::cast_from_node(Node) -> Self
 pub fn HTMLSelectElement::childElementCount(Self) -> Int
 pub fn HTMLSelectElement::childNodes(Self) -> Array[Node]
 pub fn HTMLSelectElement::children(Self) -> Array[Element]
@@ -2126,6 +2184,9 @@ pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSpanElement::as_node(Self) -> Node
 pub fn HTMLSpanElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLSpanElement::cast_from_element(Element) -> Self
+pub fn HTMLSpanElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLSpanElement::cast_from_node(Node) -> Self
 pub fn HTMLSpanElement::childElementCount(Self) -> Int
 pub fn HTMLSpanElement::childNodes(Self) -> Array[Node]
 pub fn HTMLSpanElement::children(Self) -> Array[Element]
@@ -2219,6 +2280,9 @@ pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLTextAreaElement::as_node(Self) -> Node
 pub fn HTMLTextAreaElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLTextAreaElement::cast_from_element(Element) -> Self
+pub fn HTMLTextAreaElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLTextAreaElement::cast_from_node(Node) -> Self
 pub fn HTMLTextAreaElement::childElementCount(Self) -> Int
 pub fn HTMLTextAreaElement::childNodes(Self) -> Array[Node]
 pub fn HTMLTextAreaElement::children(Self) -> Array[Element]
@@ -2306,6 +2370,9 @@ pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLUListElement::as_node(Self) -> Node
 pub fn HTMLUListElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLUListElement::cast_from_element(Element) -> Self
+pub fn HTMLUListElement::cast_from_html_element(HTMLElement) -> Self
+pub fn HTMLUListElement::cast_from_node(Node) -> Self
 pub fn HTMLUListElement::childElementCount(Self) -> Int
 pub fn HTMLUListElement::childNodes(Self) -> Array[Node]
 pub fn HTMLUListElement::children(Self) -> Array[Element]
@@ -2598,6 +2665,9 @@ pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGCircleElement::as_node(Self) -> Node
 pub fn SVGCircleElement::as_svg_element(Self) -> SVGElement
 pub fn SVGCircleElement::before(Self, Array[Node]) -> Unit
+pub fn SVGCircleElement::cast_from_element(Element) -> Self
+pub fn SVGCircleElement::cast_from_node(Node) -> Self
+pub fn SVGCircleElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGCircleElement::childElementCount(Self) -> Int
 pub fn SVGCircleElement::childNodes(Self) -> Array[Node]
 pub fn SVGCircleElement::children(Self) -> Array[Element]
@@ -2683,6 +2753,8 @@ pub fn SVGElement::as_element(Self) -> Element
 pub fn SVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGElement::as_node(Self) -> Node
 pub fn SVGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGElement::cast_from_element(Element) -> Self
+pub fn SVGElement::cast_from_node(Node) -> Self
 pub fn SVGElement::childElementCount(Self) -> Int
 pub fn SVGElement::childNodes(Self) -> Array[Node]
 pub fn SVGElement::children(Self) -> Array[Element]
@@ -2779,6 +2851,9 @@ pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGGElement::as_node(Self) -> Node
 pub fn SVGGElement::as_svg_element(Self) -> SVGElement
 pub fn SVGGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGGElement::cast_from_element(Element) -> Self
+pub fn SVGGElement::cast_from_node(Node) -> Self
+pub fn SVGGElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGGElement::childElementCount(Self) -> Int
 pub fn SVGGElement::childNodes(Self) -> Array[Node]
 pub fn SVGGElement::children(Self) -> Array[Element]
@@ -2876,6 +2951,9 @@ pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGLineElement::as_node(Self) -> Node
 pub fn SVGLineElement::as_svg_element(Self) -> SVGElement
 pub fn SVGLineElement::before(Self, Array[Node]) -> Unit
+pub fn SVGLineElement::cast_from_element(Element) -> Self
+pub fn SVGLineElement::cast_from_node(Node) -> Self
+pub fn SVGLineElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGLineElement::childElementCount(Self) -> Int
 pub fn SVGLineElement::childNodes(Self) -> Array[Node]
 pub fn SVGLineElement::children(Self) -> Array[Element]
@@ -2963,6 +3041,9 @@ pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPathElement::as_node(Self) -> Node
 pub fn SVGPathElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPathElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPathElement::cast_from_element(Element) -> Self
+pub fn SVGPathElement::cast_from_node(Node) -> Self
+pub fn SVGPathElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGPathElement::childElementCount(Self) -> Int
 pub fn SVGPathElement::childNodes(Self) -> Array[Node]
 pub fn SVGPathElement::children(Self) -> Array[Element]
@@ -3048,6 +3129,9 @@ pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolygonElement::as_node(Self) -> Node
 pub fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPolygonElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPolygonElement::cast_from_element(Element) -> Self
+pub fn SVGPolygonElement::cast_from_node(Node) -> Self
+pub fn SVGPolygonElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGPolygonElement::childElementCount(Self) -> Int
 pub fn SVGPolygonElement::childNodes(Self) -> Array[Node]
 pub fn SVGPolygonElement::children(Self) -> Array[Element]
@@ -3131,6 +3215,9 @@ pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolylineElement::as_node(Self) -> Node
 pub fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPolylineElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPolylineElement::cast_from_element(Element) -> Self
+pub fn SVGPolylineElement::cast_from_node(Node) -> Self
+pub fn SVGPolylineElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGPolylineElement::childElementCount(Self) -> Int
 pub fn SVGPolylineElement::childNodes(Self) -> Array[Node]
 pub fn SVGPolylineElement::children(Self) -> Array[Element]
@@ -3214,6 +3301,9 @@ pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGRectElement::as_node(Self) -> Node
 pub fn SVGRectElement::as_svg_element(Self) -> SVGElement
 pub fn SVGRectElement::before(Self, Array[Node]) -> Unit
+pub fn SVGRectElement::cast_from_element(Element) -> Self
+pub fn SVGRectElement::cast_from_node(Node) -> Self
+pub fn SVGRectElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGRectElement::childElementCount(Self) -> Int
 pub fn SVGRectElement::childNodes(Self) -> Array[Node]
 pub fn SVGRectElement::children(Self) -> Array[Element]
@@ -3301,6 +3391,9 @@ pub fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGSVGElement::as_node(Self) -> Node
 pub fn SVGSVGElement::as_svg_element(Self) -> SVGElement
 pub fn SVGSVGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGSVGElement::cast_from_element(Element) -> Self
+pub fn SVGSVGElement::cast_from_node(Node) -> Self
+pub fn SVGSVGElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGSVGElement::childElementCount(Self) -> Int
 pub fn SVGSVGElement::childNodes(Self) -> Array[Node]
 pub fn SVGSVGElement::children(Self) -> Array[Element]
@@ -3386,6 +3479,9 @@ pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGTextElement::as_node(Self) -> Node
 pub fn SVGTextElement::as_svg_element(Self) -> SVGElement
 pub fn SVGTextElement::before(Self, Array[Node]) -> Unit
+pub fn SVGTextElement::cast_from_element(Element) -> Self
+pub fn SVGTextElement::cast_from_node(Node) -> Self
+pub fn SVGTextElement::cast_from_svg_element(SVGElement) -> Self
 pub fn SVGTextElement::childElementCount(Self) -> Int
 pub fn SVGTextElement::childNodes(Self) -> Array[Node]
 pub fn SVGTextElement::children(Self) -> Array[Element]

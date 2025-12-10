@@ -206,6 +206,37 @@ ${aliasAttr}pub ${asyncPrefix}fn ${targetType}::${method.name}(${fullParams}) ->
 }
 
 /**
+ * アップキャスト用の cast_from_* メソッドを生成
+ * 例: HTMLDivElement::cast_from_node(node: Node) -> HTMLDivElement
+ */
+function generateCastFromMethods(
+  typeName: string,
+  hierarchy: InheritanceChain[]
+): string[] {
+  const methods: string[] = [];
+  const ancestors = getAncestors(typeName, hierarchy);
+
+  for (const ancestor of ancestors) {
+    // 継承ルート（extends: null）の型はスキップ（別パッケージにあるため）
+    if (ancestor.extends === null) {
+      continue;
+    }
+
+    // snake_case に変換
+    const snakeCaseName = ancestor.typeName
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
+      .replace(/([a-z])([A-Z])/g, '$1_$2')
+      .toLowerCase();
+
+    methods.push(`///|
+/// Upcast from ${ancestor.typeName} to ${typeName}
+pub fn ${typeName}::cast_from_${snakeCaseName}(value : ${ancestor.typeName}) -> ${typeName} = "%identity"`);
+  }
+
+  return methods;
+}
+
+/**
  * 型のキャストチェーンを取得
  */
 function getCastChain(fromType: string, toType: string, hierarchy: InheritanceChain[]): string[] {
@@ -232,6 +263,10 @@ async function generateInheritedMethods(
 ): Promise<string> {
   const ancestors = getAncestors(typeName, config.types);
   const sections: string[] = [];
+
+  // cast_from_* メソッドを先に追加
+  const castFromMethods = generateCastFromMethods(typeName, config.types);
+  sections.push(...castFromMethods);
 
   // 既存のメソッドを取得（重複を避けるため）
   const existingMethods = targetFile
