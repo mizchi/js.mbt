@@ -6,6 +6,10 @@
 pub fn Element::cast_from_node(value : Node) -> Element = "%identity"
 
 ///|
+/// Upcast from EventTarget to Element
+pub fn Element::cast_from_event_target(value : @event.EventTarget) -> Element = "%identity"
+
+///|
 /// Inherited from Node
 pub fn Element::nodeType(self : Self) -> Int {
   self.as_node().nodeType()

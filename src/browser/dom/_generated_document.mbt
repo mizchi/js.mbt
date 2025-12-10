@@ -6,6 +6,10 @@
 pub fn Document::cast_from_node(value : Node) -> Document = "%identity"
 
 ///|
+/// Upcast from EventTarget to Document
+pub fn Document::cast_from_event_target(value : @event.EventTarget) -> Document = "%identity"
+
+///|
 /// Inherited from Node
 pub fn Document::nodeType(self : Self) -> Int {
   self.as_node().nodeType()

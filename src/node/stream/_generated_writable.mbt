@@ -6,6 +6,12 @@
 pub fn Writable::cast_from_stream(value : Stream) -> Writable = "%identity"
 
 ///|
+/// Upcast from EventEmitter to Writable
+pub fn Writable::cast_from_event_emitter(
+  value : @events.EventEmitter,
+) -> Writable = "%identity"
+
+///|
 /// Inherited from EventEmitter
 pub fn Writable::on(
   self : Self,

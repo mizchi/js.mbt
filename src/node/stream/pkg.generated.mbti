@@ -46,6 +46,7 @@ pub type Readable
 pub fn Readable::as_any(Self) -> @core.Any
 pub fn Readable::as_event_emitter(Self) -> @events.EventEmitter
 pub fn Readable::as_stream(Self) -> Stream
+pub fn Readable::cast_from_event_emitter(@events.EventEmitter) -> Self
 pub fn Readable::cast_from_stream(Stream) -> Self
 pub fn Readable::closed(Self) -> Bool
 pub fn Readable::destroy(Self, error? : @core.Any) -> Self
@@ -83,6 +84,7 @@ pub fn Readable::unshift(Self, @core.Any, encoding? : String) -> Unit
 pub type Stream
 pub fn Stream::as_any(Self) -> @core.Any
 pub fn Stream::as_event_emitter(Self) -> @events.EventEmitter
+pub fn Stream::cast_from_event_emitter(@events.EventEmitter) -> Self
 pub fn Stream::emit(Self, String, @core.Any) -> Unit
 pub fn Stream::eventNames(Self) -> Array[String]
 pub fn Stream::listenerCount(Self, String) -> Int
@@ -103,6 +105,7 @@ pub type Writable
 pub fn Writable::as_any(Self) -> @core.Any
 pub fn Writable::as_event_emitter(Self) -> @events.EventEmitter
 pub fn Writable::as_stream(Self) -> Stream
+pub fn Writable::cast_from_event_emitter(@events.EventEmitter) -> Self
 pub fn Writable::cast_from_stream(Stream) -> Self
 pub fn Writable::closed(Self) -> Bool
 pub fn Writable::cork(Self) -> Unit

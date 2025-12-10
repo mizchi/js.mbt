@@ -34,6 +34,7 @@ pub fn BigInt64Array::as_any(Self) -> @core.Any
 pub fn BigInt64Array::as_typed_array(Self) -> TypedArray
 pub fn BigInt64Array::byteLength(Self) -> Int
 pub fn BigInt64Array::byteOffset(Self) -> Int
+pub fn BigInt64Array::cast_from_typed_array(TypedArray) -> Self
 pub fn BigInt64Array::get_at(Self, Int) -> Int
 pub fn BigInt64Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn BigInt64Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -56,6 +57,7 @@ pub fn BigUint64Array::as_any(Self) -> @core.Any
 pub fn BigUint64Array::as_typed_array(Self) -> TypedArray
 pub fn BigUint64Array::byteLength(Self) -> Int
 pub fn BigUint64Array::byteOffset(Self) -> Int
+pub fn BigUint64Array::cast_from_typed_array(TypedArray) -> Self
 pub fn BigUint64Array::get_at(Self, Int) -> Int
 pub fn BigUint64Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn BigUint64Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -118,6 +120,7 @@ pub fn Float32Array::as_any(Self) -> @core.Any
 pub fn Float32Array::as_typed_array(Self) -> TypedArray
 pub fn Float32Array::byteLength(Self) -> Int
 pub fn Float32Array::byteOffset(Self) -> Int
+pub fn Float32Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Float32Array::get_at(Self, Int) -> Int
 pub fn Float32Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Float32Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -140,6 +143,7 @@ pub fn Float64Array::as_any(Self) -> @core.Any
 pub fn Float64Array::as_typed_array(Self) -> TypedArray
 pub fn Float64Array::byteLength(Self) -> Int
 pub fn Float64Array::byteOffset(Self) -> Int
+pub fn Float64Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Float64Array::get_at(Self, Int) -> Int
 pub fn Float64Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Float64Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -161,6 +165,7 @@ pub(all) struct Int16Array {
 pub fn Int16Array::as_typed_array(Self) -> TypedArray
 pub fn Int16Array::byteLength(Self) -> Int
 pub fn Int16Array::byteOffset(Self) -> Int
+pub fn Int16Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Int16Array::get_at(Self, Int) -> Int
 pub fn Int16Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Int16Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -183,6 +188,7 @@ pub fn Int32Array::as_any(Self) -> @core.Any
 pub fn Int32Array::as_typed_array(Self) -> TypedArray
 pub fn Int32Array::byteLength(Self) -> Int
 pub fn Int32Array::byteOffset(Self) -> Int
+pub fn Int32Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Int32Array::get_at(Self, Int) -> Int
 pub fn Int32Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Int32Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -205,6 +211,7 @@ pub fn Int8Array::as_any(Self) -> @core.Any
 pub fn Int8Array::as_typed_array(Self) -> TypedArray
 pub fn Int8Array::byteLength(Self) -> Int
 pub fn Int8Array::byteOffset(Self) -> Int
+pub fn Int8Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Int8Array::get_at(Self, Int) -> Int
 pub fn Int8Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Int8Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -257,6 +264,7 @@ pub fn Uint16Array::as_any(Self) -> @core.Any
 pub fn Uint16Array::as_typed_array(Self) -> TypedArray
 pub fn Uint16Array::byteLength(Self) -> Int
 pub fn Uint16Array::byteOffset(Self) -> Int
+pub fn Uint16Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Uint16Array::from_array_buffer(ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 pub fn Uint16Array::get_at(Self, Int) -> Int
 pub fn Uint16Array::includes(Self, Int, from_index? : Int) -> Bool
@@ -279,6 +287,7 @@ pub(all) struct Uint32Array {
 pub fn Uint32Array::as_typed_array(Self) -> TypedArray
 pub fn Uint32Array::byteLength(Self) -> Int
 pub fn Uint32Array::byteOffset(Self) -> Int
+pub fn Uint32Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Uint32Array::get_at(Self, Int) -> Int
 pub fn Uint32Array::includes(Self, Int, from_index? : Int) -> Bool
 pub fn Uint32Array::indexOf(Self, Int, from_index? : Int) -> Int
@@ -301,6 +310,7 @@ pub fn Uint8Array::as_any(Self) -> @core.Any
 pub fn Uint8Array::as_typed_array(Self) -> TypedArray
 pub fn Uint8Array::byteLength(Self) -> Int
 pub fn Uint8Array::byteOffset(Self) -> Int
+pub fn Uint8Array::cast_from_typed_array(TypedArray) -> Self
 pub fn Uint8Array::from_array(Array[Int]) -> Self
 pub fn Uint8Array::from_array_buffer(ArrayBuffer, byte_offset? : Int, length? : Int) -> Self
 pub fn Uint8Array::from_bytes(Bytes) -> Self

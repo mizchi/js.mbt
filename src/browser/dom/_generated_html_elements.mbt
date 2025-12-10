@@ -18,6 +18,12 @@ pub fn HTMLDivElement::cast_from_element(value : Element) -> HTMLDivElement = "%
 pub fn HTMLDivElement::cast_from_node(value : Node) -> HTMLDivElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLDivElement
+pub fn HTMLDivElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLDivElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLDivElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -560,6 +566,12 @@ pub fn HTMLSpanElement::cast_from_element(value : Element) -> HTMLSpanElement = 
 ///|
 /// Upcast from Node to HTMLSpanElement
 pub fn HTMLSpanElement::cast_from_node(value : Node) -> HTMLSpanElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLSpanElement
+pub fn HTMLSpanElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLSpanElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -1106,6 +1118,12 @@ pub fn HTMLBodyElement::cast_from_element(value : Element) -> HTMLBodyElement = 
 pub fn HTMLBodyElement::cast_from_node(value : Node) -> HTMLBodyElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLBodyElement
+pub fn HTMLBodyElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLBodyElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLBodyElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -1648,6 +1666,12 @@ pub fn HTMLHeadElement::cast_from_element(value : Element) -> HTMLHeadElement = 
 ///|
 /// Upcast from Node to HTMLHeadElement
 pub fn HTMLHeadElement::cast_from_node(value : Node) -> HTMLHeadElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLHeadElement
+pub fn HTMLHeadElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLHeadElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -2194,6 +2218,12 @@ pub fn HTMLHtmlElement::cast_from_element(value : Element) -> HTMLHtmlElement = 
 pub fn HTMLHtmlElement::cast_from_node(value : Node) -> HTMLHtmlElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLHtmlElement
+pub fn HTMLHtmlElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLHtmlElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLHtmlElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -2738,6 +2768,12 @@ pub fn HTMLAnchorElement::cast_from_element(
 ///|
 /// Upcast from Node to HTMLAnchorElement
 pub fn HTMLAnchorElement::cast_from_node(value : Node) -> HTMLAnchorElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLAnchorElement
+pub fn HTMLAnchorElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLAnchorElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -3289,6 +3325,12 @@ pub fn HTMLButtonElement::cast_from_element(
 pub fn HTMLButtonElement::cast_from_node(value : Node) -> HTMLButtonElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLButtonElement
+pub fn HTMLButtonElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLButtonElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLButtonElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -3836,6 +3878,12 @@ pub fn HTMLInputElement::cast_from_element(value : Element) -> HTMLInputElement 
 pub fn HTMLInputElement::cast_from_node(value : Node) -> HTMLInputElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLInputElement
+pub fn HTMLInputElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLInputElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLInputElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -4380,6 +4428,12 @@ pub fn HTMLTextAreaElement::cast_from_element(
 ///|
 /// Upcast from Node to HTMLTextAreaElement
 pub fn HTMLTextAreaElement::cast_from_node(value : Node) -> HTMLTextAreaElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLTextAreaElement
+pub fn HTMLTextAreaElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLTextAreaElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -4937,6 +4991,12 @@ pub fn HTMLCanvasElement::cast_from_element(
 pub fn HTMLCanvasElement::cast_from_node(value : Node) -> HTMLCanvasElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLCanvasElement
+pub fn HTMLCanvasElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLCanvasElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLCanvasElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -5486,6 +5546,12 @@ pub fn HTMLIFrameElement::cast_from_element(
 pub fn HTMLIFrameElement::cast_from_node(value : Node) -> HTMLIFrameElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLIFrameElement
+pub fn HTMLIFrameElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLIFrameElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLIFrameElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -6033,6 +6099,12 @@ pub fn HTMLFormElement::cast_from_element(value : Element) -> HTMLFormElement = 
 pub fn HTMLFormElement::cast_from_node(value : Node) -> HTMLFormElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLFormElement
+pub fn HTMLFormElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLFormElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLFormElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -6577,6 +6649,12 @@ pub fn HTMLSelectElement::cast_from_element(
 ///|
 /// Upcast from Node to HTMLSelectElement
 pub fn HTMLSelectElement::cast_from_node(value : Node) -> HTMLSelectElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLSelectElement
+pub fn HTMLSelectElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLSelectElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -7128,6 +7206,12 @@ pub fn HTMLOptionElement::cast_from_element(
 pub fn HTMLOptionElement::cast_from_node(value : Node) -> HTMLOptionElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLOptionElement
+pub fn HTMLOptionElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLOptionElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLOptionElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -7675,6 +7759,12 @@ pub fn HTMLLabelElement::cast_from_element(value : Element) -> HTMLLabelElement 
 pub fn HTMLLabelElement::cast_from_node(value : Node) -> HTMLLabelElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLLabelElement
+pub fn HTMLLabelElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLLabelElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLLabelElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -8217,6 +8307,12 @@ pub fn HTMLImageElement::cast_from_element(value : Element) -> HTMLImageElement 
 ///|
 /// Upcast from Node to HTMLImageElement
 pub fn HTMLImageElement::cast_from_node(value : Node) -> HTMLImageElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLImageElement
+pub fn HTMLImageElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLImageElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement
@@ -8764,6 +8860,12 @@ pub fn HTMLParagraphElement::cast_from_element(
 /// Upcast from Node to HTMLParagraphElement
 pub fn HTMLParagraphElement::cast_from_node(
   value : Node,
+) -> HTMLParagraphElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLParagraphElement
+pub fn HTMLParagraphElement::cast_from_event_target(
+  value : @event.EventTarget,
 ) -> HTMLParagraphElement = "%identity"
 
 ///|
@@ -9331,6 +9433,12 @@ pub fn HTMLHeadingElement::cast_from_element(
 pub fn HTMLHeadingElement::cast_from_node(value : Node) -> HTMLHeadingElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLHeadingElement
+pub fn HTMLHeadingElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLHeadingElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLHeadingElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -9884,6 +9992,12 @@ pub fn HTMLUListElement::cast_from_element(value : Element) -> HTMLUListElement 
 pub fn HTMLUListElement::cast_from_node(value : Node) -> HTMLUListElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLUListElement
+pub fn HTMLUListElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLUListElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLUListElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -10428,6 +10542,12 @@ pub fn HTMLOListElement::cast_from_element(value : Element) -> HTMLOListElement 
 pub fn HTMLOListElement::cast_from_node(value : Node) -> HTMLOListElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLOListElement
+pub fn HTMLOListElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLOListElement = "%identity"
+
+///|
 /// Inherited from HTMLElement
 pub fn HTMLOListElement::innerText(self : Self) -> String {
   self.as_html_element().innerText()
@@ -10970,6 +11090,12 @@ pub fn HTMLLIElement::cast_from_element(value : Element) -> HTMLLIElement = "%id
 ///|
 /// Upcast from Node to HTMLLIElement
 pub fn HTMLLIElement::cast_from_node(value : Node) -> HTMLLIElement = "%identity"
+
+///|
+/// Upcast from EventTarget to HTMLLIElement
+pub fn HTMLLIElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLLIElement = "%identity"
 
 ///|
 /// Inherited from HTMLElement

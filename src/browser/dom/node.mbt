@@ -9,8 +9,6 @@ pub fn Node::as_any(self : Node) -> @core.Any = "%identity"
 pub fn Node::as_event_target(self : Node) -> @event.EventTarget = "%identity"
 
 ///|
-
-///|
 pub fn Node::nodeType(self : Node) -> Int {
   self.as_any()._get("nodeType").cast()
 }

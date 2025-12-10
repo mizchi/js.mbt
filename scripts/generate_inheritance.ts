@@ -217,20 +217,18 @@ function generateCastFromMethods(
   const ancestors = getAncestors(typeName, hierarchy);
 
   for (const ancestor of ancestors) {
-    // 継承ルート（extends: null）の型はスキップ（別パッケージにあるため）
-    if (ancestor.extends === null) {
-      continue;
-    }
-
     // snake_case に変換
     const snakeCaseName = ancestor.typeName
       .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
       .replace(/([a-z])([A-Z])/g, '$1_$2')
       .toLowerCase();
 
+    // パッケージ修飾子付きの型名を使用（外部パッケージの型の場合）
+    const paramTypeName = ancestor.qualifiedTypeName || ancestor.typeName;
+
     methods.push(`///|
 /// Upcast from ${ancestor.typeName} to ${typeName}
-pub fn ${typeName}::cast_from_${snakeCaseName}(value : ${ancestor.typeName}) -> ${typeName} = "%identity"`);
+pub fn ${typeName}::cast_from_${snakeCaseName}(value : ${paramTypeName}) -> ${typeName} = "%identity"`);
   }
 
   return methods;

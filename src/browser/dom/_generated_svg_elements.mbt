@@ -12,6 +12,12 @@ pub fn SVGElement::cast_from_element(value : Element) -> SVGElement = "%identity
 pub fn SVGElement::cast_from_node(value : Node) -> SVGElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to SVGElement
+pub fn SVGElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGElement = "%identity"
+
+///|
 /// Inherited from Element
 pub fn SVGElement::tagName(self : Self) -> String {
   self.as_element().tagName()
@@ -501,6 +507,12 @@ pub fn SVGSVGElement::cast_from_element(value : Element) -> SVGSVGElement = "%id
 ///|
 /// Upcast from Node to SVGSVGElement
 pub fn SVGSVGElement::cast_from_node(value : Node) -> SVGSVGElement = "%identity"
+
+///|
+/// Upcast from EventTarget to SVGSVGElement
+pub fn SVGSVGElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGSVGElement = "%identity"
 
 ///|
 /// Inherited from Element
@@ -996,6 +1008,12 @@ pub fn SVGCircleElement::cast_from_element(value : Element) -> SVGCircleElement 
 ///|
 /// Upcast from Node to SVGCircleElement
 pub fn SVGCircleElement::cast_from_node(value : Node) -> SVGCircleElement = "%identity"
+
+///|
+/// Upcast from EventTarget to SVGCircleElement
+pub fn SVGCircleElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGCircleElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -1508,6 +1526,12 @@ pub fn SVGRectElement::cast_from_element(value : Element) -> SVGRectElement = "%
 pub fn SVGRectElement::cast_from_node(value : Node) -> SVGRectElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to SVGRectElement
+pub fn SVGRectElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGRectElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGRectElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -2016,6 +2040,12 @@ pub fn SVGPathElement::cast_from_element(value : Element) -> SVGPathElement = "%
 ///|
 /// Upcast from Node to SVGPathElement
 pub fn SVGPathElement::cast_from_node(value : Node) -> SVGPathElement = "%identity"
+
+///|
+/// Upcast from EventTarget to SVGPathElement
+pub fn SVGPathElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGPathElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -2528,6 +2558,12 @@ pub fn SVGLineElement::cast_from_element(value : Element) -> SVGLineElement = "%
 pub fn SVGLineElement::cast_from_node(value : Node) -> SVGLineElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to SVGLineElement
+pub fn SVGLineElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGLineElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGLineElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -3038,6 +3074,12 @@ pub fn SVGPolylineElement::cast_from_element(
 ///|
 /// Upcast from Node to SVGPolylineElement
 pub fn SVGPolylineElement::cast_from_node(value : Node) -> SVGPolylineElement = "%identity"
+
+///|
+/// Upcast from EventTarget to SVGPolylineElement
+pub fn SVGPolylineElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGPolylineElement = "%identity"
 
 ///|
 /// Inherited from SVGElement
@@ -3561,6 +3603,12 @@ pub fn SVGPolygonElement::cast_from_element(
 pub fn SVGPolygonElement::cast_from_node(value : Node) -> SVGPolygonElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to SVGPolygonElement
+pub fn SVGPolygonElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGPolygonElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGPolygonElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -4074,6 +4122,12 @@ pub fn SVGTextElement::cast_from_element(value : Element) -> SVGTextElement = "%
 pub fn SVGTextElement::cast_from_node(value : Node) -> SVGTextElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to SVGTextElement
+pub fn SVGTextElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGTextElement = "%identity"
+
+///|
 /// Inherited from SVGElement
 pub fn SVGTextElement::getAttribute(self : Self, name : String) -> String? {
   self.as_svg_element().getAttribute(name)
@@ -4580,6 +4634,12 @@ pub fn SVGGElement::cast_from_element(value : Element) -> SVGGElement = "%identi
 ///|
 /// Upcast from Node to SVGGElement
 pub fn SVGGElement::cast_from_node(value : Node) -> SVGGElement = "%identity"
+
+///|
+/// Upcast from EventTarget to SVGGElement
+pub fn SVGGElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> SVGGElement = "%identity"
 
 ///|
 /// Inherited from SVGElement

@@ -12,8 +12,6 @@ pub fn Element::as_event_target(self : Element) -> @event.EventTarget = "%identi
 pub fn Element::as_node(self : Element) -> Node = "%identity"
 
 ///|
-
-///|
 pub extern "js" fn Element::tagName(self : Element) -> String =
   #| (self) => self.tagName
 

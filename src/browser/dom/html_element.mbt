@@ -15,8 +15,6 @@ pub fn HTMLElement::as_node(self : HTMLElement) -> Node = "%identity"
 pub fn HTMLElement::as_element(self : HTMLElement) -> Element = "%identity"
 
 ///|
-
-///|
 pub extern "js" fn HTMLElement::innerText(self : HTMLElement) -> String =
   #| (self) => self.innerText
 

@@ -10,6 +10,12 @@ pub fn HTMLElement::cast_from_element(value : Element) -> HTMLElement = "%identi
 pub fn HTMLElement::cast_from_node(value : Node) -> HTMLElement = "%identity"
 
 ///|
+/// Upcast from EventTarget to HTMLElement
+pub fn HTMLElement::cast_from_event_target(
+  value : @event.EventTarget,
+) -> HTMLElement = "%identity"
+
+///|
 /// Inherited from Element
 pub fn HTMLElement::tagName(self : Self) -> String {
   self.as_element().tagName()

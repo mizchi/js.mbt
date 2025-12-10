@@ -6,6 +6,12 @@
 pub fn Readable::cast_from_stream(value : Stream) -> Readable = "%identity"
 
 ///|
+/// Upcast from EventEmitter to Readable
+pub fn Readable::cast_from_event_emitter(
+  value : @events.EventEmitter,
+) -> Readable = "%identity"
+
+///|
 /// Inherited from EventEmitter
 pub fn Readable::on(
   self : Self,

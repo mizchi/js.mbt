@@ -7,6 +7,8 @@ export type InheritanceChain = {
   extends: string | null;
   castMethod: string | null;
   sourceFile: string;
+  /** パッケージ修飾子付きの型名（外部パッケージの型の場合） */
+  qualifiedTypeName?: string;
 };
 
 export type HierarchyConfig = {
@@ -22,7 +24,8 @@ const domHierarchy: InheritanceChain[] = [
     typeName: "EventTarget",
     extends: null,
     castMethod: null,
-    sourceFile: "src/event/event_target.mbt"
+    sourceFile: "src/event/event_target.mbt",
+    qualifiedTypeName: "@event.EventTarget"
   },
   {
     typeName: "Node",
@@ -123,7 +126,8 @@ const streamHierarchy: InheritanceChain[] = [
     typeName: "EventEmitter",
     extends: null,
     castMethod: null,
-    sourceFile: "src/node/events/event_emitter.mbt"
+    sourceFile: "src/node/events/event_emitter.mbt",
+    qualifiedTypeName: "@events.EventEmitter"
   },
   {
     typeName: "Stream",
