@@ -1,9 +1,4 @@
 ///|
-fn init_react() -> Unit {
-  @react.init_react_api(@node.require("react"))
-}
-
-///|
 fn get_react_dom_static() -> ReactDOMStatic {
   @node.require("react-dom/static") |> @core.identity
 }
@@ -20,7 +15,6 @@ fn simple_component(props : SimpleProps) -> @react.Element {
 
 ///|
 test "prerenderToNodeStream returns Promise" {
-  init_react()
   let static_ = get_react_dom_static()
   // Use dynamic import to get Promise, then wait
   let element : @core.Any = @react.component(simple_component, {
@@ -38,7 +32,6 @@ test "prerenderToNodeStream returns Promise" {
 
 ///|
 test "prerender function exists" {
-  init_react()
   let static_ = get_react_dom_static()
   // Verify prerender function exists
   let prerender_fn = static_.as_any()._get("prerender")
@@ -47,7 +40,6 @@ test "prerender function exists" {
 
 ///|
 test "prerenderToNodeStream function exists" {
-  init_react()
   let static_ = get_react_dom_static()
   // Verify prerenderToNodeStream function exists
   let fn_ = static_.as_any()._get("prerenderToNodeStream")
@@ -57,7 +49,6 @@ test "prerenderToNodeStream function exists" {
 ///|
 test "build_options with all parameters" {
   // Test internal build_options function by checking react-dom/static accepts our options format
-  init_react()
   let static_ = get_react_dom_static()
   // Create options object similar to what build_options would create
   let opts = @core.new_object()
@@ -79,7 +70,6 @@ test "build_options with all parameters" {
 
 ///|
 test "prerender returns Promise" {
-  init_react()
   let static_ = get_react_dom_static()
   let element : @core.Any = @react.component(simple_component, {
       message: "Web Stream Test",

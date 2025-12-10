@@ -33,16 +33,9 @@ pub fn createElementWithKey(@core.Any, @core.Any, String?, children_count? : Int
 #alias(createContext)
 pub fn[T] create_context(T?) -> Context[T]
 
-pub async fn dynamic_import() -> Unit
-
 pub fn error_boundary(children~ : Array[&ReactNode], fallback? : (@core.Any, () -> Unit) -> Element, on_error? : (@core.Any, @core.Any) -> Unit) -> Element
 
 pub fn fragment(Array[&ReactNode], key? : String) -> Element
-
-pub fn init_react_api(@core.Any, global_key? : String) -> Unit
-
-#alias(initReactAsync)
-pub async fn init_react_async() -> Unit
 
 pub fn init_react_from_module(@core.Any) -> Unit
 

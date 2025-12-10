@@ -1,9 +1,7 @@
 ///|
 /// Helper function to get a render function for tests.
-/// Initializes React and returns a function that renders elements to HTML strings.
+/// Returns a function that renders elements to HTML strings.
 fn get_render_to_string() -> (@react.Element) -> String {
-  // Initialize React API
-  @react.init_react_api(@node.require("react"))
   let react_dom_server : @core.Any = @node.require("react-dom/server").cast()
   let render_fn : @core.Any = react_dom_server["renderToString"]
   fn(element : @react.Element) -> String {
