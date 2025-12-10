@@ -2,6 +2,8 @@
 
 Typed npm package bindings for MoonBit, built on top of [mizchi/js](https://github.com/mizchi/js.mbt).
 
+Inspired by [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) - the repository for high quality TypeScript type definitions. This project aims to be the MoonBit equivalent, providing type-safe FFI bindings for popular npm packages.
+
 ## Installation
 
 ```bash
