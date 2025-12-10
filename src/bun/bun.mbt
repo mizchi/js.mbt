@@ -97,7 +97,9 @@ pub fn Bun::argv(self : Bun) -> Array[String] {
 
 ///|
 /// Get the main module path
-pub fn Bun::main(self : Bun) -> String {
+/// NOTE: If you define `::main`, `moon coverage analyze` will fail
+/// https://github.com/moonbitlang/moonbit-docs/issues/1071
+pub fn Bun::main_(self : Bun) -> String {
   self.as_any()["main"].cast()
 }
 

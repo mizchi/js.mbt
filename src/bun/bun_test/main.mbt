@@ -130,7 +130,7 @@ fn main {
 
   // Test main module path
   b.test_async("main module path", async fn(_ctx) {
-    let main_path = b.main()
+    let main_path = b.main_()
     assert_true(main_path.length() > 0)
   })
 
