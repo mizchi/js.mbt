@@ -4,6 +4,16 @@ Typed npm package bindings for MoonBit, built on top of [mizchi/js](https://gith
 
 Inspired by [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) - the repository for high quality TypeScript type definitions. This project aims to be the MoonBit equivalent, providing type-safe FFI bindings for popular npm packages.
 
+> **Note**: These bindings require installing the corresponding npm packages.
+>
+> ```bash
+> # Example: Install React dependencies
+> npm install react react-dom
+>
+> # Example: Install Hono
+> npm install hono
+> ```
+
 ## Installation
 
 ```bash
@@ -26,19 +36,123 @@ Add to your `moon.pkg.json`:
 
 ## Available Packages
 
-| Category | Packages | Status |
-|----------|----------|--------|
-| **UI Frameworks** | react, react_dom, react_dom_client, react_dom_server, react_dom_static, react_element, react_router, preact, ink, ink_ui | 🧪 Tested |
-| **Web Frameworks** | hono, better_auth, helmet | 🧪 Tested |
-| **AI / LLM** | ai (Vercel AI SDK), modelcontextprotocol, claude_code | 🧪 Tested |
-| **Cloud Services** | client_s3 (@aws-sdk/client-s3) | 🧪 Tested |
-| **Database** | pglite, duckdb, drizzle, pg | 🧪 Tested |
-| **Validation** | zod, ajv | 🧪 Tested |
-| **Build Tools** | terser, vite, unplugin, lighthouse, esbuild, oxc_minify | 🧪 Tested |
-| **Utilities** | date_fns, semver, chalk, colorette, dotenv, chokidar, yargs, debug, jose, comlink | 🧪 Tested |
-| **Testing** | testing_library, testing_library_react, testing_library_preact, testing_library_vue, puppeteer, playwright, playwright_test, vitest, jsdom, happy_dom, global_jsdom, msw, ink_testing_library | 🧪 Tested |
-| **Parsing** | htmlparser2, js_yaml | 🧪 Tested |
-| **Other** | simple_git, ignore, memfs, source_map, magic_string, error_stack_parser, minimatch, execa, pino | 🧪 Tested |
+### UI Frameworks
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [react](react/) | `react` | 🧪 Tested | Core React API |
+| [react_element](react_element/) | - | 🧪 Tested | Typed HTML elements for React |
+| [react_dom](react_dom/) | `react-dom` | 🧪 Tested | React DOM |
+| [react_dom_client](react_dom_client/) | `react-dom/client` | 🧪 Tested | Client-side rendering |
+| [react_dom_server](react_dom_server/) | `react-dom/server` | 🧪 Tested | Server-side rendering |
+| [react_dom_static](react_dom_static/) | `react-dom/static` | 🤖 AI Generated | Static rendering |
+| [react_router](react_router/) | `react-router` | 🧪 Tested | Client-side routing |
+| [testing_library_react](testing_library_react/) | `@testing-library/react` | 🧪 Tested | React testing utilities |
+| [preact](preact/) | `preact` | 🧪 Tested | Lightweight React alternative |
+| [testing_library_preact](testing_library_preact/) | `@testing-library/preact` | 🤖 AI Generated | Preact testing utilities |
+| [ink](ink/) | `ink` | 🧪 Tested | React for CLI apps |
+| [ink_ui](ink_ui/) | `@inkjs/ui` | 🧪 Tested | Ink UI components |
+
+### Web Frameworks
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [hono](hono/) | `hono` | 🧪 Tested | Fast web framework, middleware support |
+| [better_auth](better_auth/) | `better-auth` | 🤖 AI Generated | Authentication library |
+| [helmet](helmet/) | `helmet` | 🧪 Tested | Security headers middleware |
+
+### AI / LLM
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [ai](ai/) | `ai` (Vercel AI SDK) | 🧪 Tested | AI/LLM integration |
+| [modelcontextprotocol](modelcontextprotocol/) | `@modelcontextprotocol/sdk` | 🧪 Tested | MCP server/client |
+| [claude_code](claude_code/) | `@anthropic-ai/claude-code` | 🤖 AI Generated | Claude Code SDK |
+
+### Cloud Services
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [client_s3](client_s3/) | `@aws-sdk/client-s3` | 🧪 Tested | S3-compatible storage (AWS, GCS, R2, MinIO) |
+
+### Database
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [pglite](pglite/) | `@electric-sql/pglite` | 🧪 Tested | Embedded PostgreSQL |
+| [duckdb](duckdb/) | `@duckdb/duckdb-wasm` | 🤖 AI Generated | Analytical database |
+| [drizzle](drizzle/) | `drizzle-orm` | 🤖 AI Generated | TypeScript ORM (see [limitations](drizzle/README.md)) |
+| [pg](pg/) | `pg` | 🤖 AI Generated | PostgreSQL client |
+
+### Validation / Schema
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [zod](zod/) | `zod` | 🧪 Tested | Schema validation |
+| [ajv](ajv/) | `ajv` | 🧪 Tested | JSON Schema validator |
+
+### Build Tools
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [terser](terser/) | `terser` | 🧪 Tested | JavaScript minifier |
+| [vite](vite/) | `vite` | 🧪 Tested | Next-gen build tool |
+| [unplugin](unplugin/) | `unplugin` | 🤖 AI Generated | Unified plugin system |
+| [lighthouse](lighthouse/) | `lighthouse` | 🤖 AI Generated | Web performance auditing |
+| [esbuild](esbuild/) | `esbuild` | 🧪 Tested | Fast bundler |
+| [oxc_minify](oxc_minify/) | `oxc-minify` | 🧪 Tested | Oxc minifier |
+
+### Utilities
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [date_fns](date_fns/) | `date-fns` | 🧪 Tested | Date manipulation |
+| [semver](semver/) | `semver` | 🧪 Tested | Semantic versioning |
+| [chalk](chalk/) | `chalk` | 🧪 Tested | Terminal styling |
+| [colorette](colorette/) | `colorette` | 🧪 Tested | Terminal colors |
+| [dotenv](dotenv/) | `dotenv` | 🧪 Tested | Environment variables |
+| [chokidar](chokidar/) | `chokidar` | 🧪 Tested | File watching |
+| [yargs](yargs/) | `yargs` | 🤖 AI Generated | CLI argument parsing |
+| [debug](debug/) | `debug` | 🤖 AI Generated | Debug logging |
+| [jose](jose/) | `jose` | 🧪 Tested | JWT/JWE/JWS |
+| [comlink](comlink/) | `comlink` | 🤖 AI Generated | Web Worker RPC |
+| [simple_git](simple_git/) | `simple-git` | 🤖 AI Generated | Git operations |
+| [ignore](ignore/) | `ignore` | 🤖 AI Generated | .gitignore parsing |
+| [memfs](memfs/) | `memfs` | 🧪 Tested | In-memory file system |
+| [minimatch](minimatch/) | `minimatch` | 🧪 Tested | Glob matching |
+| [execa](execa/) | `execa` | 🧪 Tested | Process execution |
+| [pino](pino/) | `pino` | 🧪 Tested | Fast logging |
+| [magic_string](magic_string/) | `magic-string` | 🧪 Tested | String manipulation |
+
+### Testing / Development
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [vitest](vitest/) | `vitest` | 🚧 Partial | Test runner |
+| [puppeteer](puppeteer/) | `puppeteer` | 🧪 Tested | Browser automation |
+| [playwright](playwright/) | `playwright` | 🧪 Tested | Browser automation |
+| [playwright_test](playwright_test/) | `@playwright/test` | 🤖 AI Generated | Playwright test framework |
+| [jsdom](jsdom/) | `jsdom` | 🧪 Tested | DOM implementation |
+| [happy_dom](happy_dom/) | `happy-dom` | 🧪 Tested | Fast DOM implementation |
+| [global_jsdom](global_jsdom/) | `global-jsdom` | 🧪 Tested | JSDOM for testing |
+| [testing_library](testing_library/) | `@testing-library/dom` | 🧪 Tested | DOM testing utilities |
+| [msw](msw/) | `msw` | 🧪 Tested | Mock Service Worker |
+| [ink_testing_library](ink_testing_library/) | `ink-testing-library` | 🧪 Tested | Ink testing utilities |
+
+### Parsing
+
+| Package | npm | Status | Note |
+|---------|-----|--------|------|
+| [htmlparser2](htmlparser2/) | `htmlparser2` | 🧪 Tested | HTML/XML parser |
+| [js_yaml](js_yaml/) | `js-yaml` | 🤖 AI Generated | YAML parser |
+| [source_map](source_map/) | `source-map` | 🧪 Tested | Source map utilities |
+| [error_stack_parser](error_stack_parser/) | `error-stack-parser` | 🧪 Tested | Stack trace parsing |
+
+### Status Legend
+
+- 🧪 **Tested**: Comprehensive test coverage
+- 🚧 **Partial**: Core functionality implemented
+- 🤖 **AI Generated**: Needs testing
 
 ## Quick Start
 

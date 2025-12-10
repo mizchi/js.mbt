@@ -2,6 +2,15 @@ name: check
 
 on:
   workflow_dispatch:
+    inputs:
+      full_test:
+        description: 'Run full test suite'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # Run full tests every Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
   push:
     branches:
       - main
@@ -9,12 +18,12 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
     continue-on-error: false
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0  # Need full history for git diff
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -42,8 +51,53 @@ jobs:
         run: |
           moon info --target js
           git diff --exit-code
-      - name: moon test
+      - name: Get changed packages
+        id: changed
+        run: |
+          # Get the base branch for comparison
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            # For push to main, compare with previous commit
+            BASE_SHA="${{ github.event.before }}"
+          fi
+
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD 2>/dev/null || echo "")
+
+          # Extract unique package directories (exclude _ prefixed and special dirs)
+          PACKAGES=$(echo "$CHANGED_FILES" | \
+            grep -E '^[a-z]' | \
+            grep -v '^node_modules' | \
+            grep -v '^\.' | \
+            cut -d'/' -f1 | \
+            sort -u | \
+            tr '\n' ' ')
+
+          echo "Changed packages: $PACKAGES"
+          echo "packages=$PACKAGES" >> $GITHUB_OUTPUT
+
+          # Check if any packages changed
+          if [ -z "$PACKAGES" ]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+      - name: moon test (full)
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' && inputs.full_test == true
         run: |
           moon test --target js
+        env:
+          NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
+      - name: moon test (changed packages only)
+        if: github.event_name != 'schedule' && !(github.event_name == 'workflow_dispatch' && inputs.full_test == true) && steps.changed.outputs.has_changes == 'true'
+        run: |
+          PACKAGES="${{ steps.changed.outputs.packages }}"
+          for pkg in $PACKAGES; do
+            if [ -d "$pkg" ] && [ -f "$pkg/moon.pkg.json" ]; then
+              echo "Testing package: $pkg"
+              moon test --package "$pkg" --target js || exit 1
+            fi
+          done
         env:
           NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
