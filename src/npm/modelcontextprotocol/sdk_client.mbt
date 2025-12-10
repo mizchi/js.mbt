@@ -2,16 +2,36 @@
 /// Bindings for @modelcontextprotocol/sdk client implementation
 
 ///|
-extern "js" fn require_mcp_client() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/client/index.js")
+#module("@modelcontextprotocol/sdk/client/index.js")
+extern "js" fn ffi_mcp_client_class() -> @core.Any = "Client"
 
 ///|
-extern "js" fn require_mcp_client_types() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/types.js")
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_tools_result_schema() -> @core.Any = "ListToolsResultSchema"
 
 ///|
-extern "js" fn require_stdio_client_transport() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/client/stdio.js")
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_call_tool_result_schema() -> @core.Any = "CallToolResultSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_resources_result_schema() -> @core.Any = "ListResourcesResultSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_read_resource_result_schema() -> @core.Any = "ReadResourceResultSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_prompts_result_schema() -> @core.Any = "ListPromptsResultSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_get_prompt_result_schema() -> @core.Any = "GetPromptResultSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/client/stdio.js")
+extern "js" fn ffi_stdio_client_transport_class() -> @core.Any = "StdioClientTransport"
 
 // ============================================================
 // Client Types
@@ -37,8 +57,7 @@ pub type StdioClientTransport
 ///|
 /// Create a new MCP SDK Client
 pub fn SdkClient::new(name : String, version : String) -> SdkClient {
-  let sdk = require_mcp_client()
-  let client_class = sdk._get("Client")
+  let client_class = ffi_mcp_client_class()
   // Build client info
   let client_info = @core.identity(
     @core.from_entries([
@@ -117,8 +136,7 @@ pub async fn SdkClient::list_tools(self : SdkClient) -> ListToolsResult {
   let request = @core.identity(
     @core.from_entries([("method", "tools/list" |> @core.any)]),
   )
-  let types = require_mcp_client_types()
-  let schema = types._get("ListToolsResultSchema")
+  let schema = ffi_list_tools_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let tools : Array[ToolInfo] = result._get("tools") |> @core.identity
   { tools, raw: result }
@@ -164,8 +182,7 @@ pub async fn SdkClient::call_tool(
       ("params", @core.any(params)),
     ]),
   )
-  let types = require_mcp_client_types()
-  let schema = types._get("CallToolResultSchema")
+  let schema = ffi_call_tool_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let content : Array[ContentResult] = result._get("content") |> @core.identity
   let is_error : Bool? = result._get("isError") |> @core.identity_option()
@@ -198,8 +215,7 @@ pub async fn SdkClient::list_resources(self : SdkClient) -> ListResourcesResult 
   let request = @core.identity(
     @core.from_entries([("method", "resources/list" |> @core.any)]),
   )
-  let types = require_mcp_client_types()
-  let schema = types["ListResourcesResultSchema"]
+  let schema = ffi_list_resources_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let resources : Array[ResourceInfo] = result["resources"] |> @core.identity
   { resources, raw: result }
@@ -223,8 +239,7 @@ pub async fn SdkClient::read_resource(
     ("method", "resources/read" |> @core.any),
     ("params", @core.any(params)),
   ])
-  let types = require_mcp_client_types()
-  let schema = types["ReadResourceResultSchema"]
+  let schema = ffi_read_resource_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let contents : Array[ContentResult] = result["contents"].cast()
   { contents, raw: result }
@@ -263,8 +278,7 @@ pub async fn SdkClient::list_prompts(self : SdkClient) -> ListPromptsResult {
   let request = @core.identity(
     @core.from_entries([("method", "prompts/list" |> @core.any)]),
   )
-  let types = require_mcp_client_types()
-  let schema = types["ListPromptsResultSchema"]
+  let schema = ffi_list_prompts_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let prompts : Array[PromptInfo] = result["prompts"].cast()
   { prompts, raw: result }
@@ -303,8 +317,7 @@ pub async fn SdkClient::get_prompt(
       ("params", @core.any(params)),
     ]),
   )
-  let types = require_mcp_client_types()
-  let schema = types["GetPromptResultSchema"]
+  let schema = ffi_get_prompt_result_schema()
   let result = ffi_client_request(self |> @core.any, request, schema).wait()
   let messages : Array[PromptMessageResult] = result["messages"].cast()
   {
@@ -326,8 +339,7 @@ pub fn StdioClientTransport::new(
   env? : @core.Any,
   cwd? : String,
 ) -> StdioClientTransport {
-  let stdio_mod = require_stdio_client_transport()
-  let transport_class = stdio_mod["StdioClientTransport"]
+  let transport_class = ffi_stdio_client_transport_class()
   let opts = @core.new_object()
   opts["command"] = command |> @core.any
   opts["args"] = args |> @core.any
