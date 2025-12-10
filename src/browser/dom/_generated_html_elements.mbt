@@ -17,30 +17,6 @@ pub fn HTMLDivElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLDivElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLDivElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLDivElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLDivElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLDivElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -252,6 +228,30 @@ pub fn HTMLDivElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLDivElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLDivElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLDivElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLDivElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLDivElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -547,30 +547,6 @@ pub fn HTMLSpanElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLSpanElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSpanElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSpanElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSpanElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLSpanElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -782,6 +758,30 @@ pub fn HTMLSpanElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLSpanElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSpanElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSpanElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSpanElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSpanElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -1077,30 +1077,6 @@ pub fn HTMLBodyElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLBodyElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLBodyElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLBodyElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLBodyElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLBodyElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -1312,6 +1288,30 @@ pub fn HTMLBodyElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLBodyElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLBodyElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLBodyElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLBodyElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLBodyElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -1607,30 +1607,6 @@ pub fn HTMLHeadElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLHeadElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLHeadElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -1842,6 +1818,30 @@ pub fn HTMLHeadElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLHeadElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -2137,30 +2137,6 @@ pub fn HTMLHtmlElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLHtmlElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHtmlElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHtmlElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHtmlElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLHtmlElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -2372,6 +2348,30 @@ pub fn HTMLHtmlElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLHtmlElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHtmlElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHtmlElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHtmlElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHtmlElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -2667,30 +2667,6 @@ pub fn HTMLAnchorElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLAnchorElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLAnchorElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLAnchorElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLAnchorElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLAnchorElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -2905,6 +2881,30 @@ pub fn HTMLAnchorElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLAnchorElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLAnchorElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLAnchorElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLAnchorElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLAnchorElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -3200,30 +3200,6 @@ pub fn HTMLButtonElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLButtonElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLButtonElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLButtonElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLButtonElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLButtonElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -3438,6 +3414,30 @@ pub fn HTMLButtonElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLButtonElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLButtonElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLButtonElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLButtonElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLButtonElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -3733,30 +3733,6 @@ pub fn HTMLInputElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLInputElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLInputElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLInputElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLInputElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLInputElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -3968,6 +3944,30 @@ pub fn HTMLInputElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLInputElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLInputElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLInputElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLInputElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLInputElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -4263,30 +4263,6 @@ pub fn HTMLTextAreaElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLTextAreaElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLTextAreaElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLTextAreaElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLTextAreaElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLTextAreaElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -4504,6 +4480,30 @@ pub fn HTMLTextAreaElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLTextAreaElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLTextAreaElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLTextAreaElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLTextAreaElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLTextAreaElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -4802,30 +4802,6 @@ pub fn HTMLCanvasElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLCanvasElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLCanvasElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLCanvasElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLCanvasElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLCanvasElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -5040,6 +5016,30 @@ pub fn HTMLCanvasElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLCanvasElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLCanvasElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLCanvasElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLCanvasElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLCanvasElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -5335,30 +5335,6 @@ pub fn HTMLIFrameElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLIFrameElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLIFrameElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLIFrameElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLIFrameElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLIFrameElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -5573,6 +5549,30 @@ pub fn HTMLIFrameElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLIFrameElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLIFrameElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLIFrameElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLIFrameElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLIFrameElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -5868,30 +5868,6 @@ pub fn HTMLFormElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLFormElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLFormElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLFormElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLFormElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLFormElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -6103,6 +6079,30 @@ pub fn HTMLFormElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLFormElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLFormElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLFormElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLFormElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLFormElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -6398,30 +6398,6 @@ pub fn HTMLSelectElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLSelectElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSelectElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSelectElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLSelectElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLSelectElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -6636,6 +6612,30 @@ pub fn HTMLSelectElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLSelectElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSelectElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSelectElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSelectElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLSelectElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -6931,30 +6931,6 @@ pub fn HTMLOptionElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLOptionElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOptionElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOptionElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOptionElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLOptionElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -7169,6 +7145,30 @@ pub fn HTMLOptionElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLOptionElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOptionElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOptionElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOptionElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOptionElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -7464,30 +7464,6 @@ pub fn HTMLLabelElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLLabelElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLabelElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLabelElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLabelElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLLabelElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -7699,6 +7675,30 @@ pub fn HTMLLabelElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLLabelElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLabelElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLabelElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLabelElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLabelElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -7994,30 +7994,6 @@ pub fn HTMLImageElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLImageElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLImageElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLImageElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLImageElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLImageElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -8229,6 +8205,30 @@ pub fn HTMLImageElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLImageElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLImageElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLImageElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLImageElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLImageElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -8524,30 +8524,6 @@ pub fn HTMLParagraphElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLParagraphElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLParagraphElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLParagraphElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLParagraphElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLParagraphElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -8774,6 +8750,30 @@ pub fn HTMLParagraphElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLParagraphElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLParagraphElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLParagraphElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLParagraphElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLParagraphElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -9072,30 +9072,6 @@ pub fn HTMLHeadingElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLHeadingElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadingElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadingElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLHeadingElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLHeadingElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -9313,6 +9289,30 @@ pub fn HTMLHeadingElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLHeadingElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadingElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadingElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadingElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLHeadingElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -9611,30 +9611,6 @@ pub fn HTMLUListElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLUListElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLUListElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLUListElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLUListElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLUListElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -9846,6 +9822,30 @@ pub fn HTMLUListElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLUListElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLUListElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLUListElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLUListElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLUListElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -10141,30 +10141,6 @@ pub fn HTMLOListElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLOListElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOListElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOListElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLOListElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLOListElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -10376,6 +10352,30 @@ pub fn HTMLOListElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLOListElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOListElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOListElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOListElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLOListElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
@@ -10671,30 +10671,6 @@ pub fn HTMLLIElement::setInnerText(self : Self, text : String) -> Unit {
 
 ///|
 /// Inherited from HTMLElement
-pub fn HTMLLIElement::innerHTML(self : Self) -> String {
-  self.as_html_element().innerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLIElement::setInnerHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setInnerHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLIElement::outerHTML(self : Self) -> String {
-  self.as_html_element().outerHTML()
-}
-
-///|
-/// Inherited from HTMLElement
-pub fn HTMLLIElement::setOuterHTML(self : Self, html : String) -> Unit {
-  self.as_html_element().setOuterHTML(html)
-}
-
-///|
-/// Inherited from HTMLElement
 pub fn HTMLLIElement::focus(self : Self) -> Unit {
   self.as_html_element().focus()
 }
@@ -10900,6 +10876,30 @@ pub fn HTMLLIElement::getAttributeNames(self : Self) -> Array[String] {
 /// Inherited from Element
 pub fn HTMLLIElement::hasAttributes(self : Self) -> Bool {
   self.as_html_element().as_element().hasAttributes()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLIElement::innerHTML(self : Self) -> String {
+  self.as_html_element().as_element().innerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLIElement::setInnerHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setInnerHTML(html)
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLIElement::outerHTML(self : Self) -> String {
+  self.as_html_element().as_element().outerHTML()
+}
+
+///|
+/// Inherited from Element
+pub fn HTMLLIElement::setOuterHTML(self : Self, html : String) -> Unit {
+  self.as_html_element().as_element().setOuterHTML(html)
 }
 
 ///|
