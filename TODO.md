@@ -32,13 +32,15 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
   - Note: createConnection, createServer (optional args) still use require()
 - [x] node:stream - addAbortSignal, isErrored, isReadable, isWritable, getDefaultHighWaterMark, etc.
   - Note: Class static methods and variadic functions still use require()
-- [x] node:inspector - close, url, waitForDebugger
-  - Note: Session class and open() (optional args) still use require()
+- [x] node:inspector - close, url, waitForDebugger, open (all 4 overloads)
+  - Note: Session class still uses require()
 - [x] node:url - fileURLToPath, pathToFileURL, urlToHttpOptions, format
   - Note: Functions with windows? option still use require()
 - [x] node:vm - isContext
   - Note: Script class and functions with many optional args still use require()
-- [x] node:readline/promises - createInterface
+- [x] node:readline - createInterface, clearLine, clearScreenDown, cursorTo, moveCursor, emitKeypressEvents
+- [x] node:fs/promises - stat, rename, chmod, chown, readlink, realpath, copyFile, readdir, unlink
+  - Note: Functions with optional args (mkdir, rm, writeFile, readFile, glob, etc.) still use require()
 - [ ] node:buffer - **Blocked**: Buffer class static methods
 - [ ] node:http - **Blocked**: All functions have callbacks/optional args
 - [ ] node:sqlite - **Blocked**: Database class constructor
@@ -74,8 +76,9 @@ These use `require()` which behaves differently in ESM. Migrate to `#module("nod
 - [ ] drizzle - database ORM (many functions can be migrated, low priority due to size)
 - [x] htmlparser2 - HTML parser, uses `#module("htmlparser2")` for parseDocument
   - Note: DomUtils functions still use require() (accessed via htmlparser2.DomUtils)
-- [x] ai - AI SDK providers, uses `#module` for createOpenAI, createAnthropic, createGoogleGenerativeAI
-  - Note: Default providers (openai, anthropic, google) still use require() (property access)
+- [x] ai - AI SDK providers, uses `#module` for all provider functions
+  - `createOpenAI`, `createAnthropic`, `createGoogleGenerativeAI` (factory functions)
+  - `openai`, `anthropic`, `google` (default providers)
 
 ### Testing Libraries (Low Priority - Node.js only)
 
