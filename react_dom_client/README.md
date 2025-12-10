@@ -1,13 +1,13 @@
-# mizchi/js/npm/react_dom_client
+# mizchi/npm_typed/react_dom_client
 
-## react-dom/client
-
-React DOM client-side rendering APIs
+React DOM client-side rendering APIs (react-dom/client).
 
 ## Installation
 
 ```bash
-npm add react react-dom
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install react react-dom
 ```
 
 Add to your `moon.pkg.json`:
@@ -17,8 +17,8 @@ Add to your `moon.pkg.json`:
   "import": [
     "mizchi/js",
     "mizchi/js/browser/dom",
-    "mizchi/js/npm/react",
-    "mizchi/js/npm/react_dom_client"
+    "mizchi/npm_typed/react",
+    "mizchi/npm_typed/react_dom_client"
   ]
 }
 ```

@@ -1,9 +1,13 @@
-# mizchi/js/npm/react_router
+# mizchi/npm_typed/react_router
+
+MoonBit bindings for [React Router](https://reactrouter.com/).
 
 ## Installation
 
 ```bash
-npm add react react-router
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install react react-router
 ```
 
 Add to your `moon.pkg.json`:
@@ -12,8 +16,8 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/react",
-    "mizchi/js/npm/react_router"
+    "mizchi/npm_typed/react",
+    "mizchi/npm_typed/react_router"
   ]
 }
 ```

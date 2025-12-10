@@ -1,6 +1,26 @@
-# client_s3
+# mizchi/npm_typed/client_s3
 
 MoonBit wrapper for `@aws-sdk/client-s3`. Works with S3-compatible storage services.
+
+## Installation
+
+```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install @aws-sdk/client-s3
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/npm_typed/client_s3"
+  ]
+}
+```
 
 ## Supported Services
 

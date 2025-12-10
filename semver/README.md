@@ -1,17 +1,25 @@
-# @mizchi/js/npm/semver
+# mizchi/npm_typed/semver
 
 MoonBit FFI bindings for the [npm semver package](https://www.npmjs.com/package/semver).
 
-## Prerequisites
-
-You need to install the `semver` package in your Node.js environment:
+## Installation
 
 ```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
 npm install semver
-# or
-yarn add semver
-# or
-pnpm add semver
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/npm_typed/semver"
+  ]
+}
 ```
 
 ## Usage

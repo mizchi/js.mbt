@@ -19,13 +19,19 @@ The Model Context Protocol (MCP) is an open protocol that standardizes how appli
 
 ## Installation
 
+```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install @modelcontextprotocol/sdk
+```
+
 Add to your `moon.pkg.json`:
 
 ```json
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/modelcontextprotocol"
+    "mizchi/npm_typed/modelcontextprotocol"
   ]
 }
 ```

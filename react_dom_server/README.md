@@ -1,13 +1,13 @@
-# mizchi/js/npm/react_dom_server
+# mizchi/npm_typed/react_dom_server
 
-## react-dom/server
-
-React DOM server-side rendering APIs
+React DOM server-side rendering APIs (react-dom/server).
 
 ## Installation
 
 ```bash
-npm add react react-dom
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install react react-dom
 ```
 
 Add to your `moon.pkg.json`:
@@ -18,8 +18,8 @@ Add to your `moon.pkg.json`:
     "mizchi/js",
     "mizchi/js/web/streams",
     "mizchi/js/node",
-    "mizchi/js/npm/react",
-    "mizchi/js/npm/react_dom_server"
+    "mizchi/npm_typed/react",
+    "mizchi/npm_typed/react_dom_server"
   ]
 }
 ```

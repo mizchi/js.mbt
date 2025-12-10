@@ -1,6 +1,27 @@
-# Hono Bindings for MoonBit
+# mizchi/npm_typed/hono
 
 MoonBit bindings for [Hono](https://hono.dev/), a fast and lightweight web framework.
+
+## Installation
+
+```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install hono
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/web/http",
+    "mizchi/npm_typed/hono"
+  ]
+}
+```
 
 ## Features
 

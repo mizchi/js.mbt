@@ -1,6 +1,26 @@
-# Better Auth MoonBit Bindings
+# mizchi/npm_typed/better_auth
 
 MoonBit FFI bindings for [better-auth](https://www.better-auth.com/) - Authentication library for TypeScript.
+
+## Installation
+
+```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install better-auth
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/npm_typed/better_auth"
+  ]
+}
+```
 
 ## Documentation
 

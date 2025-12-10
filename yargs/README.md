@@ -1,11 +1,26 @@
-# Yargs Bindings
+# mizchi/npm_typed/yargs
 
 MoonBit bindings for [Yargs](https://yargs.js.org/), a command-line argument parser for Node.js.
 
 ## Installation
 
 ```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
 npm install yargs
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/js/node/process",
+    "mizchi/npm_typed/yargs"
+  ]
+}
 ```
 
 ## Usage

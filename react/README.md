@@ -1,7 +1,13 @@
-## mizchi/js/npm/react
+# mizchi/npm_typed/react
+
+MoonBit bindings for [React](https://react.dev/).
+
+## Installation
 
 ```bash
-npm add react
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install react
 ```
 
 Add to your `moon.pkg.json`:
@@ -10,8 +16,9 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
+    "mizchi/js/core",
     "mizchi/js/browser/dom",
-    "mizchi/js/npm/react"
+    "mizchi/npm_typed/react"
   ]
 }
 ```
@@ -31,10 +38,9 @@ fn main {
 }
 ```
 
-
 ## Example
 
-```mbt
+```moonbit
 using @react {
   type Context,
   h,
@@ -45,7 +51,7 @@ using @react {
   use_context,
 }
 
-using @element {
+using @react_element {
   div,
   button
 }
@@ -90,11 +96,7 @@ fn main {
 }
 ```
 
-entrypoint
-
-```html
-<script type="module" src="./target/js/release/build/main/main.js"></script>
-```
+## Hooks Support
 
 - [x] useState
 - [x] useRef

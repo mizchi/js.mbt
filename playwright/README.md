@@ -1,12 +1,25 @@
-# Playwright Bindings
+# mizchi/npm_typed/playwright
 
 MoonBit bindings for [Playwright](https://playwright.dev/), a framework for Web Testing and Automation.
 
 ## Installation
 
 ```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
 npm install playwright
 npx playwright install chromium
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/npm_typed/playwright"
+  ]
+}
 ```
 
 ## Usage

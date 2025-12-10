@@ -1,11 +1,13 @@
-# mizchi/js/npm/testing_library_react
+# mizchi/npm_typed/testing_library_react
 
 React Testing Library bindings for testing React components in Node.js environment.
 
 ## Installation
 
 ```bash
-npm add @testing-library/react @testing-library/jest-dom　global-jsdom
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install @testing-library/react @testing-library/jest-dom global-jsdom
 ```
 
 Add to your `moon.pkg.json`:
@@ -14,9 +16,9 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/react",
+    "mizchi/npm_typed/react",
     {
-      "path": "mizchi/js/npm/testing_library_react",
+      "path": "mizchi/npm_typed/testing_library_react",
       "alias": "rtl"
     }
   ]

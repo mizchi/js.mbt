@@ -1,7 +1,13 @@
-# mizchi/js/npm/global_jsdom
+# mizchi/npm_typed/global_jsdom
+
+Global JSDOM setup for Node.js test environments.
+
+## Installation
 
 ```bash
-npm add jsdom global-jsdom
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install jsdom global-jsdom
 ```
 
 Add to your `moon.pkg.json`:
@@ -10,9 +16,17 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/npm/global_jsdom"
+    "mizchi/npm_typed/global_jsdom"
   ]
 }
 ```
 
-for Node.js Test Environment
+## Usage
+
+Call `register()` to set up the global DOM environment for testing:
+
+```moonbit
+fn init_jsdom() {
+  @global_jsdom.register()
+}
+```

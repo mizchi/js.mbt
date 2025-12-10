@@ -1,6 +1,26 @@
-# @mizchi/js/npm/zod
+# mizchi/npm_typed/zod
 
 MoonBit bindings for [Zod](https://zod.dev/) - TypeScript-first schema validation with static type inference.
+
+## Installation
+
+```bash
+moon add mizchi/js
+moon add mizchi/npm_typed
+npm install zod
+```
+
+Add to your `moon.pkg.json`:
+
+```json
+{
+  "import": [
+    "mizchi/js",
+    "mizchi/js/core",
+    "mizchi/npm_typed/zod"
+  ]
+}
+```
 
 ## Limitations
 
