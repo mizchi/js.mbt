@@ -10,16 +10,11 @@
   "keywords": [
     "js",
     "node",
-    "react",
-    "preact",
     "dom",
-    "async",
-    "http",
     "deno",
     "bun"
   ],
   "description": "bindings for js/node/browser/deno etc",
   "source": "src",
-  "warn-list": "",
   "preferred-target": "js"
 }

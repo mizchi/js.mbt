@@ -3,7 +3,7 @@
 
 ///|
 test "SVGElement - create circle element" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
 
   // Create SVG namespace element
@@ -21,7 +21,7 @@ test "SVGElement - create circle element" {
 
 ///|
 test "SVGElement - create rect element" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let element = doc.createElementNs("http://www.w3.org/2000/svg", "rect")
   let rect : SVGRectElement = element |> @core.identity
@@ -36,7 +36,7 @@ test "SVGElement - create rect element" {
 
 ///|
 test "SVGElement - create path element" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let element = doc.createElementNs("http://www.w3.org/2000/svg", "path")
   let path : SVGPathElement = element |> @core.identity

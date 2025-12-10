@@ -33,7 +33,7 @@ build:
     moon build
 
 # Run tests
-test:
+test-moon:
     moon test
 
 # Run tests and update snapshots
@@ -60,7 +60,7 @@ test-bun: build
     bun test target/js/release/build/bun/bun_test/bun_test.js
 
 # Run all tests (MoonBit, Deno, Bun)
-test-all: test test-deno test-bun
+test: test-moon test-deno test-bun
 
 # Clean build artifacts
 clean:

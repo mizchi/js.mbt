@@ -13,6 +13,6 @@
     "mizchi/js/builtins/global"
   ],
   "test-import": [
-    "mizchi/js/npm/global_jsdom"
+    "mizchi/js/internal/test_utils"
   ]
 }

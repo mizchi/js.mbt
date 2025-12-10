@@ -3,7 +3,7 @@
 
 ///|
 test "HTMLTextAreaElement - create and access value" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
@@ -20,7 +20,7 @@ test "HTMLTextAreaElement - create and access value" {
 
 ///|
 test "HTMLTextAreaElement - placeholder property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
@@ -34,7 +34,7 @@ test "HTMLTextAreaElement - placeholder property" {
 
 ///|
 test "HTMLTextAreaElement - disabled property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
@@ -51,7 +51,7 @@ test "HTMLTextAreaElement - disabled property" {
 
 ///|
 test "HTMLTextAreaElement - rows and cols" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
@@ -67,7 +67,7 @@ test "HTMLTextAreaElement - rows and cols" {
 
 ///|
 test "HTMLInputElement - create and access value" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
@@ -83,7 +83,7 @@ test "HTMLInputElement - create and access value" {
 
 ///|
 test "HTMLInputElement - checked property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
   input.setType("checkbox")
@@ -100,7 +100,7 @@ test "HTMLInputElement - checked property" {
 
 ///|
 test "HTMLInputElement - disabled property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
@@ -113,7 +113,7 @@ test "HTMLInputElement - disabled property" {
 
 ///|
 test "HTMLInputElement - placeholder property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
@@ -126,7 +126,7 @@ test "HTMLInputElement - placeholder property" {
 
 ///|
 test "HTMLCanvasElement - width and height properties" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
@@ -141,7 +141,7 @@ test "HTMLCanvasElement - width and height properties" {
 
 ///|
 test "HTMLCanvasElement - default dimensions" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
@@ -152,7 +152,7 @@ test "HTMLCanvasElement - default dimensions" {
 
 ///|
 test "HTMLIFrameElement - src and sandbox properties" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
@@ -167,7 +167,7 @@ test "HTMLIFrameElement - src and sandbox properties" {
 
 ///|
 test "HTMLIFrameElement - width and height properties" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
@@ -182,7 +182,7 @@ test "HTMLIFrameElement - width and height properties" {
 
 ///|
 test "HTMLIFrameElement - name property" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 

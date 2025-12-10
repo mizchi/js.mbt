@@ -1,6 +1,6 @@
 ///|
 test "dom test" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
   div.setAttribute("id", "test-div")
@@ -23,7 +23,7 @@ test "dom test" {
 
 ///|
 test "Node trait - appendChild, removeChild, childNodes" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
@@ -45,7 +45,7 @@ test "Node trait - appendChild, removeChild, childNodes" {
 
 ///|
 test "Node trait - insertBefore, replaceChild" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
@@ -68,7 +68,7 @@ test "Node trait - insertBefore, replaceChild" {
 
 ///|
 test "Node trait - cloneNode, contains, hasChildNodes" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let child = doc.createElement("span")
@@ -92,7 +92,7 @@ test "Node trait - cloneNode, contains, hasChildNodes" {
 
 ///|
 test "Node trait - node properties" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
   let span = doc.createElement("span")
@@ -116,7 +116,7 @@ test "Node trait - node properties" {
 
 ///|
 test "Node trait - sibling navigation" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
@@ -135,7 +135,7 @@ test "Node trait - sibling navigation" {
 
 ///|
 test "Element trait - attributes" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
 
@@ -156,7 +156,7 @@ test "Element trait - attributes" {
 
 ///|
 test "Element trait - id and className" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
 
@@ -174,7 +174,7 @@ test "Element trait - id and className" {
 
 ///|
 test "Element trait - querySelector and querySelectorAll" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
@@ -204,7 +204,7 @@ test "Element trait - querySelector and querySelectorAll" {
 
 ///|
 test "Element trait - getElementsByTagName and getElementsByClassName" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let parent = doc.createElement("div")
   let span1 = doc.createElement("span")
@@ -227,7 +227,7 @@ test "Element trait - getElementsByTagName and getElementsByClassName" {
 
 ///|
 test "HTMLElement trait - innerHTML and innerText" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let body = doc.body().unwrap()
 
@@ -243,7 +243,7 @@ test "HTMLElement trait - innerHTML and innerText" {
 
 ///|
 test "HTMLElement trait - outerHTML" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let body = doc.body().unwrap()
   body.as_element().setId("outer-test")
@@ -258,7 +258,7 @@ test "HTMLElement trait - outerHTML" {
 
 ///|
 test "Document - createElement and createTextNode" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
 
   // createElement test
@@ -272,7 +272,7 @@ test "Document - createElement and createTextNode" {
 
 ///|
 test "Document - document properties" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
 
   // title test
@@ -294,7 +294,7 @@ test "Document - document properties" {
 
 ///|
 test "Document - getElementById and document element accessors" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
   div.setId("test-element")
@@ -318,7 +318,7 @@ test "Document - getElementById and document element accessors" {
 
 ///|
 test "Document - querySelector and querySelectorAll" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let body = doc.body().unwrap()
 
@@ -362,7 +362,7 @@ test "Document - querySelector and querySelectorAll" {
 
 ///|
 test "Document - createDocumentFragment and createComment" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
 
   // createDocumentFragment test
@@ -379,7 +379,7 @@ test "Document - createDocumentFragment and createComment" {
 
 ///|
 test "EventTarget - addEventListener and dispatchEvent" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
   let mut event_fired = false
@@ -404,7 +404,7 @@ test "EventTarget - addEventListener and dispatchEvent" {
 
 ///|
 test "EventTarget - removeEventListener" {
-  @global_jsdom.register()
+  @test_utils.global_jsdom_register()
   let doc = document()
   let div = doc.createElement("div")
   let mut call_count = 0
