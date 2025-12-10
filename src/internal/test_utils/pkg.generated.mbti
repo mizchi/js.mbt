@@ -1,7 +1,14 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/internal/test_utils"
 
+import(
+  "mizchi/js/browser/dom"
+  "mizchi/js/core"
+)
+
 // Values
+pub fn create_happy_window() -> HappyWindow
+
 pub fn global_jsdom_register() -> Unit
 
 pub async fn retry(Int, async () -> Unit, timeout? : Int, total_timeout? : Int, on_fail? : (Int) -> Unit, on_success? : () -> Unit, cleanup? : () -> Unit) -> Unit raise RetryError
@@ -19,6 +26,11 @@ pub suberror TimeoutError String
 pub fn TimeoutError::to_string(Self) -> String
 
 // Types and methods
+#external
+pub type HappyWindow
+pub fn HappyWindow::as_any(Self) -> @core.Any
+pub fn HappyWindow::close(Self) -> Unit
+pub fn HappyWindow::document(Self) -> @dom.Document
 
 // Type aliases
 

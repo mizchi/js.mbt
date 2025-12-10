@@ -1,7 +1,8 @@
 ///|
 test "dom test" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   div.setAttribute("id", "test-div")
   div.setAttribute("data-value", "123")
@@ -11,7 +12,6 @@ test "dom test" {
   body.as_element().append(div.as_node())
   assert_eq(div.getAttribute("id").unwrap(), "test-div")
   assert_eq(div.id(), "test-div")
-  // println("Added div to body")
   body.as_element().append(doc.createElement("p").as_node())
   body.as_html_element().innerHTML()
   |> inspect(
@@ -23,8 +23,9 @@ test "dom test" {
 
 ///|
 test "Node trait - appendChild, removeChild, childNodes" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("p")
@@ -45,8 +46,9 @@ test "Node trait - appendChild, removeChild, childNodes" {
 
 ///|
 test "Node trait - insertBefore, replaceChild" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("p")
@@ -68,8 +70,9 @@ test "Node trait - insertBefore, replaceChild" {
 
 ///|
 test "Node trait - cloneNode, contains, hasChildNodes" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child = doc.createElement("span")
   parent.as_node().appendChild(child.as_node()) |> ignore
@@ -92,8 +95,9 @@ test "Node trait - cloneNode, contains, hasChildNodes" {
 
 ///|
 test "Node trait - node properties" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   let span = doc.createElement("span")
   let text = doc.createTextNode("test")
@@ -116,8 +120,9 @@ test "Node trait - node properties" {
 
 ///|
 test "Node trait - sibling navigation" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("p")
@@ -135,8 +140,9 @@ test "Node trait - sibling navigation" {
 
 ///|
 test "Element trait - attributes" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
 
   // setAttribute, getAttribute test
@@ -156,8 +162,9 @@ test "Element trait - attributes" {
 
 ///|
 test "Element trait - id and className" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
 
   // id test
@@ -174,8 +181,9 @@ test "Element trait - id and className" {
 
 ///|
 test "Element trait - querySelector and querySelectorAll" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child1 = doc.createElement("span")
   let child2 = doc.createElement("span")
@@ -204,8 +212,9 @@ test "Element trait - querySelector and querySelectorAll" {
 
 ///|
 test "Element trait - getElementsByTagName and getElementsByClassName" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let span1 = doc.createElement("span")
   let span2 = doc.createElement("span")
@@ -227,8 +236,9 @@ test "Element trait - getElementsByTagName and getElementsByClassName" {
 
 ///|
 test "HTMLElement trait - innerHTML and innerText" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let body = doc.body().unwrap()
 
   // innerHTML test
@@ -236,15 +246,16 @@ test "HTMLElement trait - innerHTML and innerText" {
   body.as_html_element().innerHTML()
   |> inspect(content="<span>Hello</span><p>World</p>")
 
-  // innerText test
+  // innerText test - works in happy-dom
   body.as_html_element().setInnerText("Plain text")
   body.as_html_element().innerText() |> inspect(content="Plain text")
 }
 
 ///|
 test "HTMLElement trait - outerHTML" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let body = doc.body().unwrap()
   body.as_element().setId("outer-test")
   body.as_html_element().setInnerHTML("<span>Content</span>")
@@ -258,8 +269,9 @@ test "HTMLElement trait - outerHTML" {
 
 ///|
 test "Document - createElement and createTextNode" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
 
   // createElement test
   let div = doc.createElement("div")
@@ -272,8 +284,9 @@ test "Document - createElement and createTextNode" {
 
 ///|
 test "Document - document properties" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
 
   // title test
   doc.setTitle("Test Title")
@@ -294,8 +307,9 @@ test "Document - document properties" {
 
 ///|
 test "Document - getElementById and document element accessors" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   div.setId("test-element")
   let body = doc.body().unwrap()
@@ -318,8 +332,9 @@ test "Document - getElementById and document element accessors" {
 
 ///|
 test "Document - querySelector and querySelectorAll" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let body = doc.body().unwrap()
 
   // Create test elements
@@ -362,8 +377,9 @@ test "Document - querySelector and querySelectorAll" {
 
 ///|
 test "Document - createDocumentFragment and createComment" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
 
   // createDocumentFragment test
   let fragment = doc.createDocumentFragment()
@@ -379,8 +395,9 @@ test "Document - createDocumentFragment and createComment" {
 
 ///|
 test "EventTarget - addEventListener and dispatchEvent" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   let mut event_fired = false
 
@@ -404,8 +421,9 @@ test "EventTarget - addEventListener and dispatchEvent" {
 
 ///|
 test "cast_from - upcast Node to specific Element types" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let child = doc.createElement("span")
   parent.as_node().appendChild(child.as_node()) |> ignore
@@ -419,7 +437,7 @@ test "cast_from - upcast Node to specific Element types" {
 
   // Upcast Node to HTMLElement using cast_from_node
   let first_child_html = HTMLElement::cast_from_node(first_child_node)
-  // innerText requires using extern "js" fn directly - use setInnerText/innerText pair
+  // innerText works in happy-dom
   first_child_html.setInnerText("test")
   first_child_html.innerText() |> inspect(content="test")
 
@@ -434,8 +452,9 @@ test "cast_from - upcast Node to specific Element types" {
 
 ///|
 test "cast_from - upcast childNodes to specific types" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let parent = doc.createElement("div")
   let span = doc.createElement("span")
   let p = doc.createElement("p")
@@ -451,18 +470,19 @@ test "cast_from - upcast childNodes to specific types" {
   elements[0].tagName() |> inspect(content="SPAN")
   elements[1].tagName() |> inspect(content="P")
 
-  // Upcast to HTMLElement to access textContent (via Node inheritance)
+  // Upcast to HTMLElement to access innerText (works in happy-dom)
   let html_elements = children.map(fn(node) {
     HTMLElement::cast_from_node(node)
   })
-  html_elements[0].textContent() |> inspect(content="Hello")
-  html_elements[1].textContent() |> inspect(content="World")
+  html_elements[0].innerText() |> inspect(content="Hello")
+  html_elements[1].innerText() |> inspect(content="World")
 }
 
 ///|
 test "cast_from_event_target - upcast EventTarget to DOM types" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   div.setId("cast-test")
   div.as_node().setTextContent("Test Content")
@@ -480,7 +500,7 @@ test "cast_from_event_target - upcast EventTarget to DOM types" {
 
   // Upcast EventTarget to HTMLElement
   let as_html = HTMLElement::cast_from_event_target(event_target)
-  as_html.textContent() |> inspect(content="Test Content")
+  as_html.innerText() |> inspect(content="Test Content")
 
   // Upcast EventTarget directly to HTMLDivElement
   let as_div = HTMLDivElement::cast_from_event_target(event_target)
@@ -489,8 +509,9 @@ test "cast_from_event_target - upcast EventTarget to DOM types" {
 
 ///|
 test "EventTarget - removeEventListener" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let div = doc.createElement("div")
   let mut call_count = 0
   let handler = fn(_event) { call_count = call_count + 1 }

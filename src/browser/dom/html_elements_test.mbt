@@ -1,10 +1,11 @@
 ///|
-/// Tests for HTML Element property access using jsdom
+/// Tests for HTML Element property access using happy-dom
 
 ///|
 test "HTMLTextAreaElement - create and access value" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
 
@@ -20,8 +21,9 @@ test "HTMLTextAreaElement - create and access value" {
 
 ///|
 test "HTMLTextAreaElement - placeholder property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
 
@@ -34,8 +36,9 @@ test "HTMLTextAreaElement - placeholder property" {
 
 ///|
 test "HTMLTextAreaElement - disabled property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
 
@@ -51,8 +54,9 @@ test "HTMLTextAreaElement - disabled property" {
 
 ///|
 test "HTMLTextAreaElement - rows and cols" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let textarea : HTMLTextAreaElement = doc.createElement("textarea")
     |> @core.identity
 
@@ -67,8 +71,9 @@ test "HTMLTextAreaElement - rows and cols" {
 
 ///|
 test "HTMLInputElement - create and access value" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Read initial value
@@ -83,8 +88,9 @@ test "HTMLInputElement - create and access value" {
 
 ///|
 test "HTMLInputElement - checked property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
   input.setType("checkbox")
 
@@ -100,8 +106,9 @@ test "HTMLInputElement - checked property" {
 
 ///|
 test "HTMLInputElement - disabled property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Set disabled
@@ -113,8 +120,9 @@ test "HTMLInputElement - disabled property" {
 
 ///|
 test "HTMLInputElement - placeholder property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let input : HTMLInputElement = doc.createElement("input") |> @core.identity
 
   // Set placeholder
@@ -126,8 +134,9 @@ test "HTMLInputElement - placeholder property" {
 
 ///|
 test "HTMLCanvasElement - width and height properties" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
   // Set width and height
@@ -141,8 +150,9 @@ test "HTMLCanvasElement - width and height properties" {
 
 ///|
 test "HTMLCanvasElement - default dimensions" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let canvas : HTMLCanvasElement = doc.createElement("canvas") |> @core.identity
 
   // Check default dimensions (300x150 per HTML spec)
@@ -152,23 +162,26 @@ test "HTMLCanvasElement - default dimensions" {
 
 ///|
 test "HTMLIFrameElement - src and sandbox properties" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set src and sandbox
   iframe.src = "https://example.com"
-  iframe.sandbox = "allow-scripts"
+  iframe.setAttribute("sandbox", "allow-scripts")
 
-  // Verify (jsdom normalizes URLs by adding trailing slash)
+  // Verify (happy-dom normalizes URLs by adding trailing slash)
   iframe.src |> inspect(content="https://example.com/")
-  iframe.sandbox |> inspect(content="allow-scripts")
+  // sandbox returns DOMTokenList in happy-dom, use getAttribute instead
+  iframe.getAttribute("sandbox").unwrap() |> inspect(content="allow-scripts")
 }
 
 ///|
 test "HTMLIFrameElement - width and height properties" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set width and height as strings
@@ -182,8 +195,9 @@ test "HTMLIFrameElement - width and height properties" {
 
 ///|
 test "HTMLIFrameElement - name property" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let iframe : HTMLIFrameElement = doc.createElement("iframe") |> @core.identity
 
   // Set name

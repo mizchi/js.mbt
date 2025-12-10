@@ -1,10 +1,11 @@
 ///|
-/// Tests for SVG Element access using jsdom
+/// Tests for SVG Element access using happy-dom
 
 ///|
 test "SVGElement - create circle element" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
 
   // Create SVG namespace element
   let element = doc.createElementNs("http://www.w3.org/2000/svg", "circle")
@@ -21,8 +22,9 @@ test "SVGElement - create circle element" {
 
 ///|
 test "SVGElement - create rect element" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let element = doc.createElementNs("http://www.w3.org/2000/svg", "rect")
   let rect : SVGRectElement = element |> @core.identity
   rect.setAttribute("x", "10")
@@ -36,8 +38,9 @@ test "SVGElement - create rect element" {
 
 ///|
 test "SVGElement - create path element" {
-  @test_utils.global_jsdom_register()
-  let doc = document()
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
   let element = doc.createElementNs("http://www.w3.org/2000/svg", "path")
   let path : SVGPathElement = element |> @core.identity
   path.setAttribute("d", "M 10 10 L 90 90")
