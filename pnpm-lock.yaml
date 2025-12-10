@@ -32,6 +32,9 @@ importers:
       '@electric-sql/pglite':
         specifier: ^0.3.14
         version: 0.3.14
+      '@happy-dom/global-registrator':
+        specifier: ^20.0.11
+        version: 20.0.11
       '@hono/node-server':
         specifier: ^1.19.7
         version: 1.19.7(hono@4.10.7)
@@ -98,6 +101,9 @@ importers:
       chokidar:
         specifier: ^5.0.0
         version: 5.0.0
+      colorette:
+        specifier: ^2.0.20
+        version: 2.0.20
       comlink:
         specifier: ^4.4.2
         version: 4.4.2
@@ -131,6 +137,9 @@ importers:
       google-closure-compiler:
         specifier: ^20251111.0.0
         version: 20251111.0.0
+      happy-dom:
+        specifier: ^20.0.11
+        version: 20.0.11
       helmet:
         specifier: ^8.1.0
         version: 8.1.0
@@ -229,7 +238,7 @@ importers:
         version: 8.0.0-beta.1(@types/node@24.10.1)(esbuild@0.27.1)(terser@5.44.1)(tsx@4.21.0)
       vitest:
         specifier: ^3.2.4
-        version: 3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0)(postcss@8.5.6))(lightningcss@1.30.2)(msw@2.12.4(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0)
+        version: 3.2.4(@types/node@24.10.1)(happy-dom@20.0.11)(jsdom@27.0.1(canvas@3.2.0)(postcss@8.5.6))(lightningcss@1.30.2)(msw@2.12.4(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0)
       vue:
         specifier: ^3.5.25
         version: 3.5.25(typescript@5.9.3)
@@ -926,6 +935,10 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@happy-dom/global-registrator@20.0.11':
+    resolution: {integrity: sha512-GqNqiShBT/lzkHTMC/slKBrvN0DsD4Di8ssBk4aDaVgEn+2WMzE6DXxq701ndSXj7/0cJ8mNT71pM7Bnrr6JRw==}
+    engines: {node: '>=20.0.0'}
 
   '@hono/node-server@1.19.7':
     resolution: {integrity: sha512-vUcD0uauS7EU2caukW8z5lJKtoGMokxNbJtBiwHgpqxEXokaHCBkQUmCHhjFB1VUTWdqj25QoMkMKzgjq+uhrw==}
@@ -2081,6 +2094,9 @@ packages:
   '@types/statuses@2.0.6':
     resolution: {integrity: sha512-xMAgYwceFhRA2zY+XbEA7mxYbA093wdiW8Vu6gZPGWy9cmOyU9XesH1tNcEWsKFd5Vzrqx5T3D38PWx1FIIXkA==}
 
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
@@ -2502,6 +2518,9 @@ packages:
 
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+
+  colorette@2.0.20:
+    resolution: {integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==}
 
   comlink@4.4.2:
     resolution: {integrity: sha512-OxGdvBmJuNKSCMO4NTl1L47VRp6xn2wG4F/2hYzB6tiCb709otOxtEYCSvK80PtjODfXXZu8ds+Nw5kVCjqd2g==}
@@ -3108,6 +3127,10 @@ packages:
   graphql@16.12.0:
     resolution: {integrity: sha512-DKKrynuQRne0PNpEbzuEdHlYOMksHSUI8Zc9Unei5gTsMNA2/vMpoMz/yKba50pejK56qj98qM0SjYxAKi13gQ==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+
+  happy-dom@20.0.11:
+    resolution: {integrity: sha512-QsCdAUHAmiDeKeaNojb1OHOPF7NjcWPBR7obdu3NwH2a/oyQaLg5d0aaCy/9My6CdPChYF07dvz5chaXBGaD4g==}
+    engines: {node: '>=20.0.0'}
 
   has-bigints@1.1.0:
     resolution: {integrity: sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg==}
@@ -4477,6 +4500,10 @@ packages:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
 
+  whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
+
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
     engines: {node: '>=18'}
@@ -5448,6 +5475,11 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.1':
     optional: true
+
+  '@happy-dom/global-registrator@20.0.11':
+    dependencies:
+      '@types/node': 20.19.25
+      happy-dom: 20.0.11
 
   '@hono/node-server@1.19.7(hono@4.10.7)':
     dependencies:
@@ -6524,6 +6556,8 @@ snapshots:
 
   '@types/statuses@2.0.6': {}
 
+  '@types/whatwg-mimetype@3.0.2': {}
+
   '@types/ws@8.18.1':
     dependencies:
       '@types/node': 24.10.1
@@ -6970,6 +7004,8 @@ snapshots:
       color-name: 1.1.4
 
   color-name@1.1.4: {}
+
+  colorette@2.0.20: {}
 
   comlink@4.4.2: {}
 
@@ -7558,6 +7594,12 @@ snapshots:
   gopd@1.2.0: {}
 
   graphql@16.12.0: {}
+
+  happy-dom@20.0.11:
+    dependencies:
+      '@types/node': 20.19.25
+      '@types/whatwg-mimetype': 3.0.2
+      whatwg-mimetype: 3.0.0
 
   has-bigints@1.1.0: {}
 
@@ -8965,7 +9007,7 @@ snapshots:
       terser: 5.44.1
       tsx: 4.21.0
 
-  vitest@3.2.4(@types/node@24.10.1)(jsdom@27.0.1(canvas@3.2.0)(postcss@8.5.6))(lightningcss@1.30.2)(msw@2.12.4(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0):
+  vitest@3.2.4(@types/node@24.10.1)(happy-dom@20.0.11)(jsdom@27.0.1(canvas@3.2.0)(postcss@8.5.6))(lightningcss@1.30.2)(msw@2.12.4(@types/node@24.10.1)(typescript@5.9.3))(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/expect': 3.2.4
@@ -8992,6 +9034,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.1
+      happy-dom: 20.0.11
       jsdom: 27.0.1(canvas@3.2.0)(postcss@8.5.6)
     transitivePeerDependencies:
       - jiti
@@ -9034,6 +9077,8 @@ snapshots:
   whatwg-encoding@3.1.1:
     dependencies:
       iconv-lite: 0.6.3
+
+  whatwg-mimetype@3.0.0: {}
 
   whatwg-mimetype@4.0.0: {}
 

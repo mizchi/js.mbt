@@ -1,0 +1,59 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/happy_dom"
+
+import(
+  "mizchi/js/browser/dom"
+  "mizchi/js/core"
+)
+
+// Values
+pub async fn create_window(options? : WindowOptions) -> Window
+
+pub async fn create_window_default() -> Window
+
+pub async fn register_global(options? : GlobalRegistratorOptions) -> Unit
+
+pub async fn unregister_global() -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct GlobalRegistratorOptions {
+  url : String?
+  width : Int?
+  height : Int?
+}
+pub fn GlobalRegistratorOptions::default() -> Self
+
+#external
+pub type HappyDOMAPI
+pub fn HappyDOMAPI::abort(Self) -> Unit
+pub fn HappyDOMAPI::as_any(Self) -> @core.Any
+pub async fn HappyDOMAPI::close(Self) -> Unit
+pub fn HappyDOMAPI::set_viewport(Self, width? : Int, height? : Int) -> Unit
+pub async fn HappyDOMAPI::wait_async(Self) -> Unit
+pub async fn HappyDOMAPI::wait_until_complete(Self) -> Unit
+
+#external
+pub type Window
+pub fn Window::as_any(Self) -> @core.Any
+pub fn Window::console(Self) -> @core.Any
+pub fn Window::document(Self) -> @dom.Document
+pub fn Window::happy_dom(Self) -> HappyDOMAPI
+pub fn Window::local_storage(Self) -> @core.Any
+pub fn Window::location(Self) -> @core.Any
+pub fn Window::navigator(Self) -> @core.Any
+pub fn Window::session_storage(Self) -> @core.Any
+
+pub(all) struct WindowOptions {
+  url : String?
+  width : Int?
+  height : Int?
+  console : @core.Any?
+}
+pub fn WindowOptions::default() -> Self
+
+// Type aliases
+
+// Traits
+

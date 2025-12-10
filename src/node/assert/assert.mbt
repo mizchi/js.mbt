@@ -72,10 +72,7 @@ extern "js" fn ffi_throws(fn_ : () -> Unit, message : String?) -> Unit = "throws
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_does_not_throw(
-  fn_ : () -> Unit,
-  message : String?,
-) -> Unit = "doesNotThrow"
+extern "js" fn ffi_does_not_throw(fn_ : () -> Unit, message : String?) -> Unit = "doesNotThrow"
 
 ///|
 #module("node:assert")
