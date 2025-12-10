@@ -62,7 +62,6 @@ inspect(value2, content="42")
 // Optional types
 let nullable : Int? = @core.identity_option(@core.null())
 inspect(nullable, content="None")
-
 let some_value : Int? = @core.identity_option(@core.any(100))
 inspect(some_value, content="Some(100)")
 ```
@@ -88,7 +87,6 @@ inspect(json_str2, content="{\"x\":1}")
 // Check nullish values
 let null_val = @core.null()
 let undefined_val = @core.undefined()
-
 inspect(@core.is_nullish(null_val), content="true")
 inspect(@core.is_nullish(undefined_val), content="true")
 inspect(@core.is_nullish(@core.any(42)), content="false")
@@ -115,7 +113,6 @@ inspect(@core.is_nullish(js_none), content="true")
 let num : @core.Any = @core.any(42)
 let str : @core.Any = @core.any("hello")
 let obj : @core.Any = @core.new_object()
-
 inspect(@core.typeof_(num), content="number")
 inspect(@core.typeof_(str), content="string")
 inspect(@core.typeof_(obj), content="object")
@@ -130,11 +127,9 @@ inspect(@core.typeof_(obj), content="object")
 let js_int = @core.any(42)
 let js_str = @core.any("hello")
 let js_bool = @core.any(true)
-
 let int_val : Int = js_int.cast()
 let str_val : String = js_str.cast()
 let bool_val : Bool = js_bool.cast()
-
 inspect(int_val, content="42")
 inspect(str_val, content="hello")
 inspect(bool_val, content="true")
@@ -153,7 +148,6 @@ let obj = @core.from_entries([
 // Using cast()
 let name : String = obj["name"].cast()
 let age : Int = obj["age"].cast()
-
 inspect(name, content="Alice")
 inspect(age, content="30")
 ```
@@ -165,8 +159,11 @@ let obj = @core.from_entries([("name", @core.any("Alice"))])
 
 // Existing field
 let name : String? = @core.identity_option(obj["name"])
-inspect(name, content=
-  #|Some("Alice")
+inspect(
+  name,
+  content=(
+    #|Some("Alice")
+  ),
 )
 
 // Missing field returns undefined
