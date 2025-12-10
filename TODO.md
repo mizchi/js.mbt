@@ -34,3 +34,62 @@ $PanicError
 **TODO**:
 - [ ] Identify which specific tests are flaky
 - [ ] Investigate async driver stability with legacy moon runtime
+
+---
+
+## TypeScript Definition Generator
+
+### Background
+
+MoonBit currently lacks support for generating TypeScript type definitions from compiled code. This makes it difficult to use MoonBit libraries from TypeScript with proper type safety.
+
+### Goal
+
+Create a transpiler that converts `.mbti` (MoonBit interface) files to TypeScript `.d.ts` definition files.
+
+### Key Features
+
+- [ ] Parse `.mbti` files to extract type information
+- [ ] Convert MoonBit primitive types to TypeScript equivalents
+- [ ] Handle `enum` to TypeScript union type conversion
+- [ ] Handle `struct` to TypeScript interface conversion
+- [ ] Support generic types (`T`, `Array[T]`, etc.)
+- [ ] Generate proper function signatures with labeled arguments
+
+### Type Mapping
+
+| MoonBit | TypeScript |
+|---------|------------|
+| `Int`, `UInt` | `number` |
+| `Float`, `Double` | `number` |
+| `String` | `string` |
+| `Bool` | `boolean` |
+| `BigInt` | `bigint` |
+| `Bytes` | `Uint8Array` |
+| `Array[T]` | `T[]` |
+| `T?` (Option) | `T \| null` |
+| `Unit` | `void` |
+| `@core.Any` | `unknown` |
+
+### Enum to Union Example
+
+```moonbit
+// MoonBit (.mbti)
+pub enum Result[T, E] {
+  Ok(T)
+  Err(E)
+}
+```
+
+```typescript
+// TypeScript (.d.ts)
+type Result<T, E> =
+  | { $tag: "Ok"; 0: T }
+  | { $tag: "Err"; 0: E };
+```
+
+### Implementation Notes
+
+- Input: `.mbti` files from `moon info` output
+- Output: `.d.ts` files for TypeScript consumers
+- Consider: Integration with build pipeline (`moon build` hook)

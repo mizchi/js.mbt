@@ -6,7 +6,6 @@
     "mizchi/js/core"
   ],
   "test-import": [
-    "moonbitlang/async",
-    "mizchi/js/builtins/global"
+    "moonbitlang/async"
   ]
 }

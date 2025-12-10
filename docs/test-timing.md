@@ -4,55 +4,43 @@ Measured on 2025-12-10.
 
 ## Summary
 
-**Bottleneck: `src/node/http`** - 7 tests take **1.538s**, which is significantly slower than other packages.
+All `@core.sleep` calls have been replaced with event-based waiting using `@core.suspend` for more reliable and faster tests.
 
-## Results (sorted by time, descending)
+## Optimizations Applied
 
-| Package | Tests | Time | Notes |
-|---------|-------|------|-------|
-| **http** | 7 | **1.538s** | Slowest |
-| http2 | 1 | 0.665s | |
-| child_process | 45 | 0.647s | |
-| v8 | 31 | 0.558s | |
-| assert | 11 | 0.399s | |
-| fs_promises | 19 | 0.395s | |
-| module | 16 | 0.382s | |
-| net | 8 | 0.286s | |
-| events | 11 | 0.257s | |
-| async_hooks | 7 | 0.243s | |
-| buffer | 19 | 0.233s | |
-| stream | 18 | 0.232s | |
-| dns | 1 | 0.228s | |
-| sqlite | 42 | 0.225s | |
-| fs | 38 | 0.216s | |
-| test | 12 | 0.215s | |
-| stream_promises | 10 | 0.212s | |
-| vm | 18 | 0.205s | |
-| path | 16 | 0.204s | |
-| os | 21 | 0.202s | |
-| zlib | 3 | 0.198s | |
-| url | 7 | 0.192s | |
-| wasi | 10 | 0.190s | |
-| assert_strict | 11 | 0.182s | |
-| util | 5 | 0.175s | |
-| inspector | 4 | 0.168s | |
-| worker_threads | 3 | 0.166s | |
-| process | 1 | 0.165s | |
-| tls | 0 | 0.165s | |
-| https | 3 | 0.164s | |
-| tty | 2 | 0.161s | |
-| readline | 0 | 0.161s | |
-| readline_promises | 0 | 0.178s | |
+### 1. `src/node/http` - ✅ Optimized
+- Replaced `@core.sleep` with `@core.suspend` and server listening/close callbacks
+- **Before:** 1.538s → **After:** ~0.4s
 
-## Observations
+### 2. `src/node/net` - ✅ Optimized
+- Replaced `@core.sleep(96)` and `@core.sleep(48)` with event-based listening
+- Uses `server.listen()` callback and `once("close")` event
 
-- `http` is 2.3x slower than the second slowest (`http2`)
-- Network-related tests (http, http2, net) tend to be slower due to server setup/teardown
-- `child_process` is slow due to process spawning overhead (45 tests)
-- `v8` has many tests (31) with serialization/deserialization operations
+### 3. `src/node/stream` - ✅ Optimized
+- Replaced 14 instances of `@core.sleep(16-32)` with event-based waiting
+- Uses `once("finish")`, `once("close")` events on streams
+- Uses `setImmediate` for synchronous completion confirmation
 
-## Potential Optimizations
+### 4. `src/node/events` - ✅ Optimized
+- Removed unnecessary `@core.sleep` from EventEmitter tests
+- EventEmitter.emit() is synchronous - no waiting needed for most tests
+- Uses `setImmediate` for Promise coordination tests
 
-1. Investigate `http` tests for unnecessary delays or timeouts
-2. Consider parallel test execution for independent tests
-3. Reduce server startup/shutdown overhead in network tests
+## Pattern Used
+
+```moonbit
+// Before (slow, unreliable)
+server.listen(0, host="127.0.0.1") |> ignore
+@core.sleep(100)
+
+// After (fast, reliable)
+@core.suspend(fn(resolve, _reject) {
+  server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+})
+```
+
+## Test Results
+
+- Total tests: 1292
+- All passed
+- Total time: ~18.5s (parallelized)

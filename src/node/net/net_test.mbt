@@ -66,23 +66,35 @@ async test "Node Net: Server can be created with options" {
 
 ///|
 async test "Node Net: Server listen with callback" {
-  let mut callback_called = false
   let server = createNetServer()
   defer server.close() |> ignore // Cleanup to prevent leaks
-  server.listen(0, host="127.0.0.1", callback=fn() { callback_called = true })
-  |> ignore
-  @core.sleep(96)
-  inspect(callback_called, content="true")
+
+  // Start listening and suspend until ready
+  @core.suspend(fn(resolve, _reject) {
+    server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+  })
   inspect(server.listening(), content="true")
-  server.close() |> ignore
+
+  // Explicitly close server and listen for close event
+  @core.suspend(fn(resolve, _reject) {
+    server
+    .as_any()
+    ._call("once", [@core.any("close"), @core.any(() => resolve(()))])
+    |> ignore
+    server.close() |> ignore
+  })
+  inspect(server.listening(), content="false")
 }
 
 ///|
 async test "Node Net: Server listen and get address" {
   let server = createNetServer()
   defer server.close() |> ignore // Cleanup to prevent leaks
-  server.listen(0, host="127.0.0.1") |> ignore
-  @core.sleep(48)
+
+  // Start listening and suspend until ready
+  @core.suspend(fn(resolve, _reject) {
+    server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+  })
   let address = server.address()
   inspect(address is None, content="false")
   match address {
@@ -92,7 +104,16 @@ async test "Node Net: Server listen and get address" {
     }
     None => ()
   }
-  server.close() |> ignore
+
+  // Explicitly close server and listen for close event
+  @core.suspend(fn(resolve, _reject) {
+    server
+    .as_any()
+    ._call("once", [@core.any("close"), @core.any(() => resolve(()))])
+    |> ignore
+    server.close() |> ignore
+  })
+  inspect(server.listening(), content="false")
 }
 
 ///| Socket operations
