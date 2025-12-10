@@ -1,7 +1,18 @@
+// FFI with #module
+
 ///|
-fn get_react_dom_static() -> ReactDOMStatic {
-  @node.require("react-dom/static") |> @core.identity
-}
+#module("react-dom/static")
+extern "js" fn ffi_prerender(
+  element : @core.Any,
+  options : @core.Any,
+) -> @core.Promise[@core.Any] = "prerender"
+
+///|
+#module("react-dom/static")
+extern "js" fn ffi_prerender_to_node_stream(
+  element : @core.Any,
+  options : @core.Any,
+) -> @core.Promise[@core.Any] = "prerenderToNodeStream"
 
 ///|
 priv struct SimpleProps {
@@ -15,41 +26,23 @@ fn simple_component(props : SimpleProps) -> @react.Element {
 
 ///|
 test "prerenderToNodeStream returns Promise" {
-  let static_ = get_react_dom_static()
-  // Use dynamic import to get Promise, then wait
   let element : @core.Any = @react.component(simple_component, {
       message: "Hello SSR",
     })
     .as_any()
     .cast()
-  let promise : @core.Any = static_
-    .as_any()
-    ._call("prerenderToNodeStream", [element])
+  let promise : @core.Any = ffi_prerender_to_node_stream(
+      element,
+      @core.undefined(),
+    )
+    |> @core.identity
   // Verify it returns a Promise (object with then method)
   @core.typeof_(promise) |> assert_eq("object")
   @core.typeof_(promise._get("then")) |> assert_eq("function")
 }
 
 ///|
-test "prerender function exists" {
-  let static_ = get_react_dom_static()
-  // Verify prerender function exists
-  let prerender_fn = static_.as_any()._get("prerender")
-  @core.typeof_(prerender_fn) |> assert_eq("function")
-}
-
-///|
-test "prerenderToNodeStream function exists" {
-  let static_ = get_react_dom_static()
-  // Verify prerenderToNodeStream function exists
-  let fn_ = static_.as_any()._get("prerenderToNodeStream")
-  @core.typeof_(fn_) |> assert_eq("function")
-}
-
-///|
 test "build_options with all parameters" {
-  // Test internal build_options function by checking react-dom/static accepts our options format
-  let static_ = get_react_dom_static()
   // Create options object similar to what build_options would create
   let opts = @core.new_object()
   opts._set("bootstrapScriptContent", "console.log('bootstrap')" |> @core.any)
@@ -61,22 +54,21 @@ test "build_options with all parameters" {
     })
     .as_any()
     .cast()
-  let promise : @core.Any = static_
-    .as_any()
-    ._call("prerenderToNodeStream", [element, opts])
+  let promise : @core.Any = ffi_prerender_to_node_stream(element, opts)
+    |> @core.identity
   @core.typeof_(promise) |> assert_eq("object")
   @core.typeof_(promise._get("then")) |> assert_eq("function")
 }
 
 ///|
 test "prerender returns Promise" {
-  let static_ = get_react_dom_static()
   let element : @core.Any = @react.component(simple_component, {
       message: "Web Stream Test",
     })
     .as_any()
     .cast()
-  let promise : @core.Any = static_.as_any()._call("prerender", [element])
+  let promise : @core.Any = ffi_prerender(element, @core.undefined())
+    |> @core.identity
   // Verify it returns a Promise
   @core.typeof_(promise) |> assert_eq("object")
   @core.typeof_(promise._get("then")) |> assert_eq("function")
