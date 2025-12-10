@@ -14,7 +14,7 @@
     "deno",
     "bun"
   ],
-  "description": "bindings for js/node/browser/deno etc",
+  "description": "js bindings for builtins/node/browser/deno/bun",
   "source": "src",
   "preferred-target": "js"
 }
