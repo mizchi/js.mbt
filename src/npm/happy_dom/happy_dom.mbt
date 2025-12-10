@@ -1,57 +1,9 @@
 ///| npm happy-dom package FFI bindings
 /// https://github.com/capricorn86/happy-dom
 /// JavaScript implementation of a web browser without GUI
-
-///|
-/// Window class - main entry point for happy-dom
-#external
-pub type Window
-
-///|
-pub extern "js" fn Window::as_any(self : Window) -> @core.Any =
-  #| (x) => x
-
-///|
-/// Get the document from the window
-pub fn Window::document(self : Window) -> @dom.Document {
-  self.as_any()["document"].cast()
-}
-
-///|
-/// Get the happyDOM API object for controlling the window
-pub fn Window::happy_dom(self : Window) -> HappyDOMAPI {
-  self.as_any()["happyDOM"].cast()
-}
-
-///|
-/// Get the location object
-pub fn Window::location(self : Window) -> @core.Any {
-  self.as_any()["location"]
-}
-
-///|
-/// Get the navigator object
-pub fn Window::navigator(self : Window) -> @core.Any {
-  self.as_any()["navigator"]
-}
-
-///|
-/// Get the localStorage
-pub fn Window::local_storage(self : Window) -> @core.Any {
-  self.as_any()["localStorage"]
-}
-
-///|
-/// Get the sessionStorage
-pub fn Window::session_storage(self : Window) -> @core.Any {
-  self.as_any()["sessionStorage"]
-}
-
-///|
-/// Get the console
-pub fn Window::console(self : Window) -> @core.Any {
-  self.as_any()["console"]
-}
+///
+/// This module returns @dom.Window which provides all standard DOM APIs.
+/// Use window.document() to access the Document.
 
 ///|
 /// HappyDOM API for controlling the window
@@ -112,6 +64,12 @@ pub async fn HappyDOMAPI::wait_async(self : HappyDOMAPI) -> Unit {
     ._call("waitAsync", [])
     .cast()
   promise.wait()
+}
+
+///|
+/// Get HappyDOM API from a Window
+pub fn get_happy_dom(window : @dom.Window) -> HappyDOMAPI {
+  window.as_any()["happyDOM"].cast()
 }
 
 ///|
@@ -176,9 +134,10 @@ async fn get_window_class() -> @core.Any {
 
 ///|
 /// Create a new Window instance with options
+/// Returns @dom.Window with full DOM API support
 pub async fn create_window(
   options? : WindowOptions = WindowOptions::default(),
-) -> Window {
+) -> @dom.Window {
   let window_cls = get_window_class()
   let opts = build_window_options(options)
   @core.new(window_cls, [opts]).cast()
@@ -186,7 +145,8 @@ pub async fn create_window(
 
 ///|
 /// Create a new Window instance with default options
-pub async fn create_window_default() -> Window {
+/// Returns @dom.Window with full DOM API support
+pub async fn create_window_default() -> @dom.Window {
   let window_cls = get_window_class()
   @core.new(window_cls, []).cast()
 }
