@@ -36,8 +36,6 @@ Add to your `moon.pkg.json`:
 
 ## Usage
 
-### For Browser/Vite (Dynamic Import)
-
 ```moonbit
 fn main {
   @js.run_async(fn() try {
@@ -48,16 +46,5 @@ fn main {
   } catch {
     err => @js.log("Error during initialization: \{err}")
   })
-}
-```
-
-### For Node.js (Synchronous Require)
-
-```moonbit
-fn main {
-  let client : @react_dom_client.ReactDOMClient = @node.require("react-dom/client") |> @js.identity
-  let container = @dom.document().getElementById("root")
-  let root = client.createRoot(container)
-  root.render(my_element)
 }
 ```

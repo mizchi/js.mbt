@@ -20,8 +20,6 @@ Add to your `moon.pkg.json`:
 
 ## Usage
 
-### For Browser/Vite (Dynamic Import)
-
 ```moonbit
 fn main {
   @js.run_async(fn() try {
@@ -34,20 +32,3 @@ fn main {
   })
 }
 ```
-
-### For Node.js (Synchronous Require)
-
-```moonbit
-fn main {
-  // Initialize React API
-  let react_module = @node.require("react")
-  @react.init_react_api(react_module)
-  
-  // Initialize React Router API (manually set to globalThis)
-  let react_router_module = @node.require("react-router")
-  globalThis().set("__ReactRouterApi", react_router_module)
-  // React Router is ready to use
-}
-```
-
-**Note**: The `__ReactRouterApi` key is an implementation detail and may change in future versions.

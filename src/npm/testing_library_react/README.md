@@ -27,31 +27,25 @@ Add to your `moon.pkg.json`:
 
 ## Usage
 
-**Note**: React Testing Library is designed for Node.js testing environments and uses synchronous `require()`. No dynamic import initialization is needed.
-
 ```moonbit
 fn test_component() -> Unit {
-  // Setup React for testing
-  let react_module = @node.require("react")
-  @react.init_react_api(react_module)
-  
   // Render component
-  let result = @react_testing_library.render(my_component)
-  
+  let result = @rtl.render(my_component)
+
   // Query elements
-  let screen = @react_testing_library.screen()
+  let screen = @rtl.screen()
   let button = screen.getByRole("button")
-  
+
   // Fire events
-  let fire = @react_testing_library.fireEvent()
+  let fire = @rtl.fireEvent()
   fire.click(button)
-  
+
   // Check element properties
   let text : String = button._get("textContent") |> @js.identity
   @js.log("Button text: \{text}")
-  
+
   // Cleanup
-  @react_testing_library.cleanup()
+  @rtl.cleanup()
 }
 ```
 
