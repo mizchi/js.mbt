@@ -71,6 +71,22 @@ pub fn Window::history(self : Self) -> @history.History {
 }
 
 ///|
+/// Returns the customElements registry
+/// https://developer.mozilla.org/en-US/docs/Web/API/Window/customElements
+#alias(custom_elements)
+pub fn Window::customElements(self : Self) -> CustomElementRegistry {
+  self.as_any()._get("customElements").cast()
+}
+
+///|
+/// Returns the HTMLElement class from this window
+/// Useful for extending HTMLElement in custom elements
+#alias(html_element_class)
+pub fn Window::htmlElementClass(self : Self) -> @core.Any {
+  self.as_any()._get("HTMLElement").cast()
+}
+
+///|
 /// Returns the inner width of the window
 /// https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 #alias(inner_width)

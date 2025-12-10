@@ -3716,6 +3716,8 @@ pub fn Window::clearTimeout(Self, Int) -> Unit
 pub fn Window::close(Self) -> Unit
 pub fn Window::confirm(Self, String) -> Bool
 pub fn Window::console(Self) -> @core.Any
+#alias(custom_elements)
+pub fn Window::customElements(Self) -> CustomElementRegistry
 #alias(device_pixel_ratio)
 pub fn Window::devicePixelRatio(Self) -> Double
 pub fn Window::document(Self) -> Document
@@ -3725,6 +3727,8 @@ pub fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @core.An
 #alias(get_selection)
 pub fn Window::getSelection(Self) -> @core.Any?
 pub fn Window::history(Self) -> @history.History
+#alias(html_element_class)
+pub fn Window::htmlElementClass(Self) -> @core.Any
 #alias(inner_height)
 pub fn Window::innerHeight(Self) -> Int
 #alias(inner_width)

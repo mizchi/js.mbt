@@ -3,11 +3,10 @@ package "mizchi/js/internal/test_utils"
 
 import(
   "mizchi/js/browser/dom"
-  "mizchi/js/core"
 )
 
 // Values
-pub fn create_happy_window() -> HappyWindow
+pub fn create_happy_window() -> @dom.Window
 
 pub fn global_jsdom_register() -> Unit
 
@@ -26,13 +25,6 @@ pub suberror TimeoutError String
 pub fn TimeoutError::to_string(Self) -> String
 
 // Types and methods
-#external
-pub type HappyWindow
-pub fn HappyWindow::as_any(Self) -> @core.Any
-pub fn HappyWindow::close(Self) -> Unit
-pub fn HappyWindow::customElements(Self) -> @dom.CustomElementRegistry
-pub fn HappyWindow::document(Self) -> @dom.Document
-pub fn HappyWindow::html_element_class(Self) -> @core.Any
 
 // Type aliases
 

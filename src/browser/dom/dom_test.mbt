@@ -653,7 +653,7 @@ test "CustomElementRegistry - get and define_" {
   let window = @test_utils.create_happy_window()
   defer window.close()
   let registry = window.customElements()
-  let html_element = window.html_element_class()
+  let html_element = window.htmlElementClass()
 
   // Before defining, get should return None
   let before = registry.get("my-test-element")
@@ -672,7 +672,7 @@ test "CustomElementRegistry - getName with happy-dom" {
   let window = @test_utils.create_happy_window()
   defer window.close()
   let registry = window.customElements()
-  let html_element = window.html_element_class()
+  let html_element = window.htmlElementClass()
   registry.define_("my-named-element", html_element_class=html_element)
 
   // Get the constructor
@@ -689,7 +689,7 @@ test "CustomElementRegistry - upgrade with happy-dom" {
   defer window.close()
   let doc = window.document()
   let registry = window.customElements()
-  let html_element = window.html_element_class()
+  let html_element = window.htmlElementClass()
 
   // Create element before defining
   let element = doc.createElement("my-upgrade-element")
@@ -709,7 +709,7 @@ test "CustomElementRegistry - lifecycle callbacks with happy-dom" {
   defer window.close()
   let doc = window.document()
   let registry = window.customElements()
-  let html_element = window.html_element_class()
+  let html_element = window.htmlElementClass()
   let mut connected_called = false
   let mut disconnected_called = false
   registry.define_(
@@ -739,7 +739,7 @@ test "CustomElementRegistry - define_ with observed_attributes" {
   let window = @test_utils.create_happy_window()
   defer window.close()
   let registry = window.customElements()
-  let html_element = window.html_element_class()
+  let html_element = window.htmlElementClass()
   registry.define_(
     "my-observed-element",
     observed_attributes=["data-value", "data-name"],
