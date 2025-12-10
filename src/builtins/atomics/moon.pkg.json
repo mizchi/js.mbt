@@ -1,9 +1,0 @@
-{
-  "is_main": false,
-  "import": [
-    "mizchi/js/core"
-  ],
-  "test-import": [
-    "mizchi/js/builtins/global"
-  ]
-}

@@ -1,8 +1,9 @@
 {
-  "name": "mizchi/js",
+  "name": "mizchi/npm_typed",
   "version": "0.9.0",
   "deps": {
-    "moonbitlang/async": "0.14.2"
+    "moonbitlang/async": "0.14.2",
+    "mizchi/js": "0.9.0"
   },
   "readme": "README.md",
   "repository": "https://github.com/mizchi/js.mbt",
@@ -19,7 +20,5 @@
     "bun"
   ],
   "description": "bindings for js/node/browser/deno etc",
-  "source": "src",
-  "warn-list": "",
   "preferred-target": "js"
 }

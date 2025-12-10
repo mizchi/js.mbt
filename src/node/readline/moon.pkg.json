@@ -1,9 +1,0 @@
-{
-  "import": [
-    "mizchi/js/core",
-    {
-      "path": "mizchi/js/node/stream",
-      "alias": "stream"
-    }
-  ]
-}
