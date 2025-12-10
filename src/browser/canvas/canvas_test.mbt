@@ -15,26 +15,20 @@
 ///|
 /// [Test Helper] Creates a canvas element using node-canvas for Node.js testing.
 /// In browsers, use document.createElement('canvas') instead.
+#module("canvas")
 extern "js" fn test_ffi_create_canvas(
   width : @core.Any,
   height : @core.Any,
-) -> @core.Any =
-  #|(width, height) => {
-  #|  const { createCanvas } = require('canvas');
-  #|  return createCanvas(width, height);
-  #|}
+) -> @core.Any = "createCanvas"
 
 ///|
 /// [Test Helper] Creates an empty ImageData using node-canvas.
 /// In browsers, use CanvasRenderingContext2D.createImageData() instead.
+#module("canvas")
 extern "js" fn test_ffi_create_image_data(
   width : @core.Any,
   height : @core.Any,
-) -> @core.Any =
-  #|(width, height) => {
-  #|  const { createImageData } = require('canvas');
-  #|  return createImageData(width, height);
-  #|}
+) -> @core.Any = "createImageData"
 
 ///|
 /// [Test Helper] Creates ImageData from a Uint8Array using node-canvas.
