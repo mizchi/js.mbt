@@ -82,13 +82,12 @@ test "cosine similarity normalized" {
 #skip
 async test "embed with mock" {
   // This test requires actual API key, so skip by default
-  let model : @ai.EmbeddingModel = @core.identity(
-    @node.require("@ai-sdk/openai")
-    ._get("openai")
-    ._invoke([])
+  let provider = @ai.OpenAIProvider::require()
+  let model : @ai.EmbeddingModel = provider
+    .as_any()
     ._get("textEmbeddingModel")
-    ._invoke(["text-embedding-3-small" |> @core.any]),
-  )
+    ._invoke(["text-embedding-3-small" |> @core.any])
+    |> @core.identity
   let result = @ai.embed(model~, value="Hello, world!")
   println("Embedding dimension: " + result.embedding.length().to_string())
   println("Tokens used: " + result.usage.tokens.to_string())
