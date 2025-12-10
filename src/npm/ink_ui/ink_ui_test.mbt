@@ -3,7 +3,7 @@
 ///|
 async test "spinner component renders" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.spinner(label="Loading...")
   let result = testing.render(element)
   defer result.unmount()
@@ -14,7 +14,7 @@ async test "spinner component renders" {
 ///|
 async test "progress bar component renders" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.progress_bar(50)
   let result = testing.render(element)
   defer result.unmount()
@@ -26,7 +26,7 @@ async test "progress bar component renders" {
 ///|
 async test "badge component renders with text" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.badge(["SUCCESS"], color=@ink_ui.BadgeColor::Green)
   let result = testing.render(element)
   defer result.unmount()
@@ -37,7 +37,7 @@ async test "badge component renders with text" {
 ///|
 async test "status message renders with variant" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.status_message(
     ["Operation completed"],
     @ink_ui.StatusVariant::Success,
@@ -51,7 +51,7 @@ async test "status message renders with variant" {
 ///|
 async test "alert component renders with title" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.alert(
     ["Something went wrong"],
     @ink_ui.StatusVariant::Error,
@@ -66,7 +66,7 @@ async test "alert component renders with title" {
 ///|
 async test "unordered list renders items" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.unordered_list([
     ink_ui.unordered_list_item(["Item 1"]),
     ink_ui.unordered_list_item(["Item 2"]),
@@ -82,7 +82,7 @@ async test "unordered list renders items" {
 ///|
 async test "ordered list renders numbered items" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.ordered_list([
     ink_ui.ordered_list_item(["First"]),
     ink_ui.ordered_list_item(["Second"]),
@@ -97,7 +97,7 @@ async test "ordered list renders numbered items" {
 ///|
 async test "select component renders with options" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let options : Array[@ink_ui.SelectOption] = [
     { label: "Option A", value: "a" },
     { label: "Option B", value: "b" },
@@ -118,7 +118,7 @@ async test "select component renders with options" {
 ///|
 async test "text input renders with placeholder" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.text_input(placeholder="Enter your name")
   let result = testing.render(element)
   defer result.unmount()
@@ -150,7 +150,7 @@ test "status variant enum variants" {
 ///|
 async test "text input with default value" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.text_input(
     placeholder="Name",
     default_value="John",
@@ -164,7 +164,7 @@ async test "text input with default value" {
 ///|
 async test "email input component" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.email_input(
     placeholder="Email",
     domains=["gmail.com", "yahoo.com"],
@@ -178,7 +178,7 @@ async test "email input component" {
 ///|
 async test "password input component" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.password_input(
     placeholder="Password",
     mask="*",
@@ -192,7 +192,7 @@ async test "password input component" {
 ///|
 async test "confirm input component" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.confirm_input(is_disabled=false)
   let result = testing.render(element)
   defer result.unmount()
@@ -202,7 +202,7 @@ async test "confirm input component" {
 ///|
 async test "select with all options" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let options : Array[@ink_ui.SelectOption] = [
     { label: "First", value: "1" },
     { label: "Second", value: "2" },
@@ -221,7 +221,7 @@ async test "select with all options" {
 ///|
 async test "multi select component" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let options : Array[@ink_ui.SelectOption] = [
     { label: "Apple", value: "apple" },
     { label: "Banana", value: "banana" },
@@ -241,7 +241,7 @@ async test "multi select component" {
 ///|
 async test "spinner without label" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.spinner()
   let result = testing.render(element)
   defer result.unmount()
@@ -251,7 +251,7 @@ async test "spinner without label" {
 ///|
 async test "progress bar at 0 percent" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.progress_bar(0)
   let result = testing.render(element)
   defer result.unmount()
@@ -261,7 +261,7 @@ async test "progress bar at 0 percent" {
 ///|
 async test "progress bar at 100 percent" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.progress_bar(100)
   let result = testing.render(element)
   defer result.unmount()
@@ -271,7 +271,7 @@ async test "progress bar at 100 percent" {
 ///|
 async test "badge without color" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.badge(["Default Badge"])
   let result = testing.render(element)
   defer result.unmount()
@@ -282,7 +282,7 @@ async test "badge without color" {
 ///|
 async test "alert without title" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.alert(
     ["Warning message"],
     @ink_ui.StatusVariant::Warning,
@@ -295,7 +295,7 @@ async test "alert without title" {
 ///|
 async test "status message info variant" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink_ui.status_message(
     ["Info message"],
     @ink_ui.StatusVariant::Info,
@@ -308,8 +308,8 @@ async test "status message info variant" {
 ///|
 async test "theming with default theme" {
   let ink_ui = @ink_ui.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
-  let ink = @ink.dynamic_import()
+  let testing = @ink.dynamic_import_testing_library().wait()
+  let ink = @ink.dynamic_import().wait()
   let theme = ink_ui.default_theme()
   let element = ink_ui.theme_provider([ink.text(["Themed content"])], theme)
   let result = testing.render(element)

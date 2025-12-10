@@ -7,9 +7,9 @@ import(
 )
 
 // Values
-pub async fn dynamic_import() -> Ink
+pub fn dynamic_import() -> @core.Promise[Ink]
 
-pub async fn dynamic_import_testing_library() -> InkTestingLibrary
+pub fn dynamic_import_testing_library() -> @core.Promise[InkTestingLibrary]
 
 // Errors
 

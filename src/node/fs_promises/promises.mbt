@@ -1,6 +1,47 @@
 ///|
+/// fs_promises_module kept for functions with optional args
 extern "js" fn fs_promises_module() -> @core.Any =
   #| () => require("node:fs/promises")
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_stat(path : String) -> @core.Promise[Stat] = "stat"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_rename(path : String, dest : String) -> @core.Promise[Unit] = "rename"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_chmod(path : String, mode : Int) -> @core.Promise[Unit] = "chmod"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_chown(
+  path : String,
+  uid : Int,
+  gid : Int,
+) -> @core.Promise[Unit] = "chown"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_readlink(path : String) -> @core.Promise[String] = "readlink"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_realpath(path : String) -> @core.Promise[String] = "realpath"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_copyFile(src : String, dest : String) -> @core.Promise[Unit] = "copyFile"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_readdir(path : String) -> @core.Promise[Array[String]] = "readdir"
+
+///|
+#module("node:fs/promises")
+extern "js" fn ffi_unlink(path : String) -> @core.Promise[Unit] = "unlink"
 
 ///|
 #external
@@ -36,11 +77,7 @@ pub fn Stat::mtime_ms(self : Self) -> Float {
 ///|
 /// node:fs/promises.stat
 pub async fn stat(path : String) -> Stat {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Stat] = fs
-    ._call("stat", [path |> @core.identity])
-    .cast()
-  promise.wait()
+  ffi_stat(path).wait()
 }
 
 ///|
@@ -226,11 +263,7 @@ pub async fn writeFile(
 
 ///|
 pub async fn rename(path : String, dest : String) -> Unit {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Unit] = fs
-    ._call("rename", [path |> @core.any, dest |> @core.any])
-    .cast()
-  promise.wait()
+  ffi_rename(path, dest).wait()
 }
 
 ///|
@@ -269,21 +302,13 @@ pub async fn cp(path : String, dest : String, recursive? : Bool) -> Unit {
 ///|
 /// Change file permissions
 pub async fn chmod(path : String, mode : Int) -> Unit {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Unit] = fs
-    ._call("chmod", [path |> @core.any, mode |> @core.any])
-    .cast()
-  promise.wait()
+  ffi_chmod(path, mode).wait()
 }
 
 ///|
 /// Change file owner
 pub async fn chown(path : String, uid : Int, gid : Int) -> Unit {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Unit] = @core.identity(
-    fs._call("chown", [path |> @core.any, uid |> @core.any, gid |> @core.any]),
-  )
-  promise.wait()
+  ffi_chown(path, uid, gid).wait()
 }
 
 ///|
@@ -307,21 +332,13 @@ pub async fn symlink(target : String, path : String, type_? : String) -> Unit {
 ///|
 /// Read symbolic link
 pub async fn readlink(path : String) -> String {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[String] = @core.identity(
-    fs._call("readlink", [path |> @core.any]),
-  )
-  promise.wait()
+  ffi_readlink(path).wait()
 }
 
 ///|
 /// Get real path
 pub async fn realpath(path : String) -> String {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[String] = @core.identity(
-    fs._call("realpath", [path |> @core.any]),
-  )
-  promise.wait()
+  ffi_realpath(path).wait()
 }
 
 ///|
@@ -389,29 +406,17 @@ pub async fn appendFile(
 ///|
 /// Copy file
 pub async fn copyFile(src : String, dest : String) -> Unit {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Unit] = fs
-    ._call("copyFile", [src |> @core.any, dest |> @core.any])
-    .cast()
-  promise.wait()
+  ffi_copyFile(src, dest).wait()
 }
 
 ///|
 /// Read directory contents
 pub async fn readdir(path : String) -> Array[String] {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Array[String]] = @core.identity(
-    fs._call("readdir", [path |> @core.any]),
-  )
-  promise.wait()
+  ffi_readdir(path).wait()
 }
 
 ///|
 /// Unlink (delete) file
 pub async fn unlink(path : String) -> Unit {
-  let fs = fs_promises_module()
-  let promise : @core.Promise[Unit] = @core.identity(
-    fs._call("unlink", [path |> @core.any]),
-  )
-  promise.wait()
+  ffi_unlink(path).wait()
 }

@@ -12,11 +12,8 @@ pub fn HonoClient::as_any(self : HonoClient) -> @core.Any = "%identity"
 ///|
 /// Create a Hono RPC client
 /// https://hono.dev/docs/guides/rpc
-pub extern "js" fn hc(base_url : String) -> HonoClient =
-  #| (baseUrl) => {
-  #|   const { hc } = require('hono/client');
-  #|   return hc(baseUrl);
-  #| }
+#module("hono/client")
+pub extern "js" fn hc(base_url : String) -> HonoClient = "hc"
 
 ///|
 /// Build request options object from keyword arguments

@@ -45,9 +45,7 @@ fn[T] common_node(
     let ref_js : @core.Any = ref_.as_any().cast()
     props._set("ref", ref_js)
   }
-  if key is Some(key) {
-    props._set("key", key |> @core.any)
-  }
+  // key is NOT set in props - passed as 3rd argument to jsx runtime
   if on_click is Some(f) {
     props._set("onClick", f |> @js.from_fn1)
   }
@@ -88,9 +86,25 @@ fn[T] common_node(
   if on_drop is Some(f) {
     props._set("onDrop", f |> @js.from_fn1)
   }
-  let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+  // Only set children if not empty (void elements like <input> cannot have children)
+  let children_count = children.length()
+  if children_count > 0 {
+    if children_count == 1 {
+      // Single child - pass directly, not as array
+      props._set("children", children[0].to_react_node())
+    } else {
+      // Multiple children - pass as array
+      let children_js : @core.Any = @core.any(children.map(_.to_react_node()))
+      props._set("children", children_js)
+    }
+  }
   let props_js : @core.Any = props.cast()
-  @react.createElementDirect(tag_name, props_js, children_js)
+  @react.createElementWithKey(
+    @core.any(tag_name),
+    props_js,
+    key,
+    children_count~,
+  )
 }
 
 ///|

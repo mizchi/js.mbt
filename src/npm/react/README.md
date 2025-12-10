@@ -20,28 +20,14 @@ We are designing the API to be intuitive for React users, even if it means compr
 
 ## Usage
 
-### For Browser/Vite (Dynamic Import)
-
 ```moonbit
 fn main {
-  // Initialize React API with dynamic import
   @js.run_async(fn() try {
     @react.dynamic_import_async()
     // React is ready to use
   } catch {
     err => @js.log("Error during React initialization: \{err}")
   })
-}
-```
-
-### For Node.js (Synchronous Require)
-
-```moonbit
-fn main {
-  // Initialize React API with require
-  let react_module = @node.require("react")
-  @react.init_react_api(react_module)
-  // React is ready to use
 }
 ```
 

@@ -3,7 +3,6 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/core",
     "mizchi/js/browser/dom",
     "mizchi/js/npm/react"
@@ -13,7 +12,6 @@
     "mizchi/js/builtins/global",
     "mizchi/js/npm/react_element",
     "mizchi/js/npm/testing_library_react",
-    "mizchi/js/npm/global_jsdom",
-    "mizchi/js/node"
+    "mizchi/js/npm/global_jsdom"
   ]
 }

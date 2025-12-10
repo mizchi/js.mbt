@@ -75,19 +75,10 @@ pub struct MoonPkg {
 ///|
 /// Read a text file (returns empty string if failed)
 fn read_text_file(path : String) -> String {
-  ffi_read_text_file(path)
+  @fs.read_file_sync_string(path, "utf8") catch {
+    _ => ""
+  }
 }
-
-///|
-extern "js" fn ffi_read_text_file(path : String) -> String =
-  #|(path) => {
-  #|  try {
-  #|    const fs = require('fs');
-  #|    return fs.readFileSync(path, 'utf8');
-  #|  } catch {
-  #|    return '';
-  #|  }
-  #|}
 
 ///|
 /// Find moon.mod.json starting from given path, searching upward

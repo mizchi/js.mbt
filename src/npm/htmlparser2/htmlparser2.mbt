@@ -62,21 +62,15 @@ pub extern "js" fn Node::get_type(self : Node) -> String =
 ///| FFI Functions
 
 ///|
-extern "js" fn ffi_parse_document(html : String) -> Document =
-  #| (html) => {
-  #|   const htmlparser2 = require('htmlparser2');
-  #|   return htmlparser2.parseDocument(html);
-  #| }
+#module("htmlparser2")
+extern "js" fn ffi_parse_document(html : String) -> Document = "parseDocument"
 
 ///|
+#module("htmlparser2")
 extern "js" fn ffi_parse_document_with_options(
   html : String,
   options : @core.Any,
-) -> Document =
-  #| (html, options) => {
-  #|   const htmlparser2 = require('htmlparser2');
-  #|   return htmlparser2.parseDocument(html, options);
-  #| }
+) -> Document = "parseDocument"
 
 ///|
 extern "js" fn ffi_create_parser(handlers : @core.Any) -> Parser =
@@ -126,24 +120,15 @@ extern "js" fn ffi_parser_parse_complete(
 
 ///|
 extern "js" fn ffi_dom_utils_get_inner_html(node : @core.Any) -> String =
-  #| (node) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.getInnerHTML(node);
-  #| }
+  #| (node) => require('htmlparser2').DomUtils.getInnerHTML(node)
 
 ///|
 extern "js" fn ffi_dom_utils_get_outer_html(node : @core.Any) -> String =
-  #| (node) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.getOuterHTML(node);
-  #| }
+  #| (node) => require('htmlparser2').DomUtils.getOuterHTML(node)
 
 ///|
 extern "js" fn ffi_dom_utils_get_text(node : @core.Any) -> String =
-  #| (node) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.getText(node);
-  #| }
+  #| (node) => require('htmlparser2').DomUtils.getText(node)
 
 ///|
 extern "js" fn ffi_dom_utils_get_elements_by_tag_name(
@@ -152,10 +137,7 @@ extern "js" fn ffi_dom_utils_get_elements_by_tag_name(
   recurse : Bool,
   limit : Int,
 ) -> @core.Any =
-  #| (name, nodes, recurse, limit) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.getElementsByTagName(name, nodes, recurse, limit);
-  #| }
+  #| (name, nodes, recurse, limit) => require('htmlparser2').DomUtils.getElementsByTagName(name, nodes, recurse, limit)
 
 ///|
 extern "js" fn ffi_dom_utils_get_element_by_id(
@@ -163,20 +145,14 @@ extern "js" fn ffi_dom_utils_get_element_by_id(
   nodes : @core.Any,
   recurse : Bool,
 ) -> @core.Any =
-  #| (id, nodes, recurse) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.getElementById(id, nodes, recurse);
-  #| }
+  #| (id, nodes, recurse) => require('htmlparser2').DomUtils.getElementById(id, nodes, recurse)
 
 ///|
 extern "js" fn ffi_dom_utils_find_all(
   predicate : @core.Any,
   nodes : @core.Any,
 ) -> @core.Any =
-  #| (predicate, nodes) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.findAll(predicate, nodes);
-  #| }
+  #| (predicate, nodes) => require('htmlparser2').DomUtils.findAll(predicate, nodes)
 
 ///|
 extern "js" fn ffi_dom_utils_find_one(
@@ -184,10 +160,7 @@ extern "js" fn ffi_dom_utils_find_one(
   nodes : @core.Any,
   recurse : Bool,
 ) -> @core.Any =
-  #| (predicate, nodes, recurse) => {
-  #|   const { DomUtils } = require('htmlparser2');
-  #|   return DomUtils.findOne(predicate, nodes, recurse);
-  #| }
+  #| (predicate, nodes, recurse) => require('htmlparser2').DomUtils.findOne(predicate, nodes, recurse)
 
 ///| Module Functions
 

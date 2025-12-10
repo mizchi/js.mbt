@@ -1,23 +1,19 @@
 ///|
-extern "js" fn ffi_stream_promises_pipeline(streams : @core.Any) -> @core.Any =
-  #| (streams) => {
-  #|   const { pipeline } = require('node:stream/promises');
+extern "js" fn ffi_stream_promises_pipeline(
+  streams : @core.Any,
+) -> @core.Promise[@stream.Stream] =
+  #| async (streams) => {
+  #|   const { pipeline } = await import('node:stream/promises');
   #|   return pipeline(...streams);
   #| }
 
 ///|
-extern "js" fn ffi_stream_promises_finished(stream : @core.Any) -> @core.Any =
-  #| (stream) => {
-  #|   const { finished } = require('node:stream/promises');
-  #|   return finished(stream);
-  #| }
+#module("node:stream/promises")
+extern "js" fn ffi_stream_promises_finished(stream : @core.Any) -> @core.Any = "finished"
 
 ///|
 pub async fn pipeline(streams : Array[@core.Any]) -> @stream.Stream {
-  let promise : @core.Promise[@stream.Stream] = ffi_stream_promises_pipeline(
-    @core.identity(streams),
-  ).cast()
-  promise.wait()
+  ffi_stream_promises_pipeline(@core.identity(streams)).wait()
 }
 
 ///|

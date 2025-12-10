@@ -2,8 +2,8 @@
 
 ///|
 async test "text component renders text" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Hello, World!"])
   let result = testing.render(element)
   defer result.unmount()
@@ -12,8 +12,8 @@ async test "text component renders text" {
 
 ///|
 async test "text component with color" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   // Note: Colors may be rendered as ANSI codes in the actual output
   let element = ink.text(["Colored"], color="green")
   let result = testing.render(element)
@@ -24,8 +24,8 @@ async test "text component with color" {
 
 ///|
 async test "text component with bold" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Bold text"], bold=true)
   let result = testing.render(element)
   defer result.unmount()
@@ -34,8 +34,8 @@ async test "text component with bold" {
 
 ///|
 async test "box component with children" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_([ink.text(["Inside box"])])
   let result = testing.render(element)
   defer result.unmount()
@@ -44,8 +44,8 @@ async test "box component with children" {
 
 ///|
 async test "box component with flex direction column" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Line 1"]), ink.text(["Line 2"])],
     flex_direction=@ink.FlexDirection::Column,
@@ -59,8 +59,8 @@ async test "box component with flex direction column" {
 
 ///|
 async test "newline component" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Before"]), ink.newline(), ink.text(["After"])],
     flex_direction=@ink.FlexDirection::Column,
@@ -74,8 +74,8 @@ async test "newline component" {
 
 ///|
 async test "spacer component" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Left"]), ink.spacer(), ink.text(["Right"])],
     width=20,
@@ -89,8 +89,8 @@ async test "spacer component" {
 
 ///|
 async test "rerender with new content" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Initial"])
   let result = testing.render(element)
   defer result.unmount()
@@ -103,8 +103,8 @@ async test "rerender with new content" {
 
 ///|
 async test "frames captures render history" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Frame 1"])
   let result = testing.render(element)
   defer result.unmount()
@@ -116,8 +116,8 @@ async test "frames captures render history" {
 
 ///|
 async test "box with border" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Bordered"])],
     border_style=@ink.BorderStyle::Single,
@@ -132,8 +132,8 @@ async test "box with border" {
 
 ///|
 async test "box with padding" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_([ink.text(["Padded"])], padding=1)
   let result = testing.render(element)
   defer result.unmount()
@@ -143,8 +143,8 @@ async test "box with padding" {
 
 ///|
 async test "nested boxes" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.box_([ink.text(["Inner 1"])]), ink.box_([ink.text(["Inner 2"])])],
     flex_direction=@ink.FlexDirection::Column,
@@ -158,8 +158,8 @@ async test "nested boxes" {
 
 ///|
 async test "transform component" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.transform([ink.text(["lowercase"])], fn(s) { s.to_upper() })
   let result = testing.render(element)
   defer result.unmount()
@@ -243,8 +243,8 @@ test "display enum variants" {
 
 ///|
 async test "text with all style options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(
     ["Styled"],
     color="red",
@@ -264,8 +264,8 @@ async test "text with all style options" {
 
 ///|
 async test "box with all dimension options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Content"])],
     width=30,
@@ -280,8 +280,8 @@ async test "box with all dimension options" {
 
 ///|
 async test "box with all padding options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Padded"])],
     padding_x=2,
@@ -298,8 +298,8 @@ async test "box with all padding options" {
 
 ///|
 async test "box with all margin options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Margined"])],
     margin=1,
@@ -317,8 +317,8 @@ async test "box with all margin options" {
 
 ///|
 async test "box with flex options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Flex"])],
     flex_grow=1,
@@ -336,8 +336,8 @@ async test "box with flex options" {
 
 ///|
 async test "box with border color options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Bordered"])],
     border_style=@ink.BorderStyle::Double,
@@ -358,8 +358,8 @@ async test "box with border color options" {
 
 ///|
 async test "box with other options" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Other"])],
     overflow=@ink.Overflow::Hidden,
@@ -375,8 +375,8 @@ async test "box with other options" {
 
 ///|
 async test "newline with count" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.box_(
     [ink.text(["Top"]), ink.newline(count=2), ink.text(["Bottom"])],
     flex_direction=@ink.FlexDirection::Column,
@@ -390,8 +390,8 @@ async test "newline with count" {
 
 ///|
 async test "static component" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.static_([ink.text(["Static content"])])
   let result = testing.render(element)
   defer result.unmount()
@@ -401,8 +401,8 @@ async test "static component" {
 
 ///|
 async test "static component with items" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let items : Array[@core.Any] = ["item1", "item2"].map(fn(s) { @core.any(s) })
   let element = ink.static_([ink.text(["With items"])], items~)
   let result = testing.render(element)
@@ -412,8 +412,8 @@ async test "static component with items" {
 
 ///|
 async test "testing library stdin" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Input test"])
   let result = testing.render(element)
   defer result.unmount()
@@ -424,8 +424,8 @@ async test "testing library stdin" {
 
 ///|
 async test "testing library stdout" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Output test"])
   let result = testing.render(element)
   defer result.unmount()
@@ -436,8 +436,8 @@ async test "testing library stdout" {
 
 ///|
 async test "testing library stderr" {
-  let ink = @ink.dynamic_import()
-  let testing = @ink.dynamic_import_testing_library()
+  let ink = @ink.dynamic_import().wait()
+  let testing = @ink.dynamic_import_testing_library().wait()
   let element = ink.text(["Error test"])
   let result = testing.render(element)
   defer result.unmount()

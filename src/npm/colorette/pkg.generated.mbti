@@ -1,0 +1,118 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/colorette"
+
+// Values
+#alias(bg_black)
+pub fn bgBlack(String) -> String
+
+#alias(bg_black_bright)
+pub fn bgBlackBright(String) -> String
+
+#alias(bg_blue)
+pub fn bgBlue(String) -> String
+
+#alias(bg_blue_bright)
+pub fn bgBlueBright(String) -> String
+
+#alias(bg_cyan)
+pub fn bgCyan(String) -> String
+
+#alias(bg_cyan_bright)
+pub fn bgCyanBright(String) -> String
+
+#alias(bg_green)
+pub fn bgGreen(String) -> String
+
+#alias(bg_green_bright)
+pub fn bgGreenBright(String) -> String
+
+#alias(bg_magenta)
+pub fn bgMagenta(String) -> String
+
+#alias(bg_magenta_bright)
+pub fn bgMagentaBright(String) -> String
+
+#alias(bg_red)
+pub fn bgRed(String) -> String
+
+#alias(bg_red_bright)
+pub fn bgRedBright(String) -> String
+
+#alias(bg_white)
+pub fn bgWhite(String) -> String
+
+#alias(bg_white_bright)
+pub fn bgWhiteBright(String) -> String
+
+#alias(bg_yellow)
+pub fn bgYellow(String) -> String
+
+#alias(bg_yellow_bright)
+pub fn bgYellowBright(String) -> String
+
+pub fn black(String) -> String
+
+#alias(black_bright)
+pub fn blackBright(String) -> String
+
+pub fn blue(String) -> String
+
+#alias(blue_bright)
+pub fn blueBright(String) -> String
+
+pub fn bold(String) -> String
+
+pub fn cyan(String) -> String
+
+#alias(cyan_bright)
+pub fn cyanBright(String) -> String
+
+pub fn dim(String) -> String
+
+pub fn gray(String) -> String
+
+pub fn green(String) -> String
+
+#alias(green_bright)
+pub fn greenBright(String) -> String
+
+pub fn hidden(String) -> String
+
+pub fn is_color_supported_sync() -> Bool
+
+pub fn italic(String) -> String
+
+pub fn magenta(String) -> String
+
+#alias(magenta_bright)
+pub fn magentaBright(String) -> String
+
+pub fn red(String) -> String
+
+#alias(red_bright)
+pub fn redBright(String) -> String
+
+pub fn reset(String) -> String
+
+pub fn strikethrough(String) -> String
+
+pub fn underline(String) -> String
+
+pub fn white(String) -> String
+
+#alias(white_bright)
+pub fn whiteBright(String) -> String
+
+pub fn yellow(String) -> String
+
+#alias(yellow_bright)
+pub fn yellowBright(String) -> String
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

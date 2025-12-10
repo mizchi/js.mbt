@@ -1,121 +1,118 @@
 ///|
+#module("preact")
 extern "js" fn ffi_create_element(
   tag : @core.Any,
   props : @core.Any,
   children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  return __PreactApi.createElement(tag, props, ...children)
-  #|}
+) -> @core.Any = "createElement"
 
 ///|
+#module("preact")
 extern "js" fn ffi_h(
   tag : @core.Any,
   props : @core.Any,
   children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  return __PreactApi.h(tag, props, ...children)
-  #|}
+) -> @core.Any = "h"
 
 ///|
-extern "js" fn ffi_render(vnode : @core.Any, container : @core.Any) -> Unit =
-  #|(vnode, container) => __PreactApi.render(vnode, container)
+#module("preact")
+extern "js" fn ffi_render(vnode : @core.Any, container : @core.Any) -> Unit = "render"
 
 ///|
-extern "js" fn ffi_hydrate(vnode : @core.Any, container : @core.Any) -> Unit =
-  #|(vnode, container) => __PreactApi.hydrate(vnode, container)
+#module("preact")
+extern "js" fn ffi_hydrate(vnode : @core.Any, container : @core.Any) -> Unit = "hydrate"
 
 ///|
-extern "js" fn ffi_use_state(initial : @core.Any) -> @core.Any =
-  #|(initial) => __PreactApi.useState(initial)
+#module("preact/hooks")
+extern "js" fn ffi_use_state(initial : @core.Any) -> @core.Any = "useState"
 
 ///|
-extern "js" fn ffi_use_state_lazy(initial : () -> @core.Any) -> @core.Any =
-  #|(initial) => __PreactApi.useState(initial)
+#module("preact/hooks")
+extern "js" fn ffi_use_state_lazy(initial : () -> @core.Any) -> @core.Any = "useState"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_effect(
   f : () -> () -> Unit,
   keys : Array[@core.Any],
-) -> Unit =
-  #|(f, keys) => __PreactApi.useEffect(f, keys)
+) -> Unit = "useEffect"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_layout_effect(
   f : () -> () -> Unit,
   keys : Array[@core.Any],
-) -> Unit =
-  #|(f, keys) => __PreactApi.useLayoutEffect(f, keys)
+) -> Unit = "useLayoutEffect"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_memo(
   f : () -> @core.Any,
   keys : Array[@core.Any],
-) -> @core.Any =
-  #|(f, keys) => __PreactApi.useMemo(f, keys)
+) -> @core.Any = "useMemo"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_callback(
   f : @core.Any,
   keys : Array[@core.Any],
-) -> @core.Any =
-  #|(f, keys) => __PreactApi.useCallback(f, keys)
+) -> @core.Any = "useCallback"
 
 ///|
-extern "js" fn ffi_use_ref(initial : @core.Any) -> @core.Any =
-  #|(initial) => __PreactApi.useRef(initial)
+#module("preact/hooks")
+extern "js" fn ffi_use_ref(initial : @core.Any) -> @core.Any = "useRef"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_reducer(
   reducer : @core.Any,
   initial : @core.Any,
-) -> @core.Any =
-  #|(reducer, initial) => __PreactApi.useReducer(reducer, initial)
+) -> @core.Any = "useReducer"
 
 ///|
-extern "js" fn ffi_use_context(ctx : @core.Any) -> @core.Any =
-  #|(ctx) => __PreactApi.useContext(ctx)
+#module("preact/hooks")
+extern "js" fn ffi_use_context(ctx : @core.Any) -> @core.Any = "useContext"
 
 ///|
-extern "js" fn ffi_create_context(initial : @core.Any) -> @core.Any =
-  #|(initial) => __PreactApi.createContext(initial)
+#module("preact")
+extern "js" fn ffi_create_context(initial : @core.Any) -> @core.Any = "createContext"
 
 ///|
-extern "js" fn ffi_create_ref() -> @core.Any =
-  #|() => __PreactApi.createRef()
+#module("preact")
+extern "js" fn ffi_create_ref() -> @core.Any = "createRef"
 
 ///|
+#module("preact")
 extern "js" fn ffi_clone_element(
   element : @core.Any,
   props : @core.Any,
-) -> @core.Any =
-  #|(element, props) => __PreactApi.cloneElement(element, props)
+) -> @core.Any = "cloneElement"
 
 ///|
-extern "js" fn ffi_to_child_array(children : @core.Any) -> @core.Any =
-  #|(children) => __PreactApi.toChildArray(children)
+#module("preact")
+extern "js" fn ffi_to_child_array(children : @core.Any) -> @core.Any = "toChildArray"
 
 ///|
+/// Fragment equivalent - returns props.children (same as Preact's Fragment)
 extern "js" fn get_fragment() -> @core.Any =
-  #|() => __PreactApi.Fragment
+  #|() => (props) => props.children
 
 ///|
-extern "js" fn ffi_use_id() -> String =
-  #|() => __PreactApi.useId()
+#module("preact/hooks")
+extern "js" fn ffi_use_id() -> String = "useId"
 
 ///|
-extern "js" fn ffi_use_error_boundary(callback : @core.Any) -> @core.Any =
-  #|(callback) => __PreactApi.useErrorBoundary(callback)
+#module("preact/hooks")
+extern "js" fn ffi_use_error_boundary(callback : @core.Any) -> @core.Any = "useErrorBoundary"
 
 ///|
+#module("preact/hooks")
 extern "js" fn ffi_use_imperative_handle(
   ref_ : @core.Any,
   create : @core.Any,
   deps : @core.Any,
-) -> Unit =
-  #|(ref, create, deps) => __PreactApi.useImperativeHandle(ref, create, deps)
+) -> Unit = "useImperativeHandle"
 
 ///|
-extern "js" fn ffi_use_debug_value(value : @core.Any) -> Unit =
-  #|(value) => __PreactApi.useDebugValue(value)
+#module("preact/hooks")
+extern "js" fn ffi_use_debug_value(value : @core.Any) -> Unit = "useDebugValue"

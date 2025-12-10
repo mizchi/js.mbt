@@ -22,7 +22,7 @@ pub fn jsonToYaml(String) -> String
 
 pub fn load(String, filename? : String, schema? : Schema, json? : Bool) -> @core.Any
 
-pub fn loadAll(String, filename? : String, schema? : Schema, json? : Bool) -> Array[@core.Any]
+pub fn loadAll(String, filename? : String, schema? : Schema, json? : Bool) -> @core.Promise[Array[@core.Any]]
 
 pub fn loadObject(String) -> @core.Any
 

@@ -1,10 +1,6 @@
 ///|
 fn setup() -> () -> Unit {
   @global_jsdom.register()
-  @preact.init_preact_api(
-    @node.require("preact"),
-    @node.require("preact/hooks"),
-  )
   fn() { cleanup() }
 }
 

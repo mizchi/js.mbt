@@ -1,5 +1,8 @@
 ///| Ink - React for interactive command-line apps
 /// Bindings for https://github.com/vadimdemedes/ink
+///
+/// NOTE: ink is ESM-only with top-level await, so #module cannot be used.
+/// All imports must use dynamic import pattern.
 
 // ============================================================
 // Dynamic Import
@@ -15,21 +18,18 @@ pub fn Ink::as_any(self : Ink) -> @core.Any = "%identity"
 
 ///|
 /// Dynamic import for ink module (internal)
-/// NOTE: This uses dynamic import which doesn't support tree-shaking.
-/// When MoonBit adds native ESM support, this should be replaced with static imports.
 extern "js" fn import_ink_internal() -> @core.Promise[Ink] =
   #| () => import("ink")
 
 ///|
 /// Dynamic import for ink module
-/// NOTE: This uses dynamic import which doesn't support tree-shaking.
-/// When MoonBit adds native ESM support, this should be replaced with static imports.
-pub async fn dynamic_import() -> Ink {
-  import_ink_internal().wait()
+/// Returns a Promise that resolves to the ink module
+pub fn dynamic_import() -> @core.Promise[Ink] {
+  import_ink_internal()
 }
 
 // ============================================================
-// Components
+// Enums for component options
 // ============================================================
 
 ///|
@@ -209,9 +209,36 @@ pub fn Display::to_string(self : Display) -> String {
   }
 }
 
+// ============================================================
+// FFI helpers
+// ============================================================
+
+///|
+extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @core.Any =
+  #|(f) => f
+
+///|
+extern "js" fn ffi_call_fn2(
+  fn_ : @core.Any,
+  arg1 : @core.Any,
+  arg2 : @core.Any,
+) -> @core.Any =
+  #|(fn, a1, a2) => fn(a1, a2)
+
+///|
+extern "js" fn ffi_call_fn1(fn_ : @core.Any, arg : @core.Any) -> @core.Any =
+  #|(fn, a) => fn(a)
+
+///|
+extern "js" fn ffi_call_fn0(fn_ : @core.Any) -> @core.Any =
+  #|(fn) => fn()
+
+// ============================================================
+// Components
+// ============================================================
+
 ///|
 /// Text component for displaying styled text in the terminal
-/// Only accepts text nodes and nested <Text> components
 pub fn Ink::text(
   self : Ink,
   children : Array[&@react.ReactNode],
@@ -254,8 +281,17 @@ pub fn Ink::text(
   if wrap is Some(w) {
     props["wrap"] = @core.any(w.to_string())
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(text_component, props, children_arr).cast()
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
+  @react.createElementRaw(
+    text_component,
+    props,
+    children_count=children.length(),
+  )
 }
 
 ///|
@@ -442,8 +478,17 @@ pub fn Ink::box_(
   if row_gap is Some(g) {
     props["rowGap"] = @core.any(g)
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(box_component, props, children_arr).cast()
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
+  @react.createElementRaw(
+    box_component,
+    props,
+    children_count=children.length(),
+  )
 }
 
 ///|
@@ -454,14 +499,14 @@ pub fn Ink::newline(self : Ink, count? : Int) -> @react.Element {
   if count is Some(c) {
     props["count"] = @core.any(c)
   }
-  ffi_create_element(newline_component, props, @core.undefined()).cast()
+  @react.createElementRaw(newline_component, props)
 }
 
 ///|
 /// Spacer component - fills available space (flex-grow: 1)
 pub fn Ink::spacer(self : Ink) -> @react.Element {
   let spacer_component = self.as_any()["Spacer"]
-  ffi_create_element(spacer_component, @core.new_object(), @core.undefined()).cast()
+  @react.createElementRaw(spacer_component, @core.new_object())
 }
 
 ///|
@@ -476,8 +521,17 @@ pub fn Ink::static_(
   if items is Some(i) {
     props["items"] = @core.any(i)
   }
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(static_component, props, children_arr).cast()
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
+  @react.createElementRaw(
+    static_component,
+    props,
+    children_count=children.length(),
+  )
 }
 
 ///|
@@ -491,47 +545,18 @@ pub fn Ink::transform(
   let props = @core.new_object()
   let wrapped_fn = ffi_wrap_transform(transform_fn)
   props["transform"] = wrapped_fn
-  let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(transform_component, props, children_arr).cast()
+  // Single child: pass directly, multiple children: pass as array
+  if children.length() == 1 {
+    props["children"] = children[0].to_react_node()
+  } else if children.length() > 1 {
+    props["children"] = @core.any(children.map(fn(c) { c.to_react_node() }))
+  }
+  @react.createElementRaw(
+    transform_component,
+    props,
+    children_count=children.length(),
+  )
 }
-
-// ============================================================
-// FFI
-// ============================================================
-
-///|
-extern "js" fn ffi_create_element(
-  tag : @core.Any,
-  props : @core.Any,
-  children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  const React = require('react');
-  #|  if (children === undefined) {
-  #|    return React.createElement(tag, props);
-  #|  }
-  #|  return React.createElement(tag, props, ...children);
-  #|}
-
-///|
-extern "js" fn ffi_wrap_transform(f : (String) -> String) -> @core.Any =
-  #|(f) => f
-
-///|
-extern "js" fn ffi_call_fn2(
-  fn_ : @core.Any,
-  arg1 : @core.Any,
-  arg2 : @core.Any,
-) -> @core.Any =
-  #|(fn, a1, a2) => fn(a1, a2)
-
-///|
-extern "js" fn ffi_call_fn1(fn_ : @core.Any, arg : @core.Any) -> @core.Any =
-  #|(fn, a) => fn(a)
-
-///|
-extern "js" fn ffi_call_fn0(fn_ : @core.Any) -> @core.Any =
-  #|(fn) => fn()
 
 // ============================================================
 // Render function

@@ -2,22 +2,30 @@
 /// Bindings for https://esbuild.github.io/
 
 // ============================================================
-// Module Handle
+// FFI Functions
 // ============================================================
 
 ///|
-/// Esbuild module handle
-#external
-pub type Esbuild
+#module("esbuild")
+extern "js" fn ffi_build(opts : @core.Any) -> @js.Promise[BuildResult] = "build"
 
 ///|
-pub fn Esbuild::as_any(self : Esbuild) -> @core.Any = "%identity"
+#module("esbuild")
+extern "js" fn ffi_build_sync(opts : @core.Any) -> BuildResult = "buildSync"
 
 ///|
-/// Get the esbuild module
-pub fn esbuild() -> Esbuild {
-  @node.require("esbuild").cast()
-}
+#module("esbuild")
+extern "js" fn ffi_transform(
+  code : String,
+  opts : @core.Any,
+) -> @js.Promise[TransformResult] = "transform"
+
+///|
+#module("esbuild")
+extern "js" fn ffi_transform_sync(
+  code : String,
+  opts : @core.Any,
+) -> TransformResult = "transformSync"
 
 // ============================================================
 // Format enum
@@ -254,22 +262,20 @@ pub fn TransformResult::warnings(self : TransformResult) -> Array[Message] {
 // ============================================================
 
 ///|
-/// Build with options (async)
-pub async fn Esbuild::build(
-  self : Esbuild,
-  entry_points? : Array[String] = [],
-  outdir? : String = "",
-  outfile? : String = "",
-  bundle? : Bool = false,
-  minify? : Bool = false,
-  format? : Format = Esm,
-  target? : String = "",
-  platform? : Platform = Browser,
-  sourcemap? : Bool = false,
-  write? : Bool = true,
-  external? : Array[String] = [],
-  definitions? : Array[(String, String)] = [],
-) -> BuildResult {
+fn make_build_opts(
+  entry_points : Array[String],
+  outdir : String,
+  outfile : String,
+  bundle : Bool,
+  minify : Bool,
+  format : Format,
+  target : String,
+  platform : Platform,
+  sourcemap : Bool,
+  write : Bool,
+  external : Array[String],
+  definitions : Array[(String, String)],
+) -> @core.Any {
   let opts = @core.new_object()
   if entry_points.length() > 0 {
     opts._set("entryPoints", entry_points |> @core.any)
@@ -300,17 +306,54 @@ pub async fn Esbuild::build(
     }
     opts._set("define", defs)
   }
-  let promise : @js.Promise[BuildResult] = self
-    .as_any()
-    ._call("build", [opts])
-    .cast()
-  promise.wait()
+  opts
+}
+
+///|
+/// Build with options (async)
+pub async fn build(
+  entry_points? : Array[String] = [],
+  outdir? : String = "",
+  outfile? : String = "",
+  bundle? : Bool = false,
+  minify? : Bool = false,
+  format? : Format = Esm,
+  target? : String = "",
+  platform? : Platform = Browser,
+  sourcemap? : Bool = false,
+  write? : Bool = true,
+  external? : Array[String] = [],
+  definitions? : Array[(String, String)] = [],
+) -> BuildResult {
+  let opts = make_build_opts(
+    entry_points, outdir, outfile, bundle, minify, format, target, platform, sourcemap,
+    write, external, definitions,
+  )
+  ffi_build(opts).wait()
+}
+
+///|
+fn make_transform_opts(
+  loader : Loader,
+  minify : Bool,
+  format : Format,
+  target : String,
+  sourcemap : Bool,
+) -> @core.Any {
+  let opts = @core.new_object()
+  opts._set("loader", loader.to_string() |> @core.any)
+  opts._set("minify", minify |> @core.any)
+  opts._set("format", format.to_string() |> @core.any)
+  if target != "" {
+    opts._set("target", target |> @core.any)
+  }
+  opts._set("sourcemap", sourcemap |> @core.any)
+  opts
 }
 
 ///|
 /// Transform code (async)
-pub async fn Esbuild::transform(
-  self : Esbuild,
+pub async fn transform(
   code : String,
   loader? : Loader = Js,
   minify? : Bool = false,
@@ -318,25 +361,13 @@ pub async fn Esbuild::transform(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @core.new_object()
-  opts._set("loader", loader.to_string() |> @core.any)
-  opts._set("minify", minify |> @core.any)
-  opts._set("format", format.to_string() |> @core.any)
-  if target != "" {
-    opts._set("target", target |> @core.any)
-  }
-  opts._set("sourcemap", sourcemap |> @core.any)
-  let promise : @js.Promise[TransformResult] = self
-    .as_any()
-    ._call("transform", [code |> @core.any, opts])
-    .cast()
-  promise.wait()
+  let opts = make_transform_opts(loader, minify, format, target, sourcemap)
+  ffi_transform(code, opts).wait()
 }
 
 ///|
 /// Build synchronously
-pub fn Esbuild::build_sync(
-  self : Esbuild,
+pub fn build_sync(
   entry_points? : Array[String] = [],
   outdir? : String = "",
   outfile? : String = "",
@@ -350,43 +381,16 @@ pub fn Esbuild::build_sync(
   external? : Array[String] = [],
   definitions? : Array[(String, String)] = [],
 ) -> BuildResult {
-  let opts = @core.new_object()
-  if entry_points.length() > 0 {
-    opts._set("entryPoints", entry_points |> @core.any)
-  }
-  if outdir != "" {
-    opts._set("outdir", outdir |> @core.any)
-  }
-  if outfile != "" {
-    opts._set("outfile", outfile |> @core.any)
-  }
-  opts._set("bundle", bundle |> @core.any)
-  opts._set("minify", minify |> @core.any)
-  opts._set("format", format.to_string() |> @core.any)
-  if target != "" {
-    opts._set("target", target |> @core.any)
-  }
-  opts._set("platform", platform.to_string() |> @core.any)
-  opts._set("sourcemap", sourcemap |> @core.any)
-  opts._set("write", write |> @core.any)
-  if external.length() > 0 {
-    opts._set("external", external |> @core.any)
-  }
-  if definitions.length() > 0 {
-    let defs = @core.new_object()
-    for pair in definitions {
-      let (key, value) = pair
-      defs._set(key, value |> @core.any)
-    }
-    opts._set("define", defs)
-  }
-  self.as_any()._call("buildSync", [opts]).cast()
+  let opts = make_build_opts(
+    entry_points, outdir, outfile, bundle, minify, format, target, platform, sourcemap,
+    write, external, definitions,
+  )
+  ffi_build_sync(opts)
 }
 
 ///|
 /// Transform code synchronously
-pub fn Esbuild::transform_sync(
-  self : Esbuild,
+pub fn transform_sync(
   code : String,
   loader? : Loader = Js,
   minify? : Bool = false,
@@ -394,13 +398,6 @@ pub fn Esbuild::transform_sync(
   target? : String = "",
   sourcemap? : Bool = false,
 ) -> TransformResult {
-  let opts = @core.new_object()
-  opts._set("loader", loader.to_string() |> @core.any)
-  opts._set("minify", minify |> @core.any)
-  opts._set("format", format.to_string() |> @core.any)
-  if target != "" {
-    opts._set("target", target |> @core.any)
-  }
-  opts._set("sourcemap", sourcemap |> @core.any)
-  self.as_any()._call("transformSync", [code |> @core.identity, opts]).cast()
+  let opts = make_transform_opts(loader, minify, format, target, sourcemap)
+  ffi_transform_sync(code, opts)
 }

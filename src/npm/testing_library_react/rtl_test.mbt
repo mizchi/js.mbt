@@ -15,7 +15,6 @@ fn app(_ : Unit) -> @react.Element {
 ///|
 fn setup_rtl() -> Unit {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   @testing_library_react.setup_matchers()
   @testing_library_react.cleanup()
 }
@@ -308,7 +307,6 @@ test "fireEvent keyDown on input" {
 ///|
 test "configure function exists" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Just test that configure can be called without error
   let config = @core.new_object()
@@ -321,7 +319,6 @@ test "configure function exists" {
 ///|
 test "renderHook: useState" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (state, _set_state) = @react.use_state(0)
@@ -338,7 +335,6 @@ test "renderHook: useState" {
 ///|
 test "renderHook: useState with updates" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Test that we can get the initial state value
   let hook = fn() {
@@ -357,7 +353,6 @@ test "renderHook: useState with updates" {
 ///|
 test "renderHook: useEffect" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = () => {
     let (count, set_count) = @react.use_state(0)
@@ -380,7 +375,6 @@ test "renderHook: useEffect" {
 ///|
 test "renderHook: useCallback" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(0)
@@ -395,7 +389,6 @@ test "renderHook: useCallback" {
 ///|
 test "renderHook: useMemo" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() {
     let (count, _set_count) = @react.use_state(5)
@@ -410,7 +403,6 @@ test "renderHook: useMemo" {
 ///|
 test "renderHook: useRef" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.useRef(Some(42)) }
   let result = @testing_library_react.renderHook(@core.identity(hook))
@@ -424,7 +416,6 @@ test "renderHook: useRef" {
 ///|
 test "renderHook: useContext" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let ctx : @react.Context[Int] = @react.create_context(Some(100))
   let hook = fn() { @react.use_context(ctx) }
@@ -437,7 +428,6 @@ test "renderHook: useContext" {
 ///|
 test "renderHook: useReducer" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let reducer = fn(state : Int, action : Int) { state + action }
   let hook = fn() {
@@ -455,7 +445,6 @@ test "renderHook: useReducer" {
 ///|
 test "renderHook: rerender method" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   // Use a simple hook that doesn't need props
   let multiplier_ref : Ref[Int] = { val: 2 }
@@ -478,7 +467,6 @@ test "renderHook: rerender method" {
 ///|
 test "renderHook: unmount method" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let hook = fn() { @react.use_state(0) }
   let result = @testing_library_react.renderHook(@core.identity(hook))
@@ -492,7 +480,6 @@ test "renderHook: unmount method" {
 ///|
 test "useId hook" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let id = @react.use_id()
@@ -507,7 +494,6 @@ test "useId hook" {
 ///|
 test "useTransition hook" {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   defer @testing_library_react.cleanup()
   let comp = (_props : Unit) => {
     let (count, set_count) = @react.use_state(0)
@@ -633,7 +619,6 @@ test "useImperativeHandle hook" {
 ///|
 async fn init_react_router() -> Unit {
   @global_jsdom.register()
-  @react.init_react_api(@node.require("react"))
   @testing_library_react.setup_matchers()
   @testing_library_react.cleanup()
   @react_router.dynamic_import()

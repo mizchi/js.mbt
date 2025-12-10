@@ -8,19 +8,15 @@ import(
 )
 
 // Values
-pub async fn dynamic_import() -> ReactDOMClient
+#alias(create_root)
+pub fn createRoot(@dom.Element) -> ReactDOMRoot
+
+#alias(hydrate_root)
+pub fn hydrateRoot(@dom.Element, @react.Element) -> ReactDOMRoot
 
 // Errors
 
 // Types and methods
-#external
-pub type ReactDOMClient
-pub fn ReactDOMClient::as_any(Self) -> @core.Any
-#alias(create_root)
-pub fn ReactDOMClient::createRoot(Self, @dom.Element) -> ReactDOMRoot
-#alias(hydrate_root)
-pub fn ReactDOMClient::hydrateRoot(Self, @dom.Element, @react.Element) -> ReactDOMRoot
-
 #external
 pub type ReactDOMRoot
 pub fn ReactDOMRoot::as_any(Self) -> @core.Any

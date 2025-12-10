@@ -3,22 +3,6 @@
 // This benchmark tests the performance of creating complex nested components
 
 ///|
-// Initialize a minimal React API for benchmarking (without Node.js)
-extern "js" fn ffi_create_minimal_react_api() -> @core.Any =
-  #|() => {
-  #|  return {
-  #|    createElement: (tag, props, children) => {
-  #|      return { type: tag, props, children };
-  #|    }
-  #|  };
-  #|}
-
-///|
-fn init_minimal_react_api() -> Unit {
-  @react.init_react_api(ffi_create_minimal_react_api())
-}
-
-///|
 /// Create a complex nested component tree simulating a typical web page
 fn create_complex_component() -> @react.Element {
   div(id="app", [
@@ -95,7 +79,6 @@ fn create_complex_component() -> @react.Element {
 ///|
 /// Benchmark: Create complex component (element creation only)
 test "benchmark: create complex component" (b : @bench.T) {
-  init_minimal_react_api()
   b.bench(fn() { b.keep(create_complex_component()) })
 }
 
@@ -144,7 +127,6 @@ fn create_form_component() -> @react.Element {
 
 ///|
 test "benchmark: create form component" (b : @bench.T) {
-  init_minimal_react_api()
   b.bench(fn() { b.keep(create_form_component()) })
 }
 
@@ -176,7 +158,6 @@ fn create_svg_chart() -> @react.Element {
 
 ///|
 test "benchmark: create SVG chart" (b : @bench.T) {
-  init_minimal_react_api()
   b.bench(fn() { b.keep(create_svg_chart()) })
 }
 

@@ -110,7 +110,10 @@ pub fn fragment(children : Array[&VueNode], key? : String) -> VNode {
 ///|
 /// Vue.render - Render a VNode to a DOM container using createApp
 pub fn render(vnode : VNode, container : @dom.Element) -> Unit {
-  ffi_render(vnode |> @core.identity, container |> @core.identity)
+  let component = @core.new_object()
+  component._set("render", (fn() -> VNode { vnode }) |> @js.any)
+  let app = ffi_create_app(component, @core.new_object())
+  ffi_mount(app, container |> @core.identity)
 }
 
 ///|

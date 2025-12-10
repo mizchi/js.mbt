@@ -3,9 +3,17 @@
 /// https://mswjs.io/docs/api/setup-worker
 ///
 /// Browser specific functionality for MSW using Service Workers.
-/// Use SetupWorker for mocking in browser environments.
+/// Use MswBrowser for mocking in browser environments.
 
-///| Browser Worker Types
+///| Browser Types
+
+///|
+/// MSW Browser module instance containing setupWorker
+#external
+pub type MswBrowser
+
+///|
+pub fn MswBrowser::as_any(self : MswBrowser) -> @core.Any = "%identity"
 
 ///|
 /// Mock worker instance (Browser)
@@ -26,12 +34,30 @@ pub fn StartOptions::as_any(self : StartOptions) -> @core.Any = "%identity"
 ///| Worker FFI (msw/browser)
 
 ///|
-extern "js" fn ffi_setup_worker(handlers : @core.Any) -> SetupWorker =
-  #| (handlers) => require('msw/browser').setupWorker(...handlers)
+/// Dynamic import for msw/browser module
+extern "js" fn ffi_import_msw_browser() -> @core.Promise[@core.Any] =
+  #|() => import("msw/browser")
 
 ///|
-extern "js" fn ffi_setup_worker_empty() -> SetupWorker =
-  #| () => require('msw/browser').setupWorker()
+/// Import msw/browser module and return MswBrowser instance
+pub async fn import_msw_browser() -> MswBrowser {
+  ffi_import_msw_browser().wait().cast()
+}
+
+///|
+extern "js" fn get_setup_worker_fn(msw_browser : MswBrowser) -> @core.Any =
+  #|(msw_browser) => msw_browser.setupWorker
+
+///|
+extern "js" fn call_setup_worker(
+  setup_worker : @core.Any,
+  handlers : @core.Any,
+) -> SetupWorker =
+  #| (sw, handlers) => sw(...handlers)
+
+///|
+extern "js" fn call_setup_worker_empty(setup_worker : @core.Any) -> SetupWorker =
+  #| (sw) => sw()
 
 ///|
 pub extern "js" fn worker_start(
@@ -74,17 +100,26 @@ extern "js" fn ffi_worker_restore_handlers(worker : SetupWorker) -> Unit =
 extern "js" fn ffi_worker_list_handlers(worker : SetupWorker) -> @core.Any =
   #| (worker) => worker.listHandlers()
 
-///| Worker Methods (Browser)
+///| MswBrowser Methods
 
 ///|
 /// Setup mock worker with handlers (Browser)
-pub fn setupWorker(handlers : Array[RequestHandler]) -> SetupWorker {
+pub fn MswBrowser::setupWorker(
+  self : MswBrowser,
+  handlers : Array[RequestHandler],
+) -> SetupWorker {
+  let setup_worker_fn = get_setup_worker_fn(self)
   if handlers.length() == 0 {
-    ffi_setup_worker_empty()
+    call_setup_worker_empty(setup_worker_fn)
   } else {
-    ffi_setup_worker(@core.any(handlers.map(fn(h) { h.as_any() })))
+    call_setup_worker(
+      setup_worker_fn,
+      @core.any(handlers.map(fn(h) { h.as_any() })),
+    )
   }
 }
+
+///| SetupWorker Methods
 
 ///|
 /// Start the service worker (async)

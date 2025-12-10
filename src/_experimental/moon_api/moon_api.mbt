@@ -4,7 +4,7 @@
 
 ///|
 /// Result of a CLI command execution
-pub struct CommandResult {
+pub(all) struct CommandResult {
   /// Exit code (0 = success)
   exit_code : Int
   /// Standard output
@@ -121,62 +121,48 @@ fn exec_moon_command(
   stdio? : Stdio = Inherit,
 ) -> CommandResult {
   match stdio {
-    Inherit => {
-      let result = ffi_spawn_sync_inherit("moon", args, cwd)
-      let exit_code : Int = result._get("status").cast()
-      { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
-    }
+    Inherit =>
+      // Use @child_process.spawnSync with stdio: "inherit"
+      try {
+        let result = @child_process.spawnSync(
+          "moon",
+          args~,
+          cwd?,
+          stdio="inherit",
+        )
+        let exit_code = result.status().unwrap_or(0)
+        { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
+      } catch {
+        _ => { exit_code: 1, stdout: "", stderr: "", success: false }
+      }
     Pipe => {
+      // Use @child_process.execSync with try-catch for error handling
       let command = "moon " + args.join(" ")
-      let result = ffi_exec_sync_with_result(command, cwd)
-      let exit_code : Int = result._get("exitCode").cast()
-      {
-        exit_code,
-        stdout: result._get("stdout").cast(),
-        stderr: result._get("stderr").cast(),
-        success: exit_code == 0,
+      try {
+        let stdout = @child_process.execSync(command, cwd?, encoding="utf8")
+        { exit_code: 0, stdout, stderr: "", success: true }
+      } catch {
+        e => {
+          // execSync throws on non-zero exit, extract info from error
+          let err_any = ffi_get_error_info(e)
+          let exit_code : Int = err_any._get("status").cast()
+          let stdout : String = err_any._get("stdout").cast()
+          let stderr : String = err_any._get("stderr").cast()
+          { exit_code, stdout, stderr, success: false }
+        }
       }
     }
   }
 }
 
 ///|
-extern "js" fn ffi_spawn_sync_inherit(
-  command : String,
-  args : Array[String],
-  cwd : String?,
-) -> @core.Any =
-  #|(command, args, cwd) => {
-  #|  const { spawnSync } = require('node:child_process');
-  #|  const result = spawnSync(command, args, {
-  #|    cwd: cwd || process.cwd(),
-  #|    stdio: 'inherit'
-  #|  });
-  #|  return { status: result.status || 0 };
-  #|}
-
-///|
-extern "js" fn ffi_exec_sync_with_result(
-  command : String,
-  cwd : String?,
-) -> @core.Any =
-  #|(command, cwd) => {
-  #|  const { execSync } = require('node:child_process');
-  #|  try {
-  #|    const stdout = execSync(command, {
-  #|      encoding: 'utf8',
-  #|      cwd: cwd || process.cwd(),
-  #|      stdio: ['pipe', 'pipe', 'pipe']
-  #|    });
-  #|    return { exitCode: 0, stdout: stdout || '', stderr: '' };
-  #|  } catch (e) {
-  #|    return {
-  #|      exitCode: e.status || 1,
-  #|      stdout: e.stdout ? e.stdout.toString() : '',
-  #|      stderr: e.stderr ? e.stderr.toString() : ''
-  #|    };
-  #|  }
-  #|}
+/// Helper to extract error info from execSync error
+extern "js" fn ffi_get_error_info(e : Error) -> @core.Any =
+  #| (e) => ({
+  #|   status: e.status || 1,
+  #|   stdout: e.stdout ? e.stdout.toString() : '',
+  #|   stderr: e.stderr ? e.stderr.toString() : ''
+  #| })
 
 ///|
 /// moon fmt - Format MoonBit source files
@@ -435,38 +421,36 @@ fn ffi_exec_command(
   stdio? : Stdio = Inherit,
 ) -> CommandResult {
   match stdio {
-    Inherit => {
-      let result = ffi_spawn_sync_shell(command, cwd)
-      let exit_code : Int = result._get("status").cast()
-      { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
-    }
-    Pipe => {
-      let result = ffi_exec_sync_with_result(command, cwd)
-      let exit_code : Int = result._get("exitCode").cast()
-      {
-        exit_code,
-        stdout: result._get("stdout").cast(),
-        stderr: result._get("stderr").cast(),
-        success: exit_code == 0,
+    Inherit =>
+      // Use @child_process.spawnSync with shell: true, stdio: "inherit"
+      try {
+        let result = @child_process.spawnSync(
+          command,
+          cwd?,
+          shell=true,
+          stdio="inherit",
+        )
+        let exit_code = result.status().unwrap_or(0)
+        { exit_code, stdout: "", stderr: "", success: exit_code == 0 }
+      } catch {
+        _ => { exit_code: 1, stdout: "", stderr: "", success: false }
       }
-    }
+    Pipe =>
+      // Use @child_process.execSync with try-catch for error handling
+      try {
+        let stdout = @child_process.execSync(command, cwd?, encoding="utf8")
+        { exit_code: 0, stdout, stderr: "", success: true }
+      } catch {
+        e => {
+          let err_any = ffi_get_error_info(e)
+          let exit_code : Int = err_any._get("status").cast()
+          let stdout : String = err_any._get("stdout").cast()
+          let stderr : String = err_any._get("stderr").cast()
+          { exit_code, stdout, stderr, success: false }
+        }
+      }
   }
 }
-
-///|
-extern "js" fn ffi_spawn_sync_shell(
-  command : String,
-  cwd : String?,
-) -> @core.Any =
-  #|(command, cwd) => {
-  #|  const { spawnSync } = require('node:child_process');
-  #|  const result = spawnSync(command, {
-  #|    cwd: cwd || process.cwd(),
-  #|    stdio: 'inherit',
-  #|    shell: true
-  #|  });
-  #|  return { status: result.status || 0 };
-  #|}
 
 ///|
 /// moon clean - Clean build artifacts

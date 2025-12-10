@@ -1,6 +1,6 @@
 ///|
 async test "render and lastFrame" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element = ink.text(["Hello, World!"])
   let result = itl.render(element)
@@ -12,7 +12,7 @@ async test "render and lastFrame" {
 
 ///|
 async test "rerender" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element1 = ink.text(["Count: 0"])
   let result = itl.render(element1)
@@ -29,7 +29,7 @@ async test "rerender" {
 
 ///|
 async test "frames array" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element1 = ink.text(["First"])
   let result = itl.render(element1)
@@ -42,7 +42,7 @@ async test "frames array" {
 
 ///|
 async test "stdout lastFrame" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element = ink.text(["Output Test"])
   let result = itl.render(element)
@@ -55,7 +55,7 @@ async test "stdout lastFrame" {
 
 ///|
 async test "box with text" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let text_elem = ink.text(["Boxed Text"])
   let box_elem = ink.box_([text_elem], border_style=@ink.BorderStyle::Single)
@@ -68,7 +68,7 @@ async test "box with text" {
 
 ///|
 async test "unmount" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element = ink.text(["Will Unmount"])
   let result = itl.render(element)
@@ -80,7 +80,7 @@ async test "unmount" {
 
 ///|
 async test "stdin write" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element = ink.text(["Input Test"])
   let result = itl.render(element)
@@ -92,7 +92,7 @@ async test "stdin write" {
 
 ///|
 async test "stderr" {
-  let ink = @ink.dynamic_import()
+  let ink = @ink.dynamic_import().wait()
   let itl = dynamic_import()
   let element = ink.text(["Error Test"])
   let result = itl.render(element)

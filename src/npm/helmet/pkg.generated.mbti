@@ -24,9 +24,6 @@ pub fn cspDirectives(defaultSrc? : Array[String], scriptSrc? : Array[String], st
 #alias(dns_prefetch_control)
 pub fn dnsPrefetchControl(allow? : Bool) -> @core.Any
 
-#alias(expect_ct)
-pub fn expectCt(maxAge? : Int, enforce? : Bool, reportUri? : String) -> @core.Any
-
 pub fn frameguard(action? : String) -> @core.Any
 
 pub fn helmet() -> @core.Any

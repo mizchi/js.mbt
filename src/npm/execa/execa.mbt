@@ -328,39 +328,27 @@ extern "js" fn ffi_execa_command_with_options(
   #| }
 
 ///|
-extern "js" fn ffi_execa_sync(file : String, args : @core.Any) -> ExecaResult =
-  #| (file, args) => {
-  #|   const { execaSync } = require('execa');
-  #|   return execaSync(file, args);
-  #| }
+#module("execa")
+extern "js" fn ffi_execa_sync(file : String, args : @core.Any) -> ExecaResult = "execaSync"
 
 ///|
+#module("execa")
 extern "js" fn ffi_execa_sync_with_options(
   file : String,
   args : @core.Any,
   options : @core.Any,
-) -> ExecaResult =
-  #| (file, args, options) => {
-  #|   const { execaSync } = require('execa');
-  #|   return execaSync(file, args, options);
-  #| }
+) -> ExecaResult = "execaSync"
 
 ///|
-extern "js" fn ffi_execa_command_sync(command : String) -> ExecaResult =
-  #| (command) => {
-  #|   const { execaCommandSync } = require('execa');
-  #|   return execaCommandSync(command);
-  #| }
+#module("execa")
+extern "js" fn ffi_execa_command_sync(command : String) -> ExecaResult = "execaCommandSync"
 
 ///|
+#module("execa")
 extern "js" fn ffi_execa_command_sync_with_options(
   command : String,
   options : @core.Any,
-) -> ExecaResult =
-  #| (command, options) => {
-  #|   const { execaCommandSync } = require('execa');
-  #|   return execaCommandSync(command, options);
-  #| }
+) -> ExecaResult = "execaCommandSync"
 
 ///|
 extern "js" fn ffi_execa_node(
@@ -622,15 +610,12 @@ extern "js" fn Subprocess::as_any(self : Subprocess) -> @core.Any =
   #| (x) => x
 
 ///|
+#module("execa")
 extern "js" fn ffi_execa_subprocess(
   file : String,
   args : @core.Any,
   options : @core.Any,
-) -> Subprocess =
-  #| (file, args, options) => {
-  #|   const { execa } = require('execa');
-  #|   return execa(file, args, options);
-  #| }
+) -> Subprocess = "execa"
 
 ///|
 /// Create a subprocess without waiting (for streaming/control)

@@ -21,10 +21,36 @@ pub async fn dynamic_import() -> ReactDOM {
 }
 
 ///|
+/// React Portal type symbol
+extern "js" fn ffi_react_portal_type() -> @core.Any =
+  #| () => Symbol.for('react.portal')
+
+///|
 /// createPortal lets you render some children into a different part of the DOM.
 /// Portals let your children "escape" the DOM hierarchy of the parent component
 /// while still maintaining their position in the React tree.
+/// This version uses Symbol.for('react.portal') directly without react-dom import.
 #alias(create_portal)
+pub fn createPortal(
+  children : @react.Element,
+  container : @dom.Element,
+  key? : String,
+) -> @react.Element {
+  let obj = @core.new_object()
+  obj["$$typeof"] = ffi_react_portal_type()
+  obj["key"] = match key {
+    Some(k) => @core.any(k)
+    None => @core.null()
+  }
+  obj["children"] = children.as_any()
+  obj["containerInfo"] = container.as_any()
+  obj["implementation"] = @core.null()
+  obj.cast()
+}
+
+///|
+/// @deprecated Use createPortal() directly instead
+#alias(create_portal_legacy)
 pub fn ReactDOM::createPortal(
   self : ReactDOM,
   children : @react.Element,

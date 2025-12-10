@@ -27,7 +27,8 @@ test "jsx nested elements" {
 }
 
 ///|
-test "fragment creates element" {
+async test "fragment creates element" {
+  @hono.init_jsx_runtime()
   let node = @hono.fragment(["Hello", "World"])
   @core.typeof_(node.as_any()) |> assert_eq("object")
 }
@@ -58,7 +59,8 @@ test "renderToString with props" {
 }
 
 ///|
-test "renderToString fragment" {
+async test "renderToString fragment" {
+  @hono.init_jsx_runtime()
   let node = @hono.fragment([@hono.jsx("span", ["A"]), @hono.jsx("span", ["B"])])
   let html = @hono.render_to_string(node)
   html |> inspect(content="<span>A</span><span>B</span>")

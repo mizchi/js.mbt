@@ -1,20 +1,69 @@
+///| node:url module bindings
+/// https://nodejs.org/api/url.html
+
+// FFI with #module for simple functions
+
 ///|
-extern "js" fn url_module() -> @core.Any =
-  #| () => require("node:url")
+/// Convert a file URL string to a file path (simple form)
+#module("node:url")
+extern "js" fn ffi_fileURLToPath(url : String) -> String = "fileURLToPath"
+
+///|
+/// Convert a file URL object to a file path (simple form)
+#module("node:url")
+extern "js" fn ffi_fileURLToPath_url(url : @weburl.URL) -> String = "fileURLToPath"
+
+///|
+/// Convert a file path to a file URL (simple form)
+#module("node:url")
+extern "js" fn ffi_pathToFileURL(path : String) -> @weburl.URL = "pathToFileURL"
+
+///|
+/// Convert URL to HTTP options object
+#module("node:url")
+extern "js" fn ffi_urlToHttpOptions(url : @weburl.URL) -> @core.Any = "urlToHttpOptions"
+
+///|
+/// Format a URL object to string (legacy API)
+#module("node:url")
+extern "js" fn ffi_format(url : @weburl.URL) -> String = "format"
+
+// Functions with optional parameters - using #module with 2 args
+
+///|
+#module("node:url")
+extern "js" fn ffi_fileURLToPath_with_options(
+  url : String,
+  options : @core.Any,
+) -> String = "fileURLToPath"
+
+///|
+#module("node:url")
+extern "js" fn ffi_fileURLToPath_url_with_options(
+  url : @weburl.URL,
+  options : @core.Any,
+) -> String = "fileURLToPath"
+
+///|
+#module("node:url")
+extern "js" fn ffi_pathToFileURL_with_options(
+  path : String,
+  options : @core.Any,
+) -> @weburl.URL = "pathToFileURL"
+
+// Public API
 
 ///|
 /// Convert a file URL to a file path
 #alias(file_url_to_path)
 pub fn fileURLToPath(url : String, windows? : Bool) -> String {
-  let url_module = url_module()
   match windows {
     Some(w) => {
-      let entries : Array[(String, @core.Any)] = []
-      entries.push(("windows", @core.any(w)))
-      let options = @core.from_entries(entries)
-      url_module._call("fileURLToPath", [@core.any(url), options]).cast()
+      let options = @core.new_object()
+      options["windows"] = @core.any(w)
+      ffi_fileURLToPath_with_options(url, options)
     }
-    None => url_module._call("fileURLToPath", [@core.any(url)]).cast()
+    None => ffi_fileURLToPath(url)
   }
 }
 
@@ -22,15 +71,13 @@ pub fn fileURLToPath(url : String, windows? : Bool) -> String {
 /// Convert a file URL object to a file path
 #alias(file_url_to_path_from_url)
 pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
-  let url_module : @core.Any = @core.any(url_module())
   match windows {
     Some(w) => {
-      let entries : Array[(String, @core.Any)] = []
-      entries.push(("windows", @core.any(w)))
-      let options = @core.from_entries(entries)
-      url_module._call("fileURLToPath", [url.as_any(), options]).cast()
+      let options = @core.new_object()
+      options["windows"] = @core.any(w)
+      ffi_fileURLToPath_url_with_options(url, options)
     }
-    None => url_module._call("fileURLToPath", [url.as_any()]).cast()
+    None => ffi_fileURLToPath_url(url)
   }
 }
 
@@ -38,15 +85,13 @@ pub fn fileURLToPathFromURL(url : @weburl.URL, windows? : Bool) -> String {
 /// Convert a file path to a file URL
 #alias(path_to_file_url)
 pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
-  let url_module = url_module()
   match windows {
     Some(w) => {
-      let entries : Array[(String, @core.Any)] = []
-      entries.push(("windows", @core.any(w)))
-      let options = @core.from_entries(entries)
-      url_module._call("pathToFileURL", [@core.any(path), options]).cast()
+      let options = @core.new_object()
+      options["windows"] = @core.any(w)
+      ffi_pathToFileURL_with_options(path, options)
     }
-    None => url_module._call("pathToFileURL", [@core.any(path)]).cast()
+    None => ffi_pathToFileURL(path)
   }
 }
 
@@ -54,13 +99,11 @@ pub fn pathToFileURL(path : String, windows? : Bool) -> @weburl.URL {
 /// Convert URL to HTTP options object
 #alias(url_to_http_options)
 pub fn urlToHttpOptions(url : @weburl.URL) -> @core.Any {
-  let url_module : @core.Any = @core.any(url_module())
-  url_module._call("urlToHttpOptions", [url.as_any()]).cast()
+  ffi_urlToHttpOptions(url)
 }
 
 ///|
 /// Format a URL object to string (legacy API)
 pub fn format(url : @weburl.URL) -> String {
-  let url_module : @core.Any = @core.any(url_module())
-  url_module._call("format", [url.as_any()]).cast()
+  ffi_format(url)
 }

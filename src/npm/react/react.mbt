@@ -16,37 +16,55 @@ pub fn createElement(
   ref_? : ReactRef[@dom.Element],
   key? : String,
 ) -> Element {
-  let tag = @core.any(tag)
-  let children = @core.any(children.map(_.to_react_node()))
-  let val = @core.new_object()
-  if props is Some(props) {
-    for k, v in props {
-      val[k] = v
-    }
-  }
-  if ref_ is Some(ref_) {
-    val["ref"] = ref_.as_any()
-  }
-  if key is Some(key) {
-    val["key"] = @core.any(key)
-  }
-  if style is Some(style) {
-    let style_obj = @core.new_object()
-    for k, v in style {
-      style_obj[k] = @core.any(v)
-    }
-    val["style"] = style_obj
-  }
-  ffi_create_element(tag, val, children).cast()
+  jsx_tag(tag, children, props?, style?, ref_?, key?)
 }
 
 ///|
-/// Intenal FFI to create React element
+/// Internal FFI to create React element
 /// Directly create a React element with given tag, props, and children.
 pub fn createElementDirect(
   tag : String,
   props : @core.Any,
   children : @core.Any,
 ) -> Element {
-  ffi_create_element(@core.any(tag), props, children).cast()
+  props["children"] = children
+  let key_val : @core.Any = @core.undefined()
+  ffi_jsx(@core.any(tag), props, key_val).cast()
+}
+
+///|
+/// Create React element with props - uses jsx or jsxs based on children count
+/// When props contains children array with >1 elements, uses jsxs
+pub fn createElementRaw(
+  tag : @core.Any,
+  props : @core.Any,
+  children_count? : Int,
+) -> Element {
+  let key_val : @core.Any = @core.undefined()
+  let count = children_count.unwrap_or(0)
+  if count <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
+}
+
+///|
+/// Create React element with props and key - key is passed as 3rd argument to jsx runtime
+/// Use children_count to determine jsx vs jsxs
+pub fn createElementWithKey(
+  tag : @core.Any,
+  props : @core.Any,
+  key : String?,
+  children_count? : Int = 0,
+) -> Element {
+  let key_val : @core.Any = match key {
+    Some(k) => @core.any(k)
+    None => @core.undefined()
+  }
+  if children_count <= 1 {
+    ffi_jsx(tag, props, key_val).cast()
+  } else {
+    ffi_jsxs(tag, props, key_val).cast()
+  }
 }

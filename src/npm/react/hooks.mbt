@@ -163,13 +163,11 @@ pub fn[T, U] use_reducer(
 }
 
 ///|
+#module("react")
 extern "js" fn use_action_state_internal(
   f : @core.Any,
   initial : @core.Any,
-) -> @core.Any =
-  #| (f, initial) => {
-  #|   return __ReactApi.useActionState(f, initial);
-  #| }
+) -> @core.Any = "useActionState"
 
 ///|
 #alias(useActionState)
@@ -183,11 +181,9 @@ pub fn[T, U] use_action_state(
 }
 
 ///|
+#module("react")
 #alias(startTransition)
-pub extern "js" fn start_transition(f : () -> Unit) -> Unit =
-  #| (f) => {
-  #|   return __ReactApi.startTransition(f);
-  #| }
+pub extern "js" fn start_transition(f : () -> Unit) -> Unit = "startTransition"
 
 ///|
 /// Create a lazy-loaded component from a dynamic import function.
@@ -216,11 +212,11 @@ pub fn[T] lazy_(f : () -> @core.Promise[@core.Any]) -> Component[T] {
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_deferred_value(
   value : @core.Any,
   initial_value : @core.Any,
-) -> @core.Any =
-  #| (value, initialValue) => globalThis.__ReactApi.useDeferredValue(value, initialValue)
+) -> @core.Any = "useDeferredValue"
 
 ///|
 /// React.useDeferredValue - Defer updating a part of the UI
@@ -236,11 +232,11 @@ pub fn[T] use_deferred_value(value : T, initial_value? : T) -> T {
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_debug_value(
   value : @core.Any,
   formatter : @core.Any,
-) -> Unit =
-  #| (value, formatter) => globalThis.__ReactApi.useDebugValue(value, formatter)
+) -> Unit = "useDebugValue"
 
 ///|
 /// React.useDebugValue - Add a label to a custom hook in React DevTools
@@ -258,13 +254,13 @@ pub fn[T, R] use_debug_value(value : T, format? : (T) -> R) -> Unit {
 /// React.useId - Generate unique IDs for accessibility attributes
 /// TypeScript: function useId(): string
 /// see: https://react.dev/reference/react/useId
+#module("react")
 #alias(useId)
-pub extern "js" fn use_id() -> String =
-  #| () => globalThis.__ReactApi.useId()
+pub extern "js" fn use_id() -> String = "useId"
 
 ///|
-extern "js" fn ffi_use_transition() -> @core.Any =
-  #| () => globalThis.__ReactApi.useTransition()
+#module("react")
+extern "js" fn ffi_use_transition() -> @core.Any = "useTransition"
 
 ///|
 /// React.useTransition - Update state without blocking the UI
@@ -277,11 +273,11 @@ pub fn use_transition() -> (Bool, (() -> Unit) -> Unit) {
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_optimistic(
   state : @core.Any,
   update_fn : @core.Any,
-) -> @core.Any =
-  #| (state, updateFn) => globalThis.__ReactApi.useOptimistic(state, updateFn)
+) -> @core.Any = "useOptimistic"
 
 ///|
 /// React.useOptimistic - Show optimistic state while async action is underway
@@ -297,11 +293,11 @@ pub fn[S, A] use_optimistic(
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_insertion_effect(
   effect : @core.Any,
   deps : @core.Any,
-) -> Unit =
-  #| (effect, deps) => globalThis.__ReactApi.useInsertionEffect(effect, deps)
+) -> Unit = "useInsertionEffect"
 
 ///|
 /// React.useInsertionEffect - Insert elements into the DOM before layout effects
@@ -316,12 +312,12 @@ pub fn use_insertion_effect(
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_sync_external_store(
   subscribe : @core.Any,
   get_snapshot : @core.Any,
   get_server_snapshot : @core.Any,
-) -> @core.Any =
-  #| (subscribe, getSnapshot, getServerSnapshot) => globalThis.__ReactApi.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+) -> @core.Any = "useSyncExternalStore"
 
 ///|
 /// React.useSyncExternalStore - Subscribe to an external store
@@ -345,12 +341,12 @@ pub fn[Snapshot] use_sync_external_store(
 }
 
 ///|
+#module("react")
 extern "js" fn ffi_use_imperative_handle(
   ref_ : @core.Any,
   create : @core.Any,
   deps : @core.Any,
-) -> Unit =
-  #| (ref, create, deps) => globalThis.__ReactApi.useImperativeHandle(ref, create, deps)
+) -> Unit = "useImperativeHandle"
 
 ///|
 /// React.useImperativeHandle - Customize the ref handle exposed to parent
@@ -366,32 +362,61 @@ pub fn[T] use_imperative_handle(
 }
 
 ///|
-extern "js" fn ffi_capture_owner_stack() -> @core.Any =
-  #| () => globalThis.__ReactApi.captureOwnerStack ? globalThis.__ReactApi.captureOwnerStack() : null
+/// React.captureOwnerStack - may be undefined in older React versions
+#module("react")
+extern "js" fn ffi_capture_owner_stack_raw() -> @core.Any = "captureOwnerStack"
+
+///|
+extern "js" fn ffi_call_nullary(fn_ : @core.Any) -> @core.Any =
+  #| (fn) => fn()
+
+///|
+extern "js" fn ffi_call_unary(fn_ : @core.Any, arg : @core.Any) -> @core.Any =
+  #| (fn, arg) => fn(arg)
 
 ///|
 /// React.captureOwnerStack - Capture component stack for debugging (DEV only)
 /// see: https://react.dev/reference/react/captureOwnerStack
 #alias(captureOwnerStack)
 pub fn capture_owner_stack() -> @core.Any? {
-  let result = ffi_capture_owner_stack()
-  if @core.is_nullish(result) {
+  let fn_ = ffi_capture_owner_stack_raw()
+  if @core.is_undefined(fn_) {
     None
   } else {
-    Some(result)
+    let result = ffi_call_nullary(fn_)
+    if @core.is_nullish(result) {
+      None
+    } else {
+      Some(result)
+    }
   }
 }
+
+///|
+/// React.cacheSignal - may be undefined in older React versions
+#module("react")
+extern "js" fn ffi_cache_signal_raw() -> @core.Any = "unstable_cacheSignal"
 
 ///|
 /// React.cacheSignal - Create cache signal for use with cache()
 /// see: https://react.dev/reference/react/cacheSignal
 #alias(cacheSignal)
-pub extern "js" fn cache_signal() -> @core.Any =
-  #| () => globalThis.__ReactApi.cacheSignal ? globalThis.__ReactApi.cacheSignal() : { current: null }
+pub fn cache_signal() -> @core.Any {
+  let fn_ = ffi_cache_signal_raw()
+  if @core.is_undefined(fn_) {
+    // Fallback: return object with null current
+    let obj = @core.new_object()
+    obj["current"] = @core.null()
+    obj
+  } else {
+    ffi_call_nullary(fn_)
+  }
+}
 
 ///|
-extern "js" fn ffi_react_cache(fn_ : @core.Any) -> @core.Any =
-  #| (fn) => globalThis.__ReactApi.cache ? globalThis.__ReactApi.cache(fn) : fn
+/// React.cache - may be undefined in older React versions
+#module("react")
+extern "js" fn ffi_react_cache_raw() -> @core.Any = "cache"
 
 ///|
 /// React.cache - Cache data fetching or computation results
@@ -399,12 +424,18 @@ extern "js" fn ffi_react_cache(fn_ : @core.Any) -> @core.Any =
 /// see: https://react.dev/reference/react/cache
 #alias(reactCache)
 pub fn[T, R] react_cache(f : (T) -> R) -> (T) -> R {
-  ffi_react_cache(@core.any(f)).cast()
+  let cache_fn = ffi_react_cache_raw()
+  if @core.is_undefined(cache_fn) {
+    // Fallback: return original function
+    f
+  } else {
+    ffi_call_unary(cache_fn, @core.any(f)).cast()
+  }
 }
 
 ///|
-extern "js" fn ffi_act(callback : @core.Any) -> @core.Any =
-  #| (callback) => globalThis.__ReactApi.act(callback)
+#module("react")
+extern "js" fn ffi_act(callback : @core.Any) -> @core.Any = "act"
 
 ///|
 /// React.act - Wrap test code to apply updates before assertions
@@ -416,7 +447,7 @@ pub async fn act(callback : () -> Unit) -> Unit {
 
 ///|
 extern "js" fn ffi_act_async(callback : @core.Any) -> @core.Promise[Unit] =
-  #| async (callback) => await globalThis.__ReactApi.act(callback)
+  #| async (callback) => await ffi_act(callback)
 
 ///|
 /// React.act (async) - Wrap async test code to apply updates before assertions

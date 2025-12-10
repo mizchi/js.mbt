@@ -27,8 +27,6 @@ pub fn[T] createRef() -> Ref[T]
 
 pub fn[T] createResource(() -> @core.Promise[T]) -> Resource[T]
 
-pub async fn dynamic_import() -> Unit
-
 #alias(create_effect)
 pub fn effect(() -> Unit) -> () -> Unit
 
@@ -41,8 +39,6 @@ pub fn fragment(Array[&PreactNode], key? : String) -> VNode
 pub fn h(String, Array[&PreactNode], props? : Map[String, @core.Any], style? : Map[String, String], ref_? : Ref[@dom.Element], key? : String) -> VNode
 
 pub fn hydrate(VNode, @dom.Element) -> Unit
-
-pub fn init_preact_api(@core.Any, @core.Any, global_key? : String) -> Unit
 
 pub fn init_preact_signals(@core.Any) -> Unit
 

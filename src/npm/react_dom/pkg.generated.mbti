@@ -8,6 +8,9 @@ import(
 )
 
 // Values
+#alias(create_portal)
+pub fn createPortal(@react.Element, @dom.Element, key? : String) -> @react.Element
+
 pub async fn dynamic_import() -> ReactDOM
 
 // Errors
@@ -16,7 +19,7 @@ pub async fn dynamic_import() -> ReactDOM
 #external
 pub type ReactDOM
 pub fn ReactDOM::as_any(Self) -> @core.Any
-#alias(create_portal)
+#alias(create_portal_legacy)
 pub fn ReactDOM::createPortal(Self, @react.Element, @dom.Element, key? : String) -> @react.Element
 #alias(flush_sync)
 pub fn[T] ReactDOM::flushSync(Self, () -> T) -> T

@@ -8,7 +8,9 @@ import(
 // Values
 pub fn expect(@core.Any) -> Expect
 
-pub fn setup_standalone() -> Unit
+pub fn init_vitest(@core.Any, @core.Any) -> Unit
+
+pub async fn setup_standalone() -> Unit
 
 // Errors
 

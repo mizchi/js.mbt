@@ -6,23 +6,18 @@ extern "js" fn import_react_router() -> @js.Promise[@core.Any] =
   #|() => import("react-router")
 
 ///|
-/// Internal FFI to create React element with component
+/// Internal FFI to create React element with component (using #module)
+#module("react")
 extern "js" fn ffi_create_element(
   tag : @core.Any,
   props : @core.Any,
-  children : @core.Any,
-) -> @react.Element =
-  #|(tag, props, children) => {
-  #|  return __ReactApi.createElement(tag, props, ...children)
-  #|}
+) -> @react.Element = "createElement"
 
 ///|
-/// Dynamic import and initialize React Router API asynchronously
-/// NOTE: This uses dynamic import which doesn't support tree-shaking.
-/// When MoonBit adds native ESM support, this should be replaced with static imports.
-///
-/// Implementation detail: Stores the module in globalThis for internal use.
-pub async fn dynamic_import() -> Unit {
+/// Initialize React Router API by storing module in globalThis.
+/// NOTE: This is a workaround until MoonBit adds native ESM support.
+/// When ESM support is available, this function should be removed.
+pub async fn init_global() -> Unit {
   if @core.is_undefined(@global.global_this()._get("__ReactRouterApi")) {
     let v = import_react_router().wait()
     @global.global_this()._set("__ReactRouterApi", v)
@@ -30,9 +25,15 @@ pub async fn dynamic_import() -> Unit {
 }
 
 ///|
-/// @deprecated Use dynamic_import() instead
+/// @deprecated Use init_global() instead
+pub async fn dynamic_import() -> Unit {
+  init_global()
+}
+
+///|
+/// @deprecated Use init_global() instead
 pub async fn init_react_router_async() -> Unit {
-  dynamic_import()
+  init_global()
 }
 
 ///|
@@ -395,8 +396,7 @@ pub fn nav_link(
   let children_js : @core.Any = children_arr.map(fn(c) -> @core.Any { c.cast() })
     |> @core.any
   props._set("children", children_js)
-  let empty : Array[@core.Any] = []
-  ffi_create_element(nav_link_component, props, @core.any(empty))
+  ffi_create_element(nav_link_component, props)
 }
 
 ///|
@@ -409,8 +409,7 @@ pub fn nav_link_render(
   let props = @core.new_object()
   props._set("to", to |> @core.any)
   props._set("children", @js.from_fn1(render))
-  let empty : Array[@core.Any] = []
-  ffi_create_element(nav_link_component, props, @core.any(empty))
+  ffi_create_element(nav_link_component, props)
 }
 
 // =============================================================================
@@ -426,8 +425,7 @@ extern "js" fn get_outlet() -> @core.Any =
 /// https://reactrouter.com/en/main/components/outlet
 pub fn outlet() -> @react.Element {
   let outlet_component = get_outlet()
-  let empty : Array[@core.Any] = []
-  ffi_create_element(outlet_component, @core.null(), @core.any(empty))
+  ffi_create_element(outlet_component, @core.new_object())
 }
 
 // =============================================================================

@@ -22,8 +22,6 @@ pub fn fail(message? : String) -> Unit
 
 pub fn ifError(@core.Any) -> Unit
 
-pub fn instanceOf(@core.Any, @core.Any, message? : String) -> Unit
-
 pub fn match_(String, String, message? : String) -> Unit
 
 pub fn notDeepEqual(@core.Any, @core.Any, message? : String) -> Unit
@@ -31,8 +29,6 @@ pub fn notDeepEqual(@core.Any, @core.Any, message? : String) -> Unit
 pub fn notDeepStrictEqual(@core.Any, @core.Any, message? : String) -> Unit
 
 pub fn notEqual(@core.Any, @core.Any, message? : String) -> Unit
-
-pub fn notInstanceOf(@core.Any, @core.Any, message? : String) -> Unit
 
 pub fn notStrictEqual(@core.Any, @core.Any, message? : String) -> Unit
 

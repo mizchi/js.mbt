@@ -9,6 +9,18 @@
 /// result.toBe(2)
 /// ```
 
+///| Global initialization
+
+///|
+/// Dynamic import for chai module
+extern "js" fn import_chai() -> @core.Promise[@core.Any] =
+  #|() => import("chai")
+
+///|
+/// Dynamic import for @vitest/expect module
+extern "js" fn import_vitest_expect() -> @core.Promise[@core.Any] =
+  #|() => import("@vitest/expect")
+
 ///|
 /// Expect assertion object returned by expect()
 #external
@@ -19,20 +31,33 @@ pub type Expect
 let chai_expect : Ref[@core.Any?] = Ref::new(None)
 
 ///|
-/// Setup chai with @vitest/expect plugins.
+/// Setup chai with @vitest/expect plugins asynchronously.
 /// Call this once before using expect.
-pub fn setup_standalone() -> Unit {
+pub async fn setup_standalone() -> Unit {
   if chai_expect.val is Some(_) {
     return
   }
-  let chai = @node.require("chai")
-  let vitest_expect = @node.require("@vitest/expect")
+  let chai = import_chai().wait()
+  let vitest_expect = import_vitest_expect().wait()
   // use() plugins
-  let use_fn = @core.any(chai)["use"]
-  use_fn._invoke([@core.any(vitest_expect)["JestAsymmetricMatchers"]]) |> ignore
-  use_fn._invoke([@core.any(vitest_expect)["JestChaiExpect"]]) |> ignore
-  use_fn._invoke([@core.any(vitest_expect)["JestExtend"]]) |> ignore
-  chai_expect.val = Some(@core.any(chai)["expect"])
+  let use_fn = chai["use"]
+  use_fn._invoke([vitest_expect["JestAsymmetricMatchers"]]) |> ignore
+  use_fn._invoke([vitest_expect["JestChaiExpect"]]) |> ignore
+  use_fn._invoke([vitest_expect["JestExtend"]]) |> ignore
+  chai_expect.val = Some(chai["expect"])
+}
+
+///|
+/// Setup chai with @vitest/expect plugins synchronously (for testing with require)
+pub fn init_vitest(chai : @core.Any, vitest_expect : @core.Any) -> Unit {
+  if chai_expect.val is Some(_) {
+    return
+  }
+  let use_fn = chai["use"]
+  use_fn._invoke([vitest_expect["JestAsymmetricMatchers"]]) |> ignore
+  use_fn._invoke([vitest_expect["JestChaiExpect"]]) |> ignore
+  use_fn._invoke([vitest_expect["JestExtend"]]) |> ignore
+  chai_expect.val = Some(chai["expect"])
 }
 
 ///|

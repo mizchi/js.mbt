@@ -666,3 +666,106 @@ test "identity_option for nullish detection" {
   let undef_result : @core.Any? = @core.identity_option(@core.undefined())
   assert_true(undef_result is None)
 }
+
+///| Tagged Template tests
+
+///|
+/// Simple tag function for testing: joins strings and values with brackets
+fn simple_tag(
+  strings : @core.TemplateStringsArray,
+  values : Array[@core.Any],
+) -> String {
+  let mut result = strings[0]
+  for i, v in values {
+    result = result + "[" + v.to_string() + "]" + strings[i + 1]
+  }
+  result
+}
+
+///|
+test "tag - no placeholders" {
+  let result = @core.tag(simple_tag, "hello world", [])
+  assert_eq(result, "hello world")
+}
+
+///|
+test "tag - single placeholder" {
+  let result = @core.tag(simple_tag, "hello ${@0}!", [@core.any("world")])
+  assert_eq(result, "hello [world]!")
+}
+
+///|
+test "tag - multiple placeholders" {
+  let result = @core.tag(simple_tag, "a${@0}b${@1}c", [
+    @core.any(1),
+    @core.any(2),
+  ])
+  assert_eq(result, "a[1]b[2]c")
+}
+
+///|
+test "tag - placeholders at boundaries" {
+  let result = @core.tag(simple_tag, "${@0}middle${@1}", [
+    @core.any("start"),
+    @core.any("end"),
+  ])
+  assert_eq(result, "[start]middle[end]")
+}
+
+///|
+test "tag - non-sequential indices" {
+  // Using ${@1} before ${@0}
+  let result = @core.tag(simple_tag, "${@1} then ${@0}", [
+    @core.any("first"),
+    @core.any("second"),
+  ])
+  assert_eq(result, "[second] then [first]")
+}
+
+///|
+test "tag - repeated index" {
+  let result = @core.tag(simple_tag, "${@0} and ${@0} again", [
+    @core.any("same"),
+  ])
+  assert_eq(result, "[same] and [same] again")
+}
+
+///|
+test "tag - with numbers" {
+  let result = @core.tag(simple_tag, "sum: ${@0} + ${@1} = ${@2}", [
+    @core.any(1),
+    @core.any(2),
+    @core.any(3),
+  ])
+  assert_eq(result, "sum: [1] + [2] = [3]")
+}
+
+///|
+test "tag - TemplateStringsArray length" {
+  fn check_length(
+    strings : @core.TemplateStringsArray,
+    _values : Array[@core.Any],
+  ) -> Int {
+    strings.length()
+  }
+  // "a${@0}b${@1}c" has 3 string parts: ["a", "b", "c"]
+  let len = @core.tag(check_length, "a${@0}b${@1}c", [
+    @core.any(1),
+    @core.any(2),
+  ])
+  assert_eq(len, 3)
+}
+
+///|
+test "tag - TemplateStringsArray raw access" {
+  fn get_raw(
+    strings : @core.TemplateStringsArray,
+    _values : Array[@core.Any],
+  ) -> Array[String] {
+    strings.raw()
+  }
+
+  let raw = @core.tag(get_raw, "a${@0}b", [@core.any(1)])
+  assert_eq(raw[0], "a")
+  assert_eq(raw[1], "b")
+}

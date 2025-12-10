@@ -74,9 +74,9 @@ test "jsonToYaml conversion" {
 }
 
 ///|
-test "yaml loadAll multi-document" {
+async test "yaml loadAll multi-document" {
   let yaml_str = "---\nname: First\n---\nname: Second"
-  let docs = @js_yaml.loadAll(yaml_str)
+  let docs = @js_yaml.loadAll(yaml_str).wait()
   inspect(docs.length(), content="2")
 }
 

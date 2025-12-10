@@ -3,8 +3,60 @@
 
 ///|
 /// V8 Module FFI
-extern "js" fn ffi_require_v8() -> @core.Any =
-  #|() => require("node:v8")
+#module("node:v8")
+extern "js" fn ffi_get_heap_statistics() -> HeapStatistics = "getHeapStatistics"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_get_heap_space_statistics() -> Array[HeapSpaceStatistics] = "getHeapSpaceStatistics"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_get_heap_code_statistics() -> HeapCodeStatistics = "getHeapCodeStatistics"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_write_heap_snapshot0() -> String = "writeHeapSnapshot"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_write_heap_snapshot1(filename : String) -> String = "writeHeapSnapshot"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_set_heap_snapshot_near_heap_limit(limit : Int) -> Unit = "setHeapSnapshotNearHeapLimit"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_serialize(value : @core.Any) -> @buffer.Buffer = "serialize"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_deserialize(buffer : @buffer.Buffer) -> @core.Any = "deserialize"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_cached_data_version_tag() -> Int = "cachedDataVersionTag"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_set_flags_from_string(flags : String) -> Unit = "setFlagsFromString"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_stop_coverage() -> Unit = "stopCoverage"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_take_coverage() -> Unit = "takeCoverage"
+
+///|
+extern "js" fn ffi_new_serializer() -> @core.Any =
+  #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
+
+///|
+extern "js" fn ffi_new_deserializer(buffer : @core.Any) -> @core.Any =
+  #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
 
 ///|
 /// HeapStatistics - Result of getHeapStatistics()
@@ -155,8 +207,7 @@ pub fn HeapSpaceStatistics::physical_space_size(
 /// Get heap statistics
 #alias(get_heap_statistics)
 pub fn getHeapStatistics() -> HeapStatistics {
-  let v8 = ffi_require_v8()
-  v8._call("getHeapStatistics", []).cast()
+  ffi_get_heap_statistics()
 }
 
 ///|
@@ -165,17 +216,23 @@ pub fn getHeapStatistics() -> HeapStatistics {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
-  let v8 = ffi_require_v8()
-  v8._call("getHeapSpaceStatistics", []) |> @core.identity
+  ffi_get_heap_space_statistics()
 }
 
 ///|
 /// Get heap code statistics
 #alias(get_heap_code_statistics)
 pub fn getHeapCodeStatistics() -> HeapCodeStatistics {
-  let v8 = ffi_require_v8()
-  v8._call("getHeapCodeStatistics", []).cast()
+  ffi_get_heap_code_statistics()
 }
+
+///|
+#module("node:v8")
+extern "js" fn ffi_get_heap_snapshot0() -> @core.Any = "getHeapSnapshot"
+
+///|
+#module("node:v8")
+extern "js" fn ffi_get_heap_snapshot1(options : @core.Any) -> @core.Any = "getHeapSnapshot"
 
 ///|
 /// Get heap snapshot as a readable stream
@@ -184,9 +241,8 @@ pub fn getHeapSnapshot(
   expose_internals? : Bool,
   expose_numeric_values? : Bool,
 ) -> @core.Any {
-  let v8 = ffi_require_v8()
   match (expose_internals, expose_numeric_values) {
-    (None, None) => v8._call("getHeapSnapshot", [])
+    (None, None) => ffi_get_heap_snapshot0()
     _ => {
       let entries : Array[(String, @core.Any)] = []
       if expose_internals is Some(v) {
@@ -196,7 +252,7 @@ pub fn getHeapSnapshot(
         entries.push(("exposeNumericValues", @core.any(v)))
       }
       let opts = @core.from_entries(entries)
-      v8._call("getHeapSnapshot", [opts])
+      ffi_get_heap_snapshot1(opts)
     }
   }
 }
@@ -205,10 +261,9 @@ pub fn getHeapSnapshot(
 /// Write heap snapshot to file
 #alias(write_heap_snapshot)
 pub fn writeHeapSnapshot(filename? : String) -> String {
-  let v8 = ffi_require_v8()
   match filename {
-    Some(f) => @core.identity(v8._call("writeHeapSnapshot", [@core.any(f)]))
-    None => v8._call("writeHeapSnapshot", []).cast()
+    Some(f) => ffi_write_heap_snapshot1(f)
+    None => ffi_write_heap_snapshot0()
   }
 }
 
@@ -216,8 +271,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String {
 /// Set heap snapshot near heap limit
 #alias(set_heap_snapshot_near_heap_limit)
 pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
-  let v8 = ffi_require_v8()
-  v8._call("setHeapSnapshotNearHeapLimit", [@core.any(limit)]) |> ignore
+  ffi_set_heap_snapshot_near_heap_limit(limit)
 }
 
 ///| Serialization Functions
@@ -225,15 +279,13 @@ pub fn setHeapSnapshotNearHeapLimit(limit : Int) -> Unit {
 ///|
 /// Serialize a value to a Buffer
 pub fn serialize(value : @core.Any) -> @buffer.Buffer {
-  let v8 = ffi_require_v8()
-  @core.identity(v8._call("serialize", [value]))
+  ffi_serialize(value)
 }
 
 ///|
 /// Deserialize a Buffer to a value
 pub fn deserialize(buffer : @buffer.Buffer) -> @core.Any {
-  let v8 = ffi_require_v8()
-  v8._call("deserialize", [@core.any(buffer)])
+  ffi_deserialize(buffer)
 }
 
 ///| Serializer Class
@@ -247,8 +299,9 @@ pub fn Serializer::as_any(self : Serializer) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Serializer
-pub extern "js" fn Serializer::new() -> Serializer =
-  #|() => { const v8 = require("node:v8"); return new v8.Serializer(); }
+pub fn Serializer::new() -> Serializer {
+  ffi_new_serializer() |> @core.identity
+}
 
 ///|
 /// Write header
@@ -316,17 +369,9 @@ pub type Deserializer
 pub fn Deserializer::as_any(self : Deserializer) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_new_deserializer(buffer : @core.Any) -> @core.Any =
-  #|(buffer) => { const v8 = require("node:v8"); return new v8.Deserializer(buffer); }
-
-///|
-extern "js" fn buffer_to_js_any(buffer : @buffer.Buffer) -> @core.Any =
-  #| (b) => b
-
-///|
 /// Create a new Deserializer
 pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
-  @core.identity(ffi_new_deserializer(buffer_to_js_any(buffer)))
+  ffi_new_deserializer(buffer |> @core.any) |> @core.identity
 }
 
 ///|
@@ -391,30 +436,26 @@ pub fn Deserializer::readRawBytes(self : Self, length : Int) -> @buffer.Buffer {
 /// Get cached data version tag
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int {
-  let v8 = ffi_require_v8()
-  v8._call("cachedDataVersionTag", []).cast()
+  ffi_cached_data_version_tag()
 }
 
 ///|
 /// Set V8 flags from string
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(flags : String) -> Unit {
-  let v8 = ffi_require_v8()
-  v8._call("setFlagsFromString", [@core.any(flags)]) |> ignore
+  ffi_set_flags_from_string(flags)
 }
 
 ///|
 /// Stop code coverage collection
 #alias(stop_coverage)
 pub fn stopCoverage() -> Unit {
-  let v8 = ffi_require_v8()
-  v8._call("stopCoverage", []) |> ignore
+  ffi_stop_coverage()
 }
 
 ///|
 /// Take code coverage snapshot
 #alias(take_coverage)
 pub fn takeCoverage() -> Unit {
-  let v8 = ffi_require_v8()
-  v8._call("takeCoverage", []) |> ignore
+  ffi_take_coverage()
 }

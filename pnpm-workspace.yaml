@@ -1,6 +1,7 @@
 onlyBuiltDependencies:
   - canvas
   - esbuild
+  - msw
   - puppeteer
   - sharp
   - workerd

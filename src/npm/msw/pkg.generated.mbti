@@ -6,47 +6,11 @@ import(
 )
 
 // Values
-pub fn arrayBufferResponse(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+pub async fn import_msw() -> Msw
 
-pub fn errorResponse() -> HttpResponse
+pub async fn import_msw_browser() -> MswBrowser
 
-pub fn htmlResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn httpAll(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpDelete(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpGet(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpHead(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpOptions(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpPatch(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpPost(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn httpPut(String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
-
-pub fn http_response_array_buffer(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn http_response_error() -> HttpResponse
-
-pub fn http_response_html(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn http_response_json(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn http_response_text(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn http_response_xml(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn jsonResponse(@core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
-pub fn mockError(String, Int, String) -> RequestHandler
-
-pub fn mockGet(String, @core.Any) -> RequestHandler
-
-pub fn mockPost(String, @core.Any) -> RequestHandler
+pub async fn import_msw_node() -> MswNode
 
 pub fn request_headers(@core.Any) -> @core.Any
 
@@ -60,15 +24,7 @@ pub fn request_url(@core.Any) -> String
 
 pub fn server_listen(SetupServer, options? : @core.Any) -> Unit
 
-pub fn setupServer(Array[RequestHandler]) -> SetupServer
-
-pub fn setupWorker(Array[RequestHandler]) -> SetupWorker
-
-pub fn textResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
-
 pub fn worker_start(SetupWorker, options? : @core.Any) -> @core.Promise[Unit]
-
-pub fn xmlResponse(String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
 
 // Errors
 
@@ -76,6 +32,37 @@ pub fn xmlResponse(String, status? : Int, statusText? : String, headers? : @core
 #external
 pub type HttpResponse
 pub fn HttpResponse::as_any(Self) -> @core.Any
+
+#external
+pub type Msw
+pub fn Msw::arrayBufferResponse(Self, @core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+pub fn Msw::as_any(Self) -> @core.Any
+pub fn Msw::errorResponse(Self) -> HttpResponse
+pub fn Msw::htmlResponse(Self, String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+pub fn Msw::httpAll(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpDelete(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpGet(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpHead(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpOptions(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpPatch(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpPost(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::httpPut(Self, String, (ResponseResolverInfo) -> HttpResponse) -> RequestHandler
+pub fn Msw::jsonResponse(Self, @core.Any, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+pub fn Msw::mockError(Self, String, Int, String) -> RequestHandler
+pub fn Msw::mockGet(Self, String, @core.Any) -> RequestHandler
+pub fn Msw::mockPost(Self, String, @core.Any) -> RequestHandler
+pub fn Msw::textResponse(Self, String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+pub fn Msw::xmlResponse(Self, String, status? : Int, statusText? : String, headers? : @core.Any) -> HttpResponse
+
+#external
+pub type MswBrowser
+pub fn MswBrowser::as_any(Self) -> @core.Any
+pub fn MswBrowser::setupWorker(Self, Array[RequestHandler]) -> SetupWorker
+
+#external
+pub type MswNode
+pub fn MswNode::as_any(Self) -> @core.Any
+pub fn MswNode::setupServer(Self, Array[RequestHandler]) -> SetupServer
 
 #external
 pub type RequestHandler

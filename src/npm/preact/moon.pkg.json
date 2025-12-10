@@ -3,13 +3,10 @@
     "js"
   ],
   "import": [
-    "mizchi/js",
     "mizchi/js/browser/dom",
-    "mizchi/js/core",
-    "mizchi/js/builtins/global"
+    "mizchi/js/core"
   ],
   "test-import": [
-    "mizchi/js/node",
     "mizchi/js/npm/global_jsdom",
     "moonbitlang/async"
   ],

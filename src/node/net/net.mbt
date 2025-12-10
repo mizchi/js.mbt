@@ -1,7 +1,19 @@
 ///|
-/// node:net module
+/// node:net module (kept for functions with optional args)
 extern "js" fn net_module() -> @core.Any =
   #| () => require("node:net")
+
+///|
+#module("node:net")
+extern "js" fn internal_is_ipv4(input : String) -> Bool = "isIPv4"
+
+///|
+#module("node:net")
+extern "js" fn internal_is_ipv6(input : String) -> Bool = "isIPv6"
+
+///|
+#module("node:net")
+extern "js" fn internal_is_ip(input : String) -> Int = "isIP"
 
 ///|
 /// AddressInfo - Result of server.address() when listening on TCP
@@ -299,17 +311,17 @@ pub fn createServer(
 ///|
 /// Check if IP address is IPv4
 pub fn isIPv4(input : String) -> Bool {
-  net_module()._call("isIPv4", [@core.any(input)]).cast()
+  internal_is_ipv4(input)
 }
 
 ///|
 /// Check if IP address is IPv6
 pub fn isIPv6(input : String) -> Bool {
-  net_module()._call("isIPv6", [@core.any(input)]).cast()
+  internal_is_ipv6(input)
 }
 
 ///|
 /// Check IP version (returns 4, 6, or 0 for invalid)
 pub fn isIP(input : String) -> Int {
-  net_module()._call("isIP", [@core.any(input)]).cast()
+  internal_is_ip(input)
 }

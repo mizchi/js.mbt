@@ -26,12 +26,8 @@ pub(all) struct Config {
 } derive(Show)
 
 ///|
-/// FFI: defineConfig
-extern "js" fn ffi_defineConfig(config : @core.Any) -> @core.Any =
-  #| (config) => {
-  #|   const vite = require('vite');
-  #|   return vite.defineConfig(config);
-  #| }
+#module("vite")
+extern "js" fn ffi_defineConfig(config : @core.Any) -> @core.Any = "defineConfig"
 
 ///|
 /// Define Vite configuration with type support

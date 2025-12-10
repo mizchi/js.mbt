@@ -1,0 +1,50 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/happy_dom"
+
+import(
+  "mizchi/js/browser/dom"
+  "mizchi/js/core"
+)
+
+// Values
+pub async fn create_window(options? : WindowOptions) -> @dom.Window
+
+pub async fn create_window_default() -> @dom.Window
+
+pub fn get_happy_dom(@dom.Window) -> HappyDOMAPI
+
+pub async fn register_global(options? : GlobalRegistratorOptions) -> Unit
+
+pub async fn unregister_global() -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct GlobalRegistratorOptions {
+  url : String?
+  width : Int?
+  height : Int?
+}
+pub fn GlobalRegistratorOptions::default() -> Self
+
+#external
+pub type HappyDOMAPI
+pub fn HappyDOMAPI::abort(Self) -> Unit
+pub fn HappyDOMAPI::as_any(Self) -> @core.Any
+pub async fn HappyDOMAPI::close(Self) -> Unit
+pub fn HappyDOMAPI::set_viewport(Self, width? : Int, height? : Int) -> Unit
+pub async fn HappyDOMAPI::wait_async(Self) -> Unit
+pub async fn HappyDOMAPI::wait_until_complete(Self) -> Unit
+
+pub(all) struct WindowOptions {
+  url : String?
+  width : Int?
+  height : Int?
+  console : @core.Any?
+}
+pub fn WindowOptions::default() -> Self
+
+// Type aliases
+
+// Traits
+

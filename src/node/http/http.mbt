@@ -1,7 +1,52 @@
 ///|
-/// node:http module
+/// node:http module (kept for property access like globalAgent, STATUS_CODES)
 extern "js" fn http_module() -> @core.Any =
   #| () => require("node:http")
+
+///|
+#module("node:http")
+extern "js" fn ffi_create_server_0() -> Server = "createServer"
+
+///|
+#module("node:http")
+extern "js" fn ffi_create_server_1(
+  listener : (IncomingMessage, ServerResponse) -> Unit,
+) -> Server = "createServer"
+
+///|
+#module("node:http")
+extern "js" fn ffi_request_1(url : String) -> ClientRequest = "request"
+
+///|
+#module("node:http")
+extern "js" fn ffi_request_2(
+  url : String,
+  options : @core.Any,
+) -> ClientRequest = "request"
+
+///|
+#module("node:http")
+extern "js" fn ffi_request_3(
+  url : String,
+  options : @core.Any,
+  callback : (IncomingMessage) -> Unit,
+) -> ClientRequest = "request"
+
+///|
+#module("node:http")
+extern "js" fn ffi_get_1(url : String) -> ClientRequest = "get"
+
+///|
+#module("node:http")
+extern "js" fn ffi_get_2(url : String, options : @core.Any) -> ClientRequest = "get"
+
+///|
+#module("node:http")
+extern "js" fn ffi_get_3(
+  url : String,
+  options : @core.Any,
+  callback : (IncomingMessage) -> Unit,
+) -> ClientRequest = "get"
 
 ///| IncomingMessage class
 
@@ -415,13 +460,14 @@ pub fn createServer(
   requestListener? : (IncomingMessage, ServerResponse) -> Unit,
 ) -> Server {
   match requestListener {
-    Some(listener) =>
-      http_module()
-      ._call("createServer", [@core.any(@core.from_fn2(listener))])
-      .cast()
-    None => http_module()._call("createServer", []).cast()
+    Some(listener) => ffi_create_server_1(listener)
+    None => ffi_create_server_0()
   }
 }
+
+///|
+extern "js" fn ffi_undefined() -> @core.Any =
+  #| () => undefined
 
 ///|
 /// Make HTTP request
@@ -431,20 +477,10 @@ pub fn request(
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
-    (Some(opts), Some(cb)) =>
-      http_module()._call("request", [
-        @core.any(url),
-        opts,
-        @core.any(@core.from_fn1(cb)),
-      ])
-      |> @core.identity
-    (Some(opts), None) =>
-      http_module()._call("request", [@core.any(url), opts]).cast()
-    (None, Some(cb)) =>
-      http_module()
-      ._call("request", [@core.any(url), @core.any(@core.from_fn1(cb))])
-      .cast()
-    (None, None) => http_module()._call("request", [@core.any(url)]).cast()
+    (Some(opts), Some(cb)) => ffi_request_3(url, opts, cb)
+    (Some(opts), None) => ffi_request_2(url, opts)
+    (None, Some(cb)) => ffi_request_3(url, ffi_undefined(), cb)
+    (None, None) => ffi_request_1(url)
   }
 }
 
@@ -456,17 +492,10 @@ pub fn get(
   callback? : (IncomingMessage) -> Unit,
 ) -> ClientRequest {
   match (options, callback) {
-    (Some(opts), Some(cb)) =>
-      http_module()
-      ._call("get", [@core.any(url), opts, @core.any(@core.from_fn1(cb))])
-      .cast()
-    (Some(opts), None) =>
-      http_module()._call("get", [@core.any(url), opts]).cast()
-    (None, Some(cb)) =>
-      http_module()
-      ._call("get", [@core.any(url), @core.any(@core.from_fn1(cb))])
-      .cast()
-    (None, None) => http_module()._call("get", [@core.any(url)]).cast()
+    (Some(opts), Some(cb)) => ffi_get_3(url, opts, cb)
+    (Some(opts), None) => ffi_get_2(url, opts)
+    (None, Some(cb)) => ffi_get_3(url, ffi_undefined(), cb)
+    (None, None) => ffi_get_1(url)
   }
 }
 

@@ -1,15 +1,12 @@
 ///|
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_gzip(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.gzip(buffer, options, callback);
-  #| }
+) -> Unit = "gzip"
 
 ///|
 /// Compress data using gzip
@@ -44,15 +41,12 @@ pub fn gzip(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_gunzip(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.gunzip(buffer, options, callback);
-  #| }
+) -> Unit = "gunzip"
 
 ///|
 /// Decompress gzip data
@@ -87,15 +81,12 @@ pub fn gunzip(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_deflate(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.deflate(buffer, options, callback);
-  #| }
+) -> Unit = "deflate"
 
 ///|
 /// Compress data using deflate
@@ -130,15 +121,12 @@ pub fn deflate(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_inflate(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.inflate(buffer, options, callback);
-  #| }
+) -> Unit = "inflate"
 
 ///|
 /// Decompress deflate data
@@ -173,15 +161,12 @@ pub fn inflate(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_brotli_compress(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.brotliCompress(buffer, options, callback);
-  #| }
+) -> Unit = "brotliCompress"
 
 ///|
 /// Compress data using Brotli
@@ -216,15 +201,12 @@ pub fn brotli_compress(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_brotli_decompress(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.brotliDecompress(buffer, options, callback);
-  #| }
+) -> Unit = "brotliDecompress"
 
 ///|
 /// Decompress Brotli data
@@ -259,15 +241,12 @@ pub fn brotli_decompress(
 }
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_unzip(
   buffer : @core.Any,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (buffer, options, callback) => {
-  #|   const zlib = require('zlib');
-  #|   zlib.unzip(buffer, options, callback);
-  #| }
+) -> Unit = "unzip"
 
 ///|
 /// Decompress data with auto-detection
@@ -310,11 +289,8 @@ pub type Gzip
 pub fn Gzip::as_any(self : Gzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gzip(options : @core.Any) -> Gzip =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createGzip(options);
-  #| }
+#module("node:zlib")
+extern "js" fn ffi_create_gzip(options : @core.Any) -> Gzip = "createGzip"
 
 ///|
 /// Create a Gzip compression stream
@@ -354,11 +330,8 @@ pub type Gunzip
 pub fn Gunzip::as_any(self : Gunzip) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_gunzip(options : @core.Any) -> Gunzip =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createGunzip(options);
-  #| }
+#module("node:zlib")
+extern "js" fn ffi_create_gunzip(options : @core.Any) -> Gunzip = "createGunzip"
 
 ///|
 /// Create a Gunzip decompression stream
@@ -398,11 +371,8 @@ pub type Deflate
 pub fn Deflate::as_any(self : Deflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_deflate(options : @core.Any) -> Deflate =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createDeflate(options);
-  #| }
+#module("node:zlib")
+extern "js" fn ffi_create_deflate(options : @core.Any) -> Deflate = "createDeflate"
 
 ///|
 /// Create a Deflate compression stream
@@ -442,11 +412,8 @@ pub type Inflate
 pub fn Inflate::as_any(self : Inflate) -> @core.Any = "%identity"
 
 ///|
-extern "js" fn ffi_create_inflate(options : @core.Any) -> Inflate =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createInflate(options);
-  #| }
+#module("node:zlib")
+extern "js" fn ffi_create_inflate(options : @core.Any) -> Inflate = "createInflate"
 
 ///|
 /// Create an Inflate decompression stream
@@ -486,13 +453,10 @@ pub type BrotliCompress
 pub fn BrotliCompress::as_any(self : BrotliCompress) -> @core.Any = "%identity"
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_create_brotli_compress(
   options : @core.Any,
-) -> BrotliCompress =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createBrotliCompress(options);
-  #| }
+) -> BrotliCompress = "createBrotliCompress"
 
 ///|
 /// Create a Brotli compression stream
@@ -532,13 +496,10 @@ pub type BrotliDecompress
 pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @core.Any = "%identity"
 
 ///|
+#module("node:zlib")
 extern "js" fn ffi_create_brotli_decompress(
   options : @core.Any,
-) -> BrotliDecompress =
-  #| (options) => {
-  #|   const zlib = require('zlib');
-  #|   return zlib.createBrotliDecompress(options);
-  #| }
+) -> BrotliDecompress = "createBrotliDecompress"
 
 ///|
 /// Create a Brotli decompression stream

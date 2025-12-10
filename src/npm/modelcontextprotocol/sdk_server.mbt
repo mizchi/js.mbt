@@ -2,16 +2,36 @@
 /// Bindings for @modelcontextprotocol/sdk server implementation
 
 ///|
-extern "js" fn require_mcp_server() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/server/index.js")
+#module("@modelcontextprotocol/sdk/server/index.js")
+extern "js" fn ffi_mcp_server_class() -> @core.Any = "Server"
 
 ///|
-extern "js" fn require_mcp_types() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/types.js")
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_tools_request_schema() -> @core.Any = "ListToolsRequestSchema"
 
 ///|
-extern "js" fn require_stdio_transport() -> @core.Any =
-  #| () => require("@modelcontextprotocol/sdk/server/stdio.js")
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_call_tool_request_schema() -> @core.Any = "CallToolRequestSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_resources_request_schema() -> @core.Any = "ListResourcesRequestSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_read_resource_request_schema() -> @core.Any = "ReadResourceRequestSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_list_prompts_request_schema() -> @core.Any = "ListPromptsRequestSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/types.js")
+extern "js" fn ffi_get_prompt_request_schema() -> @core.Any = "GetPromptRequestSchema"
+
+///|
+#module("@modelcontextprotocol/sdk/server/stdio.js")
+extern "js" fn ffi_stdio_server_transport_class() -> @core.Any = "StdioServerTransport"
 
 // ============================================================
 // Server Types
@@ -40,8 +60,7 @@ pub fn SdkServer::new(
   resources? : Bool = true,
   prompts? : Bool = true,
 ) -> SdkServer {
-  let sdk = require_mcp_server()
-  let server_class = sdk._get("Server")
+  let server_class = ffi_mcp_server_class()
   // Build capabilities object
   let capabilities = @core.new_object()
   if tools {
@@ -77,8 +96,7 @@ pub fn SdkServer::set_tools_list_handler(
   self : SdkServer,
   handler : () -> Array[Tool],
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("ListToolsRequestSchema")
+  let schema = ffi_list_tools_request_schema()
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let tools = handler()
     let tools_arr : Array[@core.Any] = tools.map(_.as_any())
@@ -101,8 +119,7 @@ pub fn SdkServer::set_tools_call_handler(
   self : SdkServer,
   handler : async (String, @core.Any) -> Array[Content],
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("CallToolRequestSchema")
+  let schema = ffi_call_tool_request_schema()
   let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request["params"]
     let name : String = params["name"].cast()
@@ -132,8 +149,7 @@ pub fn SdkServer::set_resources_list_handler(
   self : SdkServer,
   handler : () -> Array[Resource],
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("ListResourcesRequestSchema")
+  let schema = ffi_list_resources_request_schema()
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let resources = handler()
     let resources_arr : Array[@core.Any] = resources.map(_.as_any())
@@ -148,8 +164,7 @@ pub fn SdkServer::set_resources_read_handler(
   self : SdkServer,
   handler : async (String) -> Array[Content],
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("ReadResourceRequestSchema")
+  let schema = ffi_read_resource_request_schema()
   let wrapped = fn(request : @core.Any) -> @core.Promise[@core.Any] {
     let params = request["params"]
     let uri : String = params["uri"].cast()
@@ -170,8 +185,7 @@ pub fn SdkServer::set_prompts_list_handler(
   self : SdkServer,
   handler : () -> Array[Prompt],
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("ListPromptsRequestSchema")
+  let schema = ffi_list_prompts_request_schema()
   let wrapped = fn(_request : @core.Any) -> @core.Any {
     let prompts = handler()
     let prompts_arr : Array[@core.Any] = prompts.map(_.as_any())
@@ -186,8 +200,7 @@ pub fn SdkServer::set_prompts_get_handler(
   self : SdkServer,
   handler : async (String, @core.Any) -> PromptResult,
 ) -> Unit {
-  let types = require_mcp_types()
-  let schema = types._get("GetPromptRequestSchema")
+  let schema = ffi_get_prompt_request_schema()
   let wrapped = fn(request : @core.Any) -> @js.Promise[@core.Any] {
     let params = request._get("params")
     let name : String = params["name"].cast()
@@ -241,8 +254,7 @@ pub fn PromptResult::as_any(self : PromptResult) -> @core.Any {
 ///|
 /// Create a new StdioServerTransport
 pub fn StdioServerTransport::new() -> StdioServerTransport {
-  let stdio_mod = require_stdio_transport()
-  let transport_class = stdio_mod._get("StdioServerTransport")
+  let transport_class = ffi_stdio_server_transport_class()
   ffi_construct(transport_class, []) |> @core.identity
 }
 

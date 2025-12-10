@@ -3,17 +3,10 @@
   "supported-targets": [
     "js"
   ],
-  "link": {
-    "js": {
-      "exports": [
-        "create_app"
-      ],
-      "format": "cjs"
-    }
-  },
   "import": [
     "mizchi/js",
     "mizchi/js/core",
-    "mizchi/js/npm/hono"
+    "mizchi/js/npm/hono",
+    "moonbitlang/async"
   ]
 }

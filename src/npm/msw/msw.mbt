@@ -2,9 +2,17 @@
 /// MSW (Mock Service Worker) bindings for MoonBit
 /// https://mswjs.io/
 ///
-/// API mocking library for Node.js testing.
+/// API mocking library for browser and Node.js testing.
 
 ///| Types
+
+///|
+/// MSW module instance containing http and HttpResponse
+#external
+pub type Msw
+
+///|
+pub fn Msw::as_any(self : Msw) -> @core.Any = "%identity"
 
 ///|
 /// Request handler
@@ -54,159 +62,335 @@ pub(all) struct ResponseResolverInfo {
 ///|
 pub fn ResponseResolverInfo::as_any(self : ResponseResolverInfo) -> @core.Any = "%identity"
 
+///| MSW Import
+
+///|
+/// Dynamic import for msw module
+extern "js" fn ffi_import_msw() -> @core.Promise[@core.Any] =
+  #|() => import("msw")
+
+///|
+/// Import msw module and return Msw instance
+pub async fn import_msw() -> Msw {
+  ffi_import_msw().wait().cast()
+}
+
 ///| HTTP Handler FFI
 
 ///|
-extern "js" fn ffi_http_get(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.get(path, resolver)
+extern "js" fn get_http(msw : Msw) -> @core.Any =
+  #|(msw) => msw.http
 
 ///|
-extern "js" fn ffi_http_post(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.post(path, resolver)
+extern "js" fn get_http_response(msw : Msw) -> @core.Any =
+  #|(msw) => msw.HttpResponse
 
 ///|
-extern "js" fn ffi_http_put(
+extern "js" fn call_http_method(
+  http : @core.Any,
+  method_name : String,
   path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
+  resolver : @core.Any,
 ) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.put(path, resolver)
-
-///|
-extern "js" fn ffi_http_patch(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.patch(path, resolver)
-
-///|
-extern "js" fn ffi_http_delete(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.delete(path, resolver)
-
-///|
-extern "js" fn ffi_http_options(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.options(path, resolver)
-
-///|
-extern "js" fn ffi_http_head(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.head(path, resolver)
-
-///|
-extern "js" fn ffi_http_all(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler =
-  #| (path, resolver) => require('msw').http.all(path, resolver)
+  #| (http, method_name, path, resolver) => http[method_name](path, resolver)
 
 ///| HTTP Response FFI
 
 ///|
-pub extern "js" fn http_response_json(
+extern "js" fn call_http_response_method(
+  http_response : @core.Any,
+  method_name : String,
+  body : @core.Any,
+  init : @core.Any,
+) -> HttpResponse =
+  #| (hr, method_name, body, init) => {
+  #|   return Object.keys(init).length > 0 ?
+  #|     hr[method_name](body, init) :
+  #|     hr[method_name](body);
+  #| }
+
+///|
+extern "js" fn call_http_response_error(
+  http_response : @core.Any,
+) -> HttpResponse =
+  #| (hr) => hr.error()
+
+///| Msw Methods - HTTP Handlers
+
+///|
+/// Create GET request handler
+pub fn Msw::httpGet(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "get", path, resolver |> @core.identity)
+}
+
+///|
+/// Create POST request handler
+pub fn Msw::httpPost(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "post", path, resolver |> @core.identity)
+}
+
+///|
+/// Create PUT request handler
+pub fn Msw::httpPut(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "put", path, resolver |> @core.identity)
+}
+
+///|
+/// Create PATCH request handler
+pub fn Msw::httpPatch(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "patch", path, resolver |> @core.identity)
+}
+
+///|
+/// Create DELETE request handler
+pub fn Msw::httpDelete(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "delete", path, resolver |> @core.identity)
+}
+
+///|
+/// Create OPTIONS request handler
+pub fn Msw::httpOptions(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "options", path, resolver |> @core.identity)
+}
+
+///|
+/// Create HEAD request handler
+pub fn Msw::httpHead(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "head", path, resolver |> @core.identity)
+}
+
+///|
+/// Create handler for all HTTP methods
+pub fn Msw::httpAll(
+  self : Msw,
+  path : String,
+  resolver : (ResponseResolverInfo) -> HttpResponse,
+) -> RequestHandler {
+  call_http_method(get_http(self), "all", path, resolver |> @core.identity)
+}
+
+///| Msw Methods - HTTP Responses
+
+///|
+/// Create JSON response
+///
+/// # Options
+/// - `status`: HTTP status code (e.g., 200, 404)
+/// - `statusText`: HTTP status text (e.g., "OK", "Not Found")
+/// - `headers`: Response headers as an object
+pub fn Msw::jsonResponse(
+  self : Msw,
   body : @core.Any,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.json(body, init) :
-  #|     msw.HttpResponse.json(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(get_http_response(self), "json", body, init)
+}
 
 ///|
-pub extern "js" fn http_response_text(
+/// Create text response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::textResponse(
+  self : Msw,
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.text(body, init) :
-  #|     msw.HttpResponse.text(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(self),
+    "text",
+    body |> @core.any,
+    init,
+  )
+}
 
 ///|
-pub extern "js" fn http_response_xml(
+/// Create XML response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::xmlResponse(
+  self : Msw,
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.xml(body, init) :
-  #|     msw.HttpResponse.xml(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(self),
+    "xml",
+    body |> @core.any,
+    init,
+  )
+}
 
 ///|
-pub extern "js" fn http_response_html(
+/// Create HTML response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::htmlResponse(
+  self : Msw,
   body : String,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.html(body, init) :
-  #|     msw.HttpResponse.html(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(
+    get_http_response(self),
+    "html",
+    body |> @core.any,
+    init,
+  )
+}
 
 ///|
-pub extern "js" fn http_response_array_buffer(
+/// Create array buffer response
+///
+/// # Options
+/// - `status`: HTTP status code
+/// - `statusText`: HTTP status text
+/// - `headers`: Response headers
+pub fn Msw::arrayBufferResponse(
+  self : Msw,
   body : @core.Any,
   status? : Int,
   statusText? : String,
   headers? : @core.Any,
-) -> HttpResponse =
-  #| (body, status, statusText, headers) => {
-  #|   const msw = require('msw');
-  #|   const init = {};
-  #|   if (status !== undefined) init.status = status;
-  #|   if (statusText !== undefined) init.statusText = statusText;
-  #|   if (headers !== undefined) init.headers = headers;
-  #|   return Object.keys(init).length > 0 ?
-  #|     msw.HttpResponse.arrayBuffer(body, init) :
-  #|     msw.HttpResponse.arrayBuffer(body);
-  #| }
+) -> HttpResponse {
+  let init = @core.new_object()
+  if status is Some(s) {
+    init._set("status", s |> @core.any)
+  }
+  if statusText is Some(st) {
+    init._set("statusText", st |> @core.any)
+  }
+  if headers is Some(h) {
+    init._set("headers", h)
+  }
+  call_http_response_method(get_http_response(self), "arrayBuffer", body, init)
+}
 
 ///|
-pub extern "js" fn http_response_error() -> HttpResponse =
-  #| () => require('msw').HttpResponse.error()
+/// Create network error response
+pub fn Msw::errorResponse(self : Msw) -> HttpResponse {
+  call_http_response_error(get_http_response(self))
+}
+
+///| Msw Methods - Convenience builders
+
+///|
+/// Create a simple JSON GET handler
+pub fn Msw::mockGet(
+  self : Msw,
+  path : String,
+  response_body : @core.Any,
+) -> RequestHandler {
+  self.httpGet(path, fn(_info) { self.jsonResponse(response_body) })
+}
+
+///|
+/// Create a simple JSON POST handler
+pub fn Msw::mockPost(
+  self : Msw,
+  path : String,
+  response_body : @core.Any,
+) -> RequestHandler {
+  self.httpPost(path, fn(_info) { self.jsonResponse(response_body) })
+}
+
+///|
+/// Create a handler that returns an error status
+pub fn Msw::mockError(
+  self : Msw,
+  path : String,
+  status : Int,
+  message : String,
+) -> RequestHandler {
+  self.httpGet(path, fn(_info) {
+    let body = @core.new_object()
+    body["error"] = @core.any(message)
+    self.jsonResponse(body, status~)
+  })
+}
 
 ///| Request/Response Info FFI
 
@@ -232,168 +416,6 @@ pub extern "js" fn request_json(
 ///|
 pub extern "js" fn request_text(request : @core.Any) -> @core.Promise[String] =
   #| (request) => request.text()
-
-///| HTTP Handler Methods
-
-///|
-/// Create GET request handler
-pub fn httpGet(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_get(path, resolver)
-}
-
-///|
-/// Create POST request handler
-pub fn httpPost(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_post(path, resolver)
-}
-
-///|
-/// Create PUT request handler
-pub fn httpPut(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_put(path, resolver)
-}
-
-///|
-/// Create PATCH request handler
-pub fn httpPatch(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_patch(path, resolver)
-}
-
-///|
-/// Create DELETE request handler
-pub fn httpDelete(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_delete(path, resolver)
-}
-
-///|
-/// Create OPTIONS request handler
-pub fn httpOptions(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_options(path, resolver)
-}
-
-///|
-/// Create HEAD request handler
-pub fn httpHead(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_head(path, resolver)
-}
-
-///|
-/// Create handler for all HTTP methods
-pub fn httpAll(
-  path : String,
-  resolver : (ResponseResolverInfo) -> HttpResponse,
-) -> RequestHandler {
-  ffi_http_all(path, resolver)
-}
-
-///| HTTP Response Methods
-
-///|
-/// Create JSON response
-///
-/// # Options
-/// - `status`: HTTP status code (e.g., 200, 404)
-/// - `statusText`: HTTP status text (e.g., "OK", "Not Found")
-/// - `headers`: Response headers as an object
-pub fn jsonResponse(
-  body : @core.Any,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_json(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create text response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn textResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_text(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create XML response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn xmlResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_xml(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create HTML response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn htmlResponse(
-  body : String,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_html(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create array buffer response
-///
-/// # Options
-/// - `status`: HTTP status code
-/// - `statusText`: HTTP status text
-/// - `headers`: Response headers
-pub fn arrayBufferResponse(
-  body : @core.Any,
-  status? : Int,
-  statusText? : String,
-  headers? : @core.Any,
-) -> HttpResponse {
-  http_response_array_buffer(body, status?, statusText?, headers?)
-}
-
-///|
-/// Create network error response
-pub fn errorResponse() -> HttpResponse {
-  http_response_error()
-}
 
 ///| ResponseResolverInfo Methods
 
@@ -460,32 +482,4 @@ pub fn ResponseResolverInfo::getParam(
   name : String,
 ) -> String {
   self.params[name].cast()
-}
-
-///| Convenience builders
-
-///|
-/// Create a simple JSON GET handler
-pub fn mockGet(path : String, response_body : @core.Any) -> RequestHandler {
-  httpGet(path, fn(_info) { jsonResponse(response_body) })
-}
-
-///|
-/// Create a simple JSON POST handler
-pub fn mockPost(path : String, response_body : @core.Any) -> RequestHandler {
-  httpPost(path, fn(_info) { jsonResponse(response_body) })
-}
-
-///|
-/// Create a handler that returns an error status
-pub fn mockError(
-  path : String,
-  status : Int,
-  message : String,
-) -> RequestHandler {
-  httpGet(path, fn(_info) {
-    let body = @core.new_object()
-    body["error"] = @core.any(message)
-    jsonResponse(body, status~)
-  })
 }

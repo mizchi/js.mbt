@@ -1,13 +1,10 @@
 ///|
+#module("node:dns")
 extern "js" fn ffi_lookup(
   hostname : String,
   options : @core.Any,
   callback : @core.Any,
-) -> Unit =
-  #| (hostname, options, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.lookup(hostname, options, callback);
-  #| }
+) -> Unit = "lookup"
 
 ///|
 /// Resolve a hostname to an IP address using OS facilities
@@ -37,15 +34,12 @@ pub fn lookup(
 }
 
 ///|
+#module("node:dns")
 extern "js" fn ffi_resolve(
   hostname : String,
   rrtype : String,
   callback : @core.Any,
-) -> Unit =
-  #| (hostname, rrtype, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolve(hostname, rrtype, callback);
-  #| }
+) -> Unit = "resolve"
 
 ///|
 /// Resolve a hostname using DNS protocol
@@ -59,11 +53,8 @@ pub fn resolve(
 }
 
 ///|
-extern "js" fn ffi_resolve4(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolve4(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve4(hostname : String, callback : @core.Any) -> Unit = "resolve4"
 
 ///|
 /// Resolve a hostname to IPv4 addresses
@@ -76,11 +67,8 @@ pub fn resolve4(
 }
 
 ///|
-extern "js" fn ffi_resolve6(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolve6(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve6(hostname : String, callback : @core.Any) -> Unit = "resolve6"
 
 ///|
 /// Resolve a hostname to IPv6 addresses
@@ -93,11 +81,8 @@ pub fn resolve6(
 }
 
 ///|
-extern "js" fn ffi_resolve_mx(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolveMx(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve_mx(hostname : String, callback : @core.Any) -> Unit = "resolveMx"
 
 ///|
 /// Resolve MX records
@@ -110,11 +95,8 @@ pub fn resolve_mx(
 }
 
 ///|
-extern "js" fn ffi_resolve_txt(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolveTxt(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve_txt(hostname : String, callback : @core.Any) -> Unit = "resolveTxt"
 
 ///|
 /// Resolve TXT records
@@ -127,11 +109,8 @@ pub fn resolve_txt(
 }
 
 ///|
-extern "js" fn ffi_resolve_srv(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolveSrv(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve_srv(hostname : String, callback : @core.Any) -> Unit = "resolveSrv"
 
 ///|
 /// Resolve SRV records
@@ -144,11 +123,8 @@ pub fn resolve_srv(
 }
 
 ///|
-extern "js" fn ffi_resolve_ns(hostname : String, callback : @core.Any) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolveNs(hostname, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_resolve_ns(hostname : String, callback : @core.Any) -> Unit = "resolveNs"
 
 ///|
 /// Resolve NS (name server) records
@@ -161,14 +137,11 @@ pub fn resolve_ns(
 }
 
 ///|
+#module("node:dns")
 extern "js" fn ffi_resolve_cname(
   hostname : String,
   callback : @core.Any,
-) -> Unit =
-  #| (hostname, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.resolveCname(hostname, callback);
-  #| }
+) -> Unit = "resolveCname"
 
 ///|
 /// Resolve CNAME records
@@ -181,11 +154,8 @@ pub fn resolve_cname(
 }
 
 ///|
-extern "js" fn ffi_reverse(ip : String, callback : @core.Any) -> Unit =
-  #| (ip, callback) => {
-  #|   const dns = require('dns');
-  #|   dns.reverse(ip, callback);
-  #| }
+#module("node:dns")
+extern "js" fn ffi_reverse(ip : String, callback : @core.Any) -> Unit = "reverse"
 
 ///|
 /// Perform reverse DNS lookup
@@ -196,16 +166,10 @@ pub fn reverse(ip : String, callback : (@core.Any?, @core.Any) -> Unit) -> Unit 
 
 ///|
 /// Get the current DNS server addresses
-pub extern "js" fn get_servers() -> @core.Any =
-  #| () => {
-  #|   const dns = require('dns');
-  #|   return dns.getServers();
-  #| }
+#module("node:dns")
+pub extern "js" fn get_servers() -> @core.Any = "getServers"
 
 ///|
 /// Set the DNS server addresses
-pub extern "js" fn set_servers(servers : Array[String]) -> Unit =
-  #| (servers) => {
-  #|   const dns = require('dns');
-  #|   dns.setServers(servers);
-  #| }
+#module("node:dns")
+pub extern "js" fn set_servers(servers : Array[String]) -> Unit = "setServers"

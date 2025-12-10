@@ -61,17 +61,11 @@ fn item_component(props : ItemViewProps) -> @react.Element {
 }
 
 ///|
-let myctx : Ref[Context[MyContextProps]?] = { val: None }
-
-///|
-fn init_myctx() -> Unit {
-  myctx.val = Some(createContext(None))
-}
+let myctx : Context[MyContextProps] = createContext(None)
 
 ///|
 fn use_myctx() -> MyContextProps {
-  guard myctx.val is Some(ctx)
-  useContext(ctx)
+  useContext(myctx)
 }
 
 ///|
@@ -177,7 +171,6 @@ fn app(props : AppProps) -> @react.Element {
     },
     [@core.any(input_text)],
   )
-  guard myctx.val is Some(myctx)
   provider(myctx, value={ v: "xxx" }, [
     h1(["Hello, Moonbit React!"]),
     div(
@@ -252,11 +245,10 @@ fn app(props : AppProps) -> @react.Element {
 
 ///|
 async fn main {
-  @react.dynamic_import()
-  @react_router.dynamic_import()
-  let client = @react_dom_client.dynamic_import()
+  // react_router requires init_global() for __ReactRouterApi global
+  // TODO: Remove when MoonBit adds native ESM support
+  @react_router.init_global()
   guard @dom.document().getElementById("app") is Some(app_root)
-  init_myctx()
   let index = (_props : @react_router.RouteProps) => component(app, {
     x: 42,
     items: ["Item 1", "Item 2", "Item 3"],
@@ -271,5 +263,5 @@ async fn main {
       ]),
     ),
   ])
-  client.create_root(app_root).render(router_provider(routes))
+  @react_dom_client.createRoot(app_root).render(router_provider(routes))
 }

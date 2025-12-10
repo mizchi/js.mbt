@@ -81,10 +81,10 @@ pub fn FetchResult::to_any(self : FetchResult) -> @core.Any = "%identity"
 ///| ViteDevServer FFI
 
 ///|
+#module("vite")
 extern "js" fn ffi_create_server(
   config : @core.Any,
-) -> @js.Promise[ViteDevServer] =
-  #| (config) => require('vite').createServer(config)
+) -> @js.Promise[ViteDevServer] = "createServer"
 
 ///|
 extern "js" fn ffi_server_print_urls(server : ViteDevServer) -> Unit =
@@ -269,7 +269,7 @@ extern "js" fn ffi_hot_off(
 ///|
 /// Create a new Vite dev server with config object
 pub async fn createServerWithConfig(config : @core.Any) -> ViteDevServer {
-  ffi_create_server(config |> @core.any).wait()
+  ffi_create_server(config).wait()
 }
 
 ///|

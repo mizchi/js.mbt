@@ -146,10 +146,6 @@ pub async fn generateImage(
     opts._set("headers", h)
   }
   // Use experimental_generateImage function
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("experimental_generateImage")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_experimental_generate_image(opts).wait()
   GenerateImageResult::from_any(result)
 }

@@ -68,24 +68,24 @@ pub fn open(port : Int?, host : String?, wait : Bool?) -> @core.Any {
 }
 
 ///|
-extern "js" fn ffi_open_0() -> @core.Any =
-  #| () => require('node:inspector').open()
+#module("node:inspector")
+extern "js" fn ffi_open_0() -> @core.Any = "open"
 
 ///|
-extern "js" fn ffi_open_1(port : Int) -> @core.Any =
-  #| (port) => require('node:inspector').open(port)
+#module("node:inspector")
+extern "js" fn ffi_open_1(port : Int) -> @core.Any = "open"
 
 ///|
-extern "js" fn ffi_open_2(port : Int, host : String) -> @core.Any =
-  #| (port, host) => require('node:inspector').open(port, host)
+#module("node:inspector")
+extern "js" fn ffi_open_2(port : Int, host : String) -> @core.Any = "open"
 
 ///|
-extern "js" fn ffi_open_3(port : Int, host : String, wait : Bool) -> @core.Any =
-  #| (port, host, wait) => require('node:inspector').open(port, host, wait)
+#module("node:inspector")
+extern "js" fn ffi_open_3(port : Int, host : String, wait : Bool) -> @core.Any = "open"
 
 ///|
-pub extern "js" fn close() -> Unit =
-  #| () => require('node:inspector').close()
+#module("node:inspector")
+pub extern "js" fn close() -> Unit = "close"
 
 ///|
 pub fn url() -> String? {
@@ -99,12 +99,12 @@ pub fn url() -> String? {
 }
 
 ///|
-extern "js" fn ffi_url() -> @core.Any =
-  #| () => require('node:inspector').url()
+#module("node:inspector")
+extern "js" fn ffi_url() -> @core.Any = "url"
 
 ///|
-pub extern "js" fn wait_for_debugger() -> Unit =
-  #| () => require('node:inspector').waitForDebugger()
+#module("node:inspector")
+pub extern "js" fn wait_for_debugger() -> Unit = "waitForDebugger"
 
 ///|
 /// Console object for inspector

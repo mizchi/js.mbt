@@ -9,8 +9,8 @@ pub async fn renderToString(vnode : VNode) -> String {
 }
 
 ///|
-extern "js" fn ffi_render_to_string(vnode : @core.Any) -> @js.Promise[String] =
-  #|(v) => globalThis.__VueSSR.renderToString(v)
+#module("@vue/server-renderer")
+extern "js" fn ffi_render_to_string(vnode : @core.Any) -> @js.Promise[String] = "renderToString"
 
 ///|
 /// Render a VNode to a readable stream (returns readable stream)
@@ -19,8 +19,8 @@ pub fn renderToStream(vnode : VNode) -> @core.Any {
 }
 
 ///|
-extern "js" fn ffi_render_to_stream(vnode : @core.Any) -> @core.Any =
-  #|(v) => globalThis.__VueSSR.renderToStream(v)
+#module("@vue/server-renderer")
+extern "js" fn ffi_render_to_stream(vnode : @core.Any) -> @core.Any = "renderToNodeStream"
 
 ///|
 /// Render to static string (no hydration markers)
@@ -29,15 +29,14 @@ pub async fn renderToStaticMarkup(vnode : VNode) -> String {
 }
 
 ///|
+#module("@vue/server-renderer")
 extern "js" fn ffi_render_to_static_markup(
   vnode : @core.Any,
-) -> @js.Promise[String] =
-  #|(v) => globalThis.__VueSSR.renderToStaticMarkup(v)
+) -> @js.Promise[String] = "renderToStaticMarkup"
 
 ///|
-/// Initialize the Vue SSR API
+/// Initialize the Vue SSR API (deprecated - no longer needed)
+#deprecated("Use ESM imports instead")
 pub fn init_vue_ssr(ssr : @core.Any) -> Unit {
-  if @core.is_nullish(@global.global_this()._get("__VueSSR")) {
-    @global.global_this()._set("__VueSSR", ssr)
-  }
+  ignore(ssr)
 }

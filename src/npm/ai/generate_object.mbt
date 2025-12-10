@@ -121,8 +121,7 @@ pub async fn generateObject(
   let opts = @core.new_object()
   opts._set("model", model.as_any())
   // Wrap schema with jsonSchema() helper
-  let json_schema_fn = ai_module()._get("jsonSchema")
-  let wrapped_schema = json_schema_fn._invoke([schema])
+  let wrapped_schema = ffi_json_schema(schema)
   opts._set("schema", wrapped_schema)
   if schema_name is Some(n) {
     opts._set("schemaName", n |> @core.any)
@@ -157,11 +156,7 @@ pub async fn generateObject(
   if abort_signal is Some(s) {
     opts._set("abortSignal", s)
   }
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("generateObject")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_generate_object(opts).wait()
   GenerateObjectResult::from_any(result)
 }
 
@@ -212,10 +207,6 @@ pub async fn generateObjectWithZod(
   if temperature is Some(t) {
     opts._set("temperature", t |> @core.any)
   }
-  let promise : @js.Promise[@core.Any] = ai_module()
-    ._get("generateObject")
-    ._invoke([opts])
-    |> @core.identity
-  let result = promise.wait()
+  let result = ffi_generate_object(opts).wait()
   GenerateObjectResult::from_any(result)
 }

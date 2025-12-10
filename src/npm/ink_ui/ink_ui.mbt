@@ -59,7 +59,7 @@ pub fn InkUI::text_input(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -93,7 +93,7 @@ pub fn InkUI::email_input(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -123,7 +123,7 @@ pub fn InkUI::password_input(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -145,7 +145,7 @@ pub fn InkUI::confirm_input(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 // ============================================================
@@ -193,7 +193,7 @@ pub fn InkUI::select(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -222,7 +222,7 @@ pub fn InkUI::multi_select(
   if is_disabled is Some(d) {
     props["isDisabled"] = @core.any(d)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 // ============================================================
@@ -237,7 +237,7 @@ pub fn InkUI::spinner(self : InkUI, label? : String) -> @react.Element {
   if label is Some(l) {
     props["label"] = @core.any(l)
   }
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -246,7 +246,7 @@ pub fn InkUI::progress_bar(self : InkUI, value : Int) -> @react.Element {
   let component = self.as_any()["ProgressBar"]
   let props = @core.new_object()
   props["value"] = @core.any(value)
-  ffi_create_element(component, props, @core.undefined()).cast()
+  create_element(component, props, @core.undefined())
 }
 
 ///|
@@ -289,7 +289,7 @@ pub fn InkUI::badge(
     props["color"] = @core.any(c.to_string())
   }
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -322,7 +322,7 @@ pub fn InkUI::status_message(
   let props = @core.new_object()
   props["variant"] = @core.any(variant.to_string())
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -340,7 +340,7 @@ pub fn InkUI::alert(
     props["title"] = @core.any(t)
   }
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 // ============================================================
@@ -356,7 +356,7 @@ pub fn InkUI::unordered_list(
   let component = self.as_any()["UnorderedList"]
   let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -368,7 +368,7 @@ pub fn InkUI::unordered_list_item(
   let component = self.as_any()["UnorderedList"]["Item"]
   let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -380,7 +380,7 @@ pub fn InkUI::ordered_list(
   let component = self.as_any()["OrderedList"]
   let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -392,7 +392,7 @@ pub fn InkUI::ordered_list_item(
   let component = self.as_any()["OrderedList"]["Item"]
   let props = @core.new_object()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 // ============================================================
@@ -424,7 +424,7 @@ pub fn InkUI::theme_provider(
   let props = @core.new_object()
   props["theme"] = theme.as_any()
   let children_arr = @core.any(children.map(fn(c) { c.to_react_node() }))
-  ffi_create_element(component, props, children_arr).cast()
+  create_element(component, props, children_arr)
 }
 
 ///|
@@ -439,18 +439,27 @@ pub fn InkUI::extend_theme(self : InkUI, extension : @core.Any) -> Theme {
 // ============================================================
 
 ///|
-extern "js" fn ffi_create_element(
+/// Create element helper - uses @react.createElementRaw with children in props
+fn create_element(
   tag : @core.Any,
   props : @core.Any,
   children : @core.Any,
-) -> @core.Any =
-  #|(tag, props, children) => {
-  #|  const React = require('react');
-  #|  if (children === undefined) {
-  #|    return React.createElement(tag, props);
-  #|  }
-  #|  return React.createElement(tag, props, ...children);
-  #|}
+) -> @react.Element {
+  // Check if children is undefined or empty
+  let is_array : Bool = @core.is_array(children)
+  if is_array {
+    let arr : Array[@core.Any] = children.cast()
+    let len = arr.length()
+    if len == 1 {
+      props["children"] = arr[0]
+    } else if len > 1 {
+      props["children"] = children
+    }
+    @react.createElementRaw(tag, props, children_count=len)
+  } else {
+    @react.createElementRaw(tag, props)
+  }
+}
 
 ///|
 extern "js" fn ffi_wrap_string_callback(f : (String) -> Unit) -> @core.Any =

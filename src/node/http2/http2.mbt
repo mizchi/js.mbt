@@ -79,14 +79,11 @@ pub fn ServerHttp2Stream::as_event_target(
 ) -> @event.EventTarget = "%identity"
 
 ///|
+#module("node:http2")
 extern "js" fn ffi_create_server(
   options : @core.Any,
   request_handler : @core.Any,
-) -> Http2Server =
-  #| (options, requestHandler) => {
-  #|   const http2 = require('http2');
-  #|   return http2.createServer(options, requestHandler);
-  #| }
+) -> Http2Server = "createServer"
 
 ///|
 /// Create an unencrypted HTTP/2 server
@@ -127,14 +124,11 @@ pub fn create_server(
 }
 
 ///|
+#module("node:http2")
 extern "js" fn ffi_create_secure_server(
   options : @core.Any,
   request_handler : @core.Any,
-) -> Http2SecureServer =
-  #| (options, requestHandler) => {
-  #|   const http2 = require('http2');
-  #|   return http2.createSecureServer(options, requestHandler);
-  #| }
+) -> Http2SecureServer = "createSecureServer"
 
 ///|
 /// Create a TLS-encrypted HTTP/2 server
@@ -206,14 +200,11 @@ pub fn Http2SecureServer::close(
 }
 
 ///|
+#module("node:http2")
 extern "js" fn ffi_connect(
   authority : String,
   options : @core.Any,
-) -> Http2Session =
-  #| (authority, options) => {
-  #|   const http2 = require('http2');
-  #|   return http2.connect(authority, options);
-  #| }
+) -> Http2Session = "connect"
 
 ///|
 /// Connect to an HTTP/2 server

@@ -2,16 +2,22 @@
 /// Uses zod's built-in toJSONSchema function
 
 ///|
-fn zod_module() -> @core.Any {
-  @node.require("zod")
-}
+#module("zod")
+extern "js" fn ffi_to_json_schema(schema : @core.Any) -> @core.Any = "toJSONSchema"
 
 ///|
 /// Convert a ZodSchema to JSON Schema (zod v4 built-in)
 pub fn to_json_schema(schema : @zod.ZodSchema) -> @core.Any {
   let schema_any : @core.Any = schema.as_any() |> @core.identity()
-  zod_module()._call("toJSONSchema", [schema_any])
+  ffi_to_json_schema(schema_any)
 }
+
+///|
+#module("zod")
+extern "js" fn ffi_to_json_schema_with_opts(
+  schema : @core.Any,
+  opts : @core.Any,
+) -> @core.Any = "toJSONSchema"
 
 ///|
 /// Convert a ZodSchema to JSON Schema with options
@@ -40,7 +46,7 @@ pub fn to_json_schema_with_options(
     None => ()
   }
   let schema_any : @core.Any = schema.as_any() |> @core.identity()
-  zod_module()._call("toJSONSchema", [schema_any, opts])
+  ffi_to_json_schema_with_opts(schema_any, opts)
 }
 
 ///|

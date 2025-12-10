@@ -2,6 +2,21 @@
 
 Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
+## Version Requirements
+
+**v0.9.x** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
+
+```
+moon 0.1.20251209 (8d6e473 2025-12-09)
+moonc v0.6.34+7262739a4-nightly (2025-12-09)
+moonrun 0.1.20251209 (8d6e473 2025-12-09)
+```
+
+If you need stable toolchain compatibility, use **v0.8.x**.
+
+**v0.10.0 (planned)**: `src/npm` packages will be moved to a separate repository: `mizchi/npm_typed`
+
+
 ## Installation
 
 ```bash

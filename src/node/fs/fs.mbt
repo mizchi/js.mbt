@@ -2,9 +2,49 @@
 // Synchronous File System API
 
 ///|
-/// Get fs module
+/// Get fs module (kept for functions with optional/variadic arguments)
 extern "js" fn fs_module() -> @core.Any =
   #| () => require("node:fs")
+
+///|
+/// Internal: existsSync via #module
+#module("node:fs")
+extern "js" fn internal_exists_sync(path : String) -> Bool = "existsSync"
+
+///|
+/// Internal: readFileSync via #module (returns Buffer)
+#module("node:fs")
+extern "js" fn internal_read_file_sync(path : String) -> @buffer.Buffer = "readFileSync"
+
+///|
+/// Internal: unlinkSync via #module
+#module("node:fs")
+extern "js" fn internal_unlink_sync(path : String) -> Unit = "unlinkSync"
+
+///|
+/// Internal: readlinkSync via #module
+#module("node:fs")
+extern "js" fn internal_readlink_sync(path : String) -> String = "readlinkSync"
+
+///|
+/// Internal: realpathSync via #module
+#module("node:fs")
+extern "js" fn internal_realpath_sync(path : String) -> String = "realpathSync"
+
+///|
+/// Internal: closeSync via #module
+#module("node:fs")
+extern "js" fn internal_close_sync(fd : Int) -> Unit = "closeSync"
+
+///|
+/// Internal: createReadStream via #module
+#module("node:fs")
+extern "js" fn internal_create_read_stream(path : String) -> @stream.Readable = "createReadStream"
+
+///|
+/// Internal: createWriteStream via #module
+#module("node:fs")
+extern "js" fn internal_create_write_stream(path : String) -> @stream.Writable = "createWriteStream"
 
 ///| File Reading
 
@@ -15,8 +55,13 @@ pub fn read_file_sync(path : String) -> @buffer.Buffer raise @core.ThrowError {
   @core.throwable(fn() {
     let fs : @core.Any = fs_module() |> @core.any
     fs._call("readFileSync", [@core.any(path)]).cast()
+    // internal_read_file_sync2(path)
   })
 }
+
+// ///|
+// #module("node:fs")
+// fn internal_read_file_sync2(path : String) -> @buffer.Buffer = "readFileSync"
 
 ///|
 /// Read file synchronously as string with encoding
@@ -49,10 +94,7 @@ pub fn read_file_as_string(
 pub fn read_file_as_buffer(
   path : String,
 ) -> @buffer.Buffer raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readFileSync", [@core.any(path)]).cast()
-  })
+  @core.throwable(fn() { internal_read_file_sync(path) })
 }
 
 ///| File Writing
@@ -89,8 +131,7 @@ pub fn append_file_sync(
 /// Check if path exists
 #alias(exists_sync)
 pub fn existsSync(path : String) -> Bool {
-  let fs : @core.Any = fs_module() |> @core.any
-  fs._call("existsSync", [@core.any(path)]).cast()
+  internal_exists_sync(path)
 }
 
 ///|
@@ -126,10 +167,7 @@ pub fn mkdirSync(
 /// Delete file synchronously
 #alias(unlink_sync)
 pub fn unlinkSync(path : String) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("unlinkSync", [@core.any(path)]) |> ignore
-  })
+  @core.throwable(fn() { internal_unlink_sync(path) })
 }
 
 ///|
@@ -196,14 +234,12 @@ pub fn rmSync(
 
 ///|
 pub fn createReadStream(path : String) -> @stream.Readable {
-  let fs : @core.Any = fs_module() |> @core.any
-  fs._call("createReadStream", [@core.any(path)]).cast()
+  internal_create_read_stream(path)
 }
 
 ///|
 pub fn createWriteStream(path : String) -> @stream.Writable {
-  let fs : @core.Any = fs_module() |> @core.any
-  fs._call("createWriteStream", [@core.any(path)]).cast()
+  internal_create_write_stream(path)
 }
 
 ///| Additional File Operations
@@ -261,20 +297,14 @@ pub fn symlinkSync(
 /// Read symbolic link synchronously
 #alias(readlink_sync)
 pub fn readlinkSync(path : String) -> String raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readlinkSync", [@core.any(path)]).cast()
-  })
+  @core.throwable(fn() { internal_readlink_sync(path) })
 }
 
 ///|
 /// Get real path synchronously
 #alias(realpath_sync)
 pub fn realpathSync(path : String) -> String raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("realpathSync", [@core.any(path)]).cast()
-  })
+  @core.throwable(fn() { internal_realpath_sync(path) })
 }
 
 ///|
@@ -368,10 +398,7 @@ pub fn openSync(
 /// Close file descriptor synchronously
 #alias(close_sync)
 pub fn closeSync(fd : Int) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("closeSync", [@core.any(fd)]) |> ignore
-  })
+  @core.throwable(fn() { internal_close_sync(fd) })
 }
 
 ///|

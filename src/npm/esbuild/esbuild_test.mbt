@@ -29,18 +29,8 @@ test "Loader enum to_string" {
 }
 
 ///|
-test "esbuild module exists" {
-  let es = esbuild()
-  @core.typeof_(es.as_any()._get("build")) |> assert_eq("function")
-  @core.typeof_(es.as_any()._get("transform")) |> assert_eq("function")
-  @core.typeof_(es.as_any()._get("buildSync")) |> assert_eq("function")
-  @core.typeof_(es.as_any()._get("transformSync")) |> assert_eq("function")
-}
-
-///|
 test "transformSync minify JS" {
-  let es = esbuild()
-  let result = es.transform_sync(
+  let result = transform_sync(
     "const x = 1 + 2;\nconsole.log(x);",
     loader=Js,
     minify=true,
@@ -52,8 +42,7 @@ test "transformSync minify JS" {
 
 ///|
 test "transformSync TypeScript" {
-  let es = esbuild()
-  let result = es.transform_sync(
+  let result = transform_sync(
     "const greet = (name: string): string => `Hello, ${name}`;",
     loader=Ts,
   )
@@ -65,11 +54,7 @@ test "transformSync TypeScript" {
 
 ///|
 test "transformSync TSX" {
-  let es = esbuild()
-  let result = es.transform_sync(
-    "const App = () => <div>Hello</div>;",
-    loader=Tsx,
-  )
+  let result = transform_sync("const App = () => <div>Hello</div>;", loader=Tsx)
   let code = result.code()
   // JSX should be transformed
   assert_false(code.contains("<div>"))
@@ -78,8 +63,7 @@ test "transformSync TSX" {
 
 ///|
 test "transformSync with sourcemap" {
-  let es = esbuild()
-  let result = es.transform_sync("const x = 1;", loader=Js, sourcemap=true)
+  let result = transform_sync("const x = 1;", loader=Js, sourcemap=true)
   let map = result.map()
   assert_true(map.length() > 0)
   assert_true(map.contains("mappings"))
@@ -87,8 +71,7 @@ test "transformSync with sourcemap" {
 
 ///|
 test "transformSync with format cjs" {
-  let es = esbuild()
-  let result = es.transform_sync("export const x = 1;", loader=Js, format=Cjs)
+  let result = transform_sync("export const x = 1;", loader=Js, format=Cjs)
   let code = result.code()
   // ESM export should be converted to CJS
   assert_true(code.contains("exports") || code.contains("module"))
@@ -96,8 +79,7 @@ test "transformSync with format cjs" {
 
 ///|
 test "transformSync with target" {
-  let es = esbuild()
-  let result = es.transform_sync(
+  let result = transform_sync(
     "const fn = async () => await Promise.resolve(1);",
     loader=Js,
     target="es2017",
@@ -109,21 +91,19 @@ test "transformSync with target" {
 
 ///|
 async test "transform async" {
-  let es = esbuild()
-  let result = es.transform("const x = 1 + 2;", loader=Js, minify=true)
+  let result = @esbuild.transform("const x = 1 + 2;", loader=Js, minify=true)
   let code = result.code()
   assert_true(code.length() < 20)
 }
 
 ///|
 async test "build with write=false" {
-  let es = esbuild()
   // Create a temp file first
   @fs.write_file_sync(
     "/tmp/esbuild_test_entry.js",
     "export const x = 42;" |> @core.any,
   )
-  let result = es.build(
+  let result = @esbuild.build(
     entry_points=["/tmp/esbuild_test_entry.js"],
     write=false,
     bundle=true,
@@ -140,12 +120,11 @@ async test "build with write=false" {
 
 ///|
 async test "build with minify" {
-  let es = esbuild()
   @fs.write_file_sync(
     "/tmp/esbuild_minify_test.js",
     "export function longFunctionName() { return 1 + 2 + 3; }" |> @core.any,
   )
-  let result = es.build(
+  let result = @esbuild.build(
     entry_points=["/tmp/esbuild_minify_test.js"],
     write=false,
     bundle=true,
