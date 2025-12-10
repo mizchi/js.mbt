@@ -164,9 +164,9 @@ pub fn[T] HonoContext::as_any(Self[T]) -> @core.Any
 
 #external
 pub type HonoCss
-pub fn HonoCss::css(Self, String) -> CssClass
+pub fn HonoCss::css(Self, String, args? : Array[@core.Any]) -> CssClass
 pub fn HonoCss::cx(Self, Array[CssClass]) -> CssClass
-pub fn HonoCss::keyframes(Self, String) -> CssClass
+pub fn HonoCss::keyframes(Self, String, args? : Array[@core.Any]) -> CssClass
 pub fn HonoCss::style_component(Self, nonce? : String) -> JSXNode
 
 #external

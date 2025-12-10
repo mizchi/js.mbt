@@ -60,15 +60,20 @@ extern "js" fn ffi_css_to_string(c : @core.Any) -> String =
 pub type HonoCss
 
 ///|
-extern "js" fn ffi_hono_css_css(m : HonoCss, styles : @core.Any) -> @core.Any =
-  #|(m, styles) => m.css(styles)
+extern "js" fn ffi_hono_css_css(
+  m : HonoCss,
+  strings : @core.TemplateStringsArray,
+  values : Array[@core.Any],
+) -> @core.Any =
+  #|(m, strings, values) => m.css(strings, ...values)
 
 ///|
 extern "js" fn ffi_hono_css_keyframes(
   m : HonoCss,
-  animation : @core.Any,
+  strings : @core.TemplateStringsArray,
+  values : Array[@core.Any],
 ) -> @core.Any =
-  #|(m, animation) => m.keyframes(animation)
+  #|(m, strings, values) => m.keyframes(strings, ...values)
 
 ///|
 extern "js" fn ffi_hono_css_cx(m : HonoCss, classes : @core.Any) -> @core.Any =
@@ -93,19 +98,79 @@ pub fn CssClass::to_string(self : CssClass) -> String {
 }
 
 ///|
-/// Create a CSS class from a style string
-/// Returns a CssClass that can be used with jsx class attribute
-pub fn HonoCss::css(self : HonoCss, styles : String) -> CssClass {
-  // css uses tagged template literal syntax, wrap in array
-  ffi_hono_css_css(self, @core.any([styles])).cast()
+/// Create a CSS class using tagged template syntax.
+///
+/// Template format uses `${@0}`, `${@1}`, etc. as placeholders for interpolation.
+/// Returns a CssClass that can be used with jsx class attribute.
+///
+/// # Example
+///
+/// ```moonbit
+/// // Simple usage without interpolation
+/// let cls = hono_css.css("color: red")
+///
+/// // With interpolation
+///
+/// let color = "blue"
+///
+/// let size = 16
+///
+/// let cls = hono_css.css("color: ${@0}; font-size: ${@1}px", args=[
+///   @core.any(color),
+///   @core.any(size),
+/// ])
+/// ```
+pub fn HonoCss::css(
+  self : HonoCss,
+  template : String,
+  args? : Array[@core.Any] = [],
+) -> CssClass {
+  fn tag_fn(
+    strings : @core.TemplateStringsArray,
+    values : Array[@core.Any],
+  ) -> CssClass {
+    ffi_hono_css_css(self, strings, values).cast()
+  }
+
+  @core.tag(tag_fn, template, args)
 }
 
 ///|
-/// Create keyframes animation
-/// Returns a CssClass for the animation
-pub fn HonoCss::keyframes(self : HonoCss, animation : String) -> CssClass {
-  // keyframes uses tagged template literal syntax, wrap in array
-  ffi_hono_css_keyframes(self, @core.any([animation])).cast()
+/// Create keyframes animation using tagged template syntax.
+///
+/// Template format uses `${@0}`, `${@1}`, etc. as placeholders for interpolation.
+/// Returns a CssClass for the animation.
+///
+/// # Example
+///
+/// ```moonbit
+/// // Simple usage
+/// let anim = hono_css.keyframes("from { opacity: 0 } to { opacity: 1 }")
+///
+/// // With interpolation
+///
+/// let start = 0.5
+///
+/// let end = 1.0
+///
+/// let anim = hono_css.keyframes(
+///   "from { transform: scale(${@0}) } to { transform: scale(${@1}) }",
+///   args=[@core.any(start), @core.any(end)],
+/// )
+/// ```
+pub fn HonoCss::keyframes(
+  self : HonoCss,
+  template : String,
+  args? : Array[@core.Any] = [],
+) -> CssClass {
+  fn tag_fn(
+    strings : @core.TemplateStringsArray,
+    values : Array[@core.Any],
+  ) -> CssClass {
+    ffi_hono_css_keyframes(self, strings, values).cast()
+  }
+
+  @core.tag(tag_fn, template, args)
 }
 
 ///|

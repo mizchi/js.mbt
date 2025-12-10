@@ -96,6 +96,8 @@ pub async fn sleep(Int) -> Unit noraise
 
 pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
+pub fn[T] tag((TemplateStringsArray, Array[Any]) -> T, String, Array[Any]) -> T
+
 pub fn throw_(Any) -> Unit
 
 pub fn throw_error(String) -> Unit
@@ -168,6 +170,14 @@ pub(all) struct SettledResult[T] {
   reason : Nullable[Any]
 }
 pub fn[T] SettledResult::to_any(Self[T]) -> Any
+
+#external
+pub type TemplateStringsArray
+pub fn TemplateStringsArray::length(Self) -> Int
+pub fn TemplateStringsArray::op_get(Self, Int) -> String
+pub fn TemplateStringsArray::raw(Self) -> Array[String]
+pub fn TemplateStringsArray::raw_get(Self, Int) -> String
+pub fn TemplateStringsArray::to_any(Self) -> Any
 
 #external
 pub type Union2[A, B]
