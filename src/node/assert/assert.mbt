@@ -1,91 +1,131 @@
 ///|
-/// node:assert module (kept for functions with optional message arg)
-extern "js" fn assert_module() -> @core.Any =
-  #| () => require("node:assert")
+#module("node:assert")
+extern "js" fn ffi_ok(value : Bool, message : String?) -> Unit = "ok"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_ok_1(value : Bool) -> Unit = "ok"
-
-///|
-#module("node:assert")
-extern "js" fn ffi_equal_2(actual : @core.Any, expected : @core.Any) -> Unit = "equal"
-
-///|
-#module("node:assert")
-extern "js" fn ffi_not_equal_2(
+extern "js" fn ffi_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
+) -> Unit = "equal"
+
+///|
+#module("node:assert")
+extern "js" fn ffi_not_equal(
+  actual : @core.Any,
+  expected : @core.Any,
+  message : String?,
 ) -> Unit = "notEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_deep_equal_2(
+extern "js" fn ffi_deep_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "deepEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_not_deep_equal_2(
+extern "js" fn ffi_not_deep_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "notDeepEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_strict_equal_2(
+extern "js" fn ffi_strict_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "strictEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_not_strict_equal_2(
+extern "js" fn ffi_not_strict_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "notStrictEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_deep_strict_equal_2(
+extern "js" fn ffi_deep_strict_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "deepStrictEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_not_deep_strict_equal_2(
+extern "js" fn ffi_not_deep_strict_equal(
   actual : @core.Any,
   expected : @core.Any,
+  message : String?,
 ) -> Unit = "notDeepStrictEqual"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_throws_1(fn_ : () -> Unit) -> Unit = "throws"
+extern "js" fn ffi_throws(fn_ : () -> Unit, message : String?) -> Unit = "throws"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_does_not_throw_1(fn_ : () -> Unit) -> Unit = "doesNotThrow"
+extern "js" fn ffi_does_not_throw(
+  fn_ : () -> Unit,
+  message : String?,
+) -> Unit = "doesNotThrow"
 
 ///|
 #module("node:assert")
-extern "js" fn ffi_fail_0() -> Unit = "fail"
+extern "js" fn ffi_fail(message : String?) -> Unit = "fail"
 
 ///|
 #module("node:assert")
 extern "js" fn ffi_if_error(value : @core.Any) -> Unit = "ifError"
+
+///|
+#module("node:assert")
+extern "js" fn ffi_rejects(
+  promise : @core.Any,
+  error : @core.Any,
+  message : String?,
+) -> @core.Promise[Unit] = "rejects"
+
+///|
+#module("node:assert")
+extern "js" fn ffi_does_not_reject(
+  promise : @core.Any,
+  message : String?,
+) -> @core.Promise[Unit] = "doesNotReject"
+
+///|
+#module("node:assert")
+extern "js" fn ffi_match(
+  actual : String,
+  regex : @core.Any,
+  message : String?,
+) -> Unit = "match"
+
+///|
+#module("node:assert")
+extern "js" fn ffi_does_not_match(
+  actual : String,
+  regex : @core.Any,
+  message : String?,
+) -> Unit = "doesNotMatch"
+
+///|
+extern "js" fn ffi_undefined() -> @core.Any =
+  #| () => undefined
 
 ///| Basic Assertions
 
 ///|
 /// Assert that a value is truthy
 pub fn ok(value : Bool, message? : String) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("ok", [@core.any(value), @core.any(msg)]) |> ignore
-    None => ffi_ok_1(value)
-  }
+  ffi_ok(value, message)
 }
 
 ///|
@@ -95,12 +135,7 @@ pub fn equal(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("equal", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_equal_2(actual, expected)
-  }
+  ffi_equal(actual, expected, message)
 }
 
 ///|
@@ -110,12 +145,7 @@ pub fn notEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("notEqual", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_not_equal_2(actual, expected)
-  }
+  ffi_not_equal(actual, expected, message)
 }
 
 ///|
@@ -125,12 +155,7 @@ pub fn deepEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("deepEqual", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_deep_equal_2(actual, expected)
-  }
+  ffi_deep_equal(actual, expected, message)
 }
 
 ///|
@@ -140,12 +165,7 @@ pub fn notDeepEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("notDeepEqual", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_not_deep_equal_2(actual, expected)
-  }
+  ffi_not_deep_equal(actual, expected, message)
 }
 
 ///|
@@ -155,12 +175,7 @@ pub fn strictEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("strictEqual", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_strict_equal_2(actual, expected)
-  }
+  ffi_strict_equal(actual, expected, message)
 }
 
 ///|
@@ -170,12 +185,7 @@ pub fn notStrictEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("notStrictEqual", [actual, expected, @core.any(msg)])
-      |> ignore
-    None => ffi_not_strict_equal_2(actual, expected)
-  }
+  ffi_not_strict_equal(actual, expected, message)
 }
 
 ///|
@@ -185,16 +195,7 @@ pub fn deepStrictEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("deepStrictEqual", [
-        actual,
-        expected,
-        @core.any(msg),
-      ])
-      |> ignore
-    None => ffi_deep_strict_equal_2(actual, expected)
-  }
+  ffi_deep_strict_equal(actual, expected, message)
 }
 
 ///|
@@ -204,16 +205,7 @@ pub fn notDeepStrictEqual(
   expected : @core.Any,
   message? : String,
 ) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("notDeepStrictEqual", [
-        actual,
-        expected,
-        @core.any(msg),
-      ])
-      |> ignore
-    None => ffi_not_deep_strict_equal_2(actual, expected)
-  }
+  ffi_not_deep_strict_equal(actual, expected, message)
 }
 
 ///| Error Assertions
@@ -221,26 +213,13 @@ pub fn notDeepStrictEqual(
 ///|
 /// Assert that a function throws
 pub fn throws(fn_ : () -> Unit, message? : String) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("throws", [@core.from_fn0(fn_), @core.any(msg)])
-      |> ignore
-    None => ffi_throws_1(fn_)
-  }
+  ffi_throws(fn_, message)
 }
 
 ///|
 /// Assert that a function does not throw
 pub fn doesNotThrow(fn_ : () -> Unit, message? : String) -> Unit {
-  match message {
-    Some(msg) =>
-      assert_module()._call("doesNotThrow", [
-        @core.from_fn0(fn_),
-        @core.any(msg),
-      ])
-      |> ignore
-    None => ffi_does_not_throw_1(fn_)
-  }
+  ffi_does_not_throw(fn_, message)
 }
 
 ///|
@@ -250,26 +229,17 @@ pub async fn rejects(
   error? : @core.Any,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
-  let p : @core.Promise[Unit] = match (error, message) {
-    (Some(err), Some(msg)) =>
-      a._call("rejects", [promise, err, @core.any(msg)]).cast()
-    (Some(err), None) => a._call("rejects", [promise, err]).cast()
-    (None, Some(msg)) => a._call("rejects", [promise, @core.any(msg)]).cast()
-    (None, None) => a._call("rejects", [promise]).cast()
+  let err = match error {
+    Some(e) => e
+    None => ffi_undefined()
   }
-  p.wait()
+  ffi_rejects(promise, err, message).wait()
 }
 
 ///|
 /// Assert that a promise does not reject
 pub async fn doesNotReject(promise : @core.Any, message? : String) -> Unit {
-  let a = assert_module()
-  let p : @core.Promise[Unit] = match message {
-    Some(msg) => a._call("doesNotReject", [promise, @core.any(msg)]).cast()
-    None => a._call("doesNotReject", [promise]).cast()
-  }
-  p.wait()
+  ffi_does_not_reject(promise, message).wait()
 }
 
 ///| Other Assertions
@@ -277,10 +247,7 @@ pub async fn doesNotReject(promise : @core.Any, message? : String) -> Unit {
 ///|
 /// Always fails
 pub fn fail(message? : String) -> Unit {
-  match message {
-    Some(msg) => assert_module()._call("fail", [@core.any(msg)]) |> ignore
-    None => ffi_fail_0()
-  }
+  ffi_fail(message)
 }
 
 ///|
@@ -291,13 +258,7 @@ extern "js" fn create_regexp(pattern : String) -> @core.Any =
 ///|
 /// Assert regex match
 pub fn match_(actual : String, regexp : String, message? : String) -> Unit {
-  let a = assert_module()
-  let regex = create_regexp(regexp)
-  match message {
-    Some(msg) =>
-      a._call("match", [@core.any(actual), regex, @core.any(msg)]) |> ignore
-    None => a._call("match", [@core.any(actual), regex]) |> ignore
-  }
+  ffi_match(actual, create_regexp(regexp), message)
 }
 
 ///|
@@ -307,43 +268,7 @@ pub fn doesNotMatch(
   regexp : String,
   message? : String,
 ) -> Unit {
-  let a = assert_module()
-  let regex = create_regexp(regexp)
-  match message {
-    Some(msg) =>
-      a._call("doesNotMatch", [@core.any(actual), regex, @core.any(msg)])
-      |> ignore
-    None => a._call("doesNotMatch", [@core.any(actual), regex]) |> ignore
-  }
-}
-
-///|
-/// Assert that value is instance of constructor
-pub fn instanceOf(
-  value : @core.Any,
-  ctor : @core.Any,
-  message? : String,
-) -> Unit {
-  let a = assert_module()
-  match message {
-    Some(msg) => a._call("instanceOf", [value, ctor, @core.any(msg)]) |> ignore
-    None => a._call("instanceOf", [value, ctor]) |> ignore
-  }
-}
-
-///|
-/// Assert that value is not instance of constructor
-pub fn notInstanceOf(
-  value : @core.Any,
-  ctor : @core.Any,
-  message? : String,
-) -> Unit {
-  let a = assert_module()
-  match message {
-    Some(msg) =>
-      a._call("notInstanceOf", [value, ctor, @core.any(msg)]) |> ignore
-    None => a._call("notInstanceOf", [value, ctor]) |> ignore
-  }
+  ffi_does_not_match(actual, create_regexp(regexp), message)
 }
 
 ///|

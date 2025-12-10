@@ -2,7 +2,6 @@
 /// Benchmark for React element creation and rendering
 // This benchmark tests the performance of creating complex nested components
 
-
 ///|
 /// Create a complex nested component tree simulating a typical web page
 fn create_complex_component() -> @react.Element {
@@ -80,7 +79,7 @@ fn create_complex_component() -> @react.Element {
 ///|
 /// Benchmark: Create complex component (element creation only)
 test "benchmark: create complex component" (b : @bench.T) {
-    b.bench(fn() { b.keep(create_complex_component()) })
+  b.bench(fn() { b.keep(create_complex_component()) })
 }
 
 ///|
@@ -128,7 +127,7 @@ fn create_form_component() -> @react.Element {
 
 ///|
 test "benchmark: create form component" (b : @bench.T) {
-    b.bench(fn() { b.keep(create_form_component()) })
+  b.bench(fn() { b.keep(create_form_component()) })
 }
 
 ///|
@@ -159,7 +158,7 @@ fn create_svg_chart() -> @react.Element {
 
 ///|
 test "benchmark: create SVG chart" (b : @bench.T) {
-    b.bench(fn() { b.keep(create_svg_chart()) })
+  b.bench(fn() { b.keep(create_svg_chart()) })
 }
 
 ///|
