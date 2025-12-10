@@ -28,20 +28,16 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:@types/node@^24.10.1",
-        "npm:acorn@^8.15.0",
-        "npm:ajv@^8.17.1",
+        "npm:@types/node@^24.10.2",
         "npm:canvas@^3.2.0",
-        "npm:date-fns@^4.1.0",
         "npm:fake-indexeddb@^6.2.5",
         "npm:global-jsdom@27.0.0",
         "npm:happy-dom@^20.0.11",
-        "npm:jsdom@27.0.1",
+        "npm:jsdom@27.3.0",
         "npm:playwright@^1.57.0",
         "npm:terser@^5.44.1",
-        "npm:tsx@^4.21.0",
         "npm:vite@8.0.0-beta.1",
-        "npm:vitest@^3.2.4"
+        "npm:vitest@^4.0.15"
       ]
     }
   }
