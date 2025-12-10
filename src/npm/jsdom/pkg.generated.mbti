@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/npm/jsdom"
+
+import(
+  "mizchi/js/browser/dom"
+  "mizchi/js/core"
+)
+
+// Values
+pub async fn create_jsdom(html? : String, options? : JSDOMOptions) -> JSDOM
+
+pub async fn create_window(html? : String, options? : JSDOMOptions) -> @dom.Window
+
+pub async fn fragment(String) -> @dom.DocumentFragment
+
+pub async fn from_file(String, options? : JSDOMOptions) -> JSDOM
+
+pub async fn from_url(String, options? : JSDOMOptions) -> JSDOM
+
+// Errors
+
+// Types and methods
+#external
+pub type JSDOM
+pub fn JSDOM::as_any(Self) -> @core.Any
+pub fn JSDOM::serialize(Self) -> String
+pub fn JSDOM::virtual_console(Self) -> @core.Any
+pub fn JSDOM::window(Self) -> @dom.Window
+
+pub(all) struct JSDOMOptions {
+  url : String?
+  referrer : String?
+  content_type : String?
+  run_scripts : String?
+  resources : String?
+  pretend_to_be_visual : Bool?
+}
+pub fn JSDOMOptions::default() -> Self
+
+// Type aliases
+
+// Traits
+
