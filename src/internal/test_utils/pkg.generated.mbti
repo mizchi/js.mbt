@@ -1,7 +1,8 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/internal/bench"
+package "mizchi/js/internal/test_utils"
 
 // Values
+pub fn global_jsdom_register() -> Unit
 
 // Errors
 

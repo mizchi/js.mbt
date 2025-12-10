@@ -38,35 +38,31 @@ async test "Node HTTP: HTTP server can be created with request listener" {
 
 ///|
 async test "Node HTTP: HTTP server can listen and close properly" {
-  let mut listening_called = false
-  let mut close_called = false
   let server = createServerNoListener()
   defer server.close() |> ignore // Cleanup to prevent leaks
 
-  // Start listening
-  server.listen(0, host="127.0.0.1", callback=() => listening_called = true)
-  |> ignore
-
-  // Wait for server to start
-  @core.sleep(48)
-  inspect(listening_called, content="true")
+  // Start listening and suspend until ready
+  @core.suspend(fn(resolve, _reject) {
+    server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+  })
   inspect(server.listening(), content="true")
 
-  // Explicitly close server with callback
-  server.close(callback=fn() { close_called = true }) |> ignore
-
-  // Wait for server to close
-  @core.sleep(96)
-  inspect(close_called, content="true")
+  // Explicitly close server with callback and suspend until closed
+  @core.suspend(fn(resolve, _reject) {
+    server.close(callback=() => resolve(())) |> ignore
+  })
+  inspect(server.listening(), content="false")
 }
 
 ///|
 async test "Node HTTP: HTTP server can get address after listening" {
-  let mut close_called = false
   let server = createServerNoListener()
   defer server.close() |> ignore // Cleanup to prevent leaks
-  server.listen(0, host="127.0.0.1") |> ignore
-  @core.sleep(48)
+
+  // Start listening and suspend until ready
+  @core.suspend(fn(resolve, _reject) {
+    server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+  })
   let address = server.address()
   inspect(address is None, content="false")
   match address {
@@ -76,10 +72,12 @@ async test "Node HTTP: HTTP server can get address after listening" {
     }
     None => ()
   }
-  // Explicitly close server with callback
-  server.close(callback=fn() { close_called = true }) |> ignore
-  @core.sleep(96)
-  inspect(close_called, content="true")
+
+  // Explicitly close server with callback and suspend until closed
+  @core.suspend(fn(resolve, _reject) {
+    server.close(callback=() => resolve(())) |> ignore
+  })
+  inspect(server.listening(), content="false")
 }
 
 ///| Request/Response test (single simple test)
@@ -87,9 +85,6 @@ async test "Node HTTP: HTTP server can get address after listening" {
 ///|
 async test "Node HTTP: HTTP server handles simple request" {
   let mut request_handled = false
-  let mut response_received = false
-  let mut close_called = false
-  let mut server_listening = false
   let server = createServer(fn(
     _req : @http.IncomingMessage,
     res : @http.ServerResponse,
@@ -100,11 +95,11 @@ async test "Node HTTP: HTTP server handles simple request" {
   })
   defer server.close() |> ignore // Cleanup to prevent leaks
 
-  // Start server with callback to ensure it's ready
-  server.listen(0, host="127.0.0.1", callback=fn() { server_listening = true })
-  |> ignore
-  @core.sleep(300)
-  inspect(server_listening, content="true")
+  // Start server with callback and suspend until ready
+  @core.suspend(fn(resolve, _reject) {
+    server.listen(0, host="127.0.0.1", callback=() => resolve(())) |> ignore
+  })
+  inspect(server.listening(), content="true")
 
   // Get port
   let port = match server.address() {
@@ -112,23 +107,20 @@ async test "Node HTTP: HTTP server handles simple request" {
     None => 0
   }
 
-  // Make request
-  let client_req = @http.get("http://127.0.0.1:\{port}/", callback=fn(
-    _res : @http.IncomingMessage,
-  ) {
-    response_received = true
+  // Make request and suspend until response received
+  @core.suspend(fn(resolve, _reject) {
+    let client_req = @http.get("http://127.0.0.1:\{port}/", callback=_res => resolve(
+      (),
+    ))
+    client_req.end()
   })
-  client_req.end()
-
-  // Wait for request/response (increased timeout for reliability)
-  @core.sleep(500)
   inspect(request_handled, content="true")
-  inspect(response_received, content="true")
 
-  // Explicitly close server with callback
-  server.close(callback=fn() { close_called = true }) |> ignore
-  @core.sleep(500)
-  inspect(close_called, content="true")
+  // Explicitly close server with callback and suspend until closed
+  @core.suspend(fn(resolve, _reject) {
+    server.close(callback=() => resolve(())) |> ignore
+  })
+  inspect(server.listening(), content="false")
 }
 
 ///| Module function tests
