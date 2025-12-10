@@ -39,6 +39,42 @@ let result : Result[Int, @test_utils.TimeoutError] = try? @test_utils.wait_for(
 // result is Err(TimeoutError("Operation timed out after 10ms"))
 ```
 
+### `retry` - Retry async functions with timeout
+
+Use for flaky operations that may fail intermittently:
+
+```moonbit
+// Basic retry
+@test_utils.retry(3, async fn() {
+  // Operation that may fail
+})
+
+// With timeout per attempt
+@test_utils.retry(3, async fn() {
+  // Operation that may hang
+}, timeout=100)
+
+// With callbacks
+@test_utils.retry(
+  3,
+  async fn() { /* ... */ },
+  on_fail=fn(attempt) { println("Attempt \{attempt} failed") },
+  on_success=fn() { println("Success!") },
+  cleanup=fn() { println("Done (always called)") },
+)
+```
+
+Parameters:
+- `n`: Maximum number of retry attempts
+- `f`: The async function to retry
+- `timeout?`: Optional timeout per attempt in milliseconds
+- `total_timeout?`: Optional total timeout for all attempts in milliseconds
+- `on_fail?`: Called on each failure with attempt number
+- `on_success?`: Called on success
+- `cleanup?`: Called after all attempts (always, whether success or failure)
+
+Raises `RetryError` if all attempts fail (exception or timeout).
+
 ## jsdom
 
 For browser testing, use `global_jsdom_register()` to set up a global jsdom environment:

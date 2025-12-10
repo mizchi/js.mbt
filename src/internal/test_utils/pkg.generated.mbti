@@ -4,11 +4,17 @@ package "mizchi/js/internal/test_utils"
 // Values
 pub fn global_jsdom_register() -> Unit
 
+pub async fn retry(Int, async () -> Unit, timeout? : Int, total_timeout? : Int, on_fail? : (Int) -> Unit, on_success? : () -> Unit, cleanup? : () -> Unit) -> Unit raise RetryError
+
 pub async fn[T] timeout(Int, async () -> T) -> T raise TimeoutError
 
 pub async fn[T] wait_for(timeout~ : Int, ((T) -> Unit) -> Unit) -> T raise TimeoutError
 
 // Errors
+pub suberror RetryError String
+pub fn RetryError::new(String) -> Self
+pub fn RetryError::to_string(Self) -> String
+
 pub suberror TimeoutError String
 pub fn TimeoutError::to_string(Self) -> String
 
