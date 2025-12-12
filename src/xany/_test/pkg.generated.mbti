@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/xany/_test"
+
+import(
+  "mizchi/js/xany"
+)
+
+// Values
+pub fn test_math_random() -> @xany.Xany
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

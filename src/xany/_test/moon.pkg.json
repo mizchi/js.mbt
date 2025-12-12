@@ -1,0 +1,12 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js/xany"
+  ],
+  "link": {
+    "wasm-gc": {
+      "exports": ["test_math_random"],
+      "use-js-builtin-string": true
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js/xany",
+    "mizchi/js/core"
+  ]
+}
