@@ -99,24 +99,24 @@ pub extern "js" fn equal(a : Xany, b : Xany) -> Bool =
 test "Xany::of and unsafe_coerce" {
   let x = Xany::of(42)
   let v : Int = x.unsafe_coerce()
-  assert_eq!(v, 42)
+  assert_eq(v, 42)
 }
 
 ///|
 test "null and undefined" {
-  assert_true!(is_nullish(null()))
-  assert_true!(is_nullish(undefined()))
+  assert_true(is_nullish(null()))
+  assert_true(is_nullish(undefined()))
 }
 
 ///|
 test "global_this exists" {
   let g = global_this()
-  assert_false!(is_nullish(g))
+  assert_false(is_nullish(g))
 }
 
 ///|
 test "_get property" {
   let g = global_this()
   let math = g["Math"]
-  assert_false!(is_nullish(math))
+  assert_false(is_nullish(math))
 }

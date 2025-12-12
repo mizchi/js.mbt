@@ -144,16 +144,16 @@ pub fn equal(a : Xany, b : Xany) -> Bool {
 ///|
 test "null returns null pointer" {
   let n = null()
-  assert_true!(is_nullish(n))
+  assert_true(is_nullish(n))
 }
 
 ///|
 test "undefined returns null pointer" {
   let u = undefined()
-  assert_true!(is_nullish(u))
+  assert_true(is_nullish(u))
 }
 
 ///|
 test "null and undefined are equal" {
-  assert_true!(equal(null(), undefined()))
+  assert_true(equal(null(), undefined()))
 }
