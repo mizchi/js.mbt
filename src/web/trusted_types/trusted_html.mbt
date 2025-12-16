@@ -23,6 +23,56 @@ pub fn TrustedHTML::toJSON(self : TrustedHTML) -> String {
 }
 
 ///|
+/// Web Trusted Types API - TrustedScript
+/// https://developer.mozilla.org/en-US/docs/Web/API/TrustedScript
+///
+/// TrustedScript represents a string containing an uncompiled script body
+/// that can be safely inserted into script execution sinks.
+/// It cannot be created directly - use TrustedTypePolicy.create_script() instead.
+pub(all) struct TrustedScript {}
+
+///|
+pub fn TrustedScript::as_any(self : TrustedScript) -> @core.Any = "%identity"
+
+///|
+/// Returns the sanitized script string
+pub fn TrustedScript::to_string(self : TrustedScript) -> String {
+  self.as_any()._call("toString", []).cast()
+}
+
+///|
+/// Returns a JSON representation of the stored data
+#alias(to_json)
+pub fn TrustedScript::toJSON(self : TrustedScript) -> String {
+  self.as_any()._call("toJSON", []).cast()
+}
+
+///|
+/// Web Trusted Types API - TrustedScriptURL
+/// https://developer.mozilla.org/en-US/docs/Web/API/TrustedScriptURL
+///
+/// TrustedScriptURL represents a string containing a URL that can be safely
+/// used in script loading sinks.
+/// It cannot be created directly - use TrustedTypePolicy.create_script_url() instead.
+pub(all) struct TrustedScriptURL {}
+
+///|
+pub fn TrustedScriptURL::as_any(self : TrustedScriptURL) -> @core.Any = "%identity"
+
+///|
+/// Returns the sanitized script URL string
+pub fn TrustedScriptURL::to_string(self : TrustedScriptURL) -> String {
+  self.as_any()._call("toString", []).cast()
+}
+
+///|
+/// Returns a JSON representation of the stored data
+#alias(to_json)
+pub fn TrustedScriptURL::toJSON(self : TrustedScriptURL) -> String {
+  self.as_any()._call("toJSON", []).cast()
+}
+
+///|
 /// Web Trusted Types API - TrustedTypePolicy
 /// https://developer.mozilla.org/en-US/docs/Web/API/TrustedTypePolicy
 ///
@@ -64,6 +114,56 @@ pub fn TrustedTypePolicy::createHTMLWithArgs(
 }
 
 ///|
+/// Creates a TrustedScript object from the given input string
+#alias(create_script)
+pub fn TrustedTypePolicy::createScript(
+  self : TrustedTypePolicy,
+  input : String,
+) -> TrustedScript {
+  self.as_any()._call("createScript", [@core.any(input)]).cast()
+}
+
+///|
+/// Creates a TrustedScript object with additional arguments
+#alias(create_script_with_args)
+pub fn TrustedTypePolicy::createScriptWithArgs(
+  self : TrustedTypePolicy,
+  input : String,
+  args : Array[@core.Any],
+) -> TrustedScript {
+  let all_args = [@core.any(input)]
+  for arg in args {
+    all_args.push(arg)
+  }
+  self.as_any()._call("createScript", all_args).cast()
+}
+
+///|
+/// Creates a TrustedScriptURL object from the given input string
+#alias(create_script_url)
+pub fn TrustedTypePolicy::createScriptURL(
+  self : TrustedTypePolicy,
+  input : String,
+) -> TrustedScriptURL {
+  self.as_any()._call("createScriptURL", [@core.any(input)]).cast()
+}
+
+///|
+/// Creates a TrustedScriptURL object with additional arguments
+#alias(create_script_url_with_args)
+pub fn TrustedTypePolicy::createScriptURLWithArgs(
+  self : TrustedTypePolicy,
+  input : String,
+  args : Array[@core.Any],
+) -> TrustedScriptURL {
+  let all_args = [@core.any(input)]
+  for arg in args {
+    all_args.push(arg)
+  }
+  self.as_any()._call("createScriptURL", all_args).cast()
+}
+
+///|
 /// Web Trusted Types API - TrustedTypePolicyFactory
 /// https://developer.mozilla.org/en-US/docs/Web/API/TrustedTypePolicyFactory
 ///
@@ -92,14 +192,20 @@ pub fn trusted_types() -> TrustedTypePolicyFactory {
 pub(all) struct TrustedTypePolicyOptions {
   /// Function to sanitize and create TrustedHTML
   create_html : ((String) -> String)?
+  /// Function to sanitize and create TrustedScript
+  create_script : ((String) -> String)?
+  /// Function to sanitize and create TrustedScriptURL
+  create_script_url : ((String) -> String)?
 }
 
 ///|
 /// Create default policy options
 pub fn TrustedTypePolicyOptions::new(
   create_html? : ((String) -> String)? = None,
+  create_script? : ((String) -> String)? = None,
+  create_script_url? : ((String) -> String)? = None,
 ) -> TrustedTypePolicyOptions {
-  { create_html, }
+  { create_html, create_script, create_script_url }
 }
 
 ///|
@@ -121,6 +227,12 @@ pub fn TrustedTypePolicyFactory::createPolicy(
   let policy_options : Array[(String, @core.Any)] = []
   if options.create_html is Some(fn_) {
     policy_options.push(("createHTML", @core.any(fn_)))
+  }
+  if options.create_script is Some(fn_) {
+    policy_options.push(("createScript", @core.any(fn_)))
+  }
+  if options.create_script_url is Some(fn_) {
+    policy_options.push(("createScriptURL", @core.any(fn_)))
   }
   ffi_create_policy(self.as_any(), name, @core.from_entries(policy_options)).cast()
 }
@@ -156,6 +268,35 @@ pub fn TrustedTypePolicyFactory::emptyHTML(
   self : TrustedTypePolicyFactory,
 ) -> TrustedHTML {
   self.as_any()["emptyHTML"].cast()
+}
+
+///|
+/// Returns true if the value is a TrustedScript object
+#alias(is_script)
+pub fn TrustedTypePolicyFactory::isScript(
+  self : TrustedTypePolicyFactory,
+  value : @core.Any,
+) -> Bool {
+  self.as_any()._call("isScript", [value]).cast()
+}
+
+///|
+/// Returns the empty TrustedScript object
+#alias(empty_script)
+pub fn TrustedTypePolicyFactory::emptyScript(
+  self : TrustedTypePolicyFactory,
+) -> TrustedScript {
+  self.as_any()["emptyScript"].cast()
+}
+
+///|
+/// Returns true if the value is a TrustedScriptURL object
+#alias(is_script_url)
+pub fn TrustedTypePolicyFactory::isScriptURL(
+  self : TrustedTypePolicyFactory,
+  value : @core.Any,
+) -> Bool {
+  self.as_any()._call("isScriptURL", [value]).cast()
 }
 
 ///|
