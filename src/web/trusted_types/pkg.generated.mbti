@@ -1,0 +1,54 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/trusted_types"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn trusted_types() -> TrustedTypePolicyFactory
+
+// Errors
+
+// Types and methods
+pub(all) struct TrustedHTML {
+}
+pub fn TrustedHTML::as_any(Self) -> @core.Any
+#alias(to_json)
+pub fn TrustedHTML::toJSON(Self) -> String
+pub fn TrustedHTML::to_string(Self) -> String
+
+pub(all) struct TrustedTypePolicy {
+}
+pub fn TrustedTypePolicy::as_any(Self) -> @core.Any
+#alias(create_html)
+pub fn TrustedTypePolicy::createHTML(Self, String) -> TrustedHTML
+#alias(create_html_with_args)
+pub fn TrustedTypePolicy::createHTMLWithArgs(Self, String, Array[@core.Any]) -> TrustedHTML
+pub fn TrustedTypePolicy::name(Self) -> String
+
+pub(all) struct TrustedTypePolicyFactory {
+}
+pub fn TrustedTypePolicyFactory::as_any(Self) -> @core.Any
+#alias(create_policy)
+pub fn TrustedTypePolicyFactory::createPolicy(Self, String, TrustedTypePolicyOptions) -> TrustedTypePolicy
+#alias(default_policy)
+pub fn TrustedTypePolicyFactory::defaultPolicy(Self) -> TrustedTypePolicy?
+#alias(empty_html)
+pub fn TrustedTypePolicyFactory::emptyHTML(Self) -> TrustedHTML
+#alias(get_attribute_type)
+pub fn TrustedTypePolicyFactory::getAttributeType(Self, String, String, element_ns? : String, attr_ns? : String) -> String?
+#alias(get_property_type)
+pub fn TrustedTypePolicyFactory::getPropertyType(Self, String, String, element_ns? : String) -> String?
+#alias(is_html)
+pub fn TrustedTypePolicyFactory::isHTML(Self, @core.Any) -> Bool
+
+pub(all) struct TrustedTypePolicyOptions {
+  create_html : ((String) -> String)?
+}
+pub fn TrustedTypePolicyOptions::new(create_html? : ((String) -> String)?) -> Self
+
+// Type aliases
+
+// Traits
+
