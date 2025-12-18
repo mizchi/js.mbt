@@ -1,0 +1,130 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/browser/navigation"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn navigation() -> Navigation
+
+// Errors
+
+// Types and methods
+#external
+pub type NavigateEvent
+pub fn NavigateEvent::as_any(Self) -> @core.Any
+#alias(can_intercept)
+pub fn NavigateEvent::canIntercept(Self) -> Bool
+pub fn NavigateEvent::destination(Self) -> NavigationDestination
+#alias(download_request)
+pub fn NavigateEvent::downloadRequest(Self) -> String?
+#alias(form_data)
+pub fn NavigateEvent::formData(Self) -> @core.Any?
+#alias(has_ua_visual_transition)
+pub fn NavigateEvent::hasUAVisualTransition(Self) -> Bool
+#alias(hash_change)
+pub fn NavigateEvent::hashChange(Self) -> Bool
+pub fn NavigateEvent::info(Self) -> @core.Any
+pub fn NavigateEvent::intercept(Self, handler? : () -> @core.Any, focus_reset? : String, scroll? : String) -> Unit
+#alias(intercept_async)
+pub fn NavigateEvent::interceptAsync(Self, () -> @core.Promise[@core.Any], focus_reset? : String, scroll? : String) -> Unit
+#alias(navigation_type)
+pub fn NavigateEvent::navigationType(Self) -> String
+#alias(prevent_default)
+pub fn NavigateEvent::preventDefault(Self) -> Unit
+pub fn NavigateEvent::scroll(Self) -> Unit
+pub fn NavigateEvent::signal(Self) -> @core.Any
+#alias(source_element)
+pub fn NavigateEvent::sourceElement(Self) -> @core.Any?
+#alias(user_initiated)
+pub fn NavigateEvent::userInitiated(Self) -> Bool
+
+#external
+pub type Navigation
+pub fn Navigation::activation(Self) -> NavigationActivation?
+pub fn Navigation::as_any(Self) -> @core.Any
+pub fn Navigation::back(Self, info? : @core.Any) -> NavigationResult
+#alias(can_go_back)
+pub fn Navigation::canGoBack(Self) -> Bool
+#alias(can_go_forward)
+pub fn Navigation::canGoForward(Self) -> Bool
+#alias(current_entry)
+pub fn Navigation::currentEntry(Self) -> NavigationHistoryEntry?
+pub fn Navigation::entries(Self) -> Array[NavigationHistoryEntry]
+pub fn Navigation::forward(Self, info? : @core.Any) -> NavigationResult
+pub fn Navigation::navigate(Self, String, state? : @core.Any, info? : @core.Any, history? : String) -> NavigationResult
+#alias(on_current_entry_change)
+pub fn Navigation::onCurrentEntryChange(Self, (NavigationCurrentEntryChangeEvent) -> Unit) -> Unit
+#alias(on_navigate)
+pub fn Navigation::onNavigate(Self, (NavigateEvent) -> Unit) -> Unit
+#alias(on_navigate_error)
+pub fn Navigation::onNavigateError(Self, (@core.Any) -> Unit) -> Unit
+#alias(on_navigate_success)
+pub fn Navigation::onNavigateSuccess(Self, (@core.Any) -> Unit) -> Unit
+pub fn Navigation::reload(Self, state? : @core.Any, info? : @core.Any) -> NavigationResult
+pub fn Navigation::transition(Self) -> NavigationTransition?
+#alias(traverse_to)
+pub fn Navigation::traverseTo(Self, String, info? : @core.Any) -> NavigationResult
+#alias(update_current_entry)
+pub fn Navigation::updateCurrentEntry(Self, @core.Any) -> Unit
+
+#external
+pub type NavigationActivation
+pub fn NavigationActivation::as_any(Self) -> @core.Any
+pub fn NavigationActivation::entry(Self) -> NavigationHistoryEntry
+pub fn NavigationActivation::from(Self) -> NavigationHistoryEntry?
+#alias(navigation_type)
+pub fn NavigationActivation::navigationType(Self) -> String
+
+#external
+pub type NavigationCurrentEntryChangeEvent
+pub fn NavigationCurrentEntryChangeEvent::as_any(Self) -> @core.Any
+pub fn NavigationCurrentEntryChangeEvent::from(Self) -> NavigationHistoryEntry?
+#alias(navigation_type)
+pub fn NavigationCurrentEntryChangeEvent::navigationType(Self) -> String?
+
+#external
+pub type NavigationDestination
+pub fn NavigationDestination::as_any(Self) -> @core.Any
+#alias(get_state)
+pub fn NavigationDestination::getState(Self) -> @core.Any
+pub fn NavigationDestination::id(Self) -> String
+pub fn NavigationDestination::index(Self) -> Int
+pub fn NavigationDestination::key(Self) -> String
+#alias(same_document)
+pub fn NavigationDestination::sameDocument(Self) -> Bool
+pub fn NavigationDestination::url(Self) -> String
+
+#external
+pub type NavigationHistoryEntry
+pub fn NavigationHistoryEntry::as_any(Self) -> @core.Any
+#alias(get_state)
+pub fn NavigationHistoryEntry::getState(Self) -> @core.Any
+pub fn NavigationHistoryEntry::id(Self) -> String
+pub fn NavigationHistoryEntry::index(Self) -> Int
+pub fn NavigationHistoryEntry::key(Self) -> String
+#alias(on_dispose)
+pub fn NavigationHistoryEntry::onDispose(Self, (@core.Any) -> Unit) -> Unit
+#alias(same_document)
+pub fn NavigationHistoryEntry::sameDocument(Self) -> Bool
+pub fn NavigationHistoryEntry::url(Self) -> String?
+
+#external
+pub type NavigationResult
+pub fn NavigationResult::as_any(Self) -> @core.Any
+pub fn NavigationResult::committed(Self) -> @core.Promise[NavigationHistoryEntry]
+pub fn NavigationResult::finished(Self) -> @core.Promise[NavigationHistoryEntry]
+
+#external
+pub type NavigationTransition
+pub fn NavigationTransition::as_any(Self) -> @core.Any
+pub fn NavigationTransition::finished(Self) -> @core.Promise[NavigationHistoryEntry]
+pub fn NavigationTransition::from(Self) -> NavigationHistoryEntry
+#alias(navigation_type)
+pub fn NavigationTransition::navigationType(Self) -> String
+
+// Type aliases
+
+// Traits
+
