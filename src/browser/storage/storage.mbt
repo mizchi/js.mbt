@@ -24,10 +24,7 @@ pub extern "js" fn sessionStorage() -> Storage =
 /// Gets an item from storage by key
 /// https://developer.mozilla.org/en-US/docs/Web/API/Storage/getItem
 pub extern "js" fn Storage::getItem(self : Storage, key : String) -> String? =
-  #|(storage, key) => {
-  #|  const value = storage.getItem(key);
-  #|  return value === null ? null : value;
-  #|}
+  #|(storage, key) => storage.getItem(key) ?? undefined
 
 ///|
 /// Sets an item in storage
