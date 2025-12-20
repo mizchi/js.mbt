@@ -1,0 +1,6 @@
+{
+  "name": "mizchi/tsnize",
+  "deps": {
+    "moonbitlang/parser": "0.1.12"
+  }
+}

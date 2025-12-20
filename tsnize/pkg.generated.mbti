@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/tsnize"
+
+import(
+  "moonbitlang/parser/mbti_ast"
+)
+
+// Values
+pub fn generate_dts(@mbti_ast.Mbti) -> String
+
+pub fn parse_mbti(String, String) -> @mbti_ast.Mbti raise
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+
