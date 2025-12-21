@@ -41,6 +41,11 @@ pub(all) struct ParseArgsResult {
 }
 
 ///|
+/// Internal: parseArgs via #module (ESM compatible)
+#module("node:util")
+extern "js" fn internal_parse_args(config : @core.Any) -> @core.Any = "parseArgs"
+
+///|
 #alias(parse_args)
 pub fn parseArgs(
   args~ : Array[String],
@@ -57,13 +62,13 @@ pub fn parseArgs(
     }
     o
   }
-  let result : @core.Any = @core.from_entries([
+  let config : @core.Any = @core.from_entries([
     ("args", @core.any(args)),
     ("options", opts_obj),
     ("allowPositionals", @core.any(allow_positionals)),
   ])
   // result["tokens"] = tokens
-  let r : @core.Any = util().as_any()["parseArgs"]._invoke([result])
+  let r : @core.Any = internal_parse_args(config)
   let values : Map[String, @core.Any] = {}
   let result_keys : Array[String] = @core.object_keys(r["values"])
   for k in result_keys {

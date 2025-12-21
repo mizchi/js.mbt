@@ -17,6 +17,19 @@ extern "js" fn internal_exists_sync(path : String) -> Bool = "existsSync"
 extern "js" fn internal_read_file_sync(path : String) -> @buffer.Buffer = "readFileSync"
 
 ///|
+/// Internal: readFileSync with encoding via #module (ESM compatible)
+#module("node:fs")
+extern "js" fn internal_read_file_sync_string(
+  path : String,
+  encoding : String
+) -> String = "readFileSync"
+
+///|
+/// Internal: readdirSync via #module (ESM compatible)
+#module("node:fs")
+extern "js" fn internal_readdir_sync(path : String) -> Array[String] = "readdirSync"
+
+///|
 /// Internal: unlinkSync via #module
 #module("node:fs")
 extern "js" fn internal_unlink_sync(path : String) -> Unit = "unlinkSync"
@@ -52,11 +65,7 @@ extern "js" fn internal_create_write_stream(path : String) -> @stream.Writable =
 /// Read file synchronously as Buffer
 #alias(readFileSync)
 pub fn read_file_sync(path : String) -> @buffer.Buffer raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readFileSync", [@core.any(path)]).cast()
-    // internal_read_file_sync2(path)
-  })
+  @core.throwable(fn() { internal_read_file_sync(path) })
 }
 
 // ///|
@@ -69,10 +78,7 @@ pub fn read_file_sync_string(
   path : String,
   encoding : String,
 ) -> String raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readFileSync", [@core.any(path), @core.any(encoding)]).cast()
-  })
+  @core.throwable(fn() { internal_read_file_sync_string(path, encoding) })
 }
 
 ///|
@@ -82,10 +88,7 @@ pub fn read_file_as_string(
   path : String,
   encoding? : String = "utf8",
 ) -> String raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readFileSync", [@core.any(path), @core.any(encoding)]).cast()
-  })
+  @core.throwable(fn() { internal_read_file_sync_string(path, encoding) })
 }
 
 ///|
@@ -199,10 +202,7 @@ pub fn copyFileSync(src : String, dest : String) -> Unit raise @core.ThrowError 
 /// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(readdir_sync)
 pub fn readdirSync(path : String) -> Array[String] raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("readdirSync", [@core.any(path)]).cast()
-  })
+  @core.throwable(fn() { internal_readdir_sync(path) })
 }
 
 ///|

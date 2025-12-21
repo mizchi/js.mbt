@@ -42,11 +42,16 @@ pub fn env() -> ProcessEnv {
 }
 
 ///|
+/// Internal: process.argv via global process object (ESM compatible)
+extern "js" fn internal_argv() -> Array[String] =
+  #| () => process.argv
+
+///|
 /// JS: process.argv
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn argv() -> Array[String] {
-  process_any()["argv"].cast()
+  internal_argv()
 }
 
 ///|
