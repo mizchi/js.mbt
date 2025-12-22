@@ -10,7 +10,7 @@ priv enum Color {
   Green
   Blue
   Rgb(Int, Int, Int)
-} derive(Eq, Show)
+}
 
 ///|
 /// Export test functions to global scope for TypeScript to call
@@ -99,6 +99,14 @@ pub fn setup_interop_test() -> Unit {
   g._set(
     "mbt_serialize_enum_unit",
     @core.any(fn() -> @core.Any { serialize_color(Red) }),
+  )
+  g._set(
+    "mbt_serialize_enum_green",
+    @core.any(fn() -> @core.Any { serialize_color(Green) }),
+  )
+  g._set(
+    "mbt_serialize_enum_blue",
+    @core.any(fn() -> @core.Any { serialize_color(Blue) }),
   )
   g._set(
     "mbt_serialize_enum_tuple",

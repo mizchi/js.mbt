@@ -31,6 +31,26 @@ priv enum TestColor {
 }
 
 ///|
+/// Helper to suppress unused_constructor warnings - pattern match on all variants
+fn test_color_name(c : TestColor) -> String {
+  match c {
+    Red => "red"
+    Green => "green"
+    Blue => "blue"
+    Rgb(r, g, b) => "rgb(\{r},\{g},\{b})"
+  }
+}
+
+///|
+test "Deep: TestColor all variants" {
+  // Ensure all variants are constructed and read
+  ignore(test_color_name(Red))
+  ignore(test_color_name(Green))
+  ignore(test_color_name(Blue))
+  ignore(test_color_name(Rgb(0, 0, 0)))
+}
+
+///|
 test "Deep: enum tuple variant - no $tag in own properties" {
   let rgb : TestColor = Rgb(255, 0, 0)
   let v : @core.Any = @core.any(rgb)
@@ -64,6 +84,21 @@ test "Deep: enum unit variant - $tag and $name are enumerable" {
 priv enum TestShape {
   Circle(radius~ : Int)
   Rectangle(width~ : Int, height~ : Int)
+}
+
+///|
+/// Helper to suppress unused_constructor warnings
+fn test_shape_area(s : TestShape) -> Int {
+  match s {
+    Circle(radius~) => radius * radius
+    Rectangle(width~, height~) => width * height
+  }
+}
+
+///|
+test "Deep: TestShape all variants" {
+  ignore(test_shape_area(Circle(radius=5)))
+  ignore(test_shape_area(Rectangle(width=3, height=4)))
 }
 
 ///|
@@ -112,6 +147,13 @@ test "Deep: Result - only constructor.name distinguishes Ok/Err" {
 priv struct TestUserId(Int)
 
 ///|
+fn test_user_id_value(id : TestUserId) -> Int {
+  match id {
+    TestUserId(v) => v
+  }
+}
+
+///|
 test "Deep: newtype unwraps to primitive" {
   let user_id : TestUserId = TestUserId(123)
   let v : @core.Any = @core.any(user_id)
@@ -122,6 +164,9 @@ test "Deep: newtype unwraps to primitive" {
 
   // typeof is number
   inspect(@core.typeof_(v), content="number")
+
+  // Read the value to suppress unused_constructor warning
+  ignore(test_user_id_value(user_id))
 }
 
 ///|

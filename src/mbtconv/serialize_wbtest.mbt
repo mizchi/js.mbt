@@ -283,7 +283,11 @@ priv struct SerializeTestPoint {
 
 ///|
 test "wrap_typed: preserves type info through JSON" {
-  let value = wrap_typed("Point", SerializeTestPoint::{ x: 10, y: 20 })
+  let point = SerializeTestPoint::{ x: 10, y: 20 }
+  // Read fields to suppress unused_field warning
+  ignore(point.x)
+  ignore(point.y)
+  let value = wrap_typed("Point", point)
   let json = @core.json_stringify(value)
   inspect(json, content="{\"_type\":\"Point\",\"_value\":{\"x\":10,\"y\":20}}")
   let parsed = serialize_json_parse(json)
