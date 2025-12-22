@@ -269,3 +269,241 @@ pub fn[A] to_option(v : @core.Any) -> A? {
     Some(@core.identity(v))
   }
 }
+
+///|
+/// ## Result Type Utilities
+///
+/// MoonBit's Result[T, E] is compiled to JavaScript as:
+/// - `Ok(value)` → `{ _0: value }` with constructor name containing "Ok"
+/// - `Err(error)` → `{ _0: error }` with constructor name containing "Err"
+///
+/// Use constructor.name.includes("Ok") or .includes("Err") to distinguish.
+
+///|
+extern "js" fn ffi_get_constructor_name(v : @core.Any) -> String =
+  #|(v) => v?.constructor?.name ?? ""
+
+///|
+/// Check if a MoonBit Result value is Ok variant.
+///
+/// # Example
+///
+/// ```moonbit
+/// let ok_result : Result[Int, String] = Ok(42)
+///
+/// let is_ok = @mbtconv.is_result_ok(@core.any(ok_result)) // true
+/// ```
+pub fn is_result_ok(v : @core.Any) -> Bool {
+  ffi_get_constructor_name(v).contains("Ok")
+}
+
+///|
+/// Check if a MoonBit Result value is Err variant.
+///
+/// # Example
+///
+/// ```moonbit
+/// let err_result : Result[Int, String] = Err("error")
+///
+/// let is_err = @mbtconv.is_result_err(@core.any(err_result)) // true
+/// ```
+pub fn is_result_err(v : @core.Any) -> Bool {
+  ffi_get_constructor_name(v).contains("Err")
+}
+
+///|
+/// Unwrap the inner value from Ok variant.
+/// Returns the inner value if Ok, otherwise returns undefined.
+///
+/// # Example
+///
+/// ```moonbit
+/// let ok_result : Result[Int, String] = Ok(42)
+///
+/// let value : Int = @mbtconv.unwrap_ok(@core.any(ok_result)) // 42
+/// ```
+pub fn[T] unwrap_ok(v : @core.Any) -> T {
+  @core.identity(v["_0"])
+}
+
+///|
+/// Unwrap the inner value from Err variant.
+/// Returns the inner value if Err, otherwise returns undefined.
+///
+/// # Example
+///
+/// ```moonbit
+/// let err_result : Result[Int, String] = Err("error")
+///
+/// let error : String = @mbtconv.unwrap_err(@core.any(err_result)) // "error"
+/// ```
+pub fn[E] unwrap_err(v : @core.Any) -> E {
+  @core.identity(v["_0"])
+}
+
+///|
+/// Convert a JS value (MoonBit Result) back to MoonBit Result type.
+///
+/// # Example
+///
+/// ```moonbit
+/// let ok_result : Result[Int, String] = Ok(42)
+///
+/// let js_val = @core.any(ok_result)
+///
+/// let back : Result[Int, String] = @mbtconv.to_result(js_val)
+/// ```
+pub fn[T, E] to_result(v : @core.Any) -> Result[T, E] {
+  if is_result_ok(v) {
+    Ok(unwrap_ok(v))
+  } else {
+    Err(unwrap_err(v))
+  }
+}
+
+///|
+/// ## Enum Type Utilities
+///
+/// MoonBit enums are compiled to JavaScript as:
+/// - Unit variants (no args): `{ $tag: n, $name: "VariantName" }`
+/// - Tuple variants: `{ _0: arg0, _1: arg1, ... }` with constructor name "EnumName$VariantName"
+
+///|
+/// Get the enum variant name from a MoonBit enum value.
+/// Works for both unit variants ($name property) and tuple variants (constructor name).
+///
+/// # Example
+///
+/// ```moonbit
+/// // For unit variant: returns "Red"
+/// // For tuple variant: returns "Rgb" (parsed from "Color$Rgb")
+/// ```
+pub fn get_enum_variant_name(v : @core.Any) -> String {
+  // Try $name property first (unit variants)
+  let name_prop = v["$name"]
+  if not(ffi_is_nullish(name_prop)) {
+    return @core.identity(name_prop)
+  }
+  // Fall back to constructor name (tuple variants)
+  let ctor_name = ffi_get_constructor_name(v)
+  // Parse "EnumName$VariantName" to get "VariantName"
+  let parts : Array[String] = ffi_split(ctor_name, "$")
+  let len = parts.length()
+  if len > 1 {
+    parts[len - 1]
+  } else {
+    ctor_name
+  }
+}
+
+///|
+extern "js" fn ffi_split(s : String, sep : String) -> Array[String] =
+  #|(s, sep) => s.split(sep)
+
+///|
+/// Get the $tag index from an enum variant.
+/// All enum variants (both unit and tuple) have a $tag property.
+/// Returns -1 if not an enum.
+pub fn get_enum_tag(v : @core.Any) -> Int {
+  let tag = v["$tag"]
+  if ffi_is_nullish(tag) {
+    -1
+  } else {
+    @core.identity(tag)
+  }
+}
+
+///|
+/// ## Safe Serialization for JSON Roundtrip
+///
+/// These functions serialize MoonBit types with explicit type tags,
+/// allowing safe JSON roundtrip without losing type information.
+
+///|
+/// Serialize a Result with type tag preserved.
+/// Output format: `{ "_tag": "Ok" | "Err", "_0": value }`
+///
+/// # Example
+///
+/// ```moonbit
+/// let result : Result[Int, String] = Ok(42)
+///
+/// let serialized = @mbtconv.serialize_result(result)
+/// // JavaScript: { "_tag": "Ok", "_0": 42 }
+/// ```
+pub fn[T, E] serialize_result(result : Result[T, E]) -> @core.Any {
+  let obj = @core.new_object()
+  match result {
+    Ok(v) => {
+      obj["_tag"] = @core.any("Ok")
+      obj["_0"] = @core.any(v)
+    }
+    Err(e) => {
+      obj["_tag"] = @core.any("Err")
+      obj["_0"] = @core.any(e)
+    }
+  }
+  obj
+}
+
+///|
+/// Deserialize a Result from serialized form.
+///
+/// # Example
+///
+/// ```moonbit
+/// let serialized = json_parse("{\"_tag\":\"Ok\",\"_0\":42}")
+///
+/// let result : Result[Int, String] = @mbtconv.deserialize_result(serialized)
+/// ```
+pub fn[T, E] deserialize_result(v : @core.Any) -> Result[T, E] {
+  let tag : String = @core.identity(v["_tag"])
+  if tag == "Ok" {
+    Ok(@core.identity(v["_0"]))
+  } else {
+    Err(@core.identity(v["_0"]))
+  }
+}
+
+///|
+/// Serialize an Option with explicit None representation.
+/// Output format: `{ "_some": true, "_0": value }` or `{ "_some": false }`
+///
+/// # Example
+///
+/// ```moonbit
+/// let some_val : Int? = Some(42)
+///
+/// let serialized = @mbtconv.serialize_option(some_val)
+/// // JavaScript: { "_some": true, "_0": 42 }
+/// ```
+pub fn[T] serialize_option(opt : T?) -> @core.Any {
+  let obj = @core.new_object()
+  match opt {
+    Some(v) => {
+      obj["_some"] = @core.any(true)
+      obj["_0"] = @core.any(v)
+    }
+    None => obj["_some"] = @core.any(false)
+  }
+  obj
+}
+
+///|
+/// Deserialize an Option from serialized form.
+///
+/// # Example
+///
+/// ```moonbit
+/// let serialized = json_parse("{\"_some\":true,\"_0\":42}")
+///
+/// let opt : Int? = @mbtconv.deserialize_option(serialized)
+/// ```
+pub fn[T] deserialize_option(v : @core.Any) -> T? {
+  let is_some : Bool = @core.identity(v["_some"])
+  if is_some {
+    Some(@core.identity(v["_0"]))
+  } else {
+    None
+  }
+}

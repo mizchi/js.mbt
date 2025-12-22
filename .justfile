@@ -77,4 +77,5 @@ dev-react: build
     pnpm vite dev
 
 test-playwright: build
-    PLAYWRIGHT_TEST=1 moon test --no-parallelize ./src/npm/playwright/playwright_test.mbt 
+    PLAYWRIGHT_TEST=1 moon test --no-parallelize ./src/npm/playwright/playwright_test.mbt
+

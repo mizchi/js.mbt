@@ -1,0 +1,7 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js/core",
+    "mizchi/js/mbtconv"
+  ]
+}
