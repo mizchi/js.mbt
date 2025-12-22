@@ -29,6 +29,36 @@ pub fn FSWatcher::on(
 }
 
 ///|
+/// Internal: watch via #module
+#module("node:fs")
+extern "js" fn internal_watch(filename : String) -> FSWatcher = "watch"
+
+///|
+/// Internal: watch with listener via #module
+#module("node:fs")
+extern "js" fn internal_watch_with_listener(
+  filename : String,
+  listener : @core.Any,
+) -> FSWatcher = "watch"
+
+///|
+/// Internal: watch with options via #module
+#module("node:fs")
+extern "js" fn internal_watch_with_options(
+  filename : String,
+  options : @core.Any,
+) -> FSWatcher = "watch"
+
+///|
+/// Internal: watch with options and listener via #module
+#module("node:fs")
+extern "js" fn internal_watch_full(
+  filename : String,
+  options : @core.Any,
+  listener : @core.Any,
+) -> FSWatcher = "watch"
+
+///|
 /// Watch for changes on filename
 /// JS: fs.watch(filename, options?, listener?)
 pub fn watch(
@@ -38,7 +68,6 @@ pub fn watch(
   encoding? : String,
   listener? : (String, String) -> Unit,
 ) -> FSWatcher {
-  let fs : @core.Any = fs_module() |> @core.any
   let has_options = not(persistent is None) ||
     not(recursive is None) ||
     not(encoding is None)
@@ -56,22 +85,14 @@ pub fn watch(
     let options = @core.from_entries(entries)
     match listener {
       Some(l) =>
-        fs
-        ._call("watch", [
-          @core.any(filename),
-          options,
-          @core.any(@core.from_fn2(l)),
-        ])
-        .cast()
-      None => fs._call("watch", [@core.any(filename), options]).cast()
+        internal_watch_full(filename, options, @core.any(@core.from_fn2(l)))
+      None => internal_watch_with_options(filename, options)
     }
   } else {
     match listener {
       Some(l) =>
-        fs
-        ._call("watch", [@core.any(filename), @core.any(@core.from_fn2(l))])
-        .cast()
-      None => fs._call("watch", [@core.any(filename)]).cast()
+        internal_watch_with_listener(filename, @core.any(@core.from_fn2(l)))
+      None => internal_watch(filename)
     }
   }
 }

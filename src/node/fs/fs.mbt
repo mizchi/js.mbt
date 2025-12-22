@@ -2,11 +2,6 @@
 // Synchronous File System API
 
 ///|
-/// Get fs module (kept for functions with optional/variadic arguments)
-extern "js" fn fs_module() -> @core.Any =
-  #| () => require("node:fs")
-
-///|
 /// Internal: existsSync via #module
 #module("node:fs")
 extern "js" fn internal_exists_sync(path : String) -> Bool = "existsSync"
@@ -21,7 +16,7 @@ extern "js" fn internal_read_file_sync(path : String) -> @buffer.Buffer = "readF
 #module("node:fs")
 extern "js" fn internal_read_file_sync_string(
   path : String,
-  encoding : String
+  encoding : String,
 ) -> String = "readFileSync"
 
 ///|
@@ -58,6 +53,55 @@ extern "js" fn internal_create_read_stream(path : String) -> @stream.Readable = 
 /// Internal: createWriteStream via #module
 #module("node:fs")
 extern "js" fn internal_create_write_stream(path : String) -> @stream.Writable = "createWriteStream"
+
+///|
+/// Internal: mkdirSync via #module (basic, no options)
+#module("node:fs")
+extern "js" fn internal_mkdir_sync(path : String) -> Unit = "mkdirSync"
+
+///|
+/// Internal: mkdirSync with options via #module
+#module("node:fs")
+extern "js" fn internal_mkdir_sync_opts(
+  path : String,
+  opts : @core.Any,
+) -> Unit = "mkdirSync"
+
+///|
+/// Internal: writeFileSync via #module
+#module("node:fs")
+extern "js" fn internal_write_file_sync(
+  path : String,
+  data : @core.Any,
+) -> Unit = "writeFileSync"
+
+///|
+/// Internal: statSync via #module
+#module("node:fs")
+extern "js" fn internal_stat_sync(path : String) -> Stat = "statSync"
+
+///|
+/// Internal: renameSync via #module
+#module("node:fs")
+extern "js" fn internal_rename_sync(
+  old_path : String,
+  new_path : String,
+) -> Unit = "renameSync"
+
+///|
+/// Internal: copyFileSync via #module
+#module("node:fs")
+extern "js" fn internal_copy_file_sync(src : String, dest : String) -> Unit = "copyFileSync"
+
+///|
+/// Internal: rmSync basic via #module
+#module("node:fs")
+extern "js" fn internal_rm_sync(path : String) -> Unit = "rmSync"
+
+///|
+/// Internal: rmSync with options via #module
+#module("node:fs")
+extern "js" fn internal_rm_sync_opts(path : String, opts : @core.Any) -> Unit = "rmSync"
 
 ///| File Reading
 
@@ -109,11 +153,16 @@ pub fn writeFileSync(
   path : String,
   data : @core.Any,
 ) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("writeFileSync", [@core.any(path), data]) |> ignore
-  })
+  @core.throwable(fn() { internal_write_file_sync(path, data) })
 }
+
+///|
+/// Internal: appendFileSync via #module
+#module("node:fs")
+extern "js" fn internal_append_file_sync(
+  path : String,
+  data : @core.Any,
+) -> Unit = "appendFileSync"
 
 ///|
 /// Append to file synchronously
@@ -122,10 +171,7 @@ pub fn append_file_sync(
   path : String,
   data : @core.Any,
 ) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("appendFileSync", [@core.any(path), data]) |> ignore
-  })
+  @core.throwable(fn() { internal_append_file_sync(path, data) })
 }
 
 ///| File/Directory Operations
@@ -141,10 +187,7 @@ pub fn existsSync(path : String) -> Bool {
 /// Get file statistics
 #alias(stat_sync)
 pub fn statSync(path : String) -> Stat raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("statSync", [@core.any(path)]).cast()
-  })
+  @core.throwable(fn() { internal_stat_sync(path) })
 }
 
 ///|
@@ -155,13 +198,12 @@ pub fn mkdirSync(
   recursive? : Bool,
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
-        let opts : @core.Any = @core.from_entries([("recursive", @core.any(r))])
-        fs._call("mkdirSync", [@core.any(path), opts]) |> ignore
+        let opts = @core.from_entries([("recursive", @core.any(r))])
+        internal_mkdir_sync_opts(path, opts)
       }
-      None => fs._call("mkdirSync", [@core.any(path)]) |> ignore
+      None => internal_mkdir_sync(path)
     }
   })
 }
@@ -180,20 +222,14 @@ pub fn renameSync(
   old_path : String,
   new_path : String,
 ) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("renameSync", [@core.any(old_path), @core.any(new_path)]) |> ignore
-  })
+  @core.throwable(fn() { internal_rename_sync(old_path, new_path) })
 }
 
 ///|
 /// Copy file synchronously
 // #alias(copyFileSync)
 pub fn copyFileSync(src : String, dest : String) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("copyFileSync", [@core.any(src), @core.any(dest)]) |> ignore
-  })
+  @core.throwable(fn() { internal_copy_file_sync(src, dest) })
 }
 
 ///|
@@ -214,9 +250,8 @@ pub fn rmSync(
   force? : Bool,
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match (recursive, force) {
-      (None, None) => fs._call("rmSync", [@core.any(path)]) |> ignore
+      (None, None) => internal_rm_sync(path)
       _ => {
         let entries : Array[(String, @core.Any)] = []
         if recursive is Some(v) {
@@ -226,7 +261,7 @@ pub fn rmSync(
           entries.push(("force", @core.any(v)))
         }
         let opts = @core.from_entries(entries)
-        fs._call("rmSync", [@core.any(path), opts]) |> ignore
+        internal_rm_sync_opts(path, opts)
       }
     }
   })
@@ -245,14 +280,21 @@ pub fn createWriteStream(path : String) -> @stream.Writable {
 ///| Additional File Operations
 
 ///|
+/// Internal: chmodSync via #module
+#module("node:fs")
+extern "js" fn internal_chmod_sync(path : String, mode : Int) -> Unit = "chmodSync"
+
+///|
 /// Change file permissions synchronously
 #alias(chmod_sync)
 pub fn chmodSync(path : String, mode : Int) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("chmodSync", [@core.any(path), @core.any(mode)]) |> ignore
-  })
+  @core.throwable(fn() { internal_chmod_sync(path, mode) })
 }
+
+///|
+/// Internal: chownSync via #module
+#module("node:fs")
+extern "js" fn internal_chown_sync(path : String, uid : Int, gid : Int) -> Unit = "chownSync"
 
 ///|
 /// Change file owner synchronously
@@ -262,12 +304,22 @@ pub fn chownSync(
   uid : Int,
   gid : Int,
 ) -> Unit raise @core.ThrowError {
-  @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
-    fs._call("chownSync", [@core.any(path), @core.any(uid), @core.any(gid)])
-    |> ignore
-  })
+  @core.throwable(fn() { internal_chown_sync(path, uid, gid) })
 }
+
+///|
+/// Internal: symlinkSync via #module
+#module("node:fs")
+extern "js" fn internal_symlink_sync(target : String, path : String) -> Unit = "symlinkSync"
+
+///|
+/// Internal: symlinkSync with type via #module
+#module("node:fs")
+extern "js" fn internal_symlink_sync_typed(
+  target : String,
+  path : String,
+  type_ : String,
+) -> Unit = "symlinkSync"
 
 ///|
 /// Create symbolic link synchronously
@@ -278,17 +330,9 @@ pub fn symlinkSync(
   type_? : String,
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match type_ {
-      Some(t) =>
-        fs._call("symlinkSync", [
-          @core.any(target),
-          @core.any(path),
-          @core.any(t),
-        ])
-        |> ignore
-      None =>
-        fs._call("symlinkSync", [@core.any(target), @core.any(path)]) |> ignore
+      Some(t) => internal_symlink_sync_typed(target, path, t)
+      None => internal_symlink_sync(target, path)
     }
   })
 }
@@ -308,18 +352,39 @@ pub fn realpathSync(path : String) -> String raise @core.ThrowError {
 }
 
 ///|
+/// Internal: truncateSync via #module
+#module("node:fs")
+extern "js" fn internal_truncate_sync(path : String) -> Unit = "truncateSync"
+
+///|
+/// Internal: truncateSync with length via #module
+#module("node:fs")
+extern "js" fn internal_truncate_sync_len(path : String, len : Int) -> Unit = "truncateSync"
+
+///|
 /// Truncate file synchronously
 #alias(truncate_sync)
 pub fn truncateSync(path : String, len? : Int) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match len {
-      Some(l) =>
-        fs._call("truncateSync", [@core.any(path), @core.any(l)]) |> ignore
-      None => fs._call("truncateSync", [@core.any(path)]) |> ignore
+      Some(l) => internal_truncate_sync_len(path, l)
+      None => internal_truncate_sync(path)
     }
   })
 }
+
+///|
+/// Internal: rmdirSync via #module
+#module("node:fs")
+extern "js" fn internal_rmdir_sync(path : String) -> Unit = "rmdirSync"
+
+///|
+/// Internal: rmdirSync with options via #module
+#module("node:fs")
+extern "js" fn internal_rmdir_sync_opts(
+  path : String,
+  opts : @core.Any,
+) -> Unit = "rmdirSync"
 
 ///|
 /// Remove directory synchronously
@@ -329,30 +394,51 @@ pub fn rmdirSync(
   recursive? : Bool,
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
-        let opts : @core.Any = @core.from_entries([("recursive", @core.any(r))])
-        fs._call("rmdirSync", [@core.any(path), opts]) |> ignore
+        let opts = @core.from_entries([("recursive", @core.any(r))])
+        internal_rmdir_sync_opts(path, opts)
       }
-      None => fs._call("rmdirSync", [@core.any(path)]) |> ignore
+      None => internal_rmdir_sync(path)
     }
   })
 }
+
+///|
+/// Internal: accessSync via #module
+#module("node:fs")
+extern "js" fn internal_access_sync(path : String) -> Unit = "accessSync"
+
+///|
+/// Internal: accessSync with mode via #module
+#module("node:fs")
+extern "js" fn internal_access_sync_mode(path : String, mode : Int) -> Unit = "accessSync"
 
 ///|
 /// Check file access synchronously
 #alias(access_sync)
 pub fn accessSync(path : String, mode? : Int) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match mode {
-      Some(m) =>
-        fs._call("accessSync", [@core.any(path), @core.any(m)]) |> ignore
-      None => fs._call("accessSync", [@core.any(path)]) |> ignore
+      Some(m) => internal_access_sync_mode(path, m)
+      None => internal_access_sync(path)
     }
   })
 }
+
+///|
+/// Internal: cpSync via #module
+#module("node:fs")
+extern "js" fn internal_cp_sync(src : String, dest : String) -> Unit = "cpSync"
+
+///|
+/// Internal: cpSync with options via #module
+#module("node:fs")
+extern "js" fn internal_cp_sync_opts(
+  src : String,
+  dest : String,
+  opts : @core.Any,
+) -> Unit = "cpSync"
 
 ///|
 /// Copy file or directory synchronously
@@ -363,16 +449,29 @@ pub fn cpSync(
   recursive? : Bool,
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match recursive {
       Some(r) => {
-        let opts : @core.Any = @core.from_entries([("recursive", @core.any(r))])
-        fs._call("cpSync", [@core.any(src), @core.any(dest), opts]) |> ignore
+        let opts = @core.from_entries([("recursive", @core.any(r))])
+        internal_cp_sync_opts(src, dest, opts)
       }
-      None => fs._call("cpSync", [@core.any(src), @core.any(dest)]) |> ignore
+      None => internal_cp_sync(src, dest)
     }
   })
 }
+
+///|
+/// Internal: openSync via #module
+#module("node:fs")
+extern "js" fn internal_open_sync(path : String, flags : String) -> Int = "openSync"
+
+///|
+/// Internal: openSync with mode via #module
+#module("node:fs")
+extern "js" fn internal_open_sync_mode(
+  path : String,
+  flags : String,
+  mode : Int,
+) -> Int = "openSync"
 
 ///|
 /// Open file descriptor synchronously
@@ -383,13 +482,9 @@ pub fn openSync(
   mode? : Int,
 ) -> Int raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match mode {
-      Some(m) =>
-        fs
-        ._call("openSync", [@core.any(path), @core.any(flags), @core.any(m)])
-        .cast()
-      None => fs._call("openSync", [@core.any(path), @core.any(flags)]).cast()
+      Some(m) => internal_open_sync_mode(path, flags, m)
+      None => internal_open_sync(path, flags)
     }
   })
 }
@@ -402,6 +497,27 @@ pub fn closeSync(fd : Int) -> Unit raise @core.ThrowError {
 }
 
 ///|
+/// Internal: readSync via #module
+#module("node:fs")
+extern "js" fn internal_read_sync(
+  fd : Int,
+  buffer : @buffer.Buffer,
+  offset : Int,
+  length : Int,
+) -> Int = "readSync"
+
+///|
+/// Internal: readSync with position via #module
+#module("node:fs")
+extern "js" fn internal_read_sync_pos(
+  fd : Int,
+  buffer : @buffer.Buffer,
+  offset : Int,
+  length : Int,
+  position : Int,
+) -> Int = "readSync"
+
+///|
 /// Read from file descriptor synchronously
 #alias(read_sync)
 pub fn readSync(
@@ -412,30 +528,33 @@ pub fn readSync(
   position : Int?,
 ) -> Int raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match position {
-      Some(pos) =>
-        fs
-        ._call("readSync", [
-          @core.any(fd),
-          @core.any(buffer),
-          @core.any(offset),
-          @core.any(length),
-          @core.any(pos),
-        ])
-        .cast()
-      None =>
-        fs
-        ._call("readSync", [
-          @core.any(fd),
-          @core.any(buffer),
-          @core.any(offset),
-          @core.any(length),
-        ])
-        .cast()
+      Some(pos) => internal_read_sync_pos(fd, buffer, offset, length, pos)
+      None => internal_read_sync(fd, buffer, offset, length)
     }
   })
 }
+
+///|
+/// Internal: writeSync via #module
+#module("node:fs")
+extern "js" fn internal_write_sync(
+  fd : Int,
+  buffer : @buffer.Buffer,
+  offset : Int,
+  length : Int,
+) -> Int = "writeSync"
+
+///|
+/// Internal: writeSync with position via #module
+#module("node:fs")
+extern "js" fn internal_write_sync_pos(
+  fd : Int,
+  buffer : @buffer.Buffer,
+  offset : Int,
+  length : Int,
+  position : Int,
+) -> Int = "writeSync"
 
 ///|
 /// Write to file descriptor synchronously
@@ -448,27 +567,9 @@ pub fn writeSync(
   position : Int?,
 ) -> Int raise @core.ThrowError {
   @core.throwable(fn() {
-    let fs : @core.Any = fs_module() |> @core.any
     match position {
-      Some(pos) =>
-        fs
-        ._call("writeSync", [
-          @core.any(fd),
-          @core.any(buffer),
-          @core.any(offset),
-          @core.any(length),
-          @core.any(pos),
-        ])
-        .cast()
-      None =>
-        fs
-        ._call("writeSync", [
-          @core.any(fd),
-          @core.any(buffer),
-          @core.any(offset),
-          @core.any(length),
-        ])
-        .cast()
+      Some(pos) => internal_write_sync_pos(fd, buffer, offset, length, pos)
+      None => internal_write_sync(fd, buffer, offset, length)
     }
   })
 }
