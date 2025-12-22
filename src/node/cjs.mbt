@@ -42,7 +42,7 @@ pub extern "js" fn require_main() -> String =
 /// Must be called once before using esm_require in pure ESM environments.
 /// Returns a Promise that resolves when initialization is complete.
 /// In CJS environments, this is a no-op (require is already available).
-pub extern "js" fn init_esm_require() -> @core.Any =
+pub extern "js" fn init_esm_require() -> @core.Promise[Unit] =
   #| async () => {
   #|   if (typeof require !== 'undefined') {
   #|     globalThis.__esm_require__ = require;
