@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.6] - 2025-12-22
+
+### Added
+
+- **mbtconv**: Added mbti to TypeScript .d.ts converter prototype
+  - Snapshot tests for TypeScript generation
+
+### Changed
+
+- **ESM Migration**: Replace `require` with `#module` for ESM compatibility
+  - `fs` module now uses `#module` directive
+  - `process` module now uses `#module` directive
+  - `util` module now uses `#module` directive
+
+## [0.10.5] - 2025-12-21
+
+### Changed
+
+- Version bump with ESM migration improvements
+
+## [0.10.4] - 2025-12-20
+
+### Added
+
+- **ESM Support**: Add ESM support for process, fs, and util modules using `#module` directive
+
+## [0.10.2] - 2025-12-15
+
+### Added
+
+- **Navigation API**: Add Navigation API implementation for browser (`@browser.Navigation`)
+
+### Fixed
+
+- **Storage API**: `Storage::getItem` now returns `undefined` for `None` instead of `null`
+
+## [0.10.1] - 2025-12-12
+
+### Added
+
+- **Trusted Types API**: Add TrustedHTML, TrustedScript, and TrustedScriptURL types for Content Security Policy support
+- **Xany Type**: Add cross-platform `Xany` type for JavaScript interop
+
+### Fixed
+
+- **xany**: Use non-deprecated assert syntax in tests
+
 ## [0.10.0] - 2025-12-11
 
 ### Breaking Changes
