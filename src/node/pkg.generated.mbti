@@ -10,6 +10,8 @@ import(
 // Values
 pub fn clearImmediate(Immediate) -> Unit
 
+pub fn esm_require(String) -> @core.Any
+
 pub fn import_meta_dirname() -> String
 
 pub fn import_meta_filename() -> String
@@ -17,6 +19,8 @@ pub fn import_meta_filename() -> String
 pub fn import_meta_resolve(String) -> Unit
 
 pub fn import_meta_url() -> String
+
+pub fn init_esm_require() -> @core.Promise[Unit]
 
 pub fn module_() -> @core.Any
 
