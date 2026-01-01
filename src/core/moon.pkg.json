@@ -2,5 +2,5 @@
   "test-import": [
     "moonbitlang/async"
   ],
-  "warn-list": "-9"
+  "warn-list": "-9-67"
 }
