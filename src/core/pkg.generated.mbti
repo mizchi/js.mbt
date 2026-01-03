@@ -1,6 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/core"
 
+import(
+  "moonbitlang/core/bigint"
+)
+
 // Values
 pub fn[T] any(T) -> Any
 
@@ -130,6 +134,7 @@ pub fn Any::_invoke(Self, Array[Self]) -> Self
 pub fn Any::_set(Self, String, Self) -> Unit
 pub fn[T] Any::cast(Self) -> T
 pub fn Any::to_string(Self) -> String
+pub impl ToAny for Any
 pub impl Eq for Any
 pub impl Show for Any
 
@@ -223,4 +228,19 @@ pub fn[A, B, C, D, E] Union5::to_any(Self[A, B, C, D, E]) -> Any
 // Type aliases
 
 // Traits
+pub trait ToAny {
+  to_any(Self) -> Any
+}
+pub impl ToAny for Unit
+pub impl ToAny for Bool
+pub impl ToAny for Int
+pub impl ToAny for Int64
+pub impl ToAny for UInt
+pub impl ToAny for UInt64
+pub impl ToAny for Float
+pub impl ToAny for Double
+pub impl ToAny for String
+pub impl ToAny for Bytes
+pub impl ToAny for @bigint.BigInt
+pub impl[T] ToAny for Array[T]
 
