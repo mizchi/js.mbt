@@ -1,37 +1,37 @@
-// dom.mbt - DOM API wrappers using xany (WASM-GC only)
+// dom.mbt - DOM API wrappers using @core (WASM-GC only)
 
 // ============================================
 // Document
 // ============================================
 
 ///|
-pub fn document() -> @xany.Xany {
-  @xany.global_this()["document"]
+pub fn document() -> @core.Any {
+  @core.global_this()["document"]
 }
 
 ///|
-pub fn document_body() -> @xany.Xany {
+pub fn document_body() -> @core.Any {
   document()["body"]
 }
 
 ///|
-pub fn get_element_by_id(id : String) -> @xany.Xany {
-  document()._call("getElementById", [@xany.Xany::of(id)])
+pub fn get_element_by_id(id : String) -> @core.Any {
+  document()._call("getElementById", [@core.any(id)])
 }
 
 ///|
-pub fn query_selector(selector : String) -> @xany.Xany {
-  document()._call("querySelector", [@xany.Xany::of(selector)])
+pub fn query_selector(selector : String) -> @core.Any {
+  document()._call("querySelector", [@core.any(selector)])
 }
 
 ///|
-pub fn create_element(tag : String) -> @xany.Xany {
-  document()._call("createElement", [@xany.Xany::of(tag)])
+pub fn create_element(tag : String) -> @core.Any {
+  document()._call("createElement", [@core.any(tag)])
 }
 
 ///|
-pub fn create_text_node(text : String) -> @xany.Xany {
-  document()._call("createTextNode", [@xany.Xany::of(text)])
+pub fn create_text_node(text : String) -> @core.Any {
+  document()._call("createTextNode", [@core.any(text)])
 }
 
 // ============================================
@@ -39,54 +39,53 @@ pub fn create_text_node(text : String) -> @xany.Xany {
 // ============================================
 
 ///|
-pub fn append_child(parent : @xany.Xany, child : @xany.Xany) -> @xany.Xany {
+pub fn append_child(parent : @core.Any, child : @core.Any) -> @core.Any {
   parent._call("appendChild", [child])
 }
 
 ///|
-pub fn remove_child(parent : @xany.Xany, child : @xany.Xany) -> @xany.Xany {
+pub fn remove_child(parent : @core.Any, child : @core.Any) -> @core.Any {
   parent._call("removeChild", [child])
 }
 
 ///|
-pub fn set_attribute(el : @xany.Xany, name : String, value : String) -> Unit {
-  el._call("setAttribute", [@xany.Xany::of(name), @xany.Xany::of(value)])
-  |> ignore
+pub fn set_attribute(el : @core.Any, name : String, value : String) -> Unit {
+  el._call("setAttribute", [@core.any(name), @core.any(value)]) |> ignore
 }
 
 ///|
-pub fn get_attribute(el : @xany.Xany, name : String) -> @xany.Xany {
-  el._call("getAttribute", [@xany.Xany::of(name)])
+pub fn get_attribute(el : @core.Any, name : String) -> @core.Any {
+  el._call("getAttribute", [@core.any(name)])
 }
 
 ///|
-pub fn set_text_content(el : @xany.Xany, text : String) -> Unit {
-  el["textContent"] = @xany.Xany::of(text)
+pub fn set_text_content(el : @core.Any, text : String) -> Unit {
+  el["textContent"] = @core.any(text)
 }
 
 ///|
-pub fn get_text_content(el : @xany.Xany) -> String {
-  el["textContent"].unsafe_coerce()
+pub fn get_text_content(el : @core.Any) -> String {
+  el["textContent"] |> @core.Any::cast()
 }
 
 ///|
-pub fn set_inner_html(el : @xany.Xany, html : String) -> Unit {
-  el["innerHTML"] = @xany.Xany::of(html)
+pub fn set_inner_html(el : @core.Any, html : String) -> Unit {
+  el["innerHTML"] = @core.any(html)
 }
 
 ///|
-pub fn set_id(el : @xany.Xany, id : String) -> Unit {
-  el["id"] = @xany.Xany::of(id)
+pub fn set_id(el : @core.Any, id : String) -> Unit {
+  el["id"] = @core.any(id)
 }
 
 ///|
-pub fn set_class_name(el : @xany.Xany, class_name : String) -> Unit {
-  el["className"] = @xany.Xany::of(class_name)
+pub fn set_class_name(el : @core.Any, class_name : String) -> Unit {
+  el["className"] = @core.any(class_name)
 }
 
 ///|
-pub fn set_style(el : @xany.Xany, prop : String, value : String) -> Unit {
-  el["style"][prop] = @xany.Xany::of(value)
+pub fn set_style(el : @core.Any, prop : String, value : String) -> Unit {
+  el["style"][prop] = @core.any(value)
 }
 
 // ============================================
@@ -95,27 +94,21 @@ pub fn set_style(el : @xany.Xany, prop : String, value : String) -> Unit {
 
 ///|
 pub fn add_event_listener(
-  el : @xany.Xany,
+  el : @core.Any,
   event_type : String,
   callback : () -> Unit,
 ) -> Unit {
-  el._call("addEventListener", [
-    @xany.Xany::of(event_type),
-    @xany.Xany::of(callback),
-  ])
+  el._call("addEventListener", [@core.any(event_type), @core.any(callback)])
   |> ignore
 }
 
 ///|
 pub fn add_event_listener_with_event(
-  el : @xany.Xany,
+  el : @core.Any,
   event_type : String,
-  callback : (@xany.Xany) -> Unit,
+  callback : (@core.Any) -> Unit,
 ) -> Unit {
-  el._call("addEventListener", [
-    @xany.Xany::of(event_type),
-    @xany.Xany::of(callback),
-  ])
+  el._call("addEventListener", [@core.any(event_type), @core.any(callback)])
   |> ignore
 }
 
@@ -125,17 +118,17 @@ pub fn add_event_listener_with_event(
 
 ///|
 pub fn console_log(msg : String) -> Unit {
-  @xany.global_this()["console"]._call("log", [@xany.Xany::of(msg)]) |> ignore
+  @core.global_this()["console"]._call("log", [@core.any(msg)]) |> ignore
 }
 
 ///|
-pub fn console_log_any(value : @xany.Xany) -> Unit {
-  @xany.global_this()["console"]._call("log", [value]) |> ignore
+pub fn console_log_any(value : @core.Any) -> Unit {
+  @core.global_this()["console"]._call("log", [value]) |> ignore
 }
 
 ///|
 pub fn console_error(msg : String) -> Unit {
-  @xany.global_this()["console"]._call("error", [@xany.Xany::of(msg)]) |> ignore
+  @core.global_this()["console"]._call("error", [@core.any(msg)]) |> ignore
 }
 
 // ============================================
@@ -143,34 +136,31 @@ pub fn console_error(msg : String) -> Unit {
 // ============================================
 
 ///|
-pub fn window() -> @xany.Xany {
-  @xany.global_this()
+pub fn window() -> @core.Any {
+  @core.global_this()
 }
 
 ///|
 pub fn alert(msg : String) -> Unit {
-  window()._call("alert", [@xany.Xany::of(msg)]) |> ignore
+  window()._call("alert", [@core.any(msg)]) |> ignore
 }
 
 ///|
-pub fn set_timeout(callback : () -> Unit, delay : Int) -> @xany.Xany {
-  window()._call("setTimeout", [@xany.Xany::of(callback), @xany.Xany::of(delay)])
+pub fn set_timeout(callback : () -> Unit, delay : Int) -> @core.Any {
+  window()._call("setTimeout", [@core.any(callback), @core.any(delay)])
 }
 
 ///|
-pub fn set_interval(callback : () -> Unit, delay : Int) -> @xany.Xany {
-  window()._call("setInterval", [
-    @xany.Xany::of(callback),
-    @xany.Xany::of(delay),
-  ])
+pub fn set_interval(callback : () -> Unit, delay : Int) -> @core.Any {
+  window()._call("setInterval", [@core.any(callback), @core.any(delay)])
 }
 
 ///|
-pub fn clear_timeout(id : @xany.Xany) -> Unit {
+pub fn clear_timeout(id : @core.Any) -> Unit {
   window()._call("clearTimeout", [id]) |> ignore
 }
 
 ///|
-pub fn clear_interval(id : @xany.Xany) -> Unit {
+pub fn clear_interval(id : @core.Any) -> Unit {
   window()._call("clearInterval", [id]) |> ignore
 }

@@ -83,7 +83,7 @@ export function createJsCoreImports() {
 /**
  * Load and instantiate a WASM module with jscore imports
  */
-export async function loadWasm(wasmUrl: string | URL) {
+export async function loadWasmWithCore(wasmUrl: string | URL) {
   const wasmResponse = await fetch(wasmUrl);
 
   // V8 extension: 3-argument version with builtins option
@@ -107,5 +107,5 @@ export async function loadWasm(wasmUrl: string | URL) {
 
 // For browser usage via <script type="module">
 if (typeof window !== "undefined") {
-  (window as any).jsCoreWasm = { createJsCoreImports, loadWasm };
+  (window as any).jsCoreWasm = { createJsCoreImports, loadWasmWithCore };
 }

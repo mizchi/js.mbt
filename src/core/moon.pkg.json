@@ -2,5 +2,22 @@
   "test-import": [
     "moonbitlang/async"
   ],
+  "targets": {
+    "core_js.mbt": ["js"],
+    "core_wasm.mbt": ["wasm-gc"],
+    "error.mbt": ["js"],
+    "error_test.mbt": ["js"],
+    "promise.mbt": ["js"],
+    "promise_test.mbt": ["js"],
+    "tag.mbt": ["js"],
+    "nullish.mbt": ["js"],
+    "nullish_test.mbt": ["js"],
+    "to_any_wbtest.mbt": ["js"]
+  },
+  "link": {
+    "wasm-gc": {
+      "use-js-builtin-string": true
+    }
+  },
   "warn-list": "-9-67"
 }

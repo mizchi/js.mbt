@@ -1,7 +1,7 @@
 {
   "is-main": true,
   "import": [
-    "mizchi/js/xany"
+    "mizchi/js/core"
   ],
   "targets": {
     "dom.mbt": ["wasm-gc"],
