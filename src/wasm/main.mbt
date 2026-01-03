@@ -6,6 +6,26 @@ fn main {
 }
 
 ///|
+/// Simple test without DOM - can run in Deno
+pub fn test_core() -> String {
+  // Test basic @core operations
+  let obj = @core.new_object()
+  obj["name"] = @core.any("MoonBit")
+  obj["version"] = @core.any(1)
+
+  // Get values back
+  let name : String = obj["name"] |> @core.Any::cast()
+  let version : Int = obj["version"] |> @core.Any::cast()
+
+  // Test json_stringify
+  let json = @core.json_stringify(obj)
+  @core.log(@core.any("test_core: " + json))
+
+  // Return result
+  "name=" + name + ", version=" + version.to_string()
+}
+
+///|
 /// Exported function to test DOM operations from JavaScript
 pub fn test_dom() -> Unit {
   console_log("test_dom called from WASM")

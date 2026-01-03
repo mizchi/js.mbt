@@ -29,26 +29,38 @@
 
     const statusEl = document.getElementById("status");
 
+    function log(msg) {
+      console.log(msg);
+      const div = document.createElement("div");
+      div.textContent = msg;
+      document.getElementById("container").appendChild(div);
+    }
+
     try {
       const wasmUrl = new URL(
         "../../target/wasm-gc/release/build/wasm/wasm.wasm",
         import.meta.url
       );
 
+      log("Loading WASM from: " + wasmUrl.pathname);
       const exports = await loadWasm(wasmUrl);
-      console.log("WASM exports:", Object.keys(exports));
+      log("WASM exports: " + Object.keys(exports).join(", "));
+
+      // Call test_core first (non-DOM test)
+      if (exports.test_core) {
+        log("\nCalling test_core()...");
+        const result = exports.test_core();
+        log("test_core returned: " + result);
+      }
 
       // Call the exported test_dom function
       if (exports.test_dom) {
+        log("\nCalling test_dom()...");
         exports.test_dom();
-        statusEl.textContent = "WASM module loaded and test_dom executed!";
-        statusEl.className = "success";
-      } else if (exports._start) {
-        exports._start();
-        statusEl.textContent = "WASM module loaded and _start executed!";
+        statusEl.textContent = "All tests passed!";
         statusEl.className = "success";
       } else {
-        statusEl.textContent = "WASM module loaded (no test_dom export found)";
+        statusEl.textContent = "WASM module loaded (no test_dom export)";
         statusEl.className = "success";
       }
     } catch (error) {

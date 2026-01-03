@@ -11,7 +11,7 @@
   "link": {
     "wasm-gc": {
       "use-js-builtin-string": true,
-      "exports": ["main", "test_dom"]
+      "exports": ["main", "test_core", "test_dom"]
     }
   }
 }
