@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonBit WASM DOM Test</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 20px;
+    }
+    #status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    .loading { background: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+  <h1>MoonBit WASM DOM Test</h1>
+  <div id="status" class="loading">Loading WASM module...</div>
+  <div id="container"></div>
+
+  <script type="module">
+    import { loadWasm } from "./inject.ts";
+
+    const statusEl = document.getElementById("status");
+
+    try {
+      const wasmUrl = new URL(
+        "../../target/wasm-gc/release/build/wasm/wasm.wasm",
+        import.meta.url
+      );
+
+      const exports = await loadWasm(wasmUrl);
+      console.log("WASM exports:", Object.keys(exports));
+
+      // Call the exported test_dom function
+      if (exports.test_dom) {
+        exports.test_dom();
+        statusEl.textContent = "WASM module loaded and test_dom executed!";
+        statusEl.className = "success";
+      } else if (exports._start) {
+        exports._start();
+        statusEl.textContent = "WASM module loaded and _start executed!";
+        statusEl.className = "success";
+      } else {
+        statusEl.textContent = "WASM module loaded (no test_dom export found)";
+        statusEl.className = "success";
+      }
+    } catch (error) {
+      console.error("Failed to load WASM:", error);
+      statusEl.textContent = `Error: ${error.message}`;
+      statusEl.className = "error";
+    }
+  </script>
+</body>
+</html>

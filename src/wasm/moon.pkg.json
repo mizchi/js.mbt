@@ -1,0 +1,17 @@
+{
+  "is-main": true,
+  "import": [
+    "mizchi/js/xany"
+  ],
+  "targets": {
+    "dom.mbt": ["wasm-gc"],
+    "main.mbt": ["wasm-gc"],
+    "main_js.mbt": ["js"]
+  },
+  "link": {
+    "wasm-gc": {
+      "use-js-builtin-string": true,
+      "exports": ["main", "test_dom"]
+    }
+  }
+}
