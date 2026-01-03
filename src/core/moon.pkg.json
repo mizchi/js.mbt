@@ -5,6 +5,8 @@
   "targets": {
     "core_js.mbt": ["js"],
     "core_wasm.mbt": ["wasm-gc"],
+    "to_any.mbt": ["js"],
+    "to_any_wasm.mbt": ["wasm-gc"],
     "error.mbt": ["js"],
     "error_test.mbt": ["js"],
     "promise.mbt": ["js"],

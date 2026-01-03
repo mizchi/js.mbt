@@ -14,6 +14,9 @@ extern "wasm" fn wasm_get_by_index(obj : Any, index : Int) -> Any = "jscore" "ge
 ///|
 extern "wasm" fn wasm_set(obj : Any, key : String, value : Any) -> Unit = "jscore" "set"
 
+///|
+extern "wasm" fn wasm_set_by_index(obj : Any, index : Int, value : Any) -> Unit = "jscore" "set_by_index"
+
 // Fixed-arity call functions (WASM can't use Array in extern)
 
 ///|
@@ -340,6 +343,31 @@ fn js_array_to_any_array(js_arr : Any) -> Array[Any] {
 }
 
 ///|
+/// Convert MoonBit Array[Any] to JS array (Any)
+/// This iterates the array and pushes each element to a new JS array
+pub fn array_to_js(arr : Array[Any]) -> Any {
+  let js_arr = wasm_new_array()
+  for i = 0; i < arr.length(); i = i + 1 {
+    wasm_call1(js_arr, "push", arr[i]) |> ignore
+  }
+  js_arr
+}
+
+///|
+/// Convert MoonBit Bytes to JS Uint8Array (Any)
+/// Bytes are converted element by element using index access
+pub fn bytes_to_js(bytes : Bytes) -> Any {
+  let global = wasm_global_this()
+  let uint8_class = wasm_get(global, "Uint8Array")
+  let js_arr = wasm_new1(uint8_class, wasm_from_int(bytes.length()))
+  for i = 0; i < bytes.length(); i = i + 1 {
+    // Use index access: js_arr[i] = bytes[i]
+    wasm_set_by_index(js_arr, i, wasm_from_int(bytes[i].to_int()))
+  }
+  js_arr
+}
+
+///|
 pub fn object_keys(obj : Any) -> Array[String] {
   js_array_to_strings(wasm_object_keys_any(obj))
 }
@@ -402,5 +430,46 @@ pub fn throw_(value : Any) -> Unit {
   wasm_throw(value)
 }
 
-// Note: as_any and from_entries need special handling in WASM
-// For now, they are not supported in WASM target
+// ============================================
+// Type-specific from functions for ToAny trait
+// These allow type-safe conversion from MoonBit primitives to externref
+// ============================================
+
+///|
+pub extern "wasm" fn wasm_from_int(v : Int) -> Any = "jscore" "from_int"
+
+///|
+pub extern "wasm" fn wasm_from_uint(v : UInt) -> Any = "jscore" "from_uint"
+
+///|
+pub extern "wasm" fn wasm_from_int64(v : Int64) -> Any = "jscore" "from_int64"
+
+///|
+pub extern "wasm" fn wasm_from_uint64(v : UInt64) -> Any = "jscore" "from_uint64"
+
+///|
+pub extern "wasm" fn wasm_from_float(v : Float) -> Any = "jscore" "from_float"
+
+///|
+pub extern "wasm" fn wasm_from_double(v : Double) -> Any = "jscore" "from_double"
+
+///|
+pub extern "wasm" fn wasm_from_string(v : String) -> Any = "jscore" "from_string"
+
+///|
+pub extern "wasm" fn wasm_from_bool(v : Bool) -> Any = "jscore" "from_bool"
+
+// BigInt conversion via Int64
+// WASM i64 is automatically converted to/from JS BigInt
+
+///|
+/// Convert Int64 to JS BigInt (Any)
+/// WASM i64 is natively compatible with JS BigInt
+pub extern "wasm" fn int64_to_bigint(v : Int64) -> Any = "jscore" "int64_to_bigint"
+
+///|
+/// Convert UInt64 to JS BigInt (Any)
+pub extern "wasm" fn uint64_to_bigint(v : UInt64) -> Any = "jscore" "int64_to_bigint"
+
+// Note: Array[T] cannot be passed directly to WASM FFI due to generic type parameter
+// Use array_to_js() for Array[Any] conversion

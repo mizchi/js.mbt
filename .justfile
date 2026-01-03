@@ -55,12 +55,22 @@ check-all: format check test
 test-deno: build
     deno test -A
 
+# Run WASM-GC tests with Deno
+test-wasm:
+    moon build --target wasm-gc src/wasm
+    deno run --allow-read src/wasm/test_deno.ts
+
+# Run WASM-GC DOM tests with happy-dom
+test-wasm-dom:
+    moon build --target wasm-gc src/wasm
+    deno run --allow-read --allow-env src/wasm/test_happydom.ts
+
 # Run Bun tests
 test-bun: build
     bun test target/js/release/build/bun/bun_test/bun_test.js
 
-# Run all tests (MoonBit, Deno, Bun)
-test: test-moon test-deno test-bun
+# Run all tests (MoonBit, Deno, Bun, WASM, WASM-DOM)
+test: test-moon test-deno test-bun test-wasm test-wasm-dom
 
 # Clean build artifacts
 clean:

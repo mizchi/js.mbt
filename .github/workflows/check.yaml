@@ -25,6 +25,9 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
       - name: Setup Moon
         uses: illusory0x0/setup-moonbit@v0.1.0
         with:
@@ -47,3 +50,10 @@ jobs:
           moon test --target js
         env:
           NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
+      - name: wasm-gc test
+        run: |
+          moon build --target wasm-gc src/wasm
+          deno run --allow-read src/wasm/test_deno.ts
+      - name: wasm-gc DOM test (happy-dom)
+        run: |
+          deno run --allow-read --allow-env src/wasm/test_happydom.ts

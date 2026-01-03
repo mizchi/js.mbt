@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonBit WASM-GC DOM Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fafafa;
+    }
+    #status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .loading { background: #fff3cd; color: #856404; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    #console-output {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 13px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .controls {
+      margin: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .controls button {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .controls button:hover {
+      background: #f0f0f0;
+    }
+    .controls button.primary {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    .controls button.primary:hover {
+      background: #0056b3;
+    }
+    #dom-output {
+      border: 2px dashed #ccc;
+      padding: 10px;
+      min-height: 100px;
+      background: white;
+    }
+    .note {
+      background: #e7f3ff;
+      border-left: 4px solid #007bff;
+      padding: 10px 15px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>MoonBit WASM-GC DOM Test</h1>
+
+  <div id="status" class="loading">Loading WASM module...</div>
+
+  <div class="note">
+    <strong>Note:</strong> MoonBit closures cannot be directly passed to JavaScript in WASM-GC mode.
+    Event handlers must be set up from the JavaScript side.
+  </div>
+
+  <div class="controls">
+    <button class="primary" onclick="runAllTests()">Run All DOM Tests</button>
+    <button onclick="runTest('test_dom')">test_dom</button>
+    <button onclick="runTest('test_dom_nested')">test_dom_nested</button>
+    <button onclick="runTest('test_dom_attributes')">test_dom_attributes</button>
+    <button onclick="runTest('test_dom_inner_html')">test_dom_inner_html</button>
+    <button onclick="runTest('test_dom_query_selector')">test_dom_query_selector</button>
+    <button onclick="clearOutput()">Clear All</button>
+  </div>
+
+  <h3>Console Output:</h3>
+  <div id="console-output"></div>
+
+  <h3>DOM Test Output:</h3>
+  <div id="dom-output">
+    <!-- DOM elements will be appended here by WASM -->
+  </div>
+
+  <script type="module">
+    // Inline inject.ts functionality
+    function createJsCoreImports() {
+      return {
+        // Property access
+        get: (obj, key) => obj[key],
+        get_by_index: (obj, index) => obj[index],
+        set: (obj, key, value) => { obj[key] = value; },
+        set_by_index: (obj, index, value) => { obj[index] = value; },
+
+        // Fixed-arity method calls
+        call0: (obj, name) => obj[name](),
+        call1: (obj, name, a1) => obj[name](a1),
+        call2: (obj, name, a1, a2) => obj[name](a1, a2),
+        call3: (obj, name, a1, a2, a3) => obj[name](a1, a2, a3),
+        call4: (obj, name, a1, a2, a3, a4) => obj[name](a1, a2, a3, a4),
+
+        // Fixed-arity function invokes
+        invoke0: (fn) => fn(),
+        invoke1: (fn, a1) => fn(a1),
+        invoke2: (fn, a1, a2) => fn(a1, a2),
+        invoke3: (fn, a1, a2, a3) => fn(a1, a2, a3),
+        invoke4: (fn, a1, a2, a3, a4) => fn(a1, a2, a3, a4),
+
+        // Fixed-arity constructors
+        new0: (cls) => new cls(),
+        new1: (cls, a1) => new cls(a1),
+        new2: (cls, a1, a2) => new cls(a1, a2),
+        new3: (cls, a1, a2, a3) => new cls(a1, a2, a3),
+        new4: (cls, a1, a2, a3, a4) => new cls(a1, a2, a3, a4),
+
+        // Type checks
+        typeof: (v) => typeof v,
+        is_nullish: (v) => v == null,
+        is_null: (v) => v === null,
+        is_undefined: (v) => v === undefined,
+        is_array: (v) => Array.isArray(v),
+        is_object: (v) => typeof v === "object" && v !== null,
+        instanceof: (v, cls) => v instanceof cls,
+        equal: (a, b) => a === b,
+
+        // Global values
+        global_this: () => globalThis,
+        undefined: () => undefined,
+        null: () => null,
+
+        // Object operations
+        new_object: () => ({}),
+        new_array: () => [],
+        object_keys: (obj) => Object.keys(obj),
+        object_values: (obj) => Object.values(obj),
+        object_assign: (target, source) => Object.assign(target, source),
+        object_has_own: (obj, key) => Object.hasOwn(obj, key),
+        array_from: (v) => Array.from(v),
+        array_length: (arr) => arr.length,
+
+        // JSON
+        json_stringify: (value) => JSON.stringify(value),
+        json_stringify_pretty: (value, space) => JSON.stringify(value, null, space),
+        json_parse: (text) => JSON.parse(text),
+
+        // Utility
+        to_string: (v) => (v == null ? String(v) : v.toString()),
+        log: (message) => console.log(message),
+        throw: (value) => { throw value; },
+        from: (v) => v,
+
+        // Type-specific from functions
+        from_int: (v) => v,
+        from_uint: (v) => v,
+        from_int64: (v) => v,
+        from_uint64: (v) => v,
+        from_float: (v) => v,
+        from_double: (v) => v,
+        from_string: (v) => v,
+        from_bool: (v) => v,
+        from_bytes: (v) => v,
+        from_array: (v) => v,
+        int64_to_bigint: (v) => v,
+        bigint_to_int64: (v) => BigInt(v),
+      };
+    }
+
+    const WASM_PATH = "../../target/wasm-gc/release/build/wasm/wasm.wasm";
+    const consoleOutput = document.getElementById('console-output');
+    const statusEl = document.getElementById('status');
+
+    // Override console.log to capture output
+    const originalLog = console.log;
+    console.log = (...args) => {
+      originalLog.apply(console, args);
+      const line = args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ');
+      consoleOutput.textContent += line + '\n';
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    };
+
+    let wasmExports = null;
+
+    async function loadWasm() {
+      try {
+        const wasmResponse = await fetch(WASM_PATH);
+        if (!wasmResponse.ok) {
+          throw new Error(`Failed to fetch WASM: ${wasmResponse.status}`);
+        }
+
+        // Use 3-arg instantiate with js-string-builtins
+        const { instance } = await WebAssembly.instantiateStreaming(
+          wasmResponse,
+          { jscore: createJsCoreImports() },
+          {
+            builtins: ["js-string"],
+            importedStringConstants: "_",
+          }
+        );
+
+        wasmExports = instance.exports;
+
+        statusEl.className = 'success';
+        statusEl.textContent = 'WASM module loaded successfully!';
+        console.log('WASM exports:', Object.keys(wasmExports).filter(k => k.startsWith('test_')).join(', '));
+
+        // Make exports available globally for button clicks
+        window.wasmExports = wasmExports;
+
+        return wasmExports;
+      } catch (error) {
+        statusEl.className = 'error';
+        statusEl.textContent = `Error: ${error.message}`;
+        console.error('WASM load error:', error);
+        throw error;
+      }
+    }
+
+    // Patch document.body to redirect to dom-output for testing
+    const domOutput = document.getElementById('dom-output');
+    const realBody = document.body;
+
+    // Create a proxy that redirects appendChild/insertBefore to dom-output
+    const bodyProxy = new Proxy(realBody, {
+      get(target, prop) {
+        if (prop === 'appendChild') {
+          return (child) => domOutput.appendChild(child);
+        }
+        if (prop === 'insertBefore') {
+          return (newNode, refNode) => domOutput.insertBefore(newNode, refNode);
+        }
+        const value = target[prop];
+        return typeof value === 'function' ? value.bind(target) : value;
+      }
+    });
+
+    // Override document.body getter for WASM calls
+    Object.defineProperty(document, 'body', {
+      get: () => bodyProxy,
+      configurable: true
+    });
+
+    window.runTest = function(testName) {
+      if (!wasmExports) {
+        console.log('WASM not loaded yet!');
+        return;
+      }
+      if (!wasmExports[testName]) {
+        console.log(`Test "${testName}" not found!`);
+        return;
+      }
+      console.log(`\n--- Running ${testName} ---`);
+      try {
+        wasmExports[testName]();
+      } catch (e) {
+        console.log(`Error: ${e.message}`);
+      }
+    };
+
+    window.runAllTests = function() {
+      if (!wasmExports) {
+        console.log('WASM not loaded yet!');
+        return;
+      }
+
+      // Clear previous DOM output
+      domOutput.innerHTML = '';
+      consoleOutput.textContent = '';
+
+      console.log('--- Running test_dom_all ---');
+      try {
+        wasmExports.test_dom_all();
+      } catch (e) {
+        console.log(`Error: ${e.message}`);
+      }
+    };
+
+    window.clearOutput = function() {
+      consoleOutput.textContent = '';
+      domOutput.innerHTML = '';
+    };
+
+    // Load WASM on page load
+    loadWasm();
+  </script>
+</body>
+</html>

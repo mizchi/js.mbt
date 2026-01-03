@@ -13,6 +13,9 @@ export function createJsCoreImports() {
     set: (obj: any, key: string, value: any) => {
       obj[key] = value;
     },
+    set_by_index: (obj: any, index: number, value: any) => {
+      obj[index] = value;
+    },
 
     // Fixed-arity method calls (WASM can't use variadic args)
     call0: (obj: any, name: string) => obj[name](),
@@ -77,6 +80,24 @@ export function createJsCoreImports() {
       throw value;
     },
     from: (v: any) => v,
+
+    // Type-specific from functions for ToAny trait in WASM-GC
+    // These allow type-safe conversion from MoonBit primitives to externref
+    from_int: (v: number) => v,
+    from_uint: (v: number) => v,
+    from_int64: (v: bigint) => v,
+    from_uint64: (v: bigint) => v,
+    from_float: (v: number) => v,
+    from_double: (v: number) => v,
+    from_string: (v: string) => v,
+    from_bool: (v: boolean) => v,
+    from_bytes: (v: Uint8Array) => v,
+    from_array: (v: any[]) => v,
+
+    // BigInt conversion: Int64 (i64) <-> BigInt
+    // WASM i64 is automatically converted to/from JS BigInt
+    int64_to_bigint: (v: bigint) => v, // i64 comes in as BigInt, return as-is
+    bigint_to_int64: (v: any) => BigInt(v), // Convert to BigInt for i64 return
   };
 }
 

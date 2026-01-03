@@ -17,6 +17,13 @@ interface TestExports {
   test_method_calls: () => string;
   test_json: () => string;
   test_dom: () => void;
+  test_array_ops: () => string;
+  test_object_utils: () => string;
+  test_typeof: () => string;
+  test_equality: () => string;
+  test_invoke: () => string;
+  test_constructor: () => string;
+  test_to_any: () => string;
 }
 
 async function main() {
@@ -36,7 +43,7 @@ async function main() {
   console.log("Available exports:", Object.keys(exports).filter(k => k.startsWith("test_")).join(", "));
   console.log("");
 
-  // Run tests
+  // Run tests (string-returning tests only - DOM tests run in happy-dom)
   const tests: Array<[string, () => string]> = [
     ["test_core", exports.test_core],
     ["test_object_ops", exports.test_object_ops],
@@ -45,6 +52,19 @@ async function main() {
     ["test_global_this", exports.test_global_this],
     ["test_method_calls", exports.test_method_calls],
     ["test_json", exports.test_json],
+    ["test_array_ops", exports.test_array_ops],
+    ["test_object_utils", exports.test_object_utils],
+    ["test_typeof", exports.test_typeof],
+    ["test_equality", exports.test_equality],
+    ["test_invoke", exports.test_invoke],
+    ["test_constructor", exports.test_constructor],
+    ["test_to_any", exports.test_to_any],
+    // API tests
+    ["test_url_api", (exports as any).test_url_api],
+    ["test_error_handling", (exports as any).test_error_handling],
+    ["test_math_api", (exports as any).test_math_api],
+    ["test_string_methods", (exports as any).test_string_methods],
+    ["test_date_api", (exports as any).test_date_api],
   ];
 
   let passed = 0;
