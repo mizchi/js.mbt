@@ -11,7 +11,17 @@
   "link": {
     "wasm-gc": {
       "use-js-builtin-string": true,
-      "exports": ["main", "test_core", "test_dom"]
+      "exports": [
+        "main",
+        "test_core",
+        "test_object_ops",
+        "test_null_undefined",
+        "test_type_checks",
+        "test_global_this",
+        "test_method_calls",
+        "test_json",
+        "test_dom"
+      ]
     }
   }
 }
