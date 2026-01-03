@@ -23,7 +23,7 @@ pub fn StorageArea::as_any(Self) -> @core.Any
 pub async fn StorageArea::clear(Self) -> Unit
 pub async fn StorageArea::get(Self, @core.Any) -> @core.Any
 pub async fn StorageArea::get_all(Self) -> @core.Any
-pub async fn StorageArea::get_item(Self, String) -> @core.Any
+pub fn StorageArea::get_item(Self, String) -> @core.Any
 pub async fn StorageArea::remove(Self, @core.Any) -> Unit
 pub async fn StorageArea::remove_item(Self, String) -> Unit
 pub async fn StorageArea::set(Self, @core.Any) -> Unit

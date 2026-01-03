@@ -29,10 +29,7 @@ extern "js" fn ffi_storage_get(
 
 ///|
 /// Get single item by key
-pub async fn StorageArea::get_item(
-  self : StorageArea,
-  key : String,
-) -> @core.Any {
+pub fn StorageArea::get_item(self : StorageArea, key : String) -> @core.Any {
   let result : @core.Any = self.as_any()._get(key) |> @core.any
   result[key] |> @core.identity
 }
