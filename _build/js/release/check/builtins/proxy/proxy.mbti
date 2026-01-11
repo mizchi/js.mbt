@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/proxy"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Proxy
+pub fn Proxy::as_any(Self) -> @core.Any
+pub fn Proxy::new(@core.Any, get? : (@core.Any, @core.Any, @core.Any) -> @core.Any, set? : (@core.Any, @core.Any, @core.Any, @core.Any) -> Bool, has? : (@core.Any, @core.Any) -> Bool, deleteProperty? : (@core.Any, @core.Any) -> Bool, apply? : (@core.Any, @core.Any, @core.Any) -> @core.Any, construct? : (@core.Any, @core.Any, @core.Any) -> @core.Any, ownKeys? : (@core.Any) -> @core.Any, getPrototypeOf? : (@core.Any) -> @core.Any, setPrototypeOf? : (@core.Any, @core.Any) -> Bool, isExtensible? : (@core.Any) -> Bool, preventExtensions? : (@core.Any) -> Bool, getOwnPropertyDescriptor? : (@core.Any, @core.Any) -> @core.Any, defineProperty? : (@core.Any, @core.Any, @core.Any) -> Bool) -> Self
+pub fn Proxy::revocable(@core.Any, get? : (@core.Any, @core.Any, @core.Any) -> @core.Any, set? : (@core.Any, @core.Any, @core.Any, @core.Any) -> Bool, has? : (@core.Any, @core.Any) -> Bool, deleteProperty? : (@core.Any, @core.Any) -> Bool, apply? : (@core.Any, @core.Any, @core.Any) -> @core.Any, construct? : (@core.Any, @core.Any, @core.Any) -> @core.Any, ownKeys? : (@core.Any) -> @core.Any, getPrototypeOf? : (@core.Any) -> @core.Any, setPrototypeOf? : (@core.Any, @core.Any) -> Bool, isExtensible? : (@core.Any) -> Bool, preventExtensions? : (@core.Any) -> Bool, getOwnPropertyDescriptor? : (@core.Any, @core.Any) -> @core.Any, defineProperty? : (@core.Any, @core.Any, @core.Any) -> Bool) -> @core.Any
+
+// Type aliases
+
+// Traits
+

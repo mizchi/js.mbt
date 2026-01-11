@@ -1,0 +1,56 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/process"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/node/tty"
+)
+
+// Values
+pub fn argv() -> Array[String]
+
+pub fn chdir(String) -> Unit
+
+pub fn cwd() -> String
+
+pub fn env() -> ProcessEnv
+
+pub fn exit(Int) -> Unit
+
+pub fn exitCode() -> Int
+
+pub fn isTTY() -> Bool
+
+pub fn nextTick(() -> Unit) -> Unit
+
+pub fn on(String, () -> Unit) -> Unit
+
+pub fn process() -> Process
+
+pub fn stderr() -> @tty.WriteStream
+
+pub fn stdin() -> @tty.ReadStream
+
+pub fn stdout() -> @tty.WriteStream
+
+pub fn version() -> String
+
+pub fn versions() -> @core.Any
+
+// Errors
+
+// Types and methods
+#external
+pub type Process
+pub fn Process::as_any(Self) -> @core.Any
+
+#external
+pub type ProcessEnv
+pub fn ProcessEnv::as_any(Self) -> @core.Any
+pub fn ProcessEnv::get(Self, String) -> String?
+pub fn ProcessEnv::has(Self, String) -> Bool
+
+// Type aliases
+
+// Traits
+

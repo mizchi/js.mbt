@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/vm"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/node/buffer"
+)
+
+// Values
+pub fn compileFunction(String, params? : Array[String], filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool, parsingContext? : @core.Any, contextExtensions? : Array[@core.Any]) -> @core.Any
+
+pub fn createContext(contextObject? : @core.Any, name? : String, origin? : String, microtaskMode? : String) -> @core.Any
+
+pub fn isContext(@core.Any) -> Bool
+
+pub fn runInContext(String, @core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @core.Any
+
+pub fn runInNewContext(String, contextObject? : @core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @core.Any
+
+pub fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @core.Any
+
+// Errors
+
+// Types and methods
+#external
+pub type Script
+pub fn Script::as_any(Self) -> @core.Any
+pub fn Script::cachedDataRejected(Self) -> Bool?
+pub fn Script::createCachedData(Self) -> @buffer.Buffer
+pub fn Script::new(String, filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool) -> Self
+pub fn Script::runInContext(Self, @core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @core.Any
+pub fn Script::runInNewContext(Self, contextObject? : @core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @core.Any
+pub fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @core.Any
+pub fn Script::sourceMapURL(Self) -> String?
+
+// Type aliases
+
+// Traits
+

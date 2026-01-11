@@ -1,0 +1,64 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/crypto"
+
+import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Crypto {
+  subtle : SubtleCrypto
+}
+pub fn Crypto::as_any(Self) -> @core.Any
+pub fn Crypto::get() -> Self
+pub fn Crypto::getRandomValues(Self, @arraybuffer.Uint8Array) -> @arraybuffer.Uint8Array
+pub fn Crypto::getRandomValuesI16(Self, @arraybuffer.Int16Array) -> @arraybuffer.Int16Array
+pub fn Crypto::getRandomValuesI32(Self, @arraybuffer.Int32Array) -> @arraybuffer.Int32Array
+pub fn Crypto::getRandomValuesI8(Self, @arraybuffer.Int8Array) -> @arraybuffer.Int8Array
+pub fn Crypto::getRandomValuesU16(Self, @arraybuffer.Uint16Array) -> @arraybuffer.Uint16Array
+pub fn Crypto::getRandomValuesU32(Self, @arraybuffer.Uint32Array) -> @arraybuffer.Uint32Array
+#alias(random_uuid)
+pub fn Crypto::randomUUID(Self) -> String
+
+#external
+pub type CryptoKey
+pub fn CryptoKey::as_any(Self) -> @core.Any
+
+pub(all) struct CryptoKeyPair {
+  publicKey : CryptoKey
+  privateKey : CryptoKey
+}
+pub fn CryptoKeyPair::as_any(Self) -> @core.Any
+
+#external
+pub type SubtleCrypto
+pub fn SubtleCrypto::as_any(Self) -> @core.Any
+pub async fn SubtleCrypto::decrypt(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
+#alias(derive_bits)
+pub async fn SubtleCrypto::deriveBits(Self, @core.Any, @core.Any, Int) -> @arraybuffer.ArrayBuffer
+#alias(derive_key)
+pub async fn SubtleCrypto::deriveKey(Self, @core.Any, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
+pub async fn SubtleCrypto::digest(Self, String, @core.Any) -> @arraybuffer.ArrayBuffer
+pub async fn SubtleCrypto::encrypt(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
+#alias(export_key)
+pub async fn SubtleCrypto::exportKey(Self, String, @core.Any) -> @core.Any
+#alias(generate_key)
+pub async fn SubtleCrypto::generateKey(Self, @core.Any, Bool, Array[String]) -> @core.Any
+#alias(import_key)
+pub async fn SubtleCrypto::importKey(Self, String, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
+pub async fn SubtleCrypto::sign(Self, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
+#alias(unwrap_key)
+pub async fn SubtleCrypto::unwrapKey(Self, String, @core.Any, @core.Any, @core.Any, @core.Any, Bool, Array[String]) -> CryptoKey
+pub async fn SubtleCrypto::verify(Self, @core.Any, @core.Any, @core.Any, @core.Any) -> Bool
+#alias(wrap_key)
+pub async fn SubtleCrypto::wrapKey(Self, String, @core.Any, @core.Any, @core.Any) -> @arraybuffer.ArrayBuffer
+
+// Type aliases
+
+// Traits
+

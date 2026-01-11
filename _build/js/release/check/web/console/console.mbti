@@ -1,0 +1,48 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/console"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn assert_(Bool, @core.Any) -> Unit
+
+pub fn clear() -> Unit
+
+pub fn count(String) -> Unit
+
+pub fn countReset(String) -> Unit
+
+pub fn debug(@core.Any) -> Unit
+
+pub fn dir(@core.Any) -> Unit
+
+pub fn error(@core.Any) -> Unit
+
+pub fn group(String) -> Unit
+
+pub fn groupEnd() -> Unit
+
+pub fn info(@core.Any) -> Unit
+
+pub fn log(@core.Any) -> Unit
+
+pub fn table(@core.Any, Array[String]) -> Unit
+
+pub fn time(String) -> Unit
+
+pub fn timeEnd(String) -> Unit
+
+pub fn trace(@core.Any) -> Unit
+
+pub fn warn(@core.Any) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

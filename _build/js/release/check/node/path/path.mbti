@@ -1,0 +1,57 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/path"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn basename(String, suffix? : String) -> String
+
+pub fn delimiter() -> String
+
+pub fn dirname(String) -> String
+
+pub fn extname(String) -> String
+
+pub fn format(ParsedPath) -> String
+
+#alias(is_absolute)
+pub fn isAbsolute(String) -> Bool
+
+pub fn join(Array[String]) -> String
+
+pub fn join2(String, String) -> String
+
+#alias(matches_glob)
+pub fn matchesGlob(String, String) -> Bool
+
+pub fn normalize(String) -> String
+
+pub fn parse(String) -> ParsedPath
+
+pub fn relative(String, String) -> String
+
+pub fn resolve(Array[String]) -> String
+
+pub fn sep() -> String
+
+#alias(to_namespaced_path)
+pub fn toNamespacedPath(String) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct ParsedPath {
+  root : String
+  dir : String
+  base : String
+  ext : String
+  name : String
+}
+pub fn ParsedPath::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

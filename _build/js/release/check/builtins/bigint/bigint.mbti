@@ -1,0 +1,45 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/bigint"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type JsBigInt
+pub fn JsBigInt::add(Self, Self) -> Self
+pub fn JsBigInt::asIntN(Int, Self) -> Self
+pub fn JsBigInt::asUintN(Int, Self) -> Self
+pub fn JsBigInt::as_any(Self) -> @core.Any
+pub fn JsBigInt::bitand(Self, Self) -> Self
+pub fn JsBigInt::bitnot(Self) -> Self
+pub fn JsBigInt::bitor(Self, Self) -> Self
+pub fn JsBigInt::bitxor(Self, Self) -> Self
+pub fn JsBigInt::div(Self, Self) -> Self
+pub fn JsBigInt::equal(Self, Self) -> Bool
+pub fn JsBigInt::from_int(Int) -> Self
+pub fn JsBigInt::from_string(String) -> Self
+pub fn JsBigInt::ge(Self, Self) -> Bool
+pub fn JsBigInt::gt(Self, Self) -> Bool
+pub fn JsBigInt::le(Self, Self) -> Bool
+pub fn JsBigInt::lt(Self, Self) -> Bool
+pub fn JsBigInt::mod(Self, Self) -> Self
+pub fn JsBigInt::mul(Self, Self) -> Self
+pub fn JsBigInt::neg(Self) -> Self
+pub fn JsBigInt::pow(Self, Self) -> Self
+pub fn JsBigInt::shl(Self, Self) -> Self
+pub fn JsBigInt::shr(Self, Self) -> Self
+pub fn JsBigInt::sub(Self, Self) -> Self
+pub fn JsBigInt::to_string(Self) -> String
+pub fn JsBigInt::to_string_radix(Self, Int) -> String
+pub fn JsBigInt::valueOf(Self) -> Self
+
+// Type aliases
+
+// Traits
+

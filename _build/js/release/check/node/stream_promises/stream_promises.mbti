@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/stream_promises"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/node/stream"
+)
+
+// Values
+pub async fn finished(@core.Any) -> Unit
+
+pub async fn pipeline(Array[@core.Any]) -> @stream.Stream
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

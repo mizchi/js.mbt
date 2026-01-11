@@ -1,0 +1,89 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/fs_promises"
+
+import(
+  "mizchi/js/builtins/iterator"
+  "mizchi/js/core"
+  "mizchi/js/node/buffer"
+  "moonbitlang/async/js_async"
+)
+
+// Values
+pub async fn access(String, mode? : Int) -> Unit
+
+pub async fn appendFile(String, String, encoding? : String) -> Unit
+
+pub async fn chmod(String, Int) -> Unit
+
+pub async fn chown(String, Int, Int) -> Unit
+
+pub async fn copyFile(String, String) -> Unit
+
+pub async fn cp(String, String, recursive? : Bool) -> Unit
+
+pub fn glob(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[String]
+
+pub fn glob_with_filetype(String, cwd? : String, exclude? : Array[String], exclude_fn? : (String) -> Bool) -> @iterator.AsyncIterator[Dirent]
+
+pub async fn mkdir(String, recursive? : Bool) -> Unit
+
+pub async fn open(String) -> FileHandle
+
+#alias(read_file)
+pub async fn readFile(String, encoding? : String) -> String
+
+pub async fn read_file_as_buffer(String) -> @buffer.Buffer
+
+pub async fn read_file_as_string(String, encoding? : String) -> String
+
+pub async fn readdir(String) -> Array[String]
+
+pub async fn readlink(String) -> String
+
+pub async fn realpath(String) -> String
+
+pub async fn rename(String, String) -> Unit
+
+pub async fn rm(String, recursive? : Bool, force? : Bool) -> Unit
+
+pub async fn rmdir(String, recursive? : Bool) -> Unit
+
+pub async fn stat(String) -> Stat
+
+pub async fn symlink(String, String, type_? : String) -> Unit
+
+pub async fn truncate(String, len? : Int) -> Unit
+
+pub async fn unlink(String) -> Unit
+
+#alias(write_file)
+pub async fn writeFile(String, String, encoding? : String, mode? : Int, flag? : String, flush? : Bool, signal? : @js_async.AbortSignal) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type Dirent
+pub fn Dirent::as_any(Self) -> @core.Any
+#alias(is_directory)
+pub fn Dirent::isDirectory(Self) -> Bool
+#alias(is_file)
+pub fn Dirent::isFile(Self) -> Bool
+pub fn Dirent::name(Self) -> String
+
+#external
+pub type FileHandle
+pub fn FileHandle::as_any(Self) -> @core.Any
+
+#external
+pub type Stat
+pub fn Stat::as_any(Self) -> @core.Any
+pub fn Stat::isDirectory(Self) -> Bool
+pub fn Stat::isFile(Self) -> Bool
+pub fn Stat::mtime_ms(Self) -> Float
+pub fn Stat::size(Self) -> Int
+
+// Type aliases
+
+// Traits
+

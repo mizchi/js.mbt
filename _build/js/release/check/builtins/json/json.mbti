@@ -1,0 +1,21 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/json"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type JSON
+pub fn[T] JSON::parse(String, reviver? : @core.Any?) -> T
+pub fn JSON::stringify(@core.Any, replacer? : @core.Any, space? : Int) -> String
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,25 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/function"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Function
+pub fn Function::apply(Self, @core.Any, Array[@core.Any]) -> @core.Any
+pub fn Function::bind(Self, @core.Any) -> @core.Any
+pub fn Function::length(Self) -> @core.Any
+pub fn Function::name(Self) -> String
+pub fn Function::to_any(Self) -> @core.Any
+pub fn Function::to_string(Self) -> String
+
+// Type aliases
+
+// Traits
+

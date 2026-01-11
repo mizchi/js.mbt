@@ -1,0 +1,230 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js"
+
+import(
+  "mizchi/js/builtins/array"
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/builtins/atomics"
+  "mizchi/js/builtins/bigint"
+  "mizchi/js/builtins/collection"
+  "mizchi/js/builtins/date"
+  "mizchi/js/builtins/disposable"
+  "mizchi/js/builtins/error"
+  "mizchi/js/builtins/function"
+  "mizchi/js/builtins/global"
+  "mizchi/js/builtins/iterator"
+  "mizchi/js/builtins/json"
+  "mizchi/js/builtins/math"
+  "mizchi/js/builtins/object"
+  "mizchi/js/builtins/proxy"
+  "mizchi/js/builtins/reflect"
+  "mizchi/js/builtins/regexp"
+  "mizchi/js/builtins/string"
+  "mizchi/js/builtins/symbol"
+  "mizchi/js/builtins/weak"
+  "mizchi/js/core"
+  "moonbitlang/async/js_async"
+)
+
+// Values
+pub fn[T] any(T) -> @core.Any
+
+pub fn atob(String) -> String raise @core.ThrowError
+
+pub fn btoa(String) -> String raise @core.ThrowError
+
+pub fn clearInterval(@global.Timer) -> Unit
+
+pub fn clearTimeout(@global.Timer) -> Unit
+
+pub fn decodeURI(String) -> String
+
+pub fn decodeURIComponent(String) -> String
+
+pub fn dynamic_import(String) -> @core.Any
+
+pub fn encodeURI(String) -> String
+
+pub fn encodeURIComponent(String) -> String
+
+pub fn[A] from_async(async () -> A) -> @core.Promise[A]
+
+pub fn from_entries(Array[(String, @core.Any)]) -> @core.Any
+
+pub fn[A] from_fn0(() -> A) -> @core.Any
+
+pub fn[A, B] from_fn1((A) -> B) -> @core.Any
+
+pub fn[A, B, C] from_fn2((A, B) -> C) -> @core.Any
+
+pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @core.Any
+
+pub fn globalThis() -> @core.Any
+
+pub fn[A, B] identity(A) -> B
+
+pub fn isFinite(Double) -> Bool
+
+pub fn isNaN(@core.Any) -> Bool
+
+pub fn log(@core.Any) -> Unit
+
+pub fn new(@core.Any, Array[@core.Any]) -> @core.Any
+
+pub fn new_array() -> @core.Any
+
+pub fn new_object() -> @core.Any
+
+pub fn parseFloat(String) -> Double?
+
+pub fn parseInt(String, radix? : Int) -> Int?
+
+pub fn[R] promisify0(async () -> R) -> () -> @core.Promise[R]
+
+pub fn[A, R] promisify1(async (A) -> R) -> (A) -> @core.Promise[R]
+
+pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> @core.Promise[R]
+
+pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> @core.Promise[R]
+
+pub fn queueMicrotask(() -> Unit) -> Unit
+
+pub fn run_async(async () -> Unit noraise) -> Unit
+
+pub fn setInterval(() -> Unit, Int) -> @global.Timer
+
+pub fn setTimeout(() -> Unit, Int) -> @global.Timer
+
+pub fn structuredClone(@core.Any) -> @core.Any
+
+pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
+
+pub fn symbol(String) -> @symbol.Symbol
+
+pub fn[T] throwable(() -> T raise?) -> T raise @core.ThrowError
+
+pub fn typeof_(@core.Any) -> String
+
+pub fn undefined() -> @core.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+pub using @js_async {type AbortController}
+
+pub using @js_async {type AbortSignal}
+
+pub using @error {type AggregateError}
+
+pub using @core {type Any}
+
+pub using @arraybuffer {type ArrayBuffer}
+
+pub using @disposable {type AsyncDisposableStack}
+
+pub using @iterator {type AsyncIterator}
+
+pub using @atomics {type Atomics}
+
+pub using @atomics {type AtomicsWaitResult}
+
+pub using @arraybuffer {type BigInt64Array}
+
+pub using @arraybuffer {type BigUint64Array}
+
+pub using @arraybuffer {type DataView}
+
+pub using @date {type Date}
+
+pub using @disposable {type DisposableStack}
+
+pub using @error {type EvalError}
+
+pub using @weak {type FinalizationRegistry}
+
+pub using @arraybuffer {type Float32Array}
+
+pub using @arraybuffer {type Float64Array}
+
+pub using @function {type Function}
+
+pub using @arraybuffer {type Int16Array}
+
+pub using @arraybuffer {type Int32Array}
+
+pub using @arraybuffer {type Int8Array}
+
+pub using @json {type JSON}
+
+pub using @array {type JsArray}
+
+pub using @bigint {type JsBigInt}
+
+pub using @error {type JsError}
+
+pub using @iterator {type JsIterator}
+
+pub using @collection {type JsMap}
+
+pub using @collection {type JsSet}
+
+pub using @string {type JsString}
+
+pub using @math {type Math}
+
+pub using @core {type Nullable}
+
+pub using @core {type Nullish}
+
+pub using @object {type Object}
+
+pub using @core {type Promise}
+
+pub using @core {type PromiseResolvers}
+
+pub using @proxy {type Proxy}
+
+pub using @error {type RangeError}
+
+pub using @error {type ReferenceError}
+
+pub using @reflect {type Reflect}
+
+pub using @regexp {type RegExp}
+
+pub using @regexp {type RegExpMatchArray}
+
+pub using @regexp {type RegExpResult}
+
+pub using @arraybuffer {type SharedArrayBuffer}
+
+pub using @symbol {type Symbol}
+
+pub using @error {type SyntaxError}
+
+pub using @core {type ThrowError}
+
+pub using @global {type Timer}
+
+pub using @error {type TypeError}
+
+pub using @arraybuffer {type TypedArray}
+
+pub using @error {type URIError}
+
+pub using @arraybuffer {type Uint16Array}
+
+pub using @arraybuffer {type Uint32Array}
+
+pub using @arraybuffer {type Uint8Array}
+
+pub using @weak {type WeakMap}
+
+pub using @weak {type WeakRef}
+
+pub using @weak {type WeakSet}
+
+// Traits
+

@@ -1,0 +1,61 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/module"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+#alias(builtin_modules)
+pub fn builtinModules() -> Array[String]
+
+#alias(create_require)
+pub fn createRequire(String) -> @core.Any
+
+#alias(enable_compile_cache)
+pub fn enableCompileCache(cache_dir? : String) -> Unit
+
+#alias(find_source_map)
+pub fn findSourceMap(String) -> SourceMap?
+
+#alias(flush_compile_cache)
+pub fn flushCompileCache() -> Unit
+
+#alias(get_compile_cache_dir)
+pub fn getCompileCacheDir() -> String?
+
+#alias(is_builtin)
+pub fn isBuiltin(String) -> Bool
+
+#alias(strip_typescript_types)
+pub fn stripTypeScriptTypes(String, mode? : String, source_map? : Bool, source_url? : String) -> String
+
+#alias(sync_builtin_esm_exports)
+pub fn syncBuiltinESMExports() -> Unit
+
+// Errors
+
+// Types and methods
+pub(all) struct SourceMap {
+  payload : @core.Any
+}
+pub fn SourceMap::as_any(Self) -> @core.Any
+#alias(find_entry)
+pub fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
+pub fn SourceMap::to_any(Self) -> @core.Any
+
+pub(all) struct SourceMapEntry {
+  originalLine : Int
+  originalColumn : Int
+  originalSource : String
+  generatedLine : Int
+  generatedColumn : Int
+  name : String?
+}
+pub fn SourceMapEntry::as_any(Self) -> @core.Any
+pub fn SourceMapEntry::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

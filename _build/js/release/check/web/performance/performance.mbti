@@ -1,0 +1,53 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/performance"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn performance() -> Performance
+
+// Errors
+
+// Types and methods
+pub(all) struct Performance {
+  timeOrigin : Double
+}
+pub fn Performance::as_any(Self) -> @core.Any
+pub fn Performance::clearMarks(Self, name? : String) -> Unit
+pub fn Performance::clearMeasures(Self, name? : String) -> Unit
+pub fn Performance::getEntries(Self) -> Array[PerformanceEntry]
+pub fn Performance::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+pub fn Performance::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+pub fn Performance::mark(Self, String) -> PerformanceEntry
+pub fn Performance::measure(Self, String, startMark? : String, endMark? : String) -> PerformanceEntry
+pub fn Performance::now(Self) -> Double
+
+pub(all) struct PerformanceEntry {
+  name : String
+  entryType : String
+  startTime : Double
+  duration : Double
+}
+pub fn PerformanceEntry::as_any(Self) -> @core.Any
+
+#external
+pub type PerformanceObserver
+pub fn PerformanceObserver::as_any(Self) -> @core.Any
+pub fn PerformanceObserver::disconnect(Self) -> Unit
+pub fn PerformanceObserver::new((PerformanceObserverEntryList, Self) -> Unit) -> Self
+pub fn PerformanceObserver::observe(Self, @core.Any) -> Unit
+pub fn PerformanceObserver::takeRecords(Self) -> Array[PerformanceEntry]
+
+#external
+pub type PerformanceObserverEntryList
+pub fn PerformanceObserverEntryList::as_any(Self) -> @core.Any
+pub fn PerformanceObserverEntryList::getEntries(Self) -> Array[PerformanceEntry]
+pub fn PerformanceObserverEntryList::getEntriesByName(Self, String) -> Array[PerformanceEntry]
+pub fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[PerformanceEntry]
+
+// Type aliases
+
+// Traits
+

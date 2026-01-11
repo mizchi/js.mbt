@@ -1,0 +1,59 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/websocket"
+
+import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+  "mizchi/js/node/buffer"
+  "mizchi/js/web/blob"
+  "mizchi/js/web/event"
+)
+
+// Values
+pub fn get_close_code(@core.Any) -> Int
+
+pub fn get_close_reason(@core.Any) -> String
+
+pub fn get_close_was_clean(@core.Any) -> Bool
+
+pub fn get_message_data(@core.Any) -> String
+
+// Errors
+
+// Types and methods
+pub(all) struct WebSocket {
+  url : String
+  readyState : Int
+  bufferedAmount : Int
+  extensions : String
+  protocol : String
+  mut binaryType : String
+}
+pub fn WebSocket::as_any(Self) -> @core.Any
+pub fn WebSocket::as_event_target(Self) -> @event.EventTarget
+pub fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
+pub fn WebSocket::new(String, protocols? : Array[String]) -> Self
+pub fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
+pub fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
+pub fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
+pub fn WebSocket::send_string(Self, String) -> Unit
+pub fn WebSocket::set_onclose(Self, (@core.Any) -> Unit) -> Unit
+pub fn WebSocket::set_onerror(Self, (@core.Any) -> Unit) -> Unit
+pub fn WebSocket::set_onmessage(Self, (@core.Any) -> Unit) -> Unit
+pub fn WebSocket::set_onopen(Self, (@core.Any) -> Unit) -> Unit
+
+pub enum WebSocketReadyState {
+  Connecting
+  Open
+  Closing
+  Closed
+}
+pub fn WebSocketReadyState::from_int(Int) -> Self?
+pub fn WebSocketReadyState::to_int(Self) -> Int
+pub impl Eq for WebSocketReadyState
+pub impl Show for WebSocketReadyState
+
+// Type aliases
+
+// Traits
+

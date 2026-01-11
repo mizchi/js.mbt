@@ -1,0 +1,84 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/streams"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct CompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
+pub fn CompressionStream::as_any(Self) -> @core.Any
+pub fn CompressionStream::new(String) -> Self
+
+pub(all) struct DecompressionStream {
+  readable : ReadableStream
+  writable : WritableStream
+}
+pub fn DecompressionStream::as_any(Self) -> @core.Any
+pub fn DecompressionStream::new(String) -> Self
+
+#external
+pub type ReadableStream
+pub fn ReadableStream::as_any(Self) -> @core.Any
+pub async fn ReadableStream::cancel(Self, reason? : @core.Any) -> Unit
+#alias(get_reader)
+pub fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
+pub fn ReadableStream::locked(Self) -> Bool
+pub fn ReadableStream::new(@core.Any) -> Self
+#alias(pipe_through)
+pub fn ReadableStream::pipeThrough(Self, @core.Any, options? : @core.Any) -> Self
+#alias(pipe_to)
+pub async fn ReadableStream::pipeTo(Self, WritableStream, options? : @core.Any) -> Unit
+pub fn ReadableStream::tee(Self) -> (Self, Self)
+
+#external
+pub type ReadableStreamDefaultReader
+pub fn ReadableStreamDefaultReader::as_any(Self) -> @core.Any
+pub async fn ReadableStreamDefaultReader::cancel(Self, reason? : @core.Any) -> Unit
+pub fn ReadableStreamDefaultReader::closed(Self) -> @core.Promise[Unit]
+pub async fn ReadableStreamDefaultReader::read(Self) -> @core.Any
+#alias(release_lock)
+pub fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
+
+#external
+pub type TransformStream
+pub fn TransformStream::as_any(Self) -> @core.Any
+pub fn TransformStream::new(@core.Any) -> Self
+#alias(newIdentity)
+pub fn TransformStream::new_identity() -> Self
+pub fn TransformStream::readable(Self) -> ReadableStream
+pub fn TransformStream::writable(Self) -> WritableStream
+
+#external
+pub type WritableStream
+pub async fn WritableStream::abort(Self, reason? : @core.Any) -> Unit
+pub fn WritableStream::as_any(Self) -> @core.Any
+pub async fn WritableStream::close(Self) -> Unit
+#alias(get_writer)
+pub fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
+pub fn WritableStream::locked(Self) -> Bool
+pub fn WritableStream::new(@core.Any) -> Self
+
+#external
+pub type WritableStreamDefaultWriter
+pub async fn WritableStreamDefaultWriter::abort(Self, reason? : @core.Any) -> Unit
+pub fn WritableStreamDefaultWriter::as_any(Self) -> @core.Any
+pub async fn WritableStreamDefaultWriter::close(Self) -> Unit
+pub fn WritableStreamDefaultWriter::closed(Self) -> @core.Promise[Unit]
+pub fn WritableStreamDefaultWriter::desiredSize(Self) -> @core.Any
+pub fn WritableStreamDefaultWriter::ready(Self) -> @core.Promise[Unit]
+#alias(release_lock)
+pub fn WritableStreamDefaultWriter::releaseLock(Self) -> Unit
+pub async fn WritableStreamDefaultWriter::write(Self, @core.Any) -> Unit
+
+// Type aliases
+
+// Traits
+

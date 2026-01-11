@@ -1,0 +1,116 @@
+///|
+/// MessageEvent represents a message received by a target object
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent
+pub(all) struct MessageEvent {
+  /// The data sent by the message emitter
+  data : @core.Any
+  /// The origin of the message emitter
+  origin : String
+  /// The last event ID
+  lastEventId : String
+  /// The MessagePort array sent with the message
+  ports : Array[MessagePort]
+} derive(Show)
+
+///|
+pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
+
+///|
+pub fn MessageEvent::as_event_target(self : MessageEvent) -> @event.EventTarget = "%identity"
+
+///|
+/// MessagePort represents one end of a message channel
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort
+///
+/// MessagePort implements the EventTarget trait for event handling.
+#external
+pub type MessagePort
+
+///|
+pub fn MessagePort::as_any(self : MessagePort) -> @core.Any = "%identity"
+
+///|
+pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
+
+///|
+pub impl Show for MessagePort with output(self, logger) {
+  logger.write_string(self.to_string())
+}
+
+///|
+pub impl Show for MessagePort with to_string(_self) {
+  "[object MessagePort]"
+}
+
+///|
+/// Sends a message through the port
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/postMessage
+#alias(post_message)
+pub extern "js" fn MessagePort::postMessage(
+  port : MessagePort,
+  message : @core.Any,
+) -> Unit =
+  #| (port, message) => port.postMessage(message)
+
+///|
+/// Sends a message with transferable objects through the port
+#alias(post_message_with_transfer)
+pub fn MessagePort::postMessageWithTransfer(
+  port : MessagePort,
+  message : @core.Any,
+  transfer : Array[@core.Any],
+) -> Unit {
+  let arr : Array[@core.Any] = transfer.map(fn(x) { x |> @core.any })
+  port.as_any()._call("postMessage", [message, @core.any(arr)]) |> ignore
+}
+
+///|
+/// Starts the sending of messages queued on the port
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/start
+pub extern "js" fn MessagePort::start(port : MessagePort) -> Unit =
+  #| (port) => port.start()
+
+///|
+/// Disconnects the port, so it is no longer active
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessagePort/close
+pub extern "js" fn MessagePort::close(port : MessagePort) -> Unit =
+  #| (port) => port.close()
+
+///|
+/// MessageChannel creates a new message channel and returns it with two MessagePort objects
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel
+#external
+pub type MessageChannel
+
+///|
+pub fn MessageChannel::as_any(self : MessageChannel) -> @core.Any = "%identity"
+
+///|
+pub impl Show for MessageChannel with output(self, logger) {
+  logger.write_string(self.to_string())
+}
+
+///|
+pub impl Show for MessageChannel with to_string(_self) {
+  "[object MessageChannel]"
+}
+
+///|
+/// Creates a new MessageChannel object
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/MessageChannel
+pub extern "js" fn MessageChannel::new() -> MessageChannel =
+  #| () => new MessageChannel()
+
+///|
+/// Returns the first port of the channel
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port1
+pub fn MessageChannel::port1(channel : MessageChannel) -> MessagePort {
+  channel.as_any()["port1"].cast()
+}
+
+///|
+/// Returns the second port of the channel
+/// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/port2
+pub fn MessageChannel::port2(channel : MessageChannel) -> MessagePort {
+  channel.as_any()["port2"].cast()
+}

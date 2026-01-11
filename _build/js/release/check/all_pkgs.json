@@ -1,0 +1,1009 @@
+{
+  "packages": [
+    {
+      "root": "mizchi/js",
+      "rel": "",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/js.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/canvas",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/canvas/canvas.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/dom",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/dom/dom.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/file",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/file/file.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/history",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/history/history.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/indexeddb",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/indexeddb/indexeddb.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/location",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/location/location.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/navigation",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/navigation/navigation.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/navigator",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/navigator/navigator.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/observer",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/observer/observer.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/serviceworker",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/serviceworker/serviceworker.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "browser/storage",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/browser/storage/storage.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/array",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/array/array.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/arraybuffer",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/arraybuffer/arraybuffer.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/atomics",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/atomics/atomics.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/bigint",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/bigint/bigint.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/collection",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/collection/collection.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/date",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/date/date.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/disposable",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/disposable/disposable.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/error",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/error/error.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/function",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/function/function.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/global",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/global/global.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/iterator",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/iterator/iterator.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/json",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/json/json.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/math",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/math/math.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/object",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/object/object.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/proxy",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/proxy/proxy.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/reflect",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/reflect/reflect.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/regexp",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/regexp/regexp.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/string",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/string/string.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/symbol",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/symbol/symbol.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "builtins/weak",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/builtins/weak/weak.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "bun",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/bun/bun.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "bun/bun_test",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/bun/bun_test/bun_test.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/core.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size14_async",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size14_async/size14_async.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size15_to_string",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size15_to_string/size15_to_string.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size16_from_tuple_array",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size16_from_tuple_array/size16_from_tuple_array.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size17_from_entries",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size17_from_entries/size17_from_entries.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size18_object_json_console",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size18_object_json_console/size18_object_json_console.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size1_basic",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size1_basic/size1_basic.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size2_promise",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size2_promise/size2_promise.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size3_fs_read",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size3_fs_read/size3_fs_read.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size4_err",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size4_err/size4_err.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size5_from_array",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size5_from_array/size5_from_array.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size7_identity_option",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size7_identity_option/size7_identity_option.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size8_symbol",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size8_symbol/size8_symbol.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size9_async_iterator",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size9_async_iterator/size9_async_iterator.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "core/_tests/size_builtin_convert",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/core/_tests/size_builtin_convert/size_builtin_convert.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "deno",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/deno/deno.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "deno/_tests",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/deno/_tests/_tests.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "examples",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/examples/examples.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "examples/check_size",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/examples/check_size/check_size.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "internal/bench",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/internal/bench/bench.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "internal/test_utils",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/internal/test_utils/test_utils.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "mbtconv",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/mbtconv/mbtconv.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "mbtconv/_interop_test",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/mbtconv/_interop_test/_interop_test.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/node.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/assert",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/assert/assert.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/assert_strict",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/assert_strict/assert_strict.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/async_hooks",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/async_hooks/async_hooks.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/buffer",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/buffer/buffer.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/child_process",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/child_process/child_process.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/dns",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/dns/dns.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/events",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/events/events.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/fs",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/fs/fs.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/fs_promises",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/fs_promises/fs_promises.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/http",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/http/http.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/http2",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/http2/http2.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/https",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/https/https.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/inspector",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/inspector/inspector.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/module",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/module/module.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/net",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/net/net.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/os",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/os/os.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/path",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/path/path.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/process",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/process/process.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/readline",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/readline/readline.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/readline_promises",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/readline_promises/readline_promises.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/sqlite",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/sqlite/sqlite.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/stream",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/stream/stream.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/stream_promises",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/stream_promises/stream_promises.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/test",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/test/test.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/tls",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/tls/tls.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/tty",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/tty/tty.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/url",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/url/url.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/util",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/util/util.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/v8",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/v8/v8.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/vm",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/vm/vm.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/wasi",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/wasi/wasi.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/worker_threads",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/worker_threads/worker_threads.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "node/zlib",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/node/zlib/zlib.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "wasm",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/wasm/wasm.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/blob",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/blob/blob.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/console",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/console/console.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/crypto",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/crypto/crypto.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/encoding",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/encoding/encoding.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/event",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/event/event.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/http",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/http/http.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/message",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/message/message.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/performance",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/performance/performance.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/streams",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/streams/streams.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/trusted_types",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/trusted_types/trusted_types.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/url",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/url/url.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/webassembly",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/webassembly/webassembly.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/webgpu",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/webgpu/webgpu.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/websocket",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/websocket/websocket.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "web/worker",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/web/worker/worker.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "webextensions",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/webextensions/webextensions.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "webextensions/chrome",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/webextensions/chrome/chrome.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "webextensions/runtime",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/webextensions/runtime/runtime.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "webextensions/storage",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/webextensions/storage/storage.mi"
+    },
+    {
+      "root": "mizchi/js",
+      "rel": "webextensions/tabs",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/webextensions/tabs/tabs.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/async.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "aqueue",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/aqueue/aqueue.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "cond_var",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/cond_var/cond_var.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "fs",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/fs/fs.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "http",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/http/http.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/bytes_util",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/bytes_util/bytes_util.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/c_buffer",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/c_buffer/c_buffer.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/coroutine",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/coroutine/coroutine.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/event_loop",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/event_loop/event_loop.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/fd_util",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/fd_util/fd_util.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/io_buffer",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/io_buffer/io_buffer.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/os_string",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/os_string/os_string.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "internal/time",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/internal/time/time.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "io",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/io/io.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "js_async",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/js_async/js_async.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "os_error",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/os_error/os_error.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "pipe",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/pipe/pipe.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "process",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/process/process.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "semaphore",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/semaphore/semaphore.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "socket",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/socket/socket.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "stdio",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/stdio/stdio.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "tls",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/tls/tls.mi"
+    },
+    {
+      "root": "moonbitlang/async",
+      "rel": "websocket",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/moonbitlang/async/websocket/websocket.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "abort",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/abort/abort.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "array",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/array/array.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "bench",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/bench/bench.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "bigint",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/bigint/bigint.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "bool",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/bool/bool.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "buffer",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/buffer/buffer.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "builtin",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/builtin/builtin.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "byte",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/byte/byte.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "bytes",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/bytes/bytes.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "char",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/char/char.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "cmp",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/cmp/cmp.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "coverage",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/coverage/coverage.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "debug",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/debug/debug.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "deque",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/deque/deque.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "double",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/double/double.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "double/internal/ryu",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/double/internal/ryu/ryu.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "encoding/utf16",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/encoding/utf16/utf16.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "encoding/utf8",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/encoding/utf8/utf8.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "env",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/env/env.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "error",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/error/error.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "float",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/float/float.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "hashmap",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/hashmap/hashmap.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "hashset",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/hashset/hashset.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/array",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/array/array.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/hashmap",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/hashmap/hashmap.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/hashset",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/hashset/hashset.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/internal/path",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/internal/path/path.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/internal/sparse_array",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/internal/sparse_array/sparse_array.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/list",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/list/list.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/priority_queue",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/priority_queue/priority_queue.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/sorted_map",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/sorted_map/sorted_map.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "immut/sorted_set",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/immut/sorted_set/sorted_set.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "int",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/int/int.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "int16",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/int16/int16.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "int64",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/int64/int64.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "json",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/json/json.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "list",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/list/list.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "math",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/math/math.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "option",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/option/option.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "prelude",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/prelude/prelude.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "priority_queue",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/priority_queue/priority_queue.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "queue",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/queue/queue.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "quickcheck",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/quickcheck/quickcheck.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "quickcheck/splitmix",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/quickcheck/splitmix/splitmix.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "random",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/random/random.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "random/internal/random_source",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/random/internal/random_source/random_source.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "ref",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/ref/ref.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "result",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/result/result.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "set",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/set/set.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "sorted_map",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/sorted_map/sorted_map.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "sorted_set",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/sorted_set/sorted_set.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "strconv",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/strconv/strconv.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/string.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/regex.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex/internal/regexp",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/internal/regexp/regexp.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex/internal/regexp/internal/ast",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/internal/regexp/internal/ast/ast.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex/internal/regexp/internal/parse",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/internal/regexp/internal/parse/parse.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex/internal/regexp/internal/unicode",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/internal/regexp/internal/unicode/unicode.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "string/regex/internal/regexp/internal/vm",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/string/regex/internal/regexp/internal/vm/vm.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "test",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/test/test.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "tuple",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/tuple/tuple.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "uint",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/uint/uint.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "uint16",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/uint16/uint16.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "uint64",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/uint64/uint64.mi"
+    },
+    {
+      "root": "moonbitlang/core",
+      "rel": "unit",
+      "artifact": "/Users/mz/.moon/lib/core/target/js/release/bundle/unit/unit.mi"
+    },
+    {
+      "root": "tonyfettes/any",
+      "rel": "",
+      "artifact": "/Users/mz/ghq/github.com/mizchi/js.mbt/_build/js/release/check/.mooncakes/tonyfettes/any/any.mi"
+    }
+  ]
+}

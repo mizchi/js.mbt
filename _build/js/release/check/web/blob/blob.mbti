@@ -1,0 +1,31 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/blob"
+
+import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+  "mizchi/js/web/streams"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct Blob {
+  size : Int
+}
+#alias(array_buffer)
+pub async fn Blob::arrayBuffer(Self) -> @arraybuffer.ArrayBuffer
+pub fn Blob::as_any(Self) -> @core.Any
+#alias(content_type)
+pub fn Blob::contentType(Self) -> String
+pub fn Blob::new(Array[@core.Any], content_type? : String) -> Self
+pub fn Blob::slice(Self, start? : Int, end? : Int, content_type? : String) -> Self
+pub fn Blob::stream(Self) -> @streams.ReadableStream
+pub async fn Blob::text(Self) -> String
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,35 @@
+///|
+/// Navigator represents the state and identity of the user agent
+/// https://developer.mozilla.org/en-US/docs/Web/API/Navigator
+pub(all) struct Navigator {
+  userAgent : String
+  onLine : Bool
+  language : String
+  languages : Array[String]
+  platform : String
+  hardwareConcurrency : Int
+  deviceMemory : Double?
+  maxTouchPoints : Int
+  vendor : String
+  cookieEnabled : Bool
+  doNotTrack : String?
+  connection : @core.Any?
+  permissions : @core.Any
+  clipboard : @core.Any
+  geolocation : @core.Any
+}
+
+///|
+pub fn Navigator::as_any(self : Navigator) -> @core.Any = "%identity"
+
+///|
+/// Returns the global navigator object
+pub extern "js" fn navigator() -> Navigator =
+  #| () => navigator
+
+///|
+/// Vibrates the device
+/// https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate
+pub fn Navigator::vibrate(self : Navigator, pattern : Int) -> Bool {
+  self.as_any()._call("vibrate", [@core.any(pattern)]).cast()
+}

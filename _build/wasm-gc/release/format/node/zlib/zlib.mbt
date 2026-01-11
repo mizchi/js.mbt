@@ -1,0 +1,531 @@
+///|
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_gzip(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "gzip"
+
+///|
+/// Compress data using gzip
+pub fn gzip(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_gzip(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_gunzip(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "gunzip"
+
+///|
+/// Decompress gzip data
+pub fn gunzip(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_gunzip(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_deflate(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "deflate"
+
+///|
+/// Compress data using deflate
+pub fn deflate(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_deflate(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_inflate(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "inflate"
+
+///|
+/// Decompress deflate data
+pub fn inflate(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_inflate(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_brotli_compress(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "brotliCompress"
+
+///|
+/// Compress data using Brotli
+pub fn brotli_compress(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_brotli_compress(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_brotli_decompress(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "brotliDecompress"
+
+///|
+/// Decompress Brotli data
+pub fn brotli_decompress(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_brotli_decompress(buffer, options, cb)
+}
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_unzip(
+  buffer : @core.Any,
+  options : @core.Any,
+  callback : @core.Any,
+) -> Unit = "unzip"
+
+///|
+/// Decompress data with auto-detection
+pub fn unzip(
+  buffer : @core.Any,
+  callback : (@core.Any?, @core.Any) -> Unit,
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Unit {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  let cb : @core.Any = @core.identity(callback)
+  ffi_unzip(buffer, options, cb)
+}
+
+///|
+/// Gzip compression stream
+#external
+pub type Gzip
+
+///|
+pub fn Gzip::as_any(self : Gzip) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_gzip(options : @core.Any) -> Gzip = "createGzip"
+
+///|
+/// Create a Gzip compression stream
+pub fn create_gzip(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Gzip {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_gzip(options)
+}
+
+///|
+/// Gunzip decompression stream
+#external
+pub type Gunzip
+
+///|
+pub fn Gunzip::as_any(self : Gunzip) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_gunzip(options : @core.Any) -> Gunzip = "createGunzip"
+
+///|
+/// Create a Gunzip decompression stream
+pub fn create_gunzip(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Gunzip {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_gunzip(options)
+}
+
+///|
+/// Deflate compression stream
+#external
+pub type Deflate
+
+///|
+pub fn Deflate::as_any(self : Deflate) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_deflate(options : @core.Any) -> Deflate = "createDeflate"
+
+///|
+/// Create a Deflate compression stream
+pub fn create_deflate(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Deflate {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_deflate(options)
+}
+
+///|
+/// Inflate decompression stream
+#external
+pub type Inflate
+
+///|
+pub fn Inflate::as_any(self : Inflate) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_inflate(options : @core.Any) -> Inflate = "createInflate"
+
+///|
+/// Create an Inflate decompression stream
+pub fn create_inflate(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> Inflate {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_inflate(options)
+}
+
+///|
+/// Brotli compression stream
+#external
+pub type BrotliCompress
+
+///|
+pub fn BrotliCompress::as_any(self : BrotliCompress) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_brotli_compress(
+  options : @core.Any,
+) -> BrotliCompress = "createBrotliCompress"
+
+///|
+/// Create a Brotli compression stream
+pub fn create_brotli_compress(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> BrotliCompress {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_brotli_compress(options)
+}
+
+///|
+/// Brotli decompression stream
+#external
+pub type BrotliDecompress
+
+///|
+pub fn BrotliDecompress::as_any(self : BrotliDecompress) -> @core.Any = "%identity"
+
+///|
+#module("node:zlib")
+extern "js" fn ffi_create_brotli_decompress(
+  options : @core.Any,
+) -> BrotliDecompress = "createBrotliDecompress"
+
+///|
+/// Create a Brotli decompression stream
+pub fn create_brotli_decompress(
+  level? : Int,
+  chunkSize? : Int,
+  memLevel? : Int,
+  strategy? : Int,
+  windowBits? : Int,
+) -> BrotliDecompress {
+  let entries : Array[(String, @core.Any)] = []
+  if level is Some(v) {
+    entries.push(("level", @core.any(v)))
+  }
+  if chunkSize is Some(v) {
+    entries.push(("chunkSize", @core.any(v)))
+  }
+  if memLevel is Some(v) {
+    entries.push(("memLevel", @core.any(v)))
+  }
+  if strategy is Some(v) {
+    entries.push(("strategy", @core.any(v)))
+  }
+  if windowBits is Some(v) {
+    entries.push(("windowBits", @core.any(v)))
+  }
+  let options = @core.from_entries(entries)
+  ffi_create_brotli_decompress(options)
+}

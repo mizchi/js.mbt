@@ -1,0 +1,66 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/webextensions/runtime"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn connect(name? : String) -> Port
+
+pub fn getManifest() -> @core.Any
+
+pub fn getUrl(String) -> String
+
+pub async fn get_platform_info() -> PlatformInfo
+
+pub fn id() -> String
+
+pub fn last_error() -> @core.Any
+
+pub fn on_connect((Port) -> Unit) -> Unit
+
+pub fn on_installed((@core.Any) -> Unit) -> Unit
+
+pub fn on_message((@core.Any, @core.Any, (@core.Any) -> Unit) -> Bool) -> Unit
+
+pub fn on_startup(() -> Unit) -> Unit
+
+pub async fn open_options_page() -> Unit
+
+pub fn reload() -> Unit
+
+pub async fn sendMessage(@core.Any) -> @core.Any
+
+pub async fn send_message_to_extension(String, @core.Any) -> @core.Any
+
+// Errors
+
+// Types and methods
+pub struct MessageSender {
+  tab : @core.Any
+  frame_id : Int?
+  id : String?
+  url : String?
+}
+pub fn MessageSender::from_any(@core.Any) -> Self
+
+pub struct PlatformInfo {
+  os : String
+  arch : String
+}
+pub fn PlatformInfo::from_any(@core.Any) -> Self
+
+#external
+pub type Port
+pub fn Port::disconnect(Self) -> Unit
+pub fn Port::name(Self) -> String
+pub fn Port::on_disconnect(Self, () -> Unit) -> Unit
+pub fn Port::on_message(Self, (@core.Any) -> Unit) -> Unit
+pub fn Port::post_message(Self, @core.Any) -> Unit
+pub fn Port::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

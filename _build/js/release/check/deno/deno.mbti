@@ -1,0 +1,131 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/deno"
+
+import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+)
+
+// Values
+pub fn deno() -> Deno
+
+// Errors
+
+// Types and methods
+#external
+pub type ChildProcess
+pub fn ChildProcess::as_any(Self) -> @core.Any
+pub fn ChildProcess::kill(Self, signal? : String) -> Unit
+pub fn ChildProcess::pid(Self) -> Int
+pub fn ChildProcess::ref_(Self) -> Unit
+pub async fn ChildProcess::status(Self) -> CommandStatus
+pub fn ChildProcess::stderr(Self) -> @core.Any
+pub fn ChildProcess::stdin(Self) -> @core.Any
+pub fn ChildProcess::stdout(Self) -> @core.Any
+pub fn ChildProcess::unref(Self) -> Unit
+
+#external
+pub type Command
+pub fn Command::as_any(Self) -> @core.Any
+pub fn Command::new(String, args? : Array[String], cwd? : String, env? : @core.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
+pub async fn Command::output(Self) -> CommandOutput
+#alias(output_sync)
+pub fn Command::outputSync(Self) -> CommandOutput
+pub fn Command::spawn(Self) -> ChildProcess
+
+#external
+pub type CommandOutput
+pub fn CommandOutput::as_any(Self) -> @core.Any
+pub fn CommandOutput::code(Self) -> Int
+pub fn CommandOutput::signal(Self) -> String?
+pub fn CommandOutput::stderr(Self) -> @arraybuffer.Uint8Array
+pub fn CommandOutput::stdout(Self) -> @arraybuffer.Uint8Array
+pub fn CommandOutput::success(Self) -> Bool
+
+#external
+pub type CommandStatus
+pub fn CommandStatus::as_any(Self) -> @core.Any
+pub fn CommandStatus::code(Self) -> Int
+pub fn CommandStatus::signal(Self) -> String?
+pub fn CommandStatus::success(Self) -> Bool
+
+#external
+pub type Deno
+pub fn Deno::args(Self) -> Array[String]
+pub fn Deno::as_any(Self) -> @core.Any
+pub fn Deno::build_arch(Self) -> String
+pub fn Deno::build_os(Self) -> String
+pub async fn Deno::chmod(Self, String, Int) -> Unit
+pub async fn Deno::connect(Self, String, Int) -> @core.Any
+pub async fn Deno::copyFile(Self, String, String) -> Unit
+pub async fn Deno::create(Self, String) -> FsFile
+pub fn Deno::cwd(Self) -> String
+pub fn Deno::env_delete(Self, String) -> Unit
+pub fn Deno::env_get(Self, String) -> String?
+pub fn Deno::env_set(Self, String, String) -> Unit
+pub fn Deno::env_toObject(Self) -> @core.Any
+pub fn Deno::exit(Self, code? : Int) -> Unit
+pub fn Deno::gid(Self) -> Int?
+pub fn Deno::hostname(Self) -> String
+pub fn Deno::listen(Self, String, Int) -> @core.Any
+pub fn Deno::loadavg(Self) -> Array[Double]
+pub async fn Deno::lstat(Self, String) -> @core.Any
+pub async fn Deno::makeTempDir(Self, prefix? : String) -> String
+pub async fn Deno::makeTempFile(Self, prefix? : String) -> String
+pub async fn Deno::mkdir(Self, String, recursive? : Bool) -> Unit
+pub fn Deno::networkInterfaces(Self) -> @core.Any
+pub fn Deno::now(Self) -> Double
+pub async fn Deno::open(Self, String, create? : Bool, write? : Bool, read? : Bool) -> FsFile
+pub fn Deno::osRelease(Self) -> String
+pub fn Deno::osUptime(Self) -> Int
+pub fn Deno::permissions(Self) -> @core.Any
+pub async fn Deno::permissions_query(Self, String, path? : String) -> PermissionStatus
+pub async fn Deno::permissions_request(Self, String, path? : String) -> PermissionStatus
+pub async fn Deno::permissions_revoke(Self, String, path? : String) -> PermissionStatus
+pub fn Deno::pid(Self) -> Int
+pub fn Deno::ppid(Self) -> Int
+pub fn Deno::readDir(Self, String) -> @core.Any
+pub async fn Deno::readFile(Self, String) -> @arraybuffer.Uint8Array
+pub async fn Deno::readLink(Self, String) -> String
+pub async fn Deno::readTextFile(Self, String) -> String
+pub async fn Deno::realPath(Self, String) -> String
+pub async fn Deno::remove(Self, String, recursive? : Bool) -> Unit
+pub async fn Deno::rename(Self, String, String) -> Unit
+pub async fn Deno::resolveDns(Self, String, String) -> @core.Any
+pub fn Deno::serve(Self, Int, @core.Any) -> @core.Any
+pub async fn Deno::stat(Self, String) -> @core.Any
+pub async fn Deno::stderr_write(Self, @core.Any) -> Int
+pub async fn Deno::stdin_read(Self) -> @core.Any
+pub async fn Deno::stdout_write(Self, @core.Any) -> Int
+pub async fn Deno::symlink(Self, String, String) -> Unit
+pub fn Deno::systemMemoryInfo(Self) -> @core.Any
+pub fn Deno::test_(Self, String, (TestContext) -> Unit) -> Unit
+pub fn Deno::test_async(Self, String, async (TestContext) -> Unit) -> Unit
+pub fn Deno::test_only(Self, String, async (TestContext) -> Unit) -> Unit
+pub async fn Deno::truncate(Self, String, Int) -> Unit
+pub fn Deno::uid(Self) -> Int?
+pub async fn Deno::writeFile(Self, String, @core.Any) -> Unit
+pub async fn Deno::writeTextFile(Self, String, String) -> Unit
+
+#external
+pub type FsFile
+pub fn FsFile::as_any(Self) -> @core.Any
+pub fn FsFile::close(Self) -> Unit
+pub async fn FsFile::read(Self, @core.Any) -> Int
+pub async fn FsFile::seek(Self, Int, Int) -> Int
+pub async fn FsFile::write(Self, @core.Any) -> Int
+
+#external
+pub type PermissionStatus
+pub fn PermissionStatus::as_any(Self) -> @core.Any
+pub fn PermissionStatus::is_granted(Self) -> Bool
+pub fn PermissionStatus::state(Self) -> String
+
+#external
+pub type TestContext
+pub fn TestContext::as_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/reflect"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Reflect
+pub fn Reflect::apply(@core.Any, @core.Any, Array[@core.Any]) -> @core.Any
+pub fn Reflect::construct(@core.Any, Array[@core.Any], @core.Any?) -> @core.Any
+pub fn Reflect::defineProperty(@core.Any, @core.Any, @core.Any) -> Bool
+pub fn Reflect::deleteProperty(@core.Any, @core.Any) -> Bool
+pub fn Reflect::get(@core.Any, @core.Any, @core.Any?) -> @core.Any
+pub fn Reflect::getOwnPropertyDescriptor(@core.Any, @core.Any) -> @core.Any
+pub fn Reflect::getPrototypeOf(@core.Any) -> @core.Any
+pub fn Reflect::has(@core.Any, @core.Any) -> Bool
+pub fn Reflect::isExtensible(@core.Any) -> Bool
+pub fn Reflect::ownKeys(@core.Any) -> Array[@core.Any]
+pub fn Reflect::preventExtensions(@core.Any) -> Bool
+pub fn Reflect::set(@core.Any, @core.Any, @core.Any, @core.Any?) -> Bool
+pub fn Reflect::setPrototypeOf(@core.Any, @core.Any) -> Bool
+
+// Type aliases
+
+// Traits
+

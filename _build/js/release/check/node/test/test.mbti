@@ -1,0 +1,113 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/test"
+
+import(
+  "mizchi/js/builtins/regexp"
+  "mizchi/js/core"
+  "mizchi/js/node/stream"
+  "moonbitlang/async/js_async"
+)
+
+// Values
+pub fn after(async () -> Unit, timeout? : Int) -> Unit
+
+#alias(after_all)
+pub fn afterAll(async () -> Unit) -> Unit
+
+pub fn afterEach(async () -> Unit, timeout? : Int) -> Unit
+
+pub fn before(async () -> Unit, timeout? : Int) -> Unit
+
+#alias(before_all)
+pub fn beforeAll(async () -> Unit) -> Unit
+
+pub fn beforeEach(async () -> Unit, timeout? : Int) -> Unit
+
+pub fn describe(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (SuiteContext) -> Unit) -> Unit
+
+pub fn get_mock_context(@core.Any) -> MockFunctionContext
+
+pub fn it(String, skip? : String, todo? : String, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
+
+pub fn mock() -> MockTracker
+
+pub fn mock_timers() -> MockTimers
+
+pub fn run(files? : Array[String], cwd? : String, forceExit? : Bool, inspectPort? : Int, only? : Bool, concurrency? : Int, globPatterns? : Array[String], isolation? : Bool, execArgv? : Array[String], argv? : Array[String], watch? : Bool, shard? : TestShard, signal? : @js_async.AbortSignal, testNamePatterns? : Array[String], testSkipPatterns? : Array[String], timeout? : Int, rerunFailuresFilePath? : String, setup? : () -> Unit, coverage? : Bool, lineCoverage? : Bool, functionCoverage? : Bool, branchCoverage? : Bool, coverageIncludeGlobs? : Array[String], coverageExcludeGlobs? : Array[String]) -> @stream.Stream
+
+pub fn setDefaultSnapshotSerializers(Array[@core.Any]) -> Unit
+
+pub fn setResolveSnapshotPath((String) -> String) -> Unit
+
+pub fn test_(String, skip? : Bool, todo? : Bool, only? : Bool, timeout? : Int, async (TestContext) -> Unit) -> Unit
+
+// Errors
+
+// Types and methods
+#external
+pub type MockFunctionContext
+pub fn MockFunctionContext::as_any(Self) -> @core.Any
+pub fn MockFunctionContext::callCount(Self) -> Int
+pub fn MockFunctionContext::calls(Self) -> Array[@core.Any]
+pub fn MockFunctionContext::mockImplementation(Self, @core.Any) -> Unit
+pub fn MockFunctionContext::mockImplementationOnce(Self, @core.Any, onCall? : Int) -> Unit
+pub fn MockFunctionContext::resetCalls(Self) -> Unit
+pub fn MockFunctionContext::restore(Self) -> Unit
+
+#external
+pub type MockTimers
+pub fn MockTimers::as_any(Self) -> @core.Any
+pub fn MockTimers::enable(Self, apis? : Array[String], now? : Int) -> Unit
+pub fn MockTimers::reset(Self) -> Unit
+pub fn MockTimers::runAll(Self) -> Unit
+pub fn MockTimers::setTime(Self, Int) -> Unit
+pub fn MockTimers::tick(Self, Int) -> Unit
+
+#external
+pub type MockTracker
+pub fn MockTracker::as_any(Self) -> @core.Any
+pub fn MockTracker::fn_(Self, original? : @core.Any, implementation? : @core.Any) -> @core.Any
+pub fn MockTracker::getter_(Self, @core.Any, String, implementation? : @core.Any) -> @core.Any
+pub fn MockTracker::method_(Self, @core.Any, String, implementation? : @core.Any) -> @core.Any
+pub fn MockTracker::module_(Self, String, defaultExport? : @core.Any, namedExports? : @core.Any) -> Unit
+pub fn MockTracker::property_(Self, @core.Any, String, value? : @core.Any) -> @core.Any
+pub fn MockTracker::reset(Self) -> Unit
+pub fn MockTracker::restoreAll(Self) -> Unit
+pub fn MockTracker::setter_(Self, @core.Any, String, implementation? : @core.Any) -> @core.Any
+
+#external
+pub type SuiteContext
+pub fn SuiteContext::as_any(Self) -> @core.Any
+
+#external
+pub type TestContext
+pub fn TestContext::as_any(Self) -> @core.Any
+pub fn TestContext::assert_deep_strict_equal(Self, @core.Any, @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_does_not_match(Self, String, @regexp.RegExp, message? : String) -> Unit
+pub fn TestContext::assert_does_not_reject(Self, async () -> Unit, error? : @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_does_not_throw(Self, () -> Unit, error? : @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_fileSnapshot(Self, @core.Any, String, message? : String) -> Unit
+pub fn TestContext::assert_match(Self, String, @regexp.RegExp, message? : String) -> Unit
+pub fn TestContext::assert_not_deep_strict_equal(Self, @core.Any, @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_not_strict_equal(Self, @core.Any, @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_ok(Self, Bool, message? : String) -> Unit
+pub fn TestContext::assert_rejects(Self, async () -> Unit, error? : @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_snapshot(Self, @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_strict_equal(Self, @core.Any, @core.Any, message? : String) -> Unit
+pub fn TestContext::assert_throws(Self, () -> Unit, error? : @core.Any, message? : String) -> Unit
+pub fn TestContext::diagnostic(Self, String) -> Unit
+pub fn TestContext::plan(Self, Int) -> Unit
+pub fn TestContext::runOnly(Self, Bool) -> Unit
+pub fn TestContext::skip(Self, message? : String) -> Unit
+pub fn TestContext::todo(Self, message? : String) -> Unit
+
+pub(all) struct TestShard {
+  total : Int
+  index : Int
+}
+pub fn TestShard::as_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

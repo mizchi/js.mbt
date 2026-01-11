@@ -1,0 +1,18 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/webextensions"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+pub fn browser() -> @core.Any
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

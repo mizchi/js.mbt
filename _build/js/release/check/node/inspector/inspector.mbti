@@ -1,0 +1,40 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/inspector"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/web/event"
+)
+
+// Values
+pub fn close() -> Unit
+
+pub fn console() -> Console
+
+pub fn open(Int?, String?, Bool?) -> @core.Any
+
+pub fn url() -> String?
+
+pub fn wait_for_debugger() -> Unit
+
+// Errors
+
+// Types and methods
+pub type Console
+pub fn Console::as_any(Self) -> @core.Any
+pub fn Console::to_any(Self) -> @core.Any
+
+pub type Session
+pub fn Session::as_any(Self) -> @core.Any
+pub fn Session::as_event_target(Self) -> @event.EventTarget
+pub fn Session::connect(Self) -> Unit
+pub fn Session::connect_to_main_thread(Self) -> Unit
+pub fn Session::disconnect(Self) -> Unit
+pub fn Session::new() -> Self
+pub fn Session::post(Self, String, @core.Any?, (@core.Any?, @core.Any) -> Unit) -> Unit
+pub fn Session::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

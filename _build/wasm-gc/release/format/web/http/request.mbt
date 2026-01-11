@@ -1,0 +1,258 @@
+///|
+extern "js" fn ffi_request_new(url : String) -> @core.Any =
+  #| (url) => new Request(url)
+
+///|
+extern "js" fn ffi_request_new_with_init(
+  url : String,
+  init : @core.Any,
+) -> @core.Any =
+  #| (url, init) => new Request(url, init)
+
+///|
+/// RequestInit - options for creating a Request or fetch call
+/// https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
+pub struct RequestInit {
+  priv method_ : String?
+  priv headers : Headers?
+  priv body : @core.Any?
+  priv mode : String?
+  priv credentials : String?
+  priv cache : String?
+  priv redirect : String?
+  priv referrer : String?
+  priv referrerPolicy : String?
+  priv integrity : String?
+  priv keepalive : Bool?
+  priv signal : @js.AbortSignal?
+  priv priority : String?
+}
+
+///|
+pub fn RequestInit::new(
+  http_method? : String = "GET",
+  headers? : Headers,
+  body? : @core.Any,
+  mode? : String,
+  credentials? : String,
+  cache? : String,
+  redirect? : String,
+  referrer? : String,
+  referrerPolicy? : String,
+  integrity? : String,
+  keepalive? : Bool,
+  signal? : @js.AbortSignal,
+  priority? : String,
+) -> RequestInit {
+  {
+    method_: Some(http_method),
+    headers,
+    body: body.map(fn(b) { b.cast() }),
+    mode,
+    credentials,
+    cache,
+    redirect,
+    referrer,
+    referrerPolicy,
+    integrity,
+    keepalive,
+    signal,
+    priority,
+  }
+}
+
+///|
+pub fn RequestInit::as_any(self : RequestInit) -> @core.Any {
+  let entries : Array[(String, @core.Any)] = []
+  if self.method_ is Some(v) {
+    entries.push(("method", @core.any(v)))
+  }
+  if self.headers is Some(v) {
+    entries.push(("headers", @core.identity(v.as_any())))
+  }
+  if self.body is Some(v) {
+    entries.push(("body", @core.identity(v)))
+  }
+  if self.mode is Some(v) {
+    entries.push(("mode", @core.any(v)))
+  }
+  if self.credentials is Some(v) {
+    entries.push(("credentials", @core.any(v)))
+  }
+  if self.cache is Some(v) {
+    entries.push(("cache", @core.any(v)))
+  }
+  if self.redirect is Some(v) {
+    entries.push(("redirect", @core.any(v)))
+  }
+  if self.referrer is Some(v) {
+    entries.push(("referrer", @core.any(v)))
+  }
+  if self.referrerPolicy is Some(v) {
+    entries.push(("referrerPolicy", @core.any(v)))
+  }
+  if self.integrity is Some(v) {
+    entries.push(("integrity", @core.any(v)))
+  }
+  if self.keepalive is Some(v) {
+    entries.push(("keepalive", @core.any(v)))
+  }
+  if self.signal is Some(v) {
+    entries.push(("signal", @core.identity(v)))
+  }
+  if self.priority is Some(v) {
+    entries.push(("priority", @core.any(v)))
+  }
+  @core.from_entries(entries)
+}
+
+///|
+/// Get the HTTP method
+pub fn RequestInit::get_method(self : RequestInit) -> String? {
+  self.method_
+}
+
+///|
+/// Get the headers
+pub fn RequestInit::get_headers(self : RequestInit) -> Headers? {
+  self.headers
+}
+
+///|
+/// Get the body
+pub fn RequestInit::get_body(self : RequestInit) -> @core.Any? {
+  self.body
+}
+
+///|
+/// Get the mode
+pub fn RequestInit::get_mode(self : RequestInit) -> String? {
+  self.mode
+}
+
+///|
+/// Get the credentials
+pub fn RequestInit::get_credentials(self : RequestInit) -> String? {
+  self.credentials
+}
+
+///|
+/// Get the cache mode
+pub fn RequestInit::get_cache(self : RequestInit) -> String? {
+  self.cache
+}
+
+///|
+/// Get the redirect mode
+pub fn RequestInit::get_redirect(self : RequestInit) -> String? {
+  self.redirect
+}
+
+///|
+/// Get the referrer
+pub fn RequestInit::get_referrer(self : RequestInit) -> String? {
+  self.referrer
+}
+
+///|
+/// Get the referrer policy
+pub fn RequestInit::get_referrerPolicy(self : RequestInit) -> String? {
+  self.referrerPolicy
+}
+
+///|
+/// Get the integrity
+pub fn RequestInit::get_integrity(self : RequestInit) -> String? {
+  self.integrity
+}
+
+///|
+/// Get the keepalive flag
+pub fn RequestInit::get_keepalive(self : RequestInit) -> Bool? {
+  self.keepalive
+}
+
+///|
+/// Get the abort signal
+pub fn RequestInit::get_signal(self : RequestInit) -> @js.AbortSignal? {
+  self.signal
+}
+
+///|
+/// Get the priority
+pub fn RequestInit::get_priority(self : RequestInit) -> String? {
+  self.priority
+}
+
+///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Request
+pub(all) struct Request {
+  bodyUsed : Bool
+  url : String
+  credentials : String
+}
+
+///|
+pub fn Request::as_any(self : Request) -> @core.Any = "%identity"
+
+///|
+/// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
+pub fn Request::new(url : String) -> Request {
+  let req = ffi_request_new(url)
+  @core.identity(req)
+}
+
+///|
+/// Create a new Request with init options
+pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
+  let req = ffi_request_new_with_init(url, init.as_any())
+  @core.identity(req)
+}
+
+///|
+/// Get the HTTP method (e.g., "GET", "POST")
+/// Note: This is a method because "method" is a reserved word in MoonBit
+pub fn Request::method_(self : Request) -> String {
+  self.as_any()["method"].cast()
+}
+
+///|
+pub fn Request::clone(self : Request) -> Request {
+  self.as_any()._call("clone", []).cast()
+}
+
+///|
+pub async fn Request::json(self : Request) -> @core.Any {
+  let promise : @js.Promise[@core.Any] = self.as_any()._call("json", []).cast()
+  promise.wait()
+}
+
+///|
+pub async fn Request::text(self : Request) -> String {
+  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
+  promise.wait()
+}
+
+///|
+pub async fn Request::arraybuffer(self : Request) -> @arraybuffer.ArrayBuffer {
+  let promise : @js.Promise[@arraybuffer.ArrayBuffer] = self
+    .as_any()
+    ._call("arrayBuffer", [])
+    .cast()
+  promise.wait()
+}
+
+///|
+pub async fn Request::blob(self : Request) -> @blob.Blob {
+  let promise : @js.Promise[@blob.Blob] = self.as_any()._call("blob", []).cast()
+  promise.wait()
+}
+
+///|
+pub async fn Request::bytes(self : Request) -> @arraybuffer.Uint8Array {
+  let promise : @js.Promise[@arraybuffer.Uint8Array] = self
+    .as_any()
+    ._call("bytes", [])
+    .cast()
+  promise.wait()
+}

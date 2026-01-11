@@ -1,0 +1,60 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/builtins/regexp"
+
+import(
+  "mizchi/js/core"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type RegExp
+pub fn RegExp::dotAll(Self) -> Bool
+pub fn RegExp::exec(Self, String) -> RegExpResult?
+pub fn RegExp::flags(Self) -> String
+pub fn RegExp::global(Self) -> Bool
+pub fn RegExp::hasIndices(Self) -> Bool
+pub fn RegExp::ignore_case(Self) -> Bool
+pub fn RegExp::lastIndex(Self) -> Int
+pub fn RegExp::matchAll(Self, String) -> Array[RegExpMatchArray]
+pub fn RegExp::match_(Self, String) -> RegExpMatchArray?
+pub fn RegExp::multiline(Self) -> Bool
+pub fn RegExp::new(String, flags? : String) -> Self
+pub fn RegExp::replace(Self, String, String) -> String
+pub fn RegExp::replace_all(Self, String, String) -> String
+pub fn RegExp::replace_all_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+pub fn RegExp::replace_fn(Self, String, (String, Array[String], Int, String) -> String) -> String
+pub fn RegExp::search(Self, String) -> Int
+pub fn RegExp::set_last_index(Self, Int) -> Unit
+pub fn RegExp::source(Self) -> String
+pub fn RegExp::split(Self, String, limit? : Int) -> Array[String]
+pub fn RegExp::sticky(Self) -> Bool
+pub fn RegExp::test_(Self, String) -> Bool
+pub fn RegExp::to_any(Self) -> @core.Any
+pub fn RegExp::to_string(Self) -> String
+pub fn RegExp::unicode(Self) -> Bool
+
+pub struct RegExpMatchArray {
+  matches : Array[String]
+  index : Int?
+  input : String?
+  groups : Map[String, String]?
+}
+pub fn RegExpMatchArray::to_any(Self) -> @core.Any
+
+pub struct RegExpResult {
+  full : String
+  input : String
+  index : Int
+  lastIndex : Int
+  groups : Map[String, String]?
+}
+pub fn RegExpResult::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+

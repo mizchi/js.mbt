@@ -1,0 +1,259 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/webgpu"
+
+import(
+  "mizchi/js/builtins/array"
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+)
+
+// Values
+pub const BUFFER_USAGE_COPY_DST : Int = 0x0008
+
+pub const BUFFER_USAGE_COPY_SRC : Int = 0x0004
+
+pub const BUFFER_USAGE_INDEX : Int = 0x0010
+
+pub const BUFFER_USAGE_INDIRECT : Int = 0x0100
+
+pub const BUFFER_USAGE_MAP_READ : Int = 0x0001
+
+pub const BUFFER_USAGE_MAP_WRITE : Int = 0x0002
+
+pub const BUFFER_USAGE_QUERY_RESOLVE : Int = 0x0200
+
+pub const BUFFER_USAGE_STORAGE : Int = 0x0080
+
+pub const BUFFER_USAGE_UNIFORM : Int = 0x0040
+
+pub const BUFFER_USAGE_VERTEX : Int = 0x0020
+
+pub const TEXTURE_USAGE_COPY_DST : Int = 0x02
+
+pub const TEXTURE_USAGE_COPY_SRC : Int = 0x01
+
+pub const TEXTURE_USAGE_RENDER_ATTACHMENT : Int = 0x10
+
+pub const TEXTURE_USAGE_STORAGE_BINDING : Int = 0x08
+
+pub const TEXTURE_USAGE_TEXTURE_BINDING : Int = 0x04
+
+pub fn gpu() -> GPU?
+
+// Errors
+
+// Types and methods
+pub(all) struct GPU {
+}
+pub fn GPU::as_any(Self) -> @core.Any
+pub fn GPU::getPreferredCanvasFormat(Self) -> String
+pub async fn GPU::requestAdapter(Self, power_preference? : String, force_fallback_adapter? : Bool) -> GPUAdapter?
+pub fn GPU::wgslLanguageFeatures(Self) -> @core.Any
+
+pub(all) struct GPUAdapter {
+}
+pub fn GPUAdapter::as_any(Self) -> @core.Any
+pub fn GPUAdapter::features(Self) -> GPUSupportedFeatures
+pub fn GPUAdapter::info(Self) -> GPUAdapterInfo
+pub fn GPUAdapter::isFallbackAdapter(Self) -> Bool
+pub fn GPUAdapter::limits(Self) -> GPUSupportedLimits
+pub async fn GPUAdapter::requestDevice(Self, label? : String, required_features? : Array[String], required_limits? : @core.Any) -> GPUDevice?
+
+pub(all) struct GPUAdapterInfo {
+}
+pub fn GPUAdapterInfo::architecture(Self) -> String
+pub fn GPUAdapterInfo::as_any(Self) -> @core.Any
+pub fn GPUAdapterInfo::description(Self) -> String
+pub fn GPUAdapterInfo::device(Self) -> String
+pub fn GPUAdapterInfo::vendor(Self) -> String
+
+pub(all) struct GPUBindGroup {
+}
+pub fn GPUBindGroup::as_any(Self) -> @core.Any
+pub fn GPUBindGroup::label(Self) -> String
+
+pub(all) struct GPUBindGroupLayout {
+}
+pub fn GPUBindGroupLayout::as_any(Self) -> @core.Any
+pub fn GPUBindGroupLayout::label(Self) -> String
+
+pub(all) struct GPUBuffer {
+}
+pub fn GPUBuffer::as_any(Self) -> @core.Any
+pub fn GPUBuffer::destroy(Self) -> Unit
+pub fn GPUBuffer::getMappedRange(Self, offset? : Int, size? : Int) -> @arraybuffer.ArrayBuffer
+pub fn GPUBuffer::label(Self) -> String
+pub async fn GPUBuffer::mapAsync(Self, Int, offset? : Int, size? : Int) -> Unit
+pub fn GPUBuffer::mapState(Self) -> String
+pub fn GPUBuffer::size(Self) -> Int
+pub fn GPUBuffer::unmap(Self) -> Unit
+pub fn GPUBuffer::usage(Self) -> Int
+
+pub(all) struct GPUCommandBuffer {
+}
+pub fn GPUCommandBuffer::as_any(Self) -> @core.Any
+pub fn GPUCommandBuffer::label(Self) -> String
+
+pub(all) struct GPUCommandEncoder {
+}
+pub fn GPUCommandEncoder::as_any(Self) -> @core.Any
+pub fn GPUCommandEncoder::beginComputePass(Self, label? : String) -> GPUComputePassEncoder
+pub fn GPUCommandEncoder::beginRenderPass(Self, @core.Any) -> GPURenderPassEncoder
+pub fn GPUCommandEncoder::clearBuffer(Self, GPUBuffer, offset? : Int, size? : Int) -> Unit
+pub fn GPUCommandEncoder::copyBufferToBuffer(Self, GPUBuffer, Int, GPUBuffer, Int, Int) -> Unit
+pub fn GPUCommandEncoder::copyBufferToTexture(Self, @core.Any, @core.Any, GPUExtent3D) -> Unit
+pub fn GPUCommandEncoder::copyTextureToBuffer(Self, @core.Any, @core.Any, GPUExtent3D) -> Unit
+pub fn GPUCommandEncoder::copyTextureToTexture(Self, @core.Any, @core.Any, GPUExtent3D) -> Unit
+pub fn GPUCommandEncoder::finish(Self, label? : String) -> GPUCommandBuffer
+pub fn GPUCommandEncoder::label(Self) -> String
+
+pub(all) struct GPUCompilationInfo {
+}
+pub fn GPUCompilationInfo::as_any(Self) -> @core.Any
+pub fn GPUCompilationInfo::messages(Self) -> @array.JsArray
+
+pub(all) struct GPUCompilationMessage {
+}
+pub fn GPUCompilationMessage::as_any(Self) -> @core.Any
+pub fn GPUCompilationMessage::lineNum(Self) -> Int
+pub fn GPUCompilationMessage::linePos(Self) -> Int
+pub fn GPUCompilationMessage::message(Self) -> String
+pub fn GPUCompilationMessage::type_(Self) -> String
+
+pub(all) struct GPUComputePassEncoder {
+}
+pub fn GPUComputePassEncoder::as_any(Self) -> @core.Any
+pub fn GPUComputePassEncoder::dispatchWorkgroups(Self, Int, workgroup_count_y? : Int, workgroup_count_z? : Int) -> Unit
+pub fn GPUComputePassEncoder::dispatchWorkgroupsIndirect(Self, GPUBuffer, Int) -> Unit
+pub fn GPUComputePassEncoder::end(Self) -> Unit
+pub fn GPUComputePassEncoder::setBindGroup(Self, Int, GPUBindGroup) -> Unit
+pub fn GPUComputePassEncoder::setPipeline(Self, GPUComputePipeline) -> Unit
+
+pub(all) struct GPUComputePipeline {
+}
+pub fn GPUComputePipeline::as_any(Self) -> @core.Any
+pub fn GPUComputePipeline::getBindGroupLayout(Self, Int) -> GPUBindGroupLayout
+pub fn GPUComputePipeline::label(Self) -> String
+
+pub(all) struct GPUDevice {
+}
+pub fn GPUDevice::as_any(Self) -> @core.Any
+pub fn GPUDevice::createBindGroup(Self, GPUBindGroupLayout, @core.Any, label? : String) -> GPUBindGroup
+pub fn GPUDevice::createBindGroupLayout(Self, @core.Any, label? : String) -> GPUBindGroupLayout
+pub fn GPUDevice::createBuffer(Self, Int, Int, label? : String, mapped_at_creation? : Bool) -> GPUBuffer
+pub fn GPUDevice::createCommandEncoder(Self, label? : String) -> GPUCommandEncoder
+pub fn GPUDevice::createComputePipeline(Self, @core.Any) -> GPUComputePipeline
+pub fn GPUDevice::createPipelineLayout(Self, Array[GPUBindGroupLayout], label? : String) -> GPUPipelineLayout
+pub fn GPUDevice::createRenderPipeline(Self, @core.Any) -> GPURenderPipeline
+pub fn GPUDevice::createSampler(Self, label? : String, address_mode_u? : String, address_mode_v? : String, address_mode_w? : String, mag_filter? : String, min_filter? : String, mipmap_filter? : String, lod_min_clamp? : Double, lod_max_clamp? : Double, compare? : String, max_anisotropy? : Int) -> GPUSampler
+pub fn GPUDevice::createShaderModule(Self, String, label? : String) -> GPUShaderModule
+pub fn GPUDevice::createTexture(Self, GPUExtent3D, String, Int, label? : String, mip_level_count? : Int, sample_count? : Int, dimension? : String, view_formats? : Array[String]) -> GPUTexture
+pub fn GPUDevice::destroy(Self) -> Unit
+pub fn GPUDevice::features(Self) -> GPUSupportedFeatures
+pub fn GPUDevice::label(Self) -> String
+pub fn GPUDevice::limits(Self) -> GPUSupportedLimits
+pub fn GPUDevice::lost(Self) -> @core.Promise[GPUDeviceLostInfo]
+pub async fn GPUDevice::popErrorScope(Self) -> GPUError?
+pub fn GPUDevice::pushErrorScope(Self, String) -> Unit
+pub fn GPUDevice::queue(Self) -> GPUQueue
+pub fn GPUDevice::set_label(Self, String) -> Unit
+
+pub(all) struct GPUDeviceLostInfo {
+}
+pub fn GPUDeviceLostInfo::as_any(Self) -> @core.Any
+pub fn GPUDeviceLostInfo::message(Self) -> String
+pub fn GPUDeviceLostInfo::reason(Self) -> String
+
+pub(all) struct GPUError {
+}
+pub fn GPUError::as_any(Self) -> @core.Any
+pub fn GPUError::message(Self) -> String
+
+pub(all) struct GPUExtent3D {
+}
+pub fn GPUExtent3D::as_any(Self) -> @core.Any
+pub fn GPUExtent3D::from_array(Array[Int]) -> Self
+pub fn GPUExtent3D::new(Int, height? : Int, depth_or_array_layers? : Int) -> Self
+
+pub(all) struct GPUPipelineLayout {
+}
+pub fn GPUPipelineLayout::as_any(Self) -> @core.Any
+pub fn GPUPipelineLayout::label(Self) -> String
+
+pub(all) struct GPUQueue {
+}
+pub fn GPUQueue::as_any(Self) -> @core.Any
+pub async fn GPUQueue::onSubmittedWorkDone(Self) -> Unit
+pub fn GPUQueue::submit(Self, Array[GPUCommandBuffer]) -> Unit
+pub fn GPUQueue::writeBuffer(Self, GPUBuffer, Int, @core.Any, data_offset? : Int, size? : Int) -> Unit
+pub fn GPUQueue::writeTexture(Self, @core.Any, @core.Any, @core.Any, GPUExtent3D) -> Unit
+
+pub(all) struct GPURenderPassEncoder {
+}
+pub fn GPURenderPassEncoder::as_any(Self) -> @core.Any
+pub fn GPURenderPassEncoder::draw(Self, Int, instance_count? : Int, first_vertex? : Int, first_instance? : Int) -> Unit
+pub fn GPURenderPassEncoder::drawIndexed(Self, Int, instance_count? : Int, first_index? : Int, base_vertex? : Int, first_instance? : Int) -> Unit
+pub fn GPURenderPassEncoder::end(Self) -> Unit
+pub fn GPURenderPassEncoder::setBindGroup(Self, Int, GPUBindGroup) -> Unit
+pub fn GPURenderPassEncoder::setBlendConstant(Self, @core.Any) -> Unit
+pub fn GPURenderPassEncoder::setIndexBuffer(Self, GPUBuffer, String, offset? : Int, size? : Int) -> Unit
+pub fn GPURenderPassEncoder::setPipeline(Self, GPURenderPipeline) -> Unit
+pub fn GPURenderPassEncoder::setScissorRect(Self, Int, Int, Int, Int) -> Unit
+pub fn GPURenderPassEncoder::setStencilReference(Self, Int) -> Unit
+pub fn GPURenderPassEncoder::setVertexBuffer(Self, Int, GPUBuffer, offset? : Int, size? : Int) -> Unit
+pub fn GPURenderPassEncoder::setViewport(Self, Double, Double, Double, Double, Double, Double) -> Unit
+
+pub(all) struct GPURenderPipeline {
+}
+pub fn GPURenderPipeline::as_any(Self) -> @core.Any
+pub fn GPURenderPipeline::getBindGroupLayout(Self, Int) -> GPUBindGroupLayout
+pub fn GPURenderPipeline::label(Self) -> String
+
+pub(all) struct GPUSampler {
+}
+pub fn GPUSampler::as_any(Self) -> @core.Any
+pub fn GPUSampler::label(Self) -> String
+
+pub(all) struct GPUShaderModule {
+}
+pub fn GPUShaderModule::as_any(Self) -> @core.Any
+pub async fn GPUShaderModule::getCompilationInfo(Self) -> GPUCompilationInfo
+pub fn GPUShaderModule::label(Self) -> String
+
+pub(all) struct GPUSupportedFeatures {
+}
+pub fn GPUSupportedFeatures::as_any(Self) -> @core.Any
+pub fn GPUSupportedFeatures::has(Self, String) -> Bool
+
+pub(all) struct GPUSupportedLimits {
+}
+pub fn GPUSupportedLimits::as_any(Self) -> @core.Any
+pub fn GPUSupportedLimits::maxBindGroups(Self) -> Int
+pub fn GPUSupportedLimits::maxBufferSize(Self) -> Int
+pub fn GPUSupportedLimits::maxTextureDimension1D(Self) -> Int
+pub fn GPUSupportedLimits::maxTextureDimension2D(Self) -> Int
+pub fn GPUSupportedLimits::maxTextureDimension3D(Self) -> Int
+
+pub(all) struct GPUTexture {
+}
+pub fn GPUTexture::as_any(Self) -> @core.Any
+pub fn GPUTexture::createView(Self, format? : String, dimension? : String, aspect? : String, base_mip_level? : Int, mip_level_count? : Int, base_array_layer? : Int, array_layer_count? : Int, label? : String) -> GPUTextureView
+pub fn GPUTexture::depthOrArrayLayers(Self) -> Int
+pub fn GPUTexture::destroy(Self) -> Unit
+pub fn GPUTexture::dimension(Self) -> String
+pub fn GPUTexture::format(Self) -> String
+pub fn GPUTexture::height(Self) -> Int
+pub fn GPUTexture::mipLevelCount(Self) -> Int
+pub fn GPUTexture::sampleCount(Self) -> Int
+pub fn GPUTexture::usage(Self) -> Int
+pub fn GPUTexture::width(Self) -> Int
+
+pub(all) struct GPUTextureView {
+}
+pub fn GPUTextureView::as_any(Self) -> @core.Any
+pub fn GPUTextureView::label(Self) -> String
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,75 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/webassembly"
+
+import(
+  "mizchi/js/builtins/arraybuffer"
+  "mizchi/js/core"
+)
+
+// Values
+pub fn compile(@arraybuffer.Uint8Array) -> @core.Any
+
+pub fn instantiate_bytes(@arraybuffer.Uint8Array, @core.Any?) -> (WebAssemblyModule, WebAssemblyInstance)
+
+pub fn instantiate_module(WebAssemblyModule, @core.Any?) -> WebAssemblyInstance
+
+pub fn validate(@arraybuffer.Uint8Array) -> Bool
+
+// Errors
+
+// Types and methods
+pub(all) struct GlobalDescriptor {
+  value : String
+  mutable : Bool
+}
+
+pub(all) struct MemoryDescriptor {
+  initial : Int
+  maximum : Int?
+  shared : Bool
+}
+
+pub(all) struct TableDescriptor {
+  element : String
+  initial : Int
+  maximum : Int?
+}
+
+#external
+pub type WebAssemblyGlobal
+pub fn WebAssemblyGlobal::as_any(Self) -> @core.Any
+pub fn WebAssemblyGlobal::new(GlobalDescriptor, @core.Any) -> Self
+pub fn WebAssemblyGlobal::set_value(Self, @core.Any) -> Unit
+pub fn WebAssemblyGlobal::value(Self) -> @core.Any
+
+#external
+pub type WebAssemblyInstance
+pub fn WebAssemblyInstance::as_any(Self) -> @core.Any
+pub fn WebAssemblyInstance::exports(Self) -> @core.Any
+pub fn WebAssemblyInstance::from_module(WebAssemblyModule, @core.Any?) -> Self
+
+#external
+pub type WebAssemblyMemory
+pub fn WebAssemblyMemory::as_any(Self) -> @core.Any
+pub fn WebAssemblyMemory::buffer(Self) -> @arraybuffer.ArrayBuffer
+pub fn WebAssemblyMemory::grow(Self, Int) -> Int
+pub fn WebAssemblyMemory::new(MemoryDescriptor) -> Self
+
+#external
+pub type WebAssemblyModule
+pub fn WebAssemblyModule::as_any(Self) -> @core.Any
+pub fn WebAssemblyModule::from_buffer(@arraybuffer.ArrayBuffer) -> Self
+pub fn WebAssemblyModule::from_bytes(@arraybuffer.Uint8Array) -> Self
+
+#external
+pub type WebAssemblyTable
+pub fn WebAssemblyTable::as_any(Self) -> @core.Any
+pub fn WebAssemblyTable::grow(Self, Int, @core.Any) -> Int
+pub fn WebAssemblyTable::length(Self) -> Int
+pub fn WebAssemblyTable::new(TableDescriptor) -> Self
+pub fn WebAssemblyTable::set(Self, Int, @core.Any) -> Unit
+
+// Type aliases
+
+// Traits
+

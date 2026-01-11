@@ -1,0 +1,47 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/node/readline"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/node/stream"
+)
+
+// Values
+pub fn clear_line(@stream.Writable, Int) -> Bool
+
+pub fn clear_screen_down(@stream.Writable) -> Bool
+
+#alias(create_interface)
+pub fn createInterface(@stream.Readable, output? : @stream.Writable, completer? : (String) -> (Array[String], String), terminal? : Bool, history_size? : Int, prompt? : String, cr_lf_delay? : Int, remove_history_duplicates? : Bool, escape_code_timeout? : Int, tab_size? : Int) -> Interface
+
+pub fn cursor_to(@stream.Writable, Int, Int?) -> Bool
+
+pub fn emit_keypress_events(@stream.Readable, Interface?) -> Unit
+
+pub fn move_cursor(@stream.Writable, Int, Int) -> Bool
+
+// Errors
+
+// Types and methods
+pub type Interface
+pub fn Interface::add_to_history(Self, String) -> Unit
+pub fn Interface::close(Self) -> Unit
+pub fn Interface::get_cursor_pos(Self) -> (Int, Int)
+pub fn Interface::on_close(Self, () -> Unit) -> Self
+pub fn Interface::on_history(Self, (Array[String]) -> Unit) -> Self
+pub fn Interface::on_line(Self, (String) -> Unit) -> Self
+pub fn Interface::on_pause(Self, () -> Unit) -> Self
+pub fn Interface::on_resume(Self, () -> Unit) -> Self
+pub fn Interface::on_sigcont(Self, () -> Unit) -> Self
+pub fn Interface::on_sigint(Self, () -> Unit) -> Self
+pub fn Interface::on_sigtstp(Self, () -> Unit) -> Self
+pub fn Interface::pause(Self) -> Unit
+pub fn Interface::prompt(Self, Bool) -> Unit
+pub fn Interface::resume_(Self) -> Unit
+pub fn Interface::set_prompt(Self, String) -> Unit
+pub fn Interface::write(Self, String, @core.Any?) -> Unit
+
+// Type aliases
+
+// Traits
+

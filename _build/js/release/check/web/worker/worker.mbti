@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js/web/worker"
+
+import(
+  "mizchi/js/core"
+  "mizchi/js/web/event"
+)
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct MessageEvent {
+  data : @core.Any
+  origin : String
+  source : @core.Any
+}
+pub fn MessageEvent::to_any(Self) -> @core.Any
+
+#external
+pub type Worker
+pub fn Worker::as_any(Self) -> @core.Any
+pub fn Worker::as_event_target(Self) -> @event.EventTarget
+pub fn Worker::new(String, type_? : String) -> Self
+#alias(post_message)
+pub fn Worker::postMessage(Self, @core.Any) -> Unit
+#alias(post_message_with_transfer)
+pub fn Worker::postMessageWithTransfer(Self, @core.Any, Array[@core.Any]) -> Unit
+pub fn Worker::terminate(Self) -> Unit
+pub fn Worker::to_any(Self) -> @core.Any
+
+// Type aliases
+
+// Traits
+pub(open) trait Transferable {
+  to_transferable(Self) -> @core.Any
+}
+
