@@ -1,14 +1,14 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/browser/dom"
 
-import(
-  "mizchi/js/browser/history"
-  "mizchi/js/core"
-  "mizchi/js/web/blob"
-  "mizchi/js/web/event"
-  "mizchi/js/web/http"
-  "mizchi/js/web/message"
-)
+import {
+  "mizchi/js/browser/history",
+  "mizchi/js/core",
+  "mizchi/js/web/blob",
+  "mizchi/js/web/event",
+  "mizchi/js/web/http",
+  "mizchi/js/web/message",
+}
 
 // Values
 #alias(css_escape)
@@ -2678,6 +2678,7 @@ pub fn SVGCircleElement::appendChild(Self, Node) -> Node
 pub fn SVGCircleElement::as_any(Self) -> @core.Any
 pub fn SVGCircleElement::as_element(Self) -> Element
 pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGCircleElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGCircleElement::as_node(Self) -> Node
 pub fn SVGCircleElement::as_svg_element(Self) -> SVGElement
 pub fn SVGCircleElement::before(Self, Array[Node]) -> Unit
@@ -2850,6 +2851,7 @@ pub type SVGEllipseElement
 pub fn SVGEllipseElement::as_any(Self) -> @core.Any
 pub fn SVGEllipseElement::as_element(Self) -> Element
 pub fn SVGEllipseElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGEllipseElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGEllipseElement::as_node(Self) -> Node
 pub fn SVGEllipseElement::as_svg_element(Self) -> SVGElement
 pub fn SVGEllipseElement::cx(Self) -> Double
@@ -2866,6 +2868,7 @@ pub fn SVGGElement::appendChild(Self, Node) -> Node
 pub fn SVGGElement::as_any(Self) -> @core.Any
 pub fn SVGGElement::as_element(Self) -> Element
 pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGGElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGGElement::as_node(Self) -> Node
 pub fn SVGGElement::as_svg_element(Self) -> SVGElement
 pub fn SVGGElement::before(Self, Array[Node]) -> Unit
@@ -2946,10 +2949,23 @@ pub fn SVGGElement::textContent(Self) -> String
 pub fn SVGGElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
+pub type SVGGraphicsElement
+pub fn SVGGraphicsElement::as_any(Self) -> @core.Any
+pub fn SVGGraphicsElement::as_element(Self) -> Element
+pub fn SVGGraphicsElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGGraphicsElement::as_node(Self) -> Node
+pub fn SVGGraphicsElement::as_svg_element(Self) -> SVGElement
+pub fn SVGGraphicsElement::getBBox(Self) -> SVGRect
+pub fn SVGGraphicsElement::getBBoxWithOptions(Self, Bool, Bool, Bool, Bool) -> SVGRect
+pub fn SVGGraphicsElement::getCTM(Self) -> SVGMatrix?
+pub fn SVGGraphicsElement::getScreenCTM(Self) -> SVGMatrix?
+
+#external
 pub type SVGImageElement
 pub fn SVGImageElement::as_any(Self) -> @core.Any
 pub fn SVGImageElement::as_element(Self) -> Element
 pub fn SVGImageElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGImageElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGImageElement::as_node(Self) -> Node
 pub fn SVGImageElement::as_svg_element(Self) -> SVGElement
 pub fn SVGImageElement::height(Self) -> Double
@@ -2967,6 +2983,7 @@ pub fn SVGLineElement::appendChild(Self, Node) -> Node
 pub fn SVGLineElement::as_any(Self) -> @core.Any
 pub fn SVGLineElement::as_element(Self) -> Element
 pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGLineElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGLineElement::as_node(Self) -> Node
 pub fn SVGLineElement::as_svg_element(Self) -> SVGElement
 pub fn SVGLineElement::before(Self, Array[Node]) -> Unit
@@ -3051,6 +3068,32 @@ pub fn SVGLineElement::y1(Self) -> Double
 pub fn SVGLineElement::y2(Self) -> Double
 
 #external
+pub type SVGMatrix
+pub fn SVGMatrix::a(Self) -> Double
+pub fn SVGMatrix::as_any(Self) -> @core.Any
+pub fn SVGMatrix::b(Self) -> Double
+pub fn SVGMatrix::c(Self) -> Double
+pub fn SVGMatrix::d(Self) -> Double
+pub fn SVGMatrix::e(Self) -> Double
+pub fn SVGMatrix::f(Self) -> Double
+pub fn SVGMatrix::flipX(Self) -> Self
+pub fn SVGMatrix::flipY(Self) -> Self
+pub fn SVGMatrix::inverse(Self) -> Self
+pub fn SVGMatrix::multiply(Self, Self) -> Self
+pub fn SVGMatrix::rotate(Self, Double) -> Self
+pub fn SVGMatrix::scale(Self, Double) -> Self
+pub fn SVGMatrix::scaleNonUniform(Self, Double, Double) -> Self
+pub fn SVGMatrix::set_a(Self, Double) -> Unit
+pub fn SVGMatrix::set_b(Self, Double) -> Unit
+pub fn SVGMatrix::set_c(Self, Double) -> Unit
+pub fn SVGMatrix::set_d(Self, Double) -> Unit
+pub fn SVGMatrix::set_e(Self, Double) -> Unit
+pub fn SVGMatrix::set_f(Self, Double) -> Unit
+pub fn SVGMatrix::skewX(Self, Double) -> Self
+pub fn SVGMatrix::skewY(Self, Double) -> Self
+pub fn SVGMatrix::translate(Self, Double, Double) -> Self
+
+#external
 pub type SVGPathElement
 pub fn SVGPathElement::after(Self, Array[Node]) -> Unit
 pub fn SVGPathElement::append(Self, Node) -> Unit
@@ -3058,6 +3101,7 @@ pub fn SVGPathElement::appendChild(Self, Node) -> Node
 pub fn SVGPathElement::as_any(Self) -> @core.Any
 pub fn SVGPathElement::as_element(Self) -> Element
 pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPathElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPathElement::as_node(Self) -> Node
 pub fn SVGPathElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPathElement::before(Self, Array[Node]) -> Unit
@@ -3140,6 +3184,15 @@ pub fn SVGPathElement::textContent(Self) -> String
 pub fn SVGPathElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
+pub type SVGPoint
+pub fn SVGPoint::as_any(Self) -> @core.Any
+pub fn SVGPoint::matrixTransform(Self, SVGMatrix) -> Self
+pub fn SVGPoint::set_x(Self, Double) -> Unit
+pub fn SVGPoint::set_y(Self, Double) -> Unit
+pub fn SVGPoint::x(Self) -> Double
+pub fn SVGPoint::y(Self) -> Double
+
+#external
 pub type SVGPolygonElement
 pub fn SVGPolygonElement::after(Self, Array[Node]) -> Unit
 pub fn SVGPolygonElement::append(Self, Node) -> Unit
@@ -3147,6 +3200,7 @@ pub fn SVGPolygonElement::appendChild(Self, Node) -> Node
 pub fn SVGPolygonElement::as_any(Self) -> @core.Any
 pub fn SVGPolygonElement::as_element(Self) -> Element
 pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPolygonElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPolygonElement::as_node(Self) -> Node
 pub fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPolygonElement::before(Self, Array[Node]) -> Unit
@@ -3234,6 +3288,7 @@ pub fn SVGPolylineElement::appendChild(Self, Node) -> Node
 pub fn SVGPolylineElement::as_any(Self) -> @core.Any
 pub fn SVGPolylineElement::as_element(Self) -> Element
 pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGPolylineElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPolylineElement::as_node(Self) -> Node
 pub fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
 pub fn SVGPolylineElement::before(Self, Array[Node]) -> Unit
@@ -3314,6 +3369,18 @@ pub fn SVGPolylineElement::textContent(Self) -> String
 pub fn SVGPolylineElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
+pub type SVGRect
+pub fn SVGRect::as_any(Self) -> @core.Any
+pub fn SVGRect::height(Self) -> Double
+pub fn SVGRect::set_height(Self, Double) -> Unit
+pub fn SVGRect::set_width(Self, Double) -> Unit
+pub fn SVGRect::set_x(Self, Double) -> Unit
+pub fn SVGRect::set_y(Self, Double) -> Unit
+pub fn SVGRect::width(Self) -> Double
+pub fn SVGRect::x(Self) -> Double
+pub fn SVGRect::y(Self) -> Double
+
+#external
 pub type SVGRectElement
 pub fn SVGRectElement::after(Self, Array[Node]) -> Unit
 pub fn SVGRectElement::append(Self, Node) -> Unit
@@ -3321,6 +3388,7 @@ pub fn SVGRectElement::appendChild(Self, Node) -> Node
 pub fn SVGRectElement::as_any(Self) -> @core.Any
 pub fn SVGRectElement::as_element(Self) -> Element
 pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGRectElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGRectElement::as_node(Self) -> Node
 pub fn SVGRectElement::as_svg_element(Self) -> SVGElement
 pub fn SVGRectElement::before(Self, Array[Node]) -> Unit
@@ -3429,6 +3497,13 @@ pub fn SVGSVGElement::cloneNode(Self, Bool) -> Node
 pub fn SVGSVGElement::closest(Self, String) -> Element?
 pub fn SVGSVGElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGSVGElement::contains(Self, Node?) -> Bool
+pub fn SVGSVGElement::createSVGAngle(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGLength(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGMatrix(Self) -> SVGMatrix
+pub fn SVGSVGElement::createSVGNumber(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGPoint(Self) -> SVGPoint
+pub fn SVGSVGElement::createSVGRect(Self) -> SVGRect
+pub fn SVGSVGElement::createSVGTransform(Self) -> @core.Any
 pub fn SVGSVGElement::firstChild(Self) -> Node?
 pub fn SVGSVGElement::firstElementChild(Self) -> Element?
 pub fn SVGSVGElement::getAttribute(Self, String) -> String?
@@ -3501,6 +3576,7 @@ pub fn SVGTextElement::appendChild(Self, Node) -> Node
 pub fn SVGTextElement::as_any(Self) -> @core.Any
 pub fn SVGTextElement::as_element(Self) -> Element
 pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
+pub fn SVGTextElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGTextElement::as_node(Self) -> Node
 pub fn SVGTextElement::as_svg_element(Self) -> SVGElement
 pub fn SVGTextElement::before(Self, Array[Node]) -> Unit
