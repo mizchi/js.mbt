@@ -1,0 +1,14 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/buffer",
+  "mizchi/js/builtins/iterator",
+  "moonbitlang/async/js_async",
+}
+
+import {
+  "moonbitlang/async",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

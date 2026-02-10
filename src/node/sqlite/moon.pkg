@@ -1,0 +1,9 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/builtins/iterator",
+  "mizchi/js/builtins/arraybuffer",
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

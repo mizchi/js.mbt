@@ -115,7 +115,7 @@ pub fn Element::querySelectorAll(
     .as_any()
     ._call("querySelectorAll", [@core.any(selector)])
     .cast()
-  @core.array_from(arr).map(@core.identity(_))
+  @core.array_from(arr).map(x => @core.identity(x))
 }
 
 ///|
@@ -239,7 +239,7 @@ pub fn Element::toggleAttribute(
 /// Returns an array of all attribute names of the element.
 pub fn Element::getAttributeNames(self : Element) -> Array[String] {
   let arr : @core.Any = self.as_any()._call("getAttributeNames", []).cast()
-  @core.array_from(arr).map(@core.identity(_))
+  @core.array_from(arr).map(x => @core.identity(x))
 }
 
 ///|
@@ -277,7 +277,7 @@ pub fn Element::setOuterHTML(self : Element, html : String) -> Unit {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Element::children(self : Element) -> Array[Element] {
   let arr : @core.Any = self.as_any()._get("children").cast()
-  @core.array_from(arr).map(@core.identity(_))
+  @core.array_from(arr).map(x => @core.identity(x))
 }
 
 ///|

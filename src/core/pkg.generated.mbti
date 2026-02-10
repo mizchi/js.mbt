@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/core"
 
-import(
-  "moonbitlang/core/bigint"
-)
+import {
+  "moonbitlang/core/bigint",
+}
 
 // Values
 pub fn[T] any(T) -> Any

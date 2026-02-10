@@ -106,7 +106,7 @@ pub fn Document::getElementsByTagName(
     .as_any()
     ._call("getElementsByTagName", [@core.any(tagName)])
     .cast()
-  @core.array_from(arr).map(_.cast())
+  @core.array_from(arr).map(x => x.cast())
 }
 
 ///|

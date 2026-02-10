@@ -72,7 +72,7 @@ pub fn[A] Promise::new(
   f : async ((A) -> Unit, (Error) -> Unit) -> Unit,
 ) -> Promise[A] {
   ffi_new_promise(fn(resolve, reject) {
-    run_async(fn() {
+    run_async(async fn() noraise {
       f(a => a |> identity |> resolve, e => e |> identity |> reject) catch {
         e => e |> identity |> reject
       }
@@ -91,7 +91,7 @@ pub fn[A] Promise::new(
 /// ```
 pub fn[A] from_async(f : async () -> A) -> Promise[A] noraise {
   let { promise, resolve, reject } = Promise::withResolvers()
-  run_async(fn() {
+  run_async(async fn() noraise {
     try f() |> resolve catch {
       e => reject(e)
     }
@@ -118,11 +118,10 @@ pub fn[A, B] Promise::then(
   self : Self[A],
   resolve : (A) -> Self[B] raise,
 ) -> Promise[B] {
-  ffi_promise_then(self.to_any() |> identity, a => (a
-  |> identity
-  |> resolve
-  |> identity) catch {
-    e => e |> identity |> ffi_promise_reject |> identity
+  ffi_promise_then(self.to_any() |> identity, a => {
+    (a |> identity |> resolve |> identity) catch {
+      e => e |> identity |> ffi_promise_reject |> identity
+    }
   })
   |> identity
 }
@@ -145,11 +144,13 @@ pub fn[A] Promise::finally_(self : Self[A], f : () -> Unit) -> Self[A] {
 /// JS: await promise
 /// Waits for the Promise to be resolved or rejected.
 pub async fn[T] Promise::wait(self : Self[T]) -> T {
-  suspend((ok, err) => self
+  suspend((ok, err) => {
+    self
     .to_any()
     ._call("then", [any(from_fn1(ok))])
     ._call("catch", [any(from_fn1(err))])
-    |> ignore)
+    |> ignore
+  })
 }
 
 ///|

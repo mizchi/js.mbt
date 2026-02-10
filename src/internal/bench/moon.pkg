@@ -1,0 +1,10 @@
+import {
+  "mizchi/js/mbtconv",
+  "mizchi/js/core",
+}
+
+warnings = "-71"
+
+options(
+  "supported-targets": [ "js" ],
+)

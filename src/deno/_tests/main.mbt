@@ -13,7 +13,7 @@ fn main {
   let d = @deno.deno()
 
   // Test environment variables
-  d.test_async("environment variables", async fn(_ctx) {
+  d.test_async("environment variables", _ctx => {
     d.env_set("TEST_VAR", "hello")
     let value = d.env_get("TEST_VAR")
     assert_eq(value, Some("hello"))
@@ -23,13 +23,13 @@ fn main {
   })
 
   // Test current directory
-  d.test_async("current directory", async fn(_ctx) {
+  d.test_async("current directory", _ctx => {
     let cwd = d.cwd()
     assert_true(cwd.length() > 0)
   })
 
   // Test command line arguments
-  d.test_async("command line args", async fn(_ctx) {
+  d.test_async("command line args", _ctx => {
     let args = d.args()
     // args will contain test runner arguments
     assert_true(args.length() >= 0)
@@ -77,7 +77,7 @@ fn main {
   })
 
   // Test env_toObject
-  d.test_async("env toObject", async fn(_ctx) {
+  d.test_async("env toObject", _ctx => {
     d.env_set("DENO_TEST_1", "value1")
     d.env_set("DENO_TEST_2", "value2")
     let env_obj = d.env_toObject()
@@ -95,7 +95,7 @@ fn main {
   })
 
   // Test process information
-  d.test_async("process info", async fn(_ctx) {
+  d.test_async("process info", _ctx => {
     let pid = d.pid()
     assert_true(pid > 0)
     let ppid = d.ppid()
@@ -223,7 +223,7 @@ fn main {
   })
 
   // Test system info
-  d.test_async("system information", async fn(_ctx) {
+  d.test_async("system information", _ctx => {
     let hostname = d.hostname()
     assert_true(hostname.length() > 0)
     let os_release = d.osRelease()
@@ -233,26 +233,26 @@ fn main {
   })
 
   // Test load average (Unix only, might fail on Windows)
-  d.test_async("load average", async fn(_ctx) {
+  d.test_async("load average", _ctx => {
     let loadavg = d.loadavg()
     // Should return array of 3 numbers on Unix, empty on Windows
     assert_true(loadavg.length() == 3 || loadavg.length() == 0)
   })
 
   // Test network interfaces
-  d.test_async("network interfaces", async fn(_ctx) {
+  d.test_async("network interfaces", _ctx => {
     let interfaces = d.networkInterfaces()
     assert_true(@core.typeof_(interfaces) == "object")
   })
 
   // Test system memory info
-  d.test_async("system memory info", async fn(_ctx) {
+  d.test_async("system memory info", _ctx => {
     let mem_info = d.systemMemoryInfo()
     assert_true(@core.typeof_(mem_info) == "object")
   })
 
   // Test uid/gid (Unix only)
-  d.test_async("uid and gid", async fn(_ctx) {
+  d.test_async("uid and gid", _ctx => {
     let uid = d.uid()
     let gid = d.gid()
     // On Unix, these should be Some(Int), on Windows None
@@ -262,7 +262,7 @@ fn main {
   })
 
   // Test high resolution time
-  d.test_async("high resolution time", async fn(_ctx) {
+  d.test_async("high resolution time", _ctx => {
     let t1 = d.now()
     // Just verify it returns a number
     assert_true(t1 >= 0.0)
@@ -420,7 +420,7 @@ fn main {
   })
 
   // Test Command.outputSync() - synchronous execution
-  d.test_async("Command outputSync", async fn(_ctx) {
+  d.test_async("Command outputSync", _ctx => {
     let cmd = @deno.Command::new("echo", args=["sync", "test"])
     let output = cmd.outputSync()
     assert_true(output.success())
@@ -544,7 +544,7 @@ fn main {
   // =========================================================================
 
   // Test GPU availability
-  d.test_async("WebGPU - gpu() available", async fn(_ctx) {
+  d.test_async("WebGPU - gpu() available", _ctx => {
     guard @webgpu.gpu() is Some(gpu) else {
       println("WebGPU not available, skipping test")
       return

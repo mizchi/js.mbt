@@ -1,0 +1,17 @@
+import {
+  "mizchi/js",
+  "mizchi/js/core",
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/web/blob",
+  "mizchi/js/web/streams",
+  "moonbitlang/async",
+  "mizchi/js/builtins/global",
+}
+
+import {
+  "mizchi/js/web/encoding",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

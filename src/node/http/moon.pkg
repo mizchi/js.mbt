@@ -1,0 +1,13 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/net",
+  "mizchi/js/node/stream",
+}
+
+import {
+  "moonbitlang/async",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

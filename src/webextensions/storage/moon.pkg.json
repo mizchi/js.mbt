@@ -1,7 +1,0 @@
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js/webextensions",
-    "mizchi/js/core"
-  ]
-}

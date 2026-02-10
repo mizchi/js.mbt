@@ -343,24 +343,29 @@ async test "Promise: @core.promisify3" {
 
 ///|
 async test "Promise: suspend with resolve" {
-  @core.run_async(() => try {
-    let value = @core.suspend((ok, _err) => @core.run_async(() => {
-      @core.sleep(16)
-      ok(42)
-    }))
-    assert_eq(value, 42)
-  } catch {
-    _ => ()
+  @core.run_async(() => {
+    try {
+      let value = @core.suspend((ok, _err) => {
+        @core.run_async(() => {
+          @core.sleep(16)
+          ok(42)
+        })
+      })
+      assert_eq(value, 42)
+    } catch {
+      _ => ()
+    }
   })
 }
 
 ///|
 async test "Promise: suspend with reject" {
-  let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => @core.run_async(() => {
+  let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => {
+    @core.run_async(() => {
       @core.sleep(16)
       err(Failure::Failure("test error"))
-    },
-  ))
+    })
+  })
   assert_true(result is Err(_))
 }
 
@@ -472,7 +477,7 @@ async test "Promise: Promise chain with error recovery" {
 /// @core.Promise::then with error handling path
 async test "Promise: @core.Promise::then with raise and catch" {
   let p = @core.Promise::resolve(10)
-  let transformed = p.then(fn(_x) -> @core.Promise[Int] {
+  let transformed = p.then(fn(_x) -> @core.Promise[Int] raise {
     raise Failure::Failure("intentional error")
   })
   let result = transformed.wait() catch { _e => -1 }
@@ -569,7 +574,7 @@ async test "Promise: catch then finally chain" {
 /// Rejection in then followed by catch
 async test "Promise: rejection in then followed by catch" {
   let p = @core.Promise::resolve(10)
-    .then(fn(_x) -> @core.Promise[Int] {
+    .then(fn(_x) -> @core.Promise[Int] raise {
       raise Failure::Failure("error in then")
     })
     .catch_(_ => @core.Promise::resolve(-1))

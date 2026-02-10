@@ -1,0 +1,10 @@
+import {
+  "mizchi/js/core",
+}
+
+import {
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

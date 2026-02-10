@@ -1,0 +1,7 @@
+import {
+  "mizchi/js/core",
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

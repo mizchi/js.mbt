@@ -1,0 +1,18 @@
+import {
+  "mizchi/js",
+  "mizchi/js/core",
+  "mizchi/js/web/event",
+  "mizchi/js/web/blob",
+  "mizchi/js/web/message",
+  "mizchi/js/web/http",
+  "mizchi/js/browser/history",
+  "mizchi/js/builtins/global",
+}
+
+import {
+  "mizchi/js/internal/test_utils",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

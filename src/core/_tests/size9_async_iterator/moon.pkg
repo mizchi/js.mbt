@@ -1,0 +1,9 @@
+import {
+  "mizchi/js/core",
+}
+
+warnings = "-9"
+
+options(
+  "is-main": true,
+)

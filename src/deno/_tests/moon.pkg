@@ -1,0 +1,14 @@
+import {
+  "mizchi/js",
+  "mizchi/js/core",
+  "mizchi/js/deno",
+  "mizchi/js/web/worker",
+  "mizchi/js/web/webgpu",
+  "mizchi/js/web/encoding",
+  "mizchi/js/builtins/arraybuffer",
+}
+
+options(
+  "is-main": true,
+  "supported-targets": [ "js" ],
+)

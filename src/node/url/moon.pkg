@@ -1,0 +1,8 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/web/url" @weburl,
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

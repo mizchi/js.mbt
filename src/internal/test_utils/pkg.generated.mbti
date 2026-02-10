@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/internal/test_utils"
 
-import(
-  "mizchi/js/browser/dom"
-)
+import {
+  "mizchi/js/browser/dom",
+}
 
 // Values
 pub fn create_happy_window() -> @dom.Window

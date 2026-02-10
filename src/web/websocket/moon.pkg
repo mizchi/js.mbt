@@ -1,0 +1,12 @@
+import {
+  "mizchi/js",
+  "mizchi/js/core",
+  "mizchi/js/web/event",
+  "mizchi/js/node/buffer",
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/web/blob",
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

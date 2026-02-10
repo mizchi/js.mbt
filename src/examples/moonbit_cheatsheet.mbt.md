@@ -45,7 +45,7 @@ fn function_expressions() -> Int {
   let add = fn(x, y) { x + y } // fn expression
   let add2 : (Int, Int) -> Int = (x, y) => x + y // arrow function
   let _ = add(5, 15) + add2(10, 10)
-  let _ = [1, 2, 3].map(_.mul(2)) // _.method(args) form
+  let _ = [1, 2, 3].map(x => x.mul(2)) // x => x.method(args) form
   1
 }
 
@@ -90,7 +90,7 @@ fn Builder::set_age(self : Self, a : Int) -> Unit {
 // Method cascade
 fn cascade_example() -> Unit {
   let b = Builder::new()
-  b..set_name("Alice")..set_age(30) // Chain methods on same receiver
+  b..set_name("Alice").set_age(30) // Chain methods on same receiver
 }
 ```
 

@@ -1,0 +1,10 @@
+import {
+  "mizchi/js",
+  "mizchi/js/core",
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/web/streams",
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

@@ -1,0 +1,9 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/process",
+  "mizchi/js/node/buffer",
+}
+
+options(
+  "supported-targets": [ "js" ],
+)

@@ -1,0 +1,4 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/builtins/iterator",
+}

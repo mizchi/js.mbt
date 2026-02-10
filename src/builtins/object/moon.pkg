@@ -1,0 +1,12 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/builtins/symbol",
+}
+
+import {
+  "mizchi/js/builtins/global",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

@@ -1,0 +1,10 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js/bun",
+  "mizchi/js/builtins/arraybuffer",
+}
+
+options(
+  "is-main": true,
+  "supported-targets": [ "js" ],
+)

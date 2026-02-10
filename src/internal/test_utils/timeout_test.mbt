@@ -1,6 +1,6 @@
 ///|
 async test "timeout: completes before timeout" {
-  let result = @test_utils.timeout(100, async fn() { 42 })
+  let result = @test_utils.timeout(100, () => 42)
   inspect(result, content="42")
 }
 
@@ -48,14 +48,14 @@ async test "wait_for: async callback with resolve" {
 ///|
 async test "retry: succeeds on first attempt" {
   let mut attempts = 0
-  @test_utils.retry(3, async fn() { attempts += 1 })
+  @test_utils.retry(3, () => attempts += 1)
   inspect(attempts, content="1")
 }
 
 ///|
 async test "retry: succeeds after failures" {
   let mut attempts = 0
-  @test_utils.retry(3, async fn() {
+  @test_utils.retry(3, () => {
     attempts += 1
     if attempts < 3 {
       raise @test_utils.RetryError::new("Simulated failure")
@@ -68,7 +68,7 @@ async test "retry: succeeds after failures" {
 async test "retry: all attempts fail" {
   let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
     3,
-    async fn() { raise @test_utils.RetryError::new("Always fails") },
+    () => raise @test_utils.RetryError::new("Always fails"),
   )
   inspect(result is Err(_), content="true")
 }
@@ -93,7 +93,7 @@ async test "retry: on_fail callback" {
   let failed_attempts : Array[Int] = []
   let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
     3,
-    async fn() { raise @test_utils.RetryError::new("Fail") },
+    () => raise @test_utils.RetryError::new("Fail"),
     on_fail=fn(n) { failed_attempts.push(n) },
   )
   ignore(result)
@@ -103,16 +103,14 @@ async test "retry: on_fail callback" {
 ///|
 async test "retry: on_success callback" {
   let mut success_called = false
-  @test_utils.retry(3, async fn() { () }, on_success=fn() {
-    success_called = true
-  })
+  @test_utils.retry(3, () => (), on_success=fn() { success_called = true })
   inspect(success_called, content="true")
 }
 
 ///|
 async test "retry: cleanup callback on success" {
   let mut cleanup_called = false
-  @test_utils.retry(3, async fn() { () }, cleanup=fn() { cleanup_called = true })
+  @test_utils.retry(3, () => (), cleanup=fn() { cleanup_called = true })
   inspect(cleanup_called, content="true")
 }
 
@@ -121,7 +119,7 @@ async test "retry: cleanup callback on failure" {
   let mut cleanup_called = false
   let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
     2,
-    async fn() { raise @test_utils.RetryError::new("Fail") },
+    () => raise @test_utils.RetryError::new("Fail"),
     cleanup=fn() { cleanup_called = true },
   )
   ignore(result)

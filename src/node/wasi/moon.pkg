@@ -1,0 +1,12 @@
+import {
+  "mizchi/js/web/webassembly",
+  "mizchi/js/core",
+}
+
+import {
+  "mizchi/js/node/fs",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

@@ -69,7 +69,6 @@ pub fn assert_throws_with(op : () -> Any, expected_msg : String) -> Unit {
       msg +
       "\"",
     )
-
   }
 }
 
@@ -100,7 +99,7 @@ pub fn[T] throwable(f : () -> T raise?) -> T raise ThrowError {
 ///|
 /// Wraps a synchronous function call that returns Result, converting any thrown JS errors into JsError
 fn throwable_result(f : () -> Result[Any, Any]) -> Result[Any, Any] {
-  ffi_wrap_sync_result(identity(f), Ok(_), Err(_))
+  ffi_wrap_sync_result(identity(f), x => Ok(x), x => Err(x))
 }
 
 ///|

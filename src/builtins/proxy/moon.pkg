@@ -1,0 +1,12 @@
+import {
+  "mizchi/js/core",
+}
+
+import {
+  "mizchi/js/builtins/global",
+  "mizchi/js/builtins/array",
+} for "test"
+
+options(
+  "supported-targets": [ "js" ],
+)

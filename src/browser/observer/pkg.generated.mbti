@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/browser/observer"
 
-import(
-  "mizchi/js/browser/dom"
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/browser/dom",
+  "mizchi/js/core",
+}
 
 // Values
 

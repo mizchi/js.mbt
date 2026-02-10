@@ -7,25 +7,25 @@ fn main {
   let b = @bun.bun()
 
   // Test runtime information
-  b.test_async("runtime version", async fn(_ctx) {
+  b.test_async("runtime version", _ctx => {
     let version = b.version()
     assert_true(version.length() > 0)
   })
 
   // Test environment variables
-  b.test_async("environment variables", async fn(_ctx) {
+  b.test_async("environment variables", _ctx => {
     let env = b.env()
     assert_true(@core.typeof_(env) == "object")
   })
 
   // Test current directory
-  b.test_async("current directory", async fn(_ctx) {
+  b.test_async("current directory", _ctx => {
     let cwd = b.cwd()
     assert_true(cwd.length() > 0)
   })
 
   // Test command line arguments
-  b.test_async("command line args", async fn(_ctx) {
+  b.test_async("command line args", _ctx => {
     let args = b.argv()
     // args will contain test runner arguments
     assert_true(args.length() >= 0)
@@ -68,7 +68,7 @@ fn main {
   })
 
   // Test nanoseconds
-  b.test_async("nanoseconds", async fn(_ctx) {
+  b.test_async("nanoseconds", _ctx => {
     let ns1 = b.nanoseconds()
     let ns2 = b.nanoseconds()
     // Second call should be >= first call
@@ -76,11 +76,11 @@ fn main {
   })
 
   // Test expect assertions
-  b.test_async("expect toBe", async fn(_ctx) {
+  b.test_async("expect toBe", _ctx => {
     @bun.expect(@core.any(42)).toBe(@core.any(42))
     @bun.expect(@core.any("hello")).toBe(@core.any("hello"))
   })
-  b.test_async("expect toEqual", async fn(_ctx) {
+  b.test_async("expect toEqual", _ctx => {
     let obj1 = @core.new_object()
     obj1._set("a", @core.any(1))
     obj1._set("b", @core.any(2))
@@ -91,21 +91,21 @@ fn main {
     let obj2_any : @core.Any = obj2.cast()
     @bun.expect(obj1_any).toEqual(obj2_any)
   })
-  b.test_async("expect toBeTruthy", async fn(_ctx) {
+  b.test_async("expect toBeTruthy", _ctx => {
     @bun.expect(@core.any(true)).toBeTruthy()
     @bun.expect(@core.any(1)).toBeTruthy()
     @bun.expect(@core.any("hello")).toBeTruthy()
   })
-  b.test_async("expect toBeFalsy", async fn(_ctx) {
+  b.test_async("expect toBeFalsy", _ctx => {
     @bun.expect(@core.any(false)).toBeFalsy()
     @bun.expect(@core.any(0)).toBeFalsy()
     @bun.expect(@core.any("")).toBeFalsy()
   })
-  b.test_async("expect toBeDefined", async fn(_ctx) {
+  b.test_async("expect toBeDefined", _ctx => {
     @bun.expect(@core.any(42)).toBeDefined()
     @bun.expect(@core.any("hello")).toBeDefined()
   })
-  b.test_async("expect toContain", async fn(_ctx) {
+  b.test_async("expect toContain", _ctx => {
     @bun.expect(@core.any("hello world")).toContain("world")
   })
 
@@ -129,13 +129,13 @@ fn main {
   })
 
   // Test main module path
-  b.test_async("main module path", async fn(_ctx) {
+  b.test_async("main module path", _ctx => {
     let main_path = b.main_()
     assert_true(main_path.length() > 0)
   })
 
   // Test is_bun function
-  b.test_async("is_bun detection", async fn(_ctx) {
+  b.test_async("is_bun detection", _ctx => {
     let running_in_bun = @bun.is_bun()
     assert_true(running_in_bun)
   })
@@ -161,7 +161,7 @@ fn main {
   })
 
   // Test Bun.which
-  b.test_async("which command", async fn(_ctx) {
+  b.test_async("which command", _ctx => {
     let sh_path = b.which("sh")
     match sh_path {
       Some(path) => assert_true(path.length() > 0)
@@ -170,7 +170,7 @@ fn main {
   })
 
   // Test Bun.escapeHTML
-  b.test_async("escapeHTML", async fn(_ctx) {
+  b.test_async("escapeHTML", _ctx => {
     let html = "<script>alert('xss')</script>"
     let escaped = b.escapeHTML(html)
     assert_true(escaped.contains("&lt;"))
@@ -178,7 +178,7 @@ fn main {
   })
 
   // Test Bun.stringWidth
-  b.test_async("stringWidth", async fn(_ctx) {
+  b.test_async("stringWidth", _ctx => {
     let width1 = b.stringWidth("hello")
     assert_eq(width1, 5)
     let width2 = b.stringWidth("こんにちは")
@@ -186,14 +186,14 @@ fn main {
   })
 
   // Test random_uuid_v7
-  b.test_async("randomUUIDv7", async fn(_ctx) {
+  b.test_async("randomUUIDv7", _ctx => {
     let uuid = @bun.random_uuid_v7()
     assert_true(uuid.length() > 0)
     assert_true(uuid.contains("-"))
   })
 
   // Test CryptoHasher
-  b.test_async("CryptoHasher sha256", async fn(_ctx) {
+  b.test_async("CryptoHasher sha256", _ctx => {
     let hasher = @bun.CryptoHasher::new("sha256")
     hasher.update(@core.any("hello"))
     let hex = hasher.digest_hex()
@@ -203,7 +203,7 @@ fn main {
   })
 
   // Test CryptoHasher with multiple updates
-  b.test_async("CryptoHasher multiple updates", async fn(_ctx) {
+  b.test_async("CryptoHasher multiple updates", _ctx => {
     let hasher = @bun.CryptoHasher::new("sha256")
     hasher.update(@core.any("hello"))
     hasher.update(@core.any(" "))
@@ -213,7 +213,7 @@ fn main {
   })
 
   // Test Glob matching
-  b.test_async("Glob match", async fn(_ctx) {
+  b.test_async("Glob match", _ctx => {
     let glob = @bun.Glob::new("*.txt")
     assert_true(glob.match_("test.txt"))
     assert_true(glob.match_("file.txt"))
@@ -222,7 +222,7 @@ fn main {
   })
 
   // Test Glob with wildcard
-  b.test_async("Glob wildcard match", async fn(_ctx) {
+  b.test_async("Glob wildcard match", _ctx => {
     let glob = @bun.Glob::new("**/*.mbt")
     assert_true(glob.match_("file.mbt"))
     assert_true(glob.match_("src/test.mbt"))
@@ -231,7 +231,7 @@ fn main {
   })
 
   // Test Bun.hash
-  b.test_async("Bun.hash", async fn(_ctx) {
+  b.test_async("Bun.hash", _ctx => {
     let hash1 = b.hash_(@core.any("hello"))
     let hash2 = b.hash_(@core.any("hello"))
     // Same input should produce same hash
