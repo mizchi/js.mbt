@@ -68,9 +68,20 @@ jobs:
           if [ ! -e target/wasm-gc/release/build ]; then
             ln -s ../../../_build/wasm-gc/release/build target/wasm-gc/release/build
           fi
-      - name: moon test
+      - name: moon test (per file)
+        shell: bash
         run: |
-          moon test --target js
+          set -euo pipefail
+          while IFS= read -r file; do
+            dir="$(dirname "$file")"
+            if [ "$dir" = "src" ]; then
+              pkg="mizchi/js"
+            else
+              pkg="mizchi/js/${dir#src/}"
+            fi
+            echo "Running ${file} in ${pkg}"
+            moon test --target js --no-parallelize -p "$pkg" -f "$file"
+          done < <(find src -type f \( -name '*test.mbt' -o -name '*wbtest.mbt' \) | sort)
         env:
           NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
       - name: wasm-gc test

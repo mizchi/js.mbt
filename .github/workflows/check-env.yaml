@@ -62,7 +62,7 @@ jobs:
           moon install
 
       - name: moon build
-        run: moon build --target js
+        run: moon build --target js --release
       - name: Create target compatibility symlinks
         shell: bash
         run: |
