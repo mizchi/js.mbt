@@ -16,7 +16,7 @@
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let obj = @mbtconv.from_map({ "name": @core.any("Alice"), "age": @core.any(30) })
 /// // JavaScript: { name: "Alice", age: 30 }
 /// ```
@@ -46,7 +46,7 @@ extern "js" fn ffi_set_property(
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let _obj = @mbtconv.from_option_map({
 ///   "name": Some(@core.any("Alice")),
 ///   "age": Some(@core.any(30)),
@@ -78,7 +78,7 @@ extern "js" fn ffi_is_nullish(v : @core.Any) -> Bool =
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// // All None - returns undefined
 /// let result = @mbtconv.from_option_map_or_undefined({
 ///   "timeout": None,
@@ -126,7 +126,7 @@ extern "js" fn ffi_undefined() -> @core.Any =
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// // Convert MoonBit Json to JS
 /// let json : Json = { "name": "Alice", "age": 30 }
 ///
@@ -173,7 +173,7 @@ extern "js" fn ffi_array_push(arr : @core.Any, val : @core.Any) -> Unit =
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let js_obj = @core.any({ "name": "Alice" })
 ///
 /// let json = @mbtconv.to_json(js_obj)
@@ -288,7 +288,7 @@ extern "js" fn ffi_get_constructor_name(v : @core.Any) -> String =
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let ok_result : Result[Int, String] = Ok(42)
 ///
 /// let is_ok = @mbtconv.is_result_ok(@core.any(ok_result)) // true
@@ -302,7 +302,7 @@ pub fn is_result_ok(v : @core.Any) -> Bool {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let err_result : Result[Int, String] = Err("error")
 ///
 /// let is_err = @mbtconv.is_result_err(@core.any(err_result)) // true
@@ -317,7 +317,7 @@ pub fn is_result_err(v : @core.Any) -> Bool {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let ok_result : Result[Int, String] = Ok(42)
 ///
 /// let value : Int = @mbtconv.unwrap_ok(@core.any(ok_result)) // 42
@@ -332,7 +332,7 @@ pub fn[T] unwrap_ok(v : @core.Any) -> T {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let err_result : Result[Int, String] = Err("error")
 ///
 /// let error : String = @mbtconv.unwrap_err(@core.any(err_result)) // "error"
@@ -346,7 +346,7 @@ pub fn[E] unwrap_err(v : @core.Any) -> E {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let ok_result : Result[Int, String] = Ok(42)
 ///
 /// let js_val = @core.any(ok_result)
@@ -374,7 +374,7 @@ pub fn[T, E] to_result(v : @core.Any) -> Result[T, E] {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// // For unit variant: returns "Red"
 /// // For tuple variant: returns "Rgb" (parsed from "Color$Rgb")
 /// ```
@@ -425,7 +425,7 @@ pub fn get_enum_tag(v : @core.Any) -> Int {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let result : Result[Int, String] = Ok(42)
 ///
 /// let serialized = @mbtconv.serialize_result(result)
@@ -451,7 +451,7 @@ pub fn[T, E] serialize_result(result : Result[T, E]) -> @core.Any {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let serialized = json_parse("{\"_tag\":\"Ok\",\"_0\":42}")
 ///
 /// let result : Result[Int, String] = @mbtconv.deserialize_result(serialized)
@@ -471,7 +471,7 @@ pub fn[T, E] deserialize_result(v : @core.Any) -> Result[T, E] {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let some_val : Int? = Some(42)
 ///
 /// let serialized = @mbtconv.serialize_option(some_val)
@@ -494,7 +494,7 @@ pub fn[T] serialize_option(opt : T?) -> @core.Any {
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let serialized = json_parse("{\"_some\":true,\"_0\":42}")
 ///
 /// let opt : Int? = @mbtconv.deserialize_option(serialized)

@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/readline_promises"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/node/stream"
-  "moonbitlang/async/js_async"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/stream",
+  "moonbitlang/async/js_async",
+}
 
 // Values
 #alias(create_interface)

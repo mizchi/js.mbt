@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/http"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/node/net"
-  "mizchi/js/node/stream"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/net",
+  "mizchi/js/node/stream",
+}
 
 // Values
 pub fn createServer(requestListener? : (IncomingMessage, ServerResponse) -> Unit) -> Server

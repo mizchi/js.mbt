@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/zlib"
 
-import(
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/core",
+}
 
 // Values
 pub fn brotli_compress(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit

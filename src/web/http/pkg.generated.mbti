@@ -1,13 +1,13 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/web/http"
 
-import(
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/core"
-  "mizchi/js/web/blob"
-  "mizchi/js/web/streams"
-  "moonbitlang/async/js_async"
-)
+import {
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/core",
+  "mizchi/js/web/blob",
+  "mizchi/js/web/streams",
+  "moonbitlang/async/js_async",
+}
 
 // Values
 pub async fn fetch(String, method_~ : String, headers? : Map[String, String], cache? : String, mode? : String, body? : @core.Any, credentials? : String, integrity? : String, keepalive? : Bool, priority? : String, redirect? : String, referrer? : String, referrerPolicy? : String, signal? : @js_async.AbortSignal) -> Response

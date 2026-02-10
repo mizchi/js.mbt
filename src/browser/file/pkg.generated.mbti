@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/browser/file"
 
-import(
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/core"
-  "mizchi/js/web/blob"
-)
+import {
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/core",
+  "mizchi/js/web/blob",
+}
 
 // Values
 

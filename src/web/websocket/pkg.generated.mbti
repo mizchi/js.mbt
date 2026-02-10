@@ -1,13 +1,13 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/web/websocket"
 
-import(
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/core"
-  "mizchi/js/node/buffer"
-  "mizchi/js/web/blob"
-  "mizchi/js/web/event"
-)
+import {
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/core",
+  "mizchi/js/node/buffer",
+  "mizchi/js/web/blob",
+  "mizchi/js/web/event",
+}
 
 // Values
 pub fn get_close_code(@core.Any) -> Int

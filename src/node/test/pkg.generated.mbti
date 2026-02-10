@@ -1,12 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/test"
 
-import(
-  "mizchi/js/builtins/regexp"
-  "mizchi/js/core"
-  "mizchi/js/node/stream"
-  "moonbitlang/async/js_async"
-)
+import {
+  "mizchi/js/builtins/regexp",
+  "mizchi/js/core",
+  "mizchi/js/node/stream",
+  "moonbitlang/async/js_async",
+}
 
 // Values
 pub fn after(async () -> Unit, timeout? : Int) -> Unit
