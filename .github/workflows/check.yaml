@@ -56,7 +56,18 @@ jobs:
       - name: moon info
         run: |
           moon info --target js
-          git diff --exit-code
+          git --no-pager diff --no-ext-diff --exit-code -- . ':(exclude)_build/**'
+      - name: Create target compatibility symlinks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p target/js/release target/wasm-gc/release
+          if [ ! -e target/js/release/build ]; then
+            ln -s ../../../_build/js/release/build target/js/release/build
+          fi
+          if [ ! -e target/wasm-gc/release/build ]; then
+            ln -s ../../../_build/wasm-gc/release/build target/wasm-gc/release/build
+          fi
       - name: moon test
         run: |
           moon test --target js

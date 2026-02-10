@@ -63,6 +63,14 @@ jobs:
 
       - name: moon build
         run: moon build --target js
+      - name: Create target compatibility symlinks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p target/js/release
+          if [ ! -e target/js/release/build ]; then
+            ln -s ../../../_build/js/release/build target/js/release/build
+          fi
 
       - name: deno test
         run: deno test -A
