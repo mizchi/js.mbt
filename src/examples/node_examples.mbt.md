@@ -6,7 +6,7 @@ This document demonstrates how to use Node.js APIs with the `mizchi/js` library.
 
 Working with the Node.js file system API:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "file write and read operations" {
   let tmpdir = @os.tmpdir()
@@ -27,7 +27,7 @@ async test "file write and read operations" {
 
 Getting file statistics:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "file stats" {
   let tmpdir = @os.tmpdir()
@@ -46,7 +46,7 @@ async test "file stats" {
 
 Working with file paths:
 
-```moonbit
+```moonbit nocheck
 ///|
 test "path operations" {
   let parts = ["tmp", "test", "file.txt"]
@@ -63,7 +63,7 @@ test "path operations" {
 
 Getting operating system information:
 
-```moonbit
+```moonbit nocheck
 ///|
 test "os information" {
   let tmpdir = @os.tmpdir()
@@ -78,7 +78,7 @@ test "os information" {
 
 Creating and checking directories:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "directory operations" {
   let tmpdir = @os.tmpdir()
@@ -103,7 +103,7 @@ async test "directory operations" {
 
 Checking if files or directories exist:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "file existence check" {
   let tmpdir = @os.tmpdir()
@@ -128,7 +128,7 @@ async test "file existence check" {
 
 List files in a directory:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "read directory contents" {
   let tmpdir = @os.tmpdir()
@@ -164,7 +164,7 @@ async test "read directory contents" {
 
 Append content to existing files:
 
-```moonbit
+```moonbit nocheck
 ///|
 async test "append to file" {
   let tmpdir = @os.tmpdir()

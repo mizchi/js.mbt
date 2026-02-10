@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/core/_tests/size9_async_iterator"
 
-import(
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/core",
+}
 
 // Values
 pub fn async_iterator_from(@core.Any) -> AsyncIterator

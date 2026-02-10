@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/builtins/object"
 
-import(
-  "mizchi/js/builtins/symbol"
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/builtins/symbol",
+  "mizchi/js/core",
+}
 
 // Values
 

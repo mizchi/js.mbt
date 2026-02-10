@@ -390,7 +390,6 @@ test "Document - createDocumentFragment and createComment" {
   let comment = doc.createComment("This is a comment")
   // Verify comment is created - just ensure no exception is thrown
   let _ = comment
-
 }
 
 ///|

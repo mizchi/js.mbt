@@ -1,12 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/webextensions/chrome"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/webextensions/runtime"
-  "mizchi/js/webextensions/storage"
-  "mizchi/js/webextensions/tabs"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/webextensions/runtime",
+  "mizchi/js/webextensions/storage",
+  "mizchi/js/webextensions/tabs",
+}
 
 // Values
 pub fn chrome() -> Chrome

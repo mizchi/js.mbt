@@ -1,10 +1,10 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/tty"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/web/event"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/web/event",
+}
 
 // Values
 pub fn isatty(Int) -> Bool

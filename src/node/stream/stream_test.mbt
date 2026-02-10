@@ -345,7 +345,6 @@ async test "Node Stream: async pipeline with Promise" {
       [readable.as_any(), transform.as_any(), writable.as_any()],
       callback~,
     )
-
   })
   let result = resolver.promise.wait()
   assert_eq(result, true)

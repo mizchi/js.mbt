@@ -410,7 +410,6 @@ test "read_file_as_string throws error for non-existent file" {
   let mut error_caught = false
   try {
     let _ = read_file_as_string("/nonexistent/file/path/12345.txt")
-
   } catch {
     _ => error_caught = true
   }
@@ -423,7 +422,6 @@ test "read_file_as_buffer throws error for non-existent file" {
   let mut error_caught = false
   try {
     let _ = read_file_as_buffer("/nonexistent/file/path/12345.txt")
-
   } catch {
     _ => error_caught = true
   }

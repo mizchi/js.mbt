@@ -1,30 +1,30 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js"
 
-import(
-  "mizchi/js/builtins/array"
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/builtins/atomics"
-  "mizchi/js/builtins/bigint"
-  "mizchi/js/builtins/collection"
-  "mizchi/js/builtins/date"
-  "mizchi/js/builtins/disposable"
-  "mizchi/js/builtins/error"
-  "mizchi/js/builtins/function"
-  "mizchi/js/builtins/global"
-  "mizchi/js/builtins/iterator"
-  "mizchi/js/builtins/json"
-  "mizchi/js/builtins/math"
-  "mizchi/js/builtins/object"
-  "mizchi/js/builtins/proxy"
-  "mizchi/js/builtins/reflect"
-  "mizchi/js/builtins/regexp"
-  "mizchi/js/builtins/string"
-  "mizchi/js/builtins/symbol"
-  "mizchi/js/builtins/weak"
-  "mizchi/js/core"
-  "moonbitlang/async/js_async"
-)
+import {
+  "mizchi/js/builtins/array",
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/builtins/atomics",
+  "mizchi/js/builtins/bigint",
+  "mizchi/js/builtins/collection",
+  "mizchi/js/builtins/date",
+  "mizchi/js/builtins/disposable",
+  "mizchi/js/builtins/error",
+  "mizchi/js/builtins/function",
+  "mizchi/js/builtins/global",
+  "mizchi/js/builtins/iterator",
+  "mizchi/js/builtins/json",
+  "mizchi/js/builtins/math",
+  "mizchi/js/builtins/object",
+  "mizchi/js/builtins/proxy",
+  "mizchi/js/builtins/reflect",
+  "mizchi/js/builtins/regexp",
+  "mizchi/js/builtins/string",
+  "mizchi/js/builtins/symbol",
+  "mizchi/js/builtins/weak",
+  "mizchi/js/core",
+  "moonbitlang/async/js_async",
+}
 
 // Values
 pub fn[T] any(T) -> @core.Any

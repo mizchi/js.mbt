@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/v8"
 
-import(
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/core"
-  "mizchi/js/node/buffer"
-)
+import {
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/core",
+  "mizchi/js/node/buffer",
+}
 
 // Values
 #alias(cached_data_version_tag)

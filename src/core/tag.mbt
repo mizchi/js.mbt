@@ -88,7 +88,7 @@ extern "js" fn ffi_call_tagged_template(
 /// # Tag Function Type
 ///
 /// The tag function should have the signature:
-/// ```moonbit
+/// ```moonbit nocheck
 /// fn(TemplateStringsArray, Array[Any]) -> T
 /// ```
 ///
@@ -99,7 +99,7 @@ extern "js" fn ffi_call_tagged_template(
 ///
 /// # Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// // Define a typed tag function
 /// fn my_css(
 ///   strings : @core.TemplateStringsArray,

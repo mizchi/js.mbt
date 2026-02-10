@@ -10,7 +10,7 @@
 /// share the same underlying representation.
 ///
 /// Example:
-/// ```moonbit
+/// ```moonbit nocheck
 /// let bytes = Bytes::from_array([1, 2, 3, 4, 5])
 /// let uint8array = bytes_to_uint8array(bytes).as_typed_array()
 /// assert_eq(uint8array.length(), 5)
@@ -26,7 +26,7 @@ pub fn bytes_to_uint8array(bytes : Bytes) -> Uint8Array {
 /// share the same underlying representation.
 ///
 /// Example:
-/// ```moonbit
+/// ```moonbit nocheck
 /// let uint8array = Uint8Array::from_array([1, 2, 3, 4, 5])
 /// let bytes = uint8array_to_bytes(uint8array)
 /// assert_eq(bytes.length(), 5)

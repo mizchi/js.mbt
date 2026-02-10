@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/node/buffer"
-  "mizchi/js/node/process"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/buffer",
+  "mizchi/js/node/process",
+}
 
 // Values
 pub fn clearImmediate(Immediate) -> Unit

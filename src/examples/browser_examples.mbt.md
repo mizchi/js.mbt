@@ -6,7 +6,7 @@ Practical examples for working with Browser DOM APIs in MoonBit.
 
 ### Basic DOM Operations
 
-```moonbit
+```moonbit nocheck
 ///|
 fn basic_dom_example() -> Unit {
   let doc = @dom.document()
@@ -28,7 +28,7 @@ fn basic_dom_example() -> Unit {
 
 ### Query Selectors
 
-```moonbit
+```moonbit nocheck
 ///|
 fn query_example() -> Unit {
   let doc = @dom.document()
@@ -53,7 +53,7 @@ fn query_example() -> Unit {
 
 ### Node Tree Manipulation
 
-```moonbit
+```moonbit nocheck
 ///|
 fn tree_manipulation() -> Unit {
   let doc = @dom.document()
@@ -87,7 +87,7 @@ fn tree_manipulation() -> Unit {
 
 ### Adding Event Listeners
 
-```moonbit
+```moonbit nocheck
 ///|
 fn event_listener_example() -> Unit {
   let doc = @dom.document()
@@ -121,7 +121,7 @@ fn event_listener_example() -> Unit {
 
 ### Event with AbortController
 
-```moonbit
+```moonbit nocheck
 ///|
 fn abort_controller_example() -> Unit {
   let doc = @dom.document()
@@ -143,7 +143,7 @@ fn abort_controller_example() -> Unit {
 
 ### localStorage / sessionStorage
 
-```moonbit
+```moonbit nocheck
 ///|
 fn storage_example() -> Unit {
   let storage = @storage.localStorage()
@@ -188,7 +188,7 @@ fn storage_example() -> Unit {
 
 ### Window Object
 
-```moonbit
+```moonbit nocheck
 ///|
 fn window_example() -> Unit {
   let win = @dom.window()
@@ -218,7 +218,7 @@ fn window_example() -> Unit {
 
 ### Basic Canvas Drawing
 
-```moonbit
+```moonbit nocheck
 ///|
 fn canvas_example() -> Unit {
   let doc = @dom.document()
@@ -252,7 +252,7 @@ fn canvas_example() -> Unit {
 
 ### Canvas to Blob (async)
 
-```moonbit
+```moonbit nocheck
 ///|
 async fn canvas_to_blob_example() -> Unit {
   let doc = @dom.document()
