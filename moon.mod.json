@@ -1,6 +1,6 @@
 {
   "name": "mizchi/js",
-  "version": "0.10.12",
+  "version": "0.10.13",
   "deps": {
     "moonbitlang/async": "0.16.0",
     "tonyfettes/any": "0.1.5"
