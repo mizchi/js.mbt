@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/sqlite"
 
-import(
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/builtins/iterator"
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/builtins/iterator",
+  "mizchi/js/core",
+}
 
 // Values
 pub fn backup(DatabaseSync, String, rate? : Int, source? : String, target? : String, progress? : (BackupProgress) -> Unit) -> Unit

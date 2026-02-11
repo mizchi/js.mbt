@@ -1,12 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/core/_tests/size_builtin_convert"
 
-import(
-  "mizchi/js/core"
-  "moonbitlang/core/hashset"
-  "moonbitlang/core/immut/array"
-  "moonbitlang/core/immut/hashmap"
-)
+import {
+  "mizchi/js/core",
+  "moonbitlang/core/hashset",
+  "moonbitlang/core/immut/array",
+  "moonbitlang/core/immut/hashmap",
+}
 
 // Values
 pub fn[T] from_immut_array(@array.T[T]) -> @core.Any

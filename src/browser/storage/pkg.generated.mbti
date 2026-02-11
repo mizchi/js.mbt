@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/browser/storage"
 
-import(
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/core",
+}
 
 // Values
 pub fn localStorage() -> Storage

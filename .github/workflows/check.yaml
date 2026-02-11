@@ -45,6 +45,17 @@ jobs:
         run: |
           moon info --target js
           git diff --exit-code
+      - name: Create target compatibility symlinks
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p target/js/release target/wasm-gc/release
+          if [ ! -e target/js/release/build ]; then
+            ln -s ../../../_build/js/release/build target/js/release/build
+          fi
+          if [ ! -e target/wasm-gc/release/build ]; then
+            ln -s ../../../_build/wasm-gc/release/build target/wasm-gc/release/build
+          fi
       - name: moon test
         run: |
           moon test --target js
@@ -52,7 +63,7 @@ jobs:
           NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
       - name: wasm-gc test
         run: |
-          moon build --target wasm-gc src/wasm
+          moon build --target wasm-gc --release src/wasm
           deno run --allow-read src/wasm/test_deno.ts
       - name: wasm-gc DOM test (happy-dom)
         run: |

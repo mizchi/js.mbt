@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/web/webgpu"
 
-import(
-  "mizchi/js/builtins/array"
-  "mizchi/js/builtins/arraybuffer"
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/builtins/array",
+  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js/core",
+}
 
 // Values
 pub const BUFFER_USAGE_COPY_DST : Int = 0x0008

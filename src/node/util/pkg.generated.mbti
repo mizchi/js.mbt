@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/util"
 
-import(
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/core",
+}
 
 // Values
 pub fn inspect(@core.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String

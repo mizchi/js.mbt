@@ -1,11 +1,11 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/node/stream"
 
-import(
-  "mizchi/js/core"
-  "mizchi/js/node/events"
-  "mizchi/js/web/streams"
-)
+import {
+  "mizchi/js/core",
+  "mizchi/js/node/events",
+  "mizchi/js/web/streams",
+}
 
 // Values
 pub fn addAbortSignal(@core.Any, @core.Any) -> @core.Any

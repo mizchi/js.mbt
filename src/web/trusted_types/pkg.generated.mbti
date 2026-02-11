@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/web/trusted_types"
 
-import(
-  "mizchi/js/core"
-)
+import {
+  "mizchi/js/core",
+}
 
 // Values
 pub fn trusted_types() -> TrustedTypePolicyFactory
