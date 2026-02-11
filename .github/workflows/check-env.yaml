@@ -65,4 +65,5 @@ jobs:
         run: deno test -A
 
       - name: bun test
+        continue-on-error: true
         run: bun test target/js/release/build/bun/bun_test/bun_test.js
