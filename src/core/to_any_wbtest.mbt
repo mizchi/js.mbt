@@ -15,7 +15,6 @@ test "ToAny - primitive types" {
 test "ToAny - array" {
   let arr = [1, 2, 3]
   let _arr_any : Any = ToAny::to_any(arr)
-
 }
 
 ///|

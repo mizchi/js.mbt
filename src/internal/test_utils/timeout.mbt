@@ -44,9 +44,11 @@ pub async fn[T] timeout(ms : Int, f : async () -> T) -> T raise TimeoutError {
   @core.suspend(fn(resolve, reject) {
     // Set up timeout
     let timeout_id = ffi_set_timeout(
-      () => if not(completed.val) {
-        timed_out.val = true
-        reject(TimeoutError("Operation timed out after \{ms}ms"))
+      () => {
+        if not(completed.val) {
+          timed_out.val = true
+          reject(TimeoutError("Operation timed out after \{ms}ms"))
+        }
       },
       ms,
     )
@@ -83,9 +85,11 @@ pub async fn[T] wait_for(
   @core.suspend(fn(resolve, reject) {
     // Set up timeout
     let timeout_id = ffi_set_timeout(
-      () => if not(completed.val) {
-        timed_out.val = true
-        reject(TimeoutError("Operation timed out after \{timeout}ms"))
+      () => {
+        if not(completed.val) {
+          timed_out.val = true
+          reject(TimeoutError("Operation timed out after \{timeout}ms"))
+        }
       },
       timeout,
     )

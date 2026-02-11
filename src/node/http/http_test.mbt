@@ -109,9 +109,9 @@ async test "Node HTTP: HTTP server handles simple request" {
 
   // Make request and suspend until response received
   @core.suspend(fn(resolve, _reject) {
-    let client_req = @http.get("http://127.0.0.1:\{port}/", callback=_res => resolve(
-      (),
-    ))
+    let client_req = @http.get("http://127.0.0.1:\{port}/", callback=_res => {
+      resolve(())
+    })
     client_req.end()
   })
   inspect(request_handled, content="true")

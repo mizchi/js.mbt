@@ -49,10 +49,7 @@ test "throws - function throws error" {
 
 ///|
 test "doesNotThrow - function does not throw" {
-  doesNotThrow(fn() {
-    let _ = 1 + 1
-
-  })
+  doesNotThrow(fn() { let _ = 1 + 1 })
 }
 
 ///|
