@@ -5,7 +5,7 @@
 ///|
 async test "Promise: @core.Promise::then" {
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(() => {
+  let _ = @core.from_async(async fn() {
     @core.sleep(16)
     resolver.resolve(10)
   })
@@ -28,7 +28,7 @@ async test "Promise: @core.Promise::catch_" {
 async test "Promise: @core.Promise::finally_" {
   let mut finalized = false
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(() => {
+  let _ = @core.from_async(async fn() {
     @core.sleep(16)
     resolver.resolve(100)
   })
@@ -343,25 +343,19 @@ async test "Promise: @core.promisify3" {
 
 ///|
 async test "Promise: suspend with resolve" {
-  @core.run_async(() => {
-    try {
-      let value = @core.suspend((ok, _err) => {
-        @core.run_async(() => {
-          @core.sleep(16)
-          ok(42)
-        })
-      })
-      assert_eq(value, 42)
-    } catch {
-      _ => ()
-    }
+  let value = @core.suspend((ok, _err) => {
+    let _ = @core.from_async(async fn() {
+      @core.sleep(16)
+      ok(42)
+    })
   })
+  assert_eq(value, 42)
 }
 
 ///|
 async test "Promise: suspend with reject" {
   let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => {
-    @core.run_async(() => {
+    let _ = @core.from_async(async fn() {
       @core.sleep(16)
       err(Failure::Failure("test error"))
     })
@@ -372,7 +366,7 @@ async test "Promise: suspend with reject" {
 ///|
 async test "Promise: Promise chain" {
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(() => {
+  let _ = @core.from_async(async fn() {
     @core.sleep(16)
     resolver.resolve(1)
   })
@@ -412,13 +406,13 @@ async test "Promise: @core.Promise::race with single promise (2)" {
 ///|
 async test "Promise: nested promises" {
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(() => {
+  let _ = @core.from_async(async fn() {
     @core.sleep(16)
     resolver.resolve(10)
   })
   let p1 = resolver.promise.then(v => {
     let inner_resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-    @core.run_async(() => {
+    let _ = @core.from_async(async fn() {
       @core.sleep(16)
       inner_resolver.resolve(v * 2)
     })
@@ -452,10 +446,8 @@ async test "Promise: @core.Promise::all with mixed resolution times" {
 ///|
 async test "Promise: @core.Promise::withPromiseResolvers multiple resolve calls" {
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(() => {
-    resolver.resolve(1)
-    resolver.resolve(2) // second call should be ignored
-  })
+  resolver.resolve(1)
+  resolver.resolve(2) // second call should be ignored
   let result = resolver.promise.wait()
   assert_eq(result, 1)
 }
@@ -638,7 +630,7 @@ async test "Promise: @core.from_async auto-rejects on error" {
 ///|
 async test "Promise: PromiseResolvers::reject" {
   let resolvers : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  @core.run_async(fn() { resolvers.reject(Failure::Failure("rejected")) })
+  resolvers.reject(Failure::Failure("rejected"))
   let result = try? resolvers.promise.wait()
   assert_true(result is Err(_))
 }
@@ -757,10 +749,10 @@ async test "promisify3: handles error by rejecting promise" {
 async test "JS Async: nested run_async" {
   let mut outer = false
   let mut inner = false
-  @core.run_async(() => {
+  let _ = @core.from_async(async fn() {
     @core.sleep(16)
     outer = true
-    @core.run_async(() => {
+    let _ = @core.from_async(async fn() {
       @core.sleep(16)
       inner = true
     })

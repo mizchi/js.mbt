@@ -96,9 +96,9 @@ async test "Node Events: multiple promises concurrent" {
   let resolver2 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   let resolver3 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   // Use setImmediate instead of sleep for immediate async resolution
-  @core.run_async(fn() noraise { set_immediate(() => resolver1.resolve(1)) })
-  @core.run_async(fn() noraise { set_immediate(() => resolver2.resolve(2)) })
-  @core.run_async(fn() noraise { set_immediate(() => resolver3.resolve(3)) })
+  set_immediate(() => resolver1.resolve(1))
+  set_immediate(() => resolver2.resolve(2))
+  set_immediate(() => resolver3.resolve(3))
   let r1 = resolver1.promise.wait()
   let r2 = resolver2.promise.wait()
   let r3 = resolver3.promise.wait()

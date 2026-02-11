@@ -328,25 +328,23 @@ async test "Node Stream: finished - stream completion" {
 ///|
 async test "Node Stream: async pipeline with Promise" {
   let resolver : @core.PromiseResolvers[Bool] = @core.Promise::withResolvers()
-  @core.run_async(fn() {
-    let readable = create_readable_from_string("async test")
-    let transform = create_transform_uppercase()
-    let writable_js = create_writable_to_array()
-    let writable : @stream.Writable = @core.identity(writable_js)
-    let callback : @core.Any = @core.any(
-      @core.from_fn1(fn(err : @core.Any) -> Unit {
-        ignore(err)
-        let chunks = get_chunks(writable_js)
-        let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
-        resolver.resolve(success)
-      }),
-    )
-    let _ = @stream.pipeline(
-      [readable.as_any(), transform.as_any(), writable.as_any()],
-      callback~,
-    )
+  let readable = create_readable_from_string("async test")
+  let transform = create_transform_uppercase()
+  let writable_js = create_writable_to_array()
+  let writable : @stream.Writable = @core.identity(writable_js)
+  let callback : @core.Any = @core.any(
+    @core.from_fn1(fn(err : @core.Any) -> Unit {
+      ignore(err)
+      let chunks = get_chunks(writable_js)
+      let success = chunks.length() == 1 && chunks[0] == "ASYNC TEST"
+      resolver.resolve(success)
+    }),
+  )
+  let _ = @stream.pipeline(
+    [readable.as_any(), transform.as_any(), writable.as_any()],
+    callback~,
+  )
 
-  })
   let result = resolver.promise.wait()
   assert_eq(result, true)
 }
