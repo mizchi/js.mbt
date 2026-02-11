@@ -356,14 +356,14 @@ pub async fn truncate(path : String, len? : Int) -> Unit {
 /// Remove directory
 pub async fn rmdir(path : String, recursive? : Bool) -> Unit {
   let fs = fs_promises_module()
-  let entries : Array[(String, @core.Any)] = []
-  if recursive is Some(v) {
-    entries.push(("recursive", @core.any(v)))
+  let promise : @core.Promise[Unit] = match recursive {
+    Some(true) => {
+      // Node.js deprecates fsPromises.rmdir(path, { recursive: true }); use rm instead.
+      let opts : @core.Any = @core.from_entries([("recursive", @core.any(true))]).cast()
+      fs._call("rm", [path |> @core.any, opts |> @core.any]).cast()
+    }
+    _ => fs._call("rmdir", [path |> @core.any]).cast()
   }
-  let opts : @core.Any = @core.from_entries(entries).cast()
-  let promise : @core.Promise[Unit] = fs
-    ._call("rmdir", [path |> @core.any, opts |> @core.any])
-    .cast()
   promise.wait()
 }
 

@@ -45,7 +45,20 @@
 
 ///|
 extern "js" fn sqlite_module() -> @core.Any =
-  #| () => require("node:sqlite")
+  #| () => {
+  #|   const originalEmitWarning = process.emitWarning
+  #|   process.emitWarning = function (warning, type, code, ctor) {
+  #|     if (type === "ExperimentalWarning" || code === "ExperimentalWarning") {
+  #|       return
+  #|     }
+  #|     return originalEmitWarning.call(this, warning, type, code, ctor)
+  #|   }
+  #|   try {
+  #|     return require("node:sqlite")
+  #|   } finally {
+  #|     process.emitWarning = originalEmitWarning
+  #|   }
+  #| }
 
 ///|
 #external

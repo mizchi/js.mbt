@@ -379,14 +379,6 @@ pub fn truncateSync(path : String, len? : Int) -> Unit raise @core.ThrowError {
 extern "js" fn internal_rmdir_sync(path : String) -> Unit = "rmdirSync"
 
 ///|
-/// Internal: rmdirSync with options via #module
-#module("node:fs")
-extern "js" fn internal_rmdir_sync_opts(
-  path : String,
-  opts : @core.Any,
-) -> Unit = "rmdirSync"
-
-///|
 /// Remove directory synchronously
 #alias(rmdir_sync)
 pub fn rmdirSync(
@@ -395,11 +387,12 @@ pub fn rmdirSync(
 ) -> Unit raise @core.ThrowError {
   @core.throwable(fn() {
     match recursive {
-      Some(r) => {
-        let opts = @core.from_entries([("recursive", @core.any(r))])
-        internal_rmdir_sync_opts(path, opts)
+      Some(true) => {
+        // Node.js deprecates fs.rmdirSync(path, { recursive: true }); use rmSync instead.
+        let opts = @core.from_entries([("recursive", @core.any(true))])
+        internal_rm_sync_opts(path, opts)
       }
-      None => internal_rmdir_sync(path)
+      _ => internal_rmdir_sync(path)
     }
   })
 }

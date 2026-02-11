@@ -119,6 +119,47 @@ pub fn getCompileCacheDir() -> String? {
 /// mode: 'strip' (default) or 'transform'
 /// source_map: true to generate source map (only with mode='transform')
 /// source_url: URL to include in source map
+extern "js" fn internal_strip_typescript_types(
+  mod : @core.Any,
+  code : String,
+) -> String =
+  #| (mod, code) => {
+  #|   const originalEmitWarning = process.emitWarning
+  #|   process.emitWarning = function (warning, type, codeArg, ctor) {
+  #|     if (type === "ExperimentalWarning" || codeArg === "ExperimentalWarning") {
+  #|       return
+  #|     }
+  #|     return originalEmitWarning.call(this, warning, type, codeArg, ctor)
+  #|   }
+  #|   try {
+  #|     return mod.stripTypeScriptTypes(code)
+  #|   } finally {
+  #|     process.emitWarning = originalEmitWarning
+  #|   }
+  #| }
+
+///|
+extern "js" fn internal_strip_typescript_types_opts(
+  mod : @core.Any,
+  code : String,
+  opts : @core.Any,
+) -> String =
+  #| (mod, code, opts) => {
+  #|   const originalEmitWarning = process.emitWarning
+  #|   process.emitWarning = function (warning, type, codeArg, ctor) {
+  #|     if (type === "ExperimentalWarning" || codeArg === "ExperimentalWarning") {
+  #|       return
+  #|     }
+  #|     return originalEmitWarning.call(this, warning, type, codeArg, ctor)
+  #|   }
+  #|   try {
+  #|     return mod.stripTypeScriptTypes(code, opts)
+  #|   } finally {
+  #|     process.emitWarning = originalEmitWarning
+  #|   }
+  #| }
+
+///|
 #alias(strip_typescript_types)
 pub fn stripTypeScriptTypes(
   code : String,
@@ -128,8 +169,7 @@ pub fn stripTypeScriptTypes(
 ) -> String {
   let mod : @core.Any = ffi_require_module() |> @core.any
   match (mode, source_map, source_url) {
-    (None, None, None) =>
-      mod._call("stripTypeScriptTypes", [@core.any(code)]).cast()
+    (None, None, None) => internal_strip_typescript_types(mod, code)
     _ => {
       let opts = @core.new_object()
       if mode is Some(m) {
@@ -141,7 +181,7 @@ pub fn stripTypeScriptTypes(
       if source_url is Some(su) {
         opts["sourceUrl"] = @core.any(su)
       }
-      mod._call("stripTypeScriptTypes", [@core.any(code), opts]).cast()
+      internal_strip_typescript_types_opts(mod, code, opts)
     }
   }
 }

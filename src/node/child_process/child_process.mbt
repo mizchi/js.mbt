@@ -426,8 +426,24 @@ pub fn spawnSync(
     if stdio is Some(v) {
       options["stdio"] = @core.any(v)
     }
+    let use_shell = match shell {
+      Some(v) => v
+      None => false
+    }
     match args {
-      Some(a) => ffi_spawnSync(command, a, options)
+      Some(a) =>
+        // Avoid Node.js DEP0190 warning when combining `shell: true` with `args`.
+        if use_shell {
+          let args_text = a.join(" ")
+          let command_with_args = if args_text == "" {
+            command
+          } else {
+            "\{command} \{args_text}"
+          }
+          ffi_spawnSync_no_args(command_with_args, options)
+        } else {
+          ffi_spawnSync(command, a, options)
+        }
       None => ffi_spawnSync_no_args(command, options)
     }
   })

@@ -3,7 +3,20 @@
 
 ///|
 extern "js" fn wasi_module_ffi() -> @core.Any =
-  #| () => require("node:wasi")
+  #| () => {
+  #|   const originalEmitWarning = process.emitWarning
+  #|   process.emitWarning = function (warning, type, code, ctor) {
+  #|     if (type === "ExperimentalWarning" || code === "ExperimentalWarning") {
+  #|       return
+  #|     }
+  #|     return originalEmitWarning.call(this, warning, type, code, ctor)
+  #|   }
+  #|   try {
+  #|     return require("node:wasi")
+  #|   } finally {
+  #|     process.emitWarning = originalEmitWarning
+  #|   }
+  #| }
 
 ///|
 /// WASI Module
