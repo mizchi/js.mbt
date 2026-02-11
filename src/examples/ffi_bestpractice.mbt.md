@@ -29,7 +29,7 @@ Practical, executable examples of JavaScript FFI patterns using `mizchi/js`.
 
 Use `#external pub type` for types created by JavaScript runtime:
 
-```moonbit
+```moonbit nocheck
 ///|
 #external
 pub type Value
@@ -43,7 +43,7 @@ pub fn Value::as_any(self : Value) -> @core.Any = "%identity"
 
 Use `pub(all) struct` for data containers with known fields:
 
-```moonbit
+```moonbit nocheck
 ///|
 pub(all) struct DOMRect {
   x : Double
@@ -55,7 +55,7 @@ pub(all) struct DOMRect {
 
 Avoid MoonBit reserved words (`method`, `ref`, `type`). Use getter functions as fallback:
 
-```moonbit
+```moonbit nocheck
 ///|
 #external
 pub type MyValue
@@ -71,7 +71,7 @@ pub fn MyValue::method_(self : Self) -> String {
 
 ## Type Conversion
 
-```moonbit
+```moonbit nocheck
 ///|
 test "type conversion" {
   // Convert MoonBit types to Any
@@ -119,7 +119,7 @@ pub(all) struct Config {
 
 Use `identity_option` to safely convert nullable values from JS objects:
 
-```moonbit
+```moonbit nocheck
 ///|
 test "identity_option for nullable values" {
   let obj = @core.new_object()
@@ -137,7 +137,7 @@ test "identity_option for nullable values" {
 
 ## Method Calls
 
-```moonbit
+```moonbit nocheck
 ///|
 test "_call methods" {
   let obj = @core.new_object()

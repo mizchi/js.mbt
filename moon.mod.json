@@ -2,7 +2,7 @@
   "name": "mizchi/js",
   "version": "0.10.13",
   "deps": {
-    "moonbitlang/async": "0.16.0",
+    "moonbitlang/async": "0.16.6",
     "tonyfettes/any": "0.1.5"
   },
   "readme": "README.md",

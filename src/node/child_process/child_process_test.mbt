@@ -48,7 +48,6 @@ test "execSync throws error for non-existent command" {
   try {
     // Use stdio="pipe" to suppress error output to console
     let _ = execSync("/nonexistent/command/that/does/not/exist", stdio="pipe")
-
   } catch {
     _ => error_caught = true // Catch any error type
   }
@@ -61,7 +60,6 @@ test "execSync throws error for failing command" {
   let mut error_caught = false
   try {
     let _ = execSync("exit 1", shell="/bin/sh")
-
   } catch {
     _ => error_caught = true // Catch any error type
   }
@@ -74,7 +72,6 @@ test "execFileSync throws error for non-existent file" {
   let mut error_caught = false
   try {
     let _ = execFileSync("/nonexistent/file")
-
   } catch {
     _ => error_caught = true // Catch any error type
   }

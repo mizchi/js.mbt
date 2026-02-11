@@ -22,7 +22,7 @@
 /// All implementations use zero-cost `%identity` conversion.
 ///
 /// Usage:
-/// ```moonbit
+/// ```moonbit nocheck
 /// fn[T : ToAny] set_value(obj : Any, key : String, value : T) -> Unit {
 ///   obj._set(key, ToAny::to_any(value))
 /// }

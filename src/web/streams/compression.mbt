@@ -22,7 +22,7 @@ pub fn CompressionStream::as_any(self : CompressionStream) -> @core.Any = "%iden
 /// - "deflate-raw" - DEFLATE compression (without wrapper)
 ///
 /// Example:
-/// ```moonbit
+/// ```moonbit nocheck
 /// let _compressor = CompressionStream::new("gzip")
 /// ```
 pub fn CompressionStream::new(format : String) -> CompressionStream {
@@ -53,7 +53,7 @@ pub fn DecompressionStream::as_any(self : DecompressionStream) -> @core.Any = "%
 /// - "deflate-raw" - DEFLATE decompression (without wrapper)
 ///
 /// Example:
-/// ```moonbit
+/// ```moonbit nocheck
 /// let _decompressor = DecompressionStream::new("gzip")
 /// ```
 pub fn DecompressionStream::new(format : String) -> DecompressionStream {

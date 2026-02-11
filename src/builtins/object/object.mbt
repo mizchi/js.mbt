@@ -70,10 +70,9 @@ pub fn Object::values(v : @core.Any) -> Array[@core.Any] {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::entries(v : @core.Any) -> Array[(String, @core.Any)] {
   let entries = ffi_object_entries(v |> @core.identity)
-  entries.map(entry => (
-    @core.any(entry)["0"] |> @core.identity,
-    @core.any(entry)["1"],
-  ))
+  entries.map(entry => {
+    (@core.any(entry)["0"] |> @core.identity, @core.any(entry)["1"])
+  })
 }
 
 ///|
