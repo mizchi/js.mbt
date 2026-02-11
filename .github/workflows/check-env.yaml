@@ -36,9 +36,9 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v2
       - name: Setup Moon
-        uses: illusory0x0/setup-moonbit@v0.1.0
+        uses: hustcer/setup-moonbit@v1
         with:
-          version: stable
+          version: latest
 
       - name: moon version
         run: |

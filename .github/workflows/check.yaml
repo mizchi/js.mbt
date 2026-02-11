@@ -29,9 +29,9 @@ jobs:
         with:
           deno-version: v2.x
       - name: Setup Moon
-        uses: illusory0x0/setup-moonbit@v0.1.0
+        uses: hustcer/setup-moonbit@v1
         with:
-          version: stable
+          version: latest
       - name: moon version
         run: |
           moon version --all
