@@ -466,7 +466,16 @@ pub fn StatementSync::setReadBigInts(
 pub(all) struct StatementResultingChanges {
   changes : Int
   lastInsertRowid : Int
-} derive(Show)
+}
+
+///|
+pub impl Show for StatementResultingChanges with output(self, logger) {
+  logger.write_string("{changes: ")
+  logger.write_object(self.changes)
+  logger.write_string(", lastInsertRowid: ")
+  logger.write_object(self.lastInsertRowid)
+  logger.write_string("}")
+}
 
 ///|
 #external

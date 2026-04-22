@@ -3,6 +3,30 @@
 
 import { Window } from "npm:happy-dom";
 
+const WASM_CANDIDATES = [
+  "../../target/wasm-gc/release/build/wasm/wasm.wasm",
+  "../../target/wasm-gc/debug/build/wasm/wasm.wasm",
+  "../../_build/wasm-gc/release/build/wasm/wasm.wasm",
+  "../../_build/wasm-gc/debug/build/wasm/wasm.wasm",
+] as const;
+
+async function resolveWasmPath(): Promise<URL> {
+  const checked: string[] = [];
+  for (const relativePath of WASM_CANDIDATES) {
+    const candidate = new URL(relativePath, import.meta.url);
+    checked.push(candidate.pathname);
+    try {
+      await Deno.stat(candidate);
+      return candidate;
+    } catch (error) {
+      if (!(error instanceof Deno.errors.NotFound)) {
+        throw error;
+      }
+    }
+  }
+  throw new Error(`WASM artifact not found. Checked:\n${checked.join("\n")}`);
+}
+
 // Create jscore imports for WASM
 function createJsCoreImports() {
   return {
@@ -110,9 +134,10 @@ async function main() {
   (globalThis as any).document = window.document;
 
   // Load WASM
-  const wasmPath = "./target/wasm-gc/release/build/wasm/wasm.wasm";
+  const wasmPath = await resolveWasmPath();
   const wasmBytes = await Deno.readFile(wasmPath);
 
+  console.log(`WASM path: ${wasmPath.pathname}`);
   console.log(`WASM size: ${wasmBytes.length} bytes\n`);
 
   // Instantiate with happy-dom environment

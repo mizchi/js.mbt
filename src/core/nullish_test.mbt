@@ -52,7 +52,7 @@ test "Nullish[T]::to_option with actual value" {
   let field : @core.Nullish[Int] = obj["value"].cast()
   let opt = field.to_option()
   // actual value should become Some
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
   match opt {
     Some(v) => assert_eq(v, 42)
     None => assert_true(false)
@@ -89,7 +89,7 @@ test "Nullable[T]::to_option with undefined value" {
   let field : @core.Nullable[@core.Any] = obj["value"].cast()
   let opt = field.to_option()
   // undefined is NOT null, so Nullable should return Some(undefined)
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
   // The value inside is undefined (nullish but not null)
   match opt {
     Some(v) => assert_true(@core.is_undefined(v))
@@ -103,7 +103,7 @@ test "Nullable[T]::to_option with actual value" {
   let field : @core.Nullable[Int] = obj["value"].cast()
   let opt = field.to_option()
   // actual value should become Some
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
   match opt {
     Some(v) => assert_eq(v, 42)
     None => assert_true(false)
@@ -125,7 +125,7 @@ test "valid callback with Nullish[T]" {
   let callback : @core.Nullish[@core.Any] = get_valid_callback().cast()
   let opt = callback.to_option()
   // valid callback should become Some
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
 }
 
 ///|
@@ -183,7 +183,7 @@ test "struct field Nullish[Int] with value - should be Some(123)" {
   let s : MyStruct = js_obj.cast()
   let opt = s.foo.to_option()
   // actual value should become Some(123)
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
   match opt {
     Some(v) => assert_eq(v, 123)
     None => assert_true(false)
@@ -536,7 +536,7 @@ test "struct field Nullable[Int] with value bar - should be Some(456)" {
   let s : MyStructNullable = js_obj.cast()
   let opt = s.bar.to_option()
   // actual value should become Some(456)
-  assert_true(not(opt is None))
+  assert_true(opt is Some(_))
   match opt {
     Some(v) => assert_eq(v, 456)
     None => assert_true(false)

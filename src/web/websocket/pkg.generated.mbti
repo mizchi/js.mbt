@@ -47,10 +47,9 @@ pub enum WebSocketReadyState {
   Open
   Closing
   Closed
-}
+} derive(Eq)
 pub fn WebSocketReadyState::from_int(Int) -> Self?
 pub fn WebSocketReadyState::to_int(Self) -> Int
-pub impl Eq for WebSocketReadyState
 pub impl Show for WebSocketReadyState
 
 // Type aliases

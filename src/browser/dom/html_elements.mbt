@@ -35,7 +35,12 @@ pub fn HTMLDivElement::as_html_element(self : HTMLDivElement) -> HTMLElement = "
 pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
-} derive(Show)
+}
+
+///|
+pub impl Show for HTMLCanvasElement with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn HTMLCanvasElement::as_any(self : HTMLCanvasElement) -> @core.Any = "%identity"
@@ -401,7 +406,12 @@ pub(all) struct HTMLIFrameElement {
   mut width : String
   mut height : String
   mut name : String
-} derive(Show)
+}
+
+///|
+pub impl Show for HTMLIFrameElement with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn HTMLIFrameElement::as_any(self : HTMLIFrameElement) -> @core.Any = "%identity"

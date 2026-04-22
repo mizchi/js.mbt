@@ -3,10 +3,29 @@
 
 import { createJsCoreImports } from "./inject.ts";
 
-const WASM_PATH = new URL(
+const WASM_CANDIDATES = [
   "../../target/wasm-gc/release/build/wasm/wasm.wasm",
-  import.meta.url
-);
+  "../../target/wasm-gc/debug/build/wasm/wasm.wasm",
+  "../../_build/wasm-gc/release/build/wasm/wasm.wasm",
+  "../../_build/wasm-gc/debug/build/wasm/wasm.wasm",
+] as const;
+
+async function resolveWasmPath(): Promise<URL> {
+  const checked: string[] = [];
+  for (const relativePath of WASM_CANDIDATES) {
+    const candidate = new URL(relativePath, import.meta.url);
+    checked.push(candidate.pathname);
+    try {
+      await Deno.stat(candidate);
+      return candidate;
+    } catch (error) {
+      if (!(error instanceof Deno.errors.NotFound)) {
+        throw error;
+      }
+    }
+  }
+  throw new Error(`WASM artifact not found. Checked:\n${checked.join("\n")}`);
+}
 
 interface TestExports {
   test_core: () => string;
@@ -29,7 +48,9 @@ interface TestExports {
 async function main() {
   console.log("=== MoonBit WASM-GC Tests (Deno) ===\n");
 
-  const wasmBytes = await Deno.readFile(WASM_PATH);
+  const wasmPath = await resolveWasmPath();
+  const wasmBytes = await Deno.readFile(wasmPath);
+  console.log(`WASM path: ${wasmPath.pathname}`);
   console.log(`WASM size: ${wasmBytes.length} bytes\n`);
 
   // Instantiate with js-string-builtins

@@ -149,9 +149,19 @@ extern "js" fn ffi_test_sync(name : String, f : @core.Any) -> Unit =
 
 ///|
 /// Bun.test(name, fn) - wrapper for convenience
-pub fn Bun::test_(self : Bun, name : String, f : (TestContext) -> Unit) -> Unit {
+pub fn[E : Show + Error] Bun::test_(
+  self : Bun,
+  name : String,
+  f : (TestContext) -> Unit raise E,
+) -> Unit {
   ignore(self)
-  let fn_any : @core.Any = @core.from_fn1(f).cast()
+  let wrapped : (TestContext) -> @core.Any = ctx => {
+    @core.export_sync(fn() -> @core.Any raise E {
+      f(ctx)
+      @core.undefined()
+    })
+  }
+  let fn_any : @core.Any = @core.from_fn1(wrapped).cast()
   ffi_test_sync(name, fn_any)
 }
 

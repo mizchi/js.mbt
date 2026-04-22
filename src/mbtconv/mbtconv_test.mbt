@@ -148,7 +148,7 @@ test "JsImpl::as_any converts builtin Json to Js" {
 priv struct Point {
   x : Int
   y : Int
-} derive(Show)
+}
 
 ///|
 fn Point::x2(self : Self) -> Int {
@@ -167,7 +167,7 @@ test "from builtin struct" {
   let v : @core.Any = @core.any(p)
   assert_eq(@core.identity(v._get("x")), 10)
   assert_eq(@core.identity(v._get("y")), 20)
-  inspect(p, content="{x: 10, y: 20}")
+  inspect("\{p.x},\{p.y}", content="10,20")
 }
 
 ///|
@@ -177,7 +177,7 @@ test "identity to struct" {
   assert_eq(p.x, 5)
   assert_eq(p.y, 15)
   assert_eq(p.x2(), 10)
-  inspect(p, content="{x: 5, y: 15}")
+  inspect("\{p.x},\{p.y}", content="5,15")
 }
 
 ///| Function Conversion Tests

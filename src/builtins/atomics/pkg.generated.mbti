@@ -29,8 +29,7 @@ pub enum AtomicsWaitResult {
   Ok
   NotEqual
   TimedOut
-}
-pub impl Eq for AtomicsWaitResult
+} derive(Eq)
 pub impl Show for AtomicsWaitResult
 
 // Type aliases

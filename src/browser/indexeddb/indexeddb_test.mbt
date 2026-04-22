@@ -535,7 +535,7 @@ async test "IndexedDB: iterate orders with IDBCursorWithValue and Order struct" 
   let cursor_result = request_to_promise(cursor_request).wait()
 
   // Type-safe cursor access
-  if not(@core.is_nullish(cursor_result)) {
+  if !@core.is_nullish(cursor_result) {
     let cursor : @indexeddb.IDBCursorWithValue[Order] = cursor_result
       |> @core.identity
 

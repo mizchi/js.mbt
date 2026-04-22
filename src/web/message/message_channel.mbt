@@ -10,7 +10,20 @@ pub(all) struct MessageEvent {
   lastEventId : String
   /// The MessagePort array sent with the message
   ports : Array[MessagePort]
-} derive(Show)
+}
+
+///|
+pub impl Show for MessageEvent with output(self, logger) {
+  logger.write_string("{data: ")
+  logger.write_object(self.data)
+  logger.write_string(", origin: ")
+  logger.write_object(self.origin)
+  logger.write_string(", lastEventId: ")
+  logger.write_object(self.lastEventId)
+  logger.write_string(", ports: ")
+  logger.write_object(self.ports)
+  logger.write_string("}")
+}
 
 ///|
 pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"

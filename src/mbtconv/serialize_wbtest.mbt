@@ -61,7 +61,7 @@ priv enum SerializeTestColor {
   Green
   Blue
   Rgb(Int, Int, Int)
-} derive(Eq, Show)
+} derive(Eq)
 
 ///|
 fn serialize_color(color : SerializeTestColor) -> @core.Any {
@@ -111,7 +111,7 @@ test "serialize_enum: unit variant roundtrip" {
   inspect(json, content="{\"_tag\":0,\"_name\":\"Red\"}")
   let parsed = serialize_json_parse(json)
   let restored = deserialize_color(parsed)
-  assert_eq(restored, Red)
+  assert_true(restored == Red)
 }
 
 ///|
@@ -122,7 +122,7 @@ test "serialize_enum: tuple variant roundtrip" {
   inspect(json, content="{\"_tag\":3,\"_name\":\"Rgb\",\"_args\":[255,128,64]}")
   let parsed = serialize_json_parse(json)
   let restored = deserialize_color(parsed)
-  assert_eq(restored, Rgb(255, 128, 64))
+  assert_true(restored == Rgb(255, 128, 64))
 }
 
 ///|
@@ -131,20 +131,20 @@ priv struct ApiResponse {
   success : Bool
   data : Result[UserData, String]
   metadata : Metadata?
-} derive(Eq, Show)
+} derive(Eq)
 
 ///|
 priv struct UserData {
   id : Int
   name : String
   tags : Array[String]
-} derive(Eq, Show)
+} derive(Eq)
 
 ///|
 priv struct Metadata {
   version : String
   timestamp : Int
-} derive(Eq, Show)
+} derive(Eq)
 
 ///|
 fn serialize_api_response(resp : ApiResponse) -> @core.Any {
@@ -229,7 +229,7 @@ test "serialize: complex nested structure with Ok and Some" {
   )
   let parsed = serialize_json_parse(json)
   let restored = deserialize_api_response(parsed)
-  assert_eq(restored, original)
+  assert_true(restored == original)
 }
 
 ///|
@@ -247,7 +247,7 @@ test "serialize: complex nested structure with Err and None" {
   )
   let parsed = serialize_json_parse(json)
   let restored = deserialize_api_response(parsed)
-  assert_eq(restored, original)
+  assert_true(restored == original)
 }
 
 ///|

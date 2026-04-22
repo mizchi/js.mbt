@@ -43,7 +43,7 @@ pub async fn Bun::sleep(Self, Int) -> Unit
 pub fn Bun::spawn(Self, SpawnOptions) -> Subprocess
 pub fn Bun::spawnSync(Self, SpawnOptions) -> @core.Any
 pub fn Bun::stringWidth(Self, String) -> Int
-pub fn Bun::test_(Self, String, (TestContext) -> Unit) -> Unit
+pub fn[E : Show + Error] Bun::test_(Self, String, (TestContext) -> Unit raise E) -> Unit
 pub fn Bun::test_async(Self, String, async (TestContext) -> Unit) -> Unit
 pub fn Bun::version(Self) -> String
 pub fn Bun::which(Self, String) -> String?

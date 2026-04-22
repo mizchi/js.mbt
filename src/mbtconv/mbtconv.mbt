@@ -58,7 +58,7 @@ pub fn from_option_map(map : Map[String, @core.Any?]) -> @core.Any {
   let obj = ffi_create_object()
   for k, v in map {
     match v {
-      Some(val) => if not(ffi_is_nullish(val)) { ffi_set_property(obj, k, val) }
+      Some(val) => if !ffi_is_nullish(val) { ffi_set_property(obj, k, val) }
       None => ()
     }
   }
@@ -100,7 +100,7 @@ pub fn from_option_map_or_undefined(map : Map[String, @core.Any?]) -> @core.Any 
   for k, v in map {
     match v {
       Some(val) =>
-        if not(ffi_is_nullish(val)) {
+        if !ffi_is_nullish(val) {
           ffi_set_property(obj, k, val)
           has_value = true
         }
@@ -381,7 +381,7 @@ pub fn[T, E] to_result(v : @core.Any) -> Result[T, E] {
 pub fn get_enum_variant_name(v : @core.Any) -> String {
   // Try $name property first (unit variants)
   let name_prop = v["$name"]
-  if not(ffi_is_nullish(name_prop)) {
+  if !ffi_is_nullish(name_prop) {
     return @core.identity(name_prop)
   }
   // Fall back to constructor name (tuple variants)

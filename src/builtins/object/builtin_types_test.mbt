@@ -255,8 +255,7 @@ test "Conditional property setting with Option" {
 
   // Set with undefined value - check before setting
   match Some(@core.undefined()) {
-    Some(val) if not(@core.is_undefined(val)) =>
-      obj._set("key3", val |> @core.any)
+    Some(val) if !@core.is_undefined(val) => obj._set("key3", val |> @core.any)
     _ => ()
   }
   assert_true(@core.is_undefined(obj._get("key3")))

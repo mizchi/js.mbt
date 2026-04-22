@@ -68,9 +68,9 @@ pub fn watch(
   encoding? : String,
   listener? : (String, String) -> Unit,
 ) -> FSWatcher {
-  let has_options = not(persistent is None) ||
-    not(recursive is None) ||
-    not(encoding is None)
+  let has_options = persistent is Some(_) ||
+    recursive is Some(_) ||
+    encoding is Some(_)
   if has_options {
     let entries : Array[(String, @core.Any)] = []
     if persistent is Some(v) {

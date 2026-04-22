@@ -172,7 +172,13 @@ test "try_sync - catch error" {
 ///|
 priv suberror TestError {
   TestError(String)
-} derive(Show)
+}
+
+///|
+impl Show for TestError with output(self, logger) {
+  let TestError(msg) = self
+  logger.write_string("TestError(\"" + msg + "\")")
+}
 
 ///|
 fn moonbit_throwing_op() -> @core.Any raise TestError {
@@ -264,7 +270,7 @@ test "instance_of" {
   let arr : @core.Any = global["Array"]._call("from", [@core.any([1, 2, 3])])
   assert_true(@core.instanceof_(arr, global["Array"]))
   assert_true(@core.instanceof_(arr, global["Object"]))
-  assert_true(not(@core.instanceof_(arr, global["String"])))
+  assert_true(!@core.instanceof_(arr, global["String"]))
 }
 
 ///|

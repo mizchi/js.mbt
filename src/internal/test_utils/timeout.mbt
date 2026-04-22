@@ -45,7 +45,7 @@ pub async fn[T] timeout(ms : Int, f : async () -> T) -> T raise TimeoutError {
     // Set up timeout
     let timeout_id = ffi_set_timeout(
       () => {
-        if not(completed.val) {
+        if !completed.val {
           timed_out.val = true
           reject(TimeoutError("Operation timed out after \{ms}ms"))
         }
@@ -57,7 +57,7 @@ pub async fn[T] timeout(ms : Int, f : async () -> T) -> T raise TimeoutError {
     @core.run_async(async fn() noraise {
       try {
         let r = f()
-        if not(timed_out.val) {
+        if !timed_out.val {
           completed.val = true
           ffi_clear_timeout(timeout_id)
           result.val = Some(r)
@@ -86,7 +86,7 @@ pub async fn[T] wait_for(
     // Set up timeout
     let timeout_id = ffi_set_timeout(
       () => {
-        if not(completed.val) {
+        if !completed.val {
           timed_out.val = true
           reject(TimeoutError("Operation timed out after \{timeout}ms"))
         }
@@ -96,7 +96,7 @@ pub async fn[T] wait_for(
 
     // Create resolve callback for user
     let user_resolve = fn(value : T) {
-      if not(timed_out.val) {
+      if !timed_out.val {
         completed.val = true
         ffi_clear_timeout(timeout_id)
         result.val = Some(value)

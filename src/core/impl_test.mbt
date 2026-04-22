@@ -23,13 +23,13 @@ test "identity converts struct to Any object" {
   struct Point {
     x : Int
     y : Int
-  } derive(Eq, Show)
+  } derive(Eq)
   let p = Point::{ x: 10, y: 20 }
   let v : @core.Any = @core.identity(p)
   assert_eq(@core.identity(v._get("x")), 10)
   assert_eq(@core.identity(v._get("y")), 20)
   let casted : Point = @core.identity(v)
-  assert_eq(casted, p)
+  assert_true(casted == p)
 }
 
 ///|

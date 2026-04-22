@@ -1,8 +1,8 @@
 {
   "name": "mizchi/js",
-  "version": "0.10.14",
+  "version": "0.10.16",
   "deps": {
-    "moonbitlang/async": "0.16.6",
+    "moonbitlang/async": "0.18.0",
     "tonyfettes/any": "0.1.5"
   },
   "readme": "README.md",
@@ -17,5 +17,6 @@
   ],
   "description": "js bindings for builtins/node/browser/deno/bun",
   "source": "src",
+  "warn-list": "-20",
   "preferred-target": "js"
 }

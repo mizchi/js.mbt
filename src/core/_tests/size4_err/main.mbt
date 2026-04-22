@@ -24,7 +24,13 @@ extern "js" fn js_catch_call(op : () -> @core.Any) -> @core.Any =
 ///|
 suberror AppError {
   AppError(String)
-} derive(Show)
+}
+
+///|
+impl Show for AppError with output(self, logger) {
+  let AppError(msg) = self
+  logger.write_string("AppError(\"" + msg + "\")")
+}
 
 ///|
 fn moonbit_throwing_op() -> @core.Any raise AppError {

@@ -26,7 +26,7 @@
 pub(all) struct SimpleStruct {
   name : String
   age : Int
-} derive(Show)
+}
 
 ///|
 pub fn SimpleStruct::as_any(self : Self) -> @core.Any = "%identity"
@@ -229,7 +229,7 @@ test "Optional nested struct with null" {
 test "Optional nested struct with undefined" {
   let obj : StructWithOptionalNested = create_undefined_nested()
     |> @core.identity
-  inspect(obj.nested, content="None")
+  assert_true(obj.nested is None)
 }
 
 ///|
@@ -350,7 +350,7 @@ test "Trait-based conversion" {
 pub(all) struct CustomStruct {
   id : Int
   name : String
-} derive(Show)
+}
 
 ///|
 pub(all) struct ContainerWithCustom {

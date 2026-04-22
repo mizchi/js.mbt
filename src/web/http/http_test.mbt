@@ -39,12 +39,12 @@ async test "Response: read body stream chunk by chunk" {
 
       // Read all chunks
       let mut done = false
-      while not(done) {
+      while !done {
         let result : @core.Any = reader.as_any()._call("read", [])
         let promise : @js.Promise[@core.Any] = result.cast()
         let data = promise.wait()
         done = @core.identity(data._get("done"))
-        if not(done) {
+        if !done {
           // Decode Uint8Array to string using TextDecoder from @encoding
           let value : @arraybuffer.Uint8Array = data._get("value").cast()
           let decoder = @encoding.TextDecoder::new()

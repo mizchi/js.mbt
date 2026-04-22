@@ -23,7 +23,7 @@ pub(all) struct URL {
   mut search : String
   mut hash : String
   mut searchParams : URLSearchParams
-}
+} derive(Eq)
 pub fn URL::as_any(Self) -> @core.Any
 pub fn URL::new(String, base? : String) -> Self raise @core.JsError
 pub fn URL::searchParams(Self) -> URLSearchParams
@@ -31,7 +31,6 @@ pub fn URL::searchParams(Self) -> URLSearchParams
 pub fn URL::to_json(Self) -> String
 #alias(toString)
 pub fn URL::to_string(Self) -> String
-pub impl Eq for URL
 pub impl Show for URL
 
 pub(all) struct URLPattern {

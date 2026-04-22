@@ -27,7 +27,19 @@ pub enum WebSocketReadyState {
   Open
   Closing
   Closed
-} derive(Eq, Show)
+} derive(Eq)
+
+///|
+pub impl Show for WebSocketReadyState with output(self, logger) {
+  logger.write_string(
+    match self {
+      Connecting => "Connecting"
+      Open => "Open"
+      Closing => "Closing"
+      Closed => "Closed"
+    },
+  )
+}
 
 ///|
 /// Convert WebSocketReadyState to Int

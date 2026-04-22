@@ -42,11 +42,9 @@ pub fn from_json(json : Json) -> @core.Any {
 }
 
 ///|
-/// Convert @immut/array.T to JS Array
-pub fn[T] from_immut_array(arr : @immut/array.T[T]) -> @core.Any {
-  let js_arr : Array[T] = []
-  arr.each(fn(item) { js_arr.push(item) })
-  @core.any(js_arr)
+/// Convert @immut/vector.Vector to JS Array
+pub fn[T] from_immut_array(arr : @immut/vector.Vector[T]) -> @core.Any {
+  @core.any(arr.to_array())
 }
 
 ///|
@@ -75,8 +73,8 @@ fn main {
   let json : Json = { "b": 2 }
   console_log(from_json(json))
 
-  // @immut/array
-  let immut_arr = @immut/array.from_array([1, 2, 3])
+  // @immut/vector
+  let immut_arr = @immut/vector.from_array([1, 2, 3])
   console_log(from_immut_array(immut_arr))
 
   // HashSet

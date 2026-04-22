@@ -61,7 +61,7 @@ pub fn assert_throws(op : () -> Any) -> String raise JsError {
 /// Test helper: assert that op throws with specific message (contains check)
 pub fn assert_throws_with(op : () -> Any, expected_msg : String) -> Unit {
   let msg = assert_throws(op) catch { JsError(m) => m }
-  if not(msg.contains(expected_msg)) {
+  if !msg.contains(expected_msg) {
     let _ = throw_error(
       "Expected error containing \"" +
       expected_msg +

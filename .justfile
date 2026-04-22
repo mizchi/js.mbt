@@ -57,12 +57,12 @@ test-deno: build
 
 # Run WASM-GC tests with Deno
 test-wasm:
-    moon build --target wasm-gc src/wasm
+    moon build --target wasm-gc --release src/wasm
     deno run --allow-read src/wasm/test_deno.ts
 
 # Run WASM-GC DOM tests with happy-dom
 test-wasm-dom:
-    moon build --target wasm-gc src/wasm
+    moon build --target wasm-gc --release src/wasm
     deno run --allow-read --allow-env src/wasm/test_happydom.ts
 
 # Run Bun tests
@@ -84,8 +84,7 @@ ci: format check build test
 
 # Development workflow: format, info, check
 dev-react: build
-    pnpm vite dev
+    pnpm run dev:spa
 
 test-playwright: build
     PLAYWRIGHT_TEST=1 moon test --no-parallelize ./src/npm/playwright/playwright_test.mbt
-

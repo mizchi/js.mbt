@@ -17,7 +17,7 @@ mizchi/js is a MoonBit library providing JavaScript FFI bindings for various run
 ### Prerequisites
 
 - [MoonBit](https://www.moonbitlang.com/) - Install the MoonBit toolchain
-- [Node.js](https://nodejs.org/) (v18 or later) - For Node.js tests
+- [Node.js](https://nodejs.org/) (v24 or later) - For Node.js tests and tooling
 - [pnpm](https://pnpm.io/) - Package manager for JavaScript dependencies
 - Optional
   - [Deno](https://deno.land/) - For running Deno tests

@@ -19,7 +19,18 @@ pub enum AtomicsWaitResult {
   Ok
   NotEqual
   TimedOut
-} derive(Eq, Show)
+} derive(Eq)
+
+///|
+pub impl Show for AtomicsWaitResult with output(self, logger) {
+  logger.write_string(
+    match self {
+      Ok => "Ok"
+      NotEqual => "NotEqual"
+      TimedOut => "TimedOut"
+    },
+  )
+}
 
 ///| Atomic Operations
 

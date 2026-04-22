@@ -1,4 +1,9 @@
 ///|
+fn write_dom_show(logger : &Logger, value : @core.Any) -> Unit {
+  logger.write_string(value._call("toString", []).cast())
+}
+
+///|
 /// Event represents a DOM event
 /// https://developer.mozilla.org/en-US/docs/Web/API/Event
 #external
@@ -71,7 +76,12 @@ pub(all) struct PointerEvent {
   azimuthAngle : Double
   pointerType : String
   isPrimary : Bool
-} derive(Show)
+}
+
+///|
+pub impl Show for PointerEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn PointerEvent::as_any(self : PointerEvent) -> @core.Any = "%identity"
@@ -141,7 +151,12 @@ pub(all) struct MouseEvent {
   shiftKey : Bool
   altKey : Bool
   metaKey : Bool
-} derive(Show)
+}
+
+///|
+pub impl Show for MouseEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn MouseEvent::as_any(self : MouseEvent) -> @core.Any = "%identity"
@@ -214,7 +229,12 @@ pub(all) struct KeyboardEvent {
   repeat : Bool
   location : Int
   isComposing : Bool
-} derive(Show)
+}
+
+///|
+pub impl Show for KeyboardEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn KeyboardEvent::as_any(self : KeyboardEvent) -> @core.Any = "%identity"
@@ -266,7 +286,12 @@ pub fn KeyboardEvent::defaultPrevented(self : KeyboardEvent) -> Bool {
 
 ///|
 /// ChangeEvent represents a change event
-pub(all) struct ChangeEvent {} derive(Show)
+pub(all) struct ChangeEvent {}
+
+///|
+pub impl Show for ChangeEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn ChangeEvent::as_any(self : ChangeEvent) -> @core.Any = "%identity"
@@ -552,7 +577,12 @@ pub(all) struct WheelEvent {
   deltaY : Double
   deltaZ : Double
   deltaMode : Int
-} derive(Show)
+}
+
+///|
+pub impl Show for WheelEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn WheelEvent::as_any(self : WheelEvent) -> @core.Any = "%identity"
@@ -613,7 +643,12 @@ pub(all) struct TouchEvent {
   ctrlKey : Bool
   shiftKey : Bool
   metaKey : Bool
-} derive(Show)
+}
+
+///|
+pub impl Show for TouchEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn TouchEvent::as_any(self : TouchEvent) -> @core.Any = "%identity"
@@ -678,7 +713,12 @@ pub(all) struct Touch {
   radiusY : Double
   rotationAngle : Double
   force : Double
-} derive(Show)
+}
+
+///|
+pub impl Show for Touch with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn Touch::as_any(self : Touch) -> @core.Any = "%identity"
@@ -753,7 +793,12 @@ pub(all) struct TransitionEvent {
   propertyName : String
   elapsedTime : Double
   pseudoElement : String
-} derive(Show)
+}
+
+///|
+pub impl Show for TransitionEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn TransitionEvent::as_any(self : TransitionEvent) -> @core.Any = "%identity"
@@ -812,7 +857,12 @@ pub(all) struct AnimationEvent {
   animationName : String
   elapsedTime : Double
   pseudoElement : String
-} derive(Show)
+}
+
+///|
+pub impl Show for AnimationEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn AnimationEvent::as_any(self : AnimationEvent) -> @core.Any = "%identity"
@@ -864,7 +914,12 @@ pub fn AnimationEvent::defaultPrevented(self : AnimationEvent) -> Bool {
 
 ///|
 /// ScrollEvent represents a scroll event
-pub(all) struct ScrollEvent {} derive(Show)
+pub(all) struct ScrollEvent {}
+
+///|
+pub impl Show for ScrollEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn ScrollEvent::as_any(self : ScrollEvent) -> @core.Any = "%identity"
@@ -922,7 +977,12 @@ pub(all) struct MessageEvent {
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
-} derive(Show)
+}
+
+///|
+pub impl Show for MessageEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn MessageEvent::as_any(self : MessageEvent) -> @core.Any = "%identity"
@@ -1050,7 +1110,12 @@ pub(all) struct HashChangeEvent {
   oldURL : String
   /// The new URL to which the window is navigating
   newURL : String
-} derive(Show)
+}
+
+///|
+pub impl Show for HashChangeEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn HashChangeEvent::as_any(self : HashChangeEvent) -> @core.Any = "%identity"
@@ -1179,7 +1244,12 @@ pub fn BeforeUnloadEvent::returnValue(self : Self) -> String {
 pub(all) struct PageTransitionEvent {
   /// Indicates if the page is being loaded from a cache
   persisted : Bool
-} derive(Show)
+}
+
+///|
+pub impl Show for PageTransitionEvent with output(self, logger) {
+  write_dom_show(logger, self.as_any())
+}
 
 ///|
 pub fn PageTransitionEvent::as_any(self : PageTransitionEvent) -> @core.Any = "%identity"

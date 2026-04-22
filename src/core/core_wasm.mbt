@@ -177,9 +177,6 @@ extern "wasm" fn wasm_log(message : Any) -> Unit = "jscore" "log"
 ///|
 extern "wasm" fn wasm_throw(value : Any) -> Unit = "jscore" "throw"
 
-///|
-extern "wasm" fn wasm_from(v : Any) -> Any = "jscore" "from"
-
 // ============================================
 // Core operations (public API)
 // ============================================
