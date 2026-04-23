@@ -11,7 +11,8 @@ import {
 
 warnings = "-5"
 
+supported_targets = "js"
+
 options(
   is_main: false,
-  "supported-targets": [ "js" ],
 )

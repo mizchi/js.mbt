@@ -7,6 +7,7 @@ warnings = "-9-67"
 options(
   link: { "wasm-gc": { "use-js-builtin-string": true } },
   targets: {
+    "core_interop.mbt": [ "js", "wasm-gc" ],
     "core_js.mbt": [ "js" ],
     "core_wasm.mbt": [ "wasm-gc" ],
     "error.mbt": [ "js" ],

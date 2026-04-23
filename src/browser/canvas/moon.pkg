@@ -7,7 +7,8 @@ import {
   "mizchi/js/browser/dom",
 }
 
+supported_targets = "js"
+
 options(
   is_main: false,
-  "supported-targets": [ "js" ],
 )

@@ -3,6 +3,4 @@ import {
   "moonbitlang/core/builtin",
 }
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

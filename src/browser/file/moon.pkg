@@ -5,6 +5,4 @@ import {
   "mizchi/js/builtins/arraybuffer",
 }
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

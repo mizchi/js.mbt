@@ -4,7 +4,8 @@ import {
   "mizchi/js/builtins/arraybuffer",
 }
 
+supported_targets = "js"
+
 options(
   "is-main": true,
-  "supported-targets": [ "js" ],
 )

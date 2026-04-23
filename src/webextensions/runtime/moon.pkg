@@ -3,3 +3,5 @@ import {
   "mizchi/js/webextensions",
   "mizchi/js/core",
 }
+
+supported_targets = "js"

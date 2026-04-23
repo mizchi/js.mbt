@@ -23,6 +23,4 @@ import {
   "mizchi/js/builtins/disposable",
 }
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

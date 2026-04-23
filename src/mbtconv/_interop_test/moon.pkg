@@ -3,6 +3,8 @@ import {
   "mizchi/js/mbtconv",
 }
 
+supported_targets = "js"
+
 options(
   "is-main": true,
 )

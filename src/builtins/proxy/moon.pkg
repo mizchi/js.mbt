@@ -7,6 +7,4 @@ import {
   "mizchi/js/builtins/array",
 } for "test"
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

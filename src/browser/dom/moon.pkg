@@ -13,6 +13,4 @@ import {
   "mizchi/js/internal/test_utils",
 } for "test"
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

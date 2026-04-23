@@ -8,6 +8,4 @@ import {
   "mizchi/js/node/fs_promises",
 } for "test"
 
-options(
-  "supported-targets": [ "js" ],
-)
+supported_targets = "js"

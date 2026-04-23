@@ -4,3 +4,5 @@ import {
   "mizchi/js/webextensions/runtime",
   "mizchi/js/webextensions/tabs",
 }
+
+supported_targets = "js"
