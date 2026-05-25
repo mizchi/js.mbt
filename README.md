@@ -43,7 +43,7 @@ Add to your `moon.pkg.json`:
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
 | **Core JavaScript** | [src/README.md](src/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/js_examples.mbt.md) | 🧪 Tested |
-| **Browser** | [src/browser/README.md](src/browser/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/browser_examples.mbt.md) | 🧪 Tested |
+| **Browser** | [modules/js_browser/src/README.md](modules/js_browser/src/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/browser_examples.mbt.md) | 🧪 Tested |
 | **Node.js** | [src/node/README.md](src/node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/src/examples/node_examples.mbt.md) | 🧪 Tested |
 | **Deno** | [src/deno/README.md](src/deno/README.md) | - | 🧪 Tested |
 | **React** | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) | See npm_typed repo | 📦 Moved |
@@ -213,7 +213,7 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 | Platform | Package | Status | Documentation |
 |----------|---------|--------|---------------|
 | Node.js | `mizchi/js/node/*` | 🧪 Tested | [Node.js README](src/node/README.md) |
-| Browser API | `mizchi/js/browser/*` | 🧪 Tested | [Browser README](src/browser/README.md) |
+| Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
 | Deno | `mizchi/js/deno` | 🧪 Tested | [Deno README](src/deno/README.md) |
 
 ### NPM Package Bindings

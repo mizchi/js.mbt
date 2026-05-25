@@ -31,25 +31,25 @@ const domHierarchy: InheritanceChain[] = [
     typeName: "Node",
     extends: "EventTarget",
     castMethod: "as_event_target",
-    sourceFile: "src/browser/dom/node.mbt"
+    sourceFile: "modules/js_browser/src/dom/node.mbt"
   },
   {
     typeName: "Element",
     extends: "Node",
     castMethod: "as_node",
-    sourceFile: "src/browser/dom/element.mbt"
+    sourceFile: "modules/js_browser/src/dom/element.mbt"
   },
   {
     typeName: "HTMLElement",
     extends: "Element",
     castMethod: "as_element",
-    sourceFile: "src/browser/dom/html_element.mbt"
+    sourceFile: "modules/js_browser/src/dom/html_element.mbt"
   },
   {
     typeName: "Document",
     extends: "Node",
     castMethod: "as_node",
-    sourceFile: "src/browser/dom/document.mbt"
+    sourceFile: "modules/js_browser/src/dom/document.mbt"
   },
 ];
 
@@ -84,7 +84,7 @@ for (const elementType of htmlElementTypes) {
     typeName: elementType,
     extends: "HTMLElement",
     castMethod: "as_html_element",
-    sourceFile: "src/browser/dom/html_elements.mbt"
+    sourceFile: "modules/js_browser/src/dom/html_elements.mbt"
   });
 }
 
@@ -108,14 +108,14 @@ for (const elementType of svgElementTypes) {
       typeName: elementType,
       extends: "Element",
       castMethod: "as_element",
-      sourceFile: "src/browser/dom/svg_elements.mbt"
+      sourceFile: "modules/js_browser/src/dom/svg_elements.mbt"
     });
   } else {
     domHierarchy.push({
       typeName: elementType,
       extends: "SVGElement",
       castMethod: "as_svg_element",
-      sourceFile: "src/browser/dom/svg_elements.mbt"
+      sourceFile: "modules/js_browser/src/dom/svg_elements.mbt"
     });
   }
 }
@@ -224,7 +224,7 @@ export const hierarchies: HierarchyConfig[] = [
   {
     name: "dom",
     types: domHierarchy,
-    outputDir: "src/browser/dom",
+    outputDir: "modules/js_browser/src/dom",
     skipPatterns: [
       /as_any\(/,
       /as_event_target\(/,

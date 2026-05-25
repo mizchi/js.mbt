@@ -1,0 +1,4 @@
+members = [
+  ".",
+  "modules/js_browser",
+]

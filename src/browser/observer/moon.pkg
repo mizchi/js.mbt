@@ -1,8 +1,0 @@
-import {
-  "mizchi/js",
-  "mizchi/js/core",
-  "mizchi/js/browser/dom",
-  "mizchi/js/builtins/global",
-}
-
-supported_targets = "js"

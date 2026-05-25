@@ -254,7 +254,7 @@ test "TypeOf usage" {
 This core package is used by:
 
 - `mizchi/js/web/*` - Web Standard APIs
-- `mizchi/js/browser/*` - Browser DOM APIs
+- `mizchi/js_browser/*` - Browser DOM APIs (separate module)
 - `mizchi/js/node/*` - Node.js runtime APIs
 - [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) - NPM package bindings (React, Hono, AI SDK, etc.)
 

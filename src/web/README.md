@@ -358,7 +358,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 - ✅ Working with streams for data processing
 - ✅ Implementing authentication/cryptography
 
-### Use `mizchi/js/browser/*` when:
+### Use `mizchi/js_browser/*` when:
 - 🌐 Manipulating the DOM (Document, Element, Events)
 - 🌐 Browser-specific APIs (Window, Navigator, Storage)
 - 🌐 Canvas rendering
@@ -377,7 +377,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 ## Related Packages
 
 - **`mizchi/js`** - Core JavaScript FFI and built-in objects
-- **`mizchi/js/browser/dom`** - Browser-specific DOM and rendering APIs
+- **`mizchi/js_browser/dom`** - Browser-specific DOM and rendering APIs
 - **`mizchi/js/node`** - Node.js-specific runtime APIs
 - **`mizchi/js/cloudflare`** - Cloudflare Workers platform APIs
 - **`mizchi/js/deno`** - Deno runtime APIs
