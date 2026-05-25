@@ -2,8 +2,8 @@
 package "mizchi/js_browser/observer"
 
 import {
-  "mizchi/js_browser/dom",
   "mizchi/js/core",
+  "mizchi/js_browser/dom",
 }
 
 // Values

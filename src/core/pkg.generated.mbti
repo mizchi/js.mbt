@@ -233,7 +233,7 @@ pub fn[A, B, C, D, E] Union5::to_any(Self[A, B, C, D, E]) -> Any
 
 // Traits
 pub trait ToAny {
-  to_any(Self) -> Any
+  fn to_any(Self) -> Any
 }
 pub impl ToAny for Unit
 pub impl ToAny for Bool
