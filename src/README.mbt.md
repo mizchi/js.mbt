@@ -185,7 +185,8 @@ test {
   inspect(
     name,
     content=(
-      #|Some("Alice")
+      #|Some(Alice)
+
     ),
   )
 

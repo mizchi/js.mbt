@@ -177,7 +177,9 @@ test "Int? field with missing value" {
 ///|
 test "String? field with all values set" {
   let obj : StructWithOptions = create_all_fields() |> @core.identity
-  inspect(obj.optionalString, content="Some(\"hello\")")
+  inspect(obj.optionalString, content=(
+    #|Some(hello)
+  ))
 }
 
 ///|

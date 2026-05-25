@@ -2,7 +2,7 @@
   "name": "@mizchi/moonjs",
   "test": {
     "include": [
-      "target/js/release/build/deno/_tests/_tests.js"
+      "target/js/release/build/mizchi/js/deno/_tests/_tests.js"
     ],
   },
   "exports": {}
