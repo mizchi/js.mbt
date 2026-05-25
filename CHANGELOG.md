@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Workspace split**: Introduced `moon.work` and split browser-only bindings
+  into a separate `mizchi/js_browser` module under `modules/js_browser/`.
+  Browser packages now resolve as `mizchi/js_browser/<pkg>` instead of
+  `mizchi/js/browser/<pkg>`. See [`docs/package-split.md`](docs/package-split.md)
+  for migration instructions and the planned multi-module layout.
+- **`internal/test_utils`**: DOM-dependent helpers (`create_happy_window`,
+  `global_jsdom_register`) moved to the new `mizchi/js_browser/test_utils`
+  package. `mizchi/js/internal/test_utils` retains only the generic
+  timeout/retry helpers.
+- Build outputs under `_build/<target>/<profile>/build/` now nest under
+  `<module>/...` (e.g. `_build/js/release/build/mizchi/js/...`). Scripts and
+  configs referencing build artifacts have been updated; `deno.jsonc` and
+  `src/wasm/test_*.ts` now point at the new paths.
+- Refreshed `inspect` snapshots affected by the latest `moonc`, which renders
+  strings unquoted inside `Show` output (`Some(hello)` rather than
+  `Some("hello")`).
+
+### Migration
+
+- `import { "mizchi/js/browser/dom" }` → `import { "mizchi/js_browser/dom" }`
+  (same for `canvas`, `file`, `history`, `indexeddb`, `location`, `navigation`,
+  `navigator`, `observer`, `serviceworker`, `storage`).
+- Downstream modules now need to depend on **both** `mizchi/js` and
+  `mizchi/js_browser` when they touch browser APIs.
+
 ## [0.10.17] - 2026-04-23
 
 ### Changed

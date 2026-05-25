@@ -54,6 +54,7 @@ Add to your `moon.pkg.json`:
 - [FFI Best Practice](https://github.com/mizchi/js.mbt/blob/main/src/examples/ffi_bestpractice.mbt.md) - Best practice for MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/src/examples/moonbit_for_ts_user.mbt.md) - Migration guide from TypeScript
+- [Package Split Guide](docs/package-split.md) - moon.work multi-module layout and migration steps
 
 ## Supported Modules
 
