@@ -215,7 +215,9 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 |----------|---------|--------|---------------|
 | Node.js | `mizchi/js/node/*` | 🧪 Tested | [Node.js README](src/node/README.md) |
 | Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
-| Deno | `mizchi/js/deno` | 🧪 Tested | [Deno README](src/deno/README.md) |
+| Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
+| Bun | `mizchi/js_bun` | 🤖 AI Generated | - |
+| WebExtensions | `mizchi/js_webextensions` | 🤖 AI Generated | [WebExtensions README](modules/js_webextensions/src/README.md) |
 
 ### NPM Package Bindings
 

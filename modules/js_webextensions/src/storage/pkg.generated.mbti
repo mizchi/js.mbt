@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/webextensions/storage"
+package "mizchi/js_webextensions/storage"
 
 import {
   "mizchi/js/core",

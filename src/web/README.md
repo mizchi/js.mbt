@@ -380,7 +380,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 - **`mizchi/js_browser/dom`** - Browser-specific DOM and rendering APIs
 - **`mizchi/js/node`** - Node.js-specific runtime APIs
 - **`mizchi/js/cloudflare`** - Cloudflare Workers platform APIs
-- **`mizchi/js/deno`** - Deno runtime APIs
+- **`mizchi/js_deno`** - Deno runtime APIs (separate module)
 
 ## Standards Compliance
 

@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/deno"
+package "mizchi/js_deno"
 
 import {
   "mizchi/js/builtins/arraybuffer",

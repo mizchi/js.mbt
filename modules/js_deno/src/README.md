@@ -1,4 +1,4 @@
-# mizchi/js/deno
+# mizchi/js_deno
 
 MoonBit bindings for Deno runtime APIs.
 
@@ -61,7 +61,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/deno"
+    "mizchi/js_deno"
   ]
 }
 ```
@@ -152,7 +152,7 @@ fn main {
 Then run with:
 ```bash
 moon build --target js
-deno test --allow-all target/js/release/build/mizchi/js/deno/_tests/_tests.js
+deno test --allow-all target/js/release/build/mizchi/js_deno/_tests/_tests.js
 ```
 
 ## Notes

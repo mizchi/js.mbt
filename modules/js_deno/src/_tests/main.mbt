@@ -1,6 +1,6 @@
 ///|
 /// Deno examples and tests
-/// Run with: moon build --target js && deno test --allow-all target/js/release/build/mizchi/js/deno/_tests/_tests.js
+/// Run with: moon build --target js && deno test --allow-all target/js/release/build/mizchi/js_deno/_tests/_tests.js
 
 ///|
 /// Decode Uint8Array to string using @encoding.TextDecoder

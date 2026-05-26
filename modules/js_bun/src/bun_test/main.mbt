@@ -1,6 +1,6 @@
 ///|
 /// Bun examples and tests
-/// Run with: moon build --target js && bun test target/js/release/build/mizchi/js/bun/bun_test/bun_test.js
+/// Run with: moon build --target js && bun test target/js/release/build/mizchi/js_bun/bun_test/bun_test.js
 
 ///|
 fn main {

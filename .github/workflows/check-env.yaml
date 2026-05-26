@@ -66,4 +66,4 @@ jobs:
 
       - name: bun test
         continue-on-error: true
-        run: bun test target/js/release/build/mizchi/js/bun/bun_test/bun_test.js
+        run: bun test target/js/release/build/mizchi/js_bun/bun_test/bun_test.js

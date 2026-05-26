@@ -1,0 +1,20 @@
+{
+  "name": "mizchi/js_webextensions",
+  "version": "0.10.17",
+  "deps": {
+    "mizchi/js": "0.10.17"
+  },
+  "readme": "src/README.md",
+  "repository": "https://github.com/mizchi/js.mbt",
+  "license": "MIT",
+  "keywords": [
+    "js",
+    "webextensions",
+    "chrome",
+    "firefox"
+  ],
+  "description": "WebExtensions / chrome.* / browser.* API bindings",
+  "source": "src",
+  "warn-list": "-20",
+  "preferred-target": "js"
+}

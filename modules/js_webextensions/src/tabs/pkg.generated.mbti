@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/webextensions/tabs"
+package "mizchi/js_webextensions/tabs"
 
 import {
   "mizchi/js/core",

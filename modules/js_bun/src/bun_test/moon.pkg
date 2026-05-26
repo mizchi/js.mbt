@@ -1,10 +1,6 @@
 import {
-  "mizchi/js",
   "mizchi/js/core",
-  "mizchi/js/deno",
-  "mizchi/js/web/worker",
-  "mizchi/js/web/webgpu",
-  "mizchi/js/web/encoding",
+  "mizchi/js_bun" @bun,
   "mizchi/js/builtins/arraybuffer",
 }
 

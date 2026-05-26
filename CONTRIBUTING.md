@@ -58,7 +58,7 @@ Build the project and run Deno-specific tests:
 
 ```bash
 moon build
-deno test --allow-all target/js/release/build/mizchi/js/deno/_tests/_tests.js
+deno test --allow-all target/js/release/build/mizchi/js_deno/_tests/_tests.js
 
 # or just test-deno
 ```
@@ -72,7 +72,7 @@ moon test
 
 # 2. Deno tests
 moon build --target js
-deno test -A target/js/release/build/mizchi/js/deno/_tests/_tests.js
+deno test -A target/js/release/build/mizchi/js_deno/_tests/_tests.js
 ```
 
 ## Code Style
@@ -114,7 +114,7 @@ git checkout -b feature/my-new-feature
 ```bash
 moon test
 moon build --target js
-deno test --allow-all target/js/release/build/mizchi/js/deno/_tests/_tests.js
+deno test --allow-all target/js/release/build/mizchi/js_deno/_tests/_tests.js
 pnpm test:cloudflare
 ```
 

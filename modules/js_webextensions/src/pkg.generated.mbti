@@ -1,7 +1,12 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/deno/_tests"
+package "mizchi/js_webextensions"
+
+import {
+  "mizchi/js/core",
+}
 
 // Values
+pub fn browser() -> @core.Any
 
 // Errors
 

@@ -1,6 +1,6 @@
 import {
   "mizchi/js",
-  "mizchi/js/webextensions",
+  "mizchi/js_webextensions" @webextensions,
   "mizchi/js/core",
 }
 

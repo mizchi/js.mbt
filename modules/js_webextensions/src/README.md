@@ -8,10 +8,10 @@ https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API
 
 | API | Package | Status | Note |
 |-----|---------|--------|------|
-| [chrome](chrome/) | `mizchi/js/webextensions/chrome` | 🤖 AI Generated | Unified wrapper for all APIs |
-| [storage](storage/) | `mizchi/js/webextensions/storage` | 🤖 AI Generated | local, sync, session storage |
-| [runtime](runtime/) | `mizchi/js/webextensions/runtime` | 🤖 AI Generated | messaging, extension info |
-| [tabs](tabs/) | `mizchi/js/webextensions/tabs` | 🤖 AI Generated | tab management |
+| [chrome](chrome/) | `mizchi/js_webextensions/chrome` | 🤖 AI Generated | Unified wrapper for all APIs |
+| [storage](storage/) | `mizchi/js_webextensions/storage` | 🤖 AI Generated | local, sync, session storage |
+| [runtime](runtime/) | `mizchi/js_webextensions/runtime` | 🤖 AI Generated | messaging, extension info |
+| [tabs](tabs/) | `mizchi/js_webextensions/tabs` | 🤖 AI Generated | tab management |
 
 ## Quick Start (Using Chrome Wrapper)
 
