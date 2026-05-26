@@ -67,7 +67,7 @@ test-wasm-dom:
 
 # Run Bun tests
 test-bun: build
-    bun test target/js/release/build/bun/bun_test/bun_test.js
+    bun test target/js/release/build/mizchi/js/bun/bun_test/bun_test.js
 
 # Run all tests (MoonBit, Deno, Bun, WASM, WASM-DOM)
 test: test-moon test-deno test-bun test-wasm test-wasm-dom

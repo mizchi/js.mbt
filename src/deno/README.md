@@ -152,7 +152,7 @@ fn main {
 Then run with:
 ```bash
 moon build --target js
-deno test --allow-all target/js/release/build/deno/deno.js
+deno test --allow-all target/js/release/build/mizchi/js/deno/_tests/_tests.js
 ```
 
 ## Notes

@@ -108,7 +108,7 @@ Each test is in `src/nostd/_tests/`:
 Run measurements:
 ```bash
 moon build --target js
-for f in target/js/release/build/nostd/_tests/size*/size*.js; do
+for f in target/js/release/build/mizchi/js/core/_tests/size*/size*.js; do
   name=$(basename $f .js)
   minified=$(npx terser "$f" --compress --mangle | wc -c)
   echo "$name: ${minified}B"
