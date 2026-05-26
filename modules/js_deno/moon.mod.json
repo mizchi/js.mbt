@@ -1,8 +1,8 @@
 {
   "name": "mizchi/js_deno",
-  "version": "0.10.17",
+  "version": "0.11.0",
   "deps": {
-    "mizchi/js": "0.10.17"
+    "mizchi/js": "0.11.0"
   },
   "readme": "src/README.md",
   "repository": "https://github.com/mizchi/js.mbt",
