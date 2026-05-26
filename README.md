@@ -2,9 +2,25 @@
 
 Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
+## Package Layout
+
+Starting in **v0.11.0**, environment-specific bindings live in their own MoonBit modules under the `mizchi/js_*` namespace. The core `mizchi/js` module covers JavaScript built-ins, Web Standard APIs, and Node.js — pull in the additional modules only for the runtimes you target.
+
+| Module | Scope | Source |
+|--------|-------|--------|
+| [`mizchi/js`](https://github.com/mizchi/js.mbt) | Core FFI, JS built-ins, Web Standard APIs, Node.js | `src/` |
+| [`mizchi/js_browser`](https://github.com/mizchi/js.mbt/tree/main/modules/js_browser) | Browser-only APIs (DOM, canvas, IndexedDB, storage, navigation, service worker, …) | `modules/js_browser/` |
+| [`mizchi/js_deno`](https://github.com/mizchi/js.mbt/tree/main/modules/js_deno) | Deno runtime APIs | `modules/js_deno/` |
+| [`mizchi/js_bun`](https://github.com/mizchi/js.mbt/tree/main/modules/js_bun) | Bun runtime APIs | `modules/js_bun/` |
+| [`mizchi/js_webextensions`](https://github.com/mizchi/js.mbt/tree/main/modules/js_webextensions) | WebExtensions (`chrome.*` / `browser.*`) | `modules/js_webextensions/` |
+| [`mizchi/npm_typed`](https://github.com/mizchi/npm_typed.mbt) | NPM package bindings (React, Hono, Zod, AI SDK, …) | separate repo |
+| [`mizchi/cloudflare.mbt`](https://github.com/mizchi/cloudflare.mbt) | Cloudflare Workers bindings | separate repo |
+
+See [`docs/package-split.md`](docs/package-split.md) for the migration steps and the multi-module layout.
+
 ## Version Requirements
 
-**v0.10.0** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
+**v0.10.0+** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
 
 ```
 moon 0.1.20251209 (8d6e473 2025-12-09)
@@ -14,14 +30,15 @@ moonrun 0.1.20251209 (8d6e473 2025-12-09)
 
 If you need stable toolchain compatibility, use **v0.8.x**.
 
-### Breaking Change in v0.10.0
-
-**NPM package bindings have moved**: All `mizchi/js/npm/*` packages are now in a separate repository: [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
-
 ## Installation
 
 ```bash
 $ moon add mizchi/js
+# Pull in additional runtimes as needed:
+$ moon add mizchi/js_browser
+$ moon add mizchi/js_deno
+$ moon add mizchi/js_bun
+$ moon add mizchi/js_webextensions
 ```
 
 Add to your `moon.pkg.json`:
@@ -31,10 +48,6 @@ Add to your `moon.pkg.json`:
   "import": ["mizchi/js/core", "mizchi/js"]
 }
 ```
-
-> **⚠️ Future Plans**: Platform-specific APIs (Node.js, Browser, Deno) will be split into separate packages in the future. The core `mizchi/js` package will focus on JavaScript built-ins and Web Standard APIs.
->
-> **Note**: Cloudflare Workers bindings have been moved to a separate package: [@mizchi/cloudflare-mbt](https://github.com/mizchi/cloudflare.mbt)
 
 ## Quick Links
 
@@ -211,9 +224,11 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ### Runtime-Specific APIs
 
-| Platform | Package | Status | Documentation |
-|----------|---------|--------|---------------|
-| Node.js | `mizchi/js/node/*` | 🧪 Tested | [Node.js README](src/node/README.md) |
+Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod.json` `deps` only if you target that runtime.
+
+| Platform | Module | Status | Documentation |
+|----------|--------|--------|---------------|
+| Node.js | `mizchi/js/node/*` (bundled with `mizchi/js`) | 🧪 Tested | [Node.js README](src/node/README.md) |
 | Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
 | Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
 | Bun | `mizchi/js_bun` | 🤖 AI Generated | - |
@@ -246,21 +261,22 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ## Project Status
 
-- ✅ **Node.js Core APIs** - `fs`, `path`, `process`, `child_process`, etc.
-- ✅ **Deno Runtime** - File system, permissions, testing
-- ✅ **Bun Runtime** - Process, hashing, glob, file operations
-- ✅ **DOM APIs** - Full browser DOM manipulation
-- ✅ **Web Standard APIs** - fetch, URL, Streams, Crypto, WebSocket
-- 📦 **React/NPM Packages** - Moved to [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
-- 📦 **Cloudflare Workers** - Moved to [mizchi/cloudflare.mbt](https://github.com/mizchi/cloudflare.mbt)
+- ✅ **Core JS / Web Standards** (`mizchi/js`) - built-ins, Web APIs, fetch, URL, Streams, Crypto, WebSocket
+- ✅ **Node.js Core APIs** (`mizchi/js/node/*`) - `fs`, `path`, `process`, `child_process`, etc.
+- 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0
+- 📦 **Deno Runtime** (`mizchi/js_deno`) - Split out in v0.11.0
+- 📦 **Bun Runtime** (`mizchi/js_bun`) - Split out in v0.11.0
+- 📦 **WebExtensions** (`mizchi/js_webextensions`) - Split out in v0.11.0
+- 📦 **React / NPM Packages** - Maintained at [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
+- 📦 **Cloudflare Workers** - Maintained at [mizchi/cloudflare.mbt](https://github.com/mizchi/cloudflare.mbt)
 
 ## Goals
 
 - Provide comprehensive JavaScript FFI bindings for MoonBit
-- **Platform Coverage**
-  - ✅ Browser DOM and Web APIs
-  - ✅ Node.js/Deno/Bun runtime support
-  - ✅ JavaScript built-in objects and Web Standard APIs
+- **Platform Coverage** (split across `mizchi/js_*` modules)
+  - ✅ Browser DOM and Web APIs (`mizchi/js_browser`)
+  - ✅ Node.js (bundled with `mizchi/js`) / Deno (`mizchi/js_deno`) / Bun (`mizchi/js_bun`)
+  - ✅ JavaScript built-in objects and Web Standard APIs (`mizchi/js`)
 - **Ecosystem**
   - 📦 NPM package bindings: [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt)
   - 📦 Cloudflare Workers: [mizchi/cloudflare.mbt](https://github.com/mizchi/cloudflare.mbt)

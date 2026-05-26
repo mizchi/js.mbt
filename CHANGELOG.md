@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.1] - 2026-05-26
+
+### Changed
+
+- Reworked `README.md` to make the `mizchi/js_*` package split explicit:
+  added a "Package Layout" table summarising `mizchi/js`, `mizchi/js_browser`,
+  `mizchi/js_deno`, `mizchi/js_bun`, `mizchi/js_webextensions`,
+  `mizchi/npm_typed`, and `mizchi/cloudflare.mbt`; removed the stale
+  "future plans" note; and clarified the Runtime-Specific APIs / Project
+  Status / Goals sections so each runtime points at its own module.
+- Patch version bump across all workspace modules (mizchi/js,
+  mizchi/js_browser, mizchi/js_deno, mizchi/js_bun, mizchi/js_webextensions).
+
 ## [0.12.0] - 2026-05-26
 
 ### Changed
