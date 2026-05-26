@@ -1,0 +1,18 @@
+{
+  "name": "mizchi/js_deno",
+  "version": "0.11.0",
+  "deps": {
+    "mizchi/js": "0.11.0"
+  },
+  "readme": "src/README.md",
+  "repository": "https://github.com/mizchi/js.mbt",
+  "license": "MIT",
+  "keywords": [
+    "js",
+    "deno"
+  ],
+  "description": "deno-specific js bindings",
+  "source": "src",
+  "warn-list": "-20",
+  "preferred-target": "js"
+}

@@ -1,0 +1,8 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js_webextensions/storage",
+  "mizchi/js_webextensions/runtime",
+  "mizchi/js_webextensions/tabs",
+}
+
+supported_targets = "js"

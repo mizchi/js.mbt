@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_browser/test_utils"
+
+import {
+  "mizchi/js_browser/dom",
+}
+
+// Values
+pub fn create_happy_window() -> @dom.Window
+
+pub fn global_jsdom_register() -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

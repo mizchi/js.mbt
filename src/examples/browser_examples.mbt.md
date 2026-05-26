@@ -269,6 +269,6 @@ async fn canvas_to_blob_example() -> Unit {
 
 ## See Also
 
-- [Browser README](../../browser/README.md) - Full API reference
+- [Browser README](../../modules/js_browser/src/README.md) - Full API reference
 - [Web APIs](../../web/README.md) - Platform-independent Web Standard APIs
 - [FFI Best Practices](./ffi_bestpractice.mbt.md) - General FFI patterns

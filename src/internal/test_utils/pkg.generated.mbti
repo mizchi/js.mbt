@@ -1,15 +1,7 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "mizchi/js/internal/test_utils"
 
-import {
-  "mizchi/js/browser/dom",
-}
-
 // Values
-pub fn create_happy_window() -> @dom.Window
-
-pub fn global_jsdom_register() -> Unit
-
 pub async fn retry(Int, async () -> Unit, timeout? : Int, total_timeout? : Int, on_fail? : (Int) -> Unit, on_success? : () -> Unit, cleanup? : () -> Unit) -> Unit raise RetryError
 
 pub async fn[T] timeout(Int, async () -> T) -> T raise TimeoutError

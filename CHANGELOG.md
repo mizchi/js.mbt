@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0] - 2026-05-26
+
+### Changed
+
+- **Workspace split**: Introduced `moon.work` and split environment-specific
+  bindings into separate modules under `modules/`. See
+  [`docs/package-split.md`](docs/package-split.md) for migration instructions
+  and the planned multi-module layout.
+
+  Modules extracted in this release:
+  - `mizchi/js_browser` (was `mizchi/js/browser/*`)
+  - `mizchi/js_deno` (was `mizchi/js/deno`)
+  - `mizchi/js_bun` (was `mizchi/js/bun`)
+  - `mizchi/js_webextensions` (was `mizchi/js/webextensions/*`)
+
+- **`internal/test_utils`**: DOM-dependent helpers (`create_happy_window`,
+  `global_jsdom_register`) moved to the new `mizchi/js_browser/test_utils`
+  package. `mizchi/js/internal/test_utils` retains only the generic
+  timeout/retry helpers.
+- Build outputs under `_build/<target>/<profile>/build/` now nest under
+  `<module>/...` (e.g. `_build/js/release/build/mizchi/js_deno/...`). Scripts
+  and configs referencing build artifacts (`deno.jsonc`, `.justfile`,
+  `.github/workflows/*.yaml`, `src/wasm/test_*.ts`, `scripts/check_sizes.ts`,
+  ...) have been updated.
+- Refreshed `inspect` snapshots affected by the latest `moonc`, which renders
+  strings unquoted inside `Show` output (`Some(hello)` rather than
+  `Some("hello")`).
+
+### Migration
+
+- `import { "mizchi/js/browser/dom" }` → `import { "mizchi/js_browser/dom" }`
+  (same for `canvas`, `file`, `history`, `indexeddb`, `location`, `navigation`,
+  `navigator`, `observer`, `serviceworker`, `storage`).
+- `import { "mizchi/js/deno" }` → `import { "mizchi/js_deno" @deno }`
+  (explicit alias keeps `@deno.` references working).
+- `import { "mizchi/js/bun" }` → `import { "mizchi/js_bun" @bun }`.
+- `import { "mizchi/js/webextensions" }` → `import { "mizchi/js_webextensions" @webextensions }`;
+  sub-packages like `webextensions/chrome` are now `mizchi/js_webextensions/chrome`.
+- Downstream modules need to add the matching new module(s) to their
+  `moon.mod.json` `deps`.
+
 ## [0.10.17] - 2026-04-23
 
 ### Changed
