@@ -22,7 +22,7 @@
  *   ./scripts/release.ts --only=js_deno # publish just one module (path or name)
  */
 
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -61,13 +61,64 @@ function run(cmd: string, args: string[], cwd: string): void {
   }
 }
 
-function publishOne(mod: Mod, version: string, dryRun: boolean): void {
+function runCapture(
+  cmd: string,
+  args: string[],
+  cwd: string,
+): Promise<{ code: number; output: string }> {
+  console.log(`$ (${cwd}) ${cmd} ${args.join(" ")}`);
+  return new Promise((resolveP) => {
+    const child = spawn(cmd, args, { cwd });
+    let output = "";
+    child.stdout.on("data", (chunk: Buffer) => {
+      const s = chunk.toString();
+      output += s;
+      process.stdout.write(s);
+    });
+    child.stderr.on("data", (chunk: Buffer) => {
+      const s = chunk.toString();
+      output += s;
+      process.stderr.write(s);
+    });
+    child.on("close", (code) => resolveP({ code: code ?? 1, output }));
+  });
+}
+
+const DUPLICATE_VERSION_PATTERNS = [
+  /409 Conflict/i,
+  /is duplicated with an existing version/i,
+  /Version Error: The version you are attempting to upload .* is duplicated/i,
+];
+
+function isAlreadyPublished(output: string): boolean {
+  return DUPLICATE_VERSION_PATTERNS.some((re) => re.test(output));
+}
+
+async function publishOne(
+  mod: Mod,
+  version: string,
+  dryRun: boolean,
+): Promise<void> {
   console.log(`\n=== ${mod.label} @ ${version} ===`);
   if (dryRun) {
     console.log(`[dry-run] would run: moon publish (cwd=${mod.path})`);
     return;
   }
-  run("moon", ["publish"], join(REPO_ROOT, mod.path));
+  const { code, output } = await runCapture(
+    "moon",
+    ["publish"],
+    join(REPO_ROOT, mod.path),
+  );
+  if (code === 0) return;
+  if (isAlreadyPublished(output)) {
+    console.log(
+      `[already published] ${mod.label}@${version} is on mooncakes — skipping`,
+    );
+    return;
+  }
+  throw new Error(
+    `moon publish failed for ${mod.label} (exit ${code}) — see output above`,
+  );
 }
 
 function moonUpdate(dryRun: boolean): void {
@@ -119,7 +170,7 @@ Options:
   );
 }
 
-function main(): void {
+async function main(): Promise<void> {
   let opts: ReturnType<typeof parseArgs>;
   try {
     opts = parseArgs(process.argv.slice(2));
@@ -164,20 +215,20 @@ function main(): void {
       console.error(`Available: ${all.map((m) => m.label).join(", ")}`);
       process.exit(1);
     }
-    publishOne(target, rootVersion, opts.dryRun);
+    await publishOne(target, rootVersion, opts.dryRun);
     console.log(`\nDone. (--only=${target.label})`);
     return;
   }
 
   if (!opts.skipRoot) {
-    publishOne(ROOT, rootVersion, opts.dryRun);
+    await publishOne(ROOT, rootVersion, opts.dryRun);
     moonUpdate(opts.dryRun);
   } else {
     console.log(`\n[--skip-root] skipping ${ROOT.label} publish`);
   }
 
   for (const mod of MODULES) {
-    publishOne(mod, rootVersion, opts.dryRun);
+    await publishOne(mod, rootVersion, opts.dryRun);
   }
 
   console.log(`\nAll modules published at v${rootVersion}.`);
@@ -185,4 +236,7 @@ function main(): void {
   console.log(`  git tag v${rootVersion} && git push origin v${rootVersion}`);
 }
 
-main();
+main().catch((e) => {
+  console.error(e instanceof Error ? e.message : String(e));
+  process.exit(1);
+});
