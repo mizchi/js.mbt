@@ -23,6 +23,37 @@ pub fn Response::new(
     Some(b) => @core.identity(b)
     None => @global.undefined()
   }
+  new_dispatch(body_js, status, statusText, headers)
+}
+
+///|
+/// Create a new Response from an arbitrary `BodyInit` value — ArrayBuffer,
+/// TypedArray, Blob, ReadableStream, FormData, URLSearchParams, ….
+/// `Response::new` types the body as `String` for the common text case, which
+/// makes binary bodies unrepresentable (bytes cannot ride a UTF-16 String);
+/// this constructor mirrors `RequestInit`, whose `body` is already
+/// `@core.Any`. Typical use: serving image bytes from a Worker.
+/// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
+pub fn Response::new_with_body(
+  body? : @core.Any,
+  status? : Int,
+  statusText? : String,
+  headers? : @core.Any,
+) -> Response {
+  let body_js = match body {
+    Some(b) => b
+    None => @global.undefined()
+  }
+  new_dispatch(body_js, status, statusText, headers)
+}
+
+///|
+fn new_dispatch(
+  body_js : @core.Any,
+  status : Int?,
+  statusText : String?,
+  headers : @core.Any?,
+) -> Response {
   match (status, statusText, headers) {
     (Some(s), Some(st), Some(h)) =>
       new_impl_full(body_js, s, @core.identity(st), h.cast())

@@ -165,3 +165,38 @@ async test "Response: blob method" {
   let size : Int = @core.identity(blob._get("size"))
   assert_true(size > 0)
 }
+
+///|
+async test "Response: new_with_body carries a binary body" {
+  // "Hello" as raw bytes — unrepresentable through Response::new's String body.
+  let bytes = @arraybuffer.Uint8Array::from_array([72, 101, 108, 108, 111])
+  let response = Response::new_with_body(body=bytes.as_any(), status=201)
+  assert_eq(response.status, 201)
+  let text = response.text()
+  assert_eq(text, "Hello")
+}
+
+///|
+async test "Response: new_with_body dispatches status/headers like new" {
+  let bytes = @arraybuffer.Uint8Array::from_array([104, 105])
+  let headers : @core.Any = @core.from_entries([
+    ("Content-Type", @core.identity("image/jpeg")),
+  ])
+  let response = Response::new_with_body(
+    body=bytes.as_any(),
+    status=200,
+    statusText="OK",
+    headers~,
+  )
+  assert_eq(response.status, 200)
+  let ct : String = @core.identity(
+    response.as_any()._get("headers")._call("get", [@core.identity("Content-Type")]),
+  )
+  assert_eq(ct, "image/jpeg")
+}
+
+///|
+async test "Response: new_with_body without a body" {
+  let response = Response::new_with_body(status=204)
+  assert_eq(response.status, 204)
+}
