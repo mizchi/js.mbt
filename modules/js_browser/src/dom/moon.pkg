@@ -6,6 +6,7 @@ import {
   "mizchi/js/web/message",
   "mizchi/js/web/http",
   "mizchi/js_browser/history",
+  "mizchi/js_browser/file",
   "mizchi/js/builtins/global",
 }
 

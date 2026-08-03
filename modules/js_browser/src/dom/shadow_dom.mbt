@@ -64,6 +64,20 @@ pub fn ShadowRoot::activeElement(self : Self) -> Element? {
 }
 
 ///|
+/// Returns an element inside the shadow tree by its ID. This is the usual
+/// entry point for island/Web-Component code, whose elements live inside a
+/// shadow root and are invisible to `Document::getElementById`.
+/// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/getElementById
+#alias(get_element_by_id)
+pub fn ShadowRoot::getElementById(self : Self, id : String) -> Element? {
+  let v : @core.Any = self
+    .as_any()
+    ._call("getElementById", [@core.any(id)])
+    .cast()
+  v |> @core.identity_option()
+}
+
+///|
 /// Returns the element from point within the shadow root
 /// https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/elementFromPoint
 pub fn ShadowRoot::elementFromPoint(

@@ -751,3 +751,33 @@ test "CustomElementRegistry - define_ with observed_attributes" {
   let ctor = registry.get("my-observed-element")
   assert_eq(ctor is None, false)
 }
+
+///|
+test "ShadowRoot getElementById finds elements the document cannot see" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let host = doc.createElement("div")
+  doc.body().unwrap().as_element().append(host.as_node())
+  let root = HTMLElement::cast_from_element(host).attachShadow(
+    ShadowRootInit::new("open"),
+  )
+  root.setInnerHTML("<input id=\"agree\" type=\"checkbox\">")
+  // Inside the shadow tree: visible to the root, invisible to the document.
+  let el = root.getElementById("agree").unwrap()
+  assert_eq(el.id(), "agree")
+  assert_true(doc.getElementById("agree").is_empty())
+  assert_true(root.getElementById("missing").is_empty())
+}
+
+///|
+test "HTMLInputElement files is empty without a selection" {
+  let window = @test_utils.create_happy_window()
+  defer window.close()
+  let doc = window.document()
+  let input = doc.createElement("input")
+  input.setAttribute("type", "file")
+  doc.body().unwrap().as_element().append(input.as_node())
+  let typed = HTMLInputElement::cast_from_element(input)
+  assert_eq(typed.files().length(), 0)
+}
