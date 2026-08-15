@@ -29,4 +29,3 @@ pub fn Reflect::setPrototypeOf(@core.Any, @core.Any) -> Bool
 // Type aliases
 
 // Traits
-

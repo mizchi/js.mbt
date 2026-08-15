@@ -72,4 +72,3 @@ pub fn WebAssemblyTable::set(Self, Int, @core.Any) -> Unit
 // Type aliases
 
 // Traits
-

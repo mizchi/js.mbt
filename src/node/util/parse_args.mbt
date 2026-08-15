@@ -69,7 +69,7 @@ pub fn parseArgs(
   ])
   // result["tokens"] = tokens
   let r : @core.Any = internal_parse_args(config)
-  let values : Map[String, @core.Any] = {}
+  let values : Map[String, @core.Any] = Map([])
   let result_keys : Array[String] = @core.object_keys(r["values"])
   for k in result_keys {
     values[k] = r["values"][k].cast()

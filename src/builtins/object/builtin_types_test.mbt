@@ -331,7 +331,7 @@ test "Object::getOwnPropertyDescriptor" {
   obj._set("name", "Alice" |> @core.any)
   let desc = Object::getOwnPropertyDescriptor(obj, "name")
   assert_true(desc is Some(_))
-  guard desc is Some(d)
+  guard! desc is Some(d)
   assert_eq(@core.identity(d.value.unwrap()), "Alice")
   assert_eq(d.writable, Some(true))
   assert_eq(d.enumerable, Some(true))

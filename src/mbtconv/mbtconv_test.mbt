@@ -74,7 +74,6 @@ test "to_json converts JS value to Json" {
     json,
     content=(
       #|Object({name: String(Bob), age: Number(25)})
-
     ),
   )
 }
@@ -131,7 +130,6 @@ test "roundtrip from_json and to_json" {
     back,
     content=(
       #|Object({string: String(hello), number: Number(42.5), bool: True, null: Null, array: Array([Number(1), Number(2), Number(3)]), nested: Object({x: Number(1)})})
-
     ),
   )
 }

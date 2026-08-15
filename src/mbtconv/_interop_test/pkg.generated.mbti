@@ -11,4 +11,3 @@ pub fn setup_interop_test() -> Unit
 // Type aliases
 
 // Traits
-

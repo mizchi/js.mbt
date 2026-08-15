@@ -86,4 +86,3 @@ pub fn Stat::size(Self) -> Int
 // Type aliases
 
 // Traits
-

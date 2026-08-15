@@ -25,4 +25,3 @@ pub fn TextEncoder::new() -> Self
 // Type aliases
 
 // Traits
-

@@ -31,4 +31,3 @@ pub fn Location::to_string(Self) -> String
 // Type aliases
 
 // Traits
-

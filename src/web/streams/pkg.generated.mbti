@@ -81,4 +81,3 @@ pub async fn WritableStreamDefaultWriter::write(Self, @core.Any) -> Unit
 // Type aliases
 
 // Traits
-

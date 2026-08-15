@@ -38,7 +38,7 @@ pub(all) struct HTMLCanvasElement {
 }
 
 ///|
-pub impl Show for HTMLCanvasElement with output(self, logger) {
+pub impl Show for HTMLCanvasElement with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -409,7 +409,7 @@ pub(all) struct HTMLIFrameElement {
 }
 
 ///|
-pub impl Show for HTMLIFrameElement with output(self, logger) {
+pub impl Show for HTMLIFrameElement with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 

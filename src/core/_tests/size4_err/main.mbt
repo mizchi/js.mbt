@@ -27,7 +27,7 @@ suberror AppError {
 }
 
 ///|
-impl Show for AppError with output(self, logger) {
+impl Show for AppError with fn output(self, logger) {
   let AppError(msg) = self
   logger.write_string("AppError(\"" + msg + "\")")
 }

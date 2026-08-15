@@ -34,4 +34,3 @@ pub fn Navigator::vibrate(Self, Int) -> Bool
 // Type aliases
 
 // Traits
-

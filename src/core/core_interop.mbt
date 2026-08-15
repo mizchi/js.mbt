@@ -6,12 +6,12 @@
 // ============================================
 
 ///|
-pub impl Eq for Any with equal(self, other) -> Bool {
+pub impl Eq for Any with fn equal(self, other) -> Bool {
   equal(self, other)
 }
 
 ///|
-pub impl Show for Any with output(self, logger) {
+pub impl Show for Any with fn output(self, logger) {
   logger.write_string(self.to_string())
 }
 

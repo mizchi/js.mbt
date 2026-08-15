@@ -55,4 +55,3 @@ pub fn Math::trunc(Double) -> Double
 // Type aliases
 
 // Traits
-

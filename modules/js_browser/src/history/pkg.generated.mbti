@@ -28,4 +28,3 @@ pub fn History::replaceState(Self, @core.Any, String, url? : String) -> Unit
 // Type aliases
 
 // Traits
-

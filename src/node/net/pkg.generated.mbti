@@ -64,4 +64,3 @@ pub fn Socket::write(Self, String) -> Bool
 // Type aliases
 
 // Traits
-

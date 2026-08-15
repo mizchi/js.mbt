@@ -32,4 +32,3 @@ pub fn Interface::rollback(Self) -> Self
 // Type aliases
 
 // Traits
-

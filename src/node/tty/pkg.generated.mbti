@@ -43,4 +43,3 @@ pub fn WriteStream::write(Self, @core.Any, encoding? : String, callback? : @core
 // Type aliases
 
 // Traits
-

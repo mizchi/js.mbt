@@ -52,4 +52,3 @@ pub(all) struct PropertyDescriptor {
 // Type aliases
 
 // Traits
-

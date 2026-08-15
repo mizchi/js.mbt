@@ -184,8 +184,9 @@ pub fn[T] SettledResult::to_any(Self[T]) -> Any
 
 #external
 pub type TemplateStringsArray
+#alias("_[_]")
+pub fn TemplateStringsArray::get(Self, Int) -> String
 pub fn TemplateStringsArray::length(Self) -> Int
-pub fn TemplateStringsArray::op_get(Self, Int) -> String
 pub fn TemplateStringsArray::raw(Self) -> Array[String]
 pub fn TemplateStringsArray::raw_get(Self, Int) -> String
 pub fn TemplateStringsArray::to_any(Self) -> Any
@@ -247,4 +248,3 @@ pub impl ToAny for String
 pub impl ToAny for Bytes
 pub impl ToAny for @bigint.BigInt
 pub impl[T] ToAny for Array[T]
-

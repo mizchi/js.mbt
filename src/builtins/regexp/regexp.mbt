@@ -313,7 +313,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
   let groups : Map[String, String]? = if @core.is_undefined(v["groups"]) {
     None
   } else {
-    let g : Map[String, String] = {}
+    let g : Map[String, String] = Map([])
     let keys = @core.object_keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
@@ -364,7 +364,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
   let groups : Map[String, String]? = if @core.is_undefined(v["groups"]) {
     None
   } else {
-    let g : Map[String, String] = {}
+    let g : Map[String, String] = Map([])
     let keys = @core.object_keys(v["groups"])
     for k in keys {
       g[k] = v["groups"][k].cast()
@@ -406,7 +406,7 @@ pub fn RegExp::matchAll(
     let groups : Map[String, String]? = if @core.is_undefined(item["groups"]) {
       None
     } else {
-      let g : Map[String, String] = {}
+      let g : Map[String, String] = Map([])
       let keys = @core.object_keys(item["groups"])
       for k in keys {
         g[k] = item["groups"][k].cast()

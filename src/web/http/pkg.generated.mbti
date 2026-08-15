@@ -88,4 +88,3 @@ pub fn Response::type_(Self) -> String
 // Type aliases
 
 // Traits
-

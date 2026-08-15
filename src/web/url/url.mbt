@@ -19,7 +19,7 @@ pub(all) struct URL {
 } derive(Eq)
 
 ///|
-pub impl Show for URL with output(self, logger) {
+pub impl Show for URL with fn output(self, logger) {
   logger.write_string("{href: ")
   logger.write_object(self.href)
   logger.write_string(", origin: ")

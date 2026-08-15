@@ -85,4 +85,3 @@ pub fn UserInfo::username(Self) -> String
 // Type aliases
 
 // Traits
-

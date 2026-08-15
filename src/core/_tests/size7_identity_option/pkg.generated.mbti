@@ -15,4 +15,3 @@ pub fn[T] identity_option(@core.Any) -> T?
 // Type aliases
 
 // Traits
-

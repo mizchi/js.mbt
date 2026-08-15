@@ -47,4 +47,3 @@ pub fn[T] JsSet::values(Self[T]) -> @iterator.JsIterator[T]
 // Type aliases
 
 // Traits
-

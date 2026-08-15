@@ -175,4 +175,3 @@ pub fn StatementSync::sourceSQL(Self) -> String
 // Type aliases
 
 // Traits
-

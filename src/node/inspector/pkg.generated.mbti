@@ -37,4 +37,3 @@ pub fn Session::to_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

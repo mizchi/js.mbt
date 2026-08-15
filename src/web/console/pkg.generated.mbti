@@ -45,4 +45,3 @@ pub fn warn(@core.Any) -> Unit
 // Type aliases
 
 // Traits
-

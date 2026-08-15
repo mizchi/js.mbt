@@ -44,4 +44,3 @@ pub fn Interface::write(Self, String, @core.Any?) -> Unit
 // Type aliases
 
 // Traits
-

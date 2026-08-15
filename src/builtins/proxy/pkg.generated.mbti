@@ -19,4 +19,3 @@ pub fn Proxy::revocable(@core.Any, get? : (@core.Any, @core.Any, @core.Any) -> @
 // Type aliases
 
 // Traits
-

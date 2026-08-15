@@ -53,4 +53,3 @@ pub fn ServiceWorkerRegistration::waiting(Self) -> ServiceWorker?
 // Type aliases
 
 // Traits
-

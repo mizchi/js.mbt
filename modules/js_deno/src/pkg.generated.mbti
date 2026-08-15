@@ -128,4 +128,3 @@ pub fn TestContext::as_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

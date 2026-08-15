@@ -469,7 +469,7 @@ pub(all) struct StatementResultingChanges {
 }
 
 ///|
-pub impl Show for StatementResultingChanges with output(self, logger) {
+pub impl Show for StatementResultingChanges with fn output(self, logger) {
   logger.write_string("{changes: ")
   logger.write_object(self.changes)
   logger.write_string(", lastInsertRowid: ")

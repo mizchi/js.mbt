@@ -256,4 +256,3 @@ pub fn GPUTextureView::label(Self) -> String
 // Type aliases
 
 // Traits
-

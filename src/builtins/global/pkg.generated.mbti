@@ -75,4 +75,3 @@ pub fn Timer::as_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

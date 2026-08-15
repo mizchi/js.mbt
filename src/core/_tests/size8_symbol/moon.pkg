@@ -4,6 +4,4 @@ import {
 
 warnings = "-9"
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")

@@ -35,4 +35,3 @@ pub fn[T] DisposableStack::use_(Self, T) -> T
 // Type aliases
 
 // Traits
-

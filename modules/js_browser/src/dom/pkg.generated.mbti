@@ -3849,4 +3849,3 @@ pub type KeyboardEventHandler = (KeyboardEvent) -> Unit
 pub type MouseEventHandler = (MouseEvent) -> Unit
 
 // Traits
-

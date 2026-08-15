@@ -3,7 +3,7 @@
 ///|
 /// Transferable trait for objects that can be transferred via postMessage
 pub(open) trait Transferable {
-  to_transferable(Self) -> @core.Any
+  fn to_transferable(Self) -> @core.Any
 }
 
 ///|

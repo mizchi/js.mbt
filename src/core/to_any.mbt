@@ -33,50 +33,50 @@
 /// - Use `|> @core.any` directly (no trait overhead)
 /// - Use `&ToAny` trait objects (dynamic dispatch, single function)
 pub trait ToAny {
-  to_any(Self) -> Any
+  fn to_any(Self) -> Any
 }
 
 // Primitive type implementations - all zero-cost via %identity
 
 ///|
-pub impl ToAny for Int with to_any(self) -> Any = "%identity"
+pub impl ToAny for Int with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for UInt with to_any(self) -> Any = "%identity"
+pub impl ToAny for UInt with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Int64 with to_any(self) -> Any = "%identity"
+pub impl ToAny for Int64 with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for UInt64 with to_any(self) -> Any = "%identity"
+pub impl ToAny for UInt64 with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Float with to_any(self) -> Any = "%identity"
+pub impl ToAny for Float with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Double with to_any(self) -> Any = "%identity"
+pub impl ToAny for Double with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for String with to_any(self) -> Any = "%identity"
+pub impl ToAny for String with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Bool with to_any(self) -> Any = "%identity"
+pub impl ToAny for Bool with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for BigInt with to_any(self) -> Any = "%identity"
+pub impl ToAny for BigInt with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Bytes with to_any(self) -> Any = "%identity"
+pub impl ToAny for Bytes with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Any with to_any(self) -> Any {
+pub impl ToAny for Any with fn to_any(self) -> Any {
   self
 }
 
 ///|
-pub impl[T] ToAny for Array[T] with to_any(self) -> Any = "%identity"
+pub impl[T] ToAny for Array[T] with fn to_any(self) -> Any = "%identity"
 
 ///|
-pub impl ToAny for Unit with to_any(_self) -> Any {
+pub impl ToAny for Unit with fn to_any(_self) -> Any {
   undefined()
 }

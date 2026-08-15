@@ -186,7 +186,6 @@ test {
     name,
     content=(
       #|Some(Alice)
-
     ),
   )
 

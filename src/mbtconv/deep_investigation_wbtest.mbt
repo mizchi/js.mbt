@@ -57,9 +57,12 @@ test "Deep: enum tuple variant - no $tag in own properties" {
 
   // Own properties - $tag is NOT an own property for tuple variants
   let own_props = ffi_get_own_property_names(v)
-  inspect(own_props, content=(
-    #|[_0, _1, _2]
-  ))
+  inspect(
+    own_props,
+    content=(
+      #|[_0, _1, _2]
+    ),
+  )
 
   // $tag can still be accessed (inherited from prototype/class)
   let tag = v["$tag"]
@@ -111,9 +114,12 @@ test "Deep: enum struct variant (labeled fields) - labels NOT preserved in JS" {
   let serialized = @core.json_stringify(v)
   inspect(serialized, content="{\"_0\":10}")
   let own_props = ffi_get_own_property_names(v)
-  inspect(own_props, content=(
-    #|[_0]
-  ))
+  inspect(
+    own_props,
+    content=(
+      #|[_0]
+    ),
+  )
 
   // Cannot access by label name - it doesn't exist
   let radius_val = v["radius"]
@@ -134,12 +140,18 @@ test "Deep: Result - only constructor.name distinguishes Ok/Err" {
   // Own properties are identical
   let ok_props = ffi_get_own_property_names(ok_any)
   let err_props = ffi_get_own_property_names(err_any)
-  inspect(ok_props, content=(
-    #|[_0]
-  ))
-  inspect(err_props, content=(
-    #|[_0]
-  ))
+  inspect(
+    ok_props,
+    content=(
+      #|[_0]
+    ),
+  )
+  inspect(
+    err_props,
+    content=(
+      #|[_0]
+    ),
+  )
 
   // The only way to distinguish is constructor.name
   let ok_ctor = ffi_wb_get_constructor_name(ok_any)
@@ -206,7 +218,6 @@ test "Deep: Map has internal structure" {
     own_props,
     content=(
       #|[entries, size, capacity, capacity_mask, grow_at, head, tail]
-
     ),
   )
 }

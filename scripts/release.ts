@@ -13,7 +13,7 @@
  *      mizchi/js_webextensions
  *
  * All workspace modules must already be bumped to the same version in their
- * own `moon.mod.json` (see CHANGELOG / release commit).
+ * own `moon.mod` (see CHANGELOG / release commit).
  *
  * Usage:
  *   ./scripts/release.ts                # publish everything
@@ -40,12 +40,13 @@ const MODULES: Mod[] = [
 ];
 
 function readVersion(modPath: string): string {
-  const file = join(REPO_ROOT, modPath, "moon.mod.json");
-  const json = JSON.parse(readFileSync(file, "utf8"));
-  if (typeof json.version !== "string") {
+  const file = join(REPO_ROOT, modPath, "moon.mod");
+  const source = readFileSync(file, "utf8");
+  const version = source.match(/^version\s*=\s*"([^"]+)"\s*$/m)?.[1];
+  if (version === undefined) {
     throw new Error(`No version field in ${file}`);
   }
-  return json.version;
+  return version;
 }
 
 function run(cmd: string, args: string[], cwd: string): void {
@@ -198,7 +199,7 @@ async function main(): Promise<void> {
     console.error("Version mismatch across workspace modules:");
     for (const [k, v] of versions) console.error(`  ${k}: ${v}`);
     console.error(
-      "Bump every moon.mod.json to the same version before releasing.",
+      "Bump every moon.mod to the same version before releasing.",
     );
     process.exit(1);
   }

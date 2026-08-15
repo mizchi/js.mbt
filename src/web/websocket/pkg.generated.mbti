@@ -55,4 +55,3 @@ pub impl Show for WebSocketReadyState
 // Type aliases
 
 // Traits
-

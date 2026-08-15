@@ -177,9 +177,12 @@ test "Int? field with missing value" {
 ///|
 test "String? field with all values set" {
   let obj : StructWithOptions = create_all_fields() |> @core.identity
-  inspect(obj.optionalString, content=(
-    #|Some(hello)
-  ))
+  inspect(
+    obj.optionalString,
+    content=(
+      #|Some(hello)
+    ),
+  )
 }
 
 ///|
@@ -324,11 +327,11 @@ test "identity_option with value" {
 
 ///|
 pub trait Convertible {
-  from_js(@core.Any) -> Self
+  fn from_js(@core.Any) -> Self
 }
 
 ///|
-pub impl Convertible for SimpleStruct with from_js(js : @core.Any) -> SimpleStruct {
+pub impl Convertible for SimpleStruct with fn from_js(js : @core.Any) -> SimpleStruct {
   @core.identity(js)
 }
 

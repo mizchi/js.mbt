@@ -138,4 +138,3 @@ pub fn Writable::write(Self, @core.Any, encoding? : String, callback? : @core.An
 // Type aliases
 
 // Traits
-

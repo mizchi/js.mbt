@@ -106,4 +106,3 @@ pub(all) struct TextMetrics {
 // Type aliases
 
 // Traits
-

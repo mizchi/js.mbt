@@ -8,7 +8,7 @@ test "WebSocketReadyState::from_int and to_int" {
   assert_eq(WebSocketReadyState::from_int(1).map(fn(s) { s.to_int() }), Some(1))
   assert_eq(WebSocketReadyState::from_int(2).map(fn(s) { s.to_int() }), Some(2))
   assert_eq(WebSocketReadyState::from_int(3).map(fn(s) { s.to_int() }), Some(3))
-  assert_eq(WebSocketReadyState::from_int(999), None)
+  assert_true(WebSocketReadyState::from_int(999) is None)
 }
 
 ///|

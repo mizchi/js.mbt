@@ -72,4 +72,3 @@ pub fn ResizeObserverEntry::as_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

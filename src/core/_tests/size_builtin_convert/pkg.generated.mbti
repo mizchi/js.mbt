@@ -26,4 +26,3 @@ pub fn[T] from_set(@hashset.HashSet[T]) -> @core.Any
 // Type aliases
 
 // Traits
-

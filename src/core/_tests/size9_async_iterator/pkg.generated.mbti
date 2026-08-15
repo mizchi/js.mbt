@@ -20,4 +20,3 @@ pub async fn AsyncIterator::next(Self) -> @core.Any?
 // Type aliases
 
 // Traits
-

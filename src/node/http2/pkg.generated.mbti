@@ -63,4 +63,3 @@ pub fn ServerHttp2Stream::respond(Self, @core.Any) -> Unit
 // Type aliases
 
 // Traits
-

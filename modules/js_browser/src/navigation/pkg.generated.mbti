@@ -127,4 +127,3 @@ pub fn NavigationTransition::navigationType(Self) -> String
 // Type aliases
 
 // Traits
-

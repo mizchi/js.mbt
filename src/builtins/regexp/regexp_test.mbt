@@ -8,7 +8,7 @@ test "RegExp.test" {
 test "RegExp.exec" {
   let re = RegExp::new("^[a-z]+$", flags="igu")
   let matched = re.exec("MoonBit")
-  guard matched is Some(matched)
+  guard! matched is Some(matched)
   assert_eq(matched.full, "MoonBit")
   assert_eq(matched.index, 0)
   assert_eq(matched.input, "MoonBit")
@@ -18,7 +18,7 @@ test "RegExp.exec" {
 test "RegExp.exec with named capture groups" {
   let re = RegExp::new("(?<name>[a-z]+)", flags="igu")
   let matched = re.exec("MoonBit")
-  guard matched is Some(matched)
+  guard! matched is Some(matched)
   assert_eq(matched.full, "MoonBit")
   assert_eq(matched.index, 0)
   assert_eq(matched.input, "MoonBit")
@@ -55,7 +55,7 @@ test "RegExp.to_string" {
 test "RegExp.match_" {
   let re = RegExp::new("world")
   let result = re.match_("hello world")
-  guard result is Some(r)
+  guard! result is Some(r)
   assert_eq(r.matches[0], "world")
   assert_eq(r.index, Some(6))
   assert_eq(r.input, Some("hello world"))
@@ -175,7 +175,7 @@ test "RegExp.exec returns None when no match" {
 test "RegExp.exec with basic pattern" {
   let re = RegExp::new("(\\d+)-(\\w+)")
   let result = re.exec("test 123-abc here")
-  guard result is Some(matched)
+  guard! result is Some(matched)
   assert_eq(matched.full, "123-abc")
   assert_eq(matched.index, 5)
   assert_eq(matched.input, "test 123-abc here")

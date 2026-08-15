@@ -38,4 +38,3 @@ pub fn StorageChange::from_any(@core.Any) -> Self
 // Type aliases
 
 // Traits
-

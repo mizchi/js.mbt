@@ -42,4 +42,3 @@ pub fn JsBigInt::valueOf(Self) -> Self
 // Type aliases
 
 // Traits
-

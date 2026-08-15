@@ -7,12 +7,12 @@ pub(all) struct URLSearchParams {
 pub fn URLSearchParams::as_any(self : URLSearchParams) -> @core.Any = "%identity"
 
 ///|
-impl Eq for URLSearchParams with equal(self, other) {
+impl Eq for URLSearchParams with fn equal(self, other) {
   @core.equal(self.as_any(), other.as_any())
 }
 
 ///|
-impl Show for URLSearchParams with output(self, logger) {
+impl Show for URLSearchParams with fn output(self, logger) {
   logger.write_string(self.to_string())
 }
 

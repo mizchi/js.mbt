@@ -15,4 +15,3 @@ pub fn browser() -> @core.Any
 // Type aliases
 
 // Traits
-

@@ -87,4 +87,3 @@ pub fn Date::value_of(Self) -> Int
 // Type aliases
 
 // Traits
-

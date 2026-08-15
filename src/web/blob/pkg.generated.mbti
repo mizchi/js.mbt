@@ -28,4 +28,3 @@ pub async fn Blob::text(Self) -> String
 // Type aliases
 
 // Traits
-

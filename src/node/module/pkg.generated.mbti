@@ -58,4 +58,3 @@ pub fn SourceMapEntry::to_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

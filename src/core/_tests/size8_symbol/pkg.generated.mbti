@@ -26,4 +26,3 @@ pub fn Symbol::as_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-

@@ -36,4 +36,3 @@ pub fn Script::sourceMapURL(Self) -> String?
 // Type aliases
 
 // Traits
-

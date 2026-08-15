@@ -62,4 +62,3 @@ pub async fn Tabs::update(Self, Int, @tabs.UpdateOptions) -> @tabs.Tab
 // Type aliases
 
 // Traits
-

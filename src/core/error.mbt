@@ -43,7 +43,7 @@ pub extern "js" fn throw_error(msg : String) -> Unit =
 pub fn[E : Show + Error] export_sync(op : () -> Any raise E) -> Any {
   op() catch {
     e => {
-      throw_error(e.to_string())
+      throw_error(Show::to_string(e))
       undefined()
     }
   }
@@ -78,7 +78,7 @@ pub suberror ThrowError {
 }
 
 ///|
-pub impl Show for ThrowError with output(self, logger) {
+pub impl Show for ThrowError with fn output(self, logger) {
   logger.write_string("@js.Error: ")
   let ThrowError(inner) = self
   logger.write_object(inner)

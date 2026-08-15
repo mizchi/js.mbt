@@ -80,4 +80,3 @@ pub fn ServerResponse::writeHead(Self, Int, statusMessage? : String, headers? : 
 // Type aliases
 
 // Traits
-

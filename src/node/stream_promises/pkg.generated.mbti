@@ -18,4 +18,3 @@ pub async fn pipeline(Array[@core.Any]) -> @stream.Stream
 // Type aliases
 
 // Traits
-

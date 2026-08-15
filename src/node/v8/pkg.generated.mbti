@@ -119,4 +119,3 @@ pub fn Serializer::write_uint32(Self, Int) -> Unit
 // Type aliases
 
 // Traits
-

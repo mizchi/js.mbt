@@ -50,4 +50,3 @@ pub fn PerformanceObserverEntryList::getEntriesByType(Self, String) -> Array[Per
 // Type aliases
 
 // Traits
-

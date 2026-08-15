@@ -207,7 +207,7 @@ pub fn to_json(v : @core.Any) -> Json {
     return arr.to_json()
   }
   if ffi_typeof(v) == "object" {
-    let out : Map[String, Json] = {}
+    let out : Map[String, Json] = Map([])
     let keys = ffi_object_keys(v)
     let keys_len : Int = ffi_get_length(keys)
     for i = 0; i < keys_len; i = i + 1 {

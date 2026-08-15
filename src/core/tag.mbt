@@ -25,7 +25,8 @@ pub fn TemplateStringsArray::to_any(self : TemplateStringsArray) -> Any = "%iden
 
 ///|
 /// Get the string at the given index
-pub fn TemplateStringsArray::op_get(
+#alias("_[_]")
+pub fn TemplateStringsArray::get(
   self : TemplateStringsArray,
   index : Int,
 ) -> String {

@@ -29,4 +29,3 @@ pub fn[T] JsIterator::to_any(Self[T]) -> @core.Any
 // Type aliases
 
 // Traits
-

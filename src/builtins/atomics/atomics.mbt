@@ -22,7 +22,7 @@ pub enum AtomicsWaitResult {
 } derive(Eq)
 
 ///|
-pub impl Show for AtomicsWaitResult with output(self, logger) {
+pub impl Show for AtomicsWaitResult with fn output(self, logger) {
   logger.write_string(
     match self {
       Ok => "Ok"

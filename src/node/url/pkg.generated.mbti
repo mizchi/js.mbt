@@ -27,4 +27,3 @@ pub fn urlToHttpOptions(@mizchi/js/web/url.URL) -> @core.Any
 // Type aliases
 
 // Traits
-

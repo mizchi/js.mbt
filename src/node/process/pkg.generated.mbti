@@ -53,4 +53,3 @@ pub fn ProcessEnv::has(Self, String) -> Bool
 // Type aliases
 
 // Traits
-

@@ -39,4 +39,3 @@ pub fn Server::listen(Self, Int, () -> Unit) -> Unit
 // Type aliases
 
 // Traits
-

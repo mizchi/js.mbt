@@ -59,4 +59,3 @@ pub fn BufferJSON::type_(Self) -> String
 // Type aliases
 
 // Traits
-

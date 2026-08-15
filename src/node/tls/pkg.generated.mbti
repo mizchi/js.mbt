@@ -40,4 +40,3 @@ pub fn TLSSocket::write(Self, String) -> Unit
 // Type aliases
 
 // Traits
-

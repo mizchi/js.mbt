@@ -71,4 +71,3 @@ pub fn SpawnSyncResult::stdout(Self) -> @streams.ReadableStream
 // Type aliases
 
 // Traits
-

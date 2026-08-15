@@ -64,4 +64,3 @@ pub fn EventTarget::removeEventListener(Self, String, (@core.Any) -> Unit, captu
 // Type aliases
 
 // Traits
-

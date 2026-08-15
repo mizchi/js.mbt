@@ -175,7 +175,7 @@ priv suberror TestError {
 }
 
 ///|
-impl Show for TestError with output(self, logger) {
+impl Show for TestError with fn output(self, logger) {
   let TestError(msg) = self
   logger.write_string("TestError(\"" + msg + "\")")
 }

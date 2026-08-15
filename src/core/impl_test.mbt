@@ -123,17 +123,17 @@ test "JsImpl::delete and hasOwnProperty" {
 ///|
 test "JsImpl::equal" {
   // Same values should be equal
-  assert_eq(@core.any(42), @core.any(42))
-  assert_eq(@core.any("hello"), @core.any("hello"))
-  assert_eq(@core.any(true), @core.any(true))
+  assert_true(@core.any(42) == @core.any(42))
+  assert_true(@core.any("hello") == @core.any("hello"))
+  assert_true(@core.any(true) == @core.any(true))
 
   // Different values should not be equal
   assert_false(@core.any(42) == @core.any(43))
   assert_false(@core.any("hello") == @core.any("world"))
 
   // Special values
-  assert_eq(@core.null(), @core.null())
-  assert_eq(@core.undefined(), @core.undefined())
+  assert_true(@core.null() == @core.null())
+  assert_true(@core.undefined() == @core.undefined())
   assert_false(@core.null() == @core.undefined())
 }
 
@@ -226,7 +226,7 @@ test "Js trait for primitives" {
   // Val (identity)
   let val = @core.any(100)
   let val_js : @core.Any = val
-  assert_eq(val_js, val)
+  assert_true(val_js == val)
 }
 
 ///|

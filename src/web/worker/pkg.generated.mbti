@@ -36,4 +36,3 @@ pub fn Worker::to_any(Self) -> @core.Any
 pub(open) trait Transferable {
   fn to_transferable(Self) -> @core.Any
 }
-

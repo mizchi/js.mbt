@@ -13,7 +13,7 @@ pub(all) struct MessageEvent {
 }
 
 ///|
-pub impl Show for MessageEvent with output(self, logger) {
+pub impl Show for MessageEvent with fn output(self, logger) {
   logger.write_string("{data: ")
   logger.write_object(self.data)
   logger.write_string(", origin: ")
@@ -46,12 +46,12 @@ pub fn MessagePort::as_any(self : MessagePort) -> @core.Any = "%identity"
 pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = "%identity"
 
 ///|
-pub impl Show for MessagePort with output(self, logger) {
+pub impl Show for MessagePort with fn output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-pub impl Show for MessagePort with to_string(_self) {
+pub impl Show for MessagePort with fn to_string(_self) {
   "[object MessagePort]"
 }
 
@@ -99,12 +99,12 @@ pub type MessageChannel
 pub fn MessageChannel::as_any(self : MessageChannel) -> @core.Any = "%identity"
 
 ///|
-pub impl Show for MessageChannel with output(self, logger) {
+pub impl Show for MessageChannel with fn output(self, logger) {
   logger.write_string(self.to_string())
 }
 
 ///|
-pub impl Show for MessageChannel with to_string(_self) {
+pub impl Show for MessageChannel with fn to_string(_self) {
   "[object MessageChannel]"
 }
 

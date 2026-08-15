@@ -2,6 +2,4 @@ import {
   "mizchi/js/core",
 }
 
-options(
-  "is-main": true,
-)
+pkgtype(kind: "executable")

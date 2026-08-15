@@ -29,4 +29,3 @@ pub fn EventEmitter::to_any(Self) -> @core.Any
 // Type aliases
 
 // Traits
-
