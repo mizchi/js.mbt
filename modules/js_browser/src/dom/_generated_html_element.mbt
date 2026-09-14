@@ -114,25 +114,25 @@ pub fn HTMLElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLElement::replaceWith(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().replaceWith(nodes)
 }
 
@@ -144,7 +144,10 @@ pub fn HTMLElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn HTMLElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_element().replaceChildren(nodes)
 }
 

@@ -66,9 +66,9 @@ test {
 
   // Optional types
   let nullable : Int? = @core.identity_option(@core.null())
-  inspect(nullable, content="None")
+  debug_inspect(nullable, content="None")
   let some_value : Int? = @core.identity_option(@core.any(100))
-  inspect(some_value, content="Some(100)")
+  debug_inspect(some_value, content="Some(100)")
 }
 ```
 
@@ -104,7 +104,7 @@ test {
 
   // identity_option for safe conversion
   let maybe_null : Int? = @core.identity_option(null_val)
-  inspect(maybe_null, content="None")
+  debug_inspect(maybe_null, content="None")
 
   // from_option for MoonBit Option -> JS
   let js_some = @core.from_option(Some(42))
@@ -182,16 +182,16 @@ test {
 
   // Existing field
   let name : String? = @core.identity_option(obj["name"])
-  inspect(
+  debug_inspect(
     name,
     content=(
-      #|Some(Alice)
+      #|Some("Alice")
     ),
   )
 
   // Missing field returns undefined
   let missing : String? = @core.identity_option(obj["missing"])
-  inspect(missing, content="None")
+  debug_inspect(missing, content="None")
 }
 ```
 

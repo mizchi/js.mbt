@@ -109,8 +109,38 @@ async test "Socket test example" {
 | `Int`, `UInt`, `Float`, `Double` | `number` |
 | `BigInt` | `bigint` |
 | `Bytes` | `Uint8Array` |
+| `FixedArray[T]` | `Array<T>` |
 | `Array[T]` | `Array<T>` |
 | Function Type | `Function` |
+
+### Arrays in `extern "js"` signatures
+
+`Array[T]` is **deprecated in FFI signatures** (warning `0020`) - its runtime
+representation is an implementation detail. Use `FixedArray[T]` in every
+`extern "js"` declaration instead:
+
+```moonbit
+///|
+/// The extern always uses FixedArray ...
+extern "js" fn ffi_object_keys(obj : Any) -> FixedArray[String] =
+  #| (obj) => Object.keys(obj)
+
+///|
+/// ... and the public wrapper keeps the friendlier `Array[T]`.
+pub fn object_keys(obj : Any) -> Array[String] {
+  Array::from_fixed_array(ffi_object_keys(obj))
+}
+```
+
+Conventions used in this repo:
+
+- **Argument positions** on public FFI functions take `FixedArray[T]` directly.
+  Array literals (`Math::max([1.0, 2.0])`, `obj._call("f", [a, b])`) work
+  unchanged and stay zero-cost; pass a runtime-built `Array` with
+  `FixedArray::from_array(arr[:])`.
+- **Return positions** keep `Array[T]` in the public API, converting with
+  `Array::from_fixed_array` in a thin non-extern wrapper (the same pattern
+  `moonbitlang/core` uses in `@env`).
 
 ### Collection Type Conversion Overhead (minified)
 

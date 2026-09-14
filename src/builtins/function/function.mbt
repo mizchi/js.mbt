@@ -24,7 +24,7 @@ pub fn Function::name(self : Self) -> String {
 pub extern "js" fn Function::apply(
   self : Self,
   caller : @core.Any,
-  args : Array[@core.Any],
+  args : FixedArray[@core.Any],
 ) -> @core.Any =
   #|(self, args) => self.apply(caller, args)
 

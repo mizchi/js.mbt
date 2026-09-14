@@ -6,7 +6,9 @@ extern "js" fn path_module() -> @core.Any =
 /// path.join(...paths)
 pub fn join(paths : Array[String]) -> String {
   let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("join", paths.map(fn(p) { @core.any(p) })).cast()
+  path_module
+  ._call("join", FixedArray::makei(paths.length(), i => @core.any(paths[i])))
+  .cast()
 }
 
 ///|
@@ -51,7 +53,9 @@ pub extern "js" fn normalize(path : String) -> String = "normalize"
 /// JS: path.resolve(...paths)
 pub fn resolve(paths : Array[String]) -> String {
   let path_module : @core.Any = path_module() |> @core.any
-  path_module._call("resolve", paths.map(fn(p) { @core.any(p) })).cast()
+  path_module
+  ._call("resolve", FixedArray::makei(paths.length(), i => @core.any(paths[i])))
+  .cast()
 }
 
 ///|

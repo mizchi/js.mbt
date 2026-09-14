@@ -85,14 +85,14 @@ pub fn Bun::cwd(self : Bun) -> String {
 
 ///|
 /// Get command line arguments
-extern "js" fn ffi_get_argv() -> Array[String] =
+extern "js" fn ffi_get_argv() -> FixedArray[String] =
   #| () => process.argv
 
 ///|
 /// Get command line arguments (excluding the binary and script path)
 pub fn Bun::argv(self : Bun) -> Array[String] {
   ignore(self)
-  ffi_get_argv()
+  Array::from_fixed_array(ffi_get_argv())
 }
 
 ///|
@@ -412,7 +412,7 @@ pub struct SpawnOptions {
 ///|
 /// Create spawn options from command array
 pub fn SpawnOptions::new(cmd : Array[String]) -> SpawnOptions {
-  { cmd, cwd: None, env: None, stdin: None, stdout: None, stderr: None }
+  { cmd, cwd: None, env: None, stdin: None, stdout: None, stderr: None, }
 }
 
 ///|

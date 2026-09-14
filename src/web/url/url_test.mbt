@@ -139,18 +139,18 @@ test "URL::to_json - returns serialized URL" {
 
 ///|
 test "URL::new - throws on invalid URL" {
-  let result = try? URL::new("not a valid url")
-  match result {
-    Err(_) => assert_true(true)
-    Ok(_) => fail("Expected URL::new to throw on invalid URL")
+  try URL::new("not a valid url") catch {
+    _ => ()
+  } noraise {
+    _ => fail("Expected URL::new to throw on invalid URL")
   }
 }
 
 ///|
 test "URL::new - throws on invalid base URL" {
-  let result = try? URL::new("/path", base="not a valid base")
-  match result {
-    Err(_) => assert_true(true)
-    Ok(_) => fail("Expected URL::new to throw on invalid base URL")
+  try URL::new("/path", base="not a valid base") catch {
+    _ => ()
+  } noraise {
+    _ => fail("Expected URL::new to throw on invalid base URL")
   }
 }

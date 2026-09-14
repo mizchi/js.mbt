@@ -59,7 +59,7 @@ pub fn Readable::as_event_emitter(self : Readable) -> @events.EventEmitter = "%i
 ///|
 /// Readable stream methods
 pub fn Readable::read(self : Readable, size? : Int) -> @core.Any {
-  let args : Array[@core.Any] = match size {
+  let args : FixedArray[@core.Any] = match size {
     Some(s) => [@core.any(s)]
     None => []
   }
@@ -88,7 +88,7 @@ pub fn Readable::pipe(self : Readable, destination : Writable) -> Writable {
 
 ///|
 pub fn Readable::unpipe(self : Readable, destination? : Writable) -> Readable {
-  let args : Array[@core.Any] = match destination {
+  let args : FixedArray[@core.Any] = match destination {
     Some(d) => [@core.any(d)]
     None => []
   }
@@ -102,7 +102,7 @@ pub fn Readable::setEncoding(self : Readable, encoding : String) -> Readable {
 
 ///|
 pub fn Readable::destroy(self : Readable, error? : @core.Any) -> Readable {
-  let args : Array[@core.Any] = match error {
+  let args : FixedArray[@core.Any] = match error {
     Some(e) => [e]
     None => []
   }
@@ -115,7 +115,7 @@ pub fn Readable::unshift(
   chunk : @core.Any,
   encoding? : String,
 ) -> Unit {
-  let args : Array[@core.Any] = match encoding {
+  let args : FixedArray[@core.Any] = match encoding {
     Some(e) => [chunk, @core.any(e)]
     None => [chunk]
   }
@@ -214,7 +214,7 @@ pub fn Writable::write(
   if callback is Some(cb) {
     args.push(cb)
   }
-  @core.any(self)._call("write", args).cast()
+  @core.any(self)._call("write", FixedArray::from_array(args[:])).cast()
 }
 
 ///|
@@ -238,7 +238,7 @@ pub fn Writable::end(
   if callback is Some(cb) {
     args.push(cb)
   }
-  @core.any(self)._call("end", args).cast()
+  @core.any(self)._call("end", FixedArray::from_array(args[:])).cast()
 }
 
 ///|
@@ -253,7 +253,7 @@ pub fn Writable::uncork(self : Writable) -> Unit {
 
 ///|
 pub fn Writable::destroy(self : Writable, error? : @core.Any) -> Writable {
-  let args : Array[@core.Any] = match error {
+  let args : FixedArray[@core.Any] = match error {
     Some(e) => [e]
     None => []
   }

@@ -12,7 +12,7 @@ import {
 // Types and methods
 #external
 pub type Reflect
-pub fn Reflect::apply(@core.Any, @core.Any, Array[@core.Any]) -> @core.Any
+pub fn Reflect::apply(@core.Any, @core.Any, FixedArray[@core.Any]) -> @core.Any
 pub fn Reflect::construct(@core.Any, Array[@core.Any], @core.Any?) -> @core.Any
 pub fn Reflect::defineProperty(@core.Any, @core.Any, @core.Any) -> Bool
 pub fn Reflect::deleteProperty(@core.Any, @core.Any) -> Bool

@@ -110,7 +110,7 @@ pub fn TrustedTypePolicy::createHTMLWithArgs(
   for arg in args {
     all_args.push(arg)
   }
-  self.as_any()._call("createHTML", all_args).cast()
+  self.as_any()._call("createHTML", FixedArray::from_array(all_args[:])).cast()
 }
 
 ///|
@@ -135,7 +135,10 @@ pub fn TrustedTypePolicy::createScriptWithArgs(
   for arg in args {
     all_args.push(arg)
   }
-  self.as_any()._call("createScript", all_args).cast()
+  self
+  .as_any()
+  ._call("createScript", FixedArray::from_array(all_args[:]))
+  .cast()
 }
 
 ///|
@@ -160,7 +163,10 @@ pub fn TrustedTypePolicy::createScriptURLWithArgs(
   for arg in args {
     all_args.push(arg)
   }
-  self.as_any()._call("createScriptURL", all_args).cast()
+  self
+  .as_any()
+  ._call("createScriptURL", FixedArray::from_array(all_args[:]))
+  .cast()
 }
 
 ///|
@@ -205,7 +211,7 @@ pub fn TrustedTypePolicyOptions::new(
   create_script? : ((String) -> String)? = None,
   create_script_url? : ((String) -> String)? = None,
 ) -> TrustedTypePolicyOptions {
-  { create_html, create_script, create_script_url }
+  { create_html, create_script, create_script_url, }
 }
 
 ///|
@@ -316,7 +322,9 @@ pub fn TrustedTypePolicyFactory::getAttributeType(
       args.push(@core.any(ans))
     }
   }
-  let result = self.as_any()._call("getAttributeType", args)
+  let result = self
+    .as_any()
+    ._call("getAttributeType", FixedArray::from_array(args[:]))
   if @core.is_nullish(result) {
     None
   } else {
@@ -337,7 +345,9 @@ pub fn TrustedTypePolicyFactory::getPropertyType(
   if element_ns is Some(ns) {
     args.push(@core.any(ns))
   }
-  let result = self.as_any()._call("getPropertyType", args)
+  let result = self
+    .as_any()
+    ._call("getPropertyType", FixedArray::from_array(args[:]))
   if @core.is_nullish(result) {
     None
   } else {

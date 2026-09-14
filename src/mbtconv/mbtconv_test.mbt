@@ -70,10 +70,10 @@ test "to_json converts JS value to Json" {
   obj["name"] = @core.any("Bob")
   obj["age"] = @core.any(25)
   let json = to_json(obj)
-  inspect(
+  debug_inspect(
     json,
     content=(
-      #|Object({name: String(Bob), age: Number(25)})
+      #|Object({ "name": String("Bob"), "age": Number(25) })
     ),
   )
 }
@@ -82,15 +82,15 @@ test "to_json converts JS value to Json" {
 test "to_json handles arrays" {
   let arr : Array[@core.Any] = [@core.any(1), @core.any(2), @core.any(3)]
   let json = to_json(@core.any(arr))
-  inspect(json, content="Array([Number(1), Number(2), Number(3)])")
+  debug_inspect(json, content="Array([Number(1), Number(2), Number(3)])")
 }
 
 ///|
 test "to_json handles null and undefined" {
   let null_val = @core.null()
   let undef_val = @core.undefined()
-  inspect(to_json(@core.any(null_val)), content="Null")
-  inspect(to_json(@core.any(undef_val)), content="Null")
+  debug_inspect(to_json(@core.any(null_val)), content="Null")
+  debug_inspect(to_json(@core.any(undef_val)), content="Null")
 }
 
 ///|
@@ -110,8 +110,8 @@ test "to_option converts Any to Option" {
   let null_val = @core.null()
   let opt1 : Int? = to_option(val)
   let opt2 : Int? = to_option(@core.any(null_val))
-  inspect(opt1, content="Some(123)")
-  inspect(opt2, content="None")
+  debug_inspect(opt1, content="Some(123)")
+  debug_inspect(opt2, content="None")
 }
 
 ///|
@@ -126,10 +126,19 @@ test "roundtrip from_json and to_json" {
   }
   let js_val = from_json(original)
   let back = to_json(js_val)
-  inspect(
+  debug_inspect(
     back,
     content=(
-      #|Object({string: String(hello), number: Number(42.5), bool: True, null: Null, array: Array([Number(1), Number(2), Number(3)]), nested: Object({x: Number(1)})})
+      #|Object(
+      #|  {
+      #|    "string": String("hello"),
+      #|    "number": Number(42.5),
+      #|    "bool": True,
+      #|    "null": Null,
+      #|    "array": Array([Number(1), Number(2), Number(3)]),
+      #|    "nested": Object({ "x": Number(1) }),
+      #|  },
+      #|)
     ),
   )
 }
@@ -163,7 +172,7 @@ extern "js" fn test_ffi_point_new(x : Int, y : Int) -> @core.Any =
 
 ///|
 test "from builtin struct" {
-  let p = Point::{ x: 10, y: 20 }
+  let p = Point::{ x: 10, y: 20, }
   let v : @core.Any = @core.any(p)
   assert_eq(@core.identity(v._get("x")), 10)
   assert_eq(@core.identity(v._get("y")), 20)

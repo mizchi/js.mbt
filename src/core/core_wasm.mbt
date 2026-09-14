@@ -203,7 +203,7 @@ pub fn Any::_set(self : Any, key : String, value : Any) -> Unit {
 
 ///|
 /// Call method: obj._call("method", [arg1, arg2])
-pub fn Any::_call(self : Any, key : String, args : Array[Any]) -> Any {
+pub fn Any::_call(self : Any, key : String, args : FixedArray[Any]) -> Any {
   match args.length() {
     0 => wasm_call0(self, key)
     1 => wasm_call1(self, key, args[0])
@@ -216,7 +216,7 @@ pub fn Any::_call(self : Any, key : String, args : Array[Any]) -> Any {
 
 ///|
 /// Call function: func._invoke([arg1, arg2])
-pub fn Any::_invoke(self : Any, args : Array[Any]) -> Any {
+pub fn Any::_invoke(self : Any, args : FixedArray[Any]) -> Any {
   match args.length() {
     0 => wasm_invoke0(self)
     1 => wasm_invoke1(self, args[0])
@@ -229,7 +229,7 @@ pub fn Any::_invoke(self : Any, args : Array[Any]) -> Any {
 
 ///|
 /// JS: new cls(...args)
-pub fn new(cls : Any, args : Array[Any]) -> Any {
+pub fn new(cls : Any, args : FixedArray[Any]) -> Any {
   match args.length() {
     0 => wasm_new0(cls)
     1 => wasm_new1(cls, args[0])

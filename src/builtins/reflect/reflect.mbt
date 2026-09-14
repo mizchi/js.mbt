@@ -10,7 +10,7 @@ pub type Reflect
 pub extern "js" fn Reflect::apply(
   target : @core.Any,
   this_argument : @core.Any,
-  arguments_list : Array[@core.Any],
+  arguments_list : FixedArray[@core.Any],
 ) -> @core.Any =
   #| (target, thisArg, args) => Reflect.apply(target, thisArg, args)
 
@@ -106,7 +106,12 @@ pub extern "js" fn Reflect::isExtensible(target : @core.Any) -> Bool =
 ///
 /// Returns an array of the target object's own property keys.
 /// Note: The returned array is a snapshot and should be treated as immutable.
-pub extern "js" fn Reflect::ownKeys(target : @core.Any) -> Array[@core.Any] =
+pub fn Reflect::ownKeys(target : @core.Any) -> Array[@core.Any] {
+  Array::from_fixed_array(ffi_own_keys(target))
+}
+
+///|
+extern "js" fn ffi_own_keys(target : @core.Any) -> FixedArray[@core.Any] =
   #| (target) => Reflect.ownKeys(target)
 
 ///|

@@ -219,7 +219,7 @@ pub(all) struct UpdateOptions {
 
 ///|
 pub fn UpdateOptions::default() -> UpdateOptions {
-  { url: None, active: None, pinned: None, highlighted: None, muted: None }
+  { url: None, active: None, pinned: None, highlighted: None, muted: None, }
 }
 
 ///|
@@ -263,11 +263,11 @@ extern "js" fn ffi_update(
 ///|
 /// Remove/close tabs
 pub async fn remove(tab_ids : Array[Int]) -> Unit {
-  ffi_remove(tab_ids).wait()
+  ffi_remove(FixedArray::from_array(tab_ids[:])).wait()
 }
 
 ///|
-extern "js" fn ffi_remove(tab_ids : Array[Int]) -> @js.Promise[Unit] =
+extern "js" fn ffi_remove(tab_ids : FixedArray[Int]) -> @js.Promise[Unit] =
   #|async (tabIds) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.remove(tabIds);

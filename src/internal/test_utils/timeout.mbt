@@ -36,9 +36,9 @@ extern "js" fn ffi_clear_timeout(id : Int) -> Unit =
 
 ///|
 pub async fn[T] timeout(ms : Int, f : async () -> T) -> T raise TimeoutError {
-  let result : Ref[T?] = { val: None }
-  let timed_out : Ref[Bool] = { val: false }
-  let completed : Ref[Bool] = { val: false }
+  let result : Ref[T?] = { val: None, }
+  let timed_out : Ref[Bool] = { val: false, }
+  let completed : Ref[Bool] = { val: false, }
 
   // Race between timeout and the async function
   @core.suspend(fn(resolve, reject) {
@@ -79,9 +79,9 @@ pub async fn[T] wait_for(
   timeout~ : Int,
   f : ((T) -> Unit) -> Unit,
 ) -> T raise TimeoutError {
-  let result : Ref[T?] = { val: None }
-  let timed_out : Ref[Bool] = { val: false }
-  let completed : Ref[Bool] = { val: false }
+  let result : Ref[T?] = { val: None, }
+  let timed_out : Ref[Bool] = { val: false, }
+  let completed : Ref[Bool] = { val: false, }
   @core.suspend(fn(resolve, reject) {
     // Set up timeout
     let timeout_id = ffi_set_timeout(
@@ -153,26 +153,24 @@ pub async fn retry(
 
     // Try to run f with optional timeout
     let success = match timeout {
-      Some(ms) => {
-        let result : Result[Unit, TimeoutError] = try? run_with_timeout(ms, f)
-        match result {
-          Ok(_) => true
-          Err(e) => {
+      Some(ms) =>
+        try run_with_timeout(ms, f) catch {
+          e => {
             last_error = e.to_string()
             false
           }
+        } noraise {
+          _ => true
         }
-      }
-      None => {
-        let result : Result[Unit, Error] = try? f()
-        match result {
-          Ok(_) => true
-          Err(e) => {
+      None =>
+        try f() catch {
+          e => {
             last_error = e.to_string()
             false
           }
+        } noraise {
+          _ => true
         }
-      }
     }
     if success {
       if on_success is Some(cb) {

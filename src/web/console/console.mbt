@@ -40,7 +40,7 @@ pub extern "js" fn dir(value : @core.Any) -> Unit =
 
 ///|
 /// JS: console.table(value, keys)
-pub extern "js" fn table(value : @core.Any, keys : Array[String]) -> Unit =
+pub extern "js" fn table(value : @core.Any, keys : FixedArray[String]) -> Unit =
   #| (value, keys) => console.table(value, keys)
 
 ///|

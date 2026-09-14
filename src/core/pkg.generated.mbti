@@ -68,11 +68,11 @@ pub fn json_stringify_pretty(Any, Int) -> String
 
 pub fn log(Any) -> Unit
 
-pub fn new(Any, Array[Any]) -> Any
+pub fn new(Any, FixedArray[Any]) -> Any
 
 pub fn new_array() -> Any
 
-pub fn[T] new_instance(TypeOf[T], Array[Any]) -> T
+pub fn[T] new_instance(TypeOf[T], FixedArray[Any]) -> T
 
 pub fn new_object() -> Any
 
@@ -129,11 +129,11 @@ pub impl Show for ThrowError
 // Types and methods
 #external
 pub type Any
-pub fn Any::_call(Self, String, Array[Self]) -> Self
+pub fn Any::_call(Self, String, FixedArray[Self]) -> Self
 #alias("_[_]")
 pub fn Any::_get(Self, String) -> Self
 pub fn Any::_get_by_index(Self, Int) -> Self
-pub fn Any::_invoke(Self, Array[Self]) -> Self
+pub fn Any::_invoke(Self, FixedArray[Self]) -> Self
 #alias("_[_]=_")
 pub fn Any::_set(Self, String, Self) -> Unit
 pub fn[T] Any::cast(Self) -> T

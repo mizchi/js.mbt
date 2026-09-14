@@ -139,7 +139,7 @@ test "compileFunction execution" {
 test "Script sourceMapURL" {
   let script = Script::new("1 + 1")
   let url = script.sourceMapURL()
-  inspect(url, content="None")
+  debug_inspect(url, content="None")
 }
 
 ///|
@@ -147,5 +147,5 @@ test "Script sourceMapURL" {
 test "Script cachedDataRejected" {
   let script = Script::new("1 + 1")
   let rejected = script.cachedDataRejected()
-  inspect(rejected, content="None")
+  debug_inspect(rejected, content="None")
 }

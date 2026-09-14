@@ -680,9 +680,9 @@ test "CustomElementRegistry - getName with happy-dom" {
   // getName should return the element name
   let name = registry.getName(ctor)
   name
-  |> inspect(
+  |> debug_inspect(
     content=(
-      #|Some(my-named-element)
+      #|Some("my-named-element")
     ),
   )
 }

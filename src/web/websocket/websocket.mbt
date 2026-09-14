@@ -69,7 +69,7 @@ pub fn WebSocketReadyState::from_int(value : Int) -> WebSocketReadyState? {
 /// JS: new WebSocket(url, protocols?)
 pub extern "js" fn WebSocket::new(
   url : String,
-  protocols? : Array[String],
+  protocols? : FixedArray[String],
 ) -> WebSocket =
   #|(url, protocols) => {
   #|  if (protocols !== undefined) {

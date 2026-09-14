@@ -26,7 +26,7 @@ pub fn Math::exp(Double) -> Double
 pub fn Math::expm1(Double) -> Double
 pub fn Math::floor(Double) -> Int
 pub fn Math::fround(Double) -> Double
-pub fn Math::hypot(Array[Double]) -> Double
+pub fn Math::hypot(FixedArray[Double]) -> Double
 pub fn Math::imul(Int, Int) -> Int
 pub fn Math::ln10() -> Double
 pub fn Math::ln2() -> Double
@@ -36,8 +36,8 @@ pub fn Math::log10e() -> Double
 pub fn Math::log1p(Double) -> Double
 pub fn Math::log2(Double) -> Double
 pub fn Math::log2e() -> Double
-pub fn Math::max(Array[Double]) -> Double
-pub fn Math::min(Array[Double]) -> Double
+pub fn Math::max(FixedArray[Double]) -> Double
+pub fn Math::min(FixedArray[Double]) -> Double
 pub fn Math::pi() -> Double
 pub fn Math::pow(Double, Double) -> Double
 pub fn Math::random() -> Double

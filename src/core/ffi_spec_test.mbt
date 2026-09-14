@@ -148,7 +148,7 @@ extern "js" fn get_simple() -> @core.Any =
 ///|
 test "Int? field with all values set" {
   let obj : StructWithOptions = create_all_fields() |> @core.identity
-  inspect(obj.optionalInt, content="Some(42)")
+  debug_inspect(obj.optionalInt, content="Some(42)")
 }
 
 ///|
@@ -165,22 +165,22 @@ test "Int? field with null value" {
 ///|
 test "Int? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> @core.identity
-  inspect(obj.optionalInt, content="None")
+  debug_inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "Int? field with missing value" {
   let obj : StructWithOptions = create_missing_fields() |> @core.identity
-  inspect(obj.optionalInt, content="None")
+  debug_inspect(obj.optionalInt, content="None")
 }
 
 ///|
 test "String? field with all values set" {
   let obj : StructWithOptions = create_all_fields() |> @core.identity
-  inspect(
+  debug_inspect(
     obj.optionalString,
     content=(
-      #|Some(hello)
+      #|Some("hello")
     ),
   )
 }
@@ -198,7 +198,7 @@ test "String? field with null value" {
 ///|
 test "String? field with undefined value" {
   let obj : StructWithOptions = create_undefined_fields() |> @core.identity
-  inspect(obj.optionalString, content="None")
+  debug_inspect(obj.optionalString, content="None")
 }
 
 ///|
@@ -258,7 +258,7 @@ test "Generic FFITestContainer[Int?] with value" {
   let js_obj = @core.new_object()
   js_obj._set("value", 42 |> @core.any)
   let container : FFITestContainer[Int?] = js_obj |> @core.identity
-  inspect(container.value, content="Some(42)")
+  debug_inspect(container.value, content="Some(42)")
 }
 
 ///|
@@ -286,7 +286,7 @@ test "Generic FFITestContainer[SimpleStruct]" {
 ///|
 test "Direct identity to Int? with number" {
   let value : Int? = get_number() |> @core.identity
-  inspect(value, content="Some(42)")
+  debug_inspect(value, content="Some(42)")
 }
 
 ///|
@@ -302,25 +302,25 @@ test "Direct identity to Int? with null" {
 ///|
 test "Direct identity to Int? with undefined" {
   let value : Int? = get_undefined() |> @core.identity
-  inspect(value, content="None")
+  debug_inspect(value, content="None")
 }
 
 ///|
 test "identity_option with null" {
   let value : Int? = @core.identity_option(get_null())
-  inspect(value, content="None")
+  debug_inspect(value, content="None")
 }
 
 ///|
 test "identity_option with undefined" {
   let value : Int? = @core.identity_option(get_undefined())
-  inspect(value, content="None")
+  debug_inspect(value, content="None")
 }
 
 ///|
 test "identity_option with value" {
   let value : Int? = @core.identity_option(get_number())
-  inspect(value, content="Some(42)")
+  debug_inspect(value, content="Some(42)")
 }
 
 ///| Trait-based conversion tests
@@ -337,7 +337,7 @@ pub impl Convertible for SimpleStruct with fn from_js(js : @core.Any) -> SimpleS
 
 ///|
 test "Trait-based conversion" {
-  let simple : SimpleStruct = SimpleStruct::from_js(get_simple())
+  let simple : SimpleStruct = Convertible::from_js(get_simple())
   inspect(simple.name, content="Charlie")
   inspect(simple.age, content="35")
 }
@@ -371,7 +371,7 @@ test "from_option roundtrip" {
   let original : Int? = Some(123)
   let js_val = @core.from_option(original)
   let restored : Int? = @core.identity_option(js_val)
-  inspect(restored, content="Some(123)")
+  debug_inspect(restored, content="Some(123)")
 }
 
 ///|
@@ -379,5 +379,5 @@ test "from_option roundtrip with None" {
   let original : String? = None
   let js_val = @core.from_option(original)
   let restored : String? = @core.identity_option(js_val)
-  inspect(restored, content="None")
+  debug_inspect(restored, content="None")
 }

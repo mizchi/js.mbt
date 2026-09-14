@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Warning-free on the latest MoonBit toolchain.** Fixed all 108 deprecation
+  warnings reported by `moonc` and dropped the blanket `warnings = "-20"`
+  suppression from all five workspace `moon.mod` files, so
+  `moon check --deny-warn` now passes without muting deprecations.
+
+- **BREAKING (argument positions only): `extern "js"` array parameters are now
+  `FixedArray[T]`.** `Array[T]` is deprecated in JavaScript FFI signatures
+  because its runtime representation is an implementation detail. Affected
+  public signatures:
+  - `@core`: `Any::_call`, `Any::_invoke`, `new`, `new_instance`
+  - `@math`: `Math::max`, `Math::min`, `Math::hypot`
+  - `@function`: `Function::apply`; `@reflect`: `Reflect::apply`
+  - `@dns`: `set_servers`; `@console`: `table`; `@websocket`: `WebSocket::new`
+    (`protocols?`)
+  - `@js_browser/dom`: `Element::before`/`after`/`prepend`/`replaceWith`/
+    `replaceChildren` and the generated `HTML*Element`/`SVG*Element`
+    delegations
+
+  Array-literal call sites (`obj._call("f", [a, b])`, `Math::max([1.0, 2.0])`)
+  compile unchanged and stay zero-cost. To pass a runtime-built array, use
+  `FixedArray::from_array(arr[:])`.
+
+  Return types are unchanged: `object_keys`, `object_values`, `array_from`,
+  `from_entries`, `Reflect::ownKeys`, `Object::entries`, `RegExp::split`,
+  `Promise::all`/`race`/`any`/`allSettled`, `readdirSync`, `cpus`, `loadavg`,
+  `process.argv`, `getHeapSpaceStatistics`, `Bun::argv`, `tabs.remove` and
+  `execFile` all still use `Array[T]`, converting internally with
+  `Array::from_fixed_array`.
+
+- Migrated `inspect` to `debug_inspect` for composed values (`Option`, arrays,
+  `Json`) per the `Show` → `Debug` split, and updated the affected snapshots
+  (`Debug` quotes strings: `Some(hello)` → `Some("hello")`).
+
+- Replaced deprecated `try?` with `try ... catch ... noraise` (and postfix
+  `catch` where the outcome is intentionally ignored).
+
+- Replaced `Array::new(capacity=)` with `Array(capacity=)`,
+  `@immut/hashmap.from_array` with `@immut/hashmap.HashMap([...])`,
+  `not(x)` with `!x`, and the implicitly promoted `SimpleStruct::from_js` /
+  `Show::to_string` calls with explicit trait-qualified calls.
+
+- Reformatted with the current `moon fmt` (trailing commas in single-line
+  struct literals) and regenerated all `.mbti` interfaces.
+
 ## [0.12.1] - 2026-05-26
 
 ### Changed

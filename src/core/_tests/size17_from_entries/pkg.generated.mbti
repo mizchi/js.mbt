@@ -6,7 +6,7 @@ import {
 }
 
 // Values
-pub fn from_entries(Array[(String, @core.Any)]) -> @core.Any
+pub fn from_entries(FixedArray[(String, @core.Any)]) -> @core.Any
 
 // Errors
 

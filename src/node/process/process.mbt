@@ -43,7 +43,7 @@ pub fn env() -> ProcessEnv {
 
 ///|
 /// Internal: process.argv via global process object (ESM compatible)
-extern "js" fn internal_argv() -> Array[String] =
+extern "js" fn internal_argv() -> FixedArray[String] =
   #| () => process.argv
 
 ///|
@@ -51,7 +51,7 @@ extern "js" fn internal_argv() -> Array[String] =
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn argv() -> Array[String] {
-  internal_argv()
+  Array::from_fixed_array(internal_argv())
 }
 
 ///|

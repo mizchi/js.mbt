@@ -176,7 +176,7 @@ extern "js" fn ffi_string_split(
   string : String,
   re : RegExp,
   limit : @core.Any,
-) -> Array[String] =
+) -> FixedArray[String] =
   #|(string, re, limit) => string.split(re, limit === null ? undefined : limit)
 
 ///|
@@ -320,7 +320,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
     }
     Some(g)
   }
-  { full, input, index, lastIndex: last_index, groups } |> Some
+  { full, input, index, lastIndex: last_index, groups, } |> Some
 }
 
 ///|
@@ -347,7 +347,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
     return None
   }
   let len : Int = v["length"].cast()
-  let matches : Array[String] = Array::new(capacity=len)
+  let matches : Array[String] = Array(capacity=len)
   for i = 0; i < len; i = i + 1 {
     matches.push(v[i.to_string()].cast())
   }
@@ -371,7 +371,7 @@ pub fn RegExp::match_(self : RegExp, string : String) -> RegExpMatchArray? {
     }
     Some(g)
   }
-  Some({ matches, index, input, groups })
+  Some({ matches, index, input, groups, })
 }
 
 ///|
@@ -389,7 +389,7 @@ pub fn RegExp::matchAll(
   for i = 0; i < len; i = i + 1 {
     let item = v[i.to_string()]
     let match_len : Int = item["length"].cast()
-    let matches : Array[String] = Array::new(capacity=match_len)
+    let matches : Array[String] = Array(capacity=match_len)
     for j = 0; j < match_len; j = j + 1 {
       matches.push(item[j.to_string()].cast())
     }
@@ -413,7 +413,7 @@ pub fn RegExp::matchAll(
       }
       Some(g)
     }
-    results.push({ matches, index, input, groups })
+    results.push({ matches, index, input, groups, })
   }
   results
 }
@@ -462,7 +462,7 @@ pub fn RegExp::replace_fn(
   ) -> String {
     let gv : @core.Any = groups_val |> @core.any
     let groups_len : Int = gv["length"].cast()
-    let groups : Array[String] = Array::new(capacity=groups_len)
+    let groups : Array[String] = Array(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = gv[i.to_string()]
       if @core.is_undefined(item) {
@@ -494,7 +494,7 @@ pub fn RegExp::replace_all_fn(
   ) -> String {
     let gv : @core.Any = groups_val |> @core.any
     let groups_len : Int = gv["length"].cast()
-    let groups : Array[String] = Array::new(capacity=groups_len)
+    let groups : Array[String] = Array(capacity=groups_len)
     for i = 0; i < groups_len; i = i + 1 {
       let item = gv[i.to_string()]
       if @core.is_undefined(item) {
@@ -531,5 +531,7 @@ pub fn RegExp::split(
     None => @core.null()
     Some(n) => @core.identity(n)
   }
-  ffi_string_split(string, self, limit_val |> @core.any)
+  Array::from_fixed_array(
+    ffi_string_split(string, self, limit_val |> @core.any),
+  )
 }

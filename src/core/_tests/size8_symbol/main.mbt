@@ -32,7 +32,7 @@ pub extern "js" fn symbol_create(description : String) -> Symbol =
 pub extern "js" fn call_symbol_method(
   obj : @core.Any,
   symbol : Symbol,
-  args : Array[@core.Any],
+  args : FixedArray[@core.Any],
 ) -> @core.Any =
   #| (obj, symbol, args) => obj[symbol](...args)
 

@@ -172,4 +172,4 @@ pub extern "js" fn get_servers() -> @core.Any = "getServers"
 ///|
 /// Set the DNS server addresses
 #module("node:dns")
-pub extern "js" fn set_servers(servers : Array[String]) -> Unit = "setServers"
+pub extern "js" fn set_servers(servers : FixedArray[String]) -> Unit = "setServers"

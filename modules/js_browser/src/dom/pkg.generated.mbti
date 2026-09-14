@@ -301,13 +301,13 @@ pub fn DragEvent::target(Self) -> Element
 
 #external
 pub type Element
-pub fn Element::after(Self, Array[Node]) -> Unit
+pub fn Element::after(Self, FixedArray[Node]) -> Unit
 pub fn Element::append(Self, Node) -> Unit
 pub fn Element::appendChild(Self, Node) -> Node
 pub fn Element::as_any(Self) -> @core.Any
 pub fn Element::as_event_target(Self) -> @event.EventTarget
 pub fn Element::as_node(Self) -> Node
-pub fn Element::before(Self, Array[Node]) -> Unit
+pub fn Element::before(Self, FixedArray[Node]) -> Unit
 pub fn Element::cast_from_event_target(@event.EventTarget) -> Self
 pub fn Element::cast_from_node(Node) -> Self
 pub fn Element::childElementCount(Self) -> Int
@@ -353,7 +353,7 @@ pub fn Element::outerHTML(Self) -> String
 pub fn Element::ownerDocument(Self) -> Document?
 pub fn Element::parentElement(Self) -> Self?
 pub fn Element::parentNode(Self) -> Node?
-pub fn Element::prepend(Self, Array[Node]) -> Unit
+pub fn Element::prepend(Self, FixedArray[Node]) -> Unit
 pub fn Element::previousElementSibling(Self) -> Self?
 pub fn Element::previousSibling(Self) -> Node?
 pub fn Element::querySelector(Self, String) -> Self?
@@ -362,8 +362,8 @@ pub fn Element::remove(Self) -> Unit
 pub fn Element::removeAttribute(Self, String) -> Unit
 pub fn Element::removeChild(Self, Node) -> Node
 pub fn Element::replaceChild(Self, Node, Node) -> Node
-pub fn Element::replaceChildren(Self, Array[Node]) -> Unit
-pub fn Element::replaceWith(Self, Array[Node]) -> Unit
+pub fn Element::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn Element::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn Element::scrollHeight(Self) -> Int
 pub fn Element::scrollIntoView(Self) -> Unit
 pub fn Element::scrollLeft(Self) -> Int
@@ -428,7 +428,7 @@ pub(all) struct HTMLAnchorElement {
   mut href : String
   mut target : String
 }
-pub fn HTMLAnchorElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLAnchorElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::append(Self, Node) -> Unit
 pub fn HTMLAnchorElement::appendChild(Self, Node) -> Node
 pub fn HTMLAnchorElement::as_any(Self) -> @core.Any
@@ -436,7 +436,7 @@ pub fn HTMLAnchorElement::as_element(Self) -> Element
 pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLAnchorElement::as_node(Self) -> Node
-pub fn HTMLAnchorElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLAnchorElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::cast_from_element(Element) -> Self
 pub fn HTMLAnchorElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLAnchorElement::cast_from_html_element(HTMLElement) -> Self
@@ -487,7 +487,7 @@ pub fn HTMLAnchorElement::outerHTML(Self) -> String
 pub fn HTMLAnchorElement::ownerDocument(Self) -> Document?
 pub fn HTMLAnchorElement::parentElement(Self) -> Element?
 pub fn HTMLAnchorElement::parentNode(Self) -> Node?
-pub fn HTMLAnchorElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLAnchorElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::previousElementSibling(Self) -> Element?
 pub fn HTMLAnchorElement::previousSibling(Self) -> Node?
 pub fn HTMLAnchorElement::querySelector(Self, String) -> Element?
@@ -496,8 +496,8 @@ pub fn HTMLAnchorElement::remove(Self) -> Unit
 pub fn HTMLAnchorElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLAnchorElement::removeChild(Self, Node) -> Node
 pub fn HTMLAnchorElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLAnchorElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLAnchorElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLAnchorElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLAnchorElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::scrollHeight(Self) -> Int
 pub fn HTMLAnchorElement::scrollIntoView(Self) -> Unit
 pub fn HTMLAnchorElement::scrollLeft(Self) -> Int
@@ -519,7 +519,7 @@ pub fn HTMLAnchorElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLBodyElement
-pub fn HTMLBodyElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLBodyElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::append(Self, Node) -> Unit
 pub fn HTMLBodyElement::appendChild(Self, Node) -> Node
 pub fn HTMLBodyElement::as_any(Self) -> @core.Any
@@ -527,7 +527,7 @@ pub fn HTMLBodyElement::as_element(Self) -> Element
 pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLBodyElement::as_node(Self) -> Node
-pub fn HTMLBodyElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLBodyElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::cast_from_element(Element) -> Self
 pub fn HTMLBodyElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLBodyElement::cast_from_html_element(HTMLElement) -> Self
@@ -578,7 +578,7 @@ pub fn HTMLBodyElement::outerHTML(Self) -> String
 pub fn HTMLBodyElement::ownerDocument(Self) -> Document?
 pub fn HTMLBodyElement::parentElement(Self) -> Element?
 pub fn HTMLBodyElement::parentNode(Self) -> Node?
-pub fn HTMLBodyElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLBodyElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::previousElementSibling(Self) -> Element?
 pub fn HTMLBodyElement::previousSibling(Self) -> Node?
 pub fn HTMLBodyElement::querySelector(Self, String) -> Element?
@@ -587,8 +587,8 @@ pub fn HTMLBodyElement::remove(Self) -> Unit
 pub fn HTMLBodyElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLBodyElement::removeChild(Self, Node) -> Node
 pub fn HTMLBodyElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLBodyElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLBodyElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLBodyElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLBodyElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::scrollHeight(Self) -> Int
 pub fn HTMLBodyElement::scrollIntoView(Self) -> Unit
 pub fn HTMLBodyElement::scrollLeft(Self) -> Int
@@ -611,7 +611,7 @@ pub fn HTMLBodyElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
 }
-pub fn HTMLButtonElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLButtonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::append(Self, Node) -> Unit
 pub fn HTMLButtonElement::appendChild(Self, Node) -> Node
 pub fn HTMLButtonElement::as_any(Self) -> @core.Any
@@ -619,7 +619,7 @@ pub fn HTMLButtonElement::as_element(Self) -> Element
 pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLButtonElement::as_node(Self) -> Node
-pub fn HTMLButtonElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLButtonElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::cast_from_element(Element) -> Self
 pub fn HTMLButtonElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLButtonElement::cast_from_html_element(HTMLElement) -> Self
@@ -670,7 +670,7 @@ pub fn HTMLButtonElement::outerHTML(Self) -> String
 pub fn HTMLButtonElement::ownerDocument(Self) -> Document?
 pub fn HTMLButtonElement::parentElement(Self) -> Element?
 pub fn HTMLButtonElement::parentNode(Self) -> Node?
-pub fn HTMLButtonElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLButtonElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::previousElementSibling(Self) -> Element?
 pub fn HTMLButtonElement::previousSibling(Self) -> Node?
 pub fn HTMLButtonElement::querySelector(Self, String) -> Element?
@@ -679,8 +679,8 @@ pub fn HTMLButtonElement::remove(Self) -> Unit
 pub fn HTMLButtonElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLButtonElement::removeChild(Self, Node) -> Node
 pub fn HTMLButtonElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLButtonElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLButtonElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLButtonElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLButtonElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::scrollHeight(Self) -> Int
 pub fn HTMLButtonElement::scrollIntoView(Self) -> Unit
 pub fn HTMLButtonElement::scrollLeft(Self) -> Int
@@ -704,7 +704,7 @@ pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 }
-pub fn HTMLCanvasElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLCanvasElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::append(Self, Node) -> Unit
 pub fn HTMLCanvasElement::appendChild(Self, Node) -> Node
 pub fn HTMLCanvasElement::as_any(Self) -> @core.Any
@@ -712,7 +712,7 @@ pub fn HTMLCanvasElement::as_element(Self) -> Element
 pub fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLCanvasElement::as_node(Self) -> Node
-pub fn HTMLCanvasElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLCanvasElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::cast_from_element(Element) -> Self
 pub fn HTMLCanvasElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLCanvasElement::cast_from_html_element(HTMLElement) -> Self
@@ -764,7 +764,7 @@ pub fn HTMLCanvasElement::outerHTML(Self) -> String
 pub fn HTMLCanvasElement::ownerDocument(Self) -> Document?
 pub fn HTMLCanvasElement::parentElement(Self) -> Element?
 pub fn HTMLCanvasElement::parentNode(Self) -> Node?
-pub fn HTMLCanvasElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLCanvasElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::previousElementSibling(Self) -> Element?
 pub fn HTMLCanvasElement::previousSibling(Self) -> Node?
 pub fn HTMLCanvasElement::querySelector(Self, String) -> Element?
@@ -773,8 +773,8 @@ pub fn HTMLCanvasElement::remove(Self) -> Unit
 pub fn HTMLCanvasElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLCanvasElement::removeChild(Self, Node) -> Node
 pub fn HTMLCanvasElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLCanvasElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLCanvasElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLCanvasElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLCanvasElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::scrollHeight(Self) -> Int
 pub fn HTMLCanvasElement::scrollIntoView(Self) -> Unit
 pub fn HTMLCanvasElement::scrollLeft(Self) -> Int
@@ -799,7 +799,7 @@ pub impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
-pub fn HTMLDivElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLDivElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::append(Self, Node) -> Unit
 pub fn HTMLDivElement::appendChild(Self, Node) -> Node
 pub fn HTMLDivElement::as_any(Self) -> @core.Any
@@ -807,7 +807,7 @@ pub fn HTMLDivElement::as_element(Self) -> Element
 pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLDivElement::as_node(Self) -> Node
-pub fn HTMLDivElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLDivElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::cast_from_element(Element) -> Self
 pub fn HTMLDivElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLDivElement::cast_from_html_element(HTMLElement) -> Self
@@ -858,7 +858,7 @@ pub fn HTMLDivElement::outerHTML(Self) -> String
 pub fn HTMLDivElement::ownerDocument(Self) -> Document?
 pub fn HTMLDivElement::parentElement(Self) -> Element?
 pub fn HTMLDivElement::parentNode(Self) -> Node?
-pub fn HTMLDivElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLDivElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::previousElementSibling(Self) -> Element?
 pub fn HTMLDivElement::previousSibling(Self) -> Node?
 pub fn HTMLDivElement::querySelector(Self, String) -> Element?
@@ -867,8 +867,8 @@ pub fn HTMLDivElement::remove(Self) -> Unit
 pub fn HTMLDivElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLDivElement::removeChild(Self, Node) -> Node
 pub fn HTMLDivElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLDivElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLDivElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLDivElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLDivElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::scrollHeight(Self) -> Int
 pub fn HTMLDivElement::scrollIntoView(Self) -> Unit
 pub fn HTMLDivElement::scrollLeft(Self) -> Int
@@ -890,7 +890,7 @@ pub fn HTMLDivElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLElement
-pub fn HTMLElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::append(Self, Node) -> Unit
 pub fn HTMLElement::appendChild(Self, Node) -> Node
 pub fn HTMLElement::as_any(Self) -> @core.Any
@@ -898,7 +898,7 @@ pub fn HTMLElement::as_element(Self) -> Element
 pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLElement::as_node(Self) -> Node
 pub fn HTMLElement::attachShadow(Self, ShadowRootInit) -> ShadowRoot
-pub fn HTMLElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::cast_from_element(Element) -> Self
 pub fn HTMLElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLElement::cast_from_node(Node) -> Self
@@ -948,7 +948,7 @@ pub fn HTMLElement::outerHTML(Self) -> String
 pub fn HTMLElement::ownerDocument(Self) -> Document?
 pub fn HTMLElement::parentElement(Self) -> Element?
 pub fn HTMLElement::parentNode(Self) -> Node?
-pub fn HTMLElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::previousElementSibling(Self) -> Element?
 pub fn HTMLElement::previousSibling(Self) -> Node?
 pub fn HTMLElement::querySelector(Self, String) -> Element?
@@ -957,8 +957,8 @@ pub fn HTMLElement::remove(Self) -> Unit
 pub fn HTMLElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLElement::removeChild(Self, Node) -> Node
 pub fn HTMLElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::scrollHeight(Self) -> Int
 pub fn HTMLElement::scrollIntoView(Self) -> Unit
 pub fn HTMLElement::scrollLeft(Self) -> Int
@@ -981,7 +981,7 @@ pub fn HTMLElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLFormElement
-pub fn HTMLFormElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLFormElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::append(Self, Node) -> Unit
 pub fn HTMLFormElement::appendChild(Self, Node) -> Node
 pub fn HTMLFormElement::as_any(Self) -> @core.Any
@@ -989,7 +989,7 @@ pub fn HTMLFormElement::as_element(Self) -> Element
 pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLFormElement::as_node(Self) -> Node
-pub fn HTMLFormElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLFormElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::cast_from_element(Element) -> Self
 pub fn HTMLFormElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLFormElement::cast_from_html_element(HTMLElement) -> Self
@@ -1040,7 +1040,7 @@ pub fn HTMLFormElement::outerHTML(Self) -> String
 pub fn HTMLFormElement::ownerDocument(Self) -> Document?
 pub fn HTMLFormElement::parentElement(Self) -> Element?
 pub fn HTMLFormElement::parentNode(Self) -> Node?
-pub fn HTMLFormElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLFormElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::previousElementSibling(Self) -> Element?
 pub fn HTMLFormElement::previousSibling(Self) -> Node?
 pub fn HTMLFormElement::querySelector(Self, String) -> Element?
@@ -1049,8 +1049,8 @@ pub fn HTMLFormElement::remove(Self) -> Unit
 pub fn HTMLFormElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLFormElement::removeChild(Self, Node) -> Node
 pub fn HTMLFormElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLFormElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLFormElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLFormElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLFormElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::scrollHeight(Self) -> Int
 pub fn HTMLFormElement::scrollIntoView(Self) -> Unit
 pub fn HTMLFormElement::scrollLeft(Self) -> Int
@@ -1072,7 +1072,7 @@ pub fn HTMLFormElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHeadElement
-pub fn HTMLHeadElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLHeadElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::append(Self, Node) -> Unit
 pub fn HTMLHeadElement::appendChild(Self, Node) -> Node
 pub fn HTMLHeadElement::as_any(Self) -> @core.Any
@@ -1080,7 +1080,7 @@ pub fn HTMLHeadElement::as_element(Self) -> Element
 pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadElement::as_node(Self) -> Node
-pub fn HTMLHeadElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHeadElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::cast_from_element(Element) -> Self
 pub fn HTMLHeadElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLHeadElement::cast_from_html_element(HTMLElement) -> Self
@@ -1131,7 +1131,7 @@ pub fn HTMLHeadElement::outerHTML(Self) -> String
 pub fn HTMLHeadElement::ownerDocument(Self) -> Document?
 pub fn HTMLHeadElement::parentElement(Self) -> Element?
 pub fn HTMLHeadElement::parentNode(Self) -> Node?
-pub fn HTMLHeadElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLHeadElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::previousElementSibling(Self) -> Element?
 pub fn HTMLHeadElement::previousSibling(Self) -> Node?
 pub fn HTMLHeadElement::querySelector(Self, String) -> Element?
@@ -1140,8 +1140,8 @@ pub fn HTMLHeadElement::remove(Self) -> Unit
 pub fn HTMLHeadElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHeadElement::removeChild(Self, Node) -> Node
 pub fn HTMLHeadElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLHeadElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLHeadElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLHeadElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLHeadElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::scrollHeight(Self) -> Int
 pub fn HTMLHeadElement::scrollIntoView(Self) -> Unit
 pub fn HTMLHeadElement::scrollLeft(Self) -> Int
@@ -1163,7 +1163,7 @@ pub fn HTMLHeadElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHeadingElement
-pub fn HTMLHeadingElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLHeadingElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::append(Self, Node) -> Unit
 pub fn HTMLHeadingElement::appendChild(Self, Node) -> Node
 pub fn HTMLHeadingElement::as_any(Self) -> @core.Any
@@ -1171,7 +1171,7 @@ pub fn HTMLHeadingElement::as_element(Self) -> Element
 pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHeadingElement::as_node(Self) -> Node
-pub fn HTMLHeadingElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHeadingElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::cast_from_element(Element) -> Self
 pub fn HTMLHeadingElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLHeadingElement::cast_from_html_element(HTMLElement) -> Self
@@ -1222,7 +1222,7 @@ pub fn HTMLHeadingElement::outerHTML(Self) -> String
 pub fn HTMLHeadingElement::ownerDocument(Self) -> Document?
 pub fn HTMLHeadingElement::parentElement(Self) -> Element?
 pub fn HTMLHeadingElement::parentNode(Self) -> Node?
-pub fn HTMLHeadingElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLHeadingElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::previousElementSibling(Self) -> Element?
 pub fn HTMLHeadingElement::previousSibling(Self) -> Node?
 pub fn HTMLHeadingElement::querySelector(Self, String) -> Element?
@@ -1231,8 +1231,8 @@ pub fn HTMLHeadingElement::remove(Self) -> Unit
 pub fn HTMLHeadingElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHeadingElement::removeChild(Self, Node) -> Node
 pub fn HTMLHeadingElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLHeadingElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLHeadingElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLHeadingElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLHeadingElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::scrollHeight(Self) -> Int
 pub fn HTMLHeadingElement::scrollIntoView(Self) -> Unit
 pub fn HTMLHeadingElement::scrollLeft(Self) -> Int
@@ -1254,7 +1254,7 @@ pub fn HTMLHeadingElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHtmlElement
-pub fn HTMLHtmlElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLHtmlElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::append(Self, Node) -> Unit
 pub fn HTMLHtmlElement::appendChild(Self, Node) -> Node
 pub fn HTMLHtmlElement::as_any(Self) -> @core.Any
@@ -1262,7 +1262,7 @@ pub fn HTMLHtmlElement::as_element(Self) -> Element
 pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLHtmlElement::as_node(Self) -> Node
-pub fn HTMLHtmlElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLHtmlElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::cast_from_element(Element) -> Self
 pub fn HTMLHtmlElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLHtmlElement::cast_from_html_element(HTMLElement) -> Self
@@ -1313,7 +1313,7 @@ pub fn HTMLHtmlElement::outerHTML(Self) -> String
 pub fn HTMLHtmlElement::ownerDocument(Self) -> Document?
 pub fn HTMLHtmlElement::parentElement(Self) -> Element?
 pub fn HTMLHtmlElement::parentNode(Self) -> Node?
-pub fn HTMLHtmlElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLHtmlElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::previousElementSibling(Self) -> Element?
 pub fn HTMLHtmlElement::previousSibling(Self) -> Node?
 pub fn HTMLHtmlElement::querySelector(Self, String) -> Element?
@@ -1322,8 +1322,8 @@ pub fn HTMLHtmlElement::remove(Self) -> Unit
 pub fn HTMLHtmlElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHtmlElement::removeChild(Self, Node) -> Node
 pub fn HTMLHtmlElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLHtmlElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLHtmlElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLHtmlElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLHtmlElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::scrollHeight(Self) -> Int
 pub fn HTMLHtmlElement::scrollIntoView(Self) -> Unit
 pub fn HTMLHtmlElement::scrollLeft(Self) -> Int
@@ -1350,7 +1350,7 @@ pub(all) struct HTMLIFrameElement {
   mut height : String
   mut name : String
 }
-pub fn HTMLIFrameElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLIFrameElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::append(Self, Node) -> Unit
 pub fn HTMLIFrameElement::appendChild(Self, Node) -> Node
 pub fn HTMLIFrameElement::as_any(Self) -> @core.Any
@@ -1358,7 +1358,7 @@ pub fn HTMLIFrameElement::as_element(Self) -> Element
 pub fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLIFrameElement::as_node(Self) -> Node
-pub fn HTMLIFrameElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLIFrameElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::cast_from_element(Element) -> Self
 pub fn HTMLIFrameElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLIFrameElement::cast_from_html_element(HTMLElement) -> Self
@@ -1411,7 +1411,7 @@ pub fn HTMLIFrameElement::outerHTML(Self) -> String
 pub fn HTMLIFrameElement::ownerDocument(Self) -> Document?
 pub fn HTMLIFrameElement::parentElement(Self) -> Element?
 pub fn HTMLIFrameElement::parentNode(Self) -> Node?
-pub fn HTMLIFrameElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLIFrameElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::previousElementSibling(Self) -> Element?
 pub fn HTMLIFrameElement::previousSibling(Self) -> Node?
 pub fn HTMLIFrameElement::querySelector(Self, String) -> Element?
@@ -1420,8 +1420,8 @@ pub fn HTMLIFrameElement::remove(Self) -> Unit
 pub fn HTMLIFrameElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLIFrameElement::removeChild(Self, Node) -> Node
 pub fn HTMLIFrameElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLIFrameElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLIFrameElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLIFrameElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLIFrameElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::scrollHeight(Self) -> Int
 pub fn HTMLIFrameElement::scrollIntoView(Self) -> Unit
 pub fn HTMLIFrameElement::scrollLeft(Self) -> Int
@@ -1446,7 +1446,7 @@ pub(all) struct HTMLImageElement {
   mut src : String
   mut alt : String
 }
-pub fn HTMLImageElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLImageElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::append(Self, Node) -> Unit
 pub fn HTMLImageElement::appendChild(Self, Node) -> Node
 pub fn HTMLImageElement::as_any(Self) -> @core.Any
@@ -1454,7 +1454,7 @@ pub fn HTMLImageElement::as_element(Self) -> Element
 pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLImageElement::as_node(Self) -> Node
-pub fn HTMLImageElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLImageElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::cast_from_element(Element) -> Self
 pub fn HTMLImageElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLImageElement::cast_from_html_element(HTMLElement) -> Self
@@ -1505,7 +1505,7 @@ pub fn HTMLImageElement::outerHTML(Self) -> String
 pub fn HTMLImageElement::ownerDocument(Self) -> Document?
 pub fn HTMLImageElement::parentElement(Self) -> Element?
 pub fn HTMLImageElement::parentNode(Self) -> Node?
-pub fn HTMLImageElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLImageElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::previousElementSibling(Self) -> Element?
 pub fn HTMLImageElement::previousSibling(Self) -> Node?
 pub fn HTMLImageElement::querySelector(Self, String) -> Element?
@@ -1514,8 +1514,8 @@ pub fn HTMLImageElement::remove(Self) -> Unit
 pub fn HTMLImageElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLImageElement::removeChild(Self, Node) -> Node
 pub fn HTMLImageElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLImageElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLImageElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLImageElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLImageElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::scrollHeight(Self) -> Int
 pub fn HTMLImageElement::scrollIntoView(Self) -> Unit
 pub fn HTMLImageElement::scrollLeft(Self) -> Int
@@ -1541,7 +1541,7 @@ pub(all) struct HTMLInputElement {
   mut placeholder : String
   mut checked : Bool
 }
-pub fn HTMLInputElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLInputElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::append(Self, Node) -> Unit
 pub fn HTMLInputElement::appendChild(Self, Node) -> Node
 pub fn HTMLInputElement::as_any(Self) -> @core.Any
@@ -1549,7 +1549,7 @@ pub fn HTMLInputElement::as_element(Self) -> Element
 pub fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLInputElement::as_node(Self) -> Node
-pub fn HTMLInputElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLInputElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::cast_from_element(Element) -> Self
 pub fn HTMLInputElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLInputElement::cast_from_html_element(HTMLElement) -> Self
@@ -1600,7 +1600,7 @@ pub fn HTMLInputElement::outerHTML(Self) -> String
 pub fn HTMLInputElement::ownerDocument(Self) -> Document?
 pub fn HTMLInputElement::parentElement(Self) -> Element?
 pub fn HTMLInputElement::parentNode(Self) -> Node?
-pub fn HTMLInputElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLInputElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::previousElementSibling(Self) -> Element?
 pub fn HTMLInputElement::previousSibling(Self) -> Node?
 pub fn HTMLInputElement::querySelector(Self, String) -> Element?
@@ -1609,8 +1609,8 @@ pub fn HTMLInputElement::remove(Self) -> Unit
 pub fn HTMLInputElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLInputElement::removeChild(Self, Node) -> Node
 pub fn HTMLInputElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLInputElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLInputElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLInputElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLInputElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::scrollHeight(Self) -> Int
 pub fn HTMLInputElement::scrollIntoView(Self) -> Unit
 pub fn HTMLInputElement::scrollLeft(Self) -> Int
@@ -1634,7 +1634,7 @@ pub fn HTMLInputElement::type_(Self) -> String
 
 #external
 pub type HTMLLIElement
-pub fn HTMLLIElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLLIElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::append(Self, Node) -> Unit
 pub fn HTMLLIElement::appendChild(Self, Node) -> Node
 pub fn HTMLLIElement::as_any(Self) -> @core.Any
@@ -1642,7 +1642,7 @@ pub fn HTMLLIElement::as_element(Self) -> Element
 pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLIElement::as_node(Self) -> Node
-pub fn HTMLLIElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLLIElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::cast_from_element(Element) -> Self
 pub fn HTMLLIElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLLIElement::cast_from_html_element(HTMLElement) -> Self
@@ -1693,7 +1693,7 @@ pub fn HTMLLIElement::outerHTML(Self) -> String
 pub fn HTMLLIElement::ownerDocument(Self) -> Document?
 pub fn HTMLLIElement::parentElement(Self) -> Element?
 pub fn HTMLLIElement::parentNode(Self) -> Node?
-pub fn HTMLLIElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLLIElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::previousElementSibling(Self) -> Element?
 pub fn HTMLLIElement::previousSibling(Self) -> Node?
 pub fn HTMLLIElement::querySelector(Self, String) -> Element?
@@ -1702,8 +1702,8 @@ pub fn HTMLLIElement::remove(Self) -> Unit
 pub fn HTMLLIElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLLIElement::removeChild(Self, Node) -> Node
 pub fn HTMLLIElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLLIElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLLIElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLLIElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLLIElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::scrollHeight(Self) -> Int
 pub fn HTMLLIElement::scrollIntoView(Self) -> Unit
 pub fn HTMLLIElement::scrollLeft(Self) -> Int
@@ -1726,7 +1726,7 @@ pub fn HTMLLIElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
 }
-pub fn HTMLLabelElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLLabelElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::append(Self, Node) -> Unit
 pub fn HTMLLabelElement::appendChild(Self, Node) -> Node
 pub fn HTMLLabelElement::as_any(Self) -> @core.Any
@@ -1734,7 +1734,7 @@ pub fn HTMLLabelElement::as_element(Self) -> Element
 pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLLabelElement::as_node(Self) -> Node
-pub fn HTMLLabelElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLLabelElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::cast_from_element(Element) -> Self
 pub fn HTMLLabelElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLLabelElement::cast_from_html_element(HTMLElement) -> Self
@@ -1785,7 +1785,7 @@ pub fn HTMLLabelElement::outerHTML(Self) -> String
 pub fn HTMLLabelElement::ownerDocument(Self) -> Document?
 pub fn HTMLLabelElement::parentElement(Self) -> Element?
 pub fn HTMLLabelElement::parentNode(Self) -> Node?
-pub fn HTMLLabelElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLLabelElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::previousElementSibling(Self) -> Element?
 pub fn HTMLLabelElement::previousSibling(Self) -> Node?
 pub fn HTMLLabelElement::querySelector(Self, String) -> Element?
@@ -1794,8 +1794,8 @@ pub fn HTMLLabelElement::remove(Self) -> Unit
 pub fn HTMLLabelElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLLabelElement::removeChild(Self, Node) -> Node
 pub fn HTMLLabelElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLLabelElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLLabelElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLLabelElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLLabelElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::scrollHeight(Self) -> Int
 pub fn HTMLLabelElement::scrollIntoView(Self) -> Unit
 pub fn HTMLLabelElement::scrollLeft(Self) -> Int
@@ -1817,7 +1817,7 @@ pub fn HTMLLabelElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLOListElement
-pub fn HTMLOListElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLOListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::append(Self, Node) -> Unit
 pub fn HTMLOListElement::appendChild(Self, Node) -> Node
 pub fn HTMLOListElement::as_any(Self) -> @core.Any
@@ -1825,7 +1825,7 @@ pub fn HTMLOListElement::as_element(Self) -> Element
 pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOListElement::as_node(Self) -> Node
-pub fn HTMLOListElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLOListElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::cast_from_element(Element) -> Self
 pub fn HTMLOListElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLOListElement::cast_from_html_element(HTMLElement) -> Self
@@ -1876,7 +1876,7 @@ pub fn HTMLOListElement::outerHTML(Self) -> String
 pub fn HTMLOListElement::ownerDocument(Self) -> Document?
 pub fn HTMLOListElement::parentElement(Self) -> Element?
 pub fn HTMLOListElement::parentNode(Self) -> Node?
-pub fn HTMLOListElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLOListElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::previousElementSibling(Self) -> Element?
 pub fn HTMLOListElement::previousSibling(Self) -> Node?
 pub fn HTMLOListElement::querySelector(Self, String) -> Element?
@@ -1885,8 +1885,8 @@ pub fn HTMLOListElement::remove(Self) -> Unit
 pub fn HTMLOListElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLOListElement::removeChild(Self, Node) -> Node
 pub fn HTMLOListElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLOListElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLOListElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLOListElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLOListElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::scrollHeight(Self) -> Int
 pub fn HTMLOListElement::scrollIntoView(Self) -> Unit
 pub fn HTMLOListElement::scrollLeft(Self) -> Int
@@ -1910,7 +1910,7 @@ pub(all) struct HTMLOptionElement {
   mut value : String
   mut selected : Bool
 }
-pub fn HTMLOptionElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLOptionElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::append(Self, Node) -> Unit
 pub fn HTMLOptionElement::appendChild(Self, Node) -> Node
 pub fn HTMLOptionElement::as_any(Self) -> @core.Any
@@ -1918,7 +1918,7 @@ pub fn HTMLOptionElement::as_element(Self) -> Element
 pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLOptionElement::as_node(Self) -> Node
-pub fn HTMLOptionElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLOptionElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::cast_from_element(Element) -> Self
 pub fn HTMLOptionElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLOptionElement::cast_from_html_element(HTMLElement) -> Self
@@ -1969,7 +1969,7 @@ pub fn HTMLOptionElement::outerHTML(Self) -> String
 pub fn HTMLOptionElement::ownerDocument(Self) -> Document?
 pub fn HTMLOptionElement::parentElement(Self) -> Element?
 pub fn HTMLOptionElement::parentNode(Self) -> Node?
-pub fn HTMLOptionElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLOptionElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::previousElementSibling(Self) -> Element?
 pub fn HTMLOptionElement::previousSibling(Self) -> Node?
 pub fn HTMLOptionElement::querySelector(Self, String) -> Element?
@@ -1978,8 +1978,8 @@ pub fn HTMLOptionElement::remove(Self) -> Unit
 pub fn HTMLOptionElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLOptionElement::removeChild(Self, Node) -> Node
 pub fn HTMLOptionElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLOptionElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLOptionElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLOptionElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLOptionElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::scrollHeight(Self) -> Int
 pub fn HTMLOptionElement::scrollIntoView(Self) -> Unit
 pub fn HTMLOptionElement::scrollLeft(Self) -> Int
@@ -2001,7 +2001,7 @@ pub fn HTMLOptionElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLParagraphElement
-pub fn HTMLParagraphElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLParagraphElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::append(Self, Node) -> Unit
 pub fn HTMLParagraphElement::appendChild(Self, Node) -> Node
 pub fn HTMLParagraphElement::as_any(Self) -> @core.Any
@@ -2009,7 +2009,7 @@ pub fn HTMLParagraphElement::as_element(Self) -> Element
 pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLParagraphElement::as_node(Self) -> Node
-pub fn HTMLParagraphElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLParagraphElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::cast_from_element(Element) -> Self
 pub fn HTMLParagraphElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLParagraphElement::cast_from_html_element(HTMLElement) -> Self
@@ -2060,7 +2060,7 @@ pub fn HTMLParagraphElement::outerHTML(Self) -> String
 pub fn HTMLParagraphElement::ownerDocument(Self) -> Document?
 pub fn HTMLParagraphElement::parentElement(Self) -> Element?
 pub fn HTMLParagraphElement::parentNode(Self) -> Node?
-pub fn HTMLParagraphElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLParagraphElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::previousElementSibling(Self) -> Element?
 pub fn HTMLParagraphElement::previousSibling(Self) -> Node?
 pub fn HTMLParagraphElement::querySelector(Self, String) -> Element?
@@ -2069,8 +2069,8 @@ pub fn HTMLParagraphElement::remove(Self) -> Unit
 pub fn HTMLParagraphElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLParagraphElement::removeChild(Self, Node) -> Node
 pub fn HTMLParagraphElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLParagraphElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLParagraphElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLParagraphElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLParagraphElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::scrollHeight(Self) -> Int
 pub fn HTMLParagraphElement::scrollIntoView(Self) -> Unit
 pub fn HTMLParagraphElement::scrollLeft(Self) -> Int
@@ -2094,7 +2094,7 @@ pub(all) struct HTMLSelectElement {
   mut value : String
   mut disabled : Bool
 }
-pub fn HTMLSelectElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLSelectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::append(Self, Node) -> Unit
 pub fn HTMLSelectElement::appendChild(Self, Node) -> Node
 pub fn HTMLSelectElement::as_any(Self) -> @core.Any
@@ -2102,7 +2102,7 @@ pub fn HTMLSelectElement::as_element(Self) -> Element
 pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSelectElement::as_node(Self) -> Node
-pub fn HTMLSelectElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLSelectElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::cast_from_element(Element) -> Self
 pub fn HTMLSelectElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLSelectElement::cast_from_html_element(HTMLElement) -> Self
@@ -2153,7 +2153,7 @@ pub fn HTMLSelectElement::outerHTML(Self) -> String
 pub fn HTMLSelectElement::ownerDocument(Self) -> Document?
 pub fn HTMLSelectElement::parentElement(Self) -> Element?
 pub fn HTMLSelectElement::parentNode(Self) -> Node?
-pub fn HTMLSelectElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLSelectElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::previousElementSibling(Self) -> Element?
 pub fn HTMLSelectElement::previousSibling(Self) -> Node?
 pub fn HTMLSelectElement::querySelector(Self, String) -> Element?
@@ -2162,8 +2162,8 @@ pub fn HTMLSelectElement::remove(Self) -> Unit
 pub fn HTMLSelectElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLSelectElement::removeChild(Self, Node) -> Node
 pub fn HTMLSelectElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLSelectElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLSelectElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLSelectElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLSelectElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::scrollHeight(Self) -> Int
 pub fn HTMLSelectElement::scrollIntoView(Self) -> Unit
 pub fn HTMLSelectElement::scrollLeft(Self) -> Int
@@ -2185,7 +2185,7 @@ pub fn HTMLSelectElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLSpanElement
-pub fn HTMLSpanElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLSpanElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::append(Self, Node) -> Unit
 pub fn HTMLSpanElement::appendChild(Self, Node) -> Node
 pub fn HTMLSpanElement::as_any(Self) -> @core.Any
@@ -2193,7 +2193,7 @@ pub fn HTMLSpanElement::as_element(Self) -> Element
 pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLSpanElement::as_node(Self) -> Node
-pub fn HTMLSpanElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLSpanElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::cast_from_element(Element) -> Self
 pub fn HTMLSpanElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLSpanElement::cast_from_html_element(HTMLElement) -> Self
@@ -2244,7 +2244,7 @@ pub fn HTMLSpanElement::outerHTML(Self) -> String
 pub fn HTMLSpanElement::ownerDocument(Self) -> Document?
 pub fn HTMLSpanElement::parentElement(Self) -> Element?
 pub fn HTMLSpanElement::parentNode(Self) -> Node?
-pub fn HTMLSpanElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLSpanElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::previousElementSibling(Self) -> Element?
 pub fn HTMLSpanElement::previousSibling(Self) -> Node?
 pub fn HTMLSpanElement::querySelector(Self, String) -> Element?
@@ -2253,8 +2253,8 @@ pub fn HTMLSpanElement::remove(Self) -> Unit
 pub fn HTMLSpanElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLSpanElement::removeChild(Self, Node) -> Node
 pub fn HTMLSpanElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLSpanElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLSpanElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLSpanElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLSpanElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::scrollHeight(Self) -> Int
 pub fn HTMLSpanElement::scrollIntoView(Self) -> Unit
 pub fn HTMLSpanElement::scrollLeft(Self) -> Int
@@ -2282,7 +2282,7 @@ pub(all) struct HTMLTextAreaElement {
   mut cols : Int
   mut readOnly : Bool
 }
-pub fn HTMLTextAreaElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLTextAreaElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::append(Self, Node) -> Unit
 pub fn HTMLTextAreaElement::appendChild(Self, Node) -> Node
 pub fn HTMLTextAreaElement::as_any(Self) -> @core.Any
@@ -2290,7 +2290,7 @@ pub fn HTMLTextAreaElement::as_element(Self) -> Element
 pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLTextAreaElement::as_node(Self) -> Node
-pub fn HTMLTextAreaElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLTextAreaElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::cast_from_element(Element) -> Self
 pub fn HTMLTextAreaElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLTextAreaElement::cast_from_html_element(HTMLElement) -> Self
@@ -2341,7 +2341,7 @@ pub fn HTMLTextAreaElement::outerHTML(Self) -> String
 pub fn HTMLTextAreaElement::ownerDocument(Self) -> Document?
 pub fn HTMLTextAreaElement::parentElement(Self) -> Element?
 pub fn HTMLTextAreaElement::parentNode(Self) -> Node?
-pub fn HTMLTextAreaElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLTextAreaElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::previousElementSibling(Self) -> Element?
 pub fn HTMLTextAreaElement::previousSibling(Self) -> Node?
 pub fn HTMLTextAreaElement::querySelector(Self, String) -> Element?
@@ -2350,8 +2350,8 @@ pub fn HTMLTextAreaElement::remove(Self) -> Unit
 pub fn HTMLTextAreaElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLTextAreaElement::removeChild(Self, Node) -> Node
 pub fn HTMLTextAreaElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLTextAreaElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLTextAreaElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLTextAreaElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLTextAreaElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::scrollHeight(Self) -> Int
 pub fn HTMLTextAreaElement::scrollIntoView(Self) -> Unit
 pub fn HTMLTextAreaElement::scrollLeft(Self) -> Int
@@ -2373,7 +2373,7 @@ pub fn HTMLTextAreaElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLUListElement
-pub fn HTMLUListElement::after(Self, Array[Node]) -> Unit
+pub fn HTMLUListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::append(Self, Node) -> Unit
 pub fn HTMLUListElement::appendChild(Self, Node) -> Node
 pub fn HTMLUListElement::as_any(Self) -> @core.Any
@@ -2381,7 +2381,7 @@ pub fn HTMLUListElement::as_element(Self) -> Element
 pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
 pub fn HTMLUListElement::as_node(Self) -> Node
-pub fn HTMLUListElement::before(Self, Array[Node]) -> Unit
+pub fn HTMLUListElement::before(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::cast_from_element(Element) -> Self
 pub fn HTMLUListElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn HTMLUListElement::cast_from_html_element(HTMLElement) -> Self
@@ -2432,7 +2432,7 @@ pub fn HTMLUListElement::outerHTML(Self) -> String
 pub fn HTMLUListElement::ownerDocument(Self) -> Document?
 pub fn HTMLUListElement::parentElement(Self) -> Element?
 pub fn HTMLUListElement::parentNode(Self) -> Node?
-pub fn HTMLUListElement::prepend(Self, Array[Node]) -> Unit
+pub fn HTMLUListElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::previousElementSibling(Self) -> Element?
 pub fn HTMLUListElement::previousSibling(Self) -> Node?
 pub fn HTMLUListElement::querySelector(Self, String) -> Element?
@@ -2441,8 +2441,8 @@ pub fn HTMLUListElement::remove(Self) -> Unit
 pub fn HTMLUListElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLUListElement::removeChild(Self, Node) -> Node
 pub fn HTMLUListElement::replaceChild(Self, Node, Node) -> Node
-pub fn HTMLUListElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn HTMLUListElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn HTMLUListElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn HTMLUListElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::scrollHeight(Self) -> Int
 pub fn HTMLUListElement::scrollIntoView(Self) -> Unit
 pub fn HTMLUListElement::scrollLeft(Self) -> Int
@@ -2670,7 +2670,7 @@ pub fn PopStateEvent::target(Self) -> Element
 
 #external
 pub type SVGCircleElement
-pub fn SVGCircleElement::after(Self, Array[Node]) -> Unit
+pub fn SVGCircleElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::append(Self, Node) -> Unit
 pub fn SVGCircleElement::appendChild(Self, Node) -> Node
 pub fn SVGCircleElement::as_any(Self) -> @core.Any
@@ -2679,7 +2679,7 @@ pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGCircleElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGCircleElement::as_node(Self) -> Node
 pub fn SVGCircleElement::as_svg_element(Self) -> SVGElement
-pub fn SVGCircleElement::before(Self, Array[Node]) -> Unit
+pub fn SVGCircleElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::cast_from_element(Element) -> Self
 pub fn SVGCircleElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGCircleElement::cast_from_node(Node) -> Self
@@ -2729,7 +2729,7 @@ pub fn SVGCircleElement::outerHTML(Self) -> String
 pub fn SVGCircleElement::ownerDocument(Self) -> Document?
 pub fn SVGCircleElement::parentElement(Self) -> Element?
 pub fn SVGCircleElement::parentNode(Self) -> Node?
-pub fn SVGCircleElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGCircleElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::previousElementSibling(Self) -> Element?
 pub fn SVGCircleElement::previousSibling(Self) -> Node?
 pub fn SVGCircleElement::querySelector(Self, String) -> Element?
@@ -2739,8 +2739,8 @@ pub fn SVGCircleElement::remove(Self) -> Unit
 pub fn SVGCircleElement::removeAttribute(Self, String) -> Unit
 pub fn SVGCircleElement::removeChild(Self, Node) -> Node
 pub fn SVGCircleElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGCircleElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGCircleElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGCircleElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGCircleElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::scrollHeight(Self) -> Int
 pub fn SVGCircleElement::scrollIntoView(Self) -> Unit
 pub fn SVGCircleElement::scrollLeft(Self) -> Int
@@ -2761,14 +2761,14 @@ pub fn SVGCircleElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGElement
-pub fn SVGElement::after(Self, Array[Node]) -> Unit
+pub fn SVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::append(Self, Node) -> Unit
 pub fn SVGElement::appendChild(Self, Node) -> Node
 pub fn SVGElement::as_any(Self) -> @core.Any
 pub fn SVGElement::as_element(Self) -> Element
 pub fn SVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGElement::as_node(Self) -> Node
-pub fn SVGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::cast_from_element(Element) -> Self
 pub fn SVGElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGElement::cast_from_node(Node) -> Self
@@ -2815,7 +2815,7 @@ pub fn SVGElement::outerHTML(Self) -> String
 pub fn SVGElement::ownerDocument(Self) -> Document?
 pub fn SVGElement::parentElement(Self) -> Element?
 pub fn SVGElement::parentNode(Self) -> Node?
-pub fn SVGElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::previousElementSibling(Self) -> Element?
 pub fn SVGElement::previousSibling(Self) -> Node?
 pub fn SVGElement::querySelector(Self, String) -> Element?
@@ -2824,8 +2824,8 @@ pub fn SVGElement::remove(Self) -> Unit
 pub fn SVGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGElement::removeChild(Self, Node) -> Node
 pub fn SVGElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::scrollHeight(Self) -> Int
 pub fn SVGElement::scrollIntoView(Self) -> Unit
 pub fn SVGElement::scrollLeft(Self) -> Int
@@ -2860,7 +2860,7 @@ pub fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGGElement
-pub fn SVGGElement::after(Self, Array[Node]) -> Unit
+pub fn SVGGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::append(Self, Node) -> Unit
 pub fn SVGGElement::appendChild(Self, Node) -> Node
 pub fn SVGGElement::as_any(Self) -> @core.Any
@@ -2869,7 +2869,7 @@ pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGGElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGGElement::as_node(Self) -> Node
 pub fn SVGGElement::as_svg_element(Self) -> SVGElement
-pub fn SVGGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGGElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::cast_from_element(Element) -> Self
 pub fn SVGGElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGGElement::cast_from_node(Node) -> Self
@@ -2917,7 +2917,7 @@ pub fn SVGGElement::outerHTML(Self) -> String
 pub fn SVGGElement::ownerDocument(Self) -> Document?
 pub fn SVGGElement::parentElement(Self) -> Element?
 pub fn SVGGElement::parentNode(Self) -> Node?
-pub fn SVGGElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGGElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::previousElementSibling(Self) -> Element?
 pub fn SVGGElement::previousSibling(Self) -> Node?
 pub fn SVGGElement::querySelector(Self, String) -> Element?
@@ -2926,8 +2926,8 @@ pub fn SVGGElement::remove(Self) -> Unit
 pub fn SVGGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGGElement::removeChild(Self, Node) -> Node
 pub fn SVGGElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGGElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGGElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGGElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::scrollHeight(Self) -> Int
 pub fn SVGGElement::scrollIntoView(Self) -> Unit
 pub fn SVGGElement::scrollLeft(Self) -> Int
@@ -2975,7 +2975,7 @@ pub fn SVGImageElement::y(Self) -> Double
 
 #external
 pub type SVGLineElement
-pub fn SVGLineElement::after(Self, Array[Node]) -> Unit
+pub fn SVGLineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::append(Self, Node) -> Unit
 pub fn SVGLineElement::appendChild(Self, Node) -> Node
 pub fn SVGLineElement::as_any(Self) -> @core.Any
@@ -2984,7 +2984,7 @@ pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGLineElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGLineElement::as_node(Self) -> Node
 pub fn SVGLineElement::as_svg_element(Self) -> SVGElement
-pub fn SVGLineElement::before(Self, Array[Node]) -> Unit
+pub fn SVGLineElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::cast_from_element(Element) -> Self
 pub fn SVGLineElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGLineElement::cast_from_node(Node) -> Self
@@ -3032,7 +3032,7 @@ pub fn SVGLineElement::outerHTML(Self) -> String
 pub fn SVGLineElement::ownerDocument(Self) -> Document?
 pub fn SVGLineElement::parentElement(Self) -> Element?
 pub fn SVGLineElement::parentNode(Self) -> Node?
-pub fn SVGLineElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGLineElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::previousElementSibling(Self) -> Element?
 pub fn SVGLineElement::previousSibling(Self) -> Node?
 pub fn SVGLineElement::querySelector(Self, String) -> Element?
@@ -3041,8 +3041,8 @@ pub fn SVGLineElement::remove(Self) -> Unit
 pub fn SVGLineElement::removeAttribute(Self, String) -> Unit
 pub fn SVGLineElement::removeChild(Self, Node) -> Node
 pub fn SVGLineElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGLineElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGLineElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGLineElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGLineElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::scrollHeight(Self) -> Int
 pub fn SVGLineElement::scrollIntoView(Self) -> Unit
 pub fn SVGLineElement::scrollLeft(Self) -> Int
@@ -3093,7 +3093,7 @@ pub fn SVGMatrix::translate(Self, Double, Double) -> Self
 
 #external
 pub type SVGPathElement
-pub fn SVGPathElement::after(Self, Array[Node]) -> Unit
+pub fn SVGPathElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::append(Self, Node) -> Unit
 pub fn SVGPathElement::appendChild(Self, Node) -> Node
 pub fn SVGPathElement::as_any(Self) -> @core.Any
@@ -3102,7 +3102,7 @@ pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPathElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPathElement::as_node(Self) -> Node
 pub fn SVGPathElement::as_svg_element(Self) -> SVGElement
-pub fn SVGPathElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPathElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::cast_from_element(Element) -> Self
 pub fn SVGPathElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGPathElement::cast_from_node(Node) -> Self
@@ -3152,7 +3152,7 @@ pub fn SVGPathElement::outerHTML(Self) -> String
 pub fn SVGPathElement::ownerDocument(Self) -> Document?
 pub fn SVGPathElement::parentElement(Self) -> Element?
 pub fn SVGPathElement::parentNode(Self) -> Node?
-pub fn SVGPathElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGPathElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::previousElementSibling(Self) -> Element?
 pub fn SVGPathElement::previousSibling(Self) -> Node?
 pub fn SVGPathElement::querySelector(Self, String) -> Element?
@@ -3161,8 +3161,8 @@ pub fn SVGPathElement::remove(Self) -> Unit
 pub fn SVGPathElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPathElement::removeChild(Self, Node) -> Node
 pub fn SVGPathElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGPathElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGPathElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGPathElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGPathElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::scrollHeight(Self) -> Int
 pub fn SVGPathElement::scrollIntoView(Self) -> Unit
 pub fn SVGPathElement::scrollLeft(Self) -> Int
@@ -3192,7 +3192,7 @@ pub fn SVGPoint::y(Self) -> Double
 
 #external
 pub type SVGPolygonElement
-pub fn SVGPolygonElement::after(Self, Array[Node]) -> Unit
+pub fn SVGPolygonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::append(Self, Node) -> Unit
 pub fn SVGPolygonElement::appendChild(Self, Node) -> Node
 pub fn SVGPolygonElement::as_any(Self) -> @core.Any
@@ -3201,7 +3201,7 @@ pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolygonElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPolygonElement::as_node(Self) -> Node
 pub fn SVGPolygonElement::as_svg_element(Self) -> SVGElement
-pub fn SVGPolygonElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPolygonElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::cast_from_element(Element) -> Self
 pub fn SVGPolygonElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGPolygonElement::cast_from_node(Node) -> Self
@@ -3249,7 +3249,7 @@ pub fn SVGPolygonElement::outerHTML(Self) -> String
 pub fn SVGPolygonElement::ownerDocument(Self) -> Document?
 pub fn SVGPolygonElement::parentElement(Self) -> Element?
 pub fn SVGPolygonElement::parentNode(Self) -> Node?
-pub fn SVGPolygonElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGPolygonElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::previousElementSibling(Self) -> Element?
 pub fn SVGPolygonElement::previousSibling(Self) -> Node?
 pub fn SVGPolygonElement::querySelector(Self, String) -> Element?
@@ -3258,8 +3258,8 @@ pub fn SVGPolygonElement::remove(Self) -> Unit
 pub fn SVGPolygonElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPolygonElement::removeChild(Self, Node) -> Node
 pub fn SVGPolygonElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGPolygonElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGPolygonElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGPolygonElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGPolygonElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::scrollHeight(Self) -> Int
 pub fn SVGPolygonElement::scrollIntoView(Self) -> Unit
 pub fn SVGPolygonElement::scrollLeft(Self) -> Int
@@ -3280,7 +3280,7 @@ pub fn SVGPolygonElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGPolylineElement
-pub fn SVGPolylineElement::after(Self, Array[Node]) -> Unit
+pub fn SVGPolylineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::append(Self, Node) -> Unit
 pub fn SVGPolylineElement::appendChild(Self, Node) -> Node
 pub fn SVGPolylineElement::as_any(Self) -> @core.Any
@@ -3289,7 +3289,7 @@ pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolylineElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGPolylineElement::as_node(Self) -> Node
 pub fn SVGPolylineElement::as_svg_element(Self) -> SVGElement
-pub fn SVGPolylineElement::before(Self, Array[Node]) -> Unit
+pub fn SVGPolylineElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::cast_from_element(Element) -> Self
 pub fn SVGPolylineElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGPolylineElement::cast_from_node(Node) -> Self
@@ -3337,7 +3337,7 @@ pub fn SVGPolylineElement::outerHTML(Self) -> String
 pub fn SVGPolylineElement::ownerDocument(Self) -> Document?
 pub fn SVGPolylineElement::parentElement(Self) -> Element?
 pub fn SVGPolylineElement::parentNode(Self) -> Node?
-pub fn SVGPolylineElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGPolylineElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::previousElementSibling(Self) -> Element?
 pub fn SVGPolylineElement::previousSibling(Self) -> Node?
 pub fn SVGPolylineElement::querySelector(Self, String) -> Element?
@@ -3346,8 +3346,8 @@ pub fn SVGPolylineElement::remove(Self) -> Unit
 pub fn SVGPolylineElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPolylineElement::removeChild(Self, Node) -> Node
 pub fn SVGPolylineElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGPolylineElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGPolylineElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGPolylineElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGPolylineElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::scrollHeight(Self) -> Int
 pub fn SVGPolylineElement::scrollIntoView(Self) -> Unit
 pub fn SVGPolylineElement::scrollLeft(Self) -> Int
@@ -3380,7 +3380,7 @@ pub fn SVGRect::y(Self) -> Double
 
 #external
 pub type SVGRectElement
-pub fn SVGRectElement::after(Self, Array[Node]) -> Unit
+pub fn SVGRectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::append(Self, Node) -> Unit
 pub fn SVGRectElement::appendChild(Self, Node) -> Node
 pub fn SVGRectElement::as_any(Self) -> @core.Any
@@ -3389,7 +3389,7 @@ pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGRectElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGRectElement::as_node(Self) -> Node
 pub fn SVGRectElement::as_svg_element(Self) -> SVGElement
-pub fn SVGRectElement::before(Self, Array[Node]) -> Unit
+pub fn SVGRectElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::cast_from_element(Element) -> Self
 pub fn SVGRectElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGRectElement::cast_from_node(Node) -> Self
@@ -3438,7 +3438,7 @@ pub fn SVGRectElement::outerHTML(Self) -> String
 pub fn SVGRectElement::ownerDocument(Self) -> Document?
 pub fn SVGRectElement::parentElement(Self) -> Element?
 pub fn SVGRectElement::parentNode(Self) -> Node?
-pub fn SVGRectElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGRectElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::previousElementSibling(Self) -> Element?
 pub fn SVGRectElement::previousSibling(Self) -> Node?
 pub fn SVGRectElement::querySelector(Self, String) -> Element?
@@ -3447,8 +3447,8 @@ pub fn SVGRectElement::remove(Self) -> Unit
 pub fn SVGRectElement::removeAttribute(Self, String) -> Unit
 pub fn SVGRectElement::removeChild(Self, Node) -> Node
 pub fn SVGRectElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGRectElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGRectElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGRectElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGRectElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::scrollHeight(Self) -> Int
 pub fn SVGRectElement::scrollIntoView(Self) -> Unit
 pub fn SVGRectElement::scrollLeft(Self) -> Int
@@ -3472,7 +3472,7 @@ pub fn SVGRectElement::y(Self) -> Double
 
 #external
 pub type SVGSVGElement
-pub fn SVGSVGElement::after(Self, Array[Node]) -> Unit
+pub fn SVGSVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::append(Self, Node) -> Unit
 pub fn SVGSVGElement::appendChild(Self, Node) -> Node
 pub fn SVGSVGElement::as_any(Self) -> @core.Any
@@ -3480,7 +3480,7 @@ pub fn SVGSVGElement::as_element(Self) -> Element
 pub fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGSVGElement::as_node(Self) -> Node
 pub fn SVGSVGElement::as_svg_element(Self) -> SVGElement
-pub fn SVGSVGElement::before(Self, Array[Node]) -> Unit
+pub fn SVGSVGElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::cast_from_element(Element) -> Self
 pub fn SVGSVGElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGSVGElement::cast_from_node(Node) -> Self
@@ -3536,7 +3536,7 @@ pub fn SVGSVGElement::outerHTML(Self) -> String
 pub fn SVGSVGElement::ownerDocument(Self) -> Document?
 pub fn SVGSVGElement::parentElement(Self) -> Element?
 pub fn SVGSVGElement::parentNode(Self) -> Node?
-pub fn SVGSVGElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGSVGElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::previousElementSibling(Self) -> Element?
 pub fn SVGSVGElement::previousSibling(Self) -> Node?
 pub fn SVGSVGElement::querySelector(Self, String) -> Element?
@@ -3545,8 +3545,8 @@ pub fn SVGSVGElement::remove(Self) -> Unit
 pub fn SVGSVGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGSVGElement::removeChild(Self, Node) -> Node
 pub fn SVGSVGElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGSVGElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGSVGElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGSVGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGSVGElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::scrollHeight(Self) -> Int
 pub fn SVGSVGElement::scrollIntoView(Self) -> Unit
 pub fn SVGSVGElement::scrollLeft(Self) -> Int
@@ -3568,7 +3568,7 @@ pub fn SVGSVGElement::width(Self) -> Double
 
 #external
 pub type SVGTextElement
-pub fn SVGTextElement::after(Self, Array[Node]) -> Unit
+pub fn SVGTextElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::append(Self, Node) -> Unit
 pub fn SVGTextElement::appendChild(Self, Node) -> Node
 pub fn SVGTextElement::as_any(Self) -> @core.Any
@@ -3577,7 +3577,7 @@ pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGTextElement::as_graphics_element(Self) -> SVGGraphicsElement
 pub fn SVGTextElement::as_node(Self) -> Node
 pub fn SVGTextElement::as_svg_element(Self) -> SVGElement
-pub fn SVGTextElement::before(Self, Array[Node]) -> Unit
+pub fn SVGTextElement::before(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::cast_from_element(Element) -> Self
 pub fn SVGTextElement::cast_from_event_target(@event.EventTarget) -> Self
 pub fn SVGTextElement::cast_from_node(Node) -> Self
@@ -3625,7 +3625,7 @@ pub fn SVGTextElement::outerHTML(Self) -> String
 pub fn SVGTextElement::ownerDocument(Self) -> Document?
 pub fn SVGTextElement::parentElement(Self) -> Element?
 pub fn SVGTextElement::parentNode(Self) -> Node?
-pub fn SVGTextElement::prepend(Self, Array[Node]) -> Unit
+pub fn SVGTextElement::prepend(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::previousElementSibling(Self) -> Element?
 pub fn SVGTextElement::previousSibling(Self) -> Node?
 pub fn SVGTextElement::querySelector(Self, String) -> Element?
@@ -3634,8 +3634,8 @@ pub fn SVGTextElement::remove(Self) -> Unit
 pub fn SVGTextElement::removeAttribute(Self, String) -> Unit
 pub fn SVGTextElement::removeChild(Self, Node) -> Node
 pub fn SVGTextElement::replaceChild(Self, Node, Node) -> Node
-pub fn SVGTextElement::replaceChildren(Self, Array[Node]) -> Unit
-pub fn SVGTextElement::replaceWith(Self, Array[Node]) -> Unit
+pub fn SVGTextElement::replaceChildren(Self, FixedArray[Node]) -> Unit
+pub fn SVGTextElement::replaceWith(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::scrollHeight(Self) -> Int
 pub fn SVGTextElement::scrollIntoView(Self) -> Unit
 pub fn SVGTextElement::scrollLeft(Self) -> Int
