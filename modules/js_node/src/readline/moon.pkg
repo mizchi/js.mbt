@@ -1,0 +1,6 @@
+import {
+  "mizchi/js/core",
+  "mizchi/js_node/stream",
+}
+
+supported_targets = "js"

@@ -1,14 +1,15 @@
 ///|
 
 ///|
+/// The compiled form of `fixtures/add.wasm`, embedded so this test stays
+/// environment independent (no filesystem, so no `@js_node` dependency).
+/// Source: `fixtures/add.wat` - `(func $add (param i32 i32) (result i32))`.
+let add_wasm : Bytes = b"\x00\x61\x73\x6d\x01\x00\x00\x00\x01\x07\x01\x60\x02\x7f\x7f\x01\x7f\x03\x02\x01\x00\x07\x07\x01\x03\x61\x64\x64\x00\x00\x0a\x09\x01\x07\x00\x20\x00\x20\x01\x6a\x0b\x00\x1c\x04\x6e\x61\x6d\x65\x01\x06\x01\x00\x03\x61\x64\x64\x02\x0d\x01\x00\x02\x00\x03\x6c\x68\x73\x01\x03\x72\x68\x73"
+
+///|
 /// Test basic WebAssembly module compilation and instantiation
 test "WebAssembly module from bytes" {
-  // Read the add.wasm file from project root using Node.js APIs
-  let cwd = @process.cwd()
-  let wasm_path = @path.join([cwd, "fixtures/add.wasm"])
-  let buffer = @fs.read_file_sync(wasm_path)
-  // Buffer is a Uint8Array, so we can cast it directly
-  let bytes : @arraybuffer.Uint8Array = buffer.as_any().cast()
+  let bytes = @arraybuffer.Uint8Array::from_bytes(add_wasm)
 
   // Validate the bytes
   let is_valid = validate(bytes)

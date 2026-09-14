@@ -99,9 +99,13 @@ pub extern "js" fn WebSocket::send_string(self : Self, data : String) -> Unit =
 ///|
 /// Send binary data
 /// JS: webSocket.send(data)
-pub extern "js" fn WebSocket::send_buffer(
+///
+/// Takes a `Uint8Array` rather than a Node `Buffer` so this package stays
+/// environment independent. A Node `Buffer` *is* a `Uint8Array`, so pass one
+/// with `buffer.as_any().cast()`.
+pub extern "js" fn WebSocket::send_uint8array(
   self : Self,
-  data : @buffer.Buffer,
+  data : @arraybuffer.Uint8Array,
 ) -> Unit =
   #| (self, data) => self.send(data)
 

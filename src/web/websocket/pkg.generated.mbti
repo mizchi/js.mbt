@@ -4,7 +4,6 @@ package "mizchi/js/web/websocket"
 import {
   "mizchi/js/builtins/arraybuffer",
   "mizchi/js/core",
-  "mizchi/js/node/buffer",
   "mizchi/js/web/blob",
   "mizchi/js/web/event",
 }
@@ -35,8 +34,8 @@ pub fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
 pub fn WebSocket::new(String, protocols? : FixedArray[String]) -> Self
 pub fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
 pub fn WebSocket::send_blob(Self, @blob.Blob) -> Unit
-pub fn WebSocket::send_buffer(Self, @buffer.Buffer) -> Unit
 pub fn WebSocket::send_string(Self, String) -> Unit
+pub fn WebSocket::send_uint8array(Self, @arraybuffer.Uint8Array) -> Unit
 pub fn WebSocket::set_onclose(Self, (@core.Any) -> Unit) -> Unit
 pub fn WebSocket::set_onerror(Self, (@core.Any) -> Unit) -> Unit
 pub fn WebSocket::set_onmessage(Self, (@core.Any) -> Unit) -> Unit

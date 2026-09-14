@@ -224,11 +224,11 @@ Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
 
 ### Runtime-Specific APIs
 
-Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod.json` `deps` only if you target that runtime.
+Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod.json` `deps` only if you target that runtime.
 
 | Platform | Module | Status | Documentation |
 |----------|--------|--------|---------------|
-| Node.js | `mizchi/js/node/*` (bundled with `mizchi/js`) | 🧪 Tested | [Node.js README](src/node/README.md) |
+| Node.js | `mizchi/js_node/*` | 🧪 Tested | [Node.js README](modules/js_node/src/README.md) |
 | Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
 | Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
 | Bun | `mizchi/js_bun` | 🤖 AI Generated | - |
@@ -262,7 +262,7 @@ Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` module
 ## Project Status
 
 - ✅ **Core JS / Web Standards** (`mizchi/js`) - built-ins, Web APIs, fetch, URL, Streams, Crypto, WebSocket
-- ✅ **Node.js Core APIs** (`mizchi/js/node/*`) - `fs`, `path`, `process`, `child_process`, etc.
+- 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module
 - 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0
 - 📦 **Deno Runtime** (`mizchi/js_deno`) - Split out in v0.11.0
 - 📦 **Bun Runtime** (`mizchi/js_bun`) - Split out in v0.11.0
