@@ -122,7 +122,7 @@ pub async fn CustomElementRegistry::whenDefined(
   self : Self,
   name : String,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("whenDefined", [@core.any(name)])
     .cast()

@@ -330,19 +330,29 @@ import {
 
 1. `modules/<name>/` を作成し、`moon.mod` を置く
 
+   依存に書くのは**実体のあるモジュールだけ**です。`mizchi/js@0.13.x` は
+   書きません (facade は葉なので、ワークスペース内から依存してはいけません)。
+   必要なものだけ並べてください:
+
    ```
    name = "mizchi/<name>"
 
    version = "0.13.x"
 
    import {
-     "mizchi/js@0.13.x",
+     "mizchi/js_core@0.13.x",
+     "mizchi/js_builtin@0.13.x",
+     "mizchi/js_web@0.13.x",
    }
 
    source = "src"
 
    preferred_target = "js"
    ```
+
+   書いたあと、本当に全部使っているか確認すること。`moon check` は
+   `moon.pkg` の未使用 import は `unused_package` で報告しますが、
+   `moon.mod` の未使用 import は報告しません。
 
 2. `moon.work` に member として追加
 
@@ -384,19 +394,38 @@ import {
 
   | 旧 (facade 経由)  | 新 (実体)                | 実体のパッケージ                |
   | ----------------- | ------------------------ | ------------------------------- |
-  | `@js.Promise`     | `@core.Promise`          | `mizchi/js/core`                |
-  | `@js.run_async`   | `@core.run_async`        | `mizchi/js/core`                |
-  | `@js.from_fn1`    | `@core.from_fn1`         | `mizchi/js/core`                |
-  | `@js.any`         | `@core.any`              | `mizchi/js/core`                |
-  | `@js.log`         | `@core.log`              | `mizchi/js/core`                |
+  | `@js.Promise`     | `@core.Promise`          | `mizchi/js_core`                |
+  | `@js.run_async`   | `@core.run_async`        | `mizchi/js_core`                |
+  | `@js.from_fn1`    | `@core.from_fn1`         | `mizchi/js_core`                |
+  | `@js.any`         | `@core.any`              | `mizchi/js_core`                |
+  | `@js.log`         | `@core.log`              | `mizchi/js_core`                |
   | `@js.AbortSignal` | `@js_async.AbortSignal`  | `moonbitlang/async/js_async`    |
-  | `@js.JsArray`     | `@array.JsArray`         | `mizchi/js/builtins/array`      |
+  | `@js.JsArray`     | `@array.JsArray`         | `mizchi/js_builtin/array`       |
 
   `.mbti` は型の**正規パッケージ**を記録しているため、この書き換えでは
   `.mbti` に差分が出ません (= 公開 API に影響しない純粋なリファクタ)。
 
-  なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
-  下流モジュールからの参照なので循環せず、そのままで問題ありません。
+- `js_browser` / `js_deno` / `js_webextensions` の 11 パッケージ →
+  同じく `mizchi/js` facade。当初は「下流からの参照なので循環せず、そのままで
+  問題ない」と判断していましたが、**循環しないことと依存として妥当なことは別**
+  でした。実際に使われていたのは `Promise` `Nullable` `any` `run_async`
+  `suspend` `from_fn0/1/2` の 8 シンボルだけで、全部 `js_core` の中身です。
+  つまり 3 モジュールが、再エクスポート殻を経由して `js_core` に届くためだけに
+  meta パッケージ全体 (とその `js_mbtconv` 依存) を publish 時の manifest に
+  抱えていました。87 箇所を `@core.` に書き換えて解消し、こちらも `.mbti`
+  差分ゼロです。
+
+  | モジュール          | パッケージ                                                                  |
+  | ------------------- | --------------------------------------------------------------------------- |
+  | `js_browser`        | `dom`, `canvas`, `file`, `indexeddb`, `navigation`, `observer`, `serviceworker` |
+  | `js_deno`           | `_tests`                                                                    |
+  | `js_webextensions`  | `runtime`, `tabs`, `storage`                                                |
+
+- `js_web` / `js_node` / `js_bun` の `moon.mod` に残っていた
+  `"mizchi/js@0.13.0"` — パッケージ側の import は既に無く、宣言だけが死んで
+  いました。`moon check` は package レベルの未使用 import を `unused_package`
+  で報告しますが、**`moon.mod` の未使用 import は報告しません**。依存を外す
+  ときは `moon.pkg` を grep して確認すること。
 
 ### `mizchi/js` に残しているもの
 
@@ -412,23 +441,39 @@ import {
 
 ### 現在の依存階層
 
+インデントは「ぶら下がっている先のモジュールに依存する」を意味します:
+
 ```
-mizchi/js_core  <--  mizchi/js_builtin  <--  mizchi/js_web  <--  js_node
-  (Any, Promise,       (Object, Array,         (fetch, URL,        js_browser
-   Nullable, FFI)       JSON, RegExp, ...)      Streams, ...)      js_deno
-      ^    ^                 ^                      ^             js_bun
-      |    |                 |                      |             js_webextensions
-      |    +-- mizchi/js_mbtconv  (Map/Json/Option/Result <-> Any)
-      |                 ^
-      +-----------------+----------------------------+
-                        |
-                   mizchi/js  (facade: js_core + js_builtin を re-export)
-                   + internal / wasm / examples
+mizchi/js_core                      Any, Promise, Nullable, raw FFI
+  |
+  +-- mizchi/js_builtin             Object, Array, JSON, RegExp, ...
+  |     |
+  |     +-- mizchi/js_web           fetch, URL, Streams, ...
+  |     |     |
+  |     |     +-- mizchi/js_node
+  |     |     +-- mizchi/js_browser
+  |     |     +-- mizchi/js_deno
+  |     |
+  |     +-- mizchi/js_bun
+  |
+  +-- mizchi/js_mbtconv             Map/Json/Option/Result <-> Any
+  |
+  +-- mizchi/js_webextensions
+  |
+  +-- mizchi/js                     facade: js_core + js_builtin を re-export
+                                    + internal / wasm / examples
 ```
 
-publish はこの依存順でなければならないため、`scripts/release.ts` が
+**`mizchi/js` は葉です。ワークスペース内のどのモジュールもこれに依存しては
+いけません。** 1 つの import で済ませたいユーザ向けの入口で、`src/top.mbt` は
+`pub using` の再エクスポートしかありません。ここを経由すると、その
+モジュールの publish manifest に facade と `js_mbtconv` が丸ごと乗ります。
+
+publish は上の依存順でなければならないため、`scripts/release.ts` が
 `js_core` → `js_builtin` → `mizchi/js` → `js_web` → その他 の順に
-対応済みです (各段階の間に `moon update`)。
+対応済みです (各段階の間に `moon update`)。`mizchi/js` が葉になった今、
+これを `js_web` より前に置く必要はもうありませんが、順序としては安全側なので
+そのままにしています。
 
 `js_node -> js_web` (streams, event, url, webassembly) と
 `js_browser -> js_web` (blob, event, http, message, worker) はこの階層に

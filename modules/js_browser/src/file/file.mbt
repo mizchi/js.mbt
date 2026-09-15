@@ -45,7 +45,7 @@ pub fn File::new(
   }
   ffi_new_file(
     @core.any(data),
-    filename |> @js.any,
+    filename |> @core.any,
     @core.from_entries(entries),
   )
   |> @core.identity
@@ -61,7 +61,7 @@ pub fn File::as_blob(self : Self) -> @blob.Blob {
 /// Get the file contents as ArrayBuffer (inherited from Blob)
 #alias(array_buffer)
 pub async fn File::arrayBuffer(self : Self) -> @arraybuffer.ArrayBuffer {
-  let promise : @js.Promise[@arraybuffer.ArrayBuffer] = self
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("arrayBuffer", [])
     .cast()
@@ -71,7 +71,7 @@ pub async fn File::arrayBuffer(self : Self) -> @arraybuffer.ArrayBuffer {
 ///|
 /// Get the file contents as text (inherited from Blob)
 pub async fn File::text(self : Self) -> String {
-  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
+  let promise : @core.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
@@ -93,8 +93,8 @@ pub fn File::slice(self : Self, start? : Int, end? : Int) -> @blob.Blob {
 /// FileReader allows reading file contents asynchronously
 pub(all) struct FileReader {
   readyState : Int
-  result : @js.Nullable[@core.Any]
-  error : @js.Nullable[@core.Any]
+  result : @core.Nullable[@core.Any]
+  error : @core.Nullable[@core.Any]
 }
 
 ///|

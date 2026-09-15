@@ -53,7 +53,9 @@ pub async fn sendMessage(message : @core.Any) -> @core.Any {
 }
 
 ///|
-extern "js" fn ffi_send_message(message : @core.Any) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_send_message(
+  message : @core.Any,
+) -> @core.Promise[@core.Any] =
   #|async (message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.sendMessage(message);
@@ -72,7 +74,7 @@ pub async fn send_message_to_extension(
 extern "js" fn ffi_send_message_to_extension(
   extension_id : String,
   message : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #|async (extensionId, message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.sendMessage(extensionId, message);
@@ -214,7 +216,7 @@ pub async fn get_platform_info() -> PlatformInfo {
 }
 
 ///|
-extern "js" fn ffi_get_platform_info() -> @js.Promise[@core.Any] =
+extern "js" fn ffi_get_platform_info() -> @core.Promise[@core.Any] =
   #|async () => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.getPlatformInfo();
@@ -240,7 +242,7 @@ pub async fn open_options_page() -> Unit {
 }
 
 ///|
-extern "js" fn ffi_open_options_page() -> @js.Promise[Unit] =
+extern "js" fn ffi_open_options_page() -> @core.Promise[Unit] =
   #|async () => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.runtime.openOptionsPage();

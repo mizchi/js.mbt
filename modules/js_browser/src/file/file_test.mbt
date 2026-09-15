@@ -57,7 +57,7 @@ test "File as_blob returns Blob" {
 ///|
 /// Test File text method (inherited from Blob)
 test "File text returns content as string" {
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     try {
       let file = File::new(["Hello, File!"], "test.txt")
       let text = file.text()
@@ -71,7 +71,7 @@ test "File text returns content as string" {
 ///|
 /// Test File array_buffer method
 test "File array_buffer returns ArrayBuffer" {
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     try {
       let file = File::new(["test"], "test.txt")
       let buffer = file.arrayBuffer()

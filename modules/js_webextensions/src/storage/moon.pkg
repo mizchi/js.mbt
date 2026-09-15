@@ -1,5 +1,4 @@
 import {
-  "mizchi/js",
   "mizchi/js_webextensions" @webextensions,
   "mizchi/js_core" @core,
 }

@@ -1,5 +1,4 @@
 import {
-  "mizchi/js",
   "mizchi/js_core" @core,
   "mizchi/js_deno" @deno,
   "mizchi/js_web/worker",

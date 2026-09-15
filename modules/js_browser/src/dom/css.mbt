@@ -222,7 +222,7 @@ pub fn MediaQueryList::addListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.as_any()._call("addListener", [@core.any(@js.from_fn1(listener))])
+  self.as_any()._call("addListener", [@core.any(@core.from_fn1(listener))])
   |> ignore
 }
 
@@ -233,7 +233,7 @@ pub fn MediaQueryList::removeListener(
   self : Self,
   listener : (MediaQueryList) -> Unit,
 ) -> Unit {
-  self.as_any()._call("removeListener", [@core.any(@js.from_fn1(listener))])
+  self.as_any()._call("removeListener", [@core.any(@core.from_fn1(listener))])
   |> ignore
 }
 
@@ -247,7 +247,7 @@ pub fn MediaQueryList::addChangeListener(
   .as_any()
   ._call("addEventListener", [
     @core.any("change"),
-    @core.any(@js.from_fn1(listener)),
+    @core.any(@core.from_fn1(listener)),
   ])
   |> ignore
 }
@@ -262,7 +262,7 @@ pub fn MediaQueryList::removeChangeListener(
   .as_any()
   ._call("removeEventListener", [
     @core.any("change"),
-    @core.any(@js.from_fn1(listener)),
+    @core.any(@core.from_fn1(listener)),
   ])
   |> ignore
 }

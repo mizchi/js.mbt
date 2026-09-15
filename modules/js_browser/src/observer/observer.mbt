@@ -18,7 +18,7 @@ pub fn MutationObserver::new(
   callback : (@core.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @global.global_this()._get("MutationObserver")
-  @core.new(ctor, [callback |> @js.from_fn2]).cast()
+  @core.new(ctor, [callback |> @core.from_fn2]).cast()
 }
 
 ///|
@@ -55,10 +55,10 @@ pub(all) struct MutationRecord {
   target : @dom.Node
   addedNodes : Array[@dom.Node]
   removedNodes : Array[@dom.Node]
-  previousSibling : @js.Nullable[@dom.Node]
-  nextSibling : @js.Nullable[@dom.Node]
-  attributeName : @js.Nullable[String]
-  oldValue : @js.Nullable[String]
+  previousSibling : @core.Nullable[@dom.Node]
+  nextSibling : @core.Nullable[@dom.Node]
+  attributeName : @core.Nullable[String]
+  oldValue : @core.Nullable[String]
 }
 
 ///|
@@ -88,8 +88,8 @@ pub fn IntersectionObserver::new(
 ) -> IntersectionObserver {
   let ctor = @global.global_this()._get("IntersectionObserver")
   match options {
-    Some(opts) => @core.new(ctor, [callback |> @js.from_fn2, opts]).cast()
-    None => @core.new(ctor, [callback |> @js.from_fn2]).cast()
+    Some(opts) => @core.new(ctor, [callback |> @core.from_fn2, opts]).cast()
+    None => @core.new(ctor, [callback |> @core.from_fn2]).cast()
   }
 }
 
@@ -161,7 +161,7 @@ pub fn ResizeObserver::new(
   callback : (@core.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @global.global_this()._get("ResizeObserver")
-  @core.new(ctor, [callback |> @js.from_fn2]).cast()
+  @core.new(ctor, [callback |> @core.from_fn2]).cast()
 }
 
 ///|

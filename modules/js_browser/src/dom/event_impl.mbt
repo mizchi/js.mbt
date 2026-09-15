@@ -460,7 +460,7 @@ pub fn FormEvent::defaultPrevented(self : FormEvent) -> Bool {
 /// DragEvent represents a drag and drop event
 /// https://developer.mozilla.org/en-US/docs/Web/API/DragEvent
 pub(all) struct DragEvent {
-  dataTransfer : @js.Nullable[DataTransfer]
+  dataTransfer : @core.Nullable[DataTransfer]
 }
 
 ///|
@@ -515,8 +515,8 @@ pub fn DragEvent::defaultPrevented(self : DragEvent) -> Bool {
 /// InputEvent represents an input event
 /// https://developer.mozilla.org/en-US/docs/Web/API/InputEvent
 pub(all) struct InputEvent {
-  data : @js.Nullable[String]
-  dataTransfer : @js.Nullable[DataTransfer]
+  data : @core.Nullable[String]
+  dataTransfer : @core.Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }

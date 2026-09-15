@@ -8,7 +8,7 @@
 /// T is the type of the result value
 pub(all) struct IDBRequest[T] {
   result : T
-  error : @js.Nullable[@core.Any]
+  error : @core.Nullable[@core.Any]
   source : @core.Any
   readyState : String
 }
@@ -61,7 +61,7 @@ pub fn[T, U] IDBRequest::source_as_cursor(self : IDBRequest[T]) -> IDBCursor[U] 
 /// IDBOpenDBRequest extends IDBRequest for database opening
 pub(all) struct IDBOpenDBRequest {
   result : @core.Any
-  error : @js.Nullable[@core.Any]
+  error : @core.Nullable[@core.Any]
   source : @core.Any
   readyState : String
 }

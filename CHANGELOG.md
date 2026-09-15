@@ -59,6 +59,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`mizchi/js` is now a leaf: no other module in the workspace depends on it.**
+  Six published manifests shrink as a result. Nothing about the public API
+  changes — `moon info` produces a zero-line `.mbti` diff across the whole
+  workspace — but the dependency graph the documentation described was not the
+  one the code had.
+
+  - `js_browser` (7 packages), `js_deno` (1) and `js_webextensions` (3) reached
+    `js_core` *through* the facade. The entire usage was eight symbols —
+    `Promise`, `Nullable`, `any`, `run_async`, `suspend`, `from_fn0`/`1`/`2` —
+    all of them `js_core`'s, and `src/top.mbt` is 212 lines of nothing but
+    `pub using` re-exports. So three modules carried the whole meta package,
+    and its `js_mbtconv` dependency, to reach a module they already imported.
+    87 call sites now say `@core.` and the facade import is gone.
+  - `js_web`, `js_node` and `js_bun` declared `mizchi/js` in `moon.mod` with no
+    package importing it — a dead declaration that survived the split because
+    `moon check` reports package-level dead imports as `unused_package` but
+    says nothing about a dead `import` in `moon.mod`.
+
+  `scripts/release.ts` still publishes `mizchi/js` before `js_web` and the
+  runtime modules. That ordering is no longer required, but it is the safe
+  side, so it is left alone.
+
 - **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
   JavaScript value conversion helpers (`from_map`, `from_json`, `to_json`,
   `from_option_map`, the `Convertible` trait and the runtime type inspection

@@ -24,7 +24,7 @@ pub async fn StorageArea::get(
 extern "js" fn ffi_storage_get(
   storage : @core.Any,
   keys : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #|async (storage, keys) => storage._get(keys)
 
 ///|
@@ -43,7 +43,7 @@ pub async fn StorageArea::get_all(self : StorageArea) -> @core.Any {
 ///|
 extern "js" fn ffi_storage_get_all(
   storage : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #|async (storage) => storage._get(null)
 
 ///|
@@ -56,7 +56,7 @@ pub async fn StorageArea::set(self : StorageArea, items : @core.Any) -> Unit {
 extern "js" fn ffi_storage_set(
   storage : @core.Any,
   items : @core.Any,
-) -> @js.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #|async (storage, items) => storage.set(items)
 
 ///|
@@ -81,7 +81,7 @@ pub async fn StorageArea::remove(self : StorageArea, keys : @core.Any) -> Unit {
 extern "js" fn ffi_storage_remove(
   storage : @core.Any,
   keys : @core.Any,
-) -> @js.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #|async (storage, keys) => storage.remove(keys)
 
 ///|
@@ -97,7 +97,7 @@ pub async fn StorageArea::clear(self : StorageArea) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_storage_clear(storage : @core.Any) -> @js.Promise[Unit] =
+extern "js" fn ffi_storage_clear(storage : @core.Any) -> @core.Promise[Unit] =
   #|async (storage) => storage.clear()
 
 ///|

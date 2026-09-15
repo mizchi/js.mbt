@@ -152,7 +152,7 @@ pub fn NavigationTransition::navigationType(
 /// Returns a promise that fulfills when the navigation succeeds or rejects when it fails.
 pub fn NavigationTransition::finished(
   self : NavigationTransition,
-) -> @js.Promise[NavigationHistoryEntry] {
+) -> @core.Promise[NavigationHistoryEntry] {
   self.as_any()._get("finished").cast()
 }
 
@@ -208,7 +208,7 @@ pub fn NavigationResult::as_any(self : NavigationResult) -> @core.Any = "%identi
 /// Returns a promise that fulfills when the visible URL changes and a new entry is created.
 pub fn NavigationResult::committed(
   self : NavigationResult,
-) -> @js.Promise[NavigationHistoryEntry] {
+) -> @core.Promise[NavigationHistoryEntry] {
   self.as_any()._get("committed").cast()
 }
 
@@ -216,7 +216,7 @@ pub fn NavigationResult::committed(
 /// Returns a promise that fulfills when all promises passed to intercept() have fulfilled.
 pub fn NavigationResult::finished(
   self : NavigationResult,
-) -> @js.Promise[NavigationHistoryEntry] {
+) -> @core.Promise[NavigationHistoryEntry] {
   self.as_any()._get("finished").cast()
 }
 
