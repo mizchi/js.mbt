@@ -190,7 +190,10 @@ async test "Response: new_with_body dispatches status/headers like new" {
   )
   assert_eq(response.status, 200)
   let ct : String = @core.identity(
-    response.as_any()._get("headers")._call("get", [@core.identity("Content-Type")]),
+    response
+    .as_any()
+    ._get("headers")
+    ._call("get", [@core.identity("Content-Type")]),
   )
   assert_eq(ct, "image/jpeg")
 }
