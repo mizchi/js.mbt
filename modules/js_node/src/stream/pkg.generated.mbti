@@ -3,8 +3,8 @@ package "mizchi/js_node/stream"
 
 import {
   "mizchi/js/core",
-  "mizchi/js/web/streams",
   "mizchi/js_node/events",
+  "mizchi/js_web/streams",
 }
 
 // Values

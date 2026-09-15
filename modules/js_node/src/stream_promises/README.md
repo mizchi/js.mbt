@@ -12,7 +12,7 @@ Add to your `moon.pkg.json`:
 {
   "import": [
     "mizchi/js",
-    "mizchi/js/web/streams",
+    "mizchi/js_web/streams",
     "mizchi/js_node/stream_promises"
   ]
 }

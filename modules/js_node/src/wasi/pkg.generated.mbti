@@ -3,7 +3,7 @@ package "mizchi/js_node/wasi"
 
 import {
   "mizchi/js/core",
-  "mizchi/js/web/webassembly",
+  "mizchi/js_web/webassembly",
 }
 
 // Values

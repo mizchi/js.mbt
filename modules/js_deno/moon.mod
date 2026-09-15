@@ -4,6 +4,7 @@ version = "0.12.2"
 
 import {
   "mizchi/js@0.12.2",
+  "mizchi/js_web@0.12.2",
 }
 
 readme = "src/README.md"
