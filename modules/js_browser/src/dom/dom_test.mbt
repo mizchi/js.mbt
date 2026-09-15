@@ -769,8 +769,8 @@ test "ShadowRoot getElementById finds elements the document cannot see" {
   // Inside the shadow tree: visible to the root, invisible to the document.
   let el = root.getElementById("agree").unwrap()
   assert_eq(el.id(), "agree")
-  assert_true(doc.getElementById("agree").is_empty())
-  assert_true(root.getElementById("missing").is_empty())
+  assert_true(doc.getElementById("agree") is None)
+  assert_true(root.getElementById("missing") is None)
 }
 
 ///|
