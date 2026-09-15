@@ -265,7 +265,7 @@ Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separa
 
 - 📦 **FFI foundation** (`mizchi/js_core`) - `Any`, `Promise`, `Nullable`, target-specific interop. Split out into its own module
 - 📦 **JS built-ins** (`mizchi/js_builtin`) - Object, Array, JSON, RegExp, Symbol, Proxy, ... Split out into its own module
-- 📦 **MoonBit ⇔ JS conversion** (`mizchi/js_mbtconv`) - `Map`/`Json`/`Option`/`Result` ⇔ `Any`, runtime type inspection. Split out into its own module
+- 📦 **MoonBit ⇔ JS conversion** (`mizchi/js_convert`) - `Map`/`Json`/`Option`/`Result` ⇔ `Any`, runtime type inspection. Split out into its own module
 - ✅ **`mizchi/js`** - meta package re-exporting `js_core` + `js_builtin`, plus the wasm-gc entry
 - 📦 **Web Standards** (`mizchi/js_web`) - fetch, URL, Streams, Blob, Crypto, WebSocket, Workers. Split out into its own module
 - 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module

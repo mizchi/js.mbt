@@ -1,8 +1,8 @@
 # パッケージ分割ガイド (mizchi/js → multi-module)
 
-このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`**, **`mizchi/js_mbtconv`** の 9 モジュールが独立しています。
+このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`**, **`mizchi/js_convert`** の 9 モジュールが独立しています。
 
-`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`internal` / `wasm` / `examples` を抱えます。
+`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`src/top.mbt` と `src/wasm` だけを抱えます (`internal` / `examples` は `dev/` = `mizchi/js_dev` に移動)。
 
 ## 背景
 
@@ -27,15 +27,16 @@
 ```
 /
 ├── moon.work                          # workspace 定義
-├── moon.mod                           # mizchi/js (facade + internal/wasm/examples)
+├── moon.mod                           # mizchi/js (facade + wasm)
 ├── src/                               # mizchi/js のソース
+├── dev/                               # mizchi/js_dev (never published)
 └── modules/
     ├── js_browser/                    # mizchi/js_browser
     ├── js_builtin/                    # mizchi/js_builtin
-    ├── js_deno/                       # mizchi/js_deno
-    ├── js_mbtconv/                    # mizchi/js_mbtconv
     ├── js_bun/                        # mizchi/js_bun
+    ├── js_convert/                    # mizchi/js_convert
     ├── js_core/                       # mizchi/js_core
+    ├── js_deno/                       # mizchi/js_deno
     ├── js_node/                       # mizchi/js_node
     ├── js_web/                        # mizchi/js_web
     └── js_webextensions/              # mizchi/js_webextensions
@@ -46,12 +47,13 @@
 ```
 members = [
   ".",
+  "dev",
   "modules/js_browser",
   "modules/js_builtin",
   "modules/js_bun",
+  "modules/js_convert",
   "modules/js_core",
   "modules/js_deno",
-  "modules/js_mbtconv",
   "modules/js_node",
   "modules/js_web",
   "modules/js_webextensions",
@@ -64,7 +66,7 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `internal/*`, `examples`, `wasm` | 既存 |
+| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `wasm`            | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
@@ -72,7 +74,7 @@ members = [
 | `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | **済** |
 | `mizchi/js_web`             | `web/*` (Blob, Streams, Fetch, Event, ...) | **済** |
 | `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | **済** |
-| `mizchi/js_mbtconv`         | `mbtconv` (MoonBit 値 ⇔ JS 値の変換)  | **済** |
+| `mizchi/js_convert`         | `mbtconv` から改名 (MoonBit 値 ⇔ JS 値の変換) | **済** |
 | `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | **済** |
 | `mizchi/js_wasm` (検討中)   | `wasm` ターゲット用 entry             | 未着手 |
 
@@ -101,14 +103,17 @@ members = [
 
 それぞれの内部依存(`webextensions/chrome` → `webextensions/storage` 等)は、本リポジトリ内で `mizchi/js_webextensions/storage` のように書き換え済みです。
 
-## 利用側の移行手順 (mbtconv)
+## 利用側の移行手順 (convert, 旧 mbtconv)
 
-`mbtconv` は `mizchi/js_mbtconv` に移動しました。`core` と同じく**モジュール名の末尾が変わるので default alias が `@js_mbtconv` になります**。`@mbtconv.` のまま使いたい場合は明示 alias を付けてください:
+`mbtconv` は **`mizchi/js_convert` に改名**して独立モジュールになりました。
+`mbt` は MoonBit プロジェクト内では冗長で、`conv` の略も開いてあります。
+`core` と同じく**モジュール名の末尾が変わるので default alias は `@js_convert`
+です**。短い `@convert.` で使いたい場合は明示 alias を付けてください:
 
 ```diff
  # moon.mod
  import {
-+  "mizchi/js_mbtconv@0.13.x",
++  "mizchi/js_convert@0.13.x",
    "mizchi/js@0.13.x",
  }
 ```
@@ -117,8 +122,15 @@ members = [
  # moon.pkg
  import {
 -  "mizchi/js/mbtconv",
-+  "mizchi/js_mbtconv" @mbtconv,
++  "mizchi/js_convert" @convert,
  }
+```
+
+`.mbt` 側は `@mbtconv.` を `@convert.` に置換すれば済みます (関数名は不変):
+
+```diff
+-let obj = @mbtconv.from_map(m)
++let obj = @convert.from_map(m)
 ```
 
 ## 利用側の移行手順 (built-ins)
@@ -316,7 +328,7 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 | -------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `target/js/release/build/deno/_tests/_tests.js`                | `target/js/release/build/mizchi/js_deno/_tests/_tests.js`             |
 | `target/js/release/build/bun/bun_test/bun_test.js`             | `target/js/release/build/mizchi/js_bun/bun_test/bun_test.js`          |
-| `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js_mbtconv/_interop_test/_interop_test.js` |
+| `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js_convert/_interop_test/_interop_test.js` |
 | `target/wasm-gc/release/build/wasm/wasm.wasm`                  | `target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm`               |
 
 本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `src/wasm/test_deno.ts`, `src/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
@@ -416,7 +428,7 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
   でした。実際に使われていたのは `Promise` `Nullable` `any` `run_async`
   `suspend` `from_fn0/1/2` の 8 シンボルだけで、全部 `js_core` の中身です。
   つまり 3 モジュールが、再エクスポート殻を経由して `js_core` に届くためだけに
-  meta パッケージ全体 (とその `js_mbtconv` 依存) を publish 時の manifest に
+  meta パッケージ全体 (とその `js_convert` 依存) を publish 時の manifest に
   抱えていました。87 箇所を `@core.` に書き換えて解消し、こちらも `.mbti`
   差分ゼロです。
 
@@ -449,7 +461,7 @@ dev 専用のものを publish される木の中に置けないからです:
 
 | 移動後                 | 移動元                             | 中身                              |
 | ---------------------- | ---------------------------------- | --------------------------------- |
-| `dev/src/bench`        | `mizchi/js` `src/internal/bench`   | `js_mbtconv` のバンドルサイズ bench |
+| `dev/src/bench`        | `mizchi/js` `src/internal/bench`   | `js_convert` のバンドルサイズ bench |
 | `dev/src/examples`     | `mizchi/js` `src/examples`         | `.mbt.md` のドキュメント           |
 | `dev/src/size/*`       | `mizchi/js_core` `src/_tests/size*` | バンドルサイズ計測 14 パッケージ   |
 
@@ -457,9 +469,9 @@ dev 専用のものを publish される木の中に置けないからです:
 いましたが、`js_node` 独立後は import 元がゼロで、機能は CLAUDE.md の
 「Async Test Resource Management」(`defer`) に置き換わっています。
 
-これにより `mizchi/js` の `moon.mod` から `js_mbtconv` が外れました。唯一の
+これにより `mizchi/js` の `moon.mod` から `js_convert` が外れました。唯一の
 import 元が `src/internal/bench` だったため、看板パッケージの利用者全員が
-ベンチのために `js_mbtconv` を install していました。
+ベンチのために `js_convert` を install していました。
 
 `mizchi/js_dev` は `moon.work` のメンバーなので `moon check` / `moon test` の
 対象ですが、`scripts/release.ts` の publish 対象リスト (ハードコード) には
@@ -482,7 +494,7 @@ mizchi/js_core                      Any, Promise, Nullable, raw FFI
   |     |
   |     +-- mizchi/js_bun
   |
-  +-- mizchi/js_mbtconv             Map/Json/Option/Result <-> Any
+  +-- mizchi/js_convert             Map/Json/Option/Result <-> Any
   |
   +-- mizchi/js_webextensions
   |
@@ -493,7 +505,7 @@ mizchi/js_core                      Any, Promise, Nullable, raw FFI
 **`mizchi/js` は葉です。ワークスペース内のどのモジュールもこれに依存しては
 いけません。** 1 つの import で済ませたいユーザ向けの入口で、`src/top.mbt` は
 `pub using` の再エクスポートしかありません。ここを経由すると、その
-モジュールの publish manifest に facade と `js_mbtconv` が丸ごと乗ります。
+モジュールの publish manifest に facade と `js_convert` が丸ごと乗ります。
 
 publish は上の依存順でなければならないため、`scripts/release.ts` が
 `js_core` → `js_builtin` → `mizchi/js` → `js_web` → その他 の順に

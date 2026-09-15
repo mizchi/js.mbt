@@ -30,9 +30,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   @useiichi in #7). Returns `Array[@file.File]`, empty when nothing is selected
   and when `files` is `null` on a non-file input. `@file.File` and `FileReader`
   were already bound, but there was no typed road to the selection itself. The
-  `dom` package now imports the sibling `file` package; the two do not form a
-  cycle, since `file` imports only `js`, `js_core`, `js_web/blob` and
-  `js_builtin/arraybuffer`.
+  `dom` package now imports the `file` package; the two do not form a cycle,
+  since `file` imports only `js_core`, `js_web/blob` and
+  `js_builtin/arraybuffer`. (`file` itself moved to `mizchi/js_web` later in
+  this release — see below.)
 
 ### Fixed
 
@@ -44,17 +45,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   ```
   deno task test:deno      # mizchi/js_deno integration bundle (debug build)
-  deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+  deno task test:convert   # mizchi/js_convert TS tests (release build)
   deno task test:all       # both
   ```
 
-  This also wires up the `js_mbtconv` TypeScript tests (`interop.test.ts` +
+  This also wires up the `js_convert` TypeScript tests (`interop.test.ts` +
   `types.test.ts`, 38 tests), which were never picked up by `deno test -A`
   because they are not in `test.include` — and could not be added to it,
   since `interop.test.ts` needs the release build while the configured
   include targets the debug build.
 
-  `just test-deno` / `just test-mbtconv` and the `Testing` section of
+  `just test-deno` / `just test-convert` and the `Testing` section of
   `CLAUDE.md` now point at the tasks too.
 
 ### Changed
@@ -96,9 +97,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   | `dev/src/examples` | `mizchi/js` `src/examples` | the `.mbt.md` docs |
   | `dev/src/size/*` | `mizchi/js_core` `src/_tests/size*` | 14 size fixtures |
 
-  Two consequences worth calling out. `js_mbtconv` leaves the root `moon.mod`:
+  Two consequences worth calling out. `js_convert` leaves the root `moon.mod`:
   `src/internal/bench` was its only importer, so every consumer of the headline
-  `mizchi/js` had been installing `js_mbtconv` to satisfy a benchmark. And
+  `mizchi/js` had been installing `js_convert` to satisfy a benchmark. And
   `mizchi/js` now publishes `src/top.mbt` plus `src/wasm` and nothing else —
   previously the facade was about 5% of what shipped.
 
@@ -125,7 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `Promise`, `Nullable`, `any`, `run_async`, `suspend`, `from_fn0`/`1`/`2` —
     all of them `js_core`'s, and `src/top.mbt` is 212 lines of nothing but
     `pub using` re-exports. So three modules carried the whole meta package,
-    and its `js_mbtconv` dependency, to reach a module they already imported.
+    and its `js_convert` dependency, to reach a module they already imported.
     87 call sites now say `@core.` and the facade import is gone.
   - `js_web`, `js_node` and `js_bun` declared `mizchi/js` in `moon.mod` with no
     package importing it — a dead declaration that survived the split because
@@ -136,22 +137,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   runtime modules. That ordering is no longer required, but it is the safe
   side, so it is left alone.
 
-- **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
-  JavaScript value conversion helpers (`from_map`, `from_json`, `to_json`,
-  `from_option_map`, the `Convertible` trait and the runtime type inspection
-  used by the bench suite) are now their own module, depending only on
-  `mizchi/js_core`.
+- **BREAKING: `mbtconv` split out and renamed to `mizchi/js_convert`.** The
+  MoonBit ⇔ JavaScript value conversion helpers (`from_map`, `from_json`,
+  `to_json`, `from_option_map`, the `Convertible` trait and the runtime type
+  inspection used by the bench suite) are now their own module, depending only
+  on `mizchi/js_core`.
 
-  Like `js_core`, the module's last path segment changes the default alias, so
-  import it with an explicit alias to keep `@mbtconv.`:
+  The name changed with the move. `mbt` is redundant inside a MoonBit project,
+  and `conv` was an abbreviation for no reason; `convert` is the word this
+  package's own README already used. It also lines up with the plain-noun
+  pattern of its siblings — `js_core` → `@core`, `js_web` → `@web`,
+  `js_convert` → `@convert`.
+
+  Like `js_core`, the module's last path segment sets the default alias
+  (`@js_convert`), so import it with an explicit alias for the short form:
 
   ```diff
    # moon.pkg
    import {
   -  "mizchi/js/mbtconv",
-  +  "mizchi/js_mbtconv" @mbtconv,
+  +  "mizchi/js_convert" @convert,
    }
   ```
+
+  In `.mbt` sources, `@mbtconv.` becomes `@convert.` — the function names are
+  unchanged:
+
+  ```diff
+  -let obj = @mbtconv.from_map(m)
+  +let obj = @convert.from_map(m)
+  ```
+
+  The `deno task` and `just` recipe follow: `test:convert` → `test:convert`,
+  `just test-convert` → `just test-convert`.
 
 - **BREAKING: `builtins/*` split out into `mizchi/js_builtin`.** All 20
   built-in object packages (`array`, `arraybuffer`, `atomics`, `bigint`,
@@ -303,7 +321,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Minor version bump to 0.13.0 across all workspace modules. The workspace is
   now nine modules — `mizchi/js` (meta) plus `mizchi/js_core`,
-  `mizchi/js_builtin`, `mizchi/js_mbtconv`, `mizchi/js_web`, `mizchi/js_node`,
+  `mizchi/js_builtin`, `mizchi/js_convert`, `mizchi/js_web`, `mizchi/js_node`,
   `mizchi/js_browser`, `mizchi/js_deno`, `mizchi/js_bun` and
   `mizchi/js_webextensions`. They must be published in dependency order;
   `scripts/release.ts` does that.

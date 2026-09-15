@@ -22,14 +22,14 @@ pub fn setup_interop_test() -> Unit {
     "mbt_serialize_ok",
     @core.any(fn(v : Int) -> @core.Any {
       let result : Result[Int, String] = Ok(v)
-      @mbtconv.serialize_result(result)
+      @convert.serialize_result(result)
     }),
   )
   g._set(
     "mbt_serialize_err",
     @core.any(fn(e : String) -> @core.Any {
       let result : Result[Int, String] = Err(e)
-      @mbtconv.serialize_result(result)
+      @convert.serialize_result(result)
     }),
   )
 
@@ -37,7 +37,7 @@ pub fn setup_interop_test() -> Unit {
   g._set(
     "mbt_deserialize_result",
     @core.any(fn(v : @core.Any) -> @core.Any {
-      let result : Result[Int, String] = @mbtconv.deserialize_result(v)
+      let result : Result[Int, String] = @convert.deserialize_result(v)
       // Return as object with type info
       let obj = @core.new_object()
       match result {
@@ -73,13 +73,13 @@ pub fn setup_interop_test() -> Unit {
   // Option serialization
   g._set(
     "mbt_serialize_some",
-    @core.any(fn(v : Int) -> @core.Any { @mbtconv.serialize_option(Some(v)) }),
+    @core.any(fn(v : Int) -> @core.Any { @convert.serialize_option(Some(v)) }),
   )
   g._set(
     "mbt_serialize_none",
     @core.any(fn() -> @core.Any {
       let none : Int? = None
-      @mbtconv.serialize_option(none)
+      @convert.serialize_option(none)
     }),
   )
 
@@ -87,7 +87,7 @@ pub fn setup_interop_test() -> Unit {
   g._set(
     "mbt_deserialize_option",
     @core.any(fn(v : @core.Any) -> @core.Any {
-      let opt : Int? = @mbtconv.deserialize_option(v)
+      let opt : Int? = @convert.deserialize_option(v)
       match opt {
         Some(val) => @core.any(val)
         None => @core.undefined()
@@ -116,16 +116,16 @@ pub fn setup_interop_test() -> Unit {
   )
 
   // Result check functions (using MoonBit's mbtconv)
-  g._set("mbt_is_result_ok", @core.any(@mbtconv.is_result_ok))
-  g._set("mbt_is_result_err", @core.any(@mbtconv.is_result_err))
+  g._set("mbt_is_result_ok", @core.any(@convert.is_result_ok))
+  g._set("mbt_is_result_err", @core.any(@convert.is_result_err))
   // Need explicit type annotation for generic functions
   g._set(
     "mbt_unwrap_ok",
-    @core.any(fn(v : @core.Any) -> Int { @mbtconv.unwrap_ok(v) }),
+    @core.any(fn(v : @core.Any) -> Int { @convert.unwrap_ok(v) }),
   )
   g._set(
     "mbt_unwrap_err",
-    @core.any(fn(v : @core.Any) -> String { @mbtconv.unwrap_err(v) }),
+    @core.any(fn(v : @core.Any) -> String { @convert.unwrap_err(v) }),
   )
 }
 

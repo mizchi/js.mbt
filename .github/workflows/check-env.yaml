@@ -62,13 +62,13 @@ jobs:
           fi
 
       # Each task builds the profile its tests need: test:deno runs the
-      # compiled mizchi/js_deno bundle from the debug build, test:mbtconv
+      # compiled mizchi/js_deno bundle from the debug build, test:convert
       # imports the _interop_test executable from the release build.
       - name: deno test (js_deno integration)
         run: deno task test:deno
 
-      - name: deno test (js_mbtconv interop)
-        run: deno task test:mbtconv
+      - name: deno test (js_convert interop)
+        run: deno task test:convert
 
       - name: bun test
         continue-on-error: true

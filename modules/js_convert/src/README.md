@@ -1,4 +1,4 @@
-# mbtconv - MoonBit to JavaScript Conversion Utilities
+# js_convert - MoonBit to JavaScript Conversion Utilities
 
 This package provides utilities to convert MoonBit types to JavaScript values and vice versa.
 
@@ -44,9 +44,9 @@ To distinguish Ok from Err in JavaScript:
 const isOk = value.constructor.name.includes("Ok")
 const isErr = value.constructor.name.includes("Err")
 
-// Or use mbtconv utilities from MoonBit
-let is_ok = @mbtconv.is_result_ok(js_val)
-let is_err = @mbtconv.is_result_err(js_val)
+// Or use js_convert utilities from MoonBit
+let is_ok = @convert.is_result_ok(js_val)
+let is_err = @convert.is_result_err(js_val)
 ```
 
 ### Enum Types
@@ -87,14 +87,14 @@ let p = Point::{ x: 10, y: 20 }  // JS: { x: 10, y: 20 }
 
 ```moonbit
 // Convert Map to JS object
-let obj = @mbtconv.from_map({
+let obj = @convert.from_map({
   "name": @core.any("Alice"),
   "age": @core.any(30)
 })
 // JavaScript: { name: "Alice", age: 30 }
 
 // Convert Map with optional values (skips None)
-let obj = @mbtconv.from_option_map({
+let obj = @convert.from_option_map({
   "name": Some(@core.any("Bob")),
   "email": None,  // Skipped
   "age": Some(@core.any(25))
@@ -102,7 +102,7 @@ let obj = @mbtconv.from_option_map({
 // JavaScript: { name: "Bob", age: 25 }
 
 // Returns undefined if all values are None
-let result = @mbtconv.from_option_map_or_undefined({
+let result = @convert.from_option_map_or_undefined({
   "timeout": None,
   "retries": None
 })
@@ -114,11 +114,11 @@ let result = @mbtconv.from_option_map_or_undefined({
 ```moonbit
 // Convert MoonBit Json to JS value
 let json : Json = { "name": "Alice", "age": 30 }
-let js_obj = @mbtconv.from_json(json)
+let js_obj = @convert.from_json(json)
 
 // Convert JS value to MoonBit Json
 let js_obj = @core.any({ "name": "Alice" })
-let json = @mbtconv.to_json(js_obj)
+let json = @convert.to_json(js_obj)
 ```
 
 **Important**: `from_json` converts MoonBit's `Json` type (from `@json` package), NOT JavaScript's JSON string. For parsing JSON strings, use `JSON.parse()`.
@@ -128,17 +128,17 @@ let json = @mbtconv.to_json(js_obj)
 ```moonbit
 // Convert Option to @core.Any (None becomes null)
 let some_val : @core.Any? = Some(@core.any(42))
-let result = @mbtconv.from_option(some_val)  // 42
+let result = @convert.from_option(some_val)  // 42
 
 let none_val : @core.Any? = None
-let result = @mbtconv.from_option(none_val)  // null
+let result = @convert.from_option(none_val)  // null
 
 // Convert @core.Any to Option (null/undefined becomes None)
 let val = @core.any(123)
-let opt : Int? = @mbtconv.to_option(val)  // Some(123)
+let opt : Int? = @convert.to_option(val)  // Some(123)
 
 let null_val = @core.null()
-let opt : Int? = @mbtconv.to_option(@core.any(null_val))  // None
+let opt : Int? = @convert.to_option(@core.any(null_val))  // None
 ```
 
 ### Result Conversions
@@ -146,18 +146,18 @@ let opt : Int? = @mbtconv.to_option(@core.any(null_val))  // None
 ```moonbit
 // Check if Result is Ok or Err
 let ok_result : Result[Int, String] = Ok(42)
-let is_ok = @mbtconv.is_result_ok(@core.any(ok_result))  // true
-let is_err = @mbtconv.is_result_err(@core.any(ok_result))  // false
+let is_ok = @convert.is_result_ok(@core.any(ok_result))  // true
+let is_err = @convert.is_result_err(@core.any(ok_result))  // false
 
 // Unwrap values
-let value : Int = @mbtconv.unwrap_ok(@core.any(ok_result))  // 42
+let value : Int = @convert.unwrap_ok(@core.any(ok_result))  // 42
 
 let err_result : Result[Int, String] = Err("error")
-let error : String = @mbtconv.unwrap_err(@core.any(err_result))  // "error"
+let error : String = @convert.unwrap_err(@core.any(err_result))  // "error"
 
 // Convert back to MoonBit Result
 let js_val = @core.any(ok_result)
-let back : Result[Int, String] = @mbtconv.to_result(js_val)  // Ok(42)
+let back : Result[Int, String] = @convert.to_result(js_val)  // Ok(42)
 ```
 
 ### Enum Utilities
@@ -166,12 +166,12 @@ let back : Result[Int, String] = @mbtconv.to_result(js_val)  // Ok(42)
 enum Color { Red, Green, Blue, Rgb(Int, Int, Int) }
 
 // Get variant name
-let name = @mbtconv.get_enum_variant_name(@core.any(Red))  // "Red"
-let name = @mbtconv.get_enum_variant_name(@core.any(Rgb(255, 0, 0)))  // "Rgb"
+let name = @convert.get_enum_variant_name(@core.any(Red))  // "Red"
+let name = @convert.get_enum_variant_name(@core.any(Rgb(255, 0, 0)))  // "Rgb"
 
 // Get tag index
-let tag = @mbtconv.get_enum_tag(@core.any(Red))  // 0
-let tag = @mbtconv.get_enum_tag(@core.any(Rgb(255, 0, 0)))  // 3
+let tag = @convert.get_enum_tag(@core.any(Red))  // 0
+let tag = @convert.get_enum_tag(@core.any(Rgb(255, 0, 0)))  // 3
 ```
 
 ## Performance Considerations
@@ -220,7 +220,7 @@ import {
   isOk, isErr, unwrapOk, matchResult,
   isSome, isNone, unwrapOr,
   getVariantName, getEnumTag, getTupleArgs,
-} from "./src/mbtconv/types.ts";
+} from "./src/types.ts";
 ```
 
 ### Result Helpers

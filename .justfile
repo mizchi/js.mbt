@@ -55,9 +55,9 @@ check-all: format check test
 test-deno:
     deno task test:deno
 
-# Run the mizchi/js_mbtconv TypeScript tests (needs the release build)
-test-mbtconv:
-    deno task test:mbtconv
+# Run the mizchi/js_convert TypeScript tests (needs the release build)
+test-convert:
+    deno task test:convert
 
 # Run WASM-GC tests with Deno
 test-wasm:
@@ -74,7 +74,7 @@ test-bun: build
     bun test _build/js/debug/build/mizchi/js_bun/bun_test/bun_test.js
 
 # Run all tests (MoonBit, Deno, Bun, WASM, WASM-DOM)
-test: test-moon test-deno test-mbtconv test-bun test-wasm test-wasm-dom
+test: test-moon test-deno test-convert test-bun test-wasm test-wasm-dom
 
 # Clean build artifacts
 clean:

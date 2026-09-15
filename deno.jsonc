@@ -4,11 +4,11 @@
     // mizchi/js_deno integration tests. They are a compiled MoonBit test
     // bundle, so the debug build has to exist first (see "test.include").
     "test:deno": "moon build --target js && deno test -A",
-    // mizchi/js_mbtconv TypeScript tests. interop.test.ts imports the
+    // mizchi/js_convert TypeScript tests. interop.test.ts imports the
     // *release* build of the _interop_test executable, so it needs a
     // different build than "test:deno" and cannot share "test.include".
-    "test:mbtconv": "moon build --target js --release && deno test -A modules/js_mbtconv/src/interop.test.ts modules/js_mbtconv/src/types.test.ts",
-    "test:all": "deno task test:deno && deno task test:mbtconv"
+    "test:convert": "moon build --target js --release && deno test -A modules/js_convert/src/interop.test.ts modules/js_convert/src/types.test.ts",
+    "test:all": "deno task test:deno && deno task test:convert"
   },
   "test": {
     "include": [

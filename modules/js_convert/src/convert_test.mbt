@@ -146,7 +146,7 @@ test "roundtrip from_json and to_json" {
 ///|
 test "JsImpl::as_any converts builtin Json to Js" {
   let j : Json = { "items": [1, 2, 3], "nested": { "key": "value" } }
-  let v : @core.Any = @mbtconv.from_json(j)
+  let v : @core.Any = @convert.from_json(j)
   assert_eq(@core.identity(v._get("items")._get_by_index(0)), 1)
   assert_eq(@core.identity(v._get("nested")._get("key")), "value")
 }
