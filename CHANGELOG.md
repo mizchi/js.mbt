@@ -5,6 +5,205 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0] - 2026-09-15
+
+### Fixed
+
+- **`check-env` CI could not run the Deno tests.** `deno.jsonc` was pointed at
+  the *debug* build (`_build/js/debug/build/mizchi/js_deno/_tests/_tests.js`)
+  while the workflow only ran `moon build --target js --release`, so
+  `deno test -A` failed on a missing module. Deno-side tests are now driven by
+  tasks that build the profile they need, and `check-env` calls them:
+
+  ```
+  deno task test:deno      # mizchi/js_deno integration bundle (debug build)
+  deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+  deno task test:all       # both
+  ```
+
+  This also wires up the `js_mbtconv` TypeScript tests (`interop.test.ts` +
+  `types.test.ts`, 38 tests), which were never picked up by `deno test -A`
+  because they are not in `test.include` — and could not be added to it,
+  since `interop.test.ts` needs the release build while the configured
+  include targets the debug build.
+
+  `just test-deno` / `just test-mbtconv` and the `Testing` section of
+  `CLAUDE.md` now point at the tasks too.
+
+### Changed
+
+- **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
+  JavaScript value conversion helpers (`from_map`, `from_json`, `to_json`,
+  `from_option_map`, the `Convertible` trait and the runtime type inspection
+  used by the bench suite) are now their own module, depending only on
+  `mizchi/js_core`.
+
+  Like `js_core`, the module's last path segment changes the default alias, so
+  import it with an explicit alias to keep `@mbtconv.`:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/mbtconv",
+  +  "mizchi/js_mbtconv" @mbtconv,
+   }
+  ```
+
+- **BREAKING: `builtins/*` split out into `mizchi/js_builtin`.** All 20
+  built-in object packages (`array`, `arraybuffer`, `atomics`, `bigint`,
+  `collection`, `date`, `disposable`, `error`, `function`, `global`,
+  `iterator`, `json`, `math`, `object`, `proxy`, `reflect`, `regexp`,
+  `string`, `symbol`, `weak`) moved out of `mizchi/js`. Package names are
+  unchanged, so `@object` / `@array` / `@json` aliases keep working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/builtins/object",
+  +  "mizchi/js_builtin/object",
+   }
+  ```
+
+  `mizchi/js` stays at the repo root as a meta package re-exporting
+  `js_core` + `js_builtin` through `top.mbt`, and keeps `internal/*`,
+  `wasm` and `examples`.
+
+- **BREAKING: `core` split out into `mizchi/js_core`.** The FFI foundation
+  (`Any`, `Promise`, `Nullable`, the target-specific interop layer) is now its
+  own module, which every other module — including the root `mizchi/js` —
+  depends on.
+
+  The module's last path segment changes the default alias from `@core` to
+  `@js_core`, and there are 8500+ `@core.` references in the wild, so import
+  it with an **explicit alias** and no `.mbt` source needs touching:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/core",
+  +  "mizchi/js_core" @core,
+   }
+  ```
+
+  Publish order now starts with `js_core` (before the root), handled by
+  `scripts/release.ts`.
+
+- **BREAKING: `web/*` split out into `mizchi/js_web`.** All 15 Web Standard
+  packages (`blob`, `console`, `crypto`, `encoding`, `event`, `http`,
+  `message`, `performance`, `streams`, `trusted_types`, `url`, `webassembly`,
+  `webgpu`, `websocket`, `worker`) moved out of `mizchi/js`. Package names are
+  unchanged, so `@http` / `@url` / `@streams` aliases in `.mbt` sources keep
+  working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/web/http",
+  +  "mizchi/js_web/http",
+   }
+  ```
+
+  `mizchi/js_node`, `mizchi/js_browser` and `mizchi/js_deno` now depend on
+  `mizchi/js_web`, so it has to be published before them; `scripts/release.ts`
+  does that ordering.
+
+- **`web/*` no longer imports the `mizchi/js` facade.** The seven packages
+  that reached types through the root re-export (`blob`, `event`, `http`,
+  `worker`, `webgpu`, `websocket`, `streams`) now import the package that
+  actually defines them - `@core.Promise` instead of `@js.Promise`,
+  `@js_async.AbortSignal` instead of `@js.AbortSignal`, and so on. This is a
+  prerequisite for splitting `web/*` into `mizchi/js_web`, since a facade
+  that re-exports `js_web` while `js_web` imports the facade is a cycle.
+  No `.mbti` changed, so there is no effect on users.
+
+- **BREAKING: `node/*` split out into `mizchi/js_node`.** First step of
+  dissolving the monolithic `src/` into per-area modules (`js_core`,
+  `js_builtin`, `js_web`, `js_node`), leaving `mizchi/js` as a thin
+  re-export facade. See [`docs/package-split.md`](docs/package-split.md).
+
+  Add the module to your `moon.mod` and rewrite import paths — package names
+  are unchanged, so `@fs` / `@path` / `@process` aliases in `.mbt` sources
+  keep working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/node/fs",
+  +  "mizchi/js_node/fs",
+   }
+  ```
+
+  All 34 node packages moved: `assert`, `assert_strict`, `async_hooks`,
+  `buffer`, `child_process`, `dns`, `events`, `fs`, `fs_promises`, `http`,
+  `http2`, `https`, `inspector`, `module`, `net`, `os`, `path`, `process`,
+  `readline`, `readline_promises`, `sqlite`, `stream`, `stream_promises`,
+  `test`, `tls`, `tty`, `url`, `util`, `v8`, `vm`, `wasi`, `worker_threads`,
+  `zlib`, plus the root `mizchi/js/node` (`timers`/`cjs`/`esm` re-exports)
+  which is now `mizchi/js_node`.
+
+- **BREAKING: `WebSocket::send_buffer` → `WebSocket::send_uint8array`.**
+  `web/websocket` depended on `node/buffer` purely for this one signature,
+  which would have made `js_node` a circular dependency. A Node `Buffer` is a
+  `Uint8Array`, so pass one with `buffer.as_any().cast()`.
+
+- Made `web/webassembly` and `node/wasi` tests self-contained: the `add.wasm`
+  (71B) and `hello-wasi.wasm` (169B) fixtures are now embedded as `Bytes`
+  literals instead of read through `node/fs`, which removes the last
+  `web → node` cross-dependency and the dependency on the process working
+  directory. `fs` tests that read `package.json` now create their own temp
+  files, since member-module tests run with the module directory as CWD.
+
+- **Warning-free on the latest MoonBit toolchain.** Fixed all 108 deprecation
+  warnings reported by `moonc` and dropped the blanket `warnings = "-20"`
+  suppression from all five workspace `moon.mod` files, so
+  `moon check --deny-warn` now passes without muting deprecations.
+
+- **BREAKING (argument positions only): `extern "js"` array parameters are now
+  `FixedArray[T]`.** `Array[T]` is deprecated in JavaScript FFI signatures
+  because its runtime representation is an implementation detail. Affected
+  public signatures:
+  - `@core`: `Any::_call`, `Any::_invoke`, `new`, `new_instance`
+  - `@math`: `Math::max`, `Math::min`, `Math::hypot`
+  - `@function`: `Function::apply`; `@reflect`: `Reflect::apply`
+  - `@dns`: `set_servers`; `@console`: `table`; `@websocket`: `WebSocket::new`
+    (`protocols?`)
+  - `@js_browser/dom`: `Element::before`/`after`/`prepend`/`replaceWith`/
+    `replaceChildren` and the generated `HTML*Element`/`SVG*Element`
+    delegations
+
+  Array-literal call sites (`obj._call("f", [a, b])`, `Math::max([1.0, 2.0])`)
+  compile unchanged and stay zero-cost. To pass a runtime-built array, use
+  `FixedArray::from_array(arr[:])`.
+
+  Return types are unchanged: `object_keys`, `object_values`, `array_from`,
+  `from_entries`, `Reflect::ownKeys`, `Object::entries`, `RegExp::split`,
+  `Promise::all`/`race`/`any`/`allSettled`, `readdirSync`, `cpus`, `loadavg`,
+  `process.argv`, `getHeapSpaceStatistics`, `Bun::argv`, `tabs.remove` and
+  `execFile` all still use `Array[T]`, converting internally with
+  `Array::from_fixed_array`.
+
+- Migrated `inspect` to `debug_inspect` for composed values (`Option`, arrays,
+  `Json`) per the `Show` → `Debug` split, and updated the affected snapshots
+  (`Debug` quotes strings: `Some(hello)` → `Some("hello")`).
+
+- Replaced deprecated `try?` with `try ... catch ... noraise` (and postfix
+  `catch` where the outcome is intentionally ignored).
+
+- Replaced `Array::new(capacity=)` with `Array(capacity=)`,
+  `@immut/hashmap.from_array` with `@immut/hashmap.HashMap([...])`,
+  `not(x)` with `!x`, and the implicitly promoted `SimpleStruct::from_js` /
+  `Show::to_string` calls with explicit trait-qualified calls.
+
+- Reformatted with the current `moon fmt` (trailing commas in single-line
+  struct literals) and regenerated all `.mbti` interfaces.
+
+- Minor version bump to 0.13.0 across all workspace modules. The workspace is
+  now nine modules — `mizchi/js` (meta) plus `mizchi/js_core`,
+  `mizchi/js_builtin`, `mizchi/js_mbtconv`, `mizchi/js_web`, `mizchi/js_node`,
+  `mizchi/js_browser`, `mizchi/js_deno`, `mizchi/js_bun` and
+  `mizchi/js_webextensions`. They must be published in dependency order;
+  `scripts/release.ts` does that.
+
 ## [0.12.1] - 2026-05-26
 
 ### Changed

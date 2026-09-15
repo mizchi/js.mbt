@@ -1,9 +1,10 @@
 import {
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
 }
 
+pkgtype(kind: "executable")
+
 options(
-  "is-main": true,
   link: {
     "wasm-gc": {
       "exports": [

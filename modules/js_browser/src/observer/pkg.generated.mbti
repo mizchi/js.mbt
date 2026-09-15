@@ -2,8 +2,8 @@
 package "mizchi/js_browser/observer"
 
 import {
-  "mizchi/js/core",
   "mizchi/js_browser/dom",
+  "mizchi/js_core",
 }
 
 // Values
@@ -13,11 +13,11 @@ import {
 // Types and methods
 #external
 pub type IntersectionObserver
-pub fn IntersectionObserver::as_any(Self) -> @core.Any
+pub fn IntersectionObserver::as_any(Self) -> @js_core.Any
 pub fn IntersectionObserver::disconnect(Self) -> Unit
-pub fn IntersectionObserver::new((@core.Any?, Self) -> Unit, options? : @core.Any) -> Self
+pub fn IntersectionObserver::new((@js_core.Any?, Self) -> Unit, options? : @js_core.Any) -> Self
 pub fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
-pub fn IntersectionObserver::take_records(Self) -> @core.Any
+pub fn IntersectionObserver::take_records(Self) -> @js_core.Any
 pub fn IntersectionObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct IntersectionObserverEntry {
@@ -29,47 +29,46 @@ pub(all) struct IntersectionObserverEntry {
   isIntersecting : Bool
   time : Double
 }
-pub fn IntersectionObserverEntry::as_any(Self) -> @core.Any
+pub fn IntersectionObserverEntry::as_any(Self) -> @js_core.Any
 
 #external
 pub type MutationObserver
-pub fn MutationObserver::as_any(Self) -> @core.Any
+pub fn MutationObserver::as_any(Self) -> @js_core.Any
 pub fn MutationObserver::disconnect(Self) -> Unit
-pub fn MutationObserver::new((@core.Any?, Self) -> Unit) -> Self
-pub fn MutationObserver::observe(Self, @dom.Element, @core.Any) -> Unit
-pub fn MutationObserver::take_records(Self) -> @core.Any
+pub fn MutationObserver::new((@js_core.Any?, Self) -> Unit) -> Self
+pub fn MutationObserver::observe(Self, @dom.Element, @js_core.Any) -> Unit
+pub fn MutationObserver::take_records(Self) -> @js_core.Any
 
 pub(all) struct MutationRecord {
   mutationType : String
   target : @dom.Node
   addedNodes : Array[@dom.Node]
   removedNodes : Array[@dom.Node]
-  previousSibling : @core.Nullable[@dom.Node]
-  nextSibling : @core.Nullable[@dom.Node]
-  attributeName : @core.Nullable[String]
-  oldValue : @core.Nullable[String]
+  previousSibling : @js_core.Nullable[@dom.Node]
+  nextSibling : @js_core.Nullable[@dom.Node]
+  attributeName : @js_core.Nullable[String]
+  oldValue : @js_core.Nullable[String]
 }
-pub fn MutationRecord::as_any(Self) -> @core.Any
+pub fn MutationRecord::as_any(Self) -> @js_core.Any
 pub fn MutationRecord::mutation_type(Self) -> String
 
 #external
 pub type ResizeObserver
-pub fn ResizeObserver::as_any(Self) -> @core.Any
+pub fn ResizeObserver::as_any(Self) -> @js_core.Any
 pub fn ResizeObserver::disconnect(Self) -> Unit
-pub fn ResizeObserver::new((@core.Any?, Self) -> Unit) -> Self
+pub fn ResizeObserver::new((@js_core.Any?, Self) -> Unit) -> Self
 pub fn ResizeObserver::observe(Self, @dom.Element) -> Unit
-pub fn ResizeObserver::observe_with_options(Self, @dom.Element, @core.Any) -> Unit
+pub fn ResizeObserver::observe_with_options(Self, @dom.Element, @js_core.Any) -> Unit
 pub fn ResizeObserver::unobserve(Self, @dom.Element) -> Unit
 
 pub(all) struct ResizeObserverEntry {
   target : @dom.Element
   contentRect : @dom.DOMRectReadOnly
-  borderBoxSize : @core.Any
-  contentBoxSize : @core.Any
+  borderBoxSize : @js_core.Any
+  contentBoxSize : @js_core.Any
 }
-pub fn ResizeObserverEntry::as_any(Self) -> @core.Any
+pub fn ResizeObserverEntry::as_any(Self) -> @js_core.Any
 
 // Type aliases
 
 // Traits
-

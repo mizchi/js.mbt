@@ -45,7 +45,7 @@ Add to your `moon.pkg.json`:
 
 ```json
 {
-  "import": ["mizchi/js/core", "mizchi/js"]
+  "import": ["mizchi/js_core", "mizchi/js"]
 }
 ```
 
@@ -81,9 +81,9 @@ Add to your `moon.pkg.json`:
 
 ### Core JavaScript APIs
 
-#### mizchi/js/core - Core FFI Package
+#### mizchi/js_core - Core FFI Package
 
-The `mizchi/js/core` package provides the foundation for JavaScript interoperability in MoonBit:
+The `mizchi/js_core` package provides the foundation for JavaScript interoperability in MoonBit:
 
 **Type System**
 - `Any` - Opaque type for JavaScript values
@@ -131,20 +131,20 @@ The `mizchi/js/core` package provides the foundation for JavaScript interoperabi
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Core FFI & Objects** |
-| Core FFI | `mizchi/js/core` | 🧪 Tested | `get`, `set`, `call`, etc. |
-| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
-| Promise | `mizchi/js/core` | 🧪 Tested | Async/Promise API |
-| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error handling |
-| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
-| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JS Iterator protocol |
-| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
-| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | Weak references |
+| Core FFI | `mizchi/js_core` | 🧪 Tested | `get`, `set`, `call`, etc. |
+| Object | `mizchi/js_builtin/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js_builtin/function` | 🧪 Tested | Function operations |
+| Promise | `mizchi/js_core` | 🧪 Tested | Async/Promise API |
+| Error | `mizchi/js_builtin/error` | 🧪 Tested | Error handling |
+| JSON | `mizchi/js_builtin/json` | 🧪 Tested | JSON parse/stringify |
+| Iterator | `mizchi/js_builtin/iterator` | 🧪 Tested | JS Iterator protocol |
+| AsyncIterator | `mizchi/js_builtin/iterator` | 🧪 Tested | Async iteration |
+| WeakMap/Set/Ref | `mizchi/js_builtin/weak` | 🧪 Tested | Weak references |
 | **Async Helpers** |
-| run_async | `mizchi/js/core` | 🧪 Tested | Async execution |
-| suspend | `mizchi/js/core` | 🧪 Tested | Promise suspension |
-| sleep | `mizchi/js/core` | 🧪 Tested | Delay execution |
-| promisify | `mizchi/js/core` | 🧪 Tested | Callback → Promise |
+| run_async | `mizchi/js_core` | 🧪 Tested | Async execution |
+| suspend | `mizchi/js_core` | 🧪 Tested | Promise suspension |
+| sleep | `mizchi/js_core` | 🧪 Tested | Delay execution |
+| promisify | `mizchi/js_core` | 🧪 Tested | Callback → Promise |
 
 ### JavaScript Built-ins
 
@@ -153,82 +153,84 @@ All JavaScript built-in objects are exported from `mizchi/js`:
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Global Functions** |
-| Global | `mizchi/js/builtins/global` | 🧪 Tested | globalThis, parseInt, parseFloat, setTimeout etc. |
+| Global | `mizchi/js_builtin/global` | 🧪 Tested | globalThis, parseInt, parseFloat, setTimeout etc. |
 | **Core Types** |
-| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
-| Symbol | `mizchi/js/builtins/symbol` | 🧪 Tested | Symbol primitive |
-| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error types (TypeError, RangeError, etc.) |
+| Object | `mizchi/js_builtin/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js_builtin/function` | 🧪 Tested | Function operations |
+| Symbol | `mizchi/js_builtin/symbol` | 🧪 Tested | Symbol primitive |
+| Error | `mizchi/js_builtin/error` | 🧪 Tested | Error types (TypeError, RangeError, etc.) |
 | **Primitives & Data** |
-| String | `mizchi/js/builtins/string` | 🧪 Tested | JsString (String methods) |
-| Array | `mizchi/js/builtins/array` | 🧪 Tested | JsArray (Array methods) |
-| BigInt | `mizchi/js/builtins/bigint` | 🧪 Tested | JsBigInt (arbitrary precision) |
-| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
+| String | `mizchi/js_builtin/string` | 🧪 Tested | JsString (String methods) |
+| Array | `mizchi/js_builtin/array` | 🧪 Tested | JsArray (Array methods) |
+| BigInt | `mizchi/js_builtin/bigint` | 🧪 Tested | JsBigInt (arbitrary precision) |
+| JSON | `mizchi/js_builtin/json` | 🧪 Tested | JSON parse/stringify |
 | **Date & Math** |
-| Date | `mizchi/js/builtins/date` | 🧪 Tested | Date/time operations |
-| Math | `mizchi/js/builtins/math` | 🧪 Tested | Math operations |
+| Date | `mizchi/js_builtin/date` | 🧪 Tested | Date/time operations |
+| Math | `mizchi/js_builtin/math` | 🧪 Tested | Math operations |
 | **Collections** |
-| Map/Set | `mizchi/js/builtins/collection` | 🧪 Tested | JsMap, JsSet |
-| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
+| Map/Set | `mizchi/js_builtin/collection` | 🧪 Tested | JsMap, JsSet |
+| WeakMap/Set/Ref | `mizchi/js_builtin/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
 | **Binary Data** |
-| ArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Binary buffers |
-| DataView | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Buffer views |
+| ArrayBuffer | `mizchi/js_builtin/arraybuffer` | 🧪 Tested | Binary buffers |
+| DataView | `mizchi/js_builtin/arraybuffer` | 🧪 Tested | Buffer views |
 memory |
 | **Pattern & Reflection** |
-| RegExp | `mizchi/js/builtins/regexp` | 🧪 Tested | Regular expressions |
-| Reflect | `mizchi/js/builtins/reflect` | 🧪 Tested | Reflection API |
-| Proxy | `mizchi/js/builtins/proxy` | 🤖 AI Generated | Proxy API |
+| RegExp | `mizchi/js_builtin/regexp` | 🧪 Tested | Regular expressions |
+| Reflect | `mizchi/js_builtin/reflect` | 🧪 Tested | Reflection API |
+| Proxy | `mizchi/js_builtin/proxy` | 🤖 AI Generated | Proxy API |
 | **Iteration & Async** |
-| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JsIterator protocol |
-| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
+| Iterator | `mizchi/js_builtin/iterator` | 🧪 Tested | JsIterator protocol |
+| AsyncIterator | `mizchi/js_builtin/iterator` | 🧪 Tested | Async iteration |
 | **Concurrency** |
-| Atomics | `mizchi/js/builtins/atomics` | 🧪 Tested | Atomic operations |
+| Atomics | `mizchi/js_builtin/atomics` | 🧪 Tested | Atomic operations |
 | **Resource Management** |
-| DisposableStack | `mizchi/js/builtins/disposable` | 🧪 Tested | Disposable resources |
+| DisposableStack | `mizchi/js_builtin/disposable` | 🧪 Tested | Disposable resources |
 
 ### Web Standard APIs
 
-Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
+Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes),
+shipped as the separate `mizchi/js_web` module:
 
-> See **[mizchi/js/web](src/web/README.md)** for detailed Web APIs documentation
+> See **[mizchi/js_web](modules/js_web/src/README.md)** for detailed Web APIs documentation
 
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
-| Console | `mizchi/js/web/console` | 🧪 Tested | console.log, console.error, etc. |
-| fetch | `mizchi/js/web/http` | 🧪 Tested | HTTP requests |
-| Request | `mizchi/js/web/http` | 🧪 Tested | Request objects |
-| Response | `mizchi/js/web/http` | 🧪 Tested | Response objects |
-| Headers | `mizchi/js/web/http` | 🧪 Tested | HTTP headers |
-| FormData | `mizchi/js/web/http` | 🧪 Tested | Form data |
-| URL | `mizchi/js/web/url` | 🧪 Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/url` | 🧪 Tested | Query strings |
-| URLPattern | `mizchi/js/web/url` | 🧪 Tested | URL pattern matching |
-| Blob | `mizchi/js/web/blob` | 🧪 Tested | Binary data |
-| ReadableStream | `mizchi/js/web/streams` | 🧪 Tested | Stream reading |
-| WritableStream | `mizchi/js/web/streams` | 🧪 Tested | Stream writing |
-| TransformStream | `mizchi/js/web/streams` | 🧪 Tested | Stream transformation |
-| CompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate compression |
-| DecompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate decompression |
-| TextEncoder | `mizchi/js/web/encoding` | 🧪 Tested | String to Uint8Array |
-| TextDecoder | `mizchi/js/web/encoding` | 🧪 Tested | Uint8Array to String |
-| Event | `mizchi/js/web/event` | 🧪 Tested | Event objects |
-| CustomEvent | `mizchi/js/web/event` | 🧪 Tested | Custom events |
-| MessageEvent | `mizchi/js/web/event` | 🧪 Tested | Message events |
-| Crypto | `mizchi/js/web/crypto` | 🧪 Tested | Web Crypto API |
-| WebSocket | `mizchi/js/web/websocket` | 🧪 Tested | WebSocket API |
-| Worker | `mizchi/js/web/worker` | 🧪 Tested | Web Workers |
-| MessageChannel | `mizchi/js/web/message` | 🧪 Tested | Message passing |
-| MessagePort | `mizchi/js/web/message` | 🧪 Tested | Message ports |
-| WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
-| Performance | `mizchi/js/web/performance` | 🤖 AI Generated | Performance API |
+| Console | `mizchi/js_web/console` | 🧪 Tested | console.log, console.error, etc. |
+| fetch | `mizchi/js_web/http` | 🧪 Tested | HTTP requests |
+| Request | `mizchi/js_web/http` | 🧪 Tested | Request objects |
+| Response | `mizchi/js_web/http` | 🧪 Tested | Response objects |
+| Headers | `mizchi/js_web/http` | 🧪 Tested | HTTP headers |
+| FormData | `mizchi/js_web/http` | 🧪 Tested | Form data |
+| URL | `mizchi/js_web/url` | 🧪 Tested | URL parsing |
+| URLSearchParams | `mizchi/js_web/url` | 🧪 Tested | Query strings |
+| URLPattern | `mizchi/js_web/url` | 🧪 Tested | URL pattern matching |
+| Blob | `mizchi/js_web/blob` | 🧪 Tested | Binary data |
+| ReadableStream | `mizchi/js_web/streams` | 🧪 Tested | Stream reading |
+| WritableStream | `mizchi/js_web/streams` | 🧪 Tested | Stream writing |
+| TransformStream | `mizchi/js_web/streams` | 🧪 Tested | Stream transformation |
+| CompressionStream | `mizchi/js_web/streams` | 🧪 Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js_web/streams` | 🧪 Tested | GZIP/Deflate decompression |
+| TextEncoder | `mizchi/js_web/encoding` | 🧪 Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js_web/encoding` | 🧪 Tested | Uint8Array to String |
+| Event | `mizchi/js_web/event` | 🧪 Tested | Event objects |
+| CustomEvent | `mizchi/js_web/event` | 🧪 Tested | Custom events |
+| MessageEvent | `mizchi/js_web/event` | 🧪 Tested | Message events |
+| Crypto | `mizchi/js_web/crypto` | 🧪 Tested | Web Crypto API |
+| WebSocket | `mizchi/js_web/websocket` | 🧪 Tested | WebSocket API |
+| Worker | `mizchi/js_web/worker` | 🧪 Tested | Web Workers |
+| MessageChannel | `mizchi/js_web/message` | 🧪 Tested | Message passing |
+| MessagePort | `mizchi/js_web/message` | 🧪 Tested | Message ports |
+| WebAssembly | `mizchi/js_web/webassembly` | 🤖 AI Generated | WASM integration |
+| Performance | `mizchi/js_web/performance` | 🤖 AI Generated | Performance API |
 
 ### Runtime-Specific APIs
 
-Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod.json` `deps` only if you target that runtime.
+Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod` `import` list only if you need it.
 
 | Platform | Module | Status | Documentation |
 |----------|--------|--------|---------------|
-| Node.js | `mizchi/js/node/*` (bundled with `mizchi/js`) | 🧪 Tested | [Node.js README](src/node/README.md) |
+| Web Standards | `mizchi/js_web/*` | 🧪 Tested | [Web README](modules/js_web/src/README.md) |
+| Node.js | `mizchi/js_node/*` | 🧪 Tested | [Node.js README](modules/js_node/src/README.md) |
 | Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
 | Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
 | Bun | `mizchi/js_bun` | 🤖 AI Generated | - |
@@ -261,8 +263,12 @@ Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` module
 
 ## Project Status
 
-- ✅ **Core JS / Web Standards** (`mizchi/js`) - built-ins, Web APIs, fetch, URL, Streams, Crypto, WebSocket
-- ✅ **Node.js Core APIs** (`mizchi/js/node/*`) - `fs`, `path`, `process`, `child_process`, etc.
+- 📦 **FFI foundation** (`mizchi/js_core`) - `Any`, `Promise`, `Nullable`, target-specific interop. Split out into its own module
+- 📦 **JS built-ins** (`mizchi/js_builtin`) - Object, Array, JSON, RegExp, Symbol, Proxy, ... Split out into its own module
+- 📦 **MoonBit ⇔ JS conversion** (`mizchi/js_mbtconv`) - `Map`/`Json`/`Option`/`Result` ⇔ `Any`, runtime type inspection. Split out into its own module
+- ✅ **`mizchi/js`** - meta package re-exporting `js_core` + `js_builtin`, plus the wasm-gc entry
+- 📦 **Web Standards** (`mizchi/js_web`) - fetch, URL, Streams, Blob, Crypto, WebSocket, Workers. Split out into its own module
+- 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module
 - 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0
 - 📦 **Deno Runtime** (`mizchi/js_deno`) - Split out in v0.11.0
 - 📦 **Bun Runtime** (`mizchi/js_bun`) - Split out in v0.11.0

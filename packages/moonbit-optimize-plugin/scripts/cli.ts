@@ -99,7 +99,7 @@ async function checkSize(testName?: string, { print = false, update = false }: C
   }> = [];
 
   for (const dir of testDirs) {
-    const inputPath = path.join(projectRoot, `target/js/release/build/mizchi/js/core/_tests/${dir}/${dir}.js`);
+    const inputPath = path.join(projectRoot, `target/js/release/build/mizchi/js_core/_tests/${dir}/${dir}.js`);
     if (!fs.existsSync(inputPath)) {
       console.error(`\n  Skipping ${dir}: ${inputPath} not found`);
       continue;

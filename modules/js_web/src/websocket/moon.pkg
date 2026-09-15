@@ -1,0 +1,8 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_web/event",
+  "mizchi/js_builtin/arraybuffer",
+  "mizchi/js_web/blob",
+}
+
+supported_targets = "js"

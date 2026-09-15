@@ -1,0 +1,11 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_web/streams" @web,
+  "mizchi/js_node/events",
+}
+
+import {
+  "moonbitlang/async",
+} for "test"
+
+supported_targets = "js"

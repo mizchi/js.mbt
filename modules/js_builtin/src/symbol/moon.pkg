@@ -1,0 +1,5 @@
+import {
+  "mizchi/js_core" @core,
+} for "test"
+
+supported_targets = "js"

@@ -73,7 +73,7 @@ struct Point {
 
 ///|
 fn Point::new(x : Int, y : Int) -> Self {
-  Point::{ x, y }
+  Point::{ x, y, }
 }
 
 ///|
@@ -84,10 +84,10 @@ fn Point::to_tuple(self : Self) -> (Int, Int) {
 ///|
 test "struct usage" {
   let p1 = Point::new(10, 20)
-  assert_eq(p1, Point::{ x: 10, y: 20 })
+  assert_eq(p1, Point::{ x: 10, y: 20, })
 
   // Struct update syntax
-  let p2 : Point = { ..p1, y: 30 }
+  let p2 : Point = { ..p1, y: 30, }
 
   // Destructuring
   let { y, .. } = p2

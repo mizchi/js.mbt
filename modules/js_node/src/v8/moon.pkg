@@ -1,0 +1,11 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_builtin/arraybuffer",
+  "mizchi/js_node/buffer",
+}
+
+import {
+  "mizchi/js_node/fs_promises",
+} for "test"
+
+supported_targets = "js"

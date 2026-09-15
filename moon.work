@@ -1,7 +1,12 @@
 members = [
   ".",
   "modules/js_browser",
+  "modules/js_builtin",
   "modules/js_bun",
+  "modules/js_core",
   "modules/js_deno",
+  "modules/js_mbtconv",
+  "modules/js_node",
+  "modules/js_web",
   "modules/js_webextensions",
 ]

@@ -2,11 +2,11 @@
 package "mizchi/js_webextensions"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
-pub fn browser() -> @core.Any
+pub fn browser() -> @js_core.Any
 
 // Errors
 
@@ -15,4 +15,3 @@ pub fn browser() -> @core.Any
 // Type aliases
 
 // Traits
-

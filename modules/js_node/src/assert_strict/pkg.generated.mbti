@@ -1,0 +1,51 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_node/assert_strict"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn deepEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn deepStrictEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn doesNotMatch(String, String, message? : String) -> Unit
+
+pub async fn doesNotReject(@js_core.Any, message? : String) -> Unit
+
+pub fn doesNotThrow(() -> Unit, message? : String) -> Unit
+
+pub fn equal(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn fail(message? : String) -> Unit
+
+pub fn ifError(@js_core.Any) -> Unit
+
+pub fn match_(String, String, message? : String) -> Unit
+
+pub fn notDeepEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn notDeepStrictEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn notEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn notStrictEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn ok(Bool, message? : String) -> Unit
+
+pub fn partialDeepStrictEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub async fn rejects(@js_core.Any, error? : @js_core.Any, message? : String) -> Unit
+
+pub fn strictEqual(@js_core.Any, @js_core.Any, message? : String) -> Unit
+
+pub fn throws(() -> Unit, message? : String) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

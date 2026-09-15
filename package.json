@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "moon build",
     "dev:spa": "vite src/wasm",

@@ -1,0 +1,7 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_node/process",
+  "mizchi/js_node/buffer",
+}
+
+supported_targets = "js"

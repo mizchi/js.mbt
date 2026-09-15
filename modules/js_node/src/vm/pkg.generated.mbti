@@ -1,0 +1,38 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_node/vm"
+
+import {
+  "mizchi/js_core",
+  "mizchi/js_node/buffer",
+}
+
+// Values
+pub fn compileFunction(String, params? : Array[String], filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool, parsingContext? : @js_core.Any, contextExtensions? : Array[@js_core.Any]) -> @js_core.Any
+
+pub fn createContext(contextObject? : @js_core.Any, name? : String, origin? : String, microtaskMode? : String) -> @js_core.Any
+
+pub fn isContext(@js_core.Any) -> Bool
+
+pub fn runInContext(String, @js_core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js_core.Any
+
+pub fn runInNewContext(String, contextObject? : @js_core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js_core.Any
+
+pub fn runInThisContext(String, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js_core.Any
+
+// Errors
+
+// Types and methods
+#external
+pub type Script
+pub fn Script::as_any(Self) -> @js_core.Any
+pub fn Script::cachedDataRejected(Self) -> Bool?
+pub fn Script::createCachedData(Self) -> @buffer.Buffer
+pub fn Script::new(String, filename? : String, lineOffset? : Int, columnOffset? : Int, cachedData? : @buffer.Buffer, produceCachedData? : Bool) -> Self
+pub fn Script::runInContext(Self, @js_core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js_core.Any
+pub fn Script::runInNewContext(Self, contextObject? : @js_core.Any, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool, contextName? : String, contextOrigin? : String, microtaskMode? : String) -> @js_core.Any
+pub fn Script::runInThisContext(Self, filename? : String, lineOffset? : Int, columnOffset? : Int, displayErrors? : Bool, timeout? : Int, breakOnSigint? : Bool) -> @js_core.Any
+pub fn Script::sourceMapURL(Self) -> String?
+
+// Type aliases
+
+// Traits

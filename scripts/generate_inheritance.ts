@@ -30,58 +30,172 @@ type MethodSignature = {
 };
 
 /**
+ * `open` にある `(` に対応する `)` の位置を返す（入れ子対応）。
+ * 見つからなければ -1。
+ *
+ * パラメータリストには `handler : (@core.Any) -> Unit` のような関数型が
+ * 現れるため、`[^)]*` では最初の `)` で切れてしまう。
+ */
+function findMatchingParen(source: string, open: number): number {
+  let depth = 0;
+  for (let i = open; i < source.length; i++) {
+    const c = source[i];
+    if (c === "(") depth++;
+    else if (c === ")") {
+      depth--;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * `-> ` の直後から戻り値型を読み取る。
+ * ネストの外側に現れた最初の `{`（本体）または `=`（`= "%identity"` 等）で終端。
+ */
+function takeReturnType(source: string): string {
+  let depth = 0;
+  for (let i = 0; i < source.length; i++) {
+    const c = source[i];
+    if (c === "(" || c === "[") depth++;
+    else if (c === ")" || c === "]") depth--;
+    else if (depth === 0 && (c === "{" || c === "=")) return source.slice(0, i);
+  }
+  return source;
+}
+
+/**
+ * ソースファイルが定義している public な型名を集める。
+ *
+ * 祖先型が出力先とは別パッケージにある場合、そのメソッドシグネチャに現れる
+ * 非修飾の型名（`Event` 等）は出力先では解決できないため、修飾子を付ける
+ * 必要がある。その対象を知るために使う。
+ */
+function collectDeclaredTypes(content: string): Set<string> {
+  const names = new Set<string>();
+  const declRegex =
+    /^\s*pub(?:\(all\))?\s+(?:type|struct|enum|trait)!?\s+(\w+)/gm;
+  let m;
+  while ((m = declRegex.exec(content)) !== null) {
+    names.add(m[1]);
+  }
+  return names;
+}
+
+/**
+ * 型式に現れる `declared` の型名を `alias.` で修飾する。
+ * 既に `@pkg.` が付いているもの、単語の一部であるものは触らない。
+ */
+function qualifyTypes(
+  typeExpr: string,
+  declared: Set<string>,
+  alias: string
+): string {
+  if (declared.size === 0 || alias === "") return typeExpr;
+  return typeExpr.replace(/(@[\w/]+\.)?\b([A-Z]\w*)\b/g, (whole, pkg, name) => {
+    if (pkg) return whole; // 既に修飾済み
+    if (!declared.has(name)) return whole;
+    return `${alias}.${name}`;
+  });
+}
+
+/**
+ * パラメータリストをトップレベルの `,` で分割する（入れ子対応）。
+ * `f : (Int, String) -> Unit` を 1 つのパラメータとして保つため、
+ * 素朴な `split(",")` は使えない。
+ */
+function splitParams(params: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < params.length; i++) {
+    const c = params[i];
+    if (c === "(" || c === "[") depth++;
+    else if (c === ")" || c === "]") depth--;
+    else if (c === "," && depth === 0) {
+      out.push(params.slice(start, i));
+      start = i + 1;
+    }
+  }
+  out.push(params.slice(start));
+  return out.map((p) => p.trim()).filter((p) => p.length > 0);
+}
+
+/**
  * ソースファイルからpublicメソッドを抽出
  */
 async function extractPublicMethods(
   filePath: string,
   typeName: string,
-  skipPatterns: RegExp[]
+  skipPatterns: RegExp[],
+  /**
+   * 祖先型が出力先とは別パッケージにある場合の修飾子（例: `@event`）。
+   * 空文字なら同一パッケージなので修飾しない。
+   */
+  qualifier: string = ""
 ): Promise<MethodSignature[]> {
   try {
     const fullPath = join(projectRoot, filePath);
     const content = await readFile(fullPath, "utf-8");
     const methods: MethodSignature[] = [];
+    const declared = qualifier ? collectDeclaredTypes(content) : new Set<string>();
 
-    // メソッド定義の正規表現
-    // pub (async)? (extern "js")? fn TypeName::methodName(self : Self, params) -> ReturnType
-    const methodRegex = new RegExp(
-      `(#alias\\((\\w+)\\)\\s+)?pub (async )?(extern "js" )?fn ${typeName}::(\\w+)\\(([^)]*)\\)\\s*->\\s*([^{=]+)`,
+    // メソッドのヘッダだけを正規表現で探し、パラメータリストと戻り値型は
+    // 括弧の対応を数えて切り出す（関数型パラメータやトップレベル以外の `,`
+    // を正しく扱うため）。
+    // pub (async)? (extern "js")? fn TypeName::methodName(
+    const headerRegex = new RegExp(
+      `(#alias\\((\\w+)\\)\\s+)?pub (async )?(extern "js" )?fn ${typeName}::(\\w+)\\(`,
       'g'
     );
 
     let match;
-    while ((match = methodRegex.exec(content)) !== null) {
-      const fullMatch = match[0];
-
-      // スキップパターンに一致する場合はスキップ
-      if (skipPatterns.some(pattern => pattern.test(fullMatch))) {
-        continue;
-      }
-
+    while ((match = headerRegex.exec(content)) !== null) {
       const alias = match[2];
       const isAsync = match[3] === 'async ';
       // match[4] is extern "js" (optional)
       const methodName = match[5];
-      const params = match[6];
-      const returnType = match[7].trim();
 
-      // selfパラメータがないメソッド（静的メソッド）はスキップ
-      if (!params.includes('self')) {
+      // マッチ末尾の `(` から対応する `)` までがパラメータリスト
+      const openParen = match.index + match[0].length - 1;
+      const closeParen = findMatchingParen(content, openParen);
+      if (closeParen === -1) continue;
+      const params = content.slice(openParen + 1, closeParen);
+
+      // `)` の直後は `-> 戻り値型`
+      const afterParams = content.slice(closeParen + 1);
+      const arrow = afterParams.match(/^\s*->\s*/);
+      if (!arrow) continue;
+      const returnType = takeReturnType(
+        afterParams.slice(arrow[0].length)
+      ).trim();
+
+      // スキップパターンはシグネチャ全体に対して評価する
+      const fullMatch = content.slice(
+        match.index,
+        closeParen + 1 + arrow[0].length + returnType.length
+      );
+      if (skipPatterns.some(pattern => pattern.test(fullMatch))) {
         continue;
       }
 
-      // self: Self パラメータを除外
-      const filteredParams = params
-        .split(',')
-        .filter(p => !p.trim().startsWith('self'))
-        .map(p => p.trim())
-        .filter(p => p.length > 0)
+      const splitted = splitParams(params);
+
+      // selfパラメータがないメソッド（静的メソッド）はスキップ
+      if (!splitted.some(p => p.startsWith('self'))) {
+        continue;
+      }
+
+      // self: Self パラメータを除外し、別パッケージ由来の型を修飾する
+      const filteredParams = splitted
+        .filter(p => !p.startsWith('self'))
+        .map(p => qualifyTypes(p, declared, qualifier))
         .join(', ');
 
       methods.push({
         name: methodName,
         params: filteredParams,
-        returnType,
+        returnType: qualifyTypes(returnType, declared, qualifier),
         isAsync,
         alias,
       });
@@ -168,10 +282,8 @@ function generateWrapperMethod(
   // オプショナルパラメータの呼び出し:
   // - デフォルト値なし（param? : Type）: param? で渡す
   // - デフォルト値あり（param? : Type = default）: param~ で渡す
-  const paramNames = method.params
-    .split(',')
-    .map(p => {
-      const trimmed = p.trim();
+  const paramNames = splitParams(method.params)
+    .map(trimmed => {
       // パラメータ名、オプショナル?、型、デフォルト値を抽出
       const match = trimmed.match(/^(\w+)(\??)(\s*:\s*[^=]+)(=.*)?$/);
       if (!match) return '';
@@ -275,10 +387,19 @@ async function generateInheritedMethods(
   const generatedMethods = new Set<string>();
 
   for (const ancestor of ancestors) {
+    // 祖先が別パッケージにある (qualifiedTypeName が設定されている) 場合、
+    // そのシグネチャに現れる非修飾の型名を同じ alias で修飾する。
+    const ancestorAlias = ancestor.qualifiedTypeName
+      ? ancestor.qualifiedTypeName.slice(
+          0,
+          ancestor.qualifiedTypeName.lastIndexOf(".")
+        )
+      : "";
     const methods = await extractPublicMethods(
       ancestor.sourceFile,
       ancestor.typeName,
-      config.skipPatterns
+      config.skipPatterns,
+      ancestorAlias
     );
 
     if (methods.length === 0) continue;
@@ -322,6 +443,49 @@ async function cleanOldGeneratedFiles(outputDir: string) {
     if (error.code !== 'ENOENT') {
       throw error;
     }
+  }
+}
+
+/**
+ * 生成結果が使っているパッケージ alias が出力先の moon.pkg に import されて
+ * いるか確認し、不足していれば警告する。
+ *
+ * 別パッケージの祖先型を追加すると、そのシグネチャに現れる型 (`@js_async`
+ * 等) の import が出力先に必要になる。生成器は moon.pkg を書き換えないので、
+ * 気付かないまま `moon check` が落ちるのを防ぐ。
+ */
+async function warnMissingImports(outputDir: string) {
+  let pkg: string;
+  try {
+    pkg = await readFile(join(projectRoot, outputDir, "moon.pkg"), "utf-8");
+  } catch {
+    return;
+  }
+
+  // `"path" @alias,` なら alias、`"path",` ならパス末尾がデフォルト alias
+  const imported = new Set<string>();
+  for (const m of pkg.matchAll(/"([^"]+)"\s*(?:@(\w+))?\s*,/g)) {
+    imported.add(m[2] ?? m[1].split("/").pop()!);
+  }
+
+  const dir = join(projectRoot, outputDir);
+  const files = (await readdir(dir)).filter(
+    f => f.startsWith("_generated_") && f.endsWith(".mbt")
+  );
+
+  const missing = new Map<string, string>();
+  for (const file of files) {
+    const content = await readFile(join(dir, file), "utf-8");
+    for (const m of content.matchAll(/@(\w+)\./g)) {
+      if (!imported.has(m[1]) && !missing.has(m[1])) missing.set(m[1], file);
+    }
+  }
+
+  for (const [alias, file] of missing) {
+    console.warn(
+      `  ⚠️  ${outputDir}/moon.pkg imports nothing aliased @${alias} ` +
+        `(used by ${file}) — add it or \`moon check\` will fail`
+    );
   }
 }
 
@@ -423,6 +587,8 @@ ${methods}
     );
     console.log(`  ✅ Generated: ${config.outputDir}/${fileName}`);
   }
+
+  await warnMissingImports(config.outputDir);
 }
 
 /**

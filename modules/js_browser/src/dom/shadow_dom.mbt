@@ -124,7 +124,7 @@ pub fn ShadowRootInit::new(
   delegatesFocus? : Bool = false,
   slotAssignment? : String = "named",
 ) -> ShadowRootInit {
-  { mode, delegatesFocus, slotAssignment }
+  { mode, delegatesFocus, slotAssignment, }
 }
 
 ///|

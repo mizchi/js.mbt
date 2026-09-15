@@ -66,7 +66,11 @@ These types include full data structure implementations:
 
 ### For Minimal Bundle Size
 
-1. **Use `Array[T]` directly** - zero-cost conversion
+1. **Use `Array[T]` directly** - zero-cost conversion via `ToAny`/`%identity`.
+   Note that `Array[T]` is deprecated *inside `extern "js"` signatures*; use
+   `FixedArray[T]` there (also zero-cost) and convert with
+   `Array::from_fixed_array` / `FixedArray::from_array` only when a growable
+   `Array` has to cross the boundary.
 2. **Build objects manually** instead of using `Map`:
    ```moonbit
    // Good: ~0B overhead
@@ -108,7 +112,7 @@ Each test is in `src/nostd/_tests/`:
 Run measurements:
 ```bash
 moon build --target js
-for f in target/js/release/build/mizchi/js/core/_tests/size*/size*.js; do
+for f in target/js/release/build/mizchi/js_core/_tests/size*/size*.js; do
   name=$(basename $f .js)
   minified=$(npx terser "$f" --compress --mangle | wc -c)
   echo "$name: ${minified}B"

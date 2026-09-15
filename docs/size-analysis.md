@@ -47,8 +47,8 @@ async fn main {
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/node/process",
-    "mizchi/js/node/tty",
+    "mizchi/js_node/process",
+    "mizchi/js_node/tty",
     "mizchi/npm_typed/ai",
     "mizchi/npm_typed/dotenv",
     "moonbitlang/async"
@@ -330,8 +330,8 @@ async fn main {
   "is-main": true,
   "import": [
     "mizchi/js",
-    "mizchi/js/node/process",
-    "mizchi/js/node/tty",
+    "mizchi/js_node/process",
+    "mizchi/js_node/tty",
     "mizchi/npm_typed/ai",
     "mizchi/npm_typed/dotenv",
     "moonbitlang/async"

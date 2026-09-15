@@ -7,7 +7,7 @@ pub type OffscreenCanvas
 pub fn OffscreenCanvas::as_any(self : OffscreenCanvas) -> @core.Any = "%identity"
 
 ///|
-pub impl @worker.Transferable for OffscreenCanvas with to_transferable(self) -> @core.Any = "%identity"
+pub impl @worker.Transferable for OffscreenCanvas with fn to_transferable(self) -> @core.Any = "%identity"
 
 ///|
 extern "js" fn ffi_new_offscreen_canvas(

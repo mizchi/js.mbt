@@ -79,7 +79,7 @@ pub(all) struct PointerEvent {
 }
 
 ///|
-pub impl Show for PointerEvent with output(self, logger) {
+pub impl Show for PointerEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -154,7 +154,7 @@ pub(all) struct MouseEvent {
 }
 
 ///|
-pub impl Show for MouseEvent with output(self, logger) {
+pub impl Show for MouseEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -232,7 +232,7 @@ pub(all) struct KeyboardEvent {
 }
 
 ///|
-pub impl Show for KeyboardEvent with output(self, logger) {
+pub impl Show for KeyboardEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -289,7 +289,7 @@ pub fn KeyboardEvent::defaultPrevented(self : KeyboardEvent) -> Bool {
 pub(all) struct ChangeEvent {}
 
 ///|
-pub impl Show for ChangeEvent with output(self, logger) {
+pub impl Show for ChangeEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -580,7 +580,7 @@ pub(all) struct WheelEvent {
 }
 
 ///|
-pub impl Show for WheelEvent with output(self, logger) {
+pub impl Show for WheelEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -646,7 +646,7 @@ pub(all) struct TouchEvent {
 }
 
 ///|
-pub impl Show for TouchEvent with output(self, logger) {
+pub impl Show for TouchEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -716,7 +716,7 @@ pub(all) struct Touch {
 }
 
 ///|
-pub impl Show for Touch with output(self, logger) {
+pub impl Show for Touch with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -796,7 +796,7 @@ pub(all) struct TransitionEvent {
 }
 
 ///|
-pub impl Show for TransitionEvent with output(self, logger) {
+pub impl Show for TransitionEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -860,7 +860,7 @@ pub(all) struct AnimationEvent {
 }
 
 ///|
-pub impl Show for AnimationEvent with output(self, logger) {
+pub impl Show for AnimationEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -917,7 +917,7 @@ pub fn AnimationEvent::defaultPrevented(self : AnimationEvent) -> Bool {
 pub(all) struct ScrollEvent {}
 
 ///|
-pub impl Show for ScrollEvent with output(self, logger) {
+pub impl Show for ScrollEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -980,7 +980,7 @@ pub(all) struct MessageEvent {
 }
 
 ///|
-pub impl Show for MessageEvent with output(self, logger) {
+pub impl Show for MessageEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -1113,7 +1113,7 @@ pub(all) struct HashChangeEvent {
 }
 
 ///|
-pub impl Show for HashChangeEvent with output(self, logger) {
+pub impl Show for HashChangeEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 
@@ -1247,7 +1247,7 @@ pub(all) struct PageTransitionEvent {
 }
 
 ///|
-pub impl Show for PageTransitionEvent with output(self, logger) {
+pub impl Show for PageTransitionEvent with fn output(self, logger) {
   write_dom_show(logger, self.as_any())
 }
 

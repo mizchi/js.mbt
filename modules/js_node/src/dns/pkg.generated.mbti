@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_node/dns"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn get_servers() -> @js_core.Any
+
+pub fn lookup(String, (@js_core.Any?, @js_core.Any) -> Unit, family? : Int, all? : Bool, order? : String) -> Unit
+
+pub fn resolve(String, String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve4(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve6(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve_cname(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve_mx(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve_ns(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve_srv(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn resolve_txt(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn reverse(String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+
+pub fn set_servers(FixedArray[String]) -> Unit
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_node/worker_threads"
+
+import {
+  "mizchi/js_core",
+  "mizchi/js_web/streams",
+}
+
+// Values
+pub fn isMainThread() -> Bool
+
+pub fn parentPort() -> MessagePort?
+
+pub fn threadId() -> Int
+
+pub fn workerData() -> @js_core.Any?
+
+// Errors
+
+// Types and methods
+#external
+pub type MessagePort
+pub fn MessagePort::as_any(Self) -> @js_core.Any
+pub fn MessagePort::close(Self) -> Unit
+pub fn MessagePort::postMessage(Self, @js_core.Any, transferList? : Array[@js_core.Any]) -> Unit
+pub fn MessagePort::start(Self) -> Unit
+
+#external
+pub type Worker
+pub fn Worker::as_any(Self) -> @js_core.Any
+pub fn Worker::new(String, workerData? : @js_core.Any, env? : @js_core.Any, stdin? : Bool, stdout? : Bool, stderr? : Bool, execArgv? : Array[String], resourceLimits? : @js_core.Any) -> Self
+pub fn Worker::postMessage(Self, @js_core.Any, transferList? : Array[@js_core.Any]) -> Unit
+pub fn Worker::ref_(Self) -> Unit
+pub fn Worker::stderr(Self) -> @streams.ReadableStream?
+pub fn Worker::stdin(Self) -> @streams.WritableStream?
+pub fn Worker::stdout(Self) -> @streams.ReadableStream?
+pub fn Worker::terminate(Self) -> Unit
+pub fn Worker::threadId(Self) -> Int
+pub fn Worker::unref(Self) -> Unit
+
+// Type aliases
+
+// Traits
