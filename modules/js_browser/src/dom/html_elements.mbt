@@ -100,7 +100,7 @@ pub async fn HTMLCanvasElement::toBlob(
   image_type? : String,
   quality? : Double,
 ) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = match (image_type, quality) {
+  let promise : @core.Promise[@blob.Blob] = match (image_type, quality) {
     (Some(t), Some(q)) =>
       self.as_any()._call("toBlob", [@core.any(t), @core.any(q)]).cast()
     (Some(t), None) => self.as_any()._call("toBlob", [@core.any(t)]).cast()

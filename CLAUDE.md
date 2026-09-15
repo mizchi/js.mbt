@@ -22,19 +22,44 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
   package (`src/top.mbt` re-exports `js_core` + `js_builtin`) plus the bits
   that are not area specific:
 
+  Indentation below means "depends on the module it hangs off":
+
   ```
-  mizchi/js_core  <--  mizchi/js_builtin  <--  mizchi/js_web  <--  js_node
-    (Any, Promise,       (Object, Array,         (fetch, URL,        js_browser
-     Nullable, FFI)       JSON, RegExp, ...)      Streams, ...)      js_deno
-        ^    ^                 ^                      ^             js_bun
-        |    +-- mizchi/js_mbtconv                    |             js_webextensions
-        +-----------------+----------------------------+
-                          |
-                     mizchi/js  (src/top.mbt, internal, wasm, examples)
+  mizchi/js_core                      Any, Promise, Nullable, raw FFI
+    |
+    +-- mizchi/js_builtin             Object, Array, JSON, RegExp, ...
+    |     |
+    |     +-- mizchi/js_web           fetch, URL, Streams, ...
+    |     |     |
+    |     |     +-- mizchi/js_node
+    |     |     +-- mizchi/js_browser
+    |     |     +-- mizchi/js_deno
+    |     |
+    |     +-- mizchi/js_bun
+    |
+    +-- mizchi/js_mbtconv             MoonBit <-> JS value conversion
+    |
+    +-- mizchi/js_webextensions
+    |
+    +-- mizchi/js                     meta: src/top.mbt re-exports core +
+                                      builtin; also internal, wasm, examples
   ```
 
-  Dependencies only ever point left. Adding an import that points right makes
+  Dependencies only ever point up this tree. Adding one that points down makes
   a module cycle and `moon check` rejects it - `for "test"` imports included.
+
+  **`mizchi/js` is a leaf: nothing in the workspace may depend on it.** It
+  exists for users who want one import, and `src/top.mbt` is nothing but
+  `pub using` re-exports. A module that reaches `@core.Promise` through
+  `@js.Promise` would drag the whole facade - and its `js_mbtconv` dependency -
+  into that module's published manifest, so area modules import `js_core` and
+  `js_builtin` directly.
+
+  Watch out when removing the last use of a dependency: `moon check` reports
+  package-level dead imports as `unused_package`, but it does **not** flag a
+  dead `import` in `moon.mod`. Grep the package `moon.pkg` files before
+  trusting a module-level dependency.
+
   See [docs/package-split.md](docs/package-split.md) for the layout and the
   migration notes.
 

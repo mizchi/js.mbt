@@ -18,7 +18,9 @@ extern "js" fn ffi_new_offscreen_canvas(
 
 ///|
 pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
-  @core.identity(ffi_new_offscreen_canvas(width |> @js.any, height |> @js.any))
+  @core.identity(
+    ffi_new_offscreen_canvas(width |> @core.any, height |> @core.any),
+  )
 }
 
 ///|
@@ -54,7 +56,7 @@ pub async fn OffscreenCanvas::convertToBlob(
   self : Self,
   options? : String,
 ) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = match options {
+  let promise : @core.Promise[@blob.Blob] = match options {
     Some(opts) =>
       self.as_any()._call("convertToBlob", [opts |> @core.any]).cast()
     None => self.as_any()._call("convertToBlob", []).cast()

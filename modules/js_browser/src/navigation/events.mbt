@@ -127,7 +127,7 @@ pub fn NavigateEvent::intercept(
 #alias(intercept_async)
 pub fn NavigateEvent::interceptAsync(
   self : NavigateEvent,
-  handler : () -> @js.Promise[@core.Any],
+  handler : () -> @core.Promise[@core.Any],
   focus_reset? : String,
   scroll? : String,
 ) -> Unit {

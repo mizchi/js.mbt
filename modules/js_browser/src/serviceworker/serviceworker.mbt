@@ -51,7 +51,7 @@ pub fn RegistrationOptions::as_any(self : RegistrationOptions) -> @core.Any = "%
 extern "js" fn ffi_sw_register(
   container : ServiceWorkerContainer,
   script_url : String,
-) -> @js.Promise[ServiceWorkerRegistration] =
+) -> @core.Promise[ServiceWorkerRegistration] =
   #| (container, scriptURL) => container.register(scriptURL)
 
 ///|
@@ -59,26 +59,26 @@ extern "js" fn ffi_sw_register_with_options(
   container : ServiceWorkerContainer,
   script_url : String,
   options : @core.Any,
-) -> @js.Promise[ServiceWorkerRegistration] =
+) -> @core.Promise[ServiceWorkerRegistration] =
   #| (container, scriptURL, options) => container.register(scriptURL, options)
 
 ///|
 extern "js" fn ffi_sw_get_registration(
   container : ServiceWorkerContainer,
   client_url : String,
-) -> @js.Promise[ServiceWorkerRegistration?] =
+) -> @core.Promise[ServiceWorkerRegistration?] =
   #| (container, clientURL) => container.getRegistration(clientURL)
 
 ///|
 extern "js" fn ffi_sw_get_registration_default(
   container : ServiceWorkerContainer,
-) -> @js.Promise[ServiceWorkerRegistration?] =
+) -> @core.Promise[ServiceWorkerRegistration?] =
   #| (container) => container.getRegistration()
 
 ///|
 extern "js" fn ffi_sw_get_registrations(
   container : ServiceWorkerContainer,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #| (container) => container.getRegistrations()
 
 ///|
@@ -90,7 +90,7 @@ extern "js" fn ffi_sw_controller(
 ///|
 extern "js" fn ffi_sw_ready(
   container : ServiceWorkerContainer,
-) -> @js.Promise[ServiceWorkerRegistration] =
+) -> @core.Promise[ServiceWorkerRegistration] =
   #| (container) => container.ready
 
 ///|
@@ -132,13 +132,13 @@ extern "js" fn ffi_reg_active(
 ///|
 extern "js" fn ffi_reg_update(
   reg : ServiceWorkerRegistration,
-) -> @js.Promise[ServiceWorkerRegistration] =
+) -> @core.Promise[ServiceWorkerRegistration] =
   #| (reg) => reg.update()
 
 ///|
 extern "js" fn ffi_reg_unregister(
   reg : ServiceWorkerRegistration,
-) -> @js.Promise[Bool] =
+) -> @core.Promise[Bool] =
   #| (reg) => reg.unregister()
 
 ///| ServiceWorker FFI
@@ -238,7 +238,7 @@ pub fn ServiceWorkerContainer::controller(
 /// Get a promise that resolves when a service worker is active
 pub fn ServiceWorkerContainer::ready(
   self : ServiceWorkerContainer,
-) -> @js.Promise[ServiceWorkerRegistration] {
+) -> @core.Promise[ServiceWorkerRegistration] {
   ffi_sw_ready(self)
 }
 
@@ -256,7 +256,7 @@ pub fn ServiceWorkerContainer::onControllerChange(
   self : ServiceWorkerContainer,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["oncontrollerchange"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["oncontrollerchange"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -265,7 +265,7 @@ pub fn ServiceWorkerContainer::onMessage(
   self : ServiceWorkerContainer,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -274,7 +274,7 @@ pub fn ServiceWorkerContainer::onMessageError(
   self : ServiceWorkerContainer,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessageerror"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onmessageerror"] = @core.any(@core.from_fn1(handler))
 }
 
 ///| ServiceWorkerRegistration Methods
@@ -341,7 +341,7 @@ pub fn ServiceWorkerRegistration::onUpdateFound(
   self : ServiceWorkerRegistration,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onupdatefound"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onupdatefound"] = @core.any(@core.from_fn1(handler))
 }
 
 ///| ServiceWorker Methods
@@ -383,7 +383,7 @@ pub fn ServiceWorker::onStateChange(
   self : ServiceWorker,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onstatechange"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onstatechange"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -392,5 +392,5 @@ pub fn ServiceWorker::onError(
   self : ServiceWorker,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@core.from_fn1(handler))
 }

@@ -111,7 +111,7 @@ pub async fn query(
 }
 
 ///|
-extern "js" fn ffi_query(options : @core.Any) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_query(options : @core.Any) -> @core.Promise[@core.Any] =
   #|async (options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.query(options);
@@ -140,7 +140,7 @@ pub async fn get(tab_id : Int) -> Tab {
 }
 
 ///|
-extern "js" fn ffi_get(tab_id : Int) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_get(tab_id : Int) -> @core.Promise[@core.Any] =
   #|async (tabId) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs._get(tabId);
@@ -201,7 +201,7 @@ pub async fn create(options? : CreateOptions = CreateOptions::default()) -> Tab 
 }
 
 ///|
-extern "js" fn ffi_create(options : @core.Any) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_create(options : @core.Any) -> @core.Promise[@core.Any] =
   #|async (options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.create(options);
@@ -254,7 +254,7 @@ pub async fn update(tab_id : Int, options : UpdateOptions) -> Tab {
 extern "js" fn ffi_update(
   tab_id : Int,
   options : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #|async (tabId, options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.update(tabId, options);
@@ -267,7 +267,7 @@ pub async fn remove(tab_ids : Array[Int]) -> Unit {
 }
 
 ///|
-extern "js" fn ffi_remove(tab_ids : FixedArray[Int]) -> @js.Promise[Unit] =
+extern "js" fn ffi_remove(tab_ids : FixedArray[Int]) -> @core.Promise[Unit] =
   #|async (tabIds) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.remove(tabIds);
@@ -293,7 +293,7 @@ pub async fn reload(tab_id : Int, bypass_cache? : Bool = false) -> Unit {
 extern "js" fn ffi_reload(
   tab_id : Int,
   options : @core.Any,
-) -> @js.Promise[Unit] =
+) -> @core.Promise[Unit] =
   #|async (tabId, options) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.reload(tabId, options);
@@ -307,7 +307,7 @@ pub async fn duplicate(tab_id : Int) -> Tab {
 }
 
 ///|
-extern "js" fn ffi_duplicate(tab_id : Int) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_duplicate(tab_id : Int) -> @core.Promise[@core.Any] =
   #|async (tabId) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.duplicate(tabId);
@@ -323,7 +323,7 @@ pub async fn send_message(tab_id : Int, message : @core.Any) -> @core.Any {
 extern "js" fn ffi_send_message(
   tab_id : Int,
   message : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #|async (tabId, message) => {
   #|  const b = typeof browser !== 'undefined' ? browser : chrome;
   #|  return b.tabs.sendMessage(tabId, message);

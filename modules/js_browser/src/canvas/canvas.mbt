@@ -449,7 +449,7 @@ pub async fn createImageBitmapRect(
   sw : Int,
   sh : Int,
 ) -> ImageBitmap {
-  let promise : @js.Promise[ImageBitmap] = @core.identity(
+  let promise : @core.Promise[ImageBitmap] = @core.identity(
     ffi_create_image_bitmap_with_rect(
       image,
       sx |> @core.any,

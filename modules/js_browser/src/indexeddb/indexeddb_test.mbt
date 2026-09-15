@@ -18,8 +18,8 @@ fn init_fake_indexeddb() -> Unit {
 /// Helper to promisify IDBRequest
 fn[T] request_to_promise(
   request : @indexeddb.IDBRequest[T],
-) -> @js.Promise[@core.Any] {
-  let resolvers = @js.Promise::withResolvers()
+) -> @core.Promise[@core.Any] {
+  let resolvers = @core.Promise::withResolvers()
   request
   .as_event_target()
   .addEventListener("success", fn(event) {
@@ -41,8 +41,8 @@ fn[T] request_to_promise(
 fn open_request_to_promise(
   request : @indexeddb.IDBOpenDBRequest,
   onupgradeneeded? : (@core.Any) -> Unit,
-) -> @js.Promise[@core.Any] {
-  let resolvers = @js.Promise::withResolvers()
+) -> @core.Promise[@core.Any] {
+  let resolvers = @core.Promise::withResolvers()
 
   // Handle upgrade if needed
   match onupgradeneeded {

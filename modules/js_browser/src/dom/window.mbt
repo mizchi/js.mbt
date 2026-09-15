@@ -236,7 +236,7 @@ pub fn Window::setTimeout(
 ) -> Int {
   self
   .as_any()
-  ._call("setTimeout", [@core.any(@js.from_fn0(handler)), @core.any(delay)])
+  ._call("setTimeout", [@core.any(@core.from_fn0(handler)), @core.any(delay)])
   .cast()
 }
 
@@ -259,7 +259,7 @@ pub fn Window::setInterval(
 ) -> Int {
   self
   .as_any()
-  ._call("setInterval", [@core.any(@js.from_fn0(handler)), @core.any(delay)])
+  ._call("setInterval", [@core.any(@core.from_fn0(handler)), @core.any(delay)])
   .cast()
 }
 
@@ -281,7 +281,7 @@ pub fn Window::requestAnimationFrame(
 ) -> Int {
   self
   .as_any()
-  ._call("requestAnimationFrame", [@core.any(@js.any(callback))])
+  ._call("requestAnimationFrame", [@core.any(@core.any(callback))])
   .cast()
 }
 
@@ -301,7 +301,7 @@ pub async fn Window::fetch(
   input : String,
   init? : @http.RequestInit,
 ) -> @http.Response {
-  let promise : @js.Promise[@http.Response] = match init {
+  let promise : @core.Promise[@http.Response] = match init {
     Some(i) =>
       self.as_any()._call("fetch", [@core.any(input), @core.any(i)]).cast()
     None => self.as_any()._call("fetch", [@core.any(input)]).cast()

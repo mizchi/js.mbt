@@ -656,7 +656,7 @@ extern "js" fn create_inline_worker(code : String) -> @worker.Worker =
 extern "js" fn worker_round_trip_ffi(
   worker : @worker.Worker,
   message : @core.Any,
-) -> @js.Promise[@core.Any] =
+) -> @core.Promise[@core.Any] =
   #| (worker, message) => {
   #|   return new Promise((resolve) => {
   #|     worker.onmessage = (e) => resolve(e.data);
