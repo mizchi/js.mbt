@@ -30,6 +30,8 @@ These APIs work consistently across:
 | DecompressionStream | `mizchi/js_web/streams` | 🧪 Tested | GZIP/Deflate decompression |
 | **Binary Data** |
 | Blob | `mizchi/js_web/blob` | 🧪 Tested | Binary data |
+| File | `mizchi/js_web/file` | 🧪 Tested | Blob with a name and mtime |
+| FileReader | `mizchi/js_web/file` | 🧪 Tested | Read a Blob as text/ArrayBuffer/data URL |
 | **Encoding** |
 | TextEncoder | `mizchi/js_web/encoding` | 🧪 Tested | String to Uint8Array |
 | TextDecoder | `mizchi/js_web/encoding` | 🧪 Tested | Uint8Array to String |

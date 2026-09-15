@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js_browser/file"
+package "mizchi/js_web/file"
 
 import {
   "mizchi/js_builtin/arraybuffer",

@@ -59,6 +59,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `file` moved from `mizchi/js_browser` to `mizchi/js_web`.**
+  `mizchi/js_browser/file` → `mizchi/js_web/file`. The `@file` alias is
+  unchanged (it is the last path segment either way), so only the import path
+  moves:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js_browser/file",
+  +  "mizchi/js_web/file",
+   }
+  ```
+
+  `File` extends `Blob`, and `blob` has always lived in `js_web` — so the two
+  halves of one spec family were split across modules, and a `js_web`-only
+  consumer had to depend on `js_browser` to name a `File`. Neither `File` nor
+  `FileReader` is browser-specific: both are present in Deno, Bun, Node 20+
+  and Workers, which is exactly the WinterCG line `js_web` draws.
+
+  `js_browser/dom` is the only in-repo importer and follows the move, so
+  `HTMLInputElement::files` now returns `Array[@js_web/file.File]`. Nothing
+  about the types themselves changed.
+
 - **Dev-only packages moved out of the published modules, into `mizchi/js_dev`.**
   `moon.mod` has no `exclude` or `files` field — an `exclude` key makes `moon`
   fail to calculate the build plan — so everything under a published module's
