@@ -398,12 +398,17 @@ import {
   なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
   下流モジュールからの参照なので循環せず、そのままで問題ありません。
 
-### 残っている検討事項
+### `mizchi/js` に残しているもの
 
-- `src/wasm` は wasm-gc ターゲットの動作確認用 entry です。`mizchi/js_wasm`
-  として切り出すかは未定 (`docs/wasm-gc-usage.md` 参照)。
-- `src/examples` はドキュメント用のチェック対象コードなので、そのままで
-  問題ありません。
+`src/` の領域別モジュール化はこれで完了で、残る中身は意図的に `mizchi/js`
+に置いたままにしています:
+
+- `src/top.mbt` — `js_core` + `js_builtin` を re-export する facade。
+  `mizchi/js` をこの meta パッケージとして root に残す方針で決着しました。
+- `src/wasm` — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
+  切り出さず、このままにする方針です (`docs/wasm-gc-usage.md` 参照)。
+- `src/internal/{test_utils,bench}` — 環境非依存のテストヘルパとベンチ。
+- `src/examples` — ドキュメント用のチェック対象コード。
 
 ### 現在の依存階層
 
