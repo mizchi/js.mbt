@@ -1,7 +1,0 @@
-import {
-  "mizchi/js",
-  "mizchi/js/core",
-  "mizchi/js/builtins/arraybuffer",
-}
-
-supported_targets = "js"

@@ -100,25 +100,25 @@ pub fn SVGElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGElement::replaceWith(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_element().replaceWith(nodes)
 }
 
@@ -130,7 +130,10 @@ pub fn SVGElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn SVGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_element().replaceChildren(nodes)
 }
 
@@ -492,6 +495,81 @@ pub fn SVGElement::isConnected(self : Self) -> Bool {
   self.as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self.as_element().as_node().as_event_target().dispatchEvent(event)
+}
+
 ///| SVGSVGElement inherited methods
 
 ///|
@@ -597,25 +675,28 @@ pub fn SVGSVGElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGSVGElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGSVGElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGSVGElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGSVGElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -627,7 +708,10 @@ pub fn SVGSVGElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn SVGSVGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGSVGElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
 
@@ -993,6 +1077,90 @@ pub fn SVGSVGElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGSVGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGSVGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGSVGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGSVGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGSVGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGCircleElement inherited methods
 
 ///|
@@ -1107,25 +1275,28 @@ pub fn SVGCircleElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGCircleElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGCircleElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGCircleElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGCircleElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGCircleElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -1139,7 +1310,7 @@ pub fn SVGCircleElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGCircleElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -1509,6 +1680,93 @@ pub fn SVGCircleElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGCircleElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGCircleElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGCircleElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGCircleElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGCircleElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGRectElement inherited methods
 
 ///|
@@ -1623,25 +1881,28 @@ pub fn SVGRectElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGRectElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGRectElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGRectElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGRectElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGRectElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -1655,7 +1916,7 @@ pub fn SVGRectElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGRectElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -2025,6 +2286,90 @@ pub fn SVGRectElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGRectElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGRectElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGRectElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGRectElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGRectElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGPathElement inherited methods
 
 ///|
@@ -2139,25 +2484,28 @@ pub fn SVGPathElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPathElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPathElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPathElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPathElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPathElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -2171,7 +2519,7 @@ pub fn SVGPathElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGPathElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -2541,6 +2889,90 @@ pub fn SVGPathElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPathElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPathElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPathElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPathElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPathElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGLineElement inherited methods
 
 ///|
@@ -2655,25 +3087,28 @@ pub fn SVGLineElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGLineElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGLineElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGLineElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGLineElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGLineElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -2687,7 +3122,7 @@ pub fn SVGLineElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGLineElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -3057,6 +3492,90 @@ pub fn SVGLineElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGLineElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGLineElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGLineElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGLineElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGLineElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGPolylineElement inherited methods
 
 ///|
@@ -3176,19 +3695,25 @@ pub fn SVGPolylineElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolylineElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolylineElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolylineElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolylineElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
@@ -3196,7 +3721,7 @@ pub fn SVGPolylineElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn SVGPolylineElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
@@ -3211,7 +3736,7 @@ pub fn SVGPolylineElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGPolylineElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -3584,6 +4109,93 @@ pub fn SVGPolylineElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPolylineElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolylineElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPolylineElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolylineElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPolylineElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGPolygonElement inherited methods
 
 ///|
@@ -3703,25 +4315,31 @@ pub fn SVGPolygonElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolygonElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolygonElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolygonElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGPolygonElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGPolygonElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -3735,7 +4353,7 @@ pub fn SVGPolygonElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGPolygonElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -4105,6 +4723,93 @@ pub fn SVGPolygonElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPolygonElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolygonElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPolygonElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolygonElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPolygonElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGTextElement inherited methods
 
 ///|
@@ -4219,25 +4924,28 @@ pub fn SVGTextElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGTextElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGTextElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGTextElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGTextElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGTextElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -4251,7 +4959,7 @@ pub fn SVGTextElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn SVGTextElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
@@ -4621,6 +5329,90 @@ pub fn SVGTextElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGTextElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGTextElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGTextElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGTextElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGTextElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGGElement inherited methods
 
 ///|
@@ -4730,25 +5522,25 @@ pub fn SVGGElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGGElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGGElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGGElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGGElement::replaceWith(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_svg_element().as_element().replaceWith(nodes)
 }
 
@@ -4760,7 +5552,10 @@ pub fn SVGGElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn SVGGElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn SVGGElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_svg_element().as_element().replaceChildren(nodes)
 }
 
@@ -5124,4 +5919,88 @@ pub fn SVGGElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn SVGGElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }

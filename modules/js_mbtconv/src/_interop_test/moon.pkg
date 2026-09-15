@@ -1,0 +1,8 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_mbtconv" @mbtconv,
+}
+
+supported_targets = "js"
+
+pkgtype(kind: "executable")

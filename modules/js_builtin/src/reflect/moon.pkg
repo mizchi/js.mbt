@@ -1,0 +1,10 @@
+import {
+  "mizchi/js_core" @core,
+}
+
+import {
+  "mizchi/js_builtin/object",
+  "mizchi/js_builtin/symbol",
+} for "test"
+
+supported_targets = "js"

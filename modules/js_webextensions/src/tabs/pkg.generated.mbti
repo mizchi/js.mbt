@@ -2,7 +2,7 @@
 package "mizchi/js_webextensions/tabs"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -14,13 +14,13 @@ pub async fn get(Int) -> Tab
 
 pub async fn get_current() -> Tab?
 
-pub fn on_activated((@core.Any) -> Unit) -> Unit
+pub fn on_activated((@js_core.Any) -> Unit) -> Unit
 
 pub fn on_created((Tab) -> Unit) -> Unit
 
-pub fn on_removed((Int, @core.Any) -> Unit) -> Unit
+pub fn on_removed((Int, @js_core.Any) -> Unit) -> Unit
 
-pub fn on_updated((Int, @core.Any, Tab) -> Unit) -> Unit
+pub fn on_updated((Int, @js_core.Any, Tab) -> Unit) -> Unit
 
 pub async fn query(options? : QueryOptions) -> Array[Tab]
 
@@ -30,7 +30,7 @@ pub async fn remove(Array[Int]) -> Unit
 
 pub async fn remove_tab(Int) -> Unit
 
-pub async fn send_message(Int, @core.Any) -> @core.Any
+pub async fn send_message(Int, @js_core.Any) -> @js_core.Any
 
 pub async fn update(Int, UpdateOptions) -> Tab
 
@@ -74,8 +74,8 @@ pub struct Tab {
   width : Int?
   height : Int?
 }
-pub fn Tab::as_any(Self) -> @core.Any
-pub fn Tab::from_any(@core.Any) -> Self
+pub fn Tab::as_any(Self) -> @js_core.Any
+pub fn Tab::from_any(@js_core.Any) -> Self
 
 pub(all) struct UpdateOptions {
   url : String?
@@ -89,4 +89,3 @@ pub fn UpdateOptions::default() -> Self
 // Type aliases
 
 // Traits
-

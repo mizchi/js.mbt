@@ -1,0 +1,53 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_mbtconv"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn[T] deserialize_option(@js_core.Any) -> T?
+
+pub fn[T, E] deserialize_result(@js_core.Any) -> Result[T, E]
+
+pub fn from_json(Json) -> @js_core.Any
+
+pub fn from_map(Map[String, @js_core.Any]) -> @js_core.Any
+
+pub fn from_option(@js_core.Any?) -> @js_core.Any
+
+pub fn from_option_map(Map[String, @js_core.Any?]) -> @js_core.Any
+
+pub fn from_option_map_or_undefined(Map[String, @js_core.Any?]) -> @js_core.Any
+
+pub fn get_enum_tag(@js_core.Any) -> Int
+
+pub fn get_enum_variant_name(@js_core.Any) -> String
+
+pub fn[T] is_builtin_trait(T) -> Bool
+
+pub fn is_result_err(@js_core.Any) -> Bool
+
+pub fn is_result_ok(@js_core.Any) -> Bool
+
+pub fn[T] serialize_option(T?) -> @js_core.Any
+
+pub fn[T, E] serialize_result(Result[T, E]) -> @js_core.Any
+
+pub fn to_json(@js_core.Any) -> Json
+
+pub fn[A] to_option(@js_core.Any) -> A?
+
+pub fn[T, E] to_result(@js_core.Any) -> Result[T, E]
+
+pub fn[E] unwrap_err(@js_core.Any) -> E
+
+pub fn[T] unwrap_ok(@js_core.Any) -> T
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits

@@ -182,3 +182,71 @@ pub fn Element::ownerDocument(self : Self) -> Document? {
 pub fn Element::isConnected(self : Self) -> Bool {
   self.as_node().isConnected()
 }
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn Element::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn Element::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn Element::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn Element::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self.as_node().as_event_target().off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn Element::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self.as_node().as_event_target().dispatchEvent(event)
+}

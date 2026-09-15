@@ -1,0 +1,8 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_node/stream",
+  "mizchi/js_builtin/regexp",
+  "moonbitlang/async/js_async",
+}
+
+supported_targets = "js"

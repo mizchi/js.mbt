@@ -66,9 +66,9 @@ test {
 
   // Optional types
   let nullable : Int? = @core.identity_option(@core.null())
-  inspect(nullable, content="None")
+  debug_inspect(nullable, content="None")
   let some_value : Int? = @core.identity_option(@core.any(100))
-  inspect(some_value, content="Some(100)")
+  debug_inspect(some_value, content="Some(100)")
 }
 ```
 
@@ -104,7 +104,7 @@ test {
 
   // identity_option for safe conversion
   let maybe_null : Int? = @core.identity_option(null_val)
-  inspect(maybe_null, content="None")
+  debug_inspect(maybe_null, content="None")
 
   // from_option for MoonBit Option -> JS
   let js_some = @core.from_option(Some(42))
@@ -182,17 +182,16 @@ test {
 
   // Existing field
   let name : String? = @core.identity_option(obj["name"])
-  inspect(
+  debug_inspect(
     name,
     content=(
-      #|Some(Alice)
-
+      #|Some("Alice")
     ),
   )
 
   // Missing field returns undefined
   let missing : String? = @core.identity_option(obj["missing"])
-  inspect(missing, content="None")
+  debug_inspect(missing, content="None")
 }
 ```
 
@@ -254,9 +253,9 @@ test "TypeOf usage" {
 
 This core package is used by:
 
-- `mizchi/js/web/*` - Web Standard APIs
+- `mizchi/js_web/*` - Web Standard APIs (separate module)
 - `mizchi/js_browser/*` - Browser DOM APIs (separate module)
-- `mizchi/js/node/*` - Node.js runtime APIs
+- `mizchi/js_node/*` - Node.js runtime APIs (separate module)
 - [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) - NPM package bindings (React, Hono, AI SDK, etc.)
 
 See the main [project README](../README.md) for the complete package list.

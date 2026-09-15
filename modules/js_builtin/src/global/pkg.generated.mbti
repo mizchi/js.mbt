@@ -1,0 +1,77 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_builtin/global"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn atob(String) -> String raise @js_core.ThrowError
+
+pub fn btoa(String) -> String raise @js_core.ThrowError
+
+pub fn clearInterval(Timer) -> Unit
+
+pub fn clearTimeout(Timer) -> Unit
+
+pub fn clear_interval(Timer) -> Unit
+
+pub fn clear_timeout(Timer) -> Unit
+
+#alias(docode_uri)
+pub fn decodeURI(String) -> String
+
+#alias(decode_uri_component)
+pub fn decodeURIComponent(String) -> String
+
+pub fn dynamic_import(String) -> @js_core.Any
+
+#alias(encode_uri)
+pub fn encodeURI(String) -> String
+
+#alias(encode_uri_component)
+pub fn encodeURIComponent(String) -> String
+
+pub fn globalThis() -> @js_core.Any
+
+pub fn global_this() -> @js_core.Any
+
+#alias(is_finite)
+pub fn isFinite(Double) -> Bool
+
+#alias(is_nan)
+pub fn isNaN(@js_core.Any) -> Bool
+
+#alias(parse_float)
+pub fn parseFloat(String) -> Double?
+
+#alias(parse_int)
+pub fn parseInt(String, radix? : Int) -> Int?
+
+pub fn queueMicrotask(() -> Unit) -> Unit
+
+pub fn queue_microtask(() -> Unit) -> Unit
+
+pub fn setInterval(() -> Unit, Int) -> Timer
+
+pub fn setTimeout(() -> Unit, Int) -> Timer
+
+pub fn set_interval(() -> Unit, Int) -> Timer
+
+pub fn set_timeout(() -> Unit, Int) -> Timer
+
+#alias(structured_clone)
+pub fn structuredClone(@js_core.Any) -> @js_core.Any
+
+pub fn undefined() -> @js_core.Any
+
+// Errors
+
+// Types and methods
+#external
+pub type Timer
+pub fn Timer::as_any(Self) -> @js_core.Any
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,11 @@
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_web/event",
+  "mizchi/js_builtin/global",
+}
+
+import {
+  "mizchi/js_web/message",
+} for "test"
+
+supported_targets = "js"

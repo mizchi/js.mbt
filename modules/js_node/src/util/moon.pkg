@@ -1,0 +1,6 @@
+import {
+  "mizchi/js_core" @core,
+  "moonbitlang/core/builtin",
+}
+
+supported_targets = "js"

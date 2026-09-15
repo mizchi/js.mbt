@@ -17,4 +17,3 @@ pub fn global_jsdom_register() -> Unit
 // Type aliases
 
 // Traits
-

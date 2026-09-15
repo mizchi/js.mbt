@@ -49,7 +49,7 @@ fn example() -> Unit {
 
 Deno provides built-in Node.js compatibility. See:
 - [Deno Node.js Compatibility](https://docs.deno.com/runtime/fundamentals/node/) - Official compatibility guide
-- [mizchi/js/node](../node/README.md) - Available Node.js bindings
+- [mizchi/js_node](../../js_node/src/README.md) - Available Node.js bindings
 
 ---
 

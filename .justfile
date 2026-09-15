@@ -51,9 +51,13 @@ coverage-package pkg:
 # Run all MoonBit checks (format, info, check, test)
 check-all: format check test
 
-# Run Deno tests
-test-deno: build
-    deno test -A
+# Run Deno tests (mizchi/js_deno integration bundle, debug build)
+test-deno:
+    deno task test:deno
+
+# Run the mizchi/js_mbtconv TypeScript tests (needs the release build)
+test-mbtconv:
+    deno task test:mbtconv
 
 # Run WASM-GC tests with Deno
 test-wasm:
@@ -67,10 +71,10 @@ test-wasm-dom:
 
 # Run Bun tests
 test-bun: build
-    bun test target/js/release/build/mizchi/js_bun/bun_test/bun_test.js
+    bun test _build/js/debug/build/mizchi/js_bun/bun_test/bun_test.js
 
 # Run all tests (MoonBit, Deno, Bun, WASM, WASM-DOM)
-test: test-moon test-deno test-bun test-wasm test-wasm-dom
+test: test-moon test-deno test-mbtconv test-bun test-wasm test-wasm-dom
 
 # Clean build artifacts
 clean:

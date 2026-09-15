@@ -1,0 +1,28 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_core/_tests/size8_symbol"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn call_symbol_method(@js_core.Any, Symbol, FixedArray[@js_core.Any]) -> @js_core.Any
+
+pub fn symbol_async_iterator() -> Symbol
+
+pub fn symbol_create(String) -> Symbol
+
+pub fn symbol_iterator() -> Symbol
+
+pub fn symbol_to_string_tag() -> Symbol
+
+// Errors
+
+// Types and methods
+#external
+pub type Symbol
+pub fn Symbol::as_any(Self) -> @js_core.Any
+
+// Type aliases
+
+// Traits

@@ -1,0 +1,10 @@
+import {
+  "mizchi/js_web/webassembly",
+  "mizchi/js_core" @core,
+}
+
+import {
+  "mizchi/js_builtin/arraybuffer",
+} for "test"
+
+supported_targets = "js"

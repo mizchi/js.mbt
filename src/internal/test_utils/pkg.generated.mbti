@@ -25,4 +25,3 @@ pub fn TimeoutError::to_string(Self) -> String
 // Type aliases
 
 // Traits
-

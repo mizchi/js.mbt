@@ -411,7 +411,7 @@ pub(all) struct ImageBitmap {
 pub fn ImageBitmap::as_any(self : ImageBitmap) -> @core.Any = "%identity"
 
 ///|
-pub impl @worker.Transferable for ImageBitmap with to_transferable(self) -> @core.Any {
+pub impl @worker.Transferable for ImageBitmap with fn to_transferable(self) -> @core.Any {
   self.as_any()
 }
 

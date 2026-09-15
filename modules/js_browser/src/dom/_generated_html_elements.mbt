@@ -149,25 +149,28 @@ pub fn HTMLDivElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -181,7 +184,7 @@ pub fn HTMLDivElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLDivElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -551,6 +554,90 @@ pub fn HTMLDivElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLDivElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLDivElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLDivElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLDivElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLDivElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLSpanElement inherited methods
 
 ///|
@@ -699,25 +786,28 @@ pub fn HTMLSpanElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -731,7 +821,7 @@ pub fn HTMLSpanElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLSpanElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -1101,6 +1191,93 @@ pub fn HTMLSpanElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLSpanElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSpanElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLSpanElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSpanElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLSpanElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLBodyElement inherited methods
 
 ///|
@@ -1249,25 +1426,28 @@ pub fn HTMLBodyElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -1281,7 +1461,7 @@ pub fn HTMLBodyElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLBodyElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -1651,6 +1831,93 @@ pub fn HTMLBodyElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLBodyElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLBodyElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLBodyElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLBodyElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLBodyElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHeadElement inherited methods
 
 ///|
@@ -1799,25 +2066,28 @@ pub fn HTMLHeadElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -1831,7 +2101,7 @@ pub fn HTMLHeadElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -2201,6 +2471,93 @@ pub fn HTMLHeadElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHeadElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHeadElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHeadElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHtmlElement inherited methods
 
 ///|
@@ -2349,25 +2706,28 @@ pub fn HTMLHtmlElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -2381,7 +2741,7 @@ pub fn HTMLHtmlElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHtmlElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -2751,6 +3111,93 @@ pub fn HTMLHtmlElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHtmlElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHtmlElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHtmlElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHtmlElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHtmlElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLAnchorElement inherited methods
 
 ///|
@@ -2904,25 +3351,31 @@ pub fn HTMLAnchorElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -2936,7 +3389,7 @@ pub fn HTMLAnchorElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLAnchorElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -3306,6 +3759,93 @@ pub fn HTMLAnchorElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLAnchorElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLAnchorElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLAnchorElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLAnchorElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLAnchorElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLButtonElement inherited methods
 
 ///|
@@ -3459,25 +3999,31 @@ pub fn HTMLButtonElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -3491,7 +4037,7 @@ pub fn HTMLButtonElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLButtonElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -3861,6 +4407,93 @@ pub fn HTMLButtonElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLButtonElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLButtonElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLButtonElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLButtonElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLButtonElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLInputElement inherited methods
 
 ///|
@@ -4009,25 +4642,28 @@ pub fn HTMLInputElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -4041,7 +4677,7 @@ pub fn HTMLInputElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLInputElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -4411,6 +5047,93 @@ pub fn HTMLInputElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLInputElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLInputElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLInputElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLInputElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLInputElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLTextAreaElement inherited methods
 
 ///|
@@ -4564,19 +5287,28 @@ pub fn HTMLTextAreaElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::after(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -4584,7 +5316,7 @@ pub fn HTMLTextAreaElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLTextAreaElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -4599,7 +5331,7 @@ pub fn HTMLTextAreaElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLTextAreaElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -4972,6 +5704,93 @@ pub fn HTMLTextAreaElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLTextAreaElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLTextAreaElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLTextAreaElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLTextAreaElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLTextAreaElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLCanvasElement inherited methods
 
 ///|
@@ -5125,25 +5944,31 @@ pub fn HTMLCanvasElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -5157,7 +5982,7 @@ pub fn HTMLCanvasElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLCanvasElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -5527,6 +6352,93 @@ pub fn HTMLCanvasElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLCanvasElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLCanvasElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLCanvasElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLCanvasElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLCanvasElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLIFrameElement inherited methods
 
 ///|
@@ -5680,25 +6592,31 @@ pub fn HTMLIFrameElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -5712,7 +6630,7 @@ pub fn HTMLIFrameElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLIFrameElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -6082,6 +7000,93 @@ pub fn HTMLIFrameElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLIFrameElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLIFrameElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLIFrameElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLIFrameElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLIFrameElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLFormElement inherited methods
 
 ///|
@@ -6230,25 +7235,28 @@ pub fn HTMLFormElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -6262,7 +7270,7 @@ pub fn HTMLFormElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLFormElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -6632,6 +7640,93 @@ pub fn HTMLFormElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLFormElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLFormElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLFormElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLFormElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLFormElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLSelectElement inherited methods
 
 ///|
@@ -6785,25 +7880,31 @@ pub fn HTMLSelectElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -6817,7 +7918,7 @@ pub fn HTMLSelectElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLSelectElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -7187,6 +8288,93 @@ pub fn HTMLSelectElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLSelectElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSelectElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLSelectElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSelectElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLSelectElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLOptionElement inherited methods
 
 ///|
@@ -7340,25 +8528,31 @@ pub fn HTMLOptionElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -7372,7 +8566,7 @@ pub fn HTMLOptionElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLOptionElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -7742,6 +8936,93 @@ pub fn HTMLOptionElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLOptionElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOptionElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLOptionElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOptionElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLOptionElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLLabelElement inherited methods
 
 ///|
@@ -7890,25 +9171,28 @@ pub fn HTMLLabelElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -7922,7 +9206,7 @@ pub fn HTMLLabelElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLLabelElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -8292,6 +9576,93 @@ pub fn HTMLLabelElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLLabelElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLabelElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLLabelElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLabelElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLLabelElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLImageElement inherited methods
 
 ///|
@@ -8440,25 +9811,28 @@ pub fn HTMLImageElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -8472,7 +9846,7 @@ pub fn HTMLImageElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLImageElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -8842,6 +10216,93 @@ pub fn HTMLImageElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLImageElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLImageElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLImageElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLImageElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLImageElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLParagraphElement inherited methods
 
 ///|
@@ -9003,19 +10464,28 @@ pub fn HTMLParagraphElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::after(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -9023,7 +10493,7 @@ pub fn HTMLParagraphElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLParagraphElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -9038,7 +10508,7 @@ pub fn HTMLParagraphElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLParagraphElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -9414,6 +10884,93 @@ pub fn HTMLParagraphElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLParagraphElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLParagraphElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLParagraphElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLParagraphElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLParagraphElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHeadingElement inherited methods
 
 ///|
@@ -9567,19 +11124,25 @@ pub fn HTMLHeadingElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -9587,7 +11150,7 @@ pub fn HTMLHeadingElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadingElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -9602,7 +11165,7 @@ pub fn HTMLHeadingElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadingElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -9975,6 +11538,93 @@ pub fn HTMLHeadingElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHeadingElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadingElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHeadingElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadingElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHeadingElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLUListElement inherited methods
 
 ///|
@@ -10123,25 +11773,28 @@ pub fn HTMLUListElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -10155,7 +11808,7 @@ pub fn HTMLUListElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLUListElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -10525,6 +12178,93 @@ pub fn HTMLUListElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLUListElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLUListElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLUListElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLUListElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLUListElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLOListElement inherited methods
 
 ///|
@@ -10673,25 +12413,28 @@ pub fn HTMLOListElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -10705,7 +12448,7 @@ pub fn HTMLOListElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLOListElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -11075,6 +12818,93 @@ pub fn HTMLOListElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLOListElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOListElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLOListElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOListElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLOListElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLLIElement inherited methods
 
 ///|
@@ -11220,25 +13050,28 @@ pub fn HTMLLIElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -11250,7 +13083,10 @@ pub fn HTMLLIElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
 
@@ -11614,4 +13450,88 @@ pub fn HTMLLIElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLLIElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLLIElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLIElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLLIElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLIElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLLIElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }

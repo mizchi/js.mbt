@@ -16,7 +16,7 @@ pub(all) struct Chrome {
 ///|
 /// Initialize Chrome wrapper
 pub fn chrome() -> Chrome {
-  { storage: Storage::new(), runtime: Runtime::new(), tabs: Tabs::new() }
+  { storage: Storage::new(), runtime: Runtime::new(), tabs: Tabs::new(), }
 }
 
 ///|
@@ -58,7 +58,7 @@ pub(all) struct Runtime {
 
 ///|
 fn Runtime::new() -> Runtime {
-  { id: @runtime.id() }
+  { id: @runtime.id(), }
 }
 
 ///|
@@ -161,7 +161,7 @@ pub(all) struct Tabs {
 
 ///|
 fn Tabs::new() -> Tabs {
-  { _placeholder: () }
+  { _placeholder: (), }
 }
 
 ///|
