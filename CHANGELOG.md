@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
+  JavaScript value conversion helpers (`from_map`, `from_json`, `to_json`,
+  `from_option_map`, the `Convertible` trait and the runtime type inspection
+  used by the bench suite) are now their own module, depending only on
+  `mizchi/js_core`.
+
+  Like `js_core`, the module's last path segment changes the default alias, so
+  import it with an explicit alias to keep `@mbtconv.`:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/mbtconv",
+  +  "mizchi/js_mbtconv" @mbtconv,
+   }
+  ```
+
 - **BREAKING: `builtins/*` split out into `mizchi/js_builtin`.** All 20
   built-in object packages (`array`, `arraybuffer`, `atomics`, `bigint`,
   `collection`, `date`, `disposable`, `error`, `function`, `global`,
@@ -24,9 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    }
   ```
 
-  This completes the per-area split of `src/`. `mizchi/js` stays at the repo
-  root as a meta package re-exporting `js_core` + `js_builtin` through
-  `top.mbt`, and keeps `mbtconv`, `internal/*`, `wasm` and `examples`.
+  `mizchi/js` stays at the repo root as a meta package re-exporting
+  `js_core` + `js_builtin` through `top.mbt`, and keeps `internal/*`,
+  `wasm` and `examples`.
 
 - **BREAKING: `core` split out into `mizchi/js_core`.** The FFI foundation
   (`Any`, `Promise`, `Nullable`, the target-specific interop layer) is now its

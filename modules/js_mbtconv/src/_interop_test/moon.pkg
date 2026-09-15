@@ -1,6 +1,6 @@
 import {
   "mizchi/js_core" @core,
-  "mizchi/js/mbtconv",
+  "mizchi/js_mbtconv" @mbtconv,
 }
 
 supported_targets = "js"

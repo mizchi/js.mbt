@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/mbtconv/_interop_test"
+package "mizchi/js_mbtconv/_interop_test"
 
 // Values
 pub fn setup_interop_test() -> Unit

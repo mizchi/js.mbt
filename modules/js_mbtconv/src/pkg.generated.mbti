@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "mizchi/js/mbtconv"
+package "mizchi/js_mbtconv"
 
 import {
   "mizchi/js_core",

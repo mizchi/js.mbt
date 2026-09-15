@@ -7,6 +7,7 @@
  *
  *   1. mizchi/js_core           (everything depends on it)
  *      mizchi/js_builtin        (depends only on js_core)
+ *      mizchi/js_mbtconv        (depends only on js_core)
  *   2. moon update               (refresh registry index)
  *   3. mizchi/js                 (repo root)
  *   4. moon update
@@ -46,6 +47,7 @@ const ROOT: Mod = { path: ".", label: "mizchi/js" };
 const FOUNDATION: Mod[] = [
   { path: "modules/js_core", label: "mizchi/js_core" },
   { path: "modules/js_builtin", label: "mizchi/js_builtin" },
+  { path: "modules/js_mbtconv", label: "mizchi/js_mbtconv" },
 ];
 const WEB: Mod = { path: "modules/js_web", label: "mizchi/js_web" };
 
@@ -239,7 +241,8 @@ async function main(): Promise<void> {
     return;
   }
 
-  // js_core then js_builtin: the root module itself imports both.
+  // js_core, then the modules that only need js_core. The root module
+  // imports all of them.
   for (const mod of FOUNDATION) {
     await publishOne(mod, rootVersion, opts.dryRun);
   }

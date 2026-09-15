@@ -1,5 +1,5 @@
 import {
-  "mizchi/js/mbtconv",
+  "mizchi/js_mbtconv" @mbtconv,
   "mizchi/js_core" @core,
 }
 
