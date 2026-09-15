@@ -1,0 +1,22 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_core/_tests/size9_async_iterator"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn async_iterator_from(@js_core.Any) -> AsyncIterator
+
+// Errors
+
+// Types and methods
+pub struct AsyncIterator {
+  raw : @js_core.Any
+}
+pub fn AsyncIterator::from_raw(@js_core.Any) -> Self
+pub async fn AsyncIterator::next(Self) -> @js_core.Any?
+
+// Type aliases
+
+// Traits

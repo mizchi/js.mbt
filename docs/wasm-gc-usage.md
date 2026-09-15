@@ -19,7 +19,7 @@ moon add mizchi/js
 
 ```json
 {
-  "import": ["mizchi/js/core"],
+  "import": ["mizchi/js_core"],
   "link": {
     "wasm-gc": {
       "use-js-builtin-string": true,
@@ -34,13 +34,13 @@ moon add mizchi/js
 `.mooncakes` ディレクトリから直接 inject.ts を使用できます：
 
 ```typescript
-import { createJsCoreImports, loadWasmWithCore } from "./.mooncakes/mizchi/js/core/inject.ts";
+import { createJsCoreImports, loadWasmWithCore } from "./.mooncakes/mizchi/js_core/inject.ts";
 ```
 
 または、独自のローダーで使用：
 
 ```typescript
-import { createJsCoreImports } from "./.mooncakes/mizchi/js/core/inject.ts";
+import { createJsCoreImports } from "./.mooncakes/mizchi/js_core/inject.ts";
 
 async function loadMyWasm(wasmPath: string) {
   const wasmBytes = await Deno.readFile(wasmPath);

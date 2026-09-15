@@ -3,7 +3,7 @@ package "mizchi/js/builtins/collection"
 
 import {
   "mizchi/js/builtins/iterator",
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -26,7 +26,7 @@ pub fn[K, V] JsMap::keys(Self[K, V]) -> @iterator.JsIterator[K]
 pub fn[K, V] JsMap::new() -> Self[K, V]
 pub fn[K, V] JsMap::set(Self[K, V], K, V) -> Self[K, V]
 pub fn[K, V] JsMap::size(Self[K, V]) -> Int
-pub fn[K, V] JsMap::to_any(Self[K, V]) -> @core.Any
+pub fn[K, V] JsMap::to_any(Self[K, V]) -> @js_core.Any
 pub fn[K, V] JsMap::values(Self[K, V]) -> @iterator.JsIterator[V]
 
 #external
@@ -41,7 +41,7 @@ pub fn[T] JsSet::has(Self[T], T) -> Bool
 pub fn[T] JsSet::keys(Self[T]) -> @iterator.JsIterator[T]
 pub fn[T] JsSet::new() -> Self[T]
 pub fn[T] JsSet::size(Self[T]) -> Int
-pub fn[T] JsSet::to_any(Self[T]) -> @core.Any
+pub fn[T] JsSet::to_any(Self[T]) -> @js_core.Any
 pub fn[T] JsSet::values(Self[T]) -> @iterator.JsIterator[T]
 
 // Type aliases

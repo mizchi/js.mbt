@@ -2,7 +2,7 @@
 package "mizchi/js_node/readline_promises"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
   "mizchi/js_node/stream",
   "moonbitlang/async/js_async",
 }
@@ -16,7 +16,7 @@ pub fn createInterface(input~ : @stream.Stream, output? : @stream.Stream, comple
 // Types and methods
 #external
 pub type Interface
-pub fn Interface::as_any(Self) -> @core.Any
+pub fn Interface::as_any(Self) -> @js_core.Any
 #alias(clear_line)
 pub fn Interface::clearLine(Self, Int) -> Self
 #alias(clear_screen_down)

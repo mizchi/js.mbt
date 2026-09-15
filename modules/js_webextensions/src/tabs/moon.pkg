@@ -1,6 +1,6 @@
 import {
   "mizchi/js",
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
 }
 
 supported_targets = "js"

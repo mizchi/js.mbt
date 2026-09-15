@@ -1,6 +1,6 @@
 import {
   "mizchi/js_web/webassembly",
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
 }
 
 import {

@@ -1,6 +1,6 @@
 import {
   "mizchi/js/builtins/array",
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
   "mizchi/js/builtins/arraybuffer",
 }
 

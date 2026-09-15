@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/atomics"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -12,18 +12,18 @@ import {
 // Types and methods
 #external
 pub type Atomics
-pub fn Atomics::add(@core.Any, Int, Int) -> Int
-pub fn Atomics::and_(@core.Any, Int, Int) -> Int
-pub fn Atomics::compareExchange(@core.Any, Int, Int, Int) -> Int
-pub fn Atomics::exchange(@core.Any, Int, Int) -> Int
+pub fn Atomics::add(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::and_(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::compareExchange(@js_core.Any, Int, Int, Int) -> Int
+pub fn Atomics::exchange(@js_core.Any, Int, Int) -> Int
 pub fn Atomics::isLockFree(Int) -> Bool
-pub fn Atomics::load(@core.Any, Int) -> Int
-pub fn Atomics::notify(@core.Any, Int, count? : Int) -> Int
-pub fn Atomics::or_(@core.Any, Int, Int) -> Int
-pub fn Atomics::store(@core.Any, Int, Int) -> Int
-pub fn Atomics::sub(@core.Any, Int, Int) -> Int
-pub fn Atomics::wait(@core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
-pub fn Atomics::xor(@core.Any, Int, Int) -> Int
+pub fn Atomics::load(@js_core.Any, Int) -> Int
+pub fn Atomics::notify(@js_core.Any, Int, count? : Int) -> Int
+pub fn Atomics::or_(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::store(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::sub(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::wait(@js_core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
+pub fn Atomics::xor(@js_core.Any, Int, Int) -> Int
 
 pub enum AtomicsWaitResult {
   Ok

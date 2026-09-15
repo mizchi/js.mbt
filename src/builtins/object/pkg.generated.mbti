@@ -3,7 +3,7 @@ package "mizchi/js/builtins/object"
 
 import {
   "mizchi/js/builtins/symbol",
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -13,40 +13,40 @@ import {
 // Types and methods
 #external
 pub type Object
-pub fn Object::assign(@core.Any, @core.Any) -> @core.Any
-pub fn Object::create(@core.Any) -> @core.Any
-pub fn Object::defineProperties(@core.Any, @core.Any) -> @core.Any
-pub fn Object::defineProperty(@core.Any, String, value? : @core.Any, writable? : Bool, enumerable? : Bool, configurable? : Bool, get? : () -> @core.Any, set? : (@core.Any) -> Unit) -> @core.Any
-pub fn Object::entries(@core.Any) -> Array[(String, @core.Any)]
-pub fn Object::freeze(@core.Any) -> @core.Any
-pub fn Object::getOwnPropertyDescriptor(@core.Any, String) -> PropertyDescriptor?
-pub fn Object::getOwnPropertyDescriptors(@core.Any) -> @core.Any
-pub fn Object::getOwnPropertyNames(@core.Any) -> Array[String]
-pub fn Object::getOwnPropertySymbols(@core.Any) -> Array[@symbol.Symbol]
-pub fn[T] Object::groupBy(Array[T], (T, Int) -> String) -> @core.Any
+pub fn Object::assign(@js_core.Any, @js_core.Any) -> @js_core.Any
+pub fn Object::create(@js_core.Any) -> @js_core.Any
+pub fn Object::defineProperties(@js_core.Any, @js_core.Any) -> @js_core.Any
+pub fn Object::defineProperty(@js_core.Any, String, value? : @js_core.Any, writable? : Bool, enumerable? : Bool, configurable? : Bool, get? : () -> @js_core.Any, set? : (@js_core.Any) -> Unit) -> @js_core.Any
+pub fn Object::entries(@js_core.Any) -> Array[(String, @js_core.Any)]
+pub fn Object::freeze(@js_core.Any) -> @js_core.Any
+pub fn Object::getOwnPropertyDescriptor(@js_core.Any, String) -> PropertyDescriptor?
+pub fn Object::getOwnPropertyDescriptors(@js_core.Any) -> @js_core.Any
+pub fn Object::getOwnPropertyNames(@js_core.Any) -> Array[String]
+pub fn Object::getOwnPropertySymbols(@js_core.Any) -> Array[@symbol.Symbol]
+pub fn[T] Object::groupBy(Array[T], (T, Int) -> String) -> @js_core.Any
 pub fn Object::hasOwnProperty(Self, String) -> Bool
 pub fn Object::isExtensible(Self) -> Bool
-pub fn Object::isExtensible_static(@core.Any) -> Bool
-pub fn Object::isFrozen(@core.Any) -> Bool
-pub fn Object::isPrototypeOf(Self, @core.Any) -> Bool
-pub fn Object::isSealed(@core.Any) -> Bool
-pub fn Object::is_(@core.Any, @core.Any) -> Bool
-pub fn Object::keys(@core.Any) -> Array[String]
-pub fn Object::new() -> @core.Any
-pub fn Object::preventExtensions(@core.Any) -> @core.Any
+pub fn Object::isExtensible_static(@js_core.Any) -> Bool
+pub fn Object::isFrozen(@js_core.Any) -> Bool
+pub fn Object::isPrototypeOf(Self, @js_core.Any) -> Bool
+pub fn Object::isSealed(@js_core.Any) -> Bool
+pub fn Object::is_(@js_core.Any, @js_core.Any) -> Bool
+pub fn Object::keys(@js_core.Any) -> Array[String]
+pub fn Object::new() -> @js_core.Any
+pub fn Object::preventExtensions(@js_core.Any) -> @js_core.Any
 pub fn Object::propertyIsEnumerable(Self, String) -> Bool
-pub fn Object::seal(@core.Any) -> @core.Any
-pub fn Object::to_any(Self) -> @core.Any
+pub fn Object::seal(@js_core.Any) -> @js_core.Any
+pub fn Object::to_any(Self) -> @js_core.Any
 pub fn Object::to_string(Self) -> String
-pub fn Object::values(@core.Any) -> Array[@core.Any]
+pub fn Object::values(@js_core.Any) -> Array[@js_core.Any]
 
 pub(all) struct PropertyDescriptor {
-  value : @core.Any?
+  value : @js_core.Any?
   writable : Bool?
   enumerable : Bool?
   configurable : Bool?
-  get : (() -> @core.Any)?
-  set : ((@core.Any) -> Unit)?
+  get : (() -> @js_core.Any)?
+  set : ((@js_core.Any) -> Unit)?
 }
 
 // Type aliases

@@ -1,8 +1,8 @@
 # パッケージ分割ガイド (mizchi/js → multi-module)
 
-このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`** の 6 モジュールが独立しています。
+このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`** の 7 モジュールが独立しています。
 
-最終的には `core` / `builtins` もそれぞれ `mizchi/js_core` / `mizchi/js_builtin` として独立させ、`mizchi/js` は薄い re-export facade だけを残す方針です。依存の上から順に 1 モジュールずつ切り出していきます。
+残りは `builtins/*` を `mizchi/js_builtin` として切り出すだけです。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残します。
 
 ## 背景
 
@@ -27,12 +27,13 @@
 ```
 /
 ├── moon.work                          # workspace 定義
-├── moon.mod                           # mizchi/js (core + builtins + facade)
+├── moon.mod                           # mizchi/js (builtins + facade + mbtconv/wasm)
 ├── src/                               # mizchi/js のソース
 └── modules/
     ├── js_browser/                    # mizchi/js_browser
     ├── js_deno/                       # mizchi/js_deno
     ├── js_bun/                        # mizchi/js_bun
+    ├── js_core/                       # mizchi/js_core
     ├── js_node/                       # mizchi/js_node
     ├── js_web/                        # mizchi/js_web
     └── js_webextensions/              # mizchi/js_webextensions
@@ -45,6 +46,7 @@ members = [
   ".",
   "modules/js_browser",
   "modules/js_bun",
+  "modules/js_core",
   "modules/js_deno",
   "modules/js_node",
   "modules/js_web",
@@ -58,7 +60,7 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | `core`, `builtins/*`, `mbtconv`, `examples`, `wasm`, facade | 既存 |
+| `mizchi/js` (現在のルート)  | `builtins/*`, `mbtconv`, `examples`, `wasm`, facade | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
@@ -66,7 +68,7 @@ members = [
 | `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | **済** |
 | `mizchi/js_web`             | `web/*` (Blob, Streams, Fetch, Event, ...) | **済** |
 | `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | 未着手 |
-| `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | 未着手 |
+| `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | **済** |
 | `mizchi/js_wasm` (検討中)   | `wasm` ターゲット用 entry             | 未着手 |
 
 > ※ `mizchi/js_web` は `js_browser` / `js_deno` / `js_node` の依存先なので、mooncakes への publish 順序も `mizchi/js` → `mizchi/js_web` → その他、である必要があります (`scripts/release.ts` が対応済み)。
@@ -93,6 +95,38 @@ members = [
 ```
 
 それぞれの内部依存(`webextensions/chrome` → `webextensions/storage` 等)は、本リポジトリ内で `mizchi/js_webextensions/storage` のように書き換え済みです。
+
+## 利用側の移行手順 (core)
+
+`core` は `mizchi/js_core` に移動しました。**モジュール名の末尾が `js_core` なのでデフォルト alias が `@js_core` に変わります**。`@core.` は 8500 箇所以上あるので、ソースを書き換えずに済む**明示 alias**を使ってください:
+
+```diff
+ # moon.mod
+ import {
++  "mizchi/js_core@0.12.x",
+   "mizchi/js@0.12.x",
+ }
+```
+
+```diff
+ # moon.pkg
+ import {
+-  "mizchi/js/core",
++  "mizchi/js_core" @core,
+ }
+```
+
+これで `.mbt` ソース中の `@core.Any` / `@core.any(...)` などは一切書き換え不要です。
+
+`mizchi/js_core` 自身の blackbox テスト (`*_test.mbt`) も同じ方法で alias を復元しています — 自パッケージを `for "test"` で明示 alias 付き import できます:
+
+```
+# modules/js_core/src/moon.pkg
+import {
+  "moonbitlang/async",
+  "mizchi/js_core" @core,
+} for "test"
+```
 
 ## 利用側の移行手順 (Web 標準 API)
 
@@ -313,28 +347,33 @@ members = [
   なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
   下流モジュールからの参照なので循環せず、そのままで問題ありません。
 
-### `mizchi/js_builtin` / `mizchi/js_core` 切り出しの前に残っている作業
+### `mizchi/js_builtin` 切り出しの前に残っている作業
 
-- `src/` 直下のルートパッケージ (`top.mbt`) が `core` と `builtins/*` を
-  `pub using` で re-export しています。`builtins` / `core` を別モジュールに
-  出すと、この facade が下流モジュールを import する形になるため、
-  ルートパッケージ自体を `modules/js/` へ移すか、facade の置き場所を
-  決める必要があります。
+- **切り出す順序が重要です。** `builtins/*` は 19 パッケージすべてが `core`
+  を import しているため、`core` より先に `builtins` を出すと
+  `mizchi/js` → `js_builtin` → `mizchi/js` のモジュール循環になります。
+  そのため `js_core` を先に切り出しました (本ドキュメントの状態)。
+  `js_builtin` は `js_core` にのみ依存するので、あとは移動するだけです。
+- ルートパッケージ (`src/top.mbt`) は `js_core` + `js_builtin` に依存する
+  meta パッケージとして root に残します (facade の置き場所の方針)。
 - `mbtconv` / `internal/{test_utils,bench}` / `wasm` / `examples` は `core`
-  のみに依存しているので、`js_core` 切り出しに追従するだけで済みます。
+  のみに依存しているので追加作業はありません。
 
 ### 現在の依存階層
 
 ```
-mizchi/js                         mizchi/js_web        js_node
-+-------------------------+        +------------+       js_browser
-| core  <-  builtins      |  <--   |  web/*     |  <--  js_deno
-|   ^                     |        +------------+       js_bun
-|   +-- facade (top.mbt)  |                             js_webextensions
-| mbtconv / internal /    |
-| wasm / examples         |
-+-------------------------+
+                 mizchi/js                mizchi/js_web       js_node
+mizchi/js_core   +--------------------+   +------------+      js_browser
+   (core)   <--  | builtins/*         | < |  web/*     | <--  js_deno
+      ^          | facade (top.mbt)   |   +------------+      js_bun
+      |          | mbtconv / internal |                       js_webextensions
+      +----------| wasm / examples    |
+                 +--------------------+
 ```
+
+`mizchi/js_core` は全モジュールの依存先なので、mooncakes への publish も
+最初 (`mizchi/js` より先) である必要があります。`scripts/release.ts` が
+`js_core` → `mizchi/js` → `js_web` → その他 の順に対応済みです。
 
 `js_node -> js_web` (streams, event, url, webassembly) と
 `js_browser -> js_web` (blob, event, http, message, worker) はこの階層に

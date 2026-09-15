@@ -3,7 +3,7 @@ package "mizchi/js_browser/file"
 
 import {
   "mizchi/js/builtins/arraybuffer",
-  "mizchi/js/core",
+  "mizchi/js_core",
   "mizchi/js_web/blob",
 }
 
@@ -19,7 +19,7 @@ pub(all) struct File {
 }
 #alias(array_buffer)
 pub async fn File::arrayBuffer(Self) -> @arraybuffer.ArrayBuffer
-pub fn File::as_any(Self) -> @core.Any
+pub fn File::as_any(Self) -> @js_core.Any
 pub fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 pub fn File::contentType(Self) -> String
@@ -29,11 +29,11 @@ pub async fn File::text(Self) -> String
 
 pub(all) struct FileReader {
   readyState : Int
-  result : @core.Nullable[@core.Any]
-  error : @core.Nullable[@core.Any]
+  result : @js_core.Nullable[@js_core.Any]
+  error : @js_core.Nullable[@js_core.Any]
 }
 pub fn FileReader::abort(Self) -> Unit
-pub fn FileReader::as_any(Self) -> @core.Any
+pub fn FileReader::as_any(Self) -> @js_core.Any
 pub fn FileReader::new() -> Self
 #alias(read_as_array_buffer)
 pub fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit
@@ -41,9 +41,9 @@ pub fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit
 pub fn FileReader::readAsDataURL(Self, @blob.Blob) -> Unit
 #alias(read_as_text)
 pub fn FileReader::readAsText(Self, @blob.Blob, encoding? : String) -> Unit
-pub fn FileReader::set_onerror(Self, (@core.Any) -> Unit) -> Unit
-pub fn FileReader::set_onload(Self, (@core.Any) -> Unit) -> Unit
-pub fn FileReader::set_onloadend(Self, (@core.Any) -> Unit) -> Unit
+pub fn FileReader::set_onerror(Self, (@js_core.Any) -> Unit) -> Unit
+pub fn FileReader::set_onload(Self, (@js_core.Any) -> Unit) -> Unit
+pub fn FileReader::set_onloadend(Self, (@js_core.Any) -> Unit) -> Unit
 
 // Type aliases
 

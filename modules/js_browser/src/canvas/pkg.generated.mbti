@@ -3,18 +3,18 @@ package "mizchi/js_browser/canvas"
 
 import {
   "mizchi/js/builtins/arraybuffer",
-  "mizchi/js/core",
   "mizchi/js_browser/dom",
+  "mizchi/js_core",
   "mizchi/js_web/blob",
   "mizchi/js_web/worker",
 }
 
 // Values
 #alias(create_image_bitmap)
-pub fn createImageBitmap(@core.Any) -> ImageBitmap
+pub fn createImageBitmap(@js_core.Any) -> ImageBitmap
 
 #alias(create_image_bitmap_rect)
-pub async fn createImageBitmapRect(@core.Any, Int, Int, Int, Int) -> ImageBitmap
+pub async fn createImageBitmapRect(@js_core.Any, Int, Int, Int, Int) -> ImageBitmap
 
 // Errors
 
@@ -31,7 +31,7 @@ pub(all) struct CanvasRenderingContext2D {
 }
 pub fn CanvasRenderingContext2D::arc(Self, Double, Double, Double, Double, Double, counterclockwise? : Bool) -> Unit
 pub fn CanvasRenderingContext2D::arcTo(Self, Double, Double, Double, Double, Double) -> Unit
-pub fn CanvasRenderingContext2D::as_any(Self) -> @core.Any
+pub fn CanvasRenderingContext2D::as_any(Self) -> @js_core.Any
 #alias(begin_path)
 pub fn CanvasRenderingContext2D::beginPath(Self) -> Unit
 pub fn CanvasRenderingContext2D::bezierCurveTo(Self, Double, Double, Double, Double, Double, Double) -> Unit
@@ -41,9 +41,9 @@ pub fn CanvasRenderingContext2D::clip(Self) -> Unit
 #alias(close_path)
 pub fn CanvasRenderingContext2D::closePath(Self) -> Unit
 pub fn CanvasRenderingContext2D::createImageData(Self, Int, Int) -> ImageData
-pub fn CanvasRenderingContext2D::drawImage(Self, @core.Any, Double, Double) -> Unit
-pub fn CanvasRenderingContext2D::drawImageScaled(Self, @core.Any, Double, Double, Double, Double) -> Unit
-pub fn CanvasRenderingContext2D::drawImageSub(Self, @core.Any, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::drawImage(Self, @js_core.Any, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::drawImageScaled(Self, @js_core.Any, Double, Double, Double, Double) -> Unit
+pub fn CanvasRenderingContext2D::drawImageSub(Self, @js_core.Any, Double, Double, Double, Double, Double, Double, Double, Double) -> Unit
 pub fn CanvasRenderingContext2D::fill(Self) -> Unit
 #alias(fill_rect)
 pub fn CanvasRenderingContext2D::fillRect(Self, Double, Double, Double, Double) -> Unit
@@ -74,7 +74,7 @@ pub(all) struct ImageBitmap {
   width : Int
   height : Int
 }
-pub fn ImageBitmap::as_any(Self) -> @core.Any
+pub fn ImageBitmap::as_any(Self) -> @js_core.Any
 pub fn ImageBitmap::close(Self) -> Unit
 pub impl @worker.Transferable for ImageBitmap
 
@@ -88,7 +88,7 @@ pub fn ImageData::new(Int, Int) -> Self
 
 #external
 pub type OffscreenCanvas
-pub fn OffscreenCanvas::as_any(Self) -> @core.Any
+pub fn OffscreenCanvas::as_any(Self) -> @js_core.Any
 pub async fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @blob.Blob
 pub fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
 pub fn OffscreenCanvas::height(Self) -> Int

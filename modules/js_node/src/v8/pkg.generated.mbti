@@ -3,7 +3,7 @@ package "mizchi/js_node/v8"
 
 import {
   "mizchi/js/builtins/arraybuffer",
-  "mizchi/js/core",
+  "mizchi/js_core",
   "mizchi/js_node/buffer",
 }
 
@@ -11,13 +11,13 @@ import {
 #alias(cached_data_version_tag)
 pub fn cachedDataVersionTag() -> Int
 
-pub fn deserialize(@buffer.Buffer) -> @core.Any
+pub fn deserialize(@buffer.Buffer) -> @js_core.Any
 
 #alias(get_heap_code_statistics)
 pub fn getHeapCodeStatistics() -> HeapCodeStatistics
 
 #alias(get_heap_snapshot)
-pub fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @core.Any
+pub fn getHeapSnapshot(expose_internals? : Bool, expose_numeric_values? : Bool) -> @js_core.Any
 
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics]
@@ -25,7 +25,7 @@ pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics]
 #alias(get_heap_statistics)
 pub fn getHeapStatistics() -> HeapStatistics
 
-pub fn serialize(@core.Any) -> @buffer.Buffer
+pub fn serialize(@js_core.Any) -> @buffer.Buffer
 
 #alias(set_flags_from_string)
 pub fn setFlagsFromString(String) -> Unit
@@ -47,7 +47,7 @@ pub fn writeHeapSnapshot(filename? : String) -> String
 // Types and methods
 #external
 pub type Deserializer
-pub fn Deserializer::as_any(Self) -> @core.Any
+pub fn Deserializer::as_any(Self) -> @js_core.Any
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(Self) -> Int
 pub fn Deserializer::new(@buffer.Buffer) -> Self
@@ -60,13 +60,13 @@ pub fn Deserializer::readRawBytes(Self, Int) -> @buffer.Buffer
 #alias(read_uint32)
 pub fn Deserializer::readUint32(Self) -> Int
 #alias(read_value)
-pub fn Deserializer::readValue(Self) -> @core.Any
+pub fn Deserializer::readValue(Self) -> @js_core.Any
 #alias(transferArrayBuffer)
 pub fn Deserializer::transfer_array_buffer(Self, Int, @arraybuffer.ArrayBuffer) -> Unit
 
 #external
 pub type HeapCodeStatistics
-pub fn HeapCodeStatistics::as_any(Self) -> @core.Any
+pub fn HeapCodeStatistics::as_any(Self) -> @js_core.Any
 pub fn HeapCodeStatistics::bytecode_and_metadata_size(Self) -> Int
 pub fn HeapCodeStatistics::code_and_metadata_size(Self) -> Int
 pub fn HeapCodeStatistics::cpu_profiler_metadata_size(Self) -> Int
@@ -74,7 +74,7 @@ pub fn HeapCodeStatistics::external_script_source_size(Self) -> Int
 
 #external
 pub type HeapSpaceStatistics
-pub fn HeapSpaceStatistics::as_any(Self) -> @core.Any
+pub fn HeapSpaceStatistics::as_any(Self) -> @js_core.Any
 pub fn HeapSpaceStatistics::physical_space_size(Self) -> Int
 pub fn HeapSpaceStatistics::space_available_size(Self) -> Int
 pub fn HeapSpaceStatistics::space_name(Self) -> String
@@ -83,7 +83,7 @@ pub fn HeapSpaceStatistics::space_used_size(Self) -> Int
 
 #external
 pub type HeapStatistics
-pub fn HeapStatistics::as_any(Self) -> @core.Any
+pub fn HeapStatistics::as_any(Self) -> @js_core.Any
 pub fn HeapStatistics::does_zap_garbage(Self) -> Int
 pub fn HeapStatistics::external_memory(Self) -> Int
 pub fn HeapStatistics::heap_size_limit(Self) -> Int
@@ -99,7 +99,7 @@ pub fn HeapStatistics::used_heap_size(Self) -> Int
 
 #external
 pub type Serializer
-pub fn Serializer::as_any(Self) -> @core.Any
+pub fn Serializer::as_any(Self) -> @js_core.Any
 pub fn Serializer::new() -> Self
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(Self) -> @buffer.Buffer
@@ -108,11 +108,11 @@ pub fn Serializer::transferArrayBuffer(Self, Int, @arraybuffer.ArrayBuffer) -> U
 #alias(write_header)
 pub fn Serializer::writeHeader(Self) -> Unit
 #alias(write_value)
-pub fn Serializer::writeValue(Self, @core.Any) -> Bool
+pub fn Serializer::writeValue(Self, @js_core.Any) -> Bool
 #alias(writeDouble)
 pub fn Serializer::write_double(Self, Double) -> Unit
 #alias(writeRawBytes)
-pub fn Serializer::write_raw_bytes(Self, @core.Any) -> Unit
+pub fn Serializer::write_raw_bytes(Self, @js_core.Any) -> Unit
 #alias(writeUint32)
 pub fn Serializer::write_uint32(Self, Int) -> Unit
 

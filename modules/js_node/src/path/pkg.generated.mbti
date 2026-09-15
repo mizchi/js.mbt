@@ -2,7 +2,7 @@
 package "mizchi/js_node/path"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -49,7 +49,7 @@ pub(all) struct ParsedPath {
   ext : String
   name : String
 }
-pub fn ParsedPath::to_any(Self) -> @core.Any
+pub fn ParsedPath::to_any(Self) -> @js_core.Any
 
 // Type aliases
 

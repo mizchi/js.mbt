@@ -2,11 +2,11 @@
 package "mizchi/js_node/util"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
-pub fn inspect(@core.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
+pub fn inspect(@js_core.Any, depth? : Int, colors? : Bool, compact? : Bool, sorted? : Bool, breakLength? : Int, maxArrayLength? : Int, maxStringLength? : Int) -> String
 
 #alias(parse_args)
 pub fn parseArgs(args~ : Array[String], options~ : Array[ParseArgsOption], allow_positionals? : Bool) -> ParseArgsResult
@@ -18,18 +18,18 @@ pub(all) enum ParseArgsOption {
   Boolean(key~ : String, short~ : String)
   String(key~ : String, short~ : String, multiple~ : Bool, default~ : String?)
 }
-pub fn ParseArgsOption::as_any(Self) -> @core.Any
+pub fn ParseArgsOption::as_any(Self) -> @js_core.Any
 pub fn ParseArgsOption::key(Self) -> String
 
 pub(all) struct ParseArgsResult {
-  values : Map[String, @core.Any]
+  values : Map[String, @js_core.Any]
   positionals : Array[String]
-  tokens : Array[@core.Any]?
+  tokens : Array[@js_core.Any]?
 }
 
 #external
 pub type Util
-pub fn Util::as_any(Self) -> @core.Any
+pub fn Util::as_any(Self) -> @js_core.Any
 
 // Type aliases
 

@@ -2,7 +2,7 @@
 package "mizchi/js_node/events"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -12,19 +12,19 @@ import {
 // Types and methods
 #external
 pub type EventEmitter
-pub fn EventEmitter::as_any(Self) -> @core.Any
-pub fn EventEmitter::emit(Self, String, @core.Any) -> Unit
+pub fn EventEmitter::as_any(Self) -> @js_core.Any
+pub fn EventEmitter::emit(Self, String, @js_core.Any) -> Unit
 pub fn EventEmitter::eventNames(Self) -> Array[String]
 pub fn EventEmitter::listenerCount(Self, String) -> Int
-pub fn EventEmitter::listeners(Self, event? : String) -> Array[(@core.Any) -> Unit]
+pub fn EventEmitter::listeners(Self, event? : String) -> Array[(@js_core.Any) -> Unit]
 pub fn EventEmitter::new() -> Self
-pub fn EventEmitter::off(Self, String, (@core.Any) -> Unit) -> Unit
-pub fn EventEmitter::on(Self, String, (@core.Any) -> Unit) -> Unit
-pub fn EventEmitter::on2(Self, String, (@core.Any?, @core.Any) -> Unit) -> Unit
-pub fn EventEmitter::once(Self, String, (@core.Any) -> Unit) -> Unit
+pub fn EventEmitter::off(Self, String, (@js_core.Any) -> Unit) -> Unit
+pub fn EventEmitter::on(Self, String, (@js_core.Any) -> Unit) -> Unit
+pub fn EventEmitter::on2(Self, String, (@js_core.Any?, @js_core.Any) -> Unit) -> Unit
+pub fn EventEmitter::once(Self, String, (@js_core.Any) -> Unit) -> Unit
 pub fn EventEmitter::removeAllListeners(Self) -> Unit
-pub fn EventEmitter::removeListener(Self, String, (@core.Any) -> Unit) -> Unit
-pub fn EventEmitter::to_any(Self) -> @core.Any
+pub fn EventEmitter::removeListener(Self, String, (@js_core.Any) -> Unit) -> Unit
+pub fn EventEmitter::to_any(Self) -> @js_core.Any
 
 // Type aliases
 

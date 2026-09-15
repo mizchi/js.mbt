@@ -2,7 +2,7 @@
 package "mizchi/js_node/net"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
   "mizchi/js_node/stream",
 }
 
@@ -25,14 +25,14 @@ pub fn isIPv6(String) -> Bool
 #external
 pub type AddressInfo
 pub fn AddressInfo::address(Self) -> String
-pub fn AddressInfo::as_any(Self) -> @core.Any
+pub fn AddressInfo::as_any(Self) -> @js_core.Any
 pub fn AddressInfo::family(Self) -> String
 pub fn AddressInfo::port(Self) -> Int
 
 #external
 pub type Server
 pub fn Server::address(Self) -> AddressInfo?
-pub fn Server::as_any(Self) -> @core.Any
+pub fn Server::as_any(Self) -> @js_core.Any
 pub fn Server::close(Self) -> Self
 pub fn Server::listen(Self, Int, host? : String, backlog? : Int, callback? : () -> Unit) -> Self
 pub fn Server::listening(Self) -> Bool
@@ -41,7 +41,7 @@ pub fn Server::set_maxConnections(Self, Int) -> Unit
 
 #external
 pub type Socket
-pub fn Socket::as_any(Self) -> @core.Any
+pub fn Socket::as_any(Self) -> @js_core.Any
 pub fn Socket::as_duplex(Self) -> @stream.Duplex
 pub fn Socket::bytesRead(Self) -> Int
 pub fn Socket::bytesWritten(Self) -> Int

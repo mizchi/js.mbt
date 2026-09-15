@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `core` split out into `mizchi/js_core`.** The FFI foundation
+  (`Any`, `Promise`, `Nullable`, the target-specific interop layer) is now its
+  own module, which every other module — including the root `mizchi/js` —
+  depends on.
+
+  The module's last path segment changes the default alias from `@core` to
+  `@js_core`, and there are 8500+ `@core.` references in the wild, so import
+  it with an **explicit alias** and no `.mbt` source needs touching:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/core",
+  +  "mizchi/js_core" @core,
+   }
+  ```
+
+  Publish order now starts with `js_core` (before the root), handled by
+  `scripts/release.ts`.
+
 - **BREAKING: `web/*` split out into `mizchi/js_web`.** All 15 Web Standard
   packages (`blob`, `console`, `crypto`, `encoding`, `event`, `http`,
   `message`, `performance`, `streams`, `trusted_types`, `url`, `webassembly`,

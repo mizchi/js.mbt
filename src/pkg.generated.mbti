@@ -22,16 +22,16 @@ import {
   "mizchi/js/builtins/string",
   "mizchi/js/builtins/symbol",
   "mizchi/js/builtins/weak",
-  "mizchi/js/core",
+  "mizchi/js_core",
   "moonbitlang/async/js_async",
 }
 
 // Values
-pub fn[T] any(T) -> @core.Any
+pub fn[T] any(T) -> @js_core.Any
 
-pub fn atob(String) -> String raise @core.ThrowError
+pub fn atob(String) -> String raise @js_core.ThrowError
 
-pub fn btoa(String) -> String raise @core.ThrowError
+pub fn btoa(String) -> String raise @js_core.ThrowError
 
 pub fn clearInterval(@global.Timer) -> Unit
 
@@ -41,51 +41,51 @@ pub fn decodeURI(String) -> String
 
 pub fn decodeURIComponent(String) -> String
 
-pub fn dynamic_import(String) -> @core.Any
+pub fn dynamic_import(String) -> @js_core.Any
 
 pub fn encodeURI(String) -> String
 
 pub fn encodeURIComponent(String) -> String
 
-pub fn[A] from_async(async () -> A) -> @core.Promise[A]
+pub fn[A] from_async(async () -> A) -> @js_core.Promise[A]
 
-pub fn from_entries(Array[(String, @core.Any)]) -> @core.Any
+pub fn from_entries(Array[(String, @js_core.Any)]) -> @js_core.Any
 
-pub fn[A] from_fn0(() -> A) -> @core.Any
+pub fn[A] from_fn0(() -> A) -> @js_core.Any
 
-pub fn[A, B] from_fn1((A) -> B) -> @core.Any
+pub fn[A, B] from_fn1((A) -> B) -> @js_core.Any
 
-pub fn[A, B, C] from_fn2((A, B) -> C) -> @core.Any
+pub fn[A, B, C] from_fn2((A, B) -> C) -> @js_core.Any
 
-pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @core.Any
+pub fn[A, B, C, D] from_fn3((A, B, C) -> D) -> @js_core.Any
 
-pub fn globalThis() -> @core.Any
+pub fn globalThis() -> @js_core.Any
 
 pub fn[A, B] identity(A) -> B
 
 pub fn isFinite(Double) -> Bool
 
-pub fn isNaN(@core.Any) -> Bool
+pub fn isNaN(@js_core.Any) -> Bool
 
-pub fn log(@core.Any) -> Unit
+pub fn log(@js_core.Any) -> Unit
 
-pub fn new(@core.Any, FixedArray[@core.Any]) -> @core.Any
+pub fn new(@js_core.Any, FixedArray[@js_core.Any]) -> @js_core.Any
 
-pub fn new_array() -> @core.Any
+pub fn new_array() -> @js_core.Any
 
-pub fn new_object() -> @core.Any
+pub fn new_object() -> @js_core.Any
 
 pub fn parseFloat(String) -> Double?
 
 pub fn parseInt(String, radix? : Int) -> Int?
 
-pub fn[R] promisify0(async () -> R) -> () -> @core.Promise[R]
+pub fn[R] promisify0(async () -> R) -> () -> @js_core.Promise[R]
 
-pub fn[A, R] promisify1(async (A) -> R) -> (A) -> @core.Promise[R]
+pub fn[A, R] promisify1(async (A) -> R) -> (A) -> @js_core.Promise[R]
 
-pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> @core.Promise[R]
+pub fn[A, B, R] promisify2(async (A, B) -> R) -> (A, B) -> @js_core.Promise[R]
 
-pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> @core.Promise[R]
+pub fn[A, B, C, R] promisify3(async (A, B, C) -> R) -> (A, B, C) -> @js_core.Promise[R]
 
 pub fn queueMicrotask(() -> Unit) -> Unit
 
@@ -95,17 +95,17 @@ pub fn setInterval(() -> Unit, Int) -> @global.Timer
 
 pub fn setTimeout(() -> Unit, Int) -> @global.Timer
 
-pub fn structuredClone(@core.Any) -> @core.Any
+pub fn structuredClone(@js_core.Any) -> @js_core.Any
 
 pub async fn[T, E : Error] suspend(((T) -> Unit, (E) -> Unit) -> Unit) -> T raise E
 
 pub fn symbol(String) -> @symbol.Symbol
 
-pub fn[T] throwable(() -> T raise?) -> T raise @core.ThrowError
+pub fn[T] throwable(() -> T raise?) -> T raise @js_core.ThrowError
 
-pub fn typeof_(@core.Any) -> String
+pub fn typeof_(@js_core.Any) -> String
 
-pub fn undefined() -> @core.Any
+pub fn undefined() -> @js_core.Any
 
 // Errors
 
@@ -118,7 +118,7 @@ pub using @js_async {type AbortSignal}
 
 pub using @error {type AggregateError}
 
-pub using @core {type Any}
+pub using @js_core {type Any}
 
 pub using @arraybuffer {type ArrayBuffer}
 
@@ -174,15 +174,15 @@ pub using @string {type JsString}
 
 pub using @math {type Math}
 
-pub using @core {type Nullable}
+pub using @js_core {type Nullable}
 
-pub using @core {type Nullish}
+pub using @js_core {type Nullish}
 
 pub using @object {type Object}
 
-pub using @core {type Promise}
+pub using @js_core {type Promise}
 
-pub using @core {type PromiseResolvers}
+pub using @js_core {type PromiseResolvers}
 
 pub using @proxy {type Proxy}
 
@@ -204,7 +204,7 @@ pub using @symbol {type Symbol}
 
 pub using @error {type SyntaxError}
 
-pub using @core {type ThrowError}
+pub using @js_core {type ThrowError}
 
 pub using @global {type Timer}
 

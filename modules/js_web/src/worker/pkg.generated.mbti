@@ -2,7 +2,7 @@
 package "mizchi/js_web/worker"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
   "mizchi/js_web/event",
 }
 
@@ -12,27 +12,27 @@ import {
 
 // Types and methods
 pub(all) struct MessageEvent {
-  data : @core.Any
+  data : @js_core.Any
   origin : String
-  source : @core.Any
+  source : @js_core.Any
 }
-pub fn MessageEvent::to_any(Self) -> @core.Any
+pub fn MessageEvent::to_any(Self) -> @js_core.Any
 
 #external
 pub type Worker
-pub fn Worker::as_any(Self) -> @core.Any
+pub fn Worker::as_any(Self) -> @js_core.Any
 pub fn Worker::as_event_target(Self) -> @event.EventTarget
 pub fn Worker::new(String, type_? : String) -> Self
 #alias(post_message)
-pub fn Worker::postMessage(Self, @core.Any) -> Unit
+pub fn Worker::postMessage(Self, @js_core.Any) -> Unit
 #alias(post_message_with_transfer)
-pub fn Worker::postMessageWithTransfer(Self, @core.Any, Array[@core.Any]) -> Unit
+pub fn Worker::postMessageWithTransfer(Self, @js_core.Any, Array[@js_core.Any]) -> Unit
 pub fn Worker::terminate(Self) -> Unit
-pub fn Worker::to_any(Self) -> @core.Any
+pub fn Worker::to_any(Self) -> @js_core.Any
 
 // Type aliases
 
 // Traits
 pub(open) trait Transferable {
-  fn to_transferable(Self) -> @core.Any
+  fn to_transferable(Self) -> @js_core.Any
 }
