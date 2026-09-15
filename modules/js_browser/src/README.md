@@ -39,4 +39,4 @@ All APIs are aligned with TypeScript's standard DOM type definitions.
 ### See Also
 
 - **[mizchi/js/web](../web/README.md)** - Platform-independent Web Standard APIs (fetch, Streams, WebSocket, etc.)
-- **[mizchi/js/node](../node/README.md)** - Node.js-specific APIs
+- **[mizchi/js_node](../../js_node/src/README.md)** - Node.js-specific APIs

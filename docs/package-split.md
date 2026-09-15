@@ -1,6 +1,8 @@
 # パッケージ分割ガイド (mizchi/js → multi-module)
 
-このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`** の 4 モジュールが独立しています。
+このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`** の 5 モジュールが独立しています。
+
+最終的には `core` / `builtins` / `web` もそれぞれ `mizchi/js_core` / `mizchi/js_builtin` / `mizchi/js_web` として独立させ、`mizchi/js` は薄い re-export facade だけを残す方針です。依存の上から順に 1 モジュールずつ切り出していきます。
 
 ## 背景
 
@@ -25,12 +27,13 @@
 ```
 /
 ├── moon.work                          # workspace 定義
-├── moon.mod.json                      # mizchi/js (core + builtins + web + node + ...)
+├── moon.mod                           # mizchi/js (core + builtins + web + ...)
 ├── src/                               # mizchi/js のソース
 └── modules/
     ├── js_browser/                    # mizchi/js_browser
     ├── js_deno/                       # mizchi/js_deno
     ├── js_bun/                        # mizchi/js_bun
+    ├── js_node/                       # mizchi/js_node
     └── js_webextensions/              # mizchi/js_webextensions
 ```
 
@@ -42,6 +45,7 @@ members = [
   "modules/js_browser",
   "modules/js_bun",
   "modules/js_deno",
+  "modules/js_node",
   "modules/js_webextensions",
 ]
 ```
@@ -52,15 +56,18 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | `core`, `builtins/*`, `web/*`, `node/*`, `mbtconv`, `examples`, `wasm` | 既存 |
+| `mizchi/js` (現在のルート)  | `core`, `builtins/*`, `web/*`, `mbtconv`, `examples`, `wasm` | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
 | `mizchi/js_webextensions`   | `webextensions/*` (chrome/runtime/tabs/storage) | **済** |
-| `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | 未着手 |
+| `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | **済** |
+| `mizchi/js_web`             | `web/*` (Blob, Streams, Fetch, Event, ...) | 未着手 |
+| `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | 未着手 |
+| `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | 未着手 |
 | `mizchi/js_wasm` (検討中)   | `wasm` ターゲット用 entry             | 未着手 |
 
-> ※ `web/*` (Blob/Streams/Fetch/Event/...) は環境非依存なので、当面 `mizchi/js` 側に残します。`web/websocket` → `node/buffer`、`web/webassembly` → `node/*` といったクロス依存は別 PR で解消してから `mizchi/js_web` として独立させる予定です。
+> ※ `web/websocket` → `node/buffer` と `web/webassembly` → `node/*` のクロス依存は `mizchi/js_node` 切り出しと同時に解消済みです。`mizchi/js_web` の独立はその次のステップです。
 
 ## 利用側の移行手順 (deno / bun / webextensions)
 
@@ -84,6 +91,40 @@ members = [
 ```
 
 それぞれの内部依存(`webextensions/chrome` → `webextensions/storage` 等)は、本リポジトリ内で `mizchi/js_webextensions/storage` のように書き換え済みです。
+
+## 利用側の移行手順 (node API)
+
+`node/*` は `mizchi/js_node` に移動しました。`moon.mod` の `import` に追加し、`moon.pkg` の import path を書き換えます。**package 名の末尾は変わらないので、`@fs` / `@path` などのソース中の alias は書き換え不要**です。
+
+```diff
+ # moon.mod
+ import {
+   "mizchi/js@0.12.x",
++  "mizchi/js_node@0.12.x",
+ }
+```
+
+```diff
+ # moon.pkg
+ import {
+   "mizchi/js/core",
+-  "mizchi/js/node/fs",
+-  "mizchi/js/node/path",
++  "mizchi/js_node/fs",
++  "mizchi/js_node/path",
+ }
+```
+
+対象は `mizchi/js/node/<name>` → `mizchi/js_node/<name>` の一括置換で済みます (`assert`, `assert_strict`, `async_hooks`, `buffer`, `child_process`, `dns`, `events`, `fs`, `fs_promises`, `http`, `http2`, `https`, `inspector`, `module`, `net`, `os`, `path`, `process`, `readline`, `readline_promises`, `sqlite`, `stream`, `stream_promises`, `test`, `tls`, `tty`, `url`, `util`, `v8`, `vm`, `wasi`, `worker_threads`, `zlib`)。ルートの `mizchi/js/node` 自体 (`timers` / `cjs` / `esm` の re-export) は `mizchi/js_node` になります。
+
+### 破壊的変更: `WebSocket::send_buffer`
+
+`web/websocket` が `node/buffer` に依存していたため、`WebSocket::send_buffer(@buffer.Buffer)` を `WebSocket::send_uint8array(@arraybuffer.Uint8Array)` に置き換えました。Node の `Buffer` は `Uint8Array` のサブクラスなのでそのまま渡せます:
+
+```diff
+- ws.send_buffer(buf)
++ ws.send_uint8array(buf.as_any().cast())
+```
 
 ## 利用側の移行手順 (browser API)
 
@@ -160,20 +201,30 @@ members = [
 
 ## 開発者向け: 新モジュールを追加する手順
 
-`mizchi/js_node` 以降を切り出すときの手順:
+`mizchi/js_web` 以降を切り出すときの手順:
 
-1. `modules/<name>/` を作成し、`moon.mod.json` を置く
+0. **先に逆向きのクロス依存を消す。** 切り出す対象 `X` に対して `mizchi/js` 側から
+   `X` への import が 1 つでも残っているとモジュール循環になり `moon check` が通りません
+   (`for "test"` の import も同じ)。`moon.pkg` を grep して洗い出します:
 
-   ```json
-   {
-     "name": "mizchi/<name>",
-     "version": "0.10.x",
-     "deps": {
-       "mizchi/js": "0.10.x"
-     },
-     "source": "src",
-     "supported_targets": "js"
+   ```bash
+   grep -rn '"mizchi/js/<X>' $(find src -name moon.pkg) | grep -v "^src/<X>/"
+   ```
+
+1. `modules/<name>/` を作成し、`moon.mod` を置く
+
+   ```
+   name = "mizchi/<name>"
+
+   version = "0.12.x"
+
+   import {
+     "mizchi/js@0.12.x",
    }
+
+   source = "src"
+
+   preferred_target = "js"
    ```
 
 2. `moon.work` に member として追加
@@ -190,22 +241,61 @@ members = [
 
 4. 全 `moon.pkg` 内の `mizchi/js/<env>/X` → `mizchi/<name>/X` を一括置換
 
-5. 旧モジュールから新モジュールへ依存している箇所は循環しないか確認
-   (e.g. `internal/test_utils` の DOM 部分は `mizchi/js_browser/test_utils` へ移動した)
+5. **相対パスに依存したテストを直す。** member module のテストは
+   **そのモジュールのディレクトリ**を CWD として実行されるため、リポジトリルート
+   相対のパス (`package.json`, `fixtures/*.wasm` 等) は解決できなくなります。
+   テスト内で一時ファイルを作るか、fixture を埋め込んで自己完結させます。
 
-6. `moon info` で `.mbti` を再生成、`moon check && moon test`
+6. `moon info --target js` で `.mbti` を再生成、`moon fmt`、`moon check --deny-warn && moon test`
 
-7. README / docs の path / package 名を追従
+7. README / docs / CHANGELOG の path / package 名を追従
 
 ## クロス依存の解消メモ
 
-現状残っている / 解消が必要なクロス依存:
+### 解消済み
 
-- `web/websocket` → `node/buffer` (impl)
-- `web/webassembly` → `node/{fs,path,process,buffer}` (test only)
-- 多数の `web/*` / `webextensions/*` がルート `mizchi/js` を import (再エクスポート用)
+- `web/websocket` → `node/buffer` (impl) — `WebSocket::send_buffer` を
+  `send_uint8array(@arraybuffer.Uint8Array)` に置き換え
+- `web/webassembly` → `node/{fs,path,process,buffer}` (test only) —
+  `fixtures/add.wasm` (71B) をテストに `Bytes` リテラルとして埋め込み
+- `node/wasi` → `fixtures/hello-wasi.wasm` (test only) —
+  同様に埋め込み。ファイルシステム経由での読み込みをやめた
 
-`mizchi/js_web` を切り出す前に、これらは `ArrayBuffer/Uint8Array` 経由に書き換えたり、test 用パッケージを別出しするなどして整理します。
+- `web/*` 7 パッケージ (`blob`, `event`, `http`, `worker`, `webgpu`, `websocket`,
+  `streams`) → ルートの `mizchi/js` facade (`@js.Promise`, `@js.from_fn1`,
+  `@js.AbortSignal` 等) — 実体のあるパッケージを直接 import するよう書き換え:
+
+  | 旧 (facade 経由)  | 新 (実体)                | 実体のパッケージ                |
+  | ----------------- | ------------------------ | ------------------------------- |
+  | `@js.Promise`     | `@core.Promise`          | `mizchi/js/core`                |
+  | `@js.run_async`   | `@core.run_async`        | `mizchi/js/core`                |
+  | `@js.from_fn1`    | `@core.from_fn1`         | `mizchi/js/core`                |
+  | `@js.any`         | `@core.any`              | `mizchi/js/core`                |
+  | `@js.log`         | `@core.log`              | `mizchi/js/core`                |
+  | `@js.AbortSignal` | `@js_async.AbortSignal`  | `moonbitlang/async/js_async`    |
+  | `@js.JsArray`     | `@array.JsArray`         | `mizchi/js/builtins/array`      |
+
+  `.mbti` は型の**正規パッケージ**を記録しているため、この書き換えでは
+  `.mbti` に差分が出ません (= 公開 API に影響しない純粋なリファクタ)。
+
+  なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
+  下流モジュールからの参照なので循環せず、そのままで問題ありません。
+
+### `mizchi/js_web` 切り出しの前に残っている作業
+
+- `src/` 内からの facade 依存は解消済みです。次は `web/*` を
+  `modules/js_web/` へ移動し、`mizchi/js/web/X` → `mizchi/js_web/X` に
+  一括置換します。
+
+### 現在の依存階層
+
+```
+core  <-  builtins  <-  web  <-  js_node / js_browser / js_deno / js_bun / js_webextensions
+                         ^
+                    mizchi/js (facade: core + builtins を re-export)
+```
+
+`node -> web` (streams, event, url, webassembly) はこの階層に沿っているので問題ありません。
 
 ## 参考
 

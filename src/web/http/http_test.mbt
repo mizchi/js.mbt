@@ -7,7 +7,7 @@ async test "Response: read body as text" {
 
   // Read body as text
   let text_result : @core.Any = response.as_any()._call("text", [])
-  let text_promise : @js.Promise[String] = text_result.cast()
+  let text_promise : @core.Promise[String] = text_result.cast()
   let text = text_promise.wait()
   assert_eq(text, "Hello, async world!")
 }
@@ -19,7 +19,7 @@ async test "Response: read body as JSON" {
 
   // Read body as JSON
   let json_result : @core.Any = response.as_any()._call("json", [])
-  let json_promise : @js.Promise[@core.Any] = json_result.cast()
+  let json_promise : @core.Promise[@core.Any] = json_result.cast()
   let json_obj = json_promise.wait()
   let name : String = @core.identity(json_obj._get("name"))
   let value : Int = @core.identity(json_obj._get("value"))
@@ -41,7 +41,7 @@ async test "Response: read body stream chunk by chunk" {
       let mut done = false
       while !done {
         let result : @core.Any = reader.as_any()._call("read", [])
-        let promise : @js.Promise[@core.Any] = result.cast()
+        let promise : @core.Promise[@core.Any] = result.cast()
         let data = promise.wait()
         done = @core.identity(data._get("done"))
         if !done {
@@ -67,12 +67,12 @@ async test "Response: clone and read both bodies" {
 
   // Read original
   let text1_result : @core.Any = response.as_any()._call("text", [])
-  let text1_promise : @js.Promise[String] = text1_result.cast()
+  let text1_promise : @core.Promise[String] = text1_result.cast()
   let text1 = text1_promise.wait()
 
   // Read cloned
   let text2_result : @core.Any = cloned.as_any()._call("text", [])
-  let text2_promise : @js.Promise[String] = text2_result.cast()
+  let text2_promise : @core.Promise[String] = text2_result.cast()
   let text2 = text2_promise.wait()
   assert_eq(text1, "original content")
   assert_eq(text2, "original content")
@@ -84,7 +84,7 @@ async test "Response: read body multiple times fails after first read" {
 
   // First read succeeds
   let text1_result : @core.Any = response.as_any()._call("text", [])
-  let text1_promise : @js.Promise[String] = text1_result.cast()
+  let text1_promise : @core.Promise[String] = text1_result.cast()
   let text1 = text1_promise.wait()
   assert_eq(text1, "single read")
 
@@ -105,7 +105,7 @@ async test "Response: read large body in chunks" {
   }
   let response = Response::new(body=large_content)
   let text_result : @core.Any = response.as_any()._call("text", [])
-  let text_promise : @js.Promise[String] = text_result.cast()
+  let text_promise : @core.Promise[String] = text_result.cast()
   let text = text_promise.wait()
   assert_eq(text, large_content)
   assert_true(text.length() > 500)
@@ -125,7 +125,7 @@ async test "Response: body stream with defer cleanup" {
 
       // Read one chunk
       let result : @core.Any = reader.as_any()._call("read", [])
-      let promise : @js.Promise[@core.Any] = result.cast()
+      let promise : @core.Promise[@core.Any] = result.cast()
       let _data = promise.wait()
 
       // defer will automatically call release_lock
@@ -138,7 +138,7 @@ async test "Response: body stream with defer cleanup" {
 async test "Response: arrayBuffer method" {
   let response = Response::new(body="buffer test")
   let buffer_result : @core.Any = response.as_any()._call("arrayBuffer", [])
-  let buffer_promise : @js.Promise[@core.Any] = buffer_result.cast()
+  let buffer_promise : @core.Promise[@core.Any] = buffer_result.cast()
   let buffer = buffer_promise.wait()
 
   // Verify we got an ArrayBuffer
@@ -154,7 +154,7 @@ async test "Response: arrayBuffer method" {
 async test "Response: blob method" {
   let response = Response::new(body="blob content")
   let blob_result : @core.Any = response.as_any()._call("blob", [])
-  let blob_promise : @js.Promise[@core.Any] = blob_result.cast()
+  let blob_promise : @core.Promise[@core.Any] = blob_result.cast()
   let blob = blob_promise.wait()
 
   // Verify we got a Blob

@@ -99,9 +99,13 @@ pub extern "js" fn WebSocket::send_string(self : Self, data : String) -> Unit =
 ///|
 /// Send binary data
 /// JS: webSocket.send(data)
-pub extern "js" fn WebSocket::send_buffer(
+///
+/// Takes a `Uint8Array` rather than a Node `Buffer` so this package stays
+/// environment independent. A Node `Buffer` *is* a `Uint8Array`, so pass one
+/// with `buffer.as_any().cast()`.
+pub extern "js" fn WebSocket::send_uint8array(
   self : Self,
-  data : @buffer.Buffer,
+  data : @arraybuffer.Uint8Array,
 ) -> Unit =
   #| (self, data) => self.send(data)
 
@@ -127,7 +131,7 @@ pub fn WebSocket::set_onopen(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onopen"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onopen"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -137,7 +141,7 @@ pub fn WebSocket::set_onmessage(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -147,7 +151,7 @@ pub fn WebSocket::set_onerror(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -157,7 +161,7 @@ pub fn WebSocket::set_onclose(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onclose"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onclose"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|

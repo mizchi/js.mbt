@@ -20,7 +20,7 @@ pub async fn ReadableStream::cancel(
   self : ReadableStream,
   reason? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match reason {
+  let promise : @core.Promise[Unit] = match reason {
     Some(r) => @core.any(self)._call("cancel", [r]).cast()
     None => @core.any(self)._call("cancel", []).cast()
   }
@@ -44,7 +44,7 @@ pub async fn ReadableStream::pipeTo(
   destination : WritableStream,
   options? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match options {
+  let promise : @core.Promise[Unit] = match options {
     Some(opts) =>
       @core.any(self)._call("pipeTo", [@core.any(destination), opts]).cast()
     None => @core.any(self)._call("pipeTo", [@core.any(destination)]).cast()
@@ -102,7 +102,7 @@ pub fn ReadableStreamDefaultReader::as_any(
 pub async fn ReadableStreamDefaultReader::read(
   self : ReadableStreamDefaultReader,
 ) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = @core.any(self)
+  let promise : @core.Promise[@core.Any] = @core.any(self)
     ._call("read", [])
     .cast()
   promise.wait()
@@ -122,7 +122,7 @@ pub async fn ReadableStreamDefaultReader::cancel(
   self : ReadableStreamDefaultReader,
   reason? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match reason {
+  let promise : @core.Promise[Unit] = match reason {
     Some(r) => @core.any(self)._call("cancel", [r]).cast()
     None => @core.any(self)._call("cancel", []).cast()
   }
@@ -133,7 +133,7 @@ pub async fn ReadableStreamDefaultReader::cancel(
 /// Get the closed promise
 pub fn ReadableStreamDefaultReader::closed(
   self : ReadableStreamDefaultReader,
-) -> @js.Promise[Unit] {
+) -> @core.Promise[Unit] {
   @core.any(self)["closed"].cast()
 }
 
@@ -158,7 +158,7 @@ pub async fn WritableStream::abort(
   self : WritableStream,
   reason? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match reason {
+  let promise : @core.Promise[Unit] = match reason {
     Some(r) => @core.any(self)._call("abort", [r]).cast()
     None => @core.any(self)._call("abort", []).cast()
   }
@@ -168,7 +168,7 @@ pub async fn WritableStream::abort(
 ///|
 /// Close the stream
 pub async fn WritableStream::close(self : WritableStream) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)._call("close", []).cast()
+  let promise : @core.Promise[Unit] = @core.any(self)._call("close", []).cast()
   promise.wait()
 }
 
@@ -203,7 +203,7 @@ pub async fn WritableStreamDefaultWriter::write(
   self : WritableStreamDefaultWriter,
   chunk : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)
+  let promise : @core.Promise[Unit] = @core.any(self)
     ._call("write", [chunk])
     .cast()
   promise.wait()
@@ -214,7 +214,7 @@ pub async fn WritableStreamDefaultWriter::write(
 pub async fn WritableStreamDefaultWriter::close(
   self : WritableStreamDefaultWriter,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = @core.any(self)._call("close", []).cast()
+  let promise : @core.Promise[Unit] = @core.any(self)._call("close", []).cast()
   promise.wait()
 }
 
@@ -224,7 +224,7 @@ pub async fn WritableStreamDefaultWriter::abort(
   self : WritableStreamDefaultWriter,
   reason? : @core.Any,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match reason {
+  let promise : @core.Promise[Unit] = match reason {
     Some(r) => @core.any(self)._call("abort", [r]).cast()
     None => @core.any(self)._call("abort", []).cast()
   }
@@ -243,7 +243,7 @@ pub extern "js" fn WritableStreamDefaultWriter::releaseLock(
 /// Get the closed promise
 pub fn WritableStreamDefaultWriter::closed(
   self : WritableStreamDefaultWriter,
-) -> @js.Promise[Unit] {
+) -> @core.Promise[Unit] {
   @core.any(self)["closed"].cast()
 }
 
@@ -251,7 +251,7 @@ pub fn WritableStreamDefaultWriter::closed(
 /// Get the ready promise
 pub fn WritableStreamDefaultWriter::ready(
   self : WritableStreamDefaultWriter,
-) -> @js.Promise[Unit] {
+) -> @core.Promise[Unit] {
   @core.any(self)["ready"].cast()
 }
 

@@ -3,11 +3,11 @@
 extern "js" fn ffi_fetch(
   url : String,
   init : @core.Any,
-) -> @js.Promise[Response] =
+) -> @core.Promise[Response] =
   #| (url, init) => fetch(url, init)
 
 ///|
-extern "js" fn ffi_fetch_request(request : Request) -> @js.Promise[Response] =
+extern "js" fn ffi_fetch_request(request : Request) -> @core.Promise[Response] =
   #| (request) => fetch(request)
 
 ///|
@@ -26,7 +26,7 @@ pub async fn fetch(
   redirect? : String,
   referrer? : String,
   referrerPolicy? : String,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> Response {
   let header_obj = @core.new_object()
   for k, v in headers {
@@ -96,5 +96,5 @@ async test "fetch" {
       return
     }
   }
-  @js.log(value)
+  @core.log(value)
 }

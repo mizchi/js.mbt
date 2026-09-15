@@ -9,6 +9,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`web/*` no longer imports the `mizchi/js` facade.** The seven packages
+  that reached types through the root re-export (`blob`, `event`, `http`,
+  `worker`, `webgpu`, `websocket`, `streams`) now import the package that
+  actually defines them - `@core.Promise` instead of `@js.Promise`,
+  `@js_async.AbortSignal` instead of `@js.AbortSignal`, and so on. This is a
+  prerequisite for splitting `web/*` into `mizchi/js_web`, since a facade
+  that re-exports `js_web` while `js_web` imports the facade is a cycle.
+  No `.mbti` changed, so there is no effect on users.
+
+- **BREAKING: `node/*` split out into `mizchi/js_node`.** First step of
+  dissolving the monolithic `src/` into per-area modules (`js_core`,
+  `js_builtin`, `js_web`, `js_node`), leaving `mizchi/js` as a thin
+  re-export facade. See [`docs/package-split.md`](docs/package-split.md).
+
+  Add the module to your `moon.mod` and rewrite import paths — package names
+  are unchanged, so `@fs` / `@path` / `@process` aliases in `.mbt` sources
+  keep working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/node/fs",
+  +  "mizchi/js_node/fs",
+   }
+  ```
+
+  All 34 node packages moved: `assert`, `assert_strict`, `async_hooks`,
+  `buffer`, `child_process`, `dns`, `events`, `fs`, `fs_promises`, `http`,
+  `http2`, `https`, `inspector`, `module`, `net`, `os`, `path`, `process`,
+  `readline`, `readline_promises`, `sqlite`, `stream`, `stream_promises`,
+  `test`, `tls`, `tty`, `url`, `util`, `v8`, `vm`, `wasi`, `worker_threads`,
+  `zlib`, plus the root `mizchi/js/node` (`timers`/`cjs`/`esm` re-exports)
+  which is now `mizchi/js_node`.
+
+- **BREAKING: `WebSocket::send_buffer` → `WebSocket::send_uint8array`.**
+  `web/websocket` depended on `node/buffer` purely for this one signature,
+  which would have made `js_node` a circular dependency. A Node `Buffer` is a
+  `Uint8Array`, so pass one with `buffer.as_any().cast()`.
+
+- Made `web/webassembly` and `node/wasi` tests self-contained: the `add.wasm`
+  (71B) and `hello-wasi.wasm` (169B) fixtures are now embedded as `Bytes`
+  literals instead of read through `node/fs`, which removes the last
+  `web → node` cross-dependency and the dependency on the process working
+  directory. `fs` tests that read `package.json` now create their own temp
+  files, since member-module tests run with the module directory as CWD.
+
 - **Warning-free on the latest MoonBit toolchain.** Fixed all 108 deprecation
   warnings reported by `moonc` and dropped the blanket `warnings = "-20"`
   suppression from all five workspace `moon.mod` files, so

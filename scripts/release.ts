@@ -10,6 +10,7 @@
  *   3. mizchi/js_browser
  *      mizchi/js_deno
  *      mizchi/js_bun
+ *      mizchi/js_node
  *      mizchi/js_webextensions
  *
  * All workspace modules must already be bumped to the same version in their
@@ -36,6 +37,7 @@ const MODULES: Mod[] = [
   { path: "modules/js_browser", label: "mizchi/js_browser" },
   { path: "modules/js_deno", label: "mizchi/js_deno" },
   { path: "modules/js_bun", label: "mizchi/js_bun" },
+  { path: "modules/js_node", label: "mizchi/js_node" },
   { path: "modules/js_webextensions", label: "mizchi/js_webextensions" },
 ];
 
