@@ -61,8 +61,14 @@ jobs:
             ln -s ../../../_build/js/release/build target/js/release/build
           fi
 
-      - name: deno test
-        run: deno test -A
+      # Each task builds the profile its tests need: test:deno runs the
+      # compiled mizchi/js_deno bundle from the debug build, test:mbtconv
+      # imports the _interop_test executable from the release build.
+      - name: deno test (js_deno integration)
+        run: deno task test:deno
+
+      - name: deno test (js_mbtconv interop)
+        run: deno task test:mbtconv
 
       - name: bun test
         continue-on-error: true

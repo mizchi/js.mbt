@@ -60,8 +60,17 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 ```bash
 moon test
 moon build
-deno test -A
+
+# Deno-side tests. Each task builds the profile its tests need, so they work
+# from a clean tree:
+deno task test:deno      # mizchi/js_deno integration bundle (debug build)
+deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+deno task test:all       # both
 ```
+
+Bare `deno test -A` only picks up `test.include` from `deno.jsonc` (the
+`js_deno` bundle) and assumes the debug build already exists - prefer the
+tasks above.
 
 ### Async Test Resource Management
 

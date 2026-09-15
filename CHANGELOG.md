@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`check-env` CI could not run the Deno tests.** `deno.jsonc` was pointed at
+  the *debug* build (`_build/js/debug/build/mizchi/js_deno/_tests/_tests.js`)
+  while the workflow only ran `moon build --target js --release`, so
+  `deno test -A` failed on a missing module. Deno-side tests are now driven by
+  tasks that build the profile they need, and `check-env` calls them:
+
+  ```
+  deno task test:deno      # mizchi/js_deno integration bundle (debug build)
+  deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+  deno task test:all       # both
+  ```
+
+  This also wires up the `js_mbtconv` TypeScript tests (`interop.test.ts` +
+  `types.test.ts`, 38 tests), which were never picked up by `deno test -A`
+  because they are not in `test.include` — and could not be added to it,
+  since `interop.test.ts` needs the release build while the configured
+  include targets the debug build.
+
+  `just test-deno` / `just test-mbtconv` and the `Testing` section of
+  `CLAUDE.md` now point at the tasks too.
+
 ### Changed
 
 - **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
