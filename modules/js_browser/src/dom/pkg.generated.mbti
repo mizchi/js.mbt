@@ -2,11 +2,11 @@
 package "mizchi/js_browser/dom"
 
 import {
-  "mizchi/js_browser/file",
   "mizchi/js_browser/history",
   "mizchi/js_core",
   "mizchi/js_web/blob",
   "mizchi/js_web/event",
+  "mizchi/js_web/file",
   "mizchi/js_web/http",
   "mizchi/js_web/message",
   "moonbitlang/async/js_async",

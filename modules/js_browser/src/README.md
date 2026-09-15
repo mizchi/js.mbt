@@ -8,7 +8,6 @@ Browser-specific API bindings for MoonBit, providing type-safe access to browser
 |---------|--------|------|
 | `mizchi/js_browser/dom` | 🧪 Tested | Document, Element, Node, HTMLElement, SVGElement, Window, Events, CSS |
 | `mizchi/js_browser/canvas` | 🧪 Tested | Canvas 2D, OffscreenCanvas |
-| `mizchi/js_browser/file` | 🧪 Tested | File, FileReader, FileList |
 | `mizchi/js_browser/history` | 🧪 Tested | History API |
 | `mizchi/js_browser/location` | 🧪 Tested | Location API |
 | `mizchi/js_browser/navigator` | 🧪 Tested | Navigator API |
