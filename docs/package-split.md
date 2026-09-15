@@ -1,8 +1,8 @@
 # パッケージ分割ガイド (mizchi/js → multi-module)
 
-このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`** の 7 モジュールが独立しています。
+このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`** の 8 モジュールが独立しています。
 
-残りは `builtins/*` を `mizchi/js_builtin` として切り出すだけです。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残します。
+`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`mbtconv` / `internal` / `wasm` / `examples` を抱えます。
 
 ## 背景
 
@@ -27,10 +27,11 @@
 ```
 /
 ├── moon.work                          # workspace 定義
-├── moon.mod                           # mizchi/js (builtins + facade + mbtconv/wasm)
+├── moon.mod                           # mizchi/js (facade + mbtconv/internal/wasm/examples)
 ├── src/                               # mizchi/js のソース
 └── modules/
     ├── js_browser/                    # mizchi/js_browser
+    ├── js_builtin/                    # mizchi/js_builtin
     ├── js_deno/                       # mizchi/js_deno
     ├── js_bun/                        # mizchi/js_bun
     ├── js_core/                       # mizchi/js_core
@@ -45,6 +46,7 @@
 members = [
   ".",
   "modules/js_browser",
+  "modules/js_builtin",
   "modules/js_bun",
   "modules/js_core",
   "modules/js_deno",
@@ -60,14 +62,14 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | `builtins/*`, `mbtconv`, `examples`, `wasm`, facade | 既存 |
+| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `mbtconv`, `internal/*`, `examples`, `wasm` | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
 | `mizchi/js_webextensions`   | `webextensions/*` (chrome/runtime/tabs/storage) | **済** |
 | `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | **済** |
 | `mizchi/js_web`             | `web/*` (Blob, Streams, Fetch, Event, ...) | **済** |
-| `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | 未着手 |
+| `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | **済** |
 | `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | **済** |
 | `mizchi/js_wasm` (検討中)   | `wasm` ターゲット用 entry             | 未着手 |
 
@@ -95,6 +97,32 @@ members = [
 ```
 
 それぞれの内部依存(`webextensions/chrome` → `webextensions/storage` 等)は、本リポジトリ内で `mizchi/js_webextensions/storage` のように書き換え済みです。
+
+## 利用側の移行手順 (built-ins)
+
+`builtins/*` は `mizchi/js_builtin` に移動しました。**パッケージ名の末尾は変わらないので `@object` / `@array` / `@json` などの alias はそのまま**、import path だけ書き換えます。
+
+```diff
+ # moon.mod
+ import {
++  "mizchi/js_builtin@0.12.x",
+   "mizchi/js@0.12.x",
+ }
+```
+
+```diff
+ # moon.pkg
+ import {
+-  "mizchi/js/builtins/object",
+-  "mizchi/js/builtins/arraybuffer",
++  "mizchi/js_builtin/object",
++  "mizchi/js_builtin/arraybuffer",
+ }
+```
+
+対象 20 パッケージ: `array`, `arraybuffer`, `atomics`, `bigint`, `collection`,
+`date`, `disposable`, `error`, `function`, `global`, `iterator`, `json`,
+`math`, `object`, `proxy`, `reflect`, `regexp`, `string`, `symbol`, `weak`。
 
 ## 利用側の移行手順 (core)
 
@@ -347,33 +375,32 @@ import {
   なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
   下流モジュールからの参照なので循環せず、そのままで問題ありません。
 
-### `mizchi/js_builtin` 切り出しの前に残っている作業
+### 残っている検討事項
 
-- **切り出す順序が重要です。** `builtins/*` は 19 パッケージすべてが `core`
-  を import しているため、`core` より先に `builtins` を出すと
-  `mizchi/js` → `js_builtin` → `mizchi/js` のモジュール循環になります。
-  そのため `js_core` を先に切り出しました (本ドキュメントの状態)。
-  `js_builtin` は `js_core` にのみ依存するので、あとは移動するだけです。
-- ルートパッケージ (`src/top.mbt`) は `js_core` + `js_builtin` に依存する
-  meta パッケージとして root に残します (facade の置き場所の方針)。
-- `mbtconv` / `internal/{test_utils,bench}` / `wasm` / `examples` は `core`
-  のみに依存しているので追加作業はありません。
+- `mizchi/js` に残った `mbtconv` (MoonBit 値 ⇔ JS 値の変換) は `core` にのみ
+  依存しているので、必要なら `mizchi/js_mbtconv` として独立させられます。
+- `src/wasm` は wasm-gc ターゲットの動作確認用 entry です。`mizchi/js_wasm`
+  として切り出すかは未定 (`docs/wasm-gc-usage.md` 参照)。
+- `src/examples` はドキュメント用のチェック対象コードなので、そのままで
+  問題ありません。
 
 ### 現在の依存階層
 
 ```
-                 mizchi/js                mizchi/js_web       js_node
-mizchi/js_core   +--------------------+   +------------+      js_browser
-   (core)   <--  | builtins/*         | < |  web/*     | <--  js_deno
-      ^          | facade (top.mbt)   |   +------------+      js_bun
-      |          | mbtconv / internal |                       js_webextensions
-      +----------| wasm / examples    |
-                 +--------------------+
+mizchi/js_core  <--  mizchi/js_builtin  <--  mizchi/js_web  <--  js_node
+  (Any, Promise,       (Object, Array,         (fetch, URL,        js_browser
+   Nullable, FFI)       JSON, RegExp, ...)      Streams, ...)      js_deno
+      ^                      ^                      ^             js_bun
+      |                      |                      |             js_webextensions
+      +----------------------+----------------------+
+                             |
+                        mizchi/js  (facade: 両者を re-export)
+                        + mbtconv / internal / wasm / examples
 ```
 
-`mizchi/js_core` は全モジュールの依存先なので、mooncakes への publish も
-最初 (`mizchi/js` より先) である必要があります。`scripts/release.ts` が
-`js_core` → `mizchi/js` → `js_web` → その他 の順に対応済みです。
+publish はこの依存順でなければならないため、`scripts/release.ts` が
+`js_core` → `js_builtin` → `mizchi/js` → `js_web` → その他 の順に
+対応済みです (各段階の間に `moon update`)。
 
 `js_node -> js_web` (streams, event, url, webassembly) と
 `js_browser -> js_web` (blob, event, http, message, worker) はこの階層に

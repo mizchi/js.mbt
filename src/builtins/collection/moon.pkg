@@ -1,6 +1,0 @@
-import {
-  "mizchi/js_core" @core,
-  "mizchi/js/builtins/iterator",
-}
-
-supported_targets = "js"

@@ -2,7 +2,7 @@
 package "mizchi/js_node/fs_promises"
 
 import {
-  "mizchi/js/builtins/iterator",
+  "mizchi/js_builtin/iterator",
   "mizchi/js_core",
   "mizchi/js_node/buffer",
   "moonbitlang/async/js_async",

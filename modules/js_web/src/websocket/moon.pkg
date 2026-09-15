@@ -1,7 +1,7 @@
 import {
   "mizchi/js_core" @core,
   "mizchi/js_web/event",
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_web/blob",
 }
 

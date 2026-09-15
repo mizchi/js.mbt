@@ -2,7 +2,7 @@ import {
   "mizchi/js",
   "mizchi/js_core" @core,
   "mizchi/js_web/blob",
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_web/worker",
   "mizchi/js_browser/dom",
 }

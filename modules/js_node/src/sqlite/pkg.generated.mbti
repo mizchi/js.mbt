@@ -2,8 +2,8 @@
 package "mizchi/js_node/sqlite"
 
 import {
-  "mizchi/js/builtins/arraybuffer",
-  "mizchi/js/builtins/iterator",
+  "mizchi/js_builtin/arraybuffer",
+  "mizchi/js_builtin/iterator",
   "mizchi/js_core",
 }
 

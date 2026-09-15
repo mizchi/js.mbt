@@ -2,7 +2,7 @@
 package "mizchi/js_node/child_process"
 
 import {
-  "mizchi/js/builtins/error",
+  "mizchi/js_builtin/error",
   "mizchi/js_core",
   "mizchi/js_node/events",
   "mizchi/js_web/streams",

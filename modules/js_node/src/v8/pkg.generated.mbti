@@ -2,7 +2,7 @@
 package "mizchi/js_node/v8"
 
 import {
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_core",
   "mizchi/js_node/buffer",
 }

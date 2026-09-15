@@ -2,8 +2,8 @@
 package "mizchi/js_browser/canvas"
 
 import {
-  "mizchi/js/builtins/arraybuffer",
   "mizchi/js_browser/dom",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_core",
   "mizchi/js_web/blob",
   "mizchi/js_web/worker",

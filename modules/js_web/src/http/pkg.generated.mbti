@@ -2,7 +2,7 @@
 package "mizchi/js_web/http"
 
 import {
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_core",
   "mizchi/js_web/blob",
   "mizchi/js_web/streams",

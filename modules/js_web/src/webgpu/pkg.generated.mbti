@@ -2,8 +2,8 @@
 package "mizchi/js_web/webgpu"
 
 import {
-  "mizchi/js/builtins/array",
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/array",
+  "mizchi/js_builtin/arraybuffer",
   "mizchi/js_core",
 }
 

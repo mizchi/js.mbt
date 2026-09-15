@@ -132,14 +132,14 @@ The `mizchi/js_core` package provides the foundation for JavaScript interoperabi
 |----------|---------|--------|------|
 | **Core FFI & Objects** |
 | Core FFI | `mizchi/js_core` | 🧪 Tested | `get`, `set`, `call`, etc. |
-| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
+| Object | `mizchi/js_builtin/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js_builtin/function` | 🧪 Tested | Function operations |
 | Promise | `mizchi/js_core` | 🧪 Tested | Async/Promise API |
-| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error handling |
-| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
-| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JS Iterator protocol |
-| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
-| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | Weak references |
+| Error | `mizchi/js_builtin/error` | 🧪 Tested | Error handling |
+| JSON | `mizchi/js_builtin/json` | 🧪 Tested | JSON parse/stringify |
+| Iterator | `mizchi/js_builtin/iterator` | 🧪 Tested | JS Iterator protocol |
+| AsyncIterator | `mizchi/js_builtin/iterator` | 🧪 Tested | Async iteration |
+| WeakMap/Set/Ref | `mizchi/js_builtin/weak` | 🧪 Tested | Weak references |
 | **Async Helpers** |
 | run_async | `mizchi/js_core` | 🧪 Tested | Async execution |
 | suspend | `mizchi/js_core` | 🧪 Tested | Promise suspension |
@@ -153,38 +153,38 @@ All JavaScript built-in objects are exported from `mizchi/js`:
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Global Functions** |
-| Global | `mizchi/js/builtins/global` | 🧪 Tested | globalThis, parseInt, parseFloat, setTimeout etc. |
+| Global | `mizchi/js_builtin/global` | 🧪 Tested | globalThis, parseInt, parseFloat, setTimeout etc. |
 | **Core Types** |
-| Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
-| Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
-| Symbol | `mizchi/js/builtins/symbol` | 🧪 Tested | Symbol primitive |
-| Error | `mizchi/js/builtins/error` | 🧪 Tested | Error types (TypeError, RangeError, etc.) |
+| Object | `mizchi/js_builtin/object` | 🧪 Tested | Object manipulation |
+| Function | `mizchi/js_builtin/function` | 🧪 Tested | Function operations |
+| Symbol | `mizchi/js_builtin/symbol` | 🧪 Tested | Symbol primitive |
+| Error | `mizchi/js_builtin/error` | 🧪 Tested | Error types (TypeError, RangeError, etc.) |
 | **Primitives & Data** |
-| String | `mizchi/js/builtins/string` | 🧪 Tested | JsString (String methods) |
-| Array | `mizchi/js/builtins/array` | 🧪 Tested | JsArray (Array methods) |
-| BigInt | `mizchi/js/builtins/bigint` | 🧪 Tested | JsBigInt (arbitrary precision) |
-| JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
+| String | `mizchi/js_builtin/string` | 🧪 Tested | JsString (String methods) |
+| Array | `mizchi/js_builtin/array` | 🧪 Tested | JsArray (Array methods) |
+| BigInt | `mizchi/js_builtin/bigint` | 🧪 Tested | JsBigInt (arbitrary precision) |
+| JSON | `mizchi/js_builtin/json` | 🧪 Tested | JSON parse/stringify |
 | **Date & Math** |
-| Date | `mizchi/js/builtins/date` | 🧪 Tested | Date/time operations |
-| Math | `mizchi/js/builtins/math` | 🧪 Tested | Math operations |
+| Date | `mizchi/js_builtin/date` | 🧪 Tested | Date/time operations |
+| Math | `mizchi/js_builtin/math` | 🧪 Tested | Math operations |
 | **Collections** |
-| Map/Set | `mizchi/js/builtins/collection` | 🧪 Tested | JsMap, JsSet |
-| WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
+| Map/Set | `mizchi/js_builtin/collection` | 🧪 Tested | JsMap, JsSet |
+| WeakMap/Set/Ref | `mizchi/js_builtin/weak` | 🧪 Tested | WeakMap, WeakSet, WeakRef, FinalizationRegistry |
 | **Binary Data** |
-| ArrayBuffer | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Binary buffers |
-| DataView | `mizchi/js/builtins/arraybuffer` | 🧪 Tested | Buffer views |
+| ArrayBuffer | `mizchi/js_builtin/arraybuffer` | 🧪 Tested | Binary buffers |
+| DataView | `mizchi/js_builtin/arraybuffer` | 🧪 Tested | Buffer views |
 memory |
 | **Pattern & Reflection** |
-| RegExp | `mizchi/js/builtins/regexp` | 🧪 Tested | Regular expressions |
-| Reflect | `mizchi/js/builtins/reflect` | 🧪 Tested | Reflection API |
-| Proxy | `mizchi/js/builtins/proxy` | 🤖 AI Generated | Proxy API |
+| RegExp | `mizchi/js_builtin/regexp` | 🧪 Tested | Regular expressions |
+| Reflect | `mizchi/js_builtin/reflect` | 🧪 Tested | Reflection API |
+| Proxy | `mizchi/js_builtin/proxy` | 🤖 AI Generated | Proxy API |
 | **Iteration & Async** |
-| Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JsIterator protocol |
-| AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
+| Iterator | `mizchi/js_builtin/iterator` | 🧪 Tested | JsIterator protocol |
+| AsyncIterator | `mizchi/js_builtin/iterator` | 🧪 Tested | Async iteration |
 | **Concurrency** |
-| Atomics | `mizchi/js/builtins/atomics` | 🧪 Tested | Atomic operations |
+| Atomics | `mizchi/js_builtin/atomics` | 🧪 Tested | Atomic operations |
 | **Resource Management** |
-| DisposableStack | `mizchi/js/builtins/disposable` | 🧪 Tested | Disposable resources |
+| DisposableStack | `mizchi/js_builtin/disposable` | 🧪 Tested | Disposable resources |
 
 ### Web Standard APIs
 
@@ -264,7 +264,8 @@ Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separa
 ## Project Status
 
 - 📦 **FFI foundation** (`mizchi/js_core`) - `Any`, `Promise`, `Nullable`, target-specific interop. Split out into its own module
-- ✅ **JS built-ins** (`mizchi/js`) - Object, Array, JSON, RegExp, Symbol, Proxy, ...
+- 📦 **JS built-ins** (`mizchi/js_builtin`) - Object, Array, JSON, RegExp, Symbol, Proxy, ... Split out into its own module
+- ✅ **`mizchi/js`** - meta package re-exporting `js_core` + `js_builtin`, plus `mbtconv` and the wasm-gc entry
 - 📦 **Web Standards** (`mizchi/js_web`) - fetch, URL, Streams, Blob, Crypto, WebSocket, Workers. Split out into its own module
 - 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module
 - 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0

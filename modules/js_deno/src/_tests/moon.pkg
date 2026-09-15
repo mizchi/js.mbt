@@ -5,7 +5,7 @@ import {
   "mizchi/js_web/worker",
   "mizchi/js_web/webgpu",
   "mizchi/js_web/encoding",
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
 }
 
 supported_targets = "js"
