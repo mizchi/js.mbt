@@ -4,7 +4,7 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
 
 ## MoonBit Language Reference
 
-If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
+If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
 
 ## Project Structure
 
@@ -18,9 +18,10 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
   workspace members; `moon check` / `moon build` / `moon test` process all of
   them at once.
 
-- This repo is a workspace of 9 modules. `mizchi/js` at the root is a meta
-  package (`src/top.mbt` re-exports `js_core` + `js_builtin`) plus the bits
-  that are not area specific:
+- This repo is a workspace of 9 published modules, plus `mizchi/js_dev`
+  (`dev/`) which is never published - see [dev/README.md](dev/README.md).
+  `mizchi/js` at the root is a meta package (`src/top.mbt` re-exports
+  `js_core` + `js_builtin`) plus `src/wasm`:
 
   Indentation below means "depends on the module it hangs off":
 
@@ -42,7 +43,10 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
     +-- mizchi/js_webextensions
     |
     +-- mizchi/js                     meta: src/top.mbt re-exports core +
-                                      builtin; also internal, wasm, examples
+                                      builtin; also src/wasm
+    |
+    +-- mizchi/js_dev                 dev only, never published: bench,
+                                      examples, bundle-size fixtures
   ```
 
   Dependencies only ever point up this tree. Adding one that points down makes
@@ -59,6 +63,12 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
   package-level dead imports as `unused_package`, but it does **not** flag a
   dead `import` in `moon.mod`. Grep the package `moon.pkg` files before
   trusting a module-level dependency.
+
+  Two more manifest facts worth knowing. `moon.mod` has no `exclude` or
+  `files` field - writing an `exclude` key makes `moon` fail to calculate the
+  build plan - so **everything under a published module's `source = "src"`
+  ships to consumers**; dev-only packages belong in `dev/`. And `moon.mod`
+  rejects `#` comments, so notes go in a README next to it.
 
   See [docs/package-split.md](docs/package-split.md) for the layout and the
   migration notes.

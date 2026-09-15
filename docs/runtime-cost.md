@@ -6,7 +6,7 @@ This document analyzes the bundle size overhead when using various MoonBit built
 
 - All sizes are **minified** using `terser --compress --mangle`
 - Baseline: `size1_basic` (662B) - minimal nostd usage
-- Test files: `src/nostd/_tests/size*`
+- Test files: `dev/src/size/size*` (module `mizchi/js_dev`)
 
 ## Bundle Size Overview
 
@@ -94,7 +94,7 @@ These types include full data structure implementations:
 
 ## Test Files
 
-Each test is in `src/nostd/_tests/`:
+Each test is in `dev/src/size/`:
 
 | Test | Description |
 |------|-------------|
@@ -112,7 +112,7 @@ Each test is in `src/nostd/_tests/`:
 Run measurements:
 ```bash
 moon build --target js
-for f in target/js/release/build/mizchi/js_core/_tests/size*/size*.js; do
+for f in target/js/release/build/mizchi/js_dev/size/size*/size*.js; do
   name=$(basename $f .js)
   minified=$(npx terser "$f" --compress --mangle | wc -c)
   echo "$name: ${minified}B"

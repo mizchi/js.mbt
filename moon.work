@@ -1,5 +1,6 @@
 members = [
   ".",
+  "dev",
   "modules/js_browser",
   "modules/js_builtin",
   "modules/js_bun",

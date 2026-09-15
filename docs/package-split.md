@@ -436,8 +436,29 @@ import {
   `mizchi/js` をこの meta パッケージとして root に残す方針で決着しました。
 - `src/wasm` — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
   切り出さず、このままにする方針です (`docs/wasm-gc-usage.md` 参照)。
-- `src/internal/{test_utils,bench}` — 環境非依存のテストヘルパとベンチ。
-- `src/examples` — ドキュメント用のチェック対象コード。
+
+`src/internal` と `src/examples` は `mizchi/js_dev` (`dev/`) に移しました。
+`moon.mod` に `exclude` / `files` がなく (`exclude` キーを書くと moon が build
+plan の計算に失敗する)、`source = "src"` の下は**全部利用者に配布される**ため、
+dev 専用のものを publish される木の中に置けないからです:
+
+| 移動後                 | 移動元                             | 中身                              |
+| ---------------------- | ---------------------------------- | --------------------------------- |
+| `dev/src/bench`        | `mizchi/js` `src/internal/bench`   | `js_mbtconv` のバンドルサイズ bench |
+| `dev/src/examples`     | `mizchi/js` `src/examples`         | `.mbt.md` のドキュメント           |
+| `dev/src/size/*`       | `mizchi/js_core` `src/_tests/size*` | バンドルサイズ計測 14 パッケージ   |
+
+`src/internal/test_utils` は削除しました。分割前は `src/node` のテストが使って
+いましたが、`js_node` 独立後は import 元がゼロで、機能は CLAUDE.md の
+「Async Test Resource Management」(`defer`) に置き換わっています。
+
+これにより `mizchi/js` の `moon.mod` から `js_mbtconv` が外れました。唯一の
+import 元が `src/internal/bench` だったため、看板パッケージの利用者全員が
+ベンチのために `js_mbtconv` を install していました。
+
+`mizchi/js_dev` は `moon.work` のメンバーなので `moon check` / `moon test` の
+対象ですが、`scripts/release.ts` の publish 対象リスト (ハードコード) には
+入っていないので、ここに何を置いても release に漏れません。
 
 ### 現在の依存階層
 
