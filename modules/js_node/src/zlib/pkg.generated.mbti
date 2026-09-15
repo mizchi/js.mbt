@@ -2,13 +2,13 @@
 package "mizchi/js_node/zlib"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
-pub fn brotli_compress(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn brotli_compress(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn brotli_decompress(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn brotli_decompress(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
 pub fn create_brotli_compress(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> BrotliCompress
 
@@ -22,42 +22,42 @@ pub fn create_gzip(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : 
 
 pub fn create_inflate(level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Inflate
 
-pub fn deflate(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn deflate(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn gunzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn gunzip(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn gzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn gzip(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn inflate(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn inflate(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
-pub fn unzip(@core.Any, (@core.Any?, @core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
+pub fn unzip(@js_core.Any, (@js_core.Any?, @js_core.Any) -> Unit, level? : Int, chunkSize? : Int, memLevel? : Int, strategy? : Int, windowBits? : Int) -> Unit
 
 // Errors
 
 // Types and methods
 #external
 pub type BrotliCompress
-pub fn BrotliCompress::as_any(Self) -> @core.Any
+pub fn BrotliCompress::as_any(Self) -> @js_core.Any
 
 #external
 pub type BrotliDecompress
-pub fn BrotliDecompress::as_any(Self) -> @core.Any
+pub fn BrotliDecompress::as_any(Self) -> @js_core.Any
 
 #external
 pub type Deflate
-pub fn Deflate::as_any(Self) -> @core.Any
+pub fn Deflate::as_any(Self) -> @js_core.Any
 
 #external
 pub type Gunzip
-pub fn Gunzip::as_any(Self) -> @core.Any
+pub fn Gunzip::as_any(Self) -> @js_core.Any
 
 #external
 pub type Gzip
-pub fn Gzip::as_any(Self) -> @core.Any
+pub fn Gzip::as_any(Self) -> @js_core.Any
 
 #external
 pub type Inflate
-pub fn Inflate::as_any(Self) -> @core.Any
+pub fn Inflate::as_any(Self) -> @js_core.Any
 
 // Type aliases
 

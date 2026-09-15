@@ -2,8 +2,8 @@
 package "mizchi/js_browser/dom"
 
 import {
-  "mizchi/js/core",
   "mizchi/js_browser/history",
+  "mizchi/js_core",
   "mizchi/js_web/blob",
   "mizchi/js_web/event",
   "mizchi/js_web/http",
@@ -20,7 +20,7 @@ pub fn cssSupports(String, String) -> Bool
 #alias(css_supports_condition)
 pub fn cssSupportsCondition(String) -> Bool
 
-pub fn css_style_from_val(@core.Any) -> CSSStyleDeclaration
+pub fn css_style_from_val(@js_core.Any) -> CSSStyleDeclaration
 
 #alias(custom_elements)
 pub fn customElements() -> CustomElementRegistry
@@ -44,7 +44,7 @@ pub(all) struct AnimationEvent {
   elapsedTime : Double
   pseudoElement : String
 }
-pub fn AnimationEvent::as_any(Self) -> @core.Any
+pub fn AnimationEvent::as_any(Self) -> @js_core.Any
 pub fn AnimationEvent::bubbles(Self) -> Bool
 pub fn AnimationEvent::cancelable(Self) -> Bool
 pub fn AnimationEvent::currentTarget(Self) -> Element
@@ -58,7 +58,7 @@ pub impl Show for AnimationEvent
 
 #external
 pub type BeforeUnloadEvent
-pub fn BeforeUnloadEvent::as_any(Self) -> @core.Any
+pub fn BeforeUnloadEvent::as_any(Self) -> @js_core.Any
 pub fn BeforeUnloadEvent::bubbles(Self) -> Bool
 pub fn BeforeUnloadEvent::cancelable(Self) -> Bool
 pub fn BeforeUnloadEvent::currentTarget(Self) -> Element
@@ -75,7 +75,7 @@ pub fn BeforeUnloadEvent::target(Self) -> Element
 
 #external
 pub type CSSRule
-pub fn CSSRule::as_any(Self) -> @core.Any
+pub fn CSSRule::as_any(Self) -> @js_core.Any
 pub fn CSSRule::css_text(Self) -> String
 pub fn CSSRule::parent_rule(Self) -> Self?
 pub fn CSSRule::parent_stylesheet(Self) -> CSSStyleSheet?
@@ -87,7 +87,7 @@ pub(all) struct CSSStyleDeclaration {
   length : Int
   parentRule : CSSRule?
 }
-pub fn CSSStyleDeclaration::as_any(Self) -> @core.Any
+pub fn CSSStyleDeclaration::as_any(Self) -> @js_core.Any
 pub fn CSSStyleDeclaration::get_property_priority(Self, String) -> String
 pub fn CSSStyleDeclaration::get_property_value(Self, String) -> String
 pub fn CSSStyleDeclaration::remove_property(Self, String) -> String
@@ -96,21 +96,21 @@ pub fn CSSStyleDeclaration::set_property_priority(Self, String, String, String) 
 
 #external
 pub type CSSStyleSheet
-pub fn CSSStyleSheet::as_any(Self) -> @core.Any
-pub fn CSSStyleSheet::cssRules(Self) -> @core.Any
+pub fn CSSStyleSheet::as_any(Self) -> @js_core.Any
+pub fn CSSStyleSheet::cssRules(Self) -> @js_core.Any
 pub fn CSSStyleSheet::deleteRule(Self, Int) -> Unit
 pub fn CSSStyleSheet::disabled(Self) -> Bool
 pub fn CSSStyleSheet::href(Self) -> String?
 pub fn CSSStyleSheet::insertRule(Self, String) -> Int
 pub fn CSSStyleSheet::insertRuleAt(Self, String, Int) -> Int
-pub fn CSSStyleSheet::media(Self) -> @core.Any
-pub fn CSSStyleSheet::ownerNode(Self) -> @core.Any?
+pub fn CSSStyleSheet::media(Self) -> @js_core.Any
+pub fn CSSStyleSheet::ownerNode(Self) -> @js_core.Any?
 pub fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 pub fn CSSStyleSheet::title(Self) -> String?
 
 pub(all) struct ChangeEvent {
 }
-pub fn ChangeEvent::as_any(Self) -> @core.Any
+pub fn ChangeEvent::as_any(Self) -> @js_core.Any
 pub fn ChangeEvent::bubbles(Self) -> Bool
 pub fn ChangeEvent::cancelable(Self) -> Bool
 pub fn ChangeEvent::currentTarget(Self) -> Element
@@ -127,7 +127,7 @@ pub(all) struct ClipboardData(DataTransfer)
 pub(all) struct ClipboardEvent {
   clipboardData : ClipboardData?
 }
-pub fn ClipboardEvent::as_any(Self) -> @core.Any
+pub fn ClipboardEvent::as_any(Self) -> @js_core.Any
 pub fn ClipboardEvent::bubbles(Self) -> Bool
 pub fn ClipboardEvent::cancelable(Self) -> Bool
 pub fn ClipboardEvent::currentTarget(Self) -> Element
@@ -140,10 +140,10 @@ pub fn ClipboardEvent::target(Self) -> Element
 
 #external
 pub type CustomElementRegistry
-pub fn CustomElementRegistry::as_any(Self) -> @core.Any
-pub fn CustomElementRegistry::define_(Self, String, on_connected? : () -> Unit, on_disconnected? : () -> Unit, on_adopted? : () -> Unit, on_attribute_changed? : (String, String?, String?, String?) -> Unit, observed_attributes? : Array[String], html_element_class? : @core.Any) -> Unit
-pub fn CustomElementRegistry::get(Self, String) -> @core.Any?
-pub fn CustomElementRegistry::getName(Self, @core.Any) -> String?
+pub fn CustomElementRegistry::as_any(Self) -> @js_core.Any
+pub fn CustomElementRegistry::define_(Self, String, on_connected? : () -> Unit, on_disconnected? : () -> Unit, on_adopted? : () -> Unit, on_attribute_changed? : (String, String?, String?, String?) -> Unit, observed_attributes? : Array[String], html_element_class? : @js_core.Any) -> Unit
+pub fn CustomElementRegistry::get(Self, String) -> @js_core.Any?
+pub fn CustomElementRegistry::getName(Self, @js_core.Any) -> String?
 pub fn CustomElementRegistry::upgrade(Self, Node) -> Unit
 pub async fn CustomElementRegistry::whenDefined(Self, String) -> Unit
 
@@ -157,7 +157,7 @@ pub(all) struct DOMRect {
   bottom : Double
   left : Double
 }
-pub fn DOMRect::as_any(Self) -> @core.Any
+pub fn DOMRect::as_any(Self) -> @js_core.Any
 
 pub(all) struct DOMRectReadOnly {
   x : Double
@@ -169,25 +169,25 @@ pub(all) struct DOMRectReadOnly {
   bottom : Double
   left : Double
 }
-pub fn DOMRectReadOnly::as_any(Self) -> @core.Any
+pub fn DOMRectReadOnly::as_any(Self) -> @js_core.Any
 
 pub(all) struct DataTransfer {
   mut dropEffect : String
   mut effectAllowed : String
-  items : @core.Any
-  files : @core.Any
-  types : @core.Any
+  items : @js_core.Any
+  files : @js_core.Any
+  types : @js_core.Any
 }
-pub fn DataTransfer::as_any(Self) -> @core.Any
+pub fn DataTransfer::as_any(Self) -> @js_core.Any
 pub fn DataTransfer::clearData(Self, String) -> Unit
 pub fn DataTransfer::getData(Self, String) -> String
-pub fn DataTransfer::get_files(Self) -> Array[@core.Any]
+pub fn DataTransfer::get_files(Self) -> Array[@js_core.Any]
 pub fn DataTransfer::get_types(Self) -> Array[String]
 pub fn DataTransfer::setData(Self, String, String) -> Unit
 
 #external
 pub type DataTransferItem
-pub fn DataTransferItem::as_any(Self) -> @core.Any
+pub fn DataTransferItem::as_any(Self) -> @js_core.Any
 
 #external
 pub type Document
@@ -196,7 +196,7 @@ pub fn Document::activeElement(Self) -> Element
 #alias(adopt_node)
 pub fn Document::adoptNode(Self, Node) -> Node
 pub fn Document::appendChild(Self, Node) -> Node
-pub fn Document::as_any(Self) -> @core.Any
+pub fn Document::as_any(Self) -> @js_core.Any
 pub fn Document::as_event_target(Self) -> @event.EventTarget
 pub fn Document::as_node(Self) -> Node
 pub fn Document::body(Self) -> HTMLBodyElement?
@@ -224,7 +224,7 @@ pub fn Document::createEvent(Self, String) -> Event
 pub fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
 pub fn Document::createTextNode(Self, String) -> Text
-pub fn Document::doctype(Self) -> @core.Any?
+pub fn Document::doctype(Self) -> @js_core.Any?
 #alias(document_element)
 pub fn Document::documentElement(Self) -> Element
 #alias(document_uri)
@@ -274,21 +274,21 @@ pub fn Document::setTextContent(Self, String) -> Unit
 #alias(set_title)
 pub fn Document::setTitle(Self, String) -> Unit
 pub fn Document::set_cookie(Self, String) -> Unit
-pub fn Document::styleSheets(Self) -> @core.Any
+pub fn Document::styleSheets(Self) -> @js_core.Any
 pub fn Document::textContent(Self) -> String
 pub fn Document::title(Self) -> String
 pub fn Document::url(Self) -> String
 
 #external
 pub type DocumentFragment
-pub fn DocumentFragment::as_any(Self) -> @core.Any
+pub fn DocumentFragment::as_any(Self) -> @js_core.Any
 pub fn DocumentFragment::as_event_target(Self) -> @event.EventTarget
 pub fn DocumentFragment::as_node(Self) -> Node
 
 pub(all) struct DragEvent {
-  dataTransfer : @core.Nullable[DataTransfer]
+  dataTransfer : @js_core.Nullable[DataTransfer]
 }
-pub fn DragEvent::as_any(Self) -> @core.Any
+pub fn DragEvent::as_any(Self) -> @js_core.Any
 pub fn DragEvent::bubbles(Self) -> Bool
 pub fn DragEvent::cancelable(Self) -> Bool
 pub fn DragEvent::currentTarget(Self) -> Element
@@ -304,7 +304,7 @@ pub type Element
 pub fn Element::after(Self, FixedArray[Node]) -> Unit
 pub fn Element::append(Self, Node) -> Unit
 pub fn Element::appendChild(Self, Node) -> Node
-pub fn Element::as_any(Self) -> @core.Any
+pub fn Element::as_any(Self) -> @js_core.Any
 pub fn Element::as_event_target(Self) -> @event.EventTarget
 pub fn Element::as_node(Self) -> Node
 pub fn Element::before(Self, FixedArray[Node]) -> Unit
@@ -384,7 +384,7 @@ pub fn Element::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type Event
-pub fn Event::as_any(Self) -> @core.Any
+pub fn Event::as_any(Self) -> @js_core.Any
 pub fn Event::as_event(Self) -> @event.Event
 pub fn Event::bubbles(Self) -> Bool
 pub fn Event::cancelable(Self) -> Bool
@@ -398,7 +398,7 @@ pub fn Event::target(Self) -> Element
 
 #external
 pub type FocusEvent
-pub fn FocusEvent::as_any(Self) -> @core.Any
+pub fn FocusEvent::as_any(Self) -> @js_core.Any
 pub fn FocusEvent::bubbles(Self) -> Bool
 pub fn FocusEvent::cancelable(Self) -> Bool
 pub fn FocusEvent::currentTarget(Self) -> Element
@@ -413,7 +413,7 @@ pub fn FocusEvent::target(Self) -> Element
 pub(all) struct FormEvent {
   formData : @http.FormData?
 }
-pub fn FormEvent::as_any(Self) -> @core.Any
+pub fn FormEvent::as_any(Self) -> @js_core.Any
 pub fn FormEvent::bubbles(Self) -> Bool
 pub fn FormEvent::cancelable(Self) -> Bool
 pub fn FormEvent::currentTarget(Self) -> Element
@@ -431,7 +431,7 @@ pub(all) struct HTMLAnchorElement {
 pub fn HTMLAnchorElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::append(Self, Node) -> Unit
 pub fn HTMLAnchorElement::appendChild(Self, Node) -> Node
-pub fn HTMLAnchorElement::as_any(Self) -> @core.Any
+pub fn HTMLAnchorElement::as_any(Self) -> @js_core.Any
 pub fn HTMLAnchorElement::as_element(Self) -> Element
 pub fn HTMLAnchorElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLAnchorElement::as_html_element(Self) -> HTMLElement
@@ -522,7 +522,7 @@ pub type HTMLBodyElement
 pub fn HTMLBodyElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::append(Self, Node) -> Unit
 pub fn HTMLBodyElement::appendChild(Self, Node) -> Node
-pub fn HTMLBodyElement::as_any(Self) -> @core.Any
+pub fn HTMLBodyElement::as_any(Self) -> @js_core.Any
 pub fn HTMLBodyElement::as_element(Self) -> Element
 pub fn HTMLBodyElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLBodyElement::as_html_element(Self) -> HTMLElement
@@ -614,7 +614,7 @@ pub(all) struct HTMLButtonElement {
 pub fn HTMLButtonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::append(Self, Node) -> Unit
 pub fn HTMLButtonElement::appendChild(Self, Node) -> Node
-pub fn HTMLButtonElement::as_any(Self) -> @core.Any
+pub fn HTMLButtonElement::as_any(Self) -> @js_core.Any
 pub fn HTMLButtonElement::as_element(Self) -> Element
 pub fn HTMLButtonElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLButtonElement::as_html_element(Self) -> HTMLElement
@@ -707,7 +707,7 @@ pub(all) struct HTMLCanvasElement {
 pub fn HTMLCanvasElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::append(Self, Node) -> Unit
 pub fn HTMLCanvasElement::appendChild(Self, Node) -> Node
-pub fn HTMLCanvasElement::as_any(Self) -> @core.Any
+pub fn HTMLCanvasElement::as_any(Self) -> @js_core.Any
 pub fn HTMLCanvasElement::as_element(Self) -> Element
 pub fn HTMLCanvasElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLCanvasElement::as_html_element(Self) -> HTMLElement
@@ -733,7 +733,7 @@ pub fn HTMLCanvasElement::firstElementChild(Self) -> Element?
 pub fn HTMLCanvasElement::focus(Self) -> Unit
 pub fn HTMLCanvasElement::getAttribute(Self, String) -> String?
 pub fn HTMLCanvasElement::getAttributeNames(Self) -> Array[String]
-pub fn HTMLCanvasElement::getContext(Self, String) -> @core.Any
+pub fn HTMLCanvasElement::getContext(Self, String) -> @js_core.Any
 pub fn HTMLCanvasElement::getElementsByClassName(Self, String) -> Array[Element]
 pub fn HTMLCanvasElement::getElementsByTagName(Self, String) -> Array[Element]
 pub fn HTMLCanvasElement::getRootNode(Self) -> Node
@@ -802,7 +802,7 @@ pub type HTMLDivElement
 pub fn HTMLDivElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::append(Self, Node) -> Unit
 pub fn HTMLDivElement::appendChild(Self, Node) -> Node
-pub fn HTMLDivElement::as_any(Self) -> @core.Any
+pub fn HTMLDivElement::as_any(Self) -> @js_core.Any
 pub fn HTMLDivElement::as_element(Self) -> Element
 pub fn HTMLDivElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLDivElement::as_html_element(Self) -> HTMLElement
@@ -893,7 +893,7 @@ pub type HTMLElement
 pub fn HTMLElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::append(Self, Node) -> Unit
 pub fn HTMLElement::appendChild(Self, Node) -> Node
-pub fn HTMLElement::as_any(Self) -> @core.Any
+pub fn HTMLElement::as_any(Self) -> @js_core.Any
 pub fn HTMLElement::as_element(Self) -> Element
 pub fn HTMLElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLElement::as_node(Self) -> Node
@@ -984,7 +984,7 @@ pub type HTMLFormElement
 pub fn HTMLFormElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::append(Self, Node) -> Unit
 pub fn HTMLFormElement::appendChild(Self, Node) -> Node
-pub fn HTMLFormElement::as_any(Self) -> @core.Any
+pub fn HTMLFormElement::as_any(Self) -> @js_core.Any
 pub fn HTMLFormElement::as_element(Self) -> Element
 pub fn HTMLFormElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLFormElement::as_html_element(Self) -> HTMLElement
@@ -1075,7 +1075,7 @@ pub type HTMLHeadElement
 pub fn HTMLHeadElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::append(Self, Node) -> Unit
 pub fn HTMLHeadElement::appendChild(Self, Node) -> Node
-pub fn HTMLHeadElement::as_any(Self) -> @core.Any
+pub fn HTMLHeadElement::as_any(Self) -> @js_core.Any
 pub fn HTMLHeadElement::as_element(Self) -> Element
 pub fn HTMLHeadElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadElement::as_html_element(Self) -> HTMLElement
@@ -1166,7 +1166,7 @@ pub type HTMLHeadingElement
 pub fn HTMLHeadingElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::append(Self, Node) -> Unit
 pub fn HTMLHeadingElement::appendChild(Self, Node) -> Node
-pub fn HTMLHeadingElement::as_any(Self) -> @core.Any
+pub fn HTMLHeadingElement::as_any(Self) -> @js_core.Any
 pub fn HTMLHeadingElement::as_element(Self) -> Element
 pub fn HTMLHeadingElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHeadingElement::as_html_element(Self) -> HTMLElement
@@ -1257,7 +1257,7 @@ pub type HTMLHtmlElement
 pub fn HTMLHtmlElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::append(Self, Node) -> Unit
 pub fn HTMLHtmlElement::appendChild(Self, Node) -> Node
-pub fn HTMLHtmlElement::as_any(Self) -> @core.Any
+pub fn HTMLHtmlElement::as_any(Self) -> @js_core.Any
 pub fn HTMLHtmlElement::as_element(Self) -> Element
 pub fn HTMLHtmlElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLHtmlElement::as_html_element(Self) -> HTMLElement
@@ -1353,7 +1353,7 @@ pub(all) struct HTMLIFrameElement {
 pub fn HTMLIFrameElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::append(Self, Node) -> Unit
 pub fn HTMLIFrameElement::appendChild(Self, Node) -> Node
-pub fn HTMLIFrameElement::as_any(Self) -> @core.Any
+pub fn HTMLIFrameElement::as_any(Self) -> @js_core.Any
 pub fn HTMLIFrameElement::as_element(Self) -> Element
 pub fn HTMLIFrameElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLIFrameElement::as_html_element(Self) -> HTMLElement
@@ -1449,7 +1449,7 @@ pub(all) struct HTMLImageElement {
 pub fn HTMLImageElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::append(Self, Node) -> Unit
 pub fn HTMLImageElement::appendChild(Self, Node) -> Node
-pub fn HTMLImageElement::as_any(Self) -> @core.Any
+pub fn HTMLImageElement::as_any(Self) -> @js_core.Any
 pub fn HTMLImageElement::as_element(Self) -> Element
 pub fn HTMLImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLImageElement::as_html_element(Self) -> HTMLElement
@@ -1544,7 +1544,7 @@ pub(all) struct HTMLInputElement {
 pub fn HTMLInputElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::append(Self, Node) -> Unit
 pub fn HTMLInputElement::appendChild(Self, Node) -> Node
-pub fn HTMLInputElement::as_any(Self) -> @core.Any
+pub fn HTMLInputElement::as_any(Self) -> @js_core.Any
 pub fn HTMLInputElement::as_element(Self) -> Element
 pub fn HTMLInputElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLInputElement::as_html_element(Self) -> HTMLElement
@@ -1637,7 +1637,7 @@ pub type HTMLLIElement
 pub fn HTMLLIElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::append(Self, Node) -> Unit
 pub fn HTMLLIElement::appendChild(Self, Node) -> Node
-pub fn HTMLLIElement::as_any(Self) -> @core.Any
+pub fn HTMLLIElement::as_any(Self) -> @js_core.Any
 pub fn HTMLLIElement::as_element(Self) -> Element
 pub fn HTMLLIElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLIElement::as_html_element(Self) -> HTMLElement
@@ -1729,7 +1729,7 @@ pub(all) struct HTMLLabelElement {
 pub fn HTMLLabelElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::append(Self, Node) -> Unit
 pub fn HTMLLabelElement::appendChild(Self, Node) -> Node
-pub fn HTMLLabelElement::as_any(Self) -> @core.Any
+pub fn HTMLLabelElement::as_any(Self) -> @js_core.Any
 pub fn HTMLLabelElement::as_element(Self) -> Element
 pub fn HTMLLabelElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLLabelElement::as_html_element(Self) -> HTMLElement
@@ -1820,7 +1820,7 @@ pub type HTMLOListElement
 pub fn HTMLOListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::append(Self, Node) -> Unit
 pub fn HTMLOListElement::appendChild(Self, Node) -> Node
-pub fn HTMLOListElement::as_any(Self) -> @core.Any
+pub fn HTMLOListElement::as_any(Self) -> @js_core.Any
 pub fn HTMLOListElement::as_element(Self) -> Element
 pub fn HTMLOListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOListElement::as_html_element(Self) -> HTMLElement
@@ -1913,7 +1913,7 @@ pub(all) struct HTMLOptionElement {
 pub fn HTMLOptionElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::append(Self, Node) -> Unit
 pub fn HTMLOptionElement::appendChild(Self, Node) -> Node
-pub fn HTMLOptionElement::as_any(Self) -> @core.Any
+pub fn HTMLOptionElement::as_any(Self) -> @js_core.Any
 pub fn HTMLOptionElement::as_element(Self) -> Element
 pub fn HTMLOptionElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLOptionElement::as_html_element(Self) -> HTMLElement
@@ -2004,7 +2004,7 @@ pub type HTMLParagraphElement
 pub fn HTMLParagraphElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::append(Self, Node) -> Unit
 pub fn HTMLParagraphElement::appendChild(Self, Node) -> Node
-pub fn HTMLParagraphElement::as_any(Self) -> @core.Any
+pub fn HTMLParagraphElement::as_any(Self) -> @js_core.Any
 pub fn HTMLParagraphElement::as_element(Self) -> Element
 pub fn HTMLParagraphElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLParagraphElement::as_html_element(Self) -> HTMLElement
@@ -2097,7 +2097,7 @@ pub(all) struct HTMLSelectElement {
 pub fn HTMLSelectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::append(Self, Node) -> Unit
 pub fn HTMLSelectElement::appendChild(Self, Node) -> Node
-pub fn HTMLSelectElement::as_any(Self) -> @core.Any
+pub fn HTMLSelectElement::as_any(Self) -> @js_core.Any
 pub fn HTMLSelectElement::as_element(Self) -> Element
 pub fn HTMLSelectElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSelectElement::as_html_element(Self) -> HTMLElement
@@ -2188,7 +2188,7 @@ pub type HTMLSpanElement
 pub fn HTMLSpanElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::append(Self, Node) -> Unit
 pub fn HTMLSpanElement::appendChild(Self, Node) -> Node
-pub fn HTMLSpanElement::as_any(Self) -> @core.Any
+pub fn HTMLSpanElement::as_any(Self) -> @js_core.Any
 pub fn HTMLSpanElement::as_element(Self) -> Element
 pub fn HTMLSpanElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLSpanElement::as_html_element(Self) -> HTMLElement
@@ -2285,7 +2285,7 @@ pub(all) struct HTMLTextAreaElement {
 pub fn HTMLTextAreaElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::append(Self, Node) -> Unit
 pub fn HTMLTextAreaElement::appendChild(Self, Node) -> Node
-pub fn HTMLTextAreaElement::as_any(Self) -> @core.Any
+pub fn HTMLTextAreaElement::as_any(Self) -> @js_core.Any
 pub fn HTMLTextAreaElement::as_element(Self) -> Element
 pub fn HTMLTextAreaElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLTextAreaElement::as_html_element(Self) -> HTMLElement
@@ -2376,7 +2376,7 @@ pub type HTMLUListElement
 pub fn HTMLUListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::append(Self, Node) -> Unit
 pub fn HTMLUListElement::appendChild(Self, Node) -> Node
-pub fn HTMLUListElement::as_any(Self) -> @core.Any
+pub fn HTMLUListElement::as_any(Self) -> @js_core.Any
 pub fn HTMLUListElement::as_element(Self) -> Element
 pub fn HTMLUListElement::as_event_target(Self) -> @event.EventTarget
 pub fn HTMLUListElement::as_html_element(Self) -> HTMLElement
@@ -2466,7 +2466,7 @@ pub(all) struct HashChangeEvent {
   oldURL : String
   newURL : String
 }
-pub fn HashChangeEvent::as_any(Self) -> @core.Any
+pub fn HashChangeEvent::as_any(Self) -> @js_core.Any
 pub fn HashChangeEvent::bubbles(Self) -> Bool
 pub fn HashChangeEvent::cancelable(Self) -> Bool
 pub fn HashChangeEvent::currentTarget(Self) -> Element
@@ -2479,12 +2479,12 @@ pub fn HashChangeEvent::target(Self) -> Element
 pub impl Show for HashChangeEvent
 
 pub(all) struct InputEvent {
-  data : @core.Nullable[String]
-  dataTransfer : @core.Nullable[DataTransfer]
+  data : @js_core.Nullable[String]
+  dataTransfer : @js_core.Nullable[DataTransfer]
   inputType : String
   isComposing : Bool
 }
-pub fn InputEvent::as_any(Self) -> @core.Any
+pub fn InputEvent::as_any(Self) -> @js_core.Any
 pub fn InputEvent::bubbles(Self) -> Bool
 pub fn InputEvent::cancelable(Self) -> Bool
 pub fn InputEvent::currentTarget(Self) -> Element
@@ -2508,7 +2508,7 @@ pub(all) struct KeyboardEvent {
   location : Int
   isComposing : Bool
 }
-pub fn KeyboardEvent::as_any(Self) -> @core.Any
+pub fn KeyboardEvent::as_any(Self) -> @js_core.Any
 pub fn KeyboardEvent::bubbles(Self) -> Bool
 pub fn KeyboardEvent::cancelable(Self) -> Bool
 pub fn KeyboardEvent::currentTarget(Self) -> Element
@@ -2526,17 +2526,17 @@ pub(all) struct MediaQueryList {
 }
 pub fn MediaQueryList::addChangeListener(Self, (Event) -> Unit) -> Unit
 pub fn MediaQueryList::addListener(Self, (Self) -> Unit) -> Unit
-pub fn MediaQueryList::as_any(Self) -> @core.Any
+pub fn MediaQueryList::as_any(Self) -> @js_core.Any
 pub fn MediaQueryList::removeChangeListener(Self, (Event) -> Unit) -> Unit
 pub fn MediaQueryList::removeListener(Self, (Self) -> Unit) -> Unit
 
 pub(all) struct MessageEvent {
-  data : @core.Any
+  data : @js_core.Any
   origin : String
   lastEventId : String
   ports : Array[@message.MessagePort]
 }
-pub fn MessageEvent::as_any(Self) -> @core.Any
+pub fn MessageEvent::as_any(Self) -> @js_core.Any
 pub fn MessageEvent::bubbles(Self) -> Bool
 pub fn MessageEvent::cancelable(Self) -> Bool
 pub fn MessageEvent::currentTarget(Self) -> Element
@@ -2567,7 +2567,7 @@ pub(all) struct MouseEvent {
   altKey : Bool
   metaKey : Bool
 }
-pub fn MouseEvent::as_any(Self) -> @core.Any
+pub fn MouseEvent::as_any(Self) -> @js_core.Any
 pub fn MouseEvent::bubbles(Self) -> Bool
 pub fn MouseEvent::cancelable(Self) -> Bool
 pub fn MouseEvent::currentTarget(Self) -> Element
@@ -2583,7 +2583,7 @@ pub impl Show for MouseEvent
 #external
 pub type Node
 pub fn Node::appendChild(Self, Self) -> Self
-pub fn Node::as_any(Self) -> @core.Any
+pub fn Node::as_any(Self) -> @js_core.Any
 pub fn Node::as_event_target(Self) -> @event.EventTarget
 pub fn Node::cast_from_event_target(@event.EventTarget) -> Self
 pub fn Node::childNodes(Self) -> Array[Self]
@@ -2616,7 +2616,7 @@ pub fn Node::textContent(Self) -> String
 pub(all) struct PageTransitionEvent {
   persisted : Bool
 }
-pub fn PageTransitionEvent::as_any(Self) -> @core.Any
+pub fn PageTransitionEvent::as_any(Self) -> @js_core.Any
 pub fn PageTransitionEvent::bubbles(Self) -> Bool
 pub fn PageTransitionEvent::cancelable(Self) -> Bool
 pub fn PageTransitionEvent::currentTarget(Self) -> Element
@@ -2642,7 +2642,7 @@ pub(all) struct PointerEvent {
   pointerType : String
   isPrimary : Bool
 }
-pub fn PointerEvent::as_any(Self) -> @core.Any
+pub fn PointerEvent::as_any(Self) -> @js_core.Any
 pub fn PointerEvent::bubbles(Self) -> Bool
 pub fn PointerEvent::cancelable(Self) -> Bool
 pub fn PointerEvent::currentTarget(Self) -> Element
@@ -2656,14 +2656,14 @@ pub impl Show for PointerEvent
 
 #external
 pub type PopStateEvent
-pub fn PopStateEvent::as_any(Self) -> @core.Any
+pub fn PopStateEvent::as_any(Self) -> @js_core.Any
 pub fn PopStateEvent::bubbles(Self) -> Bool
 pub fn PopStateEvent::cancelable(Self) -> Bool
 pub fn PopStateEvent::currentTarget(Self) -> Element
 pub fn PopStateEvent::defaultPrevented(Self) -> Bool
 pub fn PopStateEvent::eventType(Self) -> String
 pub fn PopStateEvent::preventDefault(Self) -> Unit
-pub fn PopStateEvent::state(Self) -> @core.Any?
+pub fn PopStateEvent::state(Self) -> @js_core.Any?
 pub fn PopStateEvent::stopImmediatePropagation(Self) -> Unit
 pub fn PopStateEvent::stopPropagation(Self) -> Unit
 pub fn PopStateEvent::target(Self) -> Element
@@ -2673,7 +2673,7 @@ pub type SVGCircleElement
 pub fn SVGCircleElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::append(Self, Node) -> Unit
 pub fn SVGCircleElement::appendChild(Self, Node) -> Node
-pub fn SVGCircleElement::as_any(Self) -> @core.Any
+pub fn SVGCircleElement::as_any(Self) -> @js_core.Any
 pub fn SVGCircleElement::as_element(Self) -> Element
 pub fn SVGCircleElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGCircleElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -2764,7 +2764,7 @@ pub type SVGElement
 pub fn SVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::append(Self, Node) -> Unit
 pub fn SVGElement::appendChild(Self, Node) -> Node
-pub fn SVGElement::as_any(Self) -> @core.Any
+pub fn SVGElement::as_any(Self) -> @js_core.Any
 pub fn SVGElement::as_element(Self) -> Element
 pub fn SVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGElement::as_node(Self) -> Node
@@ -2846,7 +2846,7 @@ pub fn SVGElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGEllipseElement
-pub fn SVGEllipseElement::as_any(Self) -> @core.Any
+pub fn SVGEllipseElement::as_any(Self) -> @js_core.Any
 pub fn SVGEllipseElement::as_element(Self) -> Element
 pub fn SVGEllipseElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGEllipseElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -2863,7 +2863,7 @@ pub type SVGGElement
 pub fn SVGGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::append(Self, Node) -> Unit
 pub fn SVGGElement::appendChild(Self, Node) -> Node
-pub fn SVGGElement::as_any(Self) -> @core.Any
+pub fn SVGGElement::as_any(Self) -> @js_core.Any
 pub fn SVGGElement::as_element(Self) -> Element
 pub fn SVGGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGGElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -2948,7 +2948,7 @@ pub fn SVGGElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGGraphicsElement
-pub fn SVGGraphicsElement::as_any(Self) -> @core.Any
+pub fn SVGGraphicsElement::as_any(Self) -> @js_core.Any
 pub fn SVGGraphicsElement::as_element(Self) -> Element
 pub fn SVGGraphicsElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGGraphicsElement::as_node(Self) -> Node
@@ -2960,7 +2960,7 @@ pub fn SVGGraphicsElement::getScreenCTM(Self) -> SVGMatrix?
 
 #external
 pub type SVGImageElement
-pub fn SVGImageElement::as_any(Self) -> @core.Any
+pub fn SVGImageElement::as_any(Self) -> @js_core.Any
 pub fn SVGImageElement::as_element(Self) -> Element
 pub fn SVGImageElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGImageElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -2978,7 +2978,7 @@ pub type SVGLineElement
 pub fn SVGLineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::append(Self, Node) -> Unit
 pub fn SVGLineElement::appendChild(Self, Node) -> Node
-pub fn SVGLineElement::as_any(Self) -> @core.Any
+pub fn SVGLineElement::as_any(Self) -> @js_core.Any
 pub fn SVGLineElement::as_element(Self) -> Element
 pub fn SVGLineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGLineElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3068,7 +3068,7 @@ pub fn SVGLineElement::y2(Self) -> Double
 #external
 pub type SVGMatrix
 pub fn SVGMatrix::a(Self) -> Double
-pub fn SVGMatrix::as_any(Self) -> @core.Any
+pub fn SVGMatrix::as_any(Self) -> @js_core.Any
 pub fn SVGMatrix::b(Self) -> Double
 pub fn SVGMatrix::c(Self) -> Double
 pub fn SVGMatrix::d(Self) -> Double
@@ -3096,7 +3096,7 @@ pub type SVGPathElement
 pub fn SVGPathElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::append(Self, Node) -> Unit
 pub fn SVGPathElement::appendChild(Self, Node) -> Node
-pub fn SVGPathElement::as_any(Self) -> @core.Any
+pub fn SVGPathElement::as_any(Self) -> @js_core.Any
 pub fn SVGPathElement::as_element(Self) -> Element
 pub fn SVGPathElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPathElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3183,7 +3183,7 @@ pub fn SVGPathElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGPoint
-pub fn SVGPoint::as_any(Self) -> @core.Any
+pub fn SVGPoint::as_any(Self) -> @js_core.Any
 pub fn SVGPoint::matrixTransform(Self, SVGMatrix) -> Self
 pub fn SVGPoint::set_x(Self, Double) -> Unit
 pub fn SVGPoint::set_y(Self, Double) -> Unit
@@ -3195,7 +3195,7 @@ pub type SVGPolygonElement
 pub fn SVGPolygonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::append(Self, Node) -> Unit
 pub fn SVGPolygonElement::appendChild(Self, Node) -> Node
-pub fn SVGPolygonElement::as_any(Self) -> @core.Any
+pub fn SVGPolygonElement::as_any(Self) -> @js_core.Any
 pub fn SVGPolygonElement::as_element(Self) -> Element
 pub fn SVGPolygonElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolygonElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3283,7 +3283,7 @@ pub type SVGPolylineElement
 pub fn SVGPolylineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::append(Self, Node) -> Unit
 pub fn SVGPolylineElement::appendChild(Self, Node) -> Node
-pub fn SVGPolylineElement::as_any(Self) -> @core.Any
+pub fn SVGPolylineElement::as_any(Self) -> @js_core.Any
 pub fn SVGPolylineElement::as_element(Self) -> Element
 pub fn SVGPolylineElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGPolylineElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3368,7 +3368,7 @@ pub fn SVGPolylineElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGRect
-pub fn SVGRect::as_any(Self) -> @core.Any
+pub fn SVGRect::as_any(Self) -> @js_core.Any
 pub fn SVGRect::height(Self) -> Double
 pub fn SVGRect::set_height(Self, Double) -> Unit
 pub fn SVGRect::set_width(Self, Double) -> Unit
@@ -3383,7 +3383,7 @@ pub type SVGRectElement
 pub fn SVGRectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::append(Self, Node) -> Unit
 pub fn SVGRectElement::appendChild(Self, Node) -> Node
-pub fn SVGRectElement::as_any(Self) -> @core.Any
+pub fn SVGRectElement::as_any(Self) -> @js_core.Any
 pub fn SVGRectElement::as_element(Self) -> Element
 pub fn SVGRectElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGRectElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3475,7 +3475,7 @@ pub type SVGSVGElement
 pub fn SVGSVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::append(Self, Node) -> Unit
 pub fn SVGSVGElement::appendChild(Self, Node) -> Node
-pub fn SVGSVGElement::as_any(Self) -> @core.Any
+pub fn SVGSVGElement::as_any(Self) -> @js_core.Any
 pub fn SVGSVGElement::as_element(Self) -> Element
 pub fn SVGSVGElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGSVGElement::as_node(Self) -> Node
@@ -3495,13 +3495,13 @@ pub fn SVGSVGElement::cloneNode(Self, Bool) -> Node
 pub fn SVGSVGElement::closest(Self, String) -> Element?
 pub fn SVGSVGElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGSVGElement::contains(Self, Node?) -> Bool
-pub fn SVGSVGElement::createSVGAngle(Self) -> @core.Any
-pub fn SVGSVGElement::createSVGLength(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGAngle(Self) -> @js_core.Any
+pub fn SVGSVGElement::createSVGLength(Self) -> @js_core.Any
 pub fn SVGSVGElement::createSVGMatrix(Self) -> SVGMatrix
-pub fn SVGSVGElement::createSVGNumber(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGNumber(Self) -> @js_core.Any
 pub fn SVGSVGElement::createSVGPoint(Self) -> SVGPoint
 pub fn SVGSVGElement::createSVGRect(Self) -> SVGRect
-pub fn SVGSVGElement::createSVGTransform(Self) -> @core.Any
+pub fn SVGSVGElement::createSVGTransform(Self) -> @js_core.Any
 pub fn SVGSVGElement::firstChild(Self) -> Node?
 pub fn SVGSVGElement::firstElementChild(Self) -> Element?
 pub fn SVGSVGElement::getAttribute(Self, String) -> String?
@@ -3571,7 +3571,7 @@ pub type SVGTextElement
 pub fn SVGTextElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::append(Self, Node) -> Unit
 pub fn SVGTextElement::appendChild(Self, Node) -> Node
-pub fn SVGTextElement::as_any(Self) -> @core.Any
+pub fn SVGTextElement::as_any(Self) -> @js_core.Any
 pub fn SVGTextElement::as_element(Self) -> Element
 pub fn SVGTextElement::as_event_target(Self) -> @event.EventTarget
 pub fn SVGTextElement::as_graphics_element(Self) -> SVGGraphicsElement
@@ -3658,7 +3658,7 @@ pub fn SVGTextElement::y(Self) -> Double
 
 pub(all) struct ScrollEvent {
 }
-pub fn ScrollEvent::as_any(Self) -> @core.Any
+pub fn ScrollEvent::as_any(Self) -> @js_core.Any
 pub fn ScrollEvent::bubbles(Self) -> Bool
 pub fn ScrollEvent::cancelable(Self) -> Bool
 pub fn ScrollEvent::currentTarget(Self) -> Element
@@ -3673,7 +3673,7 @@ pub impl Show for ScrollEvent
 #external
 pub type ShadowRoot
 pub fn ShadowRoot::activeElement(Self) -> Element?
-pub fn ShadowRoot::as_any(Self) -> @core.Any
+pub fn ShadowRoot::as_any(Self) -> @js_core.Any
 pub fn ShadowRoot::as_event_target(Self) -> @event.EventTarget
 pub fn ShadowRoot::as_node(Self) -> Node
 pub fn ShadowRoot::delegatesFocus(Self) -> Bool
@@ -3694,7 +3694,7 @@ pub fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : Str
 
 #external
 pub type Text
-pub fn Text::as_any(Self) -> @core.Any
+pub fn Text::as_any(Self) -> @js_core.Any
 pub fn Text::as_event_target(Self) -> @event.EventTarget
 pub fn Text::as_node(Self) -> Node
 
@@ -3711,7 +3711,7 @@ pub(all) struct Touch {
   rotationAngle : Double
   force : Double
 }
-pub fn Touch::as_any(Self) -> @core.Any
+pub fn Touch::as_any(Self) -> @js_core.Any
 pub fn Touch::target(Self) -> Element
 pub impl Show for Touch
 
@@ -3724,7 +3724,7 @@ pub(all) struct TouchEvent {
   shiftKey : Bool
   metaKey : Bool
 }
-pub fn TouchEvent::as_any(Self) -> @core.Any
+pub fn TouchEvent::as_any(Self) -> @js_core.Any
 pub fn TouchEvent::bubbles(Self) -> Bool
 pub fn TouchEvent::cancelable(Self) -> Bool
 pub fn TouchEvent::currentTarget(Self) -> Element
@@ -3741,7 +3741,7 @@ pub(all) struct TransitionEvent {
   elapsedTime : Double
   pseudoElement : String
 }
-pub fn TransitionEvent::as_any(Self) -> @core.Any
+pub fn TransitionEvent::as_any(Self) -> @js_core.Any
 pub fn TransitionEvent::bubbles(Self) -> Bool
 pub fn TransitionEvent::cancelable(Self) -> Bool
 pub fn TransitionEvent::currentTarget(Self) -> Element
@@ -3759,7 +3759,7 @@ pub(all) struct WheelEvent {
   deltaZ : Double
   deltaMode : Int
 }
-pub fn WheelEvent::as_any(Self) -> @core.Any
+pub fn WheelEvent::as_any(Self) -> @js_core.Any
 pub fn WheelEvent::bubbles(Self) -> Bool
 pub fn WheelEvent::cancelable(Self) -> Bool
 pub fn WheelEvent::currentTarget(Self) -> Element
@@ -3779,7 +3779,7 @@ pub fn Window::add_pagehide_listener(Self, (PageTransitionEvent) -> Unit) -> Uni
 pub fn Window::add_pageshow_listener(Self, (PageTransitionEvent) -> Unit) -> Unit
 pub fn Window::add_popstate_listener(Self, (PopStateEvent) -> Unit) -> Unit
 pub fn Window::alert(Self, String) -> Unit
-pub fn Window::as_any(Self) -> @core.Any
+pub fn Window::as_any(Self) -> @js_core.Any
 pub fn Window::as_event_target(Self) -> @event.EventTarget
 #alias(cancel_animation_frame)
 pub fn Window::cancelAnimationFrame(Self, Int) -> Unit
@@ -3789,7 +3789,7 @@ pub fn Window::clearInterval(Self, Int) -> Unit
 pub fn Window::clearTimeout(Self, Int) -> Unit
 pub fn Window::close(Self) -> Unit
 pub fn Window::confirm(Self, String) -> Bool
-pub fn Window::console(Self) -> @core.Any
+pub fn Window::console(Self) -> @js_core.Any
 #alias(custom_elements)
 pub fn Window::customElements(Self) -> CustomElementRegistry
 #alias(device_pixel_ratio)
@@ -3797,33 +3797,33 @@ pub fn Window::devicePixelRatio(Self) -> Double
 pub fn Window::document(Self) -> Document
 pub async fn Window::fetch(Self, String, init? : @http.RequestInit) -> @http.Response
 #alias(get_computed_style)
-pub fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @core.Any
+pub fn Window::getComputedStyle(Self, Element, pseudo_elt? : String) -> @js_core.Any
 #alias(get_selection)
-pub fn Window::getSelection(Self) -> @core.Any?
+pub fn Window::getSelection(Self) -> @js_core.Any?
 pub fn Window::history(Self) -> @history.History
 #alias(html_element_class)
-pub fn Window::htmlElementClass(Self) -> @core.Any
+pub fn Window::htmlElementClass(Self) -> @js_core.Any
 #alias(inner_height)
 pub fn Window::innerHeight(Self) -> Int
 #alias(inner_width)
 pub fn Window::innerWidth(Self) -> Int
 #alias(local_storage)
-pub fn Window::localStorage(Self) -> @core.Any
-pub fn Window::location(Self) -> @core.Any
+pub fn Window::localStorage(Self) -> @js_core.Any
+pub fn Window::location(Self) -> @js_core.Any
 #alias(match_media)
-pub fn Window::matchMedia(Self, String) -> @core.Any
-pub fn Window::navigator(Self) -> @core.Any
+pub fn Window::matchMedia(Self, String) -> @js_core.Any
+pub fn Window::navigator(Self) -> @js_core.Any
 pub fn Window::open(Self, url? : String, target? : String, features? : String) -> Self?
 #alias(outer_height)
 pub fn Window::outerHeight(Self) -> Int
 #alias(outer_width)
 pub fn Window::outerWidth(Self) -> Int
 #alias(post_message)
-pub fn Window::postMessage(Self, @core.Any, String, transfer? : Array[@core.Any]) -> Unit
+pub fn Window::postMessage(Self, @js_core.Any, String, transfer? : Array[@js_core.Any]) -> Unit
 pub fn Window::prompt(Self, String, default? : String) -> String?
 #alias(request_animation_frame)
 pub fn Window::requestAnimationFrame(Self, (Double) -> Unit) -> Int
-pub fn Window::screen(Self) -> @core.Any
+pub fn Window::screen(Self) -> @js_core.Any
 #alias(scroll_by)
 pub fn Window::scrollBy(Self, Int, Int) -> Unit
 #alias(scroll_to)
@@ -3833,7 +3833,7 @@ pub fn Window::scrollX(Self) -> Double
 #alias(scroll_y)
 pub fn Window::scrollY(Self) -> Double
 #alias(session_storage)
-pub fn Window::sessionStorage(Self) -> @core.Any
+pub fn Window::sessionStorage(Self) -> @js_core.Any
 #alias(set_interval)
 pub fn Window::setInterval(Self, () -> Unit, Int) -> Int
 #alias(set_timeout)

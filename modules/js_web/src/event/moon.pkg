@@ -1,6 +1,6 @@
 import {
   "moonbitlang/async/js_async",
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
 }
 
 supported_targets = "js"

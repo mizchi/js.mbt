@@ -1,6 +1,6 @@
 import {
   "mizchi/js",
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
   "mizchi/js_deno" @deno,
   "mizchi/js_web/worker",
   "mizchi/js_web/webgpu",

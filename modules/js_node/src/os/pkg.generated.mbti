@@ -2,7 +2,7 @@
 package "mizchi/js_node/os"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -34,7 +34,7 @@ pub fn loadavg() -> Array[Double]
 pub fn machine() -> String
 
 #alias(network_interfaces)
-pub fn networkInterfaces() -> @core.Any
+pub fn networkInterfaces() -> @js_core.Any
 
 pub fn platform() -> String
 
@@ -71,14 +71,14 @@ pub fn CpuInfo::times_irq(Self) -> Int
 pub fn CpuInfo::times_nice(Self) -> Int
 pub fn CpuInfo::times_sys(Self) -> Int
 pub fn CpuInfo::times_user(Self) -> Int
-pub fn CpuInfo::to_any(Self) -> @core.Any
+pub fn CpuInfo::to_any(Self) -> @js_core.Any
 
 #external
 pub type UserInfo
 pub fn UserInfo::gid(Self) -> Int
 pub fn UserInfo::homedir(Self) -> String
 pub fn UserInfo::shell(Self) -> String?
-pub fn UserInfo::to_any(Self) -> @core.Any
+pub fn UserInfo::to_any(Self) -> @js_core.Any
 pub fn UserInfo::uid(Self) -> Int
 pub fn UserInfo::username(Self) -> String
 

@@ -2,7 +2,7 @@
 package "mizchi/js_browser/history"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -13,17 +13,17 @@ pub fn history() -> History
 // Types and methods
 pub(all) struct History {
   length : Int
-  state : @core.Any?
+  state : @js_core.Any?
   mut scrollRestoration : String
 }
-pub fn History::as_any(Self) -> @core.Any
+pub fn History::as_any(Self) -> @js_core.Any
 pub fn History::back(Self) -> Unit
 pub fn History::forward(Self) -> Unit
 pub fn History::go(Self, delta? : Int) -> Unit
 #alias(push_state)
-pub fn History::pushState(Self, @core.Any, String, url? : String) -> Unit
+pub fn History::pushState(Self, @js_core.Any, String, url? : String) -> Unit
 #alias(replace_state)
-pub fn History::replaceState(Self, @core.Any, String, url? : String) -> Unit
+pub fn History::replaceState(Self, @js_core.Any, String, url? : String) -> Unit
 
 // Type aliases
 

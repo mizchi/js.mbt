@@ -4,7 +4,7 @@ package "mizchi/js_node/sqlite"
 import {
   "mizchi/js/builtins/arraybuffer",
   "mizchi/js/builtins/iterator",
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -108,9 +108,9 @@ pub(all) struct BackupProgress {
 
 #external
 pub type DatabaseSync
-pub fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @core.Any) -> Unit
+pub fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js_core.Any) -> Unit
 #alias(apply_changeset)
-pub fn DatabaseSync::applyChangeset(Self, @arraybuffer.Uint8Array, filter? : (@core.Any) -> Bool, onConflict? : (@core.Any?, @core.Any) -> Bool) -> Bool
+pub fn DatabaseSync::applyChangeset(Self, @arraybuffer.Uint8Array, filter? : (@js_core.Any) -> Bool, onConflict? : (@js_core.Any?, @js_core.Any) -> Bool) -> Bool
 pub fn DatabaseSync::close(Self) -> Unit
 #alias(create_session)
 pub fn DatabaseSync::createSession(Self, table? : String, db? : String) -> Session
@@ -119,7 +119,7 @@ pub fn DatabaseSync::createTagStore(Self, max_size? : Int) -> SQLTagStore
 #alias(enable_load_extension)
 pub fn DatabaseSync::enableLoadExtension(Self, Bool) -> Unit
 pub fn DatabaseSync::exec(Self, String) -> Unit
-pub fn DatabaseSync::function(Self, String, (Array[@core.Any]) -> @core.Any, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
+pub fn DatabaseSync::function(Self, String, (Array[@js_core.Any]) -> @js_core.Any, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool) -> Unit
 #alias(is_open)
 pub fn DatabaseSync::isOpen(Self) -> Bool
 #alias(is_transaction)
@@ -154,13 +154,13 @@ pub impl Show for StatementResultingChanges
 
 #external
 pub type StatementSync
-pub fn StatementSync::all(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> Array[@core.Any]
-pub fn StatementSync::columns(Self) -> Array[@core.Any]
+pub fn StatementSync::all(Self, named_parameters? : Map[String, @js_core.Any], anonymous_parameters? : Array[@js_core.Any]) -> Array[@js_core.Any]
+pub fn StatementSync::columns(Self) -> Array[@js_core.Any]
 #alias(expanded_sql)
 pub fn StatementSync::expandedSQL(Self) -> String
-pub fn StatementSync::get(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> @core.Any?
-pub fn StatementSync::iterate(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> @iterator.JsIterator[@core.Any]
-pub fn StatementSync::run(Self, named_parameters? : Map[String, @core.Any], anonymous_parameters? : Array[@core.Any]) -> StatementResultingChanges
+pub fn StatementSync::get(Self, named_parameters? : Map[String, @js_core.Any], anonymous_parameters? : Array[@js_core.Any]) -> @js_core.Any?
+pub fn StatementSync::iterate(Self, named_parameters? : Map[String, @js_core.Any], anonymous_parameters? : Array[@js_core.Any]) -> @iterator.JsIterator[@js_core.Any]
+pub fn StatementSync::run(Self, named_parameters? : Map[String, @js_core.Any], anonymous_parameters? : Array[@js_core.Any]) -> StatementResultingChanges
 #alias(set_allow_bare_named_parameters)
 pub fn StatementSync::setAllowBareNamedParameters(Self, Bool) -> Unit
 #alias(set_allow_unknown_named_parameters)

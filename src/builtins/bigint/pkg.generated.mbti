@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/bigint"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -15,7 +15,7 @@ pub type JsBigInt
 pub fn JsBigInt::add(Self, Self) -> Self
 pub fn JsBigInt::asIntN(Int, Self) -> Self
 pub fn JsBigInt::asUintN(Int, Self) -> Self
-pub fn JsBigInt::as_any(Self) -> @core.Any
+pub fn JsBigInt::as_any(Self) -> @js_core.Any
 pub fn JsBigInt::bitand(Self, Self) -> Self
 pub fn JsBigInt::bitnot(Self) -> Self
 pub fn JsBigInt::bitor(Self, Self) -> Self

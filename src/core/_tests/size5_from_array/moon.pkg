@@ -1,7 +1,0 @@
-import {
-  "mizchi/js/core",
-}
-
-warnings = "-9"
-
-pkgtype(kind: "executable")

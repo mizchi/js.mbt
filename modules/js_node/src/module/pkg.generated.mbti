@@ -2,7 +2,7 @@
 package "mizchi/js_node/module"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -10,7 +10,7 @@ import {
 pub fn builtinModules() -> Array[String]
 
 #alias(create_require)
-pub fn createRequire(String) -> @core.Any
+pub fn createRequire(String) -> @js_core.Any
 
 #alias(enable_compile_cache)
 pub fn enableCompileCache(cache_dir? : String) -> Unit
@@ -37,12 +37,12 @@ pub fn syncBuiltinESMExports() -> Unit
 
 // Types and methods
 pub(all) struct SourceMap {
-  payload : @core.Any
+  payload : @js_core.Any
 }
-pub fn SourceMap::as_any(Self) -> @core.Any
+pub fn SourceMap::as_any(Self) -> @js_core.Any
 #alias(find_entry)
 pub fn SourceMap::findEntry(Self, Int, Int) -> SourceMapEntry?
-pub fn SourceMap::to_any(Self) -> @core.Any
+pub fn SourceMap::to_any(Self) -> @js_core.Any
 
 pub(all) struct SourceMapEntry {
   originalLine : Int
@@ -52,8 +52,8 @@ pub(all) struct SourceMapEntry {
   generatedColumn : Int
   name : String?
 }
-pub fn SourceMapEntry::as_any(Self) -> @core.Any
-pub fn SourceMapEntry::to_any(Self) -> @core.Any
+pub fn SourceMapEntry::as_any(Self) -> @js_core.Any
+pub fn SourceMapEntry::to_any(Self) -> @js_core.Any
 
 // Type aliases
 

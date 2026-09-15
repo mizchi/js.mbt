@@ -5,11 +5,13 @@
  * Publishes `mizchi/js` and the split modules to mooncakes in the correct
  * order so that downstream modules can resolve the freshly-published root:
  *
- *   1. mizchi/js                 (repo root)
+ *   1. mizchi/js_core           (everything depends on it)
  *   2. moon update               (refresh registry index)
- *   3. mizchi/js_web            (js_browser / js_deno / js_node depend on it)
+ *   3. mizchi/js                 (repo root)
  *   4. moon update
- *   5. mizchi/js_browser
+ *   5. mizchi/js_web            (js_browser / js_deno / js_node depend on it)
+ *   6. moon update
+ *   7. mizchi/js_browser
  *      mizchi/js_deno
  *      mizchi/js_bun
  *      mizchi/js_node
@@ -35,8 +37,12 @@ const REPO_ROOT = resolve(fileURLToPath(import.meta.url), "../..");
 type Mod = { path: string; label: string };
 
 const ROOT: Mod = { path: ".", label: "mizchi/js" };
-// mizchi/js_web is published on its own first: js_browser / js_deno / js_node
-// all depend on it, so it has to be resolvable on mooncakes before they go up.
+
+// Publish order is dependency order. mizchi/js_core is the foundation that
+// every other module (including the root) imports, and mizchi/js_web sits
+// between the root and js_browser / js_deno / js_node. Each has to be
+// resolvable on mooncakes before its dependents go up.
+const CORE: Mod = { path: "modules/js_core", label: "mizchi/js_core" };
 const WEB: Mod = { path: "modules/js_web", label: "mizchi/js_web" };
 
 const MODULES: Mod[] = [
@@ -193,7 +199,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  const all = [ROOT, WEB, ...MODULES];
+  const all = [CORE, ROOT, WEB, ...MODULES];
 
   // Sanity: every workspace module must be at the same version.
   const versions = new Map<string, string>(
@@ -228,6 +234,10 @@ async function main(): Promise<void> {
     console.log(`\nDone. (--only=${target.label})`);
     return;
   }
+
+  // mizchi/js_core first: the root module itself imports it.
+  await publishOne(CORE, rootVersion, opts.dryRun);
+  moonUpdate(opts.dryRun);
 
   if (!opts.skipRoot) {
     await publishOne(ROOT, rootVersion, opts.dryRun);

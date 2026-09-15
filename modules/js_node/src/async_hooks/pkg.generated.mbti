@@ -2,7 +2,7 @@
 package "mizchi/js_node/async_hooks"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -12,7 +12,7 @@ import {
 // Types and methods
 #external
 pub type AsyncLocalStorage[T]
-pub fn[T] AsyncLocalStorage::as_any(Self[T]) -> @core.Any
+pub fn[T] AsyncLocalStorage::as_any(Self[T]) -> @js_core.Any
 pub fn[T] AsyncLocalStorage::disable(Self[T]) -> Unit
 pub fn[T] AsyncLocalStorage::enterWith(Self[T], T) -> Unit
 pub fn[T] AsyncLocalStorage::exit(Self[T], () -> Unit) -> Unit

@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/weak"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -13,8 +13,8 @@ import {
 #external
 pub type FinalizationRegistry[T]
 pub fn[T] FinalizationRegistry::new((T) -> Unit) -> Self[T]
-pub fn[T, U] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @core.Any) -> Unit
-pub fn[T] FinalizationRegistry::unregister(Self[T], @core.Any) -> Bool
+pub fn[T, U] FinalizationRegistry::register(Self[T], U, T, unregister_token? : @js_core.Any) -> Unit
+pub fn[T] FinalizationRegistry::unregister(Self[T], @js_core.Any) -> Bool
 
 #external
 pub type WeakMap[K, V]

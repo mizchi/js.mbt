@@ -1,5 +1,5 @@
 import {
-  "mizchi/js/core",
+  "mizchi/js_core" @core,
   "mizchi/js_browser/dom",
 }
 

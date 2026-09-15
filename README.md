@@ -45,7 +45,7 @@ Add to your `moon.pkg.json`:
 
 ```json
 {
-  "import": ["mizchi/js/core", "mizchi/js"]
+  "import": ["mizchi/js_core", "mizchi/js"]
 }
 ```
 
@@ -81,9 +81,9 @@ Add to your `moon.pkg.json`:
 
 ### Core JavaScript APIs
 
-#### mizchi/js/core - Core FFI Package
+#### mizchi/js_core - Core FFI Package
 
-The `mizchi/js/core` package provides the foundation for JavaScript interoperability in MoonBit:
+The `mizchi/js_core` package provides the foundation for JavaScript interoperability in MoonBit:
 
 **Type System**
 - `Any` - Opaque type for JavaScript values
@@ -131,20 +131,20 @@ The `mizchi/js/core` package provides the foundation for JavaScript interoperabi
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
 | **Core FFI & Objects** |
-| Core FFI | `mizchi/js/core` | 🧪 Tested | `get`, `set`, `call`, etc. |
+| Core FFI | `mizchi/js_core` | 🧪 Tested | `get`, `set`, `call`, etc. |
 | Object | `mizchi/js/builtins/object` | 🧪 Tested | Object manipulation |
 | Function | `mizchi/js/builtins/function` | 🧪 Tested | Function operations |
-| Promise | `mizchi/js/core` | 🧪 Tested | Async/Promise API |
+| Promise | `mizchi/js_core` | 🧪 Tested | Async/Promise API |
 | Error | `mizchi/js/builtins/error` | 🧪 Tested | Error handling |
 | JSON | `mizchi/js/builtins/json` | 🧪 Tested | JSON parse/stringify |
 | Iterator | `mizchi/js/builtins/iterator` | 🧪 Tested | JS Iterator protocol |
 | AsyncIterator | `mizchi/js/builtins/iterator` | 🧪 Tested | Async iteration |
 | WeakMap/Set/Ref | `mizchi/js/builtins/weak` | 🧪 Tested | Weak references |
 | **Async Helpers** |
-| run_async | `mizchi/js/core` | 🧪 Tested | Async execution |
-| suspend | `mizchi/js/core` | 🧪 Tested | Promise suspension |
-| sleep | `mizchi/js/core` | 🧪 Tested | Delay execution |
-| promisify | `mizchi/js/core` | 🧪 Tested | Callback → Promise |
+| run_async | `mizchi/js_core` | 🧪 Tested | Async execution |
+| suspend | `mizchi/js_core` | 🧪 Tested | Promise suspension |
+| sleep | `mizchi/js_core` | 🧪 Tested | Delay execution |
+| promisify | `mizchi/js_core` | 🧪 Tested | Callback → Promise |
 
 ### JavaScript Built-ins
 
@@ -263,7 +263,8 @@ Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separa
 
 ## Project Status
 
-- ✅ **Core JS / built-ins** (`mizchi/js`) - `Any`, `Promise`, Object, Array, JSON, RegExp, ...
+- 📦 **FFI foundation** (`mizchi/js_core`) - `Any`, `Promise`, `Nullable`, target-specific interop. Split out into its own module
+- ✅ **JS built-ins** (`mizchi/js`) - Object, Array, JSON, RegExp, Symbol, Proxy, ...
 - 📦 **Web Standards** (`mizchi/js_web`) - fetch, URL, Streams, Blob, Crypto, WebSocket, Workers. Split out into its own module
 - 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module
 - 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0

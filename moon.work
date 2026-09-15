@@ -2,6 +2,7 @@ members = [
   ".",
   "modules/js_browser",
   "modules/js_bun",
+  "modules/js_core",
   "modules/js_deno",
   "modules/js_node",
   "modules/js_web",

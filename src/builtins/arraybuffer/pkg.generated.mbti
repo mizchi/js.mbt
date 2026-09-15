@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/arraybuffer"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -18,11 +18,11 @@ pub(all) struct ArrayBuffer {
   maxByteLength : Int
   resizable : Bool
 }
-pub fn ArrayBuffer::isView(@core.Any) -> Bool
+pub fn ArrayBuffer::isView(@js_core.Any) -> Bool
 pub fn ArrayBuffer::new(Int, max_byte_length? : Int) -> Self
 pub fn ArrayBuffer::resize(Self, Int) -> Unit
 pub fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-pub fn ArrayBuffer::to_any(Self) -> @core.Any
+pub fn ArrayBuffer::to_any(Self) -> @js_core.Any
 
 pub(all) struct BigInt64Array {
   buffer : ArrayBuffer
@@ -30,7 +30,7 @@ pub(all) struct BigInt64Array {
   byteOffset : Int
   length : Int
 }
-pub fn BigInt64Array::as_any(Self) -> @core.Any
+pub fn BigInt64Array::as_any(Self) -> @js_core.Any
 pub fn BigInt64Array::as_typed_array(Self) -> TypedArray
 pub fn BigInt64Array::byteLength(Self) -> Int
 pub fn BigInt64Array::byteOffset(Self) -> Int
@@ -53,7 +53,7 @@ pub(all) struct BigUint64Array {
   byteOffset : Int
   length : Int
 }
-pub fn BigUint64Array::as_any(Self) -> @core.Any
+pub fn BigUint64Array::as_any(Self) -> @js_core.Any
 pub fn BigUint64Array::as_typed_array(Self) -> TypedArray
 pub fn BigUint64Array::byteLength(Self) -> Int
 pub fn BigUint64Array::byteOffset(Self) -> Int
@@ -75,7 +75,7 @@ pub(all) struct DataView {
   byteLength : Int
   byteOffset : Int
 }
-pub fn DataView::as_any(Self) -> @core.Any
+pub fn DataView::as_any(Self) -> @js_core.Any
 #alias(getFloat32)
 pub fn DataView::get_float32(Self, Int, little_endian? : Bool) -> Double
 #alias(getFloat64)
@@ -116,7 +116,7 @@ pub(all) struct Float32Array {
   byteOffset : Int
   length : Int
 }
-pub fn Float32Array::as_any(Self) -> @core.Any
+pub fn Float32Array::as_any(Self) -> @js_core.Any
 pub fn Float32Array::as_typed_array(Self) -> TypedArray
 pub fn Float32Array::byteLength(Self) -> Int
 pub fn Float32Array::byteOffset(Self) -> Int
@@ -139,7 +139,7 @@ pub(all) struct Float64Array {
   byteOffset : Int
   length : Int
 }
-pub fn Float64Array::as_any(Self) -> @core.Any
+pub fn Float64Array::as_any(Self) -> @js_core.Any
 pub fn Float64Array::as_typed_array(Self) -> TypedArray
 pub fn Float64Array::byteLength(Self) -> Int
 pub fn Float64Array::byteOffset(Self) -> Int
@@ -184,7 +184,7 @@ pub(all) struct Int32Array {
   byteOffset : Int
   length : Int
 }
-pub fn Int32Array::as_any(Self) -> @core.Any
+pub fn Int32Array::as_any(Self) -> @js_core.Any
 pub fn Int32Array::as_typed_array(Self) -> TypedArray
 pub fn Int32Array::byteLength(Self) -> Int
 pub fn Int32Array::byteOffset(Self) -> Int
@@ -207,7 +207,7 @@ pub(all) struct Int8Array {
   byteOffset : UInt
   length : UInt
 }
-pub fn Int8Array::as_any(Self) -> @core.Any
+pub fn Int8Array::as_any(Self) -> @js_core.Any
 pub fn Int8Array::as_typed_array(Self) -> TypedArray
 pub fn Int8Array::byteLength(Self) -> Int
 pub fn Int8Array::byteOffset(Self) -> Int
@@ -229,11 +229,11 @@ pub(all) struct SharedArrayBuffer {
 }
 pub fn SharedArrayBuffer::new(Int) -> Self
 pub fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
-pub fn SharedArrayBuffer::to_any(Self) -> @core.Any
+pub fn SharedArrayBuffer::to_any(Self) -> @js_core.Any
 
 #external
 pub type TypedArray
-pub fn TypedArray::as_any(Self) -> @core.Any
+pub fn TypedArray::as_any(Self) -> @js_core.Any
 pub fn TypedArray::byteLength(Self) -> Int
 pub fn TypedArray::byteOffset(Self) -> Int
 pub fn TypedArray::copyWithin(Self, Int, Int, end? : Int) -> Self
@@ -260,7 +260,7 @@ pub(all) struct Uint16Array {
   byteOffset : UInt
   length : UInt
 }
-pub fn Uint16Array::as_any(Self) -> @core.Any
+pub fn Uint16Array::as_any(Self) -> @js_core.Any
 pub fn Uint16Array::as_typed_array(Self) -> TypedArray
 pub fn Uint16Array::byteLength(Self) -> Int
 pub fn Uint16Array::byteOffset(Self) -> Int
@@ -306,7 +306,7 @@ pub(all) struct Uint8Array {
   byteOffset : Int
   length : Int
 }
-pub fn Uint8Array::as_any(Self) -> @core.Any
+pub fn Uint8Array::as_any(Self) -> @js_core.Any
 pub fn Uint8Array::as_typed_array(Self) -> TypedArray
 pub fn Uint8Array::byteLength(Self) -> Int
 pub fn Uint8Array::byteOffset(Self) -> Int

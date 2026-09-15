@@ -3,6 +3,7 @@ name = "mizchi/js_bun"
 version = "0.12.2"
 
 import {
+  "mizchi/js_core@0.12.2",
   "mizchi/js@0.12.2",
 }
 

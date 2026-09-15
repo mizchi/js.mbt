@@ -2,7 +2,7 @@
 package "mizchi/js/builtins/reflect"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -12,19 +12,19 @@ import {
 // Types and methods
 #external
 pub type Reflect
-pub fn Reflect::apply(@core.Any, @core.Any, FixedArray[@core.Any]) -> @core.Any
-pub fn Reflect::construct(@core.Any, Array[@core.Any], @core.Any?) -> @core.Any
-pub fn Reflect::defineProperty(@core.Any, @core.Any, @core.Any) -> Bool
-pub fn Reflect::deleteProperty(@core.Any, @core.Any) -> Bool
-pub fn Reflect::get(@core.Any, @core.Any, @core.Any?) -> @core.Any
-pub fn Reflect::getOwnPropertyDescriptor(@core.Any, @core.Any) -> @core.Any
-pub fn Reflect::getPrototypeOf(@core.Any) -> @core.Any
-pub fn Reflect::has(@core.Any, @core.Any) -> Bool
-pub fn Reflect::isExtensible(@core.Any) -> Bool
-pub fn Reflect::ownKeys(@core.Any) -> Array[@core.Any]
-pub fn Reflect::preventExtensions(@core.Any) -> Bool
-pub fn Reflect::set(@core.Any, @core.Any, @core.Any, @core.Any?) -> Bool
-pub fn Reflect::setPrototypeOf(@core.Any, @core.Any) -> Bool
+pub fn Reflect::apply(@js_core.Any, @js_core.Any, FixedArray[@js_core.Any]) -> @js_core.Any
+pub fn Reflect::construct(@js_core.Any, Array[@js_core.Any], @js_core.Any?) -> @js_core.Any
+pub fn Reflect::defineProperty(@js_core.Any, @js_core.Any, @js_core.Any) -> Bool
+pub fn Reflect::deleteProperty(@js_core.Any, @js_core.Any) -> Bool
+pub fn Reflect::get(@js_core.Any, @js_core.Any, @js_core.Any?) -> @js_core.Any
+pub fn Reflect::getOwnPropertyDescriptor(@js_core.Any, @js_core.Any) -> @js_core.Any
+pub fn Reflect::getPrototypeOf(@js_core.Any) -> @js_core.Any
+pub fn Reflect::has(@js_core.Any, @js_core.Any) -> Bool
+pub fn Reflect::isExtensible(@js_core.Any) -> Bool
+pub fn Reflect::ownKeys(@js_core.Any) -> Array[@js_core.Any]
+pub fn Reflect::preventExtensions(@js_core.Any) -> Bool
+pub fn Reflect::set(@js_core.Any, @js_core.Any, @js_core.Any, @js_core.Any?) -> Bool
+pub fn Reflect::setPrototypeOf(@js_core.Any, @js_core.Any) -> Bool
 
 // Type aliases
 

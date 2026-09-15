@@ -2,7 +2,7 @@
 package "mizchi/js_web/trusted_types"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -13,45 +13,45 @@ pub fn trusted_types() -> TrustedTypePolicyFactory
 // Types and methods
 pub(all) struct TrustedHTML {
 }
-pub fn TrustedHTML::as_any(Self) -> @core.Any
+pub fn TrustedHTML::as_any(Self) -> @js_core.Any
 #alias(to_json)
 pub fn TrustedHTML::toJSON(Self) -> String
 pub fn TrustedHTML::to_string(Self) -> String
 
 pub(all) struct TrustedScript {
 }
-pub fn TrustedScript::as_any(Self) -> @core.Any
+pub fn TrustedScript::as_any(Self) -> @js_core.Any
 #alias(to_json)
 pub fn TrustedScript::toJSON(Self) -> String
 pub fn TrustedScript::to_string(Self) -> String
 
 pub(all) struct TrustedScriptURL {
 }
-pub fn TrustedScriptURL::as_any(Self) -> @core.Any
+pub fn TrustedScriptURL::as_any(Self) -> @js_core.Any
 #alias(to_json)
 pub fn TrustedScriptURL::toJSON(Self) -> String
 pub fn TrustedScriptURL::to_string(Self) -> String
 
 pub(all) struct TrustedTypePolicy {
 }
-pub fn TrustedTypePolicy::as_any(Self) -> @core.Any
+pub fn TrustedTypePolicy::as_any(Self) -> @js_core.Any
 #alias(create_html)
 pub fn TrustedTypePolicy::createHTML(Self, String) -> TrustedHTML
 #alias(create_html_with_args)
-pub fn TrustedTypePolicy::createHTMLWithArgs(Self, String, Array[@core.Any]) -> TrustedHTML
+pub fn TrustedTypePolicy::createHTMLWithArgs(Self, String, Array[@js_core.Any]) -> TrustedHTML
 #alias(create_script)
 pub fn TrustedTypePolicy::createScript(Self, String) -> TrustedScript
 #alias(create_script_url)
 pub fn TrustedTypePolicy::createScriptURL(Self, String) -> TrustedScriptURL
 #alias(create_script_url_with_args)
-pub fn TrustedTypePolicy::createScriptURLWithArgs(Self, String, Array[@core.Any]) -> TrustedScriptURL
+pub fn TrustedTypePolicy::createScriptURLWithArgs(Self, String, Array[@js_core.Any]) -> TrustedScriptURL
 #alias(create_script_with_args)
-pub fn TrustedTypePolicy::createScriptWithArgs(Self, String, Array[@core.Any]) -> TrustedScript
+pub fn TrustedTypePolicy::createScriptWithArgs(Self, String, Array[@js_core.Any]) -> TrustedScript
 pub fn TrustedTypePolicy::name(Self) -> String
 
 pub(all) struct TrustedTypePolicyFactory {
 }
-pub fn TrustedTypePolicyFactory::as_any(Self) -> @core.Any
+pub fn TrustedTypePolicyFactory::as_any(Self) -> @js_core.Any
 #alias(create_policy)
 pub fn TrustedTypePolicyFactory::createPolicy(Self, String, TrustedTypePolicyOptions) -> TrustedTypePolicy
 #alias(default_policy)
@@ -65,11 +65,11 @@ pub fn TrustedTypePolicyFactory::getAttributeType(Self, String, String, element_
 #alias(get_property_type)
 pub fn TrustedTypePolicyFactory::getPropertyType(Self, String, String, element_ns? : String) -> String?
 #alias(is_html)
-pub fn TrustedTypePolicyFactory::isHTML(Self, @core.Any) -> Bool
+pub fn TrustedTypePolicyFactory::isHTML(Self, @js_core.Any) -> Bool
 #alias(is_script)
-pub fn TrustedTypePolicyFactory::isScript(Self, @core.Any) -> Bool
+pub fn TrustedTypePolicyFactory::isScript(Self, @js_core.Any) -> Bool
 #alias(is_script_url)
-pub fn TrustedTypePolicyFactory::isScriptURL(Self, @core.Any) -> Bool
+pub fn TrustedTypePolicyFactory::isScriptURL(Self, @js_core.Any) -> Bool
 
 pub(all) struct TrustedTypePolicyOptions {
   create_html : ((String) -> String)?

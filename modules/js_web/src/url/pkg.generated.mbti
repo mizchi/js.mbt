@@ -2,7 +2,7 @@
 package "mizchi/js_web/url"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -24,8 +24,8 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 } derive(Eq)
-pub fn URL::as_any(Self) -> @core.Any
-pub fn URL::new(String, base? : String) -> Self raise @core.JsError
+pub fn URL::as_any(Self) -> @js_core.Any
+pub fn URL::new(String, base? : String) -> Self raise @js_core.JsError
 pub fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
 pub fn URL::to_json(Self) -> String
@@ -44,21 +44,21 @@ pub(all) struct URLPattern {
   hash : String
   hasRegExpGroups : Bool
 }
-pub fn URLPattern::as_any(Self) -> @core.Any
+pub fn URLPattern::as_any(Self) -> @js_core.Any
 pub fn URLPattern::exec(Self, String) -> URLPatternResult?
 #alias(exec_with_base)
 pub fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
 pub fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
-pub fn URLPattern::newFromObject(@core.Any, base? : String) -> Self
+pub fn URLPattern::newFromObject(@js_core.Any, base? : String) -> Self
 pub fn URLPattern::test_url(Self, String) -> Bool
 pub fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool
 
 pub(all) struct URLPatternComponentResult {
   input : String
-  groups : @core.Any
+  groups : @js_core.Any
 }
-pub fn URLPatternComponentResult::as_any(Self) -> @core.Any
+pub fn URLPatternComponentResult::as_any(Self) -> @js_core.Any
 
 pub(all) struct URLPatternResult {
   inputs : Array[String]
@@ -71,13 +71,13 @@ pub(all) struct URLPatternResult {
   search : URLPatternComponentResult
   hash : URLPatternComponentResult
 }
-pub fn URLPatternResult::as_any(Self) -> @core.Any
+pub fn URLPatternResult::as_any(Self) -> @js_core.Any
 
 pub(all) struct URLSearchParams {
   size : Int
 }
 pub fn URLSearchParams::append(Self, String, String) -> Unit
-pub fn URLSearchParams::as_any(Self) -> @core.Any
+pub fn URLSearchParams::as_any(Self) -> @js_core.Any
 pub fn URLSearchParams::delete(Self, String) -> Unit
 pub fn URLSearchParams::get(Self, String) -> String?
 #alias(get_all)

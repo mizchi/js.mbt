@@ -2,13 +2,13 @@
 package "mizchi/js_webextensions/storage"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
 pub fn local_storage() -> StorageArea
 
-pub fn on_changed((@core.Any, String) -> Unit) -> Unit
+pub fn on_changed((@js_core.Any, String) -> Unit) -> Unit
 
 pub fn session_storage() -> StorageArea
 
@@ -19,21 +19,21 @@ pub fn sync_storage() -> StorageArea
 // Types and methods
 #external
 pub type StorageArea
-pub fn StorageArea::as_any(Self) -> @core.Any
+pub fn StorageArea::as_any(Self) -> @js_core.Any
 pub async fn StorageArea::clear(Self) -> Unit
-pub async fn StorageArea::get(Self, @core.Any) -> @core.Any
-pub async fn StorageArea::get_all(Self) -> @core.Any
-pub fn StorageArea::get_item(Self, String) -> @core.Any
-pub async fn StorageArea::remove(Self, @core.Any) -> Unit
+pub async fn StorageArea::get(Self, @js_core.Any) -> @js_core.Any
+pub async fn StorageArea::get_all(Self) -> @js_core.Any
+pub fn StorageArea::get_item(Self, String) -> @js_core.Any
+pub async fn StorageArea::remove(Self, @js_core.Any) -> Unit
 pub async fn StorageArea::remove_item(Self, String) -> Unit
-pub async fn StorageArea::set(Self, @core.Any) -> Unit
-pub async fn StorageArea::set_item(Self, String, @core.Any) -> Unit
+pub async fn StorageArea::set(Self, @js_core.Any) -> Unit
+pub async fn StorageArea::set_item(Self, String, @js_core.Any) -> Unit
 
 pub struct StorageChange {
-  old_value : @core.Any
-  new_value : @core.Any
+  old_value : @js_core.Any
+  new_value : @js_core.Any
 }
-pub fn StorageChange::from_any(@core.Any) -> Self
+pub fn StorageChange::from_any(@js_core.Any) -> Self
 
 // Type aliases
 

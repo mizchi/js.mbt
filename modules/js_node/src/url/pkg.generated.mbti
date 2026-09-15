@@ -2,7 +2,7 @@
 package "mizchi/js_node/url"
 
 import {
-  "mizchi/js/core",
+  "mizchi/js_core",
 }
 
 // Values
@@ -18,7 +18,7 @@ pub fn format(@mizchi/js_web/url.URL) -> String
 pub fn pathToFileURL(String, windows? : Bool) -> @mizchi/js_web/url.URL
 
 #alias(url_to_http_options)
-pub fn urlToHttpOptions(@mizchi/js_web/url.URL) -> @core.Any
+pub fn urlToHttpOptions(@mizchi/js_web/url.URL) -> @js_core.Any
 
 // Errors
 
