@@ -80,6 +80,7 @@ pub fn Response::html(String, Int) -> Self
 pub async fn Response::json(Self) -> @js_core.Any
 pub fn Response::json_(@js_core.Any, options? : @js_core.Any) -> Self
 pub fn Response::new(body? : String, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
+pub fn Response::new_with_body(body? : @js_core.Any, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
 pub fn Response::redirect(String, status? : Int) -> Self
 pub async fn Response::text(Self) -> String
 pub fn Response::text_(String, Int) -> Self
