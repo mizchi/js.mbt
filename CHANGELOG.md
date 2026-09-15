@@ -60,6 +60,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Test code no longer ships in the published packages.** Each published
+  module gained a `.moonignore` excluding `*_test.mbt`, `*_wbtest.mbt` and the
+  `_tests/` / `bun_test/` / `_interop_test/` harness packages. `.moonignore`
+  applies to `moon publish` only — the build still compiles everything, so CI
+  keeps running the harnesses from the repo.
+
+  | module | before | after | |
+  |---|---|---|---|
+  | `js_core` | 146,654 B | 61,475 B | −58% |
+  | `js_deno` | 53,892 B | 32,466 B | −40% |
+  | `js_builtin` | 319,656 B | 201,969 B | −37% |
+  | `js_convert` | 88,154 B | 61,392 B | −30% |
+  | `js_bun` | 27,177 B | 19,589 B | −28% |
+  | `js_node` | 512,536 B | 371,887 B | −27% |
+  | `js_web` | 280,864 B | 207,158 B | −26% |
+  | `js_browser` | 1,072,776 B | 971,196 B | −9% |
+  | `js_webextensions` | 36,226 B | 36,226 B | no tests |
+
+  Measured with `moon package`, which writes the real publish archive to
+  `_build/publish/` and needs no credentials. Over half of `js_core`'s archive
+  had been its own test suite.
+
+  Two traps worth recording. `.moonignore` patterns resolve against the
+  **workspace root, not the module**, so a directory pattern naming a sibling
+  (`modules/` in the repo-root file) produces an *empty* archive for every
+  module under it while `moon package` still reports success — these files are
+  kept to test globs only. And `.moonignore` cannot drop a `moon.mod` `import`,
+  which is why dev-only packages that pull a dependency still have to live in
+  `dev/` rather than merely being ignored.
+
+  Not addressed here: `mizchi/js` is the repo-root module, so its archive is
+  the whole repository (~2.5MB, 537 files — every sibling module, the
+  lockfiles, CI config). `.moonignore` cannot fix that without emptying the
+  siblings; moving `mizchi/js` to `modules/js/` would.
+
 - **BREAKING: `file` moved from `mizchi/js_browser` to `mizchi/js_web`.**
   `mizchi/js_browser/file` → `mizchi/js_web/file`. The `@file` alias is
   unchanged (it is the last path segment either way), so only the import path

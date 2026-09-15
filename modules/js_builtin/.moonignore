@@ -1,0 +1,15 @@
+# Applies to `moon publish` / `moon package` only -- the build is unaffected,
+# so CI still compiles the test harnesses below from the repo.
+#
+# Patterns resolve against the WORKSPACE root, not this module. A directory
+# pattern naming a sibling (e.g. "modules/") therefore empties that module's
+# archive, silently. Keep this file to test code only.
+
+# blackbox and whitebox tests
+*_test.mbt
+*_wbtest.mbt
+
+# test-harness packages (consumers never build these)
+_tests/
+bun_test/
+_interop_test/

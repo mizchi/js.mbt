@@ -64,11 +64,33 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
   dead `import` in `moon.mod`. Grep the package `moon.pkg` files before
   trusting a module-level dependency.
 
-  Two more manifest facts worth knowing. `moon.mod` has no `exclude` or
-  `files` field - writing an `exclude` key makes `moon` fail to calculate the
-  build plan - so **everything under a published module's `source = "src"`
-  ships to consumers**; dev-only packages belong in `dev/`. And `moon.mod`
-  rejects `#` comments, so notes go in a README next to it.
+  Packaging facts worth knowing, all found with `moon package` (it writes the
+  real publish archive to `_build/publish/` and needs no credentials, unlike
+  `moon publish --dry-run`):
+
+  - `moon.mod` has **no `exclude` or `files` field** - writing an `exclude`
+    key makes `moon` fail to calculate the build plan. `source = "src"` only
+    says where packages live; it does **not** scope the archive.
+  - `.moonignore` **does** work, and only for packaging - the build still
+    compiles everything, so CI keeps working. Each published module has one,
+    excluding `*_test.mbt`, `*_wbtest.mbt` and the `_tests/` / `bun_test/` /
+    `_interop_test/` harness packages.
+  - **Its patterns resolve against the workspace root, not the module.** A
+    directory pattern naming a sibling - `modules/` in the repo-root
+    `.moonignore`, say - silently produces an *empty* archive for every module
+    under it, with `moon package` still reporting success. Keep those files to
+    test globs.
+  - A dead `targets:` entry is tolerated: `moon.pkg` may list test files that
+    `.moonignore` removed, and the extracted archive still checks clean.
+  - `.moonignore` cannot drop a `moon.mod` `import`, so a dev-only package
+    that pulls a dependency still needs to move out of the published module.
+    That is what `dev/` is for.
+  - `moon.mod` rejects `#` comments, so notes go in a README next to it.
+
+  Not yet solved: `mizchi/js` is the repo-root module, so its archive is the
+  whole repository (~2.5MB, 537 files - every sibling module, the lockfiles,
+  CI config). `.moonignore` cannot fix this without emptying the siblings, per
+  the rule above. Moving `mizchi/js` to `modules/js/` would.
 
   See [docs/package-split.md](docs/package-split.md) for the layout and the
   migration notes.
