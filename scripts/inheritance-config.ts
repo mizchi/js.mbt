@@ -24,13 +24,7 @@ const domHierarchy: InheritanceChain[] = [
     typeName: "EventTarget",
     extends: null,
     castMethod: null,
-    // NOTE: this path has never resolved (there is no `src/event/`), so the
-    // generator silently skips EventTarget and emits no delegations for it.
-    // Pointing it at modules/js_web/src/event/event_target.mbt makes the
-    // regex-based signature parser produce invalid MoonBit for
-    // addEventListener / on (multi-line signature with an optional param),
-    // so fixing it needs a parser fix first.
-    sourceFile: "src/event/event_target.mbt",
+    sourceFile: "modules/js_web/src/event/event_target.mbt",
     qualifiedTypeName: "@event.EventTarget"
   },
   {
