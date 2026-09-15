@@ -108,8 +108,8 @@ members = [
 ```diff
  # moon.mod
  import {
-+  "mizchi/js_mbtconv@0.12.x",
-   "mizchi/js@0.12.x",
++  "mizchi/js_mbtconv@0.13.x",
+   "mizchi/js@0.13.x",
  }
 ```
 
@@ -128,8 +128,8 @@ members = [
 ```diff
  # moon.mod
  import {
-+  "mizchi/js_builtin@0.12.x",
-   "mizchi/js@0.12.x",
++  "mizchi/js_builtin@0.13.x",
+   "mizchi/js@0.13.x",
  }
 ```
 
@@ -154,8 +154,8 @@ members = [
 ```diff
  # moon.mod
  import {
-+  "mizchi/js_core@0.12.x",
-   "mizchi/js@0.12.x",
++  "mizchi/js_core@0.13.x",
+   "mizchi/js@0.13.x",
  }
 ```
 
@@ -186,8 +186,8 @@ import {
 ```diff
  # moon.mod
  import {
-   "mizchi/js@0.12.x",
-+  "mizchi/js_web@0.12.x",
+   "mizchi/js@0.13.x",
++  "mizchi/js_web@0.13.x",
  }
 ```
 
@@ -216,8 +216,8 @@ import {
 ```diff
  # moon.mod
  import {
-   "mizchi/js@0.12.x",
-+  "mizchi/js_node@0.12.x",
+   "mizchi/js@0.13.x",
++  "mizchi/js_node@0.13.x",
  }
 ```
 
@@ -333,10 +333,10 @@ import {
    ```
    name = "mizchi/<name>"
 
-   version = "0.12.x"
+   version = "0.13.x"
 
    import {
-     "mizchi/js@0.12.x",
+     "mizchi/js@0.13.x",
    }
 
    source = "src"
