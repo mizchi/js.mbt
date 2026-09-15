@@ -307,7 +307,7 @@ test "Object::defineProperty with non-writable" {
 ///|
 test "Object::defineProperty with getter/setter" {
   let obj = @core.new_object()
-  let storage : Ref[Int] = { val: 0 }
+  let storage : Ref[Int] = { val: 0, }
   Object::defineProperty(
     obj,
     "value",

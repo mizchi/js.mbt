@@ -76,7 +76,7 @@ test "WebAssembly Table" {
 test "WebAssembly Global" {
   // Create a mutable i32 global
   let global = WebAssemblyGlobal::new(
-    { value: "i32", mutable: true },
+    { value: "i32", mutable: true, },
     @core.any(42),
   )
   inspect(@core.typeof_(global.as_any()), content="object")
@@ -96,7 +96,7 @@ test "WebAssembly Global" {
 test "WebAssembly Global immutable" {
   // Create an immutable f64 global
   let global = WebAssemblyGlobal::new(
-    { value: "f64", mutable: false },
+    { value: "f64", mutable: false, },
     @core.any(3.14),
   )
   inspect(@core.typeof_(global.as_any()), content="object")

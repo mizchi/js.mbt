@@ -16,7 +16,7 @@
 /// [Test Helper] Creates a ReadableStream that emits predefined string chunks.
 /// In real applications, ReadableStreams come from fetch().body, file reads, etc.
 extern "js" fn test_ffi_readable_from_chunks(
-  chunks : Array[String],
+  chunks : FixedArray[String],
 ) -> ReadableStream =
   #| (chunks) => {
   #|   return new ReadableStream({
@@ -46,7 +46,7 @@ extern "js" fn test_ffi_writable_collector() -> @core.Any =
 /// [Test Helper] Retrieves the collected chunks from a collector stream.
 extern "js" fn test_ffi_get_collected_chunks(
   writable : @core.Any,
-) -> Array[String] =
+) -> FixedArray[String] =
   #| (writable) => writable.chunks || []
 
 ///|

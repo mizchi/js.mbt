@@ -82,6 +82,6 @@ fn main {
   console_log(from_set(set))
 
   // @immut/hashmap
-  let immut_map = @immut/hashmap.from_array([("c", 3)])
+  let immut_map = @immut/hashmap.HashMap([("c", 3)])
   console_log(from_immut_map(immut_map))
 }

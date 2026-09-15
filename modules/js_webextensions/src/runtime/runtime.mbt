@@ -230,7 +230,7 @@ pub struct PlatformInfo {
 ///|
 pub fn PlatformInfo::from_any(obj : @core.Any) -> PlatformInfo {
   let o : @core.Any = obj |> @core.any
-  { os: o["os"].cast(), arch: o["arch"].cast() }
+  { os: o["os"].cast(), arch: o["arch"].cast(), }
 }
 
 ///|

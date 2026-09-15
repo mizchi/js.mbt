@@ -13,7 +13,7 @@ extern "js" fn internal_arch() -> String = "arch"
 
 ///|
 #module("node:os")
-extern "js" fn internal_cpus() -> Array[CpuInfo] = "cpus"
+extern "js" fn internal_cpus() -> FixedArray[CpuInfo] = "cpus"
 
 ///|
 #module("node:os")
@@ -33,7 +33,7 @@ extern "js" fn internal_hostname() -> String = "hostname"
 
 ///|
 #module("node:os")
-extern "js" fn internal_loadavg() -> Array[Double] = "loadavg"
+extern "js" fn internal_loadavg() -> FixedArray[Double] = "loadavg"
 
 ///|
 #module("node:os")
@@ -193,7 +193,7 @@ pub fn arch() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn cpus() -> Array[CpuInfo] {
-  internal_cpus()
+  Array::from_fixed_array(internal_cpus())
 }
 
 ///|
@@ -233,7 +233,7 @@ pub fn hostname() -> String {
 ///
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn loadavg() -> Array[Double] {
-  internal_loadavg()
+  Array::from_fixed_array(internal_loadavg())
 }
 
 ///|

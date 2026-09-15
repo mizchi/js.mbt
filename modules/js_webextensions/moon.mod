@@ -18,6 +18,4 @@ description = "WebExtensions / chrome.* / browser.* API bindings"
 
 source = "src"
 
-warnings = "-20"
-
 preferred_target = "js"

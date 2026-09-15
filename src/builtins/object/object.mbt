@@ -10,7 +10,7 @@ extern "js" fn ffi_is_prototype_of(obj : @core.Any, target : @core.Any) -> Bool 
   #| (obj, target) => obj.isPrototypeOf(target)
 
 ///|
-extern "js" fn ffi_object_entries(obj : @core.Any) -> Array[@core.Any] =
+extern "js" fn ffi_object_entries(obj : @core.Any) -> FixedArray[@core.Any] =
   #| (obj) => Object.entries(obj)
 
 ///|
@@ -69,10 +69,11 @@ pub fn Object::values(v : @core.Any) -> Array[@core.Any] {
 /// Returns an array of a given object's own enumerable property [key, value] pairs.
 /// Note: The returned array is a snapshot and should be treated as immutable.
 pub fn Object::entries(v : @core.Any) -> Array[(String, @core.Any)] {
-  let entries = ffi_object_entries(v |> @core.identity)
-  entries.map(entry => {
-    (@core.any(entry)["0"] |> @core.identity, @core.any(entry)["1"])
-  })
+  [
+    for entry in ffi_object_entries(v |> @core.identity) => {
+      (@core.any(entry)["0"] |> @core.identity, @core.any(entry)["1"])
+    }
+  ]
 }
 
 ///|

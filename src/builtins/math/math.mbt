@@ -52,12 +52,12 @@ pub extern "js" fn Math::abs(x : Double) -> Double =
 
 ///|
 /// JS: Math.max(...values)
-pub extern "js" fn Math::max(values : Array[Double]) -> Double =
+pub extern "js" fn Math::max(values : FixedArray[Double]) -> Double =
   #| (values) => Math.max(...values)
 
 ///|
 /// JS: Math.min(...values)
-pub extern "js" fn Math::min(values : Array[Double]) -> Double =
+pub extern "js" fn Math::min(values : FixedArray[Double]) -> Double =
   #| (values) => Math.min(...values)
 
 ///|
@@ -221,5 +221,5 @@ pub extern "js" fn Math::imul(a : Int, b : Int) -> Int =
 
 ///|
 /// JS: Math.hypot(...values) - Square root of sum of squares
-pub extern "js" fn Math::hypot(values : Array[Double]) -> Double =
+pub extern "js" fn Math::hypot(values : FixedArray[Double]) -> Double =
   #| (values) => Math.hypot(...values)

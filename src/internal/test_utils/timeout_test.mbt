@@ -6,14 +6,16 @@ async test "timeout: completes before timeout" {
 
 ///|
 async test "timeout: times out" {
-  let result : Result[Int, @test_utils.TimeoutError] = try? @test_utils.timeout(
-    10,
-    () => {
+  try
+    @test_utils.timeout(10, () => {
       @core.sleep(100)
       42
-    },
-  )
-  inspect(result is Err(_), content="true")
+    })
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected timeout to raise")
+  }
 }
 
 ///|
@@ -24,13 +26,15 @@ async test "wait_for: completes before timeout" {
 
 ///|
 async test "wait_for: times out" {
-  let result : Result[Int, @test_utils.TimeoutError] = try? @test_utils.wait_for(
-    timeout=10,
-    fn(_resolve) {
+  try
+    @test_utils.wait_for(timeout=10, fn(_resolve : (Int) -> Unit) {
       // Never call resolve, should timeout
-    },
-  )
-  inspect(result is Err(_), content="true")
+    })
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected wait_for to raise")
+  }
 }
 
 ///|
@@ -66,38 +70,50 @@ async test "retry: succeeds after failures" {
 
 ///|
 async test "retry: all attempts fail" {
-  let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
-    3,
-    () => raise @test_utils.RetryError::new("Always fails"),
-  )
-  inspect(result is Err(_), content="true")
+  try
+    @test_utils.retry(3, () => raise @test_utils.RetryError::new("Always fails"))
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected retry to raise")
+  }
 }
 
 ///|
 async test "retry: with timeout per attempt" {
   let mut attempts = 0
-  let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
-    2,
-    async fn() {
-      attempts += 1
-      @core.sleep(100) // Will timeout
-    },
-    timeout=10,
-  )
-  inspect(result is Err(_), content="true")
+  try
+    @test_utils.retry(
+      2,
+      async fn() {
+        attempts += 1
+        @core.sleep(100) // Will timeout
+      },
+      timeout=10,
+    )
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected retry to raise")
+  }
   inspect(attempts, content="2")
 }
 
 ///|
 async test "retry: on_fail callback" {
   let failed_attempts : Array[Int] = []
-  let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
-    3,
-    () => raise @test_utils.RetryError::new("Fail"),
-    on_fail=fn(n) { failed_attempts.push(n) },
-  )
-  ignore(result)
-  inspect(failed_attempts, content="[1, 2, 3]")
+  try
+    @test_utils.retry(3, () => raise @test_utils.RetryError::new("Fail"), on_fail=fn(
+      n,
+    ) {
+      failed_attempts.push(n)
+    })
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected retry to raise")
+  }
+  debug_inspect(failed_attempts, content="[1, 2, 3]")
 }
 
 ///|
@@ -117,11 +133,14 @@ async test "retry: cleanup callback on success" {
 ///|
 async test "retry: cleanup callback on failure" {
   let mut cleanup_called = false
-  let result : Result[Unit, @test_utils.RetryError] = try? @test_utils.retry(
-    2,
-    () => raise @test_utils.RetryError::new("Fail"),
-    cleanup=fn() { cleanup_called = true },
-  )
-  ignore(result)
+  try
+    @test_utils.retry(2, () => raise @test_utils.RetryError::new("Fail"), cleanup=fn() {
+      cleanup_called = true
+    })
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected retry to raise")
+  }
   inspect(cleanup_called, content="true")
 }

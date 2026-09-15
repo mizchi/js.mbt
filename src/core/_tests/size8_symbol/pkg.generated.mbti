@@ -6,7 +6,7 @@ import {
 }
 
 // Values
-pub fn call_symbol_method(@core.Any, Symbol, Array[@core.Any]) -> @core.Any
+pub fn call_symbol_method(@core.Any, Symbol, FixedArray[@core.Any]) -> @core.Any
 
 pub fn symbol_async_iterator() -> Symbol
 

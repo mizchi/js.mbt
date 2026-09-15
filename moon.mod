@@ -19,6 +19,4 @@ description = "js bindings for builtins/web/node/deno/bun (browser APIs split to
 
 source = "src"
 
-warnings = "-20"
-
 preferred_target = "js"

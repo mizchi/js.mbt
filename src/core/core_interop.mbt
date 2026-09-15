@@ -51,6 +51,6 @@ pub fn[T] TypeOf::is_instanceof(self : TypeOf[T], v : Any) -> Bool {
 
 ///|
 /// Type-safe constructor call: new cls(...args) -> T
-pub fn[T] new_instance(cls : TypeOf[T], args : Array[Any]) -> T {
+pub fn[T] new_instance(cls : TypeOf[T], args : FixedArray[Any]) -> T {
   identity(new(identity(cls), args))
 }

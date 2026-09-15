@@ -20,9 +20,14 @@ pub impl Show for MessageEvent with fn output(self, logger) {
   logger.write_object(self.origin)
   logger.write_string(", lastEventId: ")
   logger.write_object(self.lastEventId)
-  logger.write_string(", ports: ")
-  logger.write_object(self.ports)
-  logger.write_string("}")
+  logger.write_string(", ports: [")
+  for i, port in self.ports {
+    if i > 0 {
+      logger.write_string(", ")
+    }
+    logger.write_object(port)
+  }
+  logger.write_string("]}")
 }
 
 ///|
@@ -47,7 +52,7 @@ pub fn MessagePort::as_event_target(self : MessagePort) -> @event.EventTarget = 
 
 ///|
 pub impl Show for MessagePort with fn output(self, logger) {
-  logger.write_string(self.to_string())
+  logger.write_string(Show::to_string(self))
 }
 
 ///|
@@ -100,7 +105,7 @@ pub fn MessageChannel::as_any(self : MessageChannel) -> @core.Any = "%identity"
 
 ///|
 pub impl Show for MessageChannel with fn output(self, logger) {
-  logger.write_string(self.to_string())
+  logger.write_string(Show::to_string(self))
 }
 
 ///|

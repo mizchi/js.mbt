@@ -29,15 +29,21 @@ extern "js" fn ffi_promise_then(promise : Any, callback : (Any) -> Any) =
   #| (promise, callback) => promise.then(callback)
 
 ///|
-extern "js" fn ffi_promise_all(promises : Array[Promise[Any]]) -> Promise[Any] =
+extern "js" fn ffi_promise_all(
+  promises : FixedArray[Promise[Any]],
+) -> Promise[Any] =
   #| (promises) => Promise.all(promises)
 
 ///|
-extern "js" fn ffi_promise_race(promises : Array[Promise[Any]]) -> Promise[Any] =
+extern "js" fn ffi_promise_race(
+  promises : FixedArray[Promise[Any]],
+) -> Promise[Any] =
   #| (promises) => Promise.race(promises)
 
 ///|
-extern "js" fn ffi_promise_any(promises : Array[Promise[Any]]) -> Promise[Any] =
+extern "js" fn ffi_promise_any(
+  promises : FixedArray[Promise[Any]],
+) -> Promise[Any] =
   #| (promises) => Promise.any(promises)
 
 ///|
@@ -90,7 +96,7 @@ pub fn[A] Promise::new(
 /// })
 /// ```
 pub fn[A] from_async(f : async () -> A) -> Promise[A] noraise {
-  let { promise, resolve, reject } = Promise::withResolvers()
+  let { promise, resolve, reject, } = Promise::withResolvers()
   run_async(async fn() noraise {
     try f() |> resolve catch {
       e => reject(e)
@@ -163,7 +169,7 @@ pub async fn[T] Promise::wait(self : Self[T]) -> T {
 /// ]).wait()
 /// ```
 pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
-  ffi_promise_all(promises |> identity) |> identity
+  ffi_promise_all(FixedArray::from_array(promises[:]) |> identity) |> identity
 }
 
 ///|
@@ -182,7 +188,7 @@ pub fn[A] Promise::all(promises : Array[Promise[A]]) -> Promise[Array[A]] {
 /// ]).wait() // "fast"
 /// ```
 pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
-  ffi_promise_race(promises |> identity) |> identity
+  ffi_promise_race(FixedArray::from_array(promises[:]) |> identity) |> identity
 }
 
 ///|
@@ -195,7 +201,7 @@ pub fn[T] Promise::race(promises : Array[Promise[T]]) -> Promise[T] {
 /// ]).wait()
 /// ```
 pub fn[T] Promise::any(promises : Array[Promise[T]]) -> Promise[T] {
-  ffi_promise_any(promises |> identity) |> identity
+  ffi_promise_any(FixedArray::from_array(promises[:]) |> identity) |> identity
 }
 
 ///|
@@ -223,7 +229,7 @@ pub fn[T] SettledResult::to_any(self : SettledResult[T]) -> Any = "%identity"
 pub fn[A] Promise::allSettled(
   promises : Array[Promise[A]],
 ) -> Promise[Array[SettledResult[A]]] {
-  ffi_promise_all(promises |> identity) |> identity
+  ffi_promise_all(FixedArray::from_array(promises[:]) |> identity) |> identity
 }
 
 ///|
@@ -257,7 +263,7 @@ pub fn[T] PromiseResolvers::reject(self : Self[T], error : Error) -> Unit {
 ///|
 pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
   () => {
-    let { promise, resolve, reject } = Promise::withResolvers()
+    let { promise, resolve, reject, } = Promise::withResolvers()
     run_async(async fn() noraise {
       try f() |> resolve catch {
         e => reject(e)
@@ -271,7 +277,7 @@ pub fn[R] promisify0(f : async () -> R) -> () -> Promise[R] noraise {
 /// Moonbit Async Function to JS Promise Function
 pub fn[A, R] promisify1(f : async (A) -> R) -> (A) -> Promise[R] noraise {
   a => {
-    let { promise, resolve, reject } = Promise::withResolvers()
+    let { promise, resolve, reject, } = Promise::withResolvers()
     run_async(async fn() noraise {
       try f(a) |> resolve catch {
         e => reject(e)
@@ -287,7 +293,7 @@ pub fn[A, B, R] promisify2(
   f : async (A, B) -> R,
 ) -> (A, B) -> Promise[R] noraise {
   (a, b) => {
-    let { promise, resolve, reject } = Promise::withResolvers()
+    let { promise, resolve, reject, } = Promise::withResolvers()
     run_async(async fn() noraise {
       try f(a, b) |> resolve catch {
         e => reject(e)
@@ -303,7 +309,7 @@ pub fn[A, B, C, R] promisify3(
   f : async (A, B, C) -> R,
 ) -> (A, B, C) -> Promise[R] noraise {
   (a, b, c) => {
-    let { promise, resolve, reject } = Promise::withResolvers()
+    let { promise, resolve, reject, } = Promise::withResolvers()
     run_async(async fn() noraise {
       try f(a, b, c) |> resolve catch {
         e => reject(e)

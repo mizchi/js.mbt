@@ -4,7 +4,12 @@
 /// These tests investigate the internal JavaScript representation of MoonBit types
 
 ///|
-extern "js" fn ffi_get_own_property_names(v : @core.Any) -> Array[String] =
+fn get_own_property_names(v : @core.Any) -> Array[String] {
+  Array::from_fixed_array(ffi_get_own_property_names(v))
+}
+
+///|
+extern "js" fn ffi_get_own_property_names(v : @core.Any) -> FixedArray[String] =
   #|(v) => Object.getOwnPropertyNames(v)
 
 ///|
@@ -56,11 +61,11 @@ test "Deep: enum tuple variant - no $tag in own properties" {
   let v : @core.Any = @core.any(rgb)
 
   // Own properties - $tag is NOT an own property for tuple variants
-  let own_props = ffi_get_own_property_names(v)
-  inspect(
+  let own_props = get_own_property_names(v)
+  debug_inspect(
     own_props,
     content=(
-      #|[_0, _1, _2]
+      #|["_0", "_1", "_2"]
     ),
   )
 
@@ -73,8 +78,13 @@ test "Deep: enum tuple variant - no $tag in own properties" {
 test "Deep: enum unit variant - no enumerable metadata on instance" {
   let red : TestColor = Red
   let v : @core.Any = @core.any(red)
-  let own_props = ffi_get_own_property_names(v)
-  inspect(own_props, content="[]")
+  let own_props = get_own_property_names(v)
+  debug_inspect(
+    own_props,
+    content=(
+      #|[]
+    ),
+  )
 
   // Current MoonBit runtime does not expose unit-variant metadata as own properties.
   let tag_descriptor = ffi_get_property_descriptor(v, "$tag")
@@ -113,11 +123,11 @@ test "Deep: enum struct variant (labeled fields) - labels NOT preserved in JS" {
   // Circle(radius=10) becomes {"_0":10}, not {"radius":10}
   let serialized = @core.json_stringify(v)
   inspect(serialized, content="{\"_0\":10}")
-  let own_props = ffi_get_own_property_names(v)
-  inspect(
+  let own_props = get_own_property_names(v)
+  debug_inspect(
     own_props,
     content=(
-      #|[_0]
+      #|["_0"]
     ),
   )
 
@@ -138,18 +148,18 @@ test "Deep: Result - only constructor.name distinguishes Ok/Err" {
   let err_any : @core.Any = @core.any(err_val)
 
   // Own properties are identical
-  let ok_props = ffi_get_own_property_names(ok_any)
-  let err_props = ffi_get_own_property_names(err_any)
-  inspect(
+  let ok_props = get_own_property_names(ok_any)
+  let err_props = get_own_property_names(err_any)
+  debug_inspect(
     ok_props,
     content=(
-      #|[_0]
+      #|["_0"]
     ),
   )
-  inspect(
+  debug_inspect(
     err_props,
     content=(
-      #|[_0]
+      #|["_0"]
     ),
   )
 
@@ -212,12 +222,20 @@ test "Deep: Map has internal structure" {
   let map : Map[String, Int] = { "a": 1, "b": 2 }
   let v : @core.Any = @core.any(map)
   inspect(@core.typeof_(v), content="object")
-  let own_props = ffi_get_own_property_names(v)
+  let own_props = get_own_property_names(v)
   // Map has internal structure, not plain object
-  inspect(
+  debug_inspect(
     own_props,
     content=(
-      #|[entries, size, capacity, capacity_mask, grow_at, head, tail]
+      #|[
+      #|  "entries",
+      #|  "size",
+      #|  "capacity",
+      #|  "capacity_mask",
+      #|  "grow_at",
+      #|  "head",
+      #|  "tail",
+      #|]
     ),
   )
 }
@@ -252,7 +270,7 @@ priv struct TestPoint {
 
 ///|
 test "Deep: struct JSON roundtrip" {
-  let original = TestPoint::{ x: 10, y: 20 }
+  let original = TestPoint::{ x: 10, y: 20, }
   let serialized = @core.json_stringify(@core.any(original))
   let parsed : @core.Any = json_parse(serialized)
   let restored : TestPoint = @core.identity(parsed)

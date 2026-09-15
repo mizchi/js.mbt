@@ -211,15 +211,15 @@ fn deserialize_api_response(v : @core.Any) -> ApiResponse {
   } else {
     None
   }
-  ApiResponse::{ success, data, metadata }
+  ApiResponse::{ success, data, metadata, }
 }
 
 ///|
 test "serialize: complex nested structure with Ok and Some" {
   let original = ApiResponse::{
     success: true,
-    data: Ok(UserData::{ id: 123, name: "Alice", tags: ["admin", "user"] }),
-    metadata: Some(Metadata::{ version: "1.0.0", timestamp: 1703001234 }),
+    data: Ok(UserData::{ id: 123, name: "Alice", tags: ["admin", "user"], }),
+    metadata: Some(Metadata::{ version: "1.0.0", timestamp: 1703001234, }),
   }
   let serialized = serialize_api_response(original)
   let json = @core.json_stringify(serialized)
@@ -283,7 +283,7 @@ priv struct SerializeTestPoint {
 
 ///|
 test "wrap_typed: preserves type info through JSON" {
-  let point = SerializeTestPoint::{ x: 10, y: 20 }
+  let point = SerializeTestPoint::{ x: 10, y: 20, }
   // Read fields to suppress unused_field warning
   ignore(point.x)
   ignore(point.y)

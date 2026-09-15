@@ -117,7 +117,7 @@ pub extern "js" fn ChildProcess::ref_(self : ChildProcess) -> Unit =
 #module("node:child_process")
 extern "js" fn ffi_spawn(
   command : String,
-  args : Array[String],
+  args : FixedArray[String],
   options : @core.Any,
 ) -> ChildProcess = "spawn"
 
@@ -140,7 +140,7 @@ extern "js" fn ffi_exec(
 #module("node:child_process")
 extern "js" fn ffi_execFile(
   file : String,
-  args : Array[String],
+  args : FixedArray[String],
   options : @core.Any,
   callback : @core.Any,
 ) -> ChildProcess = "execFile"
@@ -149,7 +149,7 @@ extern "js" fn ffi_execFile(
 #module("node:child_process")
 extern "js" fn ffi_fork(
   modulePath : String,
-  args : Array[String],
+  args : FixedArray[String],
   options : @core.Any,
 ) -> ChildProcess = "fork"
 
@@ -164,7 +164,7 @@ extern "js" fn ffi_fork_no_args(
 #module("node:child_process")
 extern "js" fn ffi_spawnSync(
   command : String,
-  args : Array[String],
+  args : FixedArray[String],
   options : @core.Any,
 ) -> SpawnSyncResult = "spawnSync"
 
@@ -183,7 +183,7 @@ extern "js" fn ffi_execSync(command : String, options : @core.Any) -> @core.Any 
 #module("node:child_process")
 extern "js" fn ffi_execFileSync(
   file : String,
-  args : Array[String],
+  args : FixedArray[String],
   options : @core.Any,
 ) -> @core.Any = "execFileSync"
 
@@ -225,7 +225,7 @@ pub fn spawn(
     options["signal"] = @core.any(v)
   }
   match args {
-    Some(a) => ffi_spawn(command, a, options)
+    Some(a) => ffi_spawn(command, FixedArray::from_array(a[:]), options)
     None => ffi_spawn_no_args(command, options)
   }
 }
@@ -295,7 +295,12 @@ pub fn execFile(
   if signal is Some(v) {
     options["signal"] = @core.any(v)
   }
-  ffi_execFile(file, args, options, @core.any(callback))
+  ffi_execFile(
+    file,
+    FixedArray::from_array(args[:]),
+    options,
+    @core.any(callback),
+  )
 }
 
 ///|
@@ -327,7 +332,7 @@ pub fn fork(
     options["signal"] = @core.any(v)
   }
   match args {
-    Some(a) => ffi_fork(module_path, a, options)
+    Some(a) => ffi_fork(module_path, FixedArray::from_array(a[:]), options)
     None => ffi_fork_no_args(module_path, options)
   }
 }
@@ -442,7 +447,7 @@ pub fn spawnSync(
           }
           ffi_spawnSync_no_args(command_with_args, options)
         } else {
-          ffi_spawnSync(command, a, options)
+          ffi_spawnSync(command, FixedArray::from_array(a[:]), options)
         }
       None => ffi_spawnSync_no_args(command, options)
     }
@@ -525,7 +530,8 @@ pub fn execFileSync(
     }
     options["encoding"] = @core.any(encoding.unwrap_or("utf8"))
     match args {
-      Some(a) => ffi_execFileSync(file, a, options).cast()
+      Some(a) =>
+        ffi_execFileSync(file, FixedArray::from_array(a[:]), options).cast()
       None => ffi_execFileSync_no_args(file, options).cast()
     }
   })

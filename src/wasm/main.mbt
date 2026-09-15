@@ -320,7 +320,7 @@ pub fn test_dom_query_selector() -> Unit {
 
   // Query it back
   let found = query_selector(".query-test")
-  if not(@core.is_null(found)) {
+  if !@core.is_null(found) {
     console_log("Found element with class 'query-test'")
     set_style(found, "border", "2px solid green")
   } else {
@@ -1229,7 +1229,7 @@ pub fn test_date_api() -> String {
 
   // Date.now()
   let now = date_class._call("now", [])
-  let now_is_number = not(@core.is_object(now))
+  let now_is_number = !@core.is_object(now)
   results["now_is_number"] = @core.any(
     if now_is_number {
       "true"

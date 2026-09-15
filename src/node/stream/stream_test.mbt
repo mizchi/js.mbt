@@ -44,7 +44,7 @@ extern "js" fn create_passthrough() -> @stream.PassThrough =
   #| }
 
 ///|
-extern "js" fn get_chunks(writable : @core.Any) -> Array[String] =
+extern "js" fn get_chunks(writable : @core.Any) -> FixedArray[String] =
   #| (writable) => writable.chunks || []
 
 ///| @stream.Readable operations

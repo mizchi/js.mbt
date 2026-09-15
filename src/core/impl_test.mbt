@@ -26,7 +26,7 @@ struct ImplTestPoint {
 
 ///|
 test "identity converts struct to Any object" {
-  let p = ImplTestPoint::{ x: 10, y: 20 }
+  let p = ImplTestPoint::{ x: 10, y: 20, }
   let v : @core.Any = @core.identity(p)
   assert_eq(@core.identity(v._get("x")), 10)
   assert_eq(@core.identity(v._get("y")), 20)

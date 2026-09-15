@@ -8,7 +8,9 @@ extern "js" fn ffi_get_heap_statistics() -> HeapStatistics = "getHeapStatistics"
 
 ///|
 #module("node:v8")
-extern "js" fn ffi_get_heap_space_statistics() -> Array[HeapSpaceStatistics] = "getHeapSpaceStatistics"
+extern "js" fn ffi_get_heap_space_statistics() -> FixedArray[
+  HeapSpaceStatistics,
+] = "getHeapSpaceStatistics"
 
 ///|
 #module("node:v8")
@@ -216,7 +218,7 @@ pub fn getHeapStatistics() -> HeapStatistics {
 /// Note: The returned array is a snapshot and should be treated as immutable.
 #alias(get_heap_space_statistics)
 pub fn getHeapSpaceStatistics() -> Array[HeapSpaceStatistics] {
-  ffi_get_heap_space_statistics()
+  Array::from_fixed_array(ffi_get_heap_space_statistics())
 }
 
 ///|

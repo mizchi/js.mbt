@@ -96,7 +96,7 @@ pub extern "js" fn JsError::isError(value : @core.Any) -> Bool =
 
 ///|
 pub fn JsError::new(message : String, cause? : JsError) -> JsError {
-  let args : Array[@core.Any] = if cause is Some(cause) {
+  let args : FixedArray[@core.Any] = if cause is Some(cause) {
     [
       @core.any(message).cast(),
       @core.from_entries([("cause", cause |> @core.any)]).cast(),
@@ -108,7 +108,7 @@ pub fn JsError::new(message : String, cause? : JsError) -> JsError {
 }
 
 ///|
-extern "js" fn ffi_new_error(args : Array[@core.Any]) -> JsError =
+extern "js" fn ffi_new_error(args : FixedArray[@core.Any]) -> JsError =
   #| (args) => new Error(...args)
 
 ///| Error type conversion and utility functions

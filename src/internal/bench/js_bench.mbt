@@ -59,7 +59,7 @@ test "bench: _call with two Ints" (b : @bench.T) {
 /// Benchmark: call with Array (requires map + any for each element)
 test "bench: _call with Array[Int] (map overhead)" (b : @bench.T) {
   let obj = get_test_obj()
-  let args : Array[@core.Any] = [
+  let args : FixedArray[@core.Any] = [
     @core.any(1),
     @core.any(2),
     @core.any(3),

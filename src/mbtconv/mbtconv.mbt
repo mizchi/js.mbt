@@ -387,7 +387,7 @@ pub fn get_enum_variant_name(v : @core.Any) -> String {
   // Fall back to constructor name (tuple variants)
   let ctor_name = ffi_get_constructor_name(v)
   // Parse "EnumName$VariantName" to get "VariantName"
-  let parts : Array[String] = ffi_split(ctor_name, "$")
+  let parts : FixedArray[String] = ffi_split(ctor_name, "$")
   let len = parts.length()
   if len > 1 {
     parts[len - 1]
@@ -397,7 +397,7 @@ pub fn get_enum_variant_name(v : @core.Any) -> String {
 }
 
 ///|
-extern "js" fn ffi_split(s : String, sep : String) -> Array[String] =
+extern "js" fn ffi_split(s : String, sep : String) -> FixedArray[String] =
   #|(s, sep) => s.split(sep)
 
 ///|

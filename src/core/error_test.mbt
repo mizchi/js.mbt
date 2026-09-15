@@ -9,11 +9,16 @@ test "try_sync: successful operation" {
 
 ///|
 test "try_sync: operation that throws" {
-  let result = try? @core.try_sync(() => {
-    @core.throw_error("test error")
-    @core.any(0)
-  })
-  inspect(result is Err(_), content="true")
+  try
+    @core.try_sync(() => {
+      @core.throw_error("test error")
+      @core.any(0)
+    })
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected try_sync to raise")
+  }
 }
 
 ///|
@@ -24,8 +29,11 @@ test "@core.export_sync: operation that raises error" {
     fail("This should be caught")
   }
 
-  let result = try? @core.try_sync(() => @core.export_sync(failing_op))
-  inspect(result is Err(_), content="true")
+  try @core.try_sync(() => @core.export_sync(failing_op)) catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected try_sync to raise")
+  }
 }
 
 ///|

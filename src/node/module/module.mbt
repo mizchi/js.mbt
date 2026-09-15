@@ -73,7 +73,7 @@ pub fn findSourceMap(path : String) -> SourceMap? {
   if @core.is_nullish(result) {
     None
   } else {
-    Some({ payload: result |> @core.identity })
+    Some({ payload: result |> @core.identity, })
   }
 }
 

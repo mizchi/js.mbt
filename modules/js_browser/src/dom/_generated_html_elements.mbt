@@ -149,25 +149,28 @@ pub fn HTMLDivElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLDivElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLDivElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -181,7 +184,7 @@ pub fn HTMLDivElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLDivElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -699,25 +702,28 @@ pub fn HTMLSpanElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSpanElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSpanElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -731,7 +737,7 @@ pub fn HTMLSpanElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLSpanElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -1249,25 +1255,28 @@ pub fn HTMLBodyElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLBodyElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLBodyElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -1281,7 +1290,7 @@ pub fn HTMLBodyElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLBodyElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -1799,25 +1808,28 @@ pub fn HTMLHeadElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -1831,7 +1843,7 @@ pub fn HTMLHeadElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -2349,25 +2361,28 @@ pub fn HTMLHtmlElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHtmlElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHtmlElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -2381,7 +2396,7 @@ pub fn HTMLHtmlElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHtmlElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -2904,25 +2919,31 @@ pub fn HTMLAnchorElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLAnchorElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLAnchorElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -2936,7 +2957,7 @@ pub fn HTMLAnchorElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLAnchorElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -3459,25 +3480,31 @@ pub fn HTMLButtonElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLButtonElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLButtonElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -3491,7 +3518,7 @@ pub fn HTMLButtonElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLButtonElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -4009,25 +4036,28 @@ pub fn HTMLInputElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLInputElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLInputElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -4041,7 +4071,7 @@ pub fn HTMLInputElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLInputElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -4564,19 +4594,28 @@ pub fn HTMLTextAreaElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::after(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLTextAreaElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLTextAreaElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -4584,7 +4623,7 @@ pub fn HTMLTextAreaElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLTextAreaElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -4599,7 +4638,7 @@ pub fn HTMLTextAreaElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLTextAreaElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -5125,25 +5164,31 @@ pub fn HTMLCanvasElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLCanvasElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLCanvasElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -5157,7 +5202,7 @@ pub fn HTMLCanvasElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLCanvasElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -5680,25 +5725,31 @@ pub fn HTMLIFrameElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLIFrameElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLIFrameElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -5712,7 +5763,7 @@ pub fn HTMLIFrameElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLIFrameElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -6230,25 +6281,28 @@ pub fn HTMLFormElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLFormElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLFormElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -6262,7 +6316,7 @@ pub fn HTMLFormElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLFormElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -6785,25 +6839,31 @@ pub fn HTMLSelectElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLSelectElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLSelectElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -6817,7 +6877,7 @@ pub fn HTMLSelectElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLSelectElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -7340,25 +7400,31 @@ pub fn HTMLOptionElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOptionElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOptionElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -7372,7 +7438,7 @@ pub fn HTMLOptionElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLOptionElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -7890,25 +7956,28 @@ pub fn HTMLLabelElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLabelElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLabelElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -7922,7 +7991,7 @@ pub fn HTMLLabelElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLLabelElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -8440,25 +8509,28 @@ pub fn HTMLImageElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLImageElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLImageElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -8472,7 +8544,7 @@ pub fn HTMLImageElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLImageElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -9003,19 +9075,28 @@ pub fn HTMLParagraphElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::after(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLParagraphElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLParagraphElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -9023,7 +9104,7 @@ pub fn HTMLParagraphElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLParagraphElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -9038,7 +9119,7 @@ pub fn HTMLParagraphElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLParagraphElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -9567,19 +9648,25 @@ pub fn HTMLHeadingElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::before(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLHeadingElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLHeadingElement::prepend(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
@@ -9587,7 +9674,7 @@ pub fn HTMLHeadingElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadingElement::replaceWith(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
@@ -9602,7 +9689,7 @@ pub fn HTMLHeadingElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLHeadingElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -10123,25 +10210,28 @@ pub fn HTMLUListElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLUListElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLUListElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -10155,7 +10245,7 @@ pub fn HTMLUListElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLUListElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -10673,25 +10763,28 @@ pub fn HTMLOListElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLOListElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLOListElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -10705,7 +10798,7 @@ pub fn HTMLOListElement::remove(self : Self) -> Unit {
 /// Inherited from Element
 pub fn HTMLOListElement::replaceChildren(
   self : Self,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
@@ -11220,25 +11313,28 @@ pub fn HTMLLIElement::querySelectorAll(
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::before(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::before(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().before(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::after(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::after(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().after(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::prepend(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::prepend(self : Self, nodes : FixedArray[Node]) -> Unit {
   self.as_html_element().as_element().prepend(nodes)
 }
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::replaceWith(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::replaceWith(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceWith(nodes)
 }
 
@@ -11250,7 +11346,10 @@ pub fn HTMLLIElement::remove(self : Self) -> Unit {
 
 ///|
 /// Inherited from Element
-pub fn HTMLLIElement::replaceChildren(self : Self, nodes : Array[Node]) -> Unit {
+pub fn HTMLLIElement::replaceChildren(
+  self : Self,
+  nodes : FixedArray[Node],
+) -> Unit {
   self.as_html_element().as_element().replaceChildren(nodes)
 }
 

@@ -26,18 +26,18 @@ pub extern "js" fn Any::_set(self : Any, key : String, value : Any) -> Unit =
 pub extern "js" fn Any::_call(
   self : Any,
   key : String,
-  args : Array[Any],
+  args : FixedArray[Any],
 ) -> Any =
   #| (obj, key, args) => obj[key](...args)
 
 ///|
 /// Call function: func._invoke([arg1, arg2])
-pub extern "js" fn Any::_invoke(self : Any, args : Array[Any]) -> Any =
+pub extern "js" fn Any::_invoke(self : Any, args : FixedArray[Any]) -> Any =
   #| (func, args) => func(...args)
 
 ///|
 /// JS: new cls(...args)
-pub extern "js" fn new(cls : Any, args : Array[Any]) -> Any =
+pub extern "js" fn new(cls : Any, args : FixedArray[Any]) -> Any =
   #|(cls, args) => new cls(...args)
 
 // ============================================
@@ -105,11 +105,21 @@ pub extern "js" fn new_array() -> Any =
   #| () => []
 
 ///|
-pub extern "js" fn object_keys(obj : Any) -> Array[String] =
+pub fn object_keys(obj : Any) -> Array[String] {
+  Array::from_fixed_array(ffi_object_keys(obj))
+}
+
+///|
+extern "js" fn ffi_object_keys(obj : Any) -> FixedArray[String] =
   #| (obj) => Object.keys(obj)
 
 ///|
-pub extern "js" fn object_values(obj : Any) -> Array[Any] =
+pub fn object_values(obj : Any) -> Array[Any] {
+  Array::from_fixed_array(ffi_object_values(obj))
+}
+
+///|
+extern "js" fn ffi_object_values(obj : Any) -> FixedArray[Any] =
   #| (obj) => Object.values(obj)
 
 ///|
@@ -121,11 +131,21 @@ pub extern "js" fn object_has_own(obj : Any, key : String) -> Bool =
   #| (obj, key) => Object.hasOwn(obj, key)
 
 ///|
-pub extern "js" fn from_entries(entries : Array[(String, Any)]) -> Any =
+pub fn from_entries(entries : Array[(String, Any)]) -> Any {
+  ffi_from_entries(FixedArray::from_array(entries[:]))
+}
+
+///|
+extern "js" fn ffi_from_entries(entries : FixedArray[(String, Any)]) -> Any =
   #| (entries) => Object.fromEntries(entries.map(e => [e._0, e._1]))
 
 ///|
-pub extern "js" fn array_from(v : Any) -> Array[Any] =
+pub fn array_from(v : Any) -> Array[Any] {
+  Array::from_fixed_array(ffi_array_from(v))
+}
+
+///|
+extern "js" fn ffi_array_from(v : Any) -> FixedArray[Any] =
   #| (v) => Array.from(v)
 
 // ============================================

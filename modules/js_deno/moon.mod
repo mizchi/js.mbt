@@ -18,6 +18,4 @@ description = "deno-specific js bindings"
 
 source = "src"
 
-warnings = "-20"
-
 preferred_target = "js"

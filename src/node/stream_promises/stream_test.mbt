@@ -6,7 +6,7 @@ let promises_finished = @stream_promises.finished
 
 ///|
 extern "js" fn create_readable_from_array(
-  items : Array[String],
+  items : FixedArray[String],
 ) -> @stream.Readable =
   #| (items) => {
   #|   const { Readable } = require('node:stream');
@@ -48,7 +48,7 @@ extern "js" fn create_passthrough_promises() -> @stream.PassThrough =
   #| }
 
 ///|
-extern "js" fn get_chunks_promises(writable : @core.Any) -> Array[String] =
+extern "js" fn get_chunks_promises(writable : @core.Any) -> FixedArray[String] =
   #| (writable) => writable.chunks || []
 
 ///| Pipeline operations
@@ -140,7 +140,7 @@ async test "Node Stream Promises: pipeline with promises - then chain" {
 
 ///|
 async test "Node Stream Promises: pipeline with promises - large data" {
-  let items = Array::make(100, "")
+  let items = FixedArray::make(100, "")
   let mut i = 0
   while i < 100 {
     items[i] = "item\{i}"

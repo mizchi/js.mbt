@@ -73,7 +73,7 @@ struct Builder {
 
 ///|
 fn Builder::new() -> Builder {
-  Builder::{ name: "", age: 0 }
+  Builder::{ name: "", age: 0, }
 }
 
 ///|
@@ -140,7 +140,7 @@ struct Counter {
 
 ///|
 fn Counter::new() -> Counter {
-  Counter::{ value: 0 } // or { value: 0 }
+  Counter::{ value: 0, } // or { value: 0 }
 }
 
 ///|

@@ -66,7 +66,7 @@ pub fn TemplateStringsArray::raw(self : TemplateStringsArray) -> Array[String] {
 extern "js" fn ffi_call_tagged_template(
   tag_fn : Any,
   template : String,
-  args : Array[Any],
+  args : FixedArray[Any],
 ) -> Any =
   #| (tagFn, template, args) => {
   #|   const [strings, values] = template.split(/\$\{@(\d+)\}/).reduce(
@@ -133,6 +133,10 @@ pub fn[T] tag(
   template : String,
   args : Array[Any],
 ) -> T {
-  let result = ffi_call_tagged_template(any(tag_fn), template, args)
+  let result = ffi_call_tagged_template(
+    any(tag_fn),
+    template,
+    FixedArray::from_array(args[:]),
+  )
   identity(result)
 }

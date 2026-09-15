@@ -195,7 +195,7 @@ pub fn DatabaseSync::location(
   self : DatabaseSync,
   db_name? : String,
 ) -> String? {
-  let args : Array[@core.Any] = if db_name is Some(name) {
+  let args : FixedArray[@core.Any] = if db_name is Some(name) {
     [@core.any(name)]
   } else {
     []
@@ -251,7 +251,7 @@ pub fn DatabaseSync::createTagStore(
   self : DatabaseSync,
   max_size? : Int,
 ) -> SQLTagStore {
-  let args : Array[@core.Any] = if max_size is Some(size) {
+  let args : FixedArray[@core.Any] = if max_size is Some(size) {
     [@core.any(size)]
   } else {
     []
@@ -330,7 +330,7 @@ pub fn StatementSync::get(
       args.push(param)
     }
   }
-  let result = @core.any(self)._call("get", args)
+  let result = @core.any(self)._call("get", FixedArray::from_array(args[:]))
   if @core.is_undefined(result) {
     None
   } else {
@@ -365,7 +365,7 @@ pub fn StatementSync::run(
       args.push(param)
     }
   }
-  @core.any(self)._call("run", args).cast()
+  @core.any(self)._call("run", FixedArray::from_array(args[:])).cast()
 }
 
 ///|
@@ -387,7 +387,7 @@ pub fn StatementSync::all(
       args.push(param)
     }
   }
-  @core.any(self)._call("all", args).cast()
+  @core.any(self)._call("all", FixedArray::from_array(args[:])).cast()
 }
 
 ///|
@@ -409,7 +409,7 @@ pub fn StatementSync::iterate(
       args.push(param)
     }
   }
-  @core.any(self)._call("iterate", args).cast()
+  @core.any(self)._call("iterate", FixedArray::from_array(args[:])).cast()
 }
 
 ///|

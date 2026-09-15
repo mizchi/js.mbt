@@ -69,7 +69,7 @@ pub fn isNaN(@core.Any) -> Bool
 
 pub fn log(@core.Any) -> Unit
 
-pub fn new(@core.Any, Array[@core.Any]) -> @core.Any
+pub fn new(@core.Any, FixedArray[@core.Any]) -> @core.Any
 
 pub fn new_array() -> @core.Any
 

@@ -28,7 +28,7 @@ pub fn info(@core.Any) -> Unit
 
 pub fn log(@core.Any) -> Unit
 
-pub fn table(@core.Any, Array[String]) -> Unit
+pub fn table(@core.Any, FixedArray[String]) -> Unit
 
 pub fn time(String) -> Unit
 

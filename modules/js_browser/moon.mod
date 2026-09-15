@@ -19,6 +19,4 @@ description = "browser-specific js bindings (DOM, canvas, indexeddb, ...)"
 
 source = "src"
 
-warnings = "-20"
-
 preferred_target = "js"

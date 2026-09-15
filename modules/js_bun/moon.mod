@@ -16,6 +16,4 @@ description = "bun-specific js bindings"
 
 source = "src"
 
-warnings = "-20"
-
 preferred_target = "js"

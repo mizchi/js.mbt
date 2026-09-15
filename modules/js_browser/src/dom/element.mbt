@@ -120,19 +120,25 @@ pub fn Element::querySelectorAll(
 
 ///|
 /// Inserts nodes just before this element.
-pub extern "js" fn Element::before(self : Element, nodes : Array[Node]) -> Unit =
+pub extern "js" fn Element::before(
+  self : Element,
+  nodes : FixedArray[Node],
+) -> Unit =
   #| (self, nodes) => self.before(...nodes)
 
 ///|
 /// Inserts nodes just after this element.
-pub extern "js" fn Element::after(self : Element, nodes : Array[Node]) -> Unit =
+pub extern "js" fn Element::after(
+  self : Element,
+  nodes : FixedArray[Node],
+) -> Unit =
   #| (self, nodes) => self.after(...nodes)
 
 ///|
 /// Inserts nodes before the first child of this element.
 pub extern "js" fn Element::prepend(
   self : Element,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit =
   #| (self, nodes) => self.prepend(...nodes)
 
@@ -140,7 +146,7 @@ pub extern "js" fn Element::prepend(
 /// Replaces this element with the given nodes.
 pub extern "js" fn Element::replaceWith(
   self : Element,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit =
   #| (self, nodes) => self.replaceWith(...nodes)
 
@@ -154,7 +160,7 @@ pub fn Element::remove(self : Element) -> Unit {
 /// Replaces all children of this element with the given nodes.
 pub extern "js" fn Element::replaceChildren(
   self : Element,
-  nodes : Array[Node],
+  nodes : FixedArray[Node],
 ) -> Unit =
   #| (self, nodes) => self.replaceChildren(...nodes)
 

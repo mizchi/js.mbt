@@ -81,8 +81,11 @@ async test "Promise: @core.Promise::new with reject" {
     @core.sleep(16)
     reject(Failure::Failure("test error"))
   })
-  let result = try? p.wait()
-  assert_true(result is Err(_))
+  try p.wait() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the promise to reject")
+  }
 }
 
 ///|
@@ -354,13 +357,18 @@ async test "Promise: suspend with resolve" {
 
 ///|
 async test "Promise: suspend with reject" {
-  let result : Result[Unit, Failure] = try? @core.suspend((_ok, err) => {
-    let _ = @core.from_async(async fn() {
-      @core.sleep(16)
-      err(Failure::Failure("test error"))
+  try
+    @core.suspend((_ok : (Unit) -> Unit, err) => {
+      let _ = @core.from_async(async fn() {
+        @core.sleep(16)
+        err(Failure::Failure("test error"))
+      })
     })
-  })
-  assert_true(result is Err(_))
+  catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected suspend to raise")
+  }
 }
 
 ///|
@@ -621,8 +629,11 @@ async test "Promise: @core.from_async auto-rejects on error" {
   let p : @core.Promise[Int] = @core.from_async(async fn() {
     fail("auto reject error")
   })
-  let result = try? p.wait()
-  assert_true(result is Err(_))
+  try p.wait() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the promise to reject")
+  }
 }
 
 ///| PromiseResolvers::reject tests
@@ -631,8 +642,11 @@ async test "Promise: @core.from_async auto-rejects on error" {
 async test "Promise: PromiseResolvers::reject" {
   let resolvers : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   resolvers.reject(Failure::Failure("rejected"))
-  let result = try? resolvers.promise.wait()
-  assert_true(result is Err(_))
+  try resolvers.promise.wait() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the promise to reject")
+  }
 }
 
 ///|
@@ -837,8 +851,11 @@ async test "Promise::new with exception in callback" {
   let p : @core.Promise[Int] = @core.Promise::new(async fn(_resolve, _reject) {
     fail("error in promise callback")
   })
-  let result = try? p.wait()
-  inspect(result is Err(_), content="true")
+  try p.wait() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the promise to reject")
+  }
 }
 
 ///|
@@ -853,8 +870,11 @@ async test "PromiseResolvers::resolve direct call" {
 async test "PromiseResolvers::reject direct call" {
   let resolvers : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   resolvers.reject(Failure::Failure("direct reject"))
-  let result = try? resolvers.promise.wait()
-  inspect(result is Err(_), content="true")
+  try resolvers.promise.wait() catch {
+    _ => ()
+  } noraise {
+    _ => fail("expected the promise to reject")
+  }
 }
 
 ///| Dispose tests

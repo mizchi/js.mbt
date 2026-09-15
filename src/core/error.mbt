@@ -16,8 +16,8 @@ pub suberror JsError {
 ///|
 /// Safe wrapper that converts JS exceptions to MoonBit errors
 pub fn try_sync(op : () -> Any) -> Any raise JsError {
-  let result : Ref[Any?] = { val: None }
-  let error : Ref[String?] = { val: None }
+  let result : Ref[Any?] = { val: None, }
+  let error : Ref[String?] = { val: None, }
   ffi_wrap_sync(op, fn(v) { result.val = Some(v) }, fn(e) {
     let msg : String = e["message"].cast()
     error.val = Some(msg)

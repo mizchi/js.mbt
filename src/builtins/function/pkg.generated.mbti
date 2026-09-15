@@ -12,7 +12,7 @@ import {
 // Types and methods
 #external
 pub type Function
-pub fn Function::apply(Self, @core.Any, Array[@core.Any]) -> @core.Any
+pub fn Function::apply(Self, @core.Any, FixedArray[@core.Any]) -> @core.Any
 pub fn Function::bind(Self, @core.Any) -> @core.Any
 pub fn Function::length(Self) -> @core.Any
 pub fn Function::name(Self) -> String
