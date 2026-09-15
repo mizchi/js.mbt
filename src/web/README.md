@@ -364,7 +364,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 - 🌐 Canvas rendering
 - 🌐 Browser-only features (MutationObserver, etc.)
 
-### Use `mizchi/js/node/*` when:
+### Use `mizchi/js_node/*` when:
 - 🟢 Accessing file system (fs)
 - 🟢 Process management (child_process)
 - 🟢 Node.js-specific modules (path, os, etc.)
@@ -378,7 +378,7 @@ fn connect_to_server() -> @websocket.WebSocket {
 
 - **`mizchi/js`** - Core JavaScript FFI and built-in objects
 - **`mizchi/js_browser/dom`** - Browser-specific DOM and rendering APIs
-- **`mizchi/js/node`** - Node.js-specific runtime APIs
+- **`mizchi/js_node`** - Node.js-specific runtime APIs
 - **`mizchi/js/cloudflare`** - Cloudflare Workers platform APIs
 - **`mizchi/js_deno`** - Deno runtime APIs (separate module)
 
