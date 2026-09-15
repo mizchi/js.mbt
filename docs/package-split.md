@@ -477,6 +477,56 @@ import 元が `src/internal/bench` だったため、看板パッケージの利
 対象ですが、`scripts/release.ts` の publish 対象リスト (ハードコード) には
 入っていないので、ここに何を置いても release に漏れません。
 
+### 配布アーカイブの制御 (`.moonignore`)
+
+`moon package` を使うと**認証情報なしで実際の publish アーカイブを
+`_build/publish/` に書き出せる**ので、何が配布されるか実測できます
+(`moon publish --dry-run` は認証情報を要求します)。分かったことを並べると:
+
+- `moon.mod` に `exclude` / `files` は**ない**。`exclude` キーを書くと moon が
+  build plan の計算に失敗する。`source = "src"` はパッケージの置き場所を指す
+  だけで、**アーカイブの範囲は制御しない**
+- **`.moonignore` は効く**。しかも publish 専用で build には影響しないので、
+  CI はテストハーネスをそのままコンパイルし続ける。各公開モジュールに1枚置き、
+  `*_test.mbt` / `*_wbtest.mbt` と `_tests/` / `bun_test/` / `_interop_test/`
+  を除外している
+- **パターンはモジュールではなくワークスペース root 基準で解決される。**
+  root の `.moonignore` に `modules/` のような兄弟を指すディレクトリパターンを
+  書くと、配下の全モジュールのアーカイブが**空**になる。しかも
+  `moon package` は成功したと表示する。だからこのファイルはテスト用の
+  glob だけに留める
+- 死んだ `targets:` エントリは許容される。`.moonignore` で消えたテスト
+  ファイルが `moon.pkg` の `targets:` に残っていても、展開したアーカイブは
+  clean に `moon check` を通る
+- `.moonignore` は `moon.mod` の `import` を落とせない。dev 専用パッケージが
+  依存を引いている場合は、モジュールの外に出すしかない (それがこの `dev/`)
+
+削減量 (テストコード除外後):
+
+| モジュール          | 前        | 後      | 削減 |
+| ------------------- | --------- | ------- | ---- |
+| `js_core`           | 146,654   | 61,475  | 58%  |
+| `js_deno`           | 53,892    | 32,466  | 40%  |
+| `js_builtin`        | 319,656   | 201,969 | 37%  |
+| `js_convert`        | 88,154    | 61,392  | 30%  |
+| `js_bun`            | 27,177    | 19,589  | 28%  |
+| `js_node`           | 512,536   | 371,887 | 27%  |
+| `js_web`            | 280,864   | 207,158 | 26%  |
+| `js_browser`        | 1,072,776 | 971,196 | 9%   |
+| `js_webextensions`  | 36,226    | 36,226  | 0%   |
+
+`js_webextensions` はテストを持たないので変化なしです。
+
+### 未解決: `mizchi/js` がリポジトリ全体を配布している
+
+`mizchi/js` はリポジトリ root のモジュールなので、アーカイブが
+**リポジトリ全体** (約 2.5MB / 537 ファイル) になります。`modules/js_browser/...`
+`modules/js_node/...` `pnpm-lock.yaml` `deno.lock` `moon.work` まで入ります。
+
+`.moonignore` では直せません — root に `modules/` を書くと上記のルールで
+兄弟モジュールが空になるためです。`mizchi/js` を `modules/js/` に移せば
+アーカイブが自分のディレクトリに限定され、解決します。
+
 ### 現在の依存階層
 
 インデントは「ぶら下がっている先のモジュールに依存する」を意味します:
