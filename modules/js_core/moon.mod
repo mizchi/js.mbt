@@ -1,6 +1,6 @@
 name = "mizchi/js_core"
 
-version = "0.12.2"
+version = "0.13.0"
 
 import {
   "moonbitlang/async@0.20.5",

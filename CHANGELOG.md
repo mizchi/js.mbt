@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.13.0] - 2026-09-15
 
 ### Fixed
 
@@ -196,6 +196,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Reformatted with the current `moon fmt` (trailing commas in single-line
   struct literals) and regenerated all `.mbti` interfaces.
+
+- Minor version bump to 0.13.0 across all workspace modules. The workspace is
+  now nine modules — `mizchi/js` (meta) plus `mizchi/js_core`,
+  `mizchi/js_builtin`, `mizchi/js_mbtconv`, `mizchi/js_web`, `mizchi/js_node`,
+  `mizchi/js_browser`, `mizchi/js_deno`, `mizchi/js_bun` and
+  `mizchi/js_webextensions`. They must be published in dependency order;
+  `scripts/release.ts` does that.
 
 ## [0.12.1] - 2026-05-26
 

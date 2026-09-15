@@ -1,9 +1,9 @@
 name = "mizchi/js_mbtconv"
 
-version = "0.12.2"
+version = "0.13.0"
 
 import {
-  "mizchi/js_core@0.12.2",
+  "mizchi/js_core@0.13.0",
 }
 
 readme = "src/README.md"
