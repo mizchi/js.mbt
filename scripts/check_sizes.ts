@@ -81,7 +81,7 @@ interface SizeComparison {
 }
 
 const PROJECT_ROOT = process.cwd();
-const TARGET_DIR = join(PROJECT_ROOT, "target/js/release/build/mizchi/js/examples");
+const TARGET_DIR = join(PROJECT_ROOT, "target/js/release/build/mizchi/js_dev/examples");
 const BASELINE_FILE = join(PROJECT_ROOT, ".bundle_size_baseline.json");
 const OUTPUT_DIR = join(PROJECT_ROOT, "tmp/check-sizes");
 
