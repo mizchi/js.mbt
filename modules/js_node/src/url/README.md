@@ -7,6 +7,6 @@
 ## Not supported
 
 - URL
-  - Use `mizchi/js/web/url`'s `URL`
+  - Use `mizchi/js_web/url`'s `URL`
 - URLSearchParams
-  - Use `mizchi/js/web/url`'s `URLSearchParams`
+  - Use `mizchi/js_web/url`'s `URLSearchParams`

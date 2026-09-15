@@ -188,46 +188,48 @@ memory |
 
 ### Web Standard APIs
 
-Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes):
+Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes),
+shipped as the separate `mizchi/js_web` module:
 
-> See **[mizchi/js/web](src/web/README.md)** for detailed Web APIs documentation
+> See **[mizchi/js_web](modules/js_web/src/README.md)** for detailed Web APIs documentation
 
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
-| Console | `mizchi/js/web/console` | 🧪 Tested | console.log, console.error, etc. |
-| fetch | `mizchi/js/web/http` | 🧪 Tested | HTTP requests |
-| Request | `mizchi/js/web/http` | 🧪 Tested | Request objects |
-| Response | `mizchi/js/web/http` | 🧪 Tested | Response objects |
-| Headers | `mizchi/js/web/http` | 🧪 Tested | HTTP headers |
-| FormData | `mizchi/js/web/http` | 🧪 Tested | Form data |
-| URL | `mizchi/js/web/url` | 🧪 Tested | URL parsing |
-| URLSearchParams | `mizchi/js/web/url` | 🧪 Tested | Query strings |
-| URLPattern | `mizchi/js/web/url` | 🧪 Tested | URL pattern matching |
-| Blob | `mizchi/js/web/blob` | 🧪 Tested | Binary data |
-| ReadableStream | `mizchi/js/web/streams` | 🧪 Tested | Stream reading |
-| WritableStream | `mizchi/js/web/streams` | 🧪 Tested | Stream writing |
-| TransformStream | `mizchi/js/web/streams` | 🧪 Tested | Stream transformation |
-| CompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate compression |
-| DecompressionStream | `mizchi/js/web/streams` | 🧪 Tested | GZIP/Deflate decompression |
-| TextEncoder | `mizchi/js/web/encoding` | 🧪 Tested | String to Uint8Array |
-| TextDecoder | `mizchi/js/web/encoding` | 🧪 Tested | Uint8Array to String |
-| Event | `mizchi/js/web/event` | 🧪 Tested | Event objects |
-| CustomEvent | `mizchi/js/web/event` | 🧪 Tested | Custom events |
-| MessageEvent | `mizchi/js/web/event` | 🧪 Tested | Message events |
-| Crypto | `mizchi/js/web/crypto` | 🧪 Tested | Web Crypto API |
-| WebSocket | `mizchi/js/web/websocket` | 🧪 Tested | WebSocket API |
-| Worker | `mizchi/js/web/worker` | 🧪 Tested | Web Workers |
-| MessageChannel | `mizchi/js/web/message` | 🧪 Tested | Message passing |
-| MessagePort | `mizchi/js/web/message` | 🧪 Tested | Message ports |
-| WebAssembly | `mizchi/js/web/webassembly` | 🤖 AI Generated | WASM integration |
-| Performance | `mizchi/js/web/performance` | 🤖 AI Generated | Performance API |
+| Console | `mizchi/js_web/console` | 🧪 Tested | console.log, console.error, etc. |
+| fetch | `mizchi/js_web/http` | 🧪 Tested | HTTP requests |
+| Request | `mizchi/js_web/http` | 🧪 Tested | Request objects |
+| Response | `mizchi/js_web/http` | 🧪 Tested | Response objects |
+| Headers | `mizchi/js_web/http` | 🧪 Tested | HTTP headers |
+| FormData | `mizchi/js_web/http` | 🧪 Tested | Form data |
+| URL | `mizchi/js_web/url` | 🧪 Tested | URL parsing |
+| URLSearchParams | `mizchi/js_web/url` | 🧪 Tested | Query strings |
+| URLPattern | `mizchi/js_web/url` | 🧪 Tested | URL pattern matching |
+| Blob | `mizchi/js_web/blob` | 🧪 Tested | Binary data |
+| ReadableStream | `mizchi/js_web/streams` | 🧪 Tested | Stream reading |
+| WritableStream | `mizchi/js_web/streams` | 🧪 Tested | Stream writing |
+| TransformStream | `mizchi/js_web/streams` | 🧪 Tested | Stream transformation |
+| CompressionStream | `mizchi/js_web/streams` | 🧪 Tested | GZIP/Deflate compression |
+| DecompressionStream | `mizchi/js_web/streams` | 🧪 Tested | GZIP/Deflate decompression |
+| TextEncoder | `mizchi/js_web/encoding` | 🧪 Tested | String to Uint8Array |
+| TextDecoder | `mizchi/js_web/encoding` | 🧪 Tested | Uint8Array to String |
+| Event | `mizchi/js_web/event` | 🧪 Tested | Event objects |
+| CustomEvent | `mizchi/js_web/event` | 🧪 Tested | Custom events |
+| MessageEvent | `mizchi/js_web/event` | 🧪 Tested | Message events |
+| Crypto | `mizchi/js_web/crypto` | 🧪 Tested | Web Crypto API |
+| WebSocket | `mizchi/js_web/websocket` | 🧪 Tested | WebSocket API |
+| Worker | `mizchi/js_web/worker` | 🧪 Tested | Web Workers |
+| MessageChannel | `mizchi/js_web/message` | 🧪 Tested | Message passing |
+| MessagePort | `mizchi/js_web/message` | 🧪 Tested | Message ports |
+| WebAssembly | `mizchi/js_web/webassembly` | 🤖 AI Generated | WASM integration |
+| Performance | `mizchi/js_web/performance` | 🤖 AI Generated | Performance API |
 
 ### Runtime-Specific APIs
 
-Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod.json` `deps` only if you target that runtime.
+Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_*` modules — add each one to your `moon.mod` `import` list only if you need it.
 
 | Platform | Module | Status | Documentation |
 |----------|--------|--------|---------------|
+| Web Standards | `mizchi/js_web/*` | 🧪 Tested | [Web README](modules/js_web/src/README.md) |
 | Node.js | `mizchi/js_node/*` | 🧪 Tested | [Node.js README](modules/js_node/src/README.md) |
 | Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
 | Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
@@ -261,7 +263,8 @@ Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separate `mizchi/js_
 
 ## Project Status
 
-- ✅ **Core JS / Web Standards** (`mizchi/js`) - built-ins, Web APIs, fetch, URL, Streams, Crypto, WebSocket
+- ✅ **Core JS / built-ins** (`mizchi/js`) - `Any`, `Promise`, Object, Array, JSON, RegExp, ...
+- 📦 **Web Standards** (`mizchi/js_web`) - fetch, URL, Streams, Blob, Crypto, WebSocket, Workers. Split out into its own module
 - 📦 **Node.js Core APIs** (`mizchi/js_node`) - `fs`, `path`, `process`, `child_process`, etc. Split out into its own module
 - 📦 **Browser / DOM** (`mizchi/js_browser`) - Split out in v0.11.0
 - 📦 **Deno Runtime** (`mizchi/js_deno`) - Split out in v0.11.0

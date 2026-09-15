@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `web/*` split out into `mizchi/js_web`.** All 15 Web Standard
+  packages (`blob`, `console`, `crypto`, `encoding`, `event`, `http`,
+  `message`, `performance`, `streams`, `trusted_types`, `url`, `webassembly`,
+  `webgpu`, `websocket`, `worker`) moved out of `mizchi/js`. Package names are
+  unchanged, so `@http` / `@url` / `@streams` aliases in `.mbt` sources keep
+  working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/web/http",
+  +  "mizchi/js_web/http",
+   }
+  ```
+
+  `mizchi/js_node`, `mizchi/js_browser` and `mizchi/js_deno` now depend on
+  `mizchi/js_web`, so it has to be published before them; `scripts/release.ts`
+  does that ordering.
+
 - **`web/*` no longer imports the `mizchi/js` facade.** The seven packages
   that reached types through the root re-export (`blob`, `event`, `http`,
   `worker`, `webgpu`, `websocket`, `streams`) now import the package that

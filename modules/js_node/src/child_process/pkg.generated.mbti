@@ -4,8 +4,8 @@ package "mizchi/js_node/child_process"
 import {
   "mizchi/js/builtins/error",
   "mizchi/js/core",
-  "mizchi/js/web/streams",
   "mizchi/js_node/events",
+  "mizchi/js_web/streams",
   "moonbitlang/async/js_async",
 }
 

@@ -3,7 +3,7 @@ package "mizchi/js_node/https"
 
 import {
   "mizchi/js/core",
-  "mizchi/js/web/event",
+  "mizchi/js_web/event",
 }
 
 // Values

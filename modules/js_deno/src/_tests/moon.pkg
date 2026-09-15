@@ -2,9 +2,9 @@ import {
   "mizchi/js",
   "mizchi/js/core",
   "mizchi/js_deno" @deno,
-  "mizchi/js/web/worker",
-  "mizchi/js/web/webgpu",
-  "mizchi/js/web/encoding",
+  "mizchi/js_web/worker",
+  "mizchi/js_web/webgpu",
+  "mizchi/js_web/encoding",
   "mizchi/js/builtins/arraybuffer",
 }
 

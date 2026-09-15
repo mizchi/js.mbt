@@ -1,7 +1,7 @@
 import {
   "mizchi/js",
   "mizchi/js/core",
-  "mizchi/js/web/event",
+  "mizchi/js_web/event",
   "mizchi/js/builtins/global",
 }
 

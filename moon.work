@@ -4,5 +4,6 @@ members = [
   "modules/js_bun",
   "modules/js_deno",
   "modules/js_node",
+  "modules/js_web",
   "modules/js_webextensions",
 ]

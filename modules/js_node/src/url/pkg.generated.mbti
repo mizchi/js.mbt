@@ -10,15 +10,15 @@ import {
 pub fn fileURLToPath(String, windows? : Bool) -> String
 
 #alias(file_url_to_path_from_url)
-pub fn fileURLToPathFromURL(@mizchi/js/web/url.URL, windows? : Bool) -> String
+pub fn fileURLToPathFromURL(@mizchi/js_web/url.URL, windows? : Bool) -> String
 
-pub fn format(@mizchi/js/web/url.URL) -> String
+pub fn format(@mizchi/js_web/url.URL) -> String
 
 #alias(path_to_file_url)
-pub fn pathToFileURL(String, windows? : Bool) -> @mizchi/js/web/url.URL
+pub fn pathToFileURL(String, windows? : Bool) -> @mizchi/js_web/url.URL
 
 #alias(url_to_http_options)
-pub fn urlToHttpOptions(@mizchi/js/web/url.URL) -> @core.Any
+pub fn urlToHttpOptions(@mizchi/js_web/url.URL) -> @core.Any
 
 // Errors
 
