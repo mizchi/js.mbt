@@ -278,7 +278,7 @@ import {
 | ----------------------------------- | ------------------------------- |
 | `mizchi/js/browser/canvas`          | `mizchi/js_browser/canvas`          |
 | `mizchi/js/browser/dom`             | `mizchi/js_browser/dom`             |
-| `mizchi/js/browser/file`            | `mizchi/js_browser/file`            |
+| `mizchi/js/browser/file`            | **`mizchi/js_web/file`**            |
 | `mizchi/js/browser/history`         | `mizchi/js_browser/history`         |
 | `mizchi/js/browser/indexeddb`       | `mizchi/js_browser/indexeddb`       |
 | `mizchi/js/browser/location`        | `mizchi/js_browser/location`        |
@@ -289,6 +289,11 @@ import {
 | `mizchi/js/browser/storage`         | `mizchi/js_browser/storage`         |
 
 `.mbt` ソース内の `@dom.` 等のエイリアスは変更不要です(import path だけ書き換えればそのまま動きます)。
+
+`file` だけ移動先が `js_browser` ではなく `js_web` です。`File` は `Blob` の
+派生で `blob` は元から `js_web` にあり、`File` / `FileReader` はどちらも
+Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るためです。
+`@file.` のエイリアスは (最後のパスセグメントが同じなので) そのままです。
 
 ### 3. DOM テストヘルパ
 
