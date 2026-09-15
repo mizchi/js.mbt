@@ -357,6 +357,18 @@ pub fn HTMLInputElement::setType(self : Self, input_type : String) -> Unit {
 }
 
 ///|
+/// Returns the selected files of a file input, empty when nothing is
+/// selected (or when the input is not a file input, where `files` is null).
+/// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
+pub fn HTMLInputElement::files(self : Self) -> Array[@file.File] {
+  let list : @core.Any? = self.as_any()._get("files") |> @core.identity_option()
+  match list {
+    Some(l) => @core.array_from(l).map(fn(v : @core.Any) { v.cast() })
+    None => []
+  }
+}
+
+///|
 /// HTMLTextAreaElement represents a <textarea> element
 /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement
 pub(all) struct HTMLTextAreaElement {

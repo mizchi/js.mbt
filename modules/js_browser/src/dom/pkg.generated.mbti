@@ -2,6 +2,7 @@
 package "mizchi/js_browser/dom"
 
 import {
+  "mizchi/js_browser/file",
   "mizchi/js_browser/history",
   "mizchi/js_core",
   "mizchi/js_web/blob",
@@ -1682,6 +1683,7 @@ pub fn HTMLInputElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLInputElement::contains(Self, Node?) -> Bool
 #alias(dispatch_event)
 pub fn HTMLInputElement::dispatchEvent(Self, @event.Event) -> Bool
+pub fn HTMLInputElement::files(Self) -> Array[@file.File]
 pub fn HTMLInputElement::firstChild(Self) -> Node?
 pub fn HTMLInputElement::firstElementChild(Self) -> Element?
 pub fn HTMLInputElement::focus(Self) -> Unit
@@ -3960,6 +3962,8 @@ pub fn ShadowRoot::as_node(Self) -> Node
 pub fn ShadowRoot::delegatesFocus(Self) -> Bool
 pub fn ShadowRoot::elementFromPoint(Self, Double, Double) -> Element?
 pub fn ShadowRoot::elementsFromPoint(Self, Double, Double) -> Array[Element]
+#alias(get_element_by_id)
+pub fn ShadowRoot::getElementById(Self, String) -> Element?
 pub fn ShadowRoot::host(Self) -> Element
 pub fn ShadowRoot::innerHTML(Self) -> String
 pub fn ShadowRoot::mode(Self) -> String
