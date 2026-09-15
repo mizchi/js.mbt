@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.13.0] - 2026-09-15
 
+### Added
+
+- **`Response::new_with_body` for non-`String` bodies** (`mizchi/js_web/http`,
+  contributed by @useiichi in #6). `Response::new` types its body as `String`,
+  which fits the common text case but makes binary bodies unrepresentable —
+  bytes cannot ride a UTF-16 `String` — so serving an `ArrayBuffer` (an image
+  proxied through a Worker, say) meant dropping the whole handler into raw
+  `extern "js"`. The new constructor takes `body? : @core.Any` and so accepts
+  any `BodyInit`: `ArrayBuffer`, a `TypedArray`, `Blob`, `ReadableStream`,
+  `FormData`, `URLSearchParams`. This mirrors `RequestInit`, whose `body` was
+  already `@core.Any`. `Response::new` is behaviorally unchanged; the eight-arm
+  option dispatch both constructors share moved into `new_dispatch`.
+
+- **`ShadowRoot::getElementById`** (`mizchi/js_browser/dom`, contributed by
+  @useiichi in #7). Returns `Element?`, with the `get_element_by_id` alias.
+  Elements inside a shadow tree are invisible to `Document::getElementById`, so
+  Web-Component and island code had no typed lookup; `ShadowRoot` bound
+  `activeElement` and `elementFromPoint` but not the everyday one.
+
+- **`HTMLInputElement::files`** (`mizchi/js_browser/dom`, contributed by
+  @useiichi in #7). Returns `Array[@file.File]`, empty when nothing is selected
+  and when `files` is `null` on a non-file input. `@file.File` and `FileReader`
+  were already bound, but there was no typed road to the selection itself. The
+  `dom` package now imports the sibling `file` package; the two do not form a
+  cycle, since `file` imports only `js`, `js_core`, `js_web/blob` and
+  `js_builtin/arraybuffer`.
+
 ### Fixed
 
 - **`check-env` CI could not run the Deno tests.** `deno.jsonc` was pointed at
