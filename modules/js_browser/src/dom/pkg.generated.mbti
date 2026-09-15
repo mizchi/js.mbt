@@ -8,6 +8,7 @@ import {
   "mizchi/js_web/event",
   "mizchi/js_web/http",
   "mizchi/js_web/message",
+  "moonbitlang/async/js_async",
 }
 
 // Values
@@ -193,6 +194,8 @@ pub fn DataTransferItem::as_any(Self) -> @js_core.Any
 pub type Document
 #alias(active_element)
 pub fn Document::activeElement(Self) -> Element
+#alias(add_event_listener)
+pub fn Document::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 #alias(adopt_node)
 pub fn Document::adoptNode(Self, Node) -> Node
 pub fn Document::appendChild(Self, Node) -> Node
@@ -224,6 +227,8 @@ pub fn Document::createEvent(Self, String) -> Event
 pub fn Document::createStylesheet(Self) -> CSSStyleSheet
 #alias(create_text_node)
 pub fn Document::createTextNode(Self, String) -> Text
+#alias(dispatch_event)
+pub fn Document::dispatchEvent(Self, @event.Event) -> Bool
 pub fn Document::doctype(Self) -> @js_core.Any?
 #alias(document_element)
 pub fn Document::documentElement(Self) -> Element
@@ -255,6 +260,8 @@ pub fn Document::nodeName(Self) -> String
 pub fn Document::nodeType(Self) -> Int
 pub fn Document::nodeValue(Self) -> String?
 pub fn Document::normalize(Self) -> Unit
+pub fn Document::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn Document::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn Document::ownerDocument(Self) -> Self?
 pub fn Document::parentNode(Self) -> Node?
 pub fn Document::previousSibling(Self) -> Node?
@@ -266,6 +273,8 @@ pub fn Document::querySelectorAll(Self, String) -> Array[Element]
 pub fn Document::readyState(Self) -> String
 pub fn Document::referrer(Self) -> String
 pub fn Document::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn Document::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn Document::replaceChild(Self, Node, Node) -> Node
 #alias(set_body)
 pub fn Document::setBody(Self, HTMLBodyElement) -> Unit
@@ -301,6 +310,8 @@ pub fn DragEvent::target(Self) -> Element
 
 #external
 pub type Element
+#alias(add_event_listener)
+pub fn Element::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn Element::after(Self, FixedArray[Node]) -> Unit
 pub fn Element::append(Self, Node) -> Unit
 pub fn Element::appendChild(Self, Node) -> Node
@@ -320,6 +331,8 @@ pub fn Element::cloneNode(Self, Bool) -> Node
 pub fn Element::closest(Self, String) -> Self?
 pub fn Element::compareDocumentPosition(Self, Node) -> Int
 pub fn Element::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn Element::dispatchEvent(Self, @event.Event) -> Bool
 pub fn Element::firstChild(Self) -> Node?
 pub fn Element::firstElementChild(Self) -> Self?
 pub fn Element::getAttribute(Self, String) -> String?
@@ -349,6 +362,8 @@ pub fn Element::nodeName(Self) -> String
 pub fn Element::nodeType(Self) -> Int
 pub fn Element::nodeValue(Self) -> String?
 pub fn Element::normalize(Self) -> Unit
+pub fn Element::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn Element::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn Element::outerHTML(Self) -> String
 pub fn Element::ownerDocument(Self) -> Document?
 pub fn Element::parentElement(Self) -> Self?
@@ -361,6 +376,8 @@ pub fn Element::querySelectorAll(Self, String) -> Array[Self]
 pub fn Element::remove(Self) -> Unit
 pub fn Element::removeAttribute(Self, String) -> Unit
 pub fn Element::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn Element::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn Element::replaceChild(Self, Node, Node) -> Node
 pub fn Element::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn Element::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -428,6 +445,8 @@ pub(all) struct HTMLAnchorElement {
   mut href : String
   mut target : String
 }
+#alias(add_event_listener)
+pub fn HTMLAnchorElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLAnchorElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::append(Self, Node) -> Unit
 pub fn HTMLAnchorElement::appendChild(Self, Node) -> Node
@@ -452,6 +471,8 @@ pub fn HTMLAnchorElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLAnchorElement::closest(Self, String) -> Element?
 pub fn HTMLAnchorElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLAnchorElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLAnchorElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLAnchorElement::firstChild(Self) -> Node?
 pub fn HTMLAnchorElement::firstElementChild(Self) -> Element?
 pub fn HTMLAnchorElement::focus(Self) -> Unit
@@ -483,6 +504,8 @@ pub fn HTMLAnchorElement::nodeName(Self) -> String
 pub fn HTMLAnchorElement::nodeType(Self) -> Int
 pub fn HTMLAnchorElement::nodeValue(Self) -> String?
 pub fn HTMLAnchorElement::normalize(Self) -> Unit
+pub fn HTMLAnchorElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLAnchorElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLAnchorElement::outerHTML(Self) -> String
 pub fn HTMLAnchorElement::ownerDocument(Self) -> Document?
 pub fn HTMLAnchorElement::parentElement(Self) -> Element?
@@ -495,6 +518,8 @@ pub fn HTMLAnchorElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLAnchorElement::remove(Self) -> Unit
 pub fn HTMLAnchorElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLAnchorElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLAnchorElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLAnchorElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLAnchorElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLAnchorElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -519,6 +544,8 @@ pub fn HTMLAnchorElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLBodyElement
+#alias(add_event_listener)
+pub fn HTMLBodyElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLBodyElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::append(Self, Node) -> Unit
 pub fn HTMLBodyElement::appendChild(Self, Node) -> Node
@@ -543,6 +570,8 @@ pub fn HTMLBodyElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLBodyElement::closest(Self, String) -> Element?
 pub fn HTMLBodyElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLBodyElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLBodyElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLBodyElement::firstChild(Self) -> Node?
 pub fn HTMLBodyElement::firstElementChild(Self) -> Element?
 pub fn HTMLBodyElement::focus(Self) -> Unit
@@ -574,6 +603,8 @@ pub fn HTMLBodyElement::nodeName(Self) -> String
 pub fn HTMLBodyElement::nodeType(Self) -> Int
 pub fn HTMLBodyElement::nodeValue(Self) -> String?
 pub fn HTMLBodyElement::normalize(Self) -> Unit
+pub fn HTMLBodyElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLBodyElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLBodyElement::outerHTML(Self) -> String
 pub fn HTMLBodyElement::ownerDocument(Self) -> Document?
 pub fn HTMLBodyElement::parentElement(Self) -> Element?
@@ -586,6 +617,8 @@ pub fn HTMLBodyElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLBodyElement::remove(Self) -> Unit
 pub fn HTMLBodyElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLBodyElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLBodyElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLBodyElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLBodyElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLBodyElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -611,6 +644,8 @@ pub fn HTMLBodyElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 pub(all) struct HTMLButtonElement {
   mut disabled : Bool
 }
+#alias(add_event_listener)
+pub fn HTMLButtonElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLButtonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::append(Self, Node) -> Unit
 pub fn HTMLButtonElement::appendChild(Self, Node) -> Node
@@ -635,6 +670,8 @@ pub fn HTMLButtonElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLButtonElement::closest(Self, String) -> Element?
 pub fn HTMLButtonElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLButtonElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLButtonElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLButtonElement::firstChild(Self) -> Node?
 pub fn HTMLButtonElement::firstElementChild(Self) -> Element?
 pub fn HTMLButtonElement::focus(Self) -> Unit
@@ -666,6 +703,8 @@ pub fn HTMLButtonElement::nodeName(Self) -> String
 pub fn HTMLButtonElement::nodeType(Self) -> Int
 pub fn HTMLButtonElement::nodeValue(Self) -> String?
 pub fn HTMLButtonElement::normalize(Self) -> Unit
+pub fn HTMLButtonElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLButtonElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLButtonElement::outerHTML(Self) -> String
 pub fn HTMLButtonElement::ownerDocument(Self) -> Document?
 pub fn HTMLButtonElement::parentElement(Self) -> Element?
@@ -678,6 +717,8 @@ pub fn HTMLButtonElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLButtonElement::remove(Self) -> Unit
 pub fn HTMLButtonElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLButtonElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLButtonElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLButtonElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLButtonElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLButtonElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -704,6 +745,8 @@ pub(all) struct HTMLCanvasElement {
   mut width : Int
   mut height : Int
 }
+#alias(add_event_listener)
+pub fn HTMLCanvasElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLCanvasElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::append(Self, Node) -> Unit
 pub fn HTMLCanvasElement::appendChild(Self, Node) -> Node
@@ -728,6 +771,8 @@ pub fn HTMLCanvasElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLCanvasElement::closest(Self, String) -> Element?
 pub fn HTMLCanvasElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLCanvasElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLCanvasElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLCanvasElement::firstChild(Self) -> Node?
 pub fn HTMLCanvasElement::firstElementChild(Self) -> Element?
 pub fn HTMLCanvasElement::focus(Self) -> Unit
@@ -760,6 +805,8 @@ pub fn HTMLCanvasElement::nodeName(Self) -> String
 pub fn HTMLCanvasElement::nodeType(Self) -> Int
 pub fn HTMLCanvasElement::nodeValue(Self) -> String?
 pub fn HTMLCanvasElement::normalize(Self) -> Unit
+pub fn HTMLCanvasElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLCanvasElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLCanvasElement::outerHTML(Self) -> String
 pub fn HTMLCanvasElement::ownerDocument(Self) -> Document?
 pub fn HTMLCanvasElement::parentElement(Self) -> Element?
@@ -772,6 +819,8 @@ pub fn HTMLCanvasElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLCanvasElement::remove(Self) -> Unit
 pub fn HTMLCanvasElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLCanvasElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLCanvasElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLCanvasElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLCanvasElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLCanvasElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -799,6 +848,8 @@ pub impl Show for HTMLCanvasElement
 
 #external
 pub type HTMLDivElement
+#alias(add_event_listener)
+pub fn HTMLDivElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLDivElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::append(Self, Node) -> Unit
 pub fn HTMLDivElement::appendChild(Self, Node) -> Node
@@ -823,6 +874,8 @@ pub fn HTMLDivElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLDivElement::closest(Self, String) -> Element?
 pub fn HTMLDivElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLDivElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLDivElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLDivElement::firstChild(Self) -> Node?
 pub fn HTMLDivElement::firstElementChild(Self) -> Element?
 pub fn HTMLDivElement::focus(Self) -> Unit
@@ -854,6 +907,8 @@ pub fn HTMLDivElement::nodeName(Self) -> String
 pub fn HTMLDivElement::nodeType(Self) -> Int
 pub fn HTMLDivElement::nodeValue(Self) -> String?
 pub fn HTMLDivElement::normalize(Self) -> Unit
+pub fn HTMLDivElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLDivElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLDivElement::outerHTML(Self) -> String
 pub fn HTMLDivElement::ownerDocument(Self) -> Document?
 pub fn HTMLDivElement::parentElement(Self) -> Element?
@@ -866,6 +921,8 @@ pub fn HTMLDivElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLDivElement::remove(Self) -> Unit
 pub fn HTMLDivElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLDivElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLDivElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLDivElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLDivElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLDivElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -890,6 +947,8 @@ pub fn HTMLDivElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLElement
+#alias(add_event_listener)
+pub fn HTMLElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::append(Self, Node) -> Unit
 pub fn HTMLElement::appendChild(Self, Node) -> Node
@@ -913,6 +972,8 @@ pub fn HTMLElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLElement::closest(Self, String) -> Element?
 pub fn HTMLElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLElement::firstChild(Self) -> Node?
 pub fn HTMLElement::firstElementChild(Self) -> Element?
 pub fn HTMLElement::focus(Self) -> Unit
@@ -944,6 +1005,8 @@ pub fn HTMLElement::nodeName(Self) -> String
 pub fn HTMLElement::nodeType(Self) -> Int
 pub fn HTMLElement::nodeValue(Self) -> String?
 pub fn HTMLElement::normalize(Self) -> Unit
+pub fn HTMLElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLElement::outerHTML(Self) -> String
 pub fn HTMLElement::ownerDocument(Self) -> Document?
 pub fn HTMLElement::parentElement(Self) -> Element?
@@ -956,6 +1019,8 @@ pub fn HTMLElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLElement::remove(Self) -> Unit
 pub fn HTMLElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -981,6 +1046,8 @@ pub fn HTMLElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLFormElement
+#alias(add_event_listener)
+pub fn HTMLFormElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLFormElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::append(Self, Node) -> Unit
 pub fn HTMLFormElement::appendChild(Self, Node) -> Node
@@ -1005,6 +1072,8 @@ pub fn HTMLFormElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLFormElement::closest(Self, String) -> Element?
 pub fn HTMLFormElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLFormElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLFormElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLFormElement::firstChild(Self) -> Node?
 pub fn HTMLFormElement::firstElementChild(Self) -> Element?
 pub fn HTMLFormElement::focus(Self) -> Unit
@@ -1036,6 +1105,8 @@ pub fn HTMLFormElement::nodeName(Self) -> String
 pub fn HTMLFormElement::nodeType(Self) -> Int
 pub fn HTMLFormElement::nodeValue(Self) -> String?
 pub fn HTMLFormElement::normalize(Self) -> Unit
+pub fn HTMLFormElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLFormElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLFormElement::outerHTML(Self) -> String
 pub fn HTMLFormElement::ownerDocument(Self) -> Document?
 pub fn HTMLFormElement::parentElement(Self) -> Element?
@@ -1048,6 +1119,8 @@ pub fn HTMLFormElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLFormElement::remove(Self) -> Unit
 pub fn HTMLFormElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLFormElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLFormElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLFormElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLFormElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLFormElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1072,6 +1145,8 @@ pub fn HTMLFormElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHeadElement
+#alias(add_event_listener)
+pub fn HTMLHeadElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHeadElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::append(Self, Node) -> Unit
 pub fn HTMLHeadElement::appendChild(Self, Node) -> Node
@@ -1096,6 +1171,8 @@ pub fn HTMLHeadElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLHeadElement::closest(Self, String) -> Element?
 pub fn HTMLHeadElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLHeadElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLHeadElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLHeadElement::firstChild(Self) -> Node?
 pub fn HTMLHeadElement::firstElementChild(Self) -> Element?
 pub fn HTMLHeadElement::focus(Self) -> Unit
@@ -1127,6 +1204,8 @@ pub fn HTMLHeadElement::nodeName(Self) -> String
 pub fn HTMLHeadElement::nodeType(Self) -> Int
 pub fn HTMLHeadElement::nodeValue(Self) -> String?
 pub fn HTMLHeadElement::normalize(Self) -> Unit
+pub fn HTMLHeadElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLHeadElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHeadElement::outerHTML(Self) -> String
 pub fn HTMLHeadElement::ownerDocument(Self) -> Document?
 pub fn HTMLHeadElement::parentElement(Self) -> Element?
@@ -1139,6 +1218,8 @@ pub fn HTMLHeadElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLHeadElement::remove(Self) -> Unit
 pub fn HTMLHeadElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHeadElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLHeadElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLHeadElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLHeadElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1163,6 +1244,8 @@ pub fn HTMLHeadElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHeadingElement
+#alias(add_event_listener)
+pub fn HTMLHeadingElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHeadingElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::append(Self, Node) -> Unit
 pub fn HTMLHeadingElement::appendChild(Self, Node) -> Node
@@ -1187,6 +1270,8 @@ pub fn HTMLHeadingElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLHeadingElement::closest(Self, String) -> Element?
 pub fn HTMLHeadingElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLHeadingElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLHeadingElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLHeadingElement::firstChild(Self) -> Node?
 pub fn HTMLHeadingElement::firstElementChild(Self) -> Element?
 pub fn HTMLHeadingElement::focus(Self) -> Unit
@@ -1218,6 +1303,8 @@ pub fn HTMLHeadingElement::nodeName(Self) -> String
 pub fn HTMLHeadingElement::nodeType(Self) -> Int
 pub fn HTMLHeadingElement::nodeValue(Self) -> String?
 pub fn HTMLHeadingElement::normalize(Self) -> Unit
+pub fn HTMLHeadingElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLHeadingElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHeadingElement::outerHTML(Self) -> String
 pub fn HTMLHeadingElement::ownerDocument(Self) -> Document?
 pub fn HTMLHeadingElement::parentElement(Self) -> Element?
@@ -1230,6 +1317,8 @@ pub fn HTMLHeadingElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLHeadingElement::remove(Self) -> Unit
 pub fn HTMLHeadingElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHeadingElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLHeadingElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLHeadingElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLHeadingElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHeadingElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1254,6 +1343,8 @@ pub fn HTMLHeadingElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLHtmlElement
+#alias(add_event_listener)
+pub fn HTMLHtmlElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHtmlElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::append(Self, Node) -> Unit
 pub fn HTMLHtmlElement::appendChild(Self, Node) -> Node
@@ -1278,6 +1369,8 @@ pub fn HTMLHtmlElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLHtmlElement::closest(Self, String) -> Element?
 pub fn HTMLHtmlElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLHtmlElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLHtmlElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLHtmlElement::firstChild(Self) -> Node?
 pub fn HTMLHtmlElement::firstElementChild(Self) -> Element?
 pub fn HTMLHtmlElement::focus(Self) -> Unit
@@ -1309,6 +1402,8 @@ pub fn HTMLHtmlElement::nodeName(Self) -> String
 pub fn HTMLHtmlElement::nodeType(Self) -> Int
 pub fn HTMLHtmlElement::nodeValue(Self) -> String?
 pub fn HTMLHtmlElement::normalize(Self) -> Unit
+pub fn HTMLHtmlElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLHtmlElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLHtmlElement::outerHTML(Self) -> String
 pub fn HTMLHtmlElement::ownerDocument(Self) -> Document?
 pub fn HTMLHtmlElement::parentElement(Self) -> Element?
@@ -1321,6 +1416,8 @@ pub fn HTMLHtmlElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLHtmlElement::remove(Self) -> Unit
 pub fn HTMLHtmlElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLHtmlElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLHtmlElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLHtmlElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLHtmlElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLHtmlElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1350,6 +1447,8 @@ pub(all) struct HTMLIFrameElement {
   mut height : String
   mut name : String
 }
+#alias(add_event_listener)
+pub fn HTMLIFrameElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLIFrameElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::append(Self, Node) -> Unit
 pub fn HTMLIFrameElement::appendChild(Self, Node) -> Node
@@ -1376,6 +1475,8 @@ pub fn HTMLIFrameElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLIFrameElement::contains(Self, Node?) -> Bool
 pub fn HTMLIFrameElement::contentDocument(Self) -> Document?
 pub fn HTMLIFrameElement::contentWindow(Self) -> Window?
+#alias(dispatch_event)
+pub fn HTMLIFrameElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLIFrameElement::firstChild(Self) -> Node?
 pub fn HTMLIFrameElement::firstElementChild(Self) -> Element?
 pub fn HTMLIFrameElement::focus(Self) -> Unit
@@ -1407,6 +1508,8 @@ pub fn HTMLIFrameElement::nodeName(Self) -> String
 pub fn HTMLIFrameElement::nodeType(Self) -> Int
 pub fn HTMLIFrameElement::nodeValue(Self) -> String?
 pub fn HTMLIFrameElement::normalize(Self) -> Unit
+pub fn HTMLIFrameElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLIFrameElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLIFrameElement::outerHTML(Self) -> String
 pub fn HTMLIFrameElement::ownerDocument(Self) -> Document?
 pub fn HTMLIFrameElement::parentElement(Self) -> Element?
@@ -1419,6 +1522,8 @@ pub fn HTMLIFrameElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLIFrameElement::remove(Self) -> Unit
 pub fn HTMLIFrameElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLIFrameElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLIFrameElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLIFrameElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLIFrameElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLIFrameElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1446,6 +1551,8 @@ pub(all) struct HTMLImageElement {
   mut src : String
   mut alt : String
 }
+#alias(add_event_listener)
+pub fn HTMLImageElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLImageElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::append(Self, Node) -> Unit
 pub fn HTMLImageElement::appendChild(Self, Node) -> Node
@@ -1470,6 +1577,8 @@ pub fn HTMLImageElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLImageElement::closest(Self, String) -> Element?
 pub fn HTMLImageElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLImageElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLImageElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLImageElement::firstChild(Self) -> Node?
 pub fn HTMLImageElement::firstElementChild(Self) -> Element?
 pub fn HTMLImageElement::focus(Self) -> Unit
@@ -1501,6 +1610,8 @@ pub fn HTMLImageElement::nodeName(Self) -> String
 pub fn HTMLImageElement::nodeType(Self) -> Int
 pub fn HTMLImageElement::nodeValue(Self) -> String?
 pub fn HTMLImageElement::normalize(Self) -> Unit
+pub fn HTMLImageElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLImageElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLImageElement::outerHTML(Self) -> String
 pub fn HTMLImageElement::ownerDocument(Self) -> Document?
 pub fn HTMLImageElement::parentElement(Self) -> Element?
@@ -1513,6 +1624,8 @@ pub fn HTMLImageElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLImageElement::remove(Self) -> Unit
 pub fn HTMLImageElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLImageElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLImageElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLImageElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLImageElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLImageElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1541,6 +1654,8 @@ pub(all) struct HTMLInputElement {
   mut placeholder : String
   mut checked : Bool
 }
+#alias(add_event_listener)
+pub fn HTMLInputElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLInputElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::append(Self, Node) -> Unit
 pub fn HTMLInputElement::appendChild(Self, Node) -> Node
@@ -1565,6 +1680,8 @@ pub fn HTMLInputElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLInputElement::closest(Self, String) -> Element?
 pub fn HTMLInputElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLInputElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLInputElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLInputElement::firstChild(Self) -> Node?
 pub fn HTMLInputElement::firstElementChild(Self) -> Element?
 pub fn HTMLInputElement::focus(Self) -> Unit
@@ -1596,6 +1713,8 @@ pub fn HTMLInputElement::nodeName(Self) -> String
 pub fn HTMLInputElement::nodeType(Self) -> Int
 pub fn HTMLInputElement::nodeValue(Self) -> String?
 pub fn HTMLInputElement::normalize(Self) -> Unit
+pub fn HTMLInputElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLInputElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLInputElement::outerHTML(Self) -> String
 pub fn HTMLInputElement::ownerDocument(Self) -> Document?
 pub fn HTMLInputElement::parentElement(Self) -> Element?
@@ -1608,6 +1727,8 @@ pub fn HTMLInputElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLInputElement::remove(Self) -> Unit
 pub fn HTMLInputElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLInputElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLInputElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLInputElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLInputElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLInputElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1634,6 +1755,8 @@ pub fn HTMLInputElement::type_(Self) -> String
 
 #external
 pub type HTMLLIElement
+#alias(add_event_listener)
+pub fn HTMLLIElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLLIElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::append(Self, Node) -> Unit
 pub fn HTMLLIElement::appendChild(Self, Node) -> Node
@@ -1658,6 +1781,8 @@ pub fn HTMLLIElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLLIElement::closest(Self, String) -> Element?
 pub fn HTMLLIElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLLIElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLLIElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLLIElement::firstChild(Self) -> Node?
 pub fn HTMLLIElement::firstElementChild(Self) -> Element?
 pub fn HTMLLIElement::focus(Self) -> Unit
@@ -1689,6 +1814,8 @@ pub fn HTMLLIElement::nodeName(Self) -> String
 pub fn HTMLLIElement::nodeType(Self) -> Int
 pub fn HTMLLIElement::nodeValue(Self) -> String?
 pub fn HTMLLIElement::normalize(Self) -> Unit
+pub fn HTMLLIElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLLIElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLLIElement::outerHTML(Self) -> String
 pub fn HTMLLIElement::ownerDocument(Self) -> Document?
 pub fn HTMLLIElement::parentElement(Self) -> Element?
@@ -1701,6 +1828,8 @@ pub fn HTMLLIElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLLIElement::remove(Self) -> Unit
 pub fn HTMLLIElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLLIElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLLIElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLLIElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLLIElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLIElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1726,6 +1855,8 @@ pub fn HTMLLIElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 pub(all) struct HTMLLabelElement {
   mut htmlFor : String
 }
+#alias(add_event_listener)
+pub fn HTMLLabelElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLLabelElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::append(Self, Node) -> Unit
 pub fn HTMLLabelElement::appendChild(Self, Node) -> Node
@@ -1750,6 +1881,8 @@ pub fn HTMLLabelElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLLabelElement::closest(Self, String) -> Element?
 pub fn HTMLLabelElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLLabelElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLLabelElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLLabelElement::firstChild(Self) -> Node?
 pub fn HTMLLabelElement::firstElementChild(Self) -> Element?
 pub fn HTMLLabelElement::focus(Self) -> Unit
@@ -1781,6 +1914,8 @@ pub fn HTMLLabelElement::nodeName(Self) -> String
 pub fn HTMLLabelElement::nodeType(Self) -> Int
 pub fn HTMLLabelElement::nodeValue(Self) -> String?
 pub fn HTMLLabelElement::normalize(Self) -> Unit
+pub fn HTMLLabelElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLLabelElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLLabelElement::outerHTML(Self) -> String
 pub fn HTMLLabelElement::ownerDocument(Self) -> Document?
 pub fn HTMLLabelElement::parentElement(Self) -> Element?
@@ -1793,6 +1928,8 @@ pub fn HTMLLabelElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLLabelElement::remove(Self) -> Unit
 pub fn HTMLLabelElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLLabelElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLLabelElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLLabelElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLLabelElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLLabelElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1817,6 +1954,8 @@ pub fn HTMLLabelElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLOListElement
+#alias(add_event_listener)
+pub fn HTMLOListElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLOListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::append(Self, Node) -> Unit
 pub fn HTMLOListElement::appendChild(Self, Node) -> Node
@@ -1841,6 +1980,8 @@ pub fn HTMLOListElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLOListElement::closest(Self, String) -> Element?
 pub fn HTMLOListElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLOListElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLOListElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLOListElement::firstChild(Self) -> Node?
 pub fn HTMLOListElement::firstElementChild(Self) -> Element?
 pub fn HTMLOListElement::focus(Self) -> Unit
@@ -1872,6 +2013,8 @@ pub fn HTMLOListElement::nodeName(Self) -> String
 pub fn HTMLOListElement::nodeType(Self) -> Int
 pub fn HTMLOListElement::nodeValue(Self) -> String?
 pub fn HTMLOListElement::normalize(Self) -> Unit
+pub fn HTMLOListElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLOListElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLOListElement::outerHTML(Self) -> String
 pub fn HTMLOListElement::ownerDocument(Self) -> Document?
 pub fn HTMLOListElement::parentElement(Self) -> Element?
@@ -1884,6 +2027,8 @@ pub fn HTMLOListElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLOListElement::remove(Self) -> Unit
 pub fn HTMLOListElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLOListElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLOListElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLOListElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLOListElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOListElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -1910,6 +2055,8 @@ pub(all) struct HTMLOptionElement {
   mut value : String
   mut selected : Bool
 }
+#alias(add_event_listener)
+pub fn HTMLOptionElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLOptionElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::append(Self, Node) -> Unit
 pub fn HTMLOptionElement::appendChild(Self, Node) -> Node
@@ -1934,6 +2081,8 @@ pub fn HTMLOptionElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLOptionElement::closest(Self, String) -> Element?
 pub fn HTMLOptionElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLOptionElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLOptionElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLOptionElement::firstChild(Self) -> Node?
 pub fn HTMLOptionElement::firstElementChild(Self) -> Element?
 pub fn HTMLOptionElement::focus(Self) -> Unit
@@ -1965,6 +2114,8 @@ pub fn HTMLOptionElement::nodeName(Self) -> String
 pub fn HTMLOptionElement::nodeType(Self) -> Int
 pub fn HTMLOptionElement::nodeValue(Self) -> String?
 pub fn HTMLOptionElement::normalize(Self) -> Unit
+pub fn HTMLOptionElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLOptionElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLOptionElement::outerHTML(Self) -> String
 pub fn HTMLOptionElement::ownerDocument(Self) -> Document?
 pub fn HTMLOptionElement::parentElement(Self) -> Element?
@@ -1977,6 +2128,8 @@ pub fn HTMLOptionElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLOptionElement::remove(Self) -> Unit
 pub fn HTMLOptionElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLOptionElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLOptionElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLOptionElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLOptionElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLOptionElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2001,6 +2154,8 @@ pub fn HTMLOptionElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLParagraphElement
+#alias(add_event_listener)
+pub fn HTMLParagraphElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLParagraphElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::append(Self, Node) -> Unit
 pub fn HTMLParagraphElement::appendChild(Self, Node) -> Node
@@ -2025,6 +2180,8 @@ pub fn HTMLParagraphElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLParagraphElement::closest(Self, String) -> Element?
 pub fn HTMLParagraphElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLParagraphElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLParagraphElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLParagraphElement::firstChild(Self) -> Node?
 pub fn HTMLParagraphElement::firstElementChild(Self) -> Element?
 pub fn HTMLParagraphElement::focus(Self) -> Unit
@@ -2056,6 +2213,8 @@ pub fn HTMLParagraphElement::nodeName(Self) -> String
 pub fn HTMLParagraphElement::nodeType(Self) -> Int
 pub fn HTMLParagraphElement::nodeValue(Self) -> String?
 pub fn HTMLParagraphElement::normalize(Self) -> Unit
+pub fn HTMLParagraphElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLParagraphElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLParagraphElement::outerHTML(Self) -> String
 pub fn HTMLParagraphElement::ownerDocument(Self) -> Document?
 pub fn HTMLParagraphElement::parentElement(Self) -> Element?
@@ -2068,6 +2227,8 @@ pub fn HTMLParagraphElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLParagraphElement::remove(Self) -> Unit
 pub fn HTMLParagraphElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLParagraphElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLParagraphElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLParagraphElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLParagraphElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLParagraphElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2094,6 +2255,8 @@ pub(all) struct HTMLSelectElement {
   mut value : String
   mut disabled : Bool
 }
+#alias(add_event_listener)
+pub fn HTMLSelectElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLSelectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::append(Self, Node) -> Unit
 pub fn HTMLSelectElement::appendChild(Self, Node) -> Node
@@ -2118,6 +2281,8 @@ pub fn HTMLSelectElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLSelectElement::closest(Self, String) -> Element?
 pub fn HTMLSelectElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLSelectElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLSelectElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLSelectElement::firstChild(Self) -> Node?
 pub fn HTMLSelectElement::firstElementChild(Self) -> Element?
 pub fn HTMLSelectElement::focus(Self) -> Unit
@@ -2149,6 +2314,8 @@ pub fn HTMLSelectElement::nodeName(Self) -> String
 pub fn HTMLSelectElement::nodeType(Self) -> Int
 pub fn HTMLSelectElement::nodeValue(Self) -> String?
 pub fn HTMLSelectElement::normalize(Self) -> Unit
+pub fn HTMLSelectElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLSelectElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLSelectElement::outerHTML(Self) -> String
 pub fn HTMLSelectElement::ownerDocument(Self) -> Document?
 pub fn HTMLSelectElement::parentElement(Self) -> Element?
@@ -2161,6 +2328,8 @@ pub fn HTMLSelectElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLSelectElement::remove(Self) -> Unit
 pub fn HTMLSelectElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLSelectElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLSelectElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLSelectElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLSelectElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSelectElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2185,6 +2354,8 @@ pub fn HTMLSelectElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLSpanElement
+#alias(add_event_listener)
+pub fn HTMLSpanElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLSpanElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::append(Self, Node) -> Unit
 pub fn HTMLSpanElement::appendChild(Self, Node) -> Node
@@ -2209,6 +2380,8 @@ pub fn HTMLSpanElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLSpanElement::closest(Self, String) -> Element?
 pub fn HTMLSpanElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLSpanElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLSpanElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLSpanElement::firstChild(Self) -> Node?
 pub fn HTMLSpanElement::firstElementChild(Self) -> Element?
 pub fn HTMLSpanElement::focus(Self) -> Unit
@@ -2240,6 +2413,8 @@ pub fn HTMLSpanElement::nodeName(Self) -> String
 pub fn HTMLSpanElement::nodeType(Self) -> Int
 pub fn HTMLSpanElement::nodeValue(Self) -> String?
 pub fn HTMLSpanElement::normalize(Self) -> Unit
+pub fn HTMLSpanElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLSpanElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLSpanElement::outerHTML(Self) -> String
 pub fn HTMLSpanElement::ownerDocument(Self) -> Document?
 pub fn HTMLSpanElement::parentElement(Self) -> Element?
@@ -2252,6 +2427,8 @@ pub fn HTMLSpanElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLSpanElement::remove(Self) -> Unit
 pub fn HTMLSpanElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLSpanElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLSpanElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLSpanElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLSpanElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLSpanElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2282,6 +2459,8 @@ pub(all) struct HTMLTextAreaElement {
   mut cols : Int
   mut readOnly : Bool
 }
+#alias(add_event_listener)
+pub fn HTMLTextAreaElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLTextAreaElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::append(Self, Node) -> Unit
 pub fn HTMLTextAreaElement::appendChild(Self, Node) -> Node
@@ -2306,6 +2485,8 @@ pub fn HTMLTextAreaElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLTextAreaElement::closest(Self, String) -> Element?
 pub fn HTMLTextAreaElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLTextAreaElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLTextAreaElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLTextAreaElement::firstChild(Self) -> Node?
 pub fn HTMLTextAreaElement::firstElementChild(Self) -> Element?
 pub fn HTMLTextAreaElement::focus(Self) -> Unit
@@ -2337,6 +2518,8 @@ pub fn HTMLTextAreaElement::nodeName(Self) -> String
 pub fn HTMLTextAreaElement::nodeType(Self) -> Int
 pub fn HTMLTextAreaElement::nodeValue(Self) -> String?
 pub fn HTMLTextAreaElement::normalize(Self) -> Unit
+pub fn HTMLTextAreaElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLTextAreaElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLTextAreaElement::outerHTML(Self) -> String
 pub fn HTMLTextAreaElement::ownerDocument(Self) -> Document?
 pub fn HTMLTextAreaElement::parentElement(Self) -> Element?
@@ -2349,6 +2532,8 @@ pub fn HTMLTextAreaElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLTextAreaElement::remove(Self) -> Unit
 pub fn HTMLTextAreaElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLTextAreaElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLTextAreaElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLTextAreaElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLTextAreaElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLTextAreaElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2373,6 +2558,8 @@ pub fn HTMLTextAreaElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type HTMLUListElement
+#alias(add_event_listener)
+pub fn HTMLUListElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLUListElement::after(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::append(Self, Node) -> Unit
 pub fn HTMLUListElement::appendChild(Self, Node) -> Node
@@ -2397,6 +2584,8 @@ pub fn HTMLUListElement::cloneNode(Self, Bool) -> Node
 pub fn HTMLUListElement::closest(Self, String) -> Element?
 pub fn HTMLUListElement::compareDocumentPosition(Self, Node) -> Int
 pub fn HTMLUListElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn HTMLUListElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn HTMLUListElement::firstChild(Self) -> Node?
 pub fn HTMLUListElement::firstElementChild(Self) -> Element?
 pub fn HTMLUListElement::focus(Self) -> Unit
@@ -2428,6 +2617,8 @@ pub fn HTMLUListElement::nodeName(Self) -> String
 pub fn HTMLUListElement::nodeType(Self) -> Int
 pub fn HTMLUListElement::nodeValue(Self) -> String?
 pub fn HTMLUListElement::normalize(Self) -> Unit
+pub fn HTMLUListElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn HTMLUListElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn HTMLUListElement::outerHTML(Self) -> String
 pub fn HTMLUListElement::ownerDocument(Self) -> Document?
 pub fn HTMLUListElement::parentElement(Self) -> Element?
@@ -2440,6 +2631,8 @@ pub fn HTMLUListElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn HTMLUListElement::remove(Self) -> Unit
 pub fn HTMLUListElement::removeAttribute(Self, String) -> Unit
 pub fn HTMLUListElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn HTMLUListElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn HTMLUListElement::replaceChild(Self, Node, Node) -> Node
 pub fn HTMLUListElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn HTMLUListElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2582,6 +2775,8 @@ pub impl Show for MouseEvent
 
 #external
 pub type Node
+#alias(add_event_listener)
+pub fn Node::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn Node::appendChild(Self, Self) -> Self
 pub fn Node::as_any(Self) -> @js_core.Any
 pub fn Node::as_event_target(Self) -> @event.EventTarget
@@ -2590,6 +2785,8 @@ pub fn Node::childNodes(Self) -> Array[Self]
 pub fn Node::cloneNode(Self, Bool) -> Self
 pub fn Node::compareDocumentPosition(Self, Self) -> Int
 pub fn Node::contains(Self, Self?) -> Bool
+#alias(dispatch_event)
+pub fn Node::dispatchEvent(Self, @event.Event) -> Bool
 pub fn Node::firstChild(Self) -> Self?
 pub fn Node::getRootNode(Self) -> Self
 pub fn Node::hasChildNodes(Self) -> Bool
@@ -2604,10 +2801,14 @@ pub fn Node::nodeName(Self) -> String
 pub fn Node::nodeType(Self) -> Int
 pub fn Node::nodeValue(Self) -> String?
 pub fn Node::normalize(Self) -> Unit
+pub fn Node::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn Node::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn Node::ownerDocument(Self) -> Document?
 pub fn Node::parentNode(Self) -> Self?
 pub fn Node::previousSibling(Self) -> Self?
 pub fn Node::removeChild(Self, Self) -> Self
+#alias(remove_event_listener)
+pub fn Node::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn Node::replaceChild(Self, Self, Self) -> Self
 pub fn Node::setNodeValue(Self, String?) -> Unit
 pub fn Node::setTextContent(Self, String) -> Unit
@@ -2670,6 +2871,8 @@ pub fn PopStateEvent::target(Self) -> Element
 
 #external
 pub type SVGCircleElement
+#alias(add_event_listener)
+pub fn SVGCircleElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGCircleElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::append(Self, Node) -> Unit
 pub fn SVGCircleElement::appendChild(Self, Node) -> Node
@@ -2696,6 +2899,8 @@ pub fn SVGCircleElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGCircleElement::contains(Self, Node?) -> Bool
 pub fn SVGCircleElement::cx(Self) -> Double
 pub fn SVGCircleElement::cy(Self) -> Double
+#alias(dispatch_event)
+pub fn SVGCircleElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGCircleElement::firstChild(Self) -> Node?
 pub fn SVGCircleElement::firstElementChild(Self) -> Element?
 pub fn SVGCircleElement::getAttribute(Self, String) -> String?
@@ -2725,6 +2930,8 @@ pub fn SVGCircleElement::nodeName(Self) -> String
 pub fn SVGCircleElement::nodeType(Self) -> Int
 pub fn SVGCircleElement::nodeValue(Self) -> String?
 pub fn SVGCircleElement::normalize(Self) -> Unit
+pub fn SVGCircleElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGCircleElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGCircleElement::outerHTML(Self) -> String
 pub fn SVGCircleElement::ownerDocument(Self) -> Document?
 pub fn SVGCircleElement::parentElement(Self) -> Element?
@@ -2738,6 +2945,8 @@ pub fn SVGCircleElement::r(Self) -> Double
 pub fn SVGCircleElement::remove(Self) -> Unit
 pub fn SVGCircleElement::removeAttribute(Self, String) -> Unit
 pub fn SVGCircleElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGCircleElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGCircleElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGCircleElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGCircleElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2761,6 +2970,8 @@ pub fn SVGCircleElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGElement
+#alias(add_event_listener)
+pub fn SVGElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::append(Self, Node) -> Unit
 pub fn SVGElement::appendChild(Self, Node) -> Node
@@ -2782,6 +2993,8 @@ pub fn SVGElement::cloneNode(Self, Bool) -> Node
 pub fn SVGElement::closest(Self, String) -> Element?
 pub fn SVGElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGElement::firstChild(Self) -> Node?
 pub fn SVGElement::firstElementChild(Self) -> Element?
 pub fn SVGElement::getAttribute(Self, String) -> String?
@@ -2811,6 +3024,8 @@ pub fn SVGElement::nodeName(Self) -> String
 pub fn SVGElement::nodeType(Self) -> Int
 pub fn SVGElement::nodeValue(Self) -> String?
 pub fn SVGElement::normalize(Self) -> Unit
+pub fn SVGElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGElement::outerHTML(Self) -> String
 pub fn SVGElement::ownerDocument(Self) -> Document?
 pub fn SVGElement::parentElement(Self) -> Element?
@@ -2823,6 +3038,8 @@ pub fn SVGElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGElement::remove(Self) -> Unit
 pub fn SVGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2860,6 +3077,8 @@ pub fn SVGEllipseElement::setAttribute(Self, String, String) -> Unit
 
 #external
 pub type SVGGElement
+#alias(add_event_listener)
+pub fn SVGGElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::append(Self, Node) -> Unit
 pub fn SVGGElement::appendChild(Self, Node) -> Node
@@ -2884,6 +3103,8 @@ pub fn SVGGElement::cloneNode(Self, Bool) -> Node
 pub fn SVGGElement::closest(Self, String) -> Element?
 pub fn SVGGElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGGElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGGElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGGElement::firstChild(Self) -> Node?
 pub fn SVGGElement::firstElementChild(Self) -> Element?
 pub fn SVGGElement::getAttribute(Self, String) -> String?
@@ -2913,6 +3134,8 @@ pub fn SVGGElement::nodeName(Self) -> String
 pub fn SVGGElement::nodeType(Self) -> Int
 pub fn SVGGElement::nodeValue(Self) -> String?
 pub fn SVGGElement::normalize(Self) -> Unit
+pub fn SVGGElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGGElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGGElement::outerHTML(Self) -> String
 pub fn SVGGElement::ownerDocument(Self) -> Document?
 pub fn SVGGElement::parentElement(Self) -> Element?
@@ -2925,6 +3148,8 @@ pub fn SVGGElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGGElement::remove(Self) -> Unit
 pub fn SVGGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGGElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGGElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGGElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -2975,6 +3200,8 @@ pub fn SVGImageElement::y(Self) -> Double
 
 #external
 pub type SVGLineElement
+#alias(add_event_listener)
+pub fn SVGLineElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGLineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::append(Self, Node) -> Unit
 pub fn SVGLineElement::appendChild(Self, Node) -> Node
@@ -2999,6 +3226,8 @@ pub fn SVGLineElement::cloneNode(Self, Bool) -> Node
 pub fn SVGLineElement::closest(Self, String) -> Element?
 pub fn SVGLineElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGLineElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGLineElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGLineElement::firstChild(Self) -> Node?
 pub fn SVGLineElement::firstElementChild(Self) -> Element?
 pub fn SVGLineElement::getAttribute(Self, String) -> String?
@@ -3028,6 +3257,8 @@ pub fn SVGLineElement::nodeName(Self) -> String
 pub fn SVGLineElement::nodeType(Self) -> Int
 pub fn SVGLineElement::nodeValue(Self) -> String?
 pub fn SVGLineElement::normalize(Self) -> Unit
+pub fn SVGLineElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGLineElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGLineElement::outerHTML(Self) -> String
 pub fn SVGLineElement::ownerDocument(Self) -> Document?
 pub fn SVGLineElement::parentElement(Self) -> Element?
@@ -3040,6 +3271,8 @@ pub fn SVGLineElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGLineElement::remove(Self) -> Unit
 pub fn SVGLineElement::removeAttribute(Self, String) -> Unit
 pub fn SVGLineElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGLineElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGLineElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGLineElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGLineElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3093,6 +3326,8 @@ pub fn SVGMatrix::translate(Self, Double, Double) -> Self
 
 #external
 pub type SVGPathElement
+#alias(add_event_listener)
+pub fn SVGPathElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPathElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::append(Self, Node) -> Unit
 pub fn SVGPathElement::appendChild(Self, Node) -> Node
@@ -3118,6 +3353,8 @@ pub fn SVGPathElement::closest(Self, String) -> Element?
 pub fn SVGPathElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGPathElement::contains(Self, Node?) -> Bool
 pub fn SVGPathElement::d(Self) -> String
+#alias(dispatch_event)
+pub fn SVGPathElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGPathElement::firstChild(Self) -> Node?
 pub fn SVGPathElement::firstElementChild(Self) -> Element?
 pub fn SVGPathElement::getAttribute(Self, String) -> String?
@@ -3148,6 +3385,8 @@ pub fn SVGPathElement::nodeName(Self) -> String
 pub fn SVGPathElement::nodeType(Self) -> Int
 pub fn SVGPathElement::nodeValue(Self) -> String?
 pub fn SVGPathElement::normalize(Self) -> Unit
+pub fn SVGPathElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGPathElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPathElement::outerHTML(Self) -> String
 pub fn SVGPathElement::ownerDocument(Self) -> Document?
 pub fn SVGPathElement::parentElement(Self) -> Element?
@@ -3160,6 +3399,8 @@ pub fn SVGPathElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGPathElement::remove(Self) -> Unit
 pub fn SVGPathElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPathElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGPathElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGPathElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPathElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGPathElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3192,6 +3433,8 @@ pub fn SVGPoint::y(Self) -> Double
 
 #external
 pub type SVGPolygonElement
+#alias(add_event_listener)
+pub fn SVGPolygonElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPolygonElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::append(Self, Node) -> Unit
 pub fn SVGPolygonElement::appendChild(Self, Node) -> Node
@@ -3216,6 +3459,8 @@ pub fn SVGPolygonElement::cloneNode(Self, Bool) -> Node
 pub fn SVGPolygonElement::closest(Self, String) -> Element?
 pub fn SVGPolygonElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGPolygonElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGPolygonElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGPolygonElement::firstChild(Self) -> Node?
 pub fn SVGPolygonElement::firstElementChild(Self) -> Element?
 pub fn SVGPolygonElement::getAttribute(Self, String) -> String?
@@ -3245,6 +3490,8 @@ pub fn SVGPolygonElement::nodeName(Self) -> String
 pub fn SVGPolygonElement::nodeType(Self) -> Int
 pub fn SVGPolygonElement::nodeValue(Self) -> String?
 pub fn SVGPolygonElement::normalize(Self) -> Unit
+pub fn SVGPolygonElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGPolygonElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPolygonElement::outerHTML(Self) -> String
 pub fn SVGPolygonElement::ownerDocument(Self) -> Document?
 pub fn SVGPolygonElement::parentElement(Self) -> Element?
@@ -3257,6 +3504,8 @@ pub fn SVGPolygonElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGPolygonElement::remove(Self) -> Unit
 pub fn SVGPolygonElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPolygonElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGPolygonElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGPolygonElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPolygonElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolygonElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3280,6 +3529,8 @@ pub fn SVGPolygonElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 
 #external
 pub type SVGPolylineElement
+#alias(add_event_listener)
+pub fn SVGPolylineElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPolylineElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::append(Self, Node) -> Unit
 pub fn SVGPolylineElement::appendChild(Self, Node) -> Node
@@ -3304,6 +3555,8 @@ pub fn SVGPolylineElement::cloneNode(Self, Bool) -> Node
 pub fn SVGPolylineElement::closest(Self, String) -> Element?
 pub fn SVGPolylineElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGPolylineElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGPolylineElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGPolylineElement::firstChild(Self) -> Node?
 pub fn SVGPolylineElement::firstElementChild(Self) -> Element?
 pub fn SVGPolylineElement::getAttribute(Self, String) -> String?
@@ -3333,6 +3586,8 @@ pub fn SVGPolylineElement::nodeName(Self) -> String
 pub fn SVGPolylineElement::nodeType(Self) -> Int
 pub fn SVGPolylineElement::nodeValue(Self) -> String?
 pub fn SVGPolylineElement::normalize(Self) -> Unit
+pub fn SVGPolylineElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGPolylineElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGPolylineElement::outerHTML(Self) -> String
 pub fn SVGPolylineElement::ownerDocument(Self) -> Document?
 pub fn SVGPolylineElement::parentElement(Self) -> Element?
@@ -3345,6 +3600,8 @@ pub fn SVGPolylineElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGPolylineElement::remove(Self) -> Unit
 pub fn SVGPolylineElement::removeAttribute(Self, String) -> Unit
 pub fn SVGPolylineElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGPolylineElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGPolylineElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGPolylineElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGPolylineElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3380,6 +3637,8 @@ pub fn SVGRect::y(Self) -> Double
 
 #external
 pub type SVGRectElement
+#alias(add_event_listener)
+pub fn SVGRectElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGRectElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::append(Self, Node) -> Unit
 pub fn SVGRectElement::appendChild(Self, Node) -> Node
@@ -3404,6 +3663,8 @@ pub fn SVGRectElement::cloneNode(Self, Bool) -> Node
 pub fn SVGRectElement::closest(Self, String) -> Element?
 pub fn SVGRectElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGRectElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGRectElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGRectElement::firstChild(Self) -> Node?
 pub fn SVGRectElement::firstElementChild(Self) -> Element?
 pub fn SVGRectElement::getAttribute(Self, String) -> String?
@@ -3434,6 +3695,8 @@ pub fn SVGRectElement::nodeName(Self) -> String
 pub fn SVGRectElement::nodeType(Self) -> Int
 pub fn SVGRectElement::nodeValue(Self) -> String?
 pub fn SVGRectElement::normalize(Self) -> Unit
+pub fn SVGRectElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGRectElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGRectElement::outerHTML(Self) -> String
 pub fn SVGRectElement::ownerDocument(Self) -> Document?
 pub fn SVGRectElement::parentElement(Self) -> Element?
@@ -3446,6 +3709,8 @@ pub fn SVGRectElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGRectElement::remove(Self) -> Unit
 pub fn SVGRectElement::removeAttribute(Self, String) -> Unit
 pub fn SVGRectElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGRectElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGRectElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGRectElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGRectElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3472,6 +3737,8 @@ pub fn SVGRectElement::y(Self) -> Double
 
 #external
 pub type SVGSVGElement
+#alias(add_event_listener)
+pub fn SVGSVGElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGSVGElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::append(Self, Node) -> Unit
 pub fn SVGSVGElement::appendChild(Self, Node) -> Node
@@ -3502,6 +3769,8 @@ pub fn SVGSVGElement::createSVGNumber(Self) -> @js_core.Any
 pub fn SVGSVGElement::createSVGPoint(Self) -> SVGPoint
 pub fn SVGSVGElement::createSVGRect(Self) -> SVGRect
 pub fn SVGSVGElement::createSVGTransform(Self) -> @js_core.Any
+#alias(dispatch_event)
+pub fn SVGSVGElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGSVGElement::firstChild(Self) -> Node?
 pub fn SVGSVGElement::firstElementChild(Self) -> Element?
 pub fn SVGSVGElement::getAttribute(Self, String) -> String?
@@ -3532,6 +3801,8 @@ pub fn SVGSVGElement::nodeName(Self) -> String
 pub fn SVGSVGElement::nodeType(Self) -> Int
 pub fn SVGSVGElement::nodeValue(Self) -> String?
 pub fn SVGSVGElement::normalize(Self) -> Unit
+pub fn SVGSVGElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGSVGElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGSVGElement::outerHTML(Self) -> String
 pub fn SVGSVGElement::ownerDocument(Self) -> Document?
 pub fn SVGSVGElement::parentElement(Self) -> Element?
@@ -3544,6 +3815,8 @@ pub fn SVGSVGElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGSVGElement::remove(Self) -> Unit
 pub fn SVGSVGElement::removeAttribute(Self, String) -> Unit
 pub fn SVGSVGElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGSVGElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGSVGElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGSVGElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGSVGElement::replaceWith(Self, FixedArray[Node]) -> Unit
@@ -3568,6 +3841,8 @@ pub fn SVGSVGElement::width(Self) -> Double
 
 #external
 pub type SVGTextElement
+#alias(add_event_listener)
+pub fn SVGTextElement::addEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGTextElement::after(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::append(Self, Node) -> Unit
 pub fn SVGTextElement::appendChild(Self, Node) -> Node
@@ -3592,6 +3867,8 @@ pub fn SVGTextElement::cloneNode(Self, Bool) -> Node
 pub fn SVGTextElement::closest(Self, String) -> Element?
 pub fn SVGTextElement::compareDocumentPosition(Self, Node) -> Int
 pub fn SVGTextElement::contains(Self, Node?) -> Bool
+#alias(dispatch_event)
+pub fn SVGTextElement::dispatchEvent(Self, @event.Event) -> Bool
 pub fn SVGTextElement::firstChild(Self) -> Node?
 pub fn SVGTextElement::firstElementChild(Self) -> Element?
 pub fn SVGTextElement::getAttribute(Self, String) -> String?
@@ -3621,6 +3898,8 @@ pub fn SVGTextElement::nodeName(Self) -> String
 pub fn SVGTextElement::nodeType(Self) -> Int
 pub fn SVGTextElement::nodeValue(Self) -> String?
 pub fn SVGTextElement::normalize(Self) -> Unit
+pub fn SVGTextElement::off(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
+pub fn SVGTextElement::on(Self, String, (@js_core.Any) -> Unit, capture? : Bool, once? : Bool, passive? : Bool, signal? : @js_async.AbortSignal) -> Unit
 pub fn SVGTextElement::outerHTML(Self) -> String
 pub fn SVGTextElement::ownerDocument(Self) -> Document?
 pub fn SVGTextElement::parentElement(Self) -> Element?
@@ -3633,6 +3912,8 @@ pub fn SVGTextElement::querySelectorAll(Self, String) -> Array[Element]
 pub fn SVGTextElement::remove(Self) -> Unit
 pub fn SVGTextElement::removeAttribute(Self, String) -> Unit
 pub fn SVGTextElement::removeChild(Self, Node) -> Node
+#alias(remove_event_listener)
+pub fn SVGTextElement::removeEventListener(Self, String, (@js_core.Any) -> Unit, capture? : Bool) -> Unit
 pub fn SVGTextElement::replaceChild(Self, Node, Node) -> Node
 pub fn SVGTextElement::replaceChildren(Self, FixedArray[Node]) -> Unit
 pub fn SVGTextElement::replaceWith(Self, FixedArray[Node]) -> Unit

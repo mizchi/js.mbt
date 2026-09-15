@@ -4,3 +4,66 @@
 ///|
 /// Upcast from EventTarget to Node
 pub fn Node::cast_from_event_target(value : @event.EventTarget) -> Node = "%identity"
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn Node::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn Node::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn Node::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self.as_event_target().removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn Node::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self.as_event_target().off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn Node::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self.as_event_target().dispatchEvent(event)
+}

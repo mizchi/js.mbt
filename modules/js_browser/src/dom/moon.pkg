@@ -2,6 +2,7 @@ import {
   "mizchi/js",
   "mizchi/js_core" @core,
   "mizchi/js_web/event",
+  "moonbitlang/async/js_async",
   "mizchi/js_web/blob",
   "mizchi/js_web/message",
   "mizchi/js_web/http",

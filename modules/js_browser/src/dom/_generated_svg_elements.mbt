@@ -495,6 +495,81 @@ pub fn SVGElement::isConnected(self : Self) -> Bool {
   self.as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self.as_element().as_node().as_event_target().dispatchEvent(event)
+}
+
 ///| SVGSVGElement inherited methods
 
 ///|
@@ -1000,6 +1075,90 @@ pub fn SVGSVGElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn SVGSVGElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGSVGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGSVGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGSVGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGSVGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGSVGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| SVGCircleElement inherited methods
@@ -1521,6 +1680,93 @@ pub fn SVGCircleElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGCircleElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGCircleElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGCircleElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGCircleElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGCircleElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGRectElement inherited methods
 
 ///|
@@ -2038,6 +2284,90 @@ pub fn SVGRectElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn SVGRectElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGRectElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGRectElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGRectElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGRectElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGRectElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| SVGPathElement inherited methods
@@ -2559,6 +2889,90 @@ pub fn SVGPathElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPathElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPathElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPathElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPathElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPathElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGLineElement inherited methods
 
 ///|
@@ -3076,6 +3490,90 @@ pub fn SVGLineElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn SVGLineElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGLineElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGLineElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGLineElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGLineElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGLineElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| SVGPolylineElement inherited methods
@@ -3611,6 +4109,93 @@ pub fn SVGPolylineElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPolylineElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolylineElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPolylineElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolylineElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPolylineElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGPolygonElement inherited methods
 
 ///|
@@ -4138,6 +4723,93 @@ pub fn SVGPolygonElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGPolygonElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolygonElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGPolygonElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGPolygonElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGPolygonElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGTextElement inherited methods
 
 ///|
@@ -4657,6 +5329,90 @@ pub fn SVGTextElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGTextElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGTextElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGTextElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGTextElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGTextElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| SVGGElement inherited methods
 
 ///|
@@ -5163,4 +5919,88 @@ pub fn SVGGElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn SVGGElement::isConnected(self : Self) -> Bool {
   self.as_svg_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn SVGGElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGGElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn SVGGElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn SVGGElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn SVGGElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_svg_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }

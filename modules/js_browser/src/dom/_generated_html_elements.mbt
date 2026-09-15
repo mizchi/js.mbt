@@ -554,6 +554,90 @@ pub fn HTMLDivElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLDivElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLDivElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLDivElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLDivElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLDivElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLSpanElement inherited methods
 
 ///|
@@ -1105,6 +1189,93 @@ pub fn HTMLSpanElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLSpanElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLSpanElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSpanElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLSpanElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSpanElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLSpanElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLBodyElement inherited methods
@@ -1660,6 +1831,93 @@ pub fn HTMLBodyElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLBodyElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLBodyElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLBodyElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLBodyElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLBodyElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHeadElement inherited methods
 
 ///|
@@ -2213,6 +2471,93 @@ pub fn HTMLHeadElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHeadElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHeadElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHeadElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHtmlElement inherited methods
 
 ///|
@@ -2764,6 +3109,93 @@ pub fn HTMLHtmlElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLHtmlElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHtmlElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHtmlElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHtmlElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHtmlElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHtmlElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLAnchorElement inherited methods
@@ -3327,6 +3759,93 @@ pub fn HTMLAnchorElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLAnchorElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLAnchorElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLAnchorElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLAnchorElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLAnchorElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLButtonElement inherited methods
 
 ///|
@@ -3888,6 +4407,93 @@ pub fn HTMLButtonElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLButtonElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLButtonElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLButtonElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLButtonElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLButtonElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLInputElement inherited methods
 
 ///|
@@ -4439,6 +5045,93 @@ pub fn HTMLInputElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLInputElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLInputElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLInputElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLInputElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLInputElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLInputElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLTextAreaElement inherited methods
@@ -5011,6 +5704,93 @@ pub fn HTMLTextAreaElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLTextAreaElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLTextAreaElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLTextAreaElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLTextAreaElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLTextAreaElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLCanvasElement inherited methods
 
 ///|
@@ -5570,6 +6350,93 @@ pub fn HTMLCanvasElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLCanvasElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLCanvasElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLCanvasElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLCanvasElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLCanvasElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLCanvasElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLIFrameElement inherited methods
@@ -6133,6 +7000,93 @@ pub fn HTMLIFrameElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLIFrameElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLIFrameElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLIFrameElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLIFrameElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLIFrameElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLFormElement inherited methods
 
 ///|
@@ -6684,6 +7638,93 @@ pub fn HTMLFormElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLFormElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLFormElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLFormElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLFormElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLFormElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLFormElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLSelectElement inherited methods
@@ -7247,6 +8288,93 @@ pub fn HTMLSelectElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLSelectElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSelectElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLSelectElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLSelectElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLSelectElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLOptionElement inherited methods
 
 ///|
@@ -7808,6 +8936,93 @@ pub fn HTMLOptionElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLOptionElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOptionElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLOptionElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOptionElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLOptionElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLLabelElement inherited methods
 
 ///|
@@ -8361,6 +9576,93 @@ pub fn HTMLLabelElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLLabelElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLabelElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLLabelElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLabelElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLLabelElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLImageElement inherited methods
 
 ///|
@@ -8912,6 +10214,93 @@ pub fn HTMLImageElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLImageElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLImageElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLImageElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLImageElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLImageElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLImageElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLParagraphElement inherited methods
@@ -9495,6 +10884,93 @@ pub fn HTMLParagraphElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLParagraphElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLParagraphElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLParagraphElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLParagraphElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLParagraphElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLHeadingElement inherited methods
 
 ///|
@@ -10062,6 +11538,93 @@ pub fn HTMLHeadingElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLHeadingElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadingElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLHeadingElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLHeadingElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLHeadingElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLUListElement inherited methods
 
 ///|
@@ -10613,6 +12176,93 @@ pub fn HTMLUListElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLUListElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLUListElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLUListElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLUListElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLUListElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLUListElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
 
 ///| HTMLOListElement inherited methods
@@ -11168,6 +12818,93 @@ pub fn HTMLOListElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
 }
 
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLOListElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOListElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLOListElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLOListElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLOListElement::dispatchEvent(
+  self : Self,
+  event : @event.Event,
+) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
+}
+
 ///| HTMLLIElement inherited methods
 
 ///|
@@ -11713,4 +13450,88 @@ pub fn HTMLLIElement::ownerDocument(self : Self) -> Document? {
 /// Inherited from Node
 pub fn HTMLLIElement::isConnected(self : Self) -> Bool {
   self.as_html_element().as_element().as_node().isConnected()
+}
+
+///|
+/// Inherited from EventTarget
+#alias(add_event_listener)
+pub fn HTMLLIElement::addEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .addEventListener(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLIElement::on(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+  once? : Bool = false,
+  passive? : Bool = false,
+  signal? : @js_async.AbortSignal,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .on(event_type, handler, capture~, once~, passive~, signal?)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(remove_event_listener)
+pub fn HTMLLIElement::removeEventListener(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .removeEventListener(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+pub fn HTMLLIElement::off(
+  self : Self,
+  event_type : String,
+  handler : (@core.Any) -> Unit,
+  capture? : Bool = false,
+) -> Unit {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .off(event_type, handler, capture~)
+}
+
+///|
+/// Inherited from EventTarget
+#alias(dispatch_event)
+pub fn HTMLLIElement::dispatchEvent(self : Self, event : @event.Event) -> Bool {
+  self
+  .as_html_element()
+  .as_element()
+  .as_node()
+  .as_event_target()
+  .dispatchEvent(event)
 }
