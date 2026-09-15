@@ -1,4 +1,4 @@
-name = "mizchi/js_mbtconv"
+name = "mizchi/js_convert"
 
 version = "0.13.0"
 

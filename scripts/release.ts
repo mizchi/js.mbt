@@ -7,7 +7,7 @@
  *
  *   1. mizchi/js_core           (everything depends on it)
  *      mizchi/js_builtin        (depends only on js_core)
- *      mizchi/js_mbtconv        (depends only on js_core)
+ *      mizchi/js_convert        (depends only on js_core)
  *   2. moon update               (refresh registry index)
  *   3. mizchi/js                 (repo root)
  *   4. moon update
@@ -47,7 +47,7 @@ const ROOT: Mod = { path: ".", label: "mizchi/js" };
 const FOUNDATION: Mod[] = [
   { path: "modules/js_core", label: "mizchi/js_core" },
   { path: "modules/js_builtin", label: "mizchi/js_builtin" },
-  { path: "modules/js_mbtconv", label: "mizchi/js_mbtconv" },
+  { path: "modules/js_convert", label: "mizchi/js_convert" },
 ];
 const WEB: Mod = { path: "modules/js_web", label: "mizchi/js_web" };
 

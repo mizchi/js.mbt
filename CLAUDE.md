@@ -38,7 +38,7 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
     |     |
     |     +-- mizchi/js_bun
     |
-    +-- mizchi/js_mbtconv             MoonBit <-> JS value conversion
+    +-- mizchi/js_convert             MoonBit <-> JS value conversion
     |
     +-- mizchi/js_webextensions
     |
@@ -55,7 +55,7 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
   **`mizchi/js` is a leaf: nothing in the workspace may depend on it.** It
   exists for users who want one import, and `src/top.mbt` is nothing but
   `pub using` re-exports. A module that reaches `@core.Promise` through
-  `@js.Promise` would drag the whole facade - and its `js_mbtconv` dependency -
+  `@js.Promise` would drag the whole facade - and its `js_convert` dependency -
   into that module's published manifest, so area modules import `js_core` and
   `js_builtin` directly.
 
@@ -121,7 +121,7 @@ moon build
 # Deno-side tests. Each task builds the profile its tests need, so they work
 # from a clean tree:
 deno task test:deno      # mizchi/js_deno integration bundle (debug build)
-deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+deno task test:convert   # mizchi/js_convert TS tests (release build)
 deno task test:all       # both
 ```
 

@@ -137,7 +137,7 @@ test "bench: identity Int to Js" (b : @bench.T) {
 
 ///|
 /// Benchmark: Map to Object conversion
-test "bench: @mbtconv.from_map (5 entries)" (b : @bench.T) {
+test "bench: @convert.from_map (5 entries)" (b : @bench.T) {
   let map : Map[String, @core.Any] = {
     "a": @core.any(1),
     "b": @core.any(2),
@@ -145,7 +145,7 @@ test "bench: @mbtconv.from_map (5 entries)" (b : @bench.T) {
     "d": @core.any(4),
     "e": @core.any(5),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(@convert.from_map(map)) })
 }
 
 ///|
@@ -164,7 +164,7 @@ test "bench: Object::new() + set (5 properties, FFI)" (b : @bench.T) {
 
 ///|
 /// Benchmark: Object creation from Map (goes through MoonBit iteration)
-test "bench: @mbtconv.from_map vs Object::new (5 properties)" (b : @bench.T) {
+test "bench: @convert.from_map vs Object::new (5 properties)" (b : @bench.T) {
   let map : Map[String, @core.Any] = {
     "a": @core.any(1),
     "b": @core.any(2),
@@ -172,7 +172,7 @@ test "bench: @mbtconv.from_map vs Object::new (5 properties)" (b : @bench.T) {
     "d": @core.any(4),
     "e": @core.any(5),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(@convert.from_map(map)) })
 }
 
 ///|
@@ -185,7 +185,7 @@ test "bench: from_option_map (5 Some)" (b : @bench.T) {
     "d": Some(@core.any(4)),
     "e": Some(@core.any(5)),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_option_map(map)) })
+  b.bench(fn() { b.keep(@convert.from_option_map(map)) })
 }
 
 ///|
@@ -198,7 +198,7 @@ test "bench: from_option_map (3 Some, 2 None)" (b : @bench.T) {
     "d": None,
     "e": Some(@core.any(5)),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_option_map(map)) })
+  b.bench(fn() { b.keep(@convert.from_option_map(map)) })
 }
 
 ///|
@@ -257,14 +257,14 @@ test "bench: chained method calls" (b : @bench.T) {
 }
 
 // =============================================================================
-// Object Creation Comparison: from_json vs @mbtconv.from_map vs Object::new()
+// Object Creation Comparison: from_json vs @convert.from_map vs Object::new()
 // =============================================================================
 
 ///|
 /// Benchmark: from_json - simple object with 3 properties
 test "bench: from_json (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = @convert.from_json({
       "name": "Alice",
       "age": 30,
       "active": true,
@@ -274,10 +274,10 @@ test "bench: from_json (simple 3 props)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: @mbtconv.from_map - simple object with 3 properties
-test "bench: @mbtconv.from_map (simple 3 props)" (b : @bench.T) {
+/// Benchmark: @convert.from_map - simple object with 3 properties
+test "bench: @convert.from_map (simple 3 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = @convert.from_map({
       "name": @core.any("Alice"),
       "age": @core.any(30),
       "active": @core.any(true),
@@ -302,7 +302,7 @@ test "bench: Object::new (simple 3 props)" (b : @bench.T) {
 /// Benchmark: from_json - nested object
 test "bench: from_json (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = @convert.from_json({
       "user": {
         "name": "Alice",
         "age": 30,
@@ -315,14 +315,14 @@ test "bench: from_json (nested)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: @mbtconv.from_map - nested object
-test "bench: @mbtconv.from_map (nested)" (b : @bench.T) {
+/// Benchmark: @convert.from_map - nested object
+test "bench: @convert.from_map (nested)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
-      "user": @mbtconv.from_map({
+    let result = @convert.from_map({
+      "user": @convert.from_map({
         "name": @core.any("Alice"),
         "age": @core.any(30),
-        "address": @mbtconv.from_map({
+        "address": @convert.from_map({
           "city": @core.any("Tokyo"),
           "zip": @core.any("100-0001"),
         }),
@@ -355,7 +355,7 @@ test "bench: Object::new (nested)" (b : @bench.T) {
 /// Benchmark: from_json - object with array
 test "bench: from_json (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = @convert.from_json({
       "name": "Alice",
       "tags": ["developer", "moonbit", "javascript"],
     })
@@ -364,10 +364,10 @@ test "bench: from_json (with array)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: @mbtconv.from_map - object with array
-test "bench: @mbtconv.from_map (with array)" (b : @bench.T) {
+/// Benchmark: @convert.from_map - object with array
+test "bench: @convert.from_map (with array)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = @convert.from_map({
       "name": @core.any("Alice"),
       "tags": @core.any(["developer", "moonbit", "javascript"]),
     })
@@ -390,7 +390,7 @@ test "bench: Object::new (with array)" (b : @bench.T) {
 /// Benchmark: from_json - large flat object (10 properties)
 test "bench: from_json (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_json({
+    let result = @convert.from_json({
       "a": 1,
       "b": 2,
       "c": 3,
@@ -407,10 +407,10 @@ test "bench: from_json (10 props)" (b : @bench.T) {
 }
 
 ///|
-/// Benchmark: @mbtconv.from_map - large flat object (10 properties)
-test "bench: @mbtconv.from_map (10 props)" (b : @bench.T) {
+/// Benchmark: @convert.from_map - large flat object (10 properties)
+test "bench: @convert.from_map (10 props)" (b : @bench.T) {
   b.bench(fn() {
-    let result = @mbtconv.from_map({
+    let result = @convert.from_map({
       "a": @core.any(1),
       "b": @core.any(2),
       "c": @core.any(3),
@@ -449,16 +449,16 @@ test "bench: Object::new (10 props)" (b : @bench.T) {
 /// Benchmark: from_json with pre-built Json value (amortized)
 test "bench: from_json (pre-built Json)" (b : @bench.T) {
   let json : Json = { "name": "Alice", "age": 30, "active": true }
-  b.bench(fn() { b.keep(@mbtconv.from_json(json)) })
+  b.bench(fn() { b.keep(@convert.from_json(json)) })
 }
 
 ///|
-/// Benchmark: @mbtconv.from_map with pre-built Map (amortized)
-test "bench: @mbtconv.from_map (pre-built Map)" (b : @bench.T) {
+/// Benchmark: @convert.from_map with pre-built Map (amortized)
+test "bench: @convert.from_map (pre-built Map)" (b : @bench.T) {
   let map : Map[String, @core.Any] = {
     "name": @core.any("Alice"),
     "age": @core.any(30),
     "active": @core.any(true),
   }
-  b.bench(fn() { b.keep(@mbtconv.from_map(map)) })
+  b.bench(fn() { b.keep(@convert.from_map(map)) })
 }

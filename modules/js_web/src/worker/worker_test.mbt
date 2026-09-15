@@ -67,7 +67,7 @@ test "MessagePort::post_message sends a number" {
 // test "MessagePort::post_message sends an object" {
 //   let channel = MessageChannel::new()
 //   let port1 = channel.port1()
-//   let data = @mbtconv.from_json({ "type": "test", "value": 123 })
+//   let data = @convert.from_json({ "type": "test", "value": 123 })
 //   port1.post_message(data)
 //   inspect(@core.typeof_(port1.as_any()), content="object")
 // }

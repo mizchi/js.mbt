@@ -239,7 +239,7 @@ export function getTupleArgs(value: MbtEnumTuple): unknown[] {
 
 /**
  * MoonBit Map[K, V] internal structure
- * NOT a plain object - use mbtconv.from_map() to convert
+ * NOT a plain object - use @convert.from_map() to convert
  */
 export interface MbtMap {
   entries: unknown[];

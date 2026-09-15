@@ -9,7 +9,7 @@ live so they stay out of `mizchi/js` and `mizchi/js_core`:
 
 | package | moved from | what it is |
 | ------- | ---------- | ---------- |
-| `src/bench` | `mizchi/js` `src/internal/bench` | bundle-size bench over `js_mbtconv` |
+| `src/bench` | `mizchi/js` `src/internal/bench` | bundle-size bench over `js_convert` |
 | `src/examples` | `mizchi/js` `src/examples` | literate `.mbt.md` docs, checked by `moon check` |
 | `src/size/*` | `mizchi/js_core` `src/_tests/size*` | 14 bundle-size fixtures, one per feature |
 
