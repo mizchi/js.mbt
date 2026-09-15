@@ -59,6 +59,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Dev-only packages moved out of the published modules, into `mizchi/js_dev`.**
+  `moon.mod` has no `exclude` or `files` field — an `exclude` key makes `moon`
+  fail to calculate the build plan — so everything under a published module's
+  `source = "src"` ships to consumers, and benchmarks, bundle-size fixtures and
+  the literate examples were all inside published trees. The new `dev/`
+  workspace member holds them and is never published; `scripts/release.ts`
+  publishes a hardcoded list that does not include it.
+
+  | moved to | from | what |
+  |---|---|---|
+  | `dev/src/bench` | `mizchi/js` `src/internal/bench` | bundle-size bench |
+  | `dev/src/examples` | `mizchi/js` `src/examples` | the `.mbt.md` docs |
+  | `dev/src/size/*` | `mizchi/js_core` `src/_tests/size*` | 14 size fixtures |
+
+  Two consequences worth calling out. `js_mbtconv` leaves the root `moon.mod`:
+  `src/internal/bench` was its only importer, so every consumer of the headline
+  `mizchi/js` had been installing `js_mbtconv` to satisfy a benchmark. And
+  `mizchi/js` now publishes `src/top.mbt` plus `src/wasm` and nothing else —
+  previously the facade was about 5% of what shipped.
+
+  `src/wasm` stays in `mizchi/js` as previously decided, and
+  `js_browser/src/test_utils` stays put: `dom`'s blackbox tests import it, and
+  it is plausibly useful to consumers writing happy-dom tests.
+
+- **Deleted the dead `src/internal/test_utils` package.** Zero importers
+  anywhere. Before the split, `src/node`'s tests used its `timeout` / `retry`
+  helpers; once `js_node` became its own module that import would have been a
+  cycle, so those tests moved to the `defer` pattern and the package was left
+  behind, shipping inside `mizchi/js` ever since. The 13 tests removed with it
+  were all tests of those helpers themselves, so the suite goes 1410 → 1397
+  with no loss of coverage of shipped code.
+
 - **`mizchi/js` is now a leaf: no other module in the workspace depends on it.**
   Six published manifests shrink as a result. Nothing about the public API
   changes — `moon info` produces a zero-line `.mbti` diff across the whole
