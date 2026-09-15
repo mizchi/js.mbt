@@ -3,3 +3,7 @@ import {
 }
 
 supported_targets = "js"
+
+import {
+  "mizchi/js_mbtconv" @mbtconv,
+} for "test"

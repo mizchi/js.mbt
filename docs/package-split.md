@@ -1,8 +1,8 @@
 # パッケージ分割ガイド (mizchi/js → multi-module)
 
-このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`** の 8 モジュールが独立しています。
+このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`**, **`mizchi/js_mbtconv`** の 9 モジュールが独立しています。
 
-`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`mbtconv` / `internal` / `wasm` / `examples` を抱えます。
+`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`internal` / `wasm` / `examples` を抱えます。
 
 ## 背景
 
@@ -27,12 +27,13 @@
 ```
 /
 ├── moon.work                          # workspace 定義
-├── moon.mod                           # mizchi/js (facade + mbtconv/internal/wasm/examples)
+├── moon.mod                           # mizchi/js (facade + internal/wasm/examples)
 ├── src/                               # mizchi/js のソース
 └── modules/
     ├── js_browser/                    # mizchi/js_browser
     ├── js_builtin/                    # mizchi/js_builtin
     ├── js_deno/                       # mizchi/js_deno
+    ├── js_mbtconv/                    # mizchi/js_mbtconv
     ├── js_bun/                        # mizchi/js_bun
     ├── js_core/                       # mizchi/js_core
     ├── js_node/                       # mizchi/js_node
@@ -50,6 +51,7 @@ members = [
   "modules/js_bun",
   "modules/js_core",
   "modules/js_deno",
+  "modules/js_mbtconv",
   "modules/js_node",
   "modules/js_web",
   "modules/js_webextensions",
@@ -62,7 +64,7 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `mbtconv`, `internal/*`, `examples`, `wasm` | 既存 |
+| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `internal/*`, `examples`, `wasm` | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
@@ -70,6 +72,7 @@ members = [
 | `mizchi/js_node`            | `node/*` (fs, http, stream, ...)      | **済** |
 | `mizchi/js_web`             | `web/*` (Blob, Streams, Fetch, Event, ...) | **済** |
 | `mizchi/js_builtin`         | `builtins/*` (Object, Array, JSON, ...) | **済** |
+| `mizchi/js_mbtconv`         | `mbtconv` (MoonBit 値 ⇔ JS 値の変換)  | **済** |
 | `mizchi/js_core`            | `core` (Any, Promise, FFI 基盤)       | **済** |
 | `mizchi/js_wasm` (検討中)   | `wasm` ターゲット用 entry             | 未着手 |
 
@@ -97,6 +100,26 @@ members = [
 ```
 
 それぞれの内部依存(`webextensions/chrome` → `webextensions/storage` 等)は、本リポジトリ内で `mizchi/js_webextensions/storage` のように書き換え済みです。
+
+## 利用側の移行手順 (mbtconv)
+
+`mbtconv` は `mizchi/js_mbtconv` に移動しました。`core` と同じく**モジュール名の末尾が変わるので default alias が `@js_mbtconv` になります**。`@mbtconv.` のまま使いたい場合は明示 alias を付けてください:
+
+```diff
+ # moon.mod
+ import {
++  "mizchi/js_mbtconv@0.12.x",
+   "mizchi/js@0.12.x",
+ }
+```
+
+```diff
+ # moon.pkg
+ import {
+-  "mizchi/js/mbtconv",
++  "mizchi/js_mbtconv" @mbtconv,
+ }
+```
 
 ## 利用側の移行手順 (built-ins)
 
@@ -288,7 +311,7 @@ import {
 | -------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `target/js/release/build/deno/_tests/_tests.js`                | `target/js/release/build/mizchi/js_deno/_tests/_tests.js`             |
 | `target/js/release/build/bun/bun_test/bun_test.js`             | `target/js/release/build/mizchi/js_bun/bun_test/bun_test.js`          |
-| `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js/mbtconv/_interop_test/_interop_test.js` |
+| `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js_mbtconv/_interop_test/_interop_test.js` |
 | `target/wasm-gc/release/build/wasm/wasm.wasm`                  | `target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm`               |
 
 本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `src/wasm/test_deno.ts`, `src/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
@@ -375,14 +398,17 @@ import {
   なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
   下流モジュールからの参照なので循環せず、そのままで問題ありません。
 
-### 残っている検討事項
+### `mizchi/js` に残しているもの
 
-- `mizchi/js` に残った `mbtconv` (MoonBit 値 ⇔ JS 値の変換) は `core` にのみ
-  依存しているので、必要なら `mizchi/js_mbtconv` として独立させられます。
-- `src/wasm` は wasm-gc ターゲットの動作確認用 entry です。`mizchi/js_wasm`
-  として切り出すかは未定 (`docs/wasm-gc-usage.md` 参照)。
-- `src/examples` はドキュメント用のチェック対象コードなので、そのままで
-  問題ありません。
+`src/` の領域別モジュール化はこれで完了で、残る中身は意図的に `mizchi/js`
+に置いたままにしています:
+
+- `src/top.mbt` — `js_core` + `js_builtin` を re-export する facade。
+  `mizchi/js` をこの meta パッケージとして root に残す方針で決着しました。
+- `src/wasm` — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
+  切り出さず、このままにする方針です (`docs/wasm-gc-usage.md` 参照)。
+- `src/internal/{test_utils,bench}` — 環境非依存のテストヘルパとベンチ。
+- `src/examples` — ドキュメント用のチェック対象コード。
 
 ### 現在の依存階層
 
@@ -390,12 +416,14 @@ import {
 mizchi/js_core  <--  mizchi/js_builtin  <--  mizchi/js_web  <--  js_node
   (Any, Promise,       (Object, Array,         (fetch, URL,        js_browser
    Nullable, FFI)       JSON, RegExp, ...)      Streams, ...)      js_deno
-      ^                      ^                      ^             js_bun
-      |                      |                      |             js_webextensions
-      +----------------------+----------------------+
-                             |
-                        mizchi/js  (facade: 両者を re-export)
-                        + mbtconv / internal / wasm / examples
+      ^    ^                 ^                      ^             js_bun
+      |    |                 |                      |             js_webextensions
+      |    +-- mizchi/js_mbtconv  (Map/Json/Option/Result <-> Any)
+      |                 ^
+      +-----------------+----------------------------+
+                        |
+                   mizchi/js  (facade: js_core + js_builtin を re-export)
+                   + internal / wasm / examples
 ```
 
 publish はこの依存順でなければならないため、`scripts/release.ts` が

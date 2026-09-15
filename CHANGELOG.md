@@ -7,7 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`check-env` CI could not run the Deno tests.** `deno.jsonc` was pointed at
+  the *debug* build (`_build/js/debug/build/mizchi/js_deno/_tests/_tests.js`)
+  while the workflow only ran `moon build --target js --release`, so
+  `deno test -A` failed on a missing module. Deno-side tests are now driven by
+  tasks that build the profile they need, and `check-env` calls them:
+
+  ```
+  deno task test:deno      # mizchi/js_deno integration bundle (debug build)
+  deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+  deno task test:all       # both
+  ```
+
+  This also wires up the `js_mbtconv` TypeScript tests (`interop.test.ts` +
+  `types.test.ts`, 38 tests), which were never picked up by `deno test -A`
+  because they are not in `test.include` — and could not be added to it,
+  since `interop.test.ts` needs the release build while the configured
+  include targets the debug build.
+
+  `just test-deno` / `just test-mbtconv` and the `Testing` section of
+  `CLAUDE.md` now point at the tasks too.
+
 ### Changed
+
+- **BREAKING: `mbtconv` split out into `mizchi/js_mbtconv`.** The MoonBit ⇔
+  JavaScript value conversion helpers (`from_map`, `from_json`, `to_json`,
+  `from_option_map`, the `Convertible` trait and the runtime type inspection
+  used by the bench suite) are now their own module, depending only on
+  `mizchi/js_core`.
+
+  Like `js_core`, the module's last path segment changes the default alias, so
+  import it with an explicit alias to keep `@mbtconv.`:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/mbtconv",
+  +  "mizchi/js_mbtconv" @mbtconv,
+   }
+  ```
 
 - **BREAKING: `builtins/*` split out into `mizchi/js_builtin`.** All 20
   built-in object packages (`array`, `arraybuffer`, `atomics`, `bigint`,
@@ -24,9 +64,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    }
   ```
 
-  This completes the per-area split of `src/`. `mizchi/js` stays at the repo
-  root as a meta package re-exporting `js_core` + `js_builtin` through
-  `top.mbt`, and keeps `mbtconv`, `internal/*`, `wasm` and `examples`.
+  `mizchi/js` stays at the repo root as a meta package re-exporting
+  `js_core` + `js_builtin` through `top.mbt`, and keeps `internal/*`,
+  `wasm` and `examples`.
 
 - **BREAKING: `core` split out into `mizchi/js_core`.** The FFI foundation
   (`Any`, `Promise`, `Nullable`, the target-specific interop layer) is now its

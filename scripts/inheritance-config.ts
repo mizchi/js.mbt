@@ -24,6 +24,12 @@ const domHierarchy: InheritanceChain[] = [
     typeName: "EventTarget",
     extends: null,
     castMethod: null,
+    // NOTE: this path has never resolved (there is no `src/event/`), so the
+    // generator silently skips EventTarget and emits no delegations for it.
+    // Pointing it at modules/js_web/src/event/event_target.mbt makes the
+    // regex-based signature parser produce invalid MoonBit for
+    // addEventListener / on (multi-line signature with an optional param),
+    // so fixing it needs a parser fix first.
     sourceFile: "src/event/event_target.mbt",
     qualifiedTypeName: "@event.EventTarget"
   },
@@ -126,26 +132,26 @@ const streamHierarchy: InheritanceChain[] = [
     typeName: "EventEmitter",
     extends: null,
     castMethod: null,
-    sourceFile: "src/node/events/event_emitter.mbt",
+    sourceFile: "modules/js_node/src/events/event_emitter.mbt",
     qualifiedTypeName: "@events.EventEmitter"
   },
   {
     typeName: "Stream",
     extends: "EventEmitter",
     castMethod: "as_event_emitter",
-    sourceFile: "src/node/stream/stream.mbt"
+    sourceFile: "modules/js_node/src/stream/stream.mbt"
   },
   {
     typeName: "Readable",
     extends: "Stream",
     castMethod: "as_stream",
-    sourceFile: "src/node/stream/stream.mbt"
+    sourceFile: "modules/js_node/src/stream/stream.mbt"
   },
   {
     typeName: "Writable",
     extends: "Stream",
     castMethod: "as_stream",
-    sourceFile: "src/node/stream/stream.mbt"
+    sourceFile: "modules/js_node/src/stream/stream.mbt"
   },
 ];
 
@@ -155,67 +161,67 @@ const typedArrayHierarchy: InheritanceChain[] = [
     typeName: "TypedArray",
     extends: null,
     castMethod: null,
-    sourceFile: "src/builtins/arraybuffer/typedarray_trait.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray_trait.mbt"
   },
   {
     typeName: "Uint8Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Uint16Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Uint32Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Int8Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Int16Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Int32Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Float32Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "Float64Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "BigInt64Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
   {
     typeName: "BigUint64Array",
     extends: "TypedArray",
     castMethod: "as_typed_array",
-    sourceFile: "src/builtins/arraybuffer/typedarray.mbt"
+    sourceFile: "modules/js_builtin/src/arraybuffer/typedarray.mbt"
   },
 ];
 
@@ -240,7 +246,7 @@ export const hierarchies: HierarchyConfig[] = [
   {
     name: "stream",
     types: streamHierarchy,
-    outputDir: "src/node/stream",
+    outputDir: "modules/js_node/src/stream",
     skipPatterns: [
       /as_any\(/,
       /as_event_emitter\(/,
@@ -254,7 +260,7 @@ export const hierarchies: HierarchyConfig[] = [
   {
     name: "typedarray",
     types: typedArrayHierarchy,
-    outputDir: "src/builtins/arraybuffer",
+    outputDir: "modules/js_builtin/src/arraybuffer",
     skipPatterns: [
       /as_any\(/,
       /as_typed_array\(/,

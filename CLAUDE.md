@@ -9,12 +9,34 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 ## Project Structure
 
 - MoonBit packages are organized per directory, for each directory, there is a
-  `moon.pkg.json` file listing its dependencies. Each package has its files and
+  `moon.pkg` file listing its dependencies. Each package has its files and
   blackbox test files (common, ending in `_test.mbt`) and whitebox test files
   (ending in `_wbtest.mbt`).
 
-- In the toplevel directory, this is a `moon.mod.json` file listing about the
-  module and some meta information.
+- Each module has a `moon.mod` at its root with the module name, version and
+  its module-level `import` list. `moon.work` at the repo root lists the
+  workspace members; `moon check` / `moon build` / `moon test` process all of
+  them at once.
+
+- This repo is a workspace of 9 modules. `mizchi/js` at the root is a meta
+  package (`src/top.mbt` re-exports `js_core` + `js_builtin`) plus the bits
+  that are not area specific:
+
+  ```
+  mizchi/js_core  <--  mizchi/js_builtin  <--  mizchi/js_web  <--  js_node
+    (Any, Promise,       (Object, Array,         (fetch, URL,        js_browser
+     Nullable, FFI)       JSON, RegExp, ...)      Streams, ...)      js_deno
+        ^    ^                 ^                      ^             js_bun
+        |    +-- mizchi/js_mbtconv                    |             js_webextensions
+        +-----------------+----------------------------+
+                          |
+                     mizchi/js  (src/top.mbt, internal, wasm, examples)
+  ```
+
+  Dependencies only ever point left. Adding an import that points right makes
+  a module cycle and `moon check` rejects it - `for "test"` imports included.
+  See [docs/package-split.md](docs/package-split.md) for the layout and the
+  migration notes.
 
 ## Coding convention
 
@@ -60,8 +82,17 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](src/exa
 ```bash
 moon test
 moon build
-deno test -A
+
+# Deno-side tests. Each task builds the profile its tests need, so they work
+# from a clean tree:
+deno task test:deno      # mizchi/js_deno integration bundle (debug build)
+deno task test:mbtconv   # mizchi/js_mbtconv TS tests (release build)
+deno task test:all       # both
 ```
+
+Bare `deno test -A` only picks up `test.include` from `deno.jsonc` (the
+`js_deno` bundle) and assumes the debug build already exists - prefer the
+tasks above.
 
 ### Async Test Resource Management
 
@@ -86,10 +117,10 @@ async test "Socket test example" {
 **Rules:**
 - Place `defer` statement **immediately after** resource creation (server, socket, etc.)
 - This applies to all async tests in:
-  - `src/node/http/*_test.mbt`
-  - `src/node/https/*_test.mbt`
-  - `src/node/http2/*_test.mbt`
-  - `src/node/net/*_test.mbt`
+  - `modules/js_node/src/http/*_test.mbt`
+  - `modules/js_node/src/https/*_test.mbt`
+  - `modules/js_node/src/http2/*_test.mbt`
+  - `modules/js_node/src/net/*_test.mbt`
 - The `defer` ensures cleanup even if the test fails or times out
 - You may still call explicit cleanup (e.g., `server.close(callback=...)`) for verification purposes, but `defer` is mandatory for safety
 
