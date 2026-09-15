@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`web/*` no longer imports the `mizchi/js` facade.** The seven packages
+  that reached types through the root re-export (`blob`, `event`, `http`,
+  `worker`, `webgpu`, `websocket`, `streams`) now import the package that
+  actually defines them - `@core.Promise` instead of `@js.Promise`,
+  `@js_async.AbortSignal` instead of `@js.AbortSignal`, and so on. This is a
+  prerequisite for splitting `web/*` into `mizchi/js_web`, since a facade
+  that re-exports `js_web` while `js_web` imports the facade is a cycle.
+  No `.mbti` changed, so there is no effect on users.
+
 - **BREAKING: `node/*` split out into `mizchi/js_node`.** First step of
   dissolving the monolithic `src/` into per-area modules (`js_core`,
   `js_builtin`, `js_web`, `js_node`), leaving `mizchi/js` as a thin

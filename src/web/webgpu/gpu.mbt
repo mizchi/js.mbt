@@ -47,7 +47,7 @@ pub async fn GPU::requestAdapter(
     Some(f) => options._set("forceFallbackAdapter", @core.any(f))
     None => ()
   }
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("requestAdapter", [options])
     .cast()
@@ -133,7 +133,7 @@ pub async fn GPUAdapter::requestDevice(
     Some(limits) => descriptor._set("requiredLimits", limits)
     None => ()
   }
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("requestDevice", [descriptor])
     .cast()
@@ -189,7 +189,7 @@ pub fn GPUDevice::queue(self : GPUDevice) -> GPUQueue {
 
 ///|
 /// Get the lost promise
-pub fn GPUDevice::lost(self : GPUDevice) -> @js.Promise[GPUDeviceLostInfo] {
+pub fn GPUDevice::lost(self : GPUDevice) -> @core.Promise[GPUDeviceLostInfo] {
   self.as_any()["lost"].cast()
 }
 
@@ -443,7 +443,7 @@ pub fn GPUDevice::pushErrorScope(self : GPUDevice, filter : String) -> Unit {
 ///|
 /// Pop an error scope
 pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
-  let promise : @js.Promise[@core.Any] = self
+  let promise : @core.Promise[@core.Any] = self
     .as_any()
     ._call("popErrorScope", [])
     .cast()
@@ -530,7 +530,7 @@ pub async fn GPUBuffer::mapAsync(
   offset? : Int,
   size? : Int,
 ) -> Unit {
-  let promise : @js.Promise[Unit] = match (offset, size) {
+  let promise : @core.Promise[Unit] = match (offset, size) {
     (None, None) => self.as_any()._call("mapAsync", [@core.any(mode)]).cast()
     (Some(o), None) =>
       self.as_any()._call("mapAsync", [@core.any(mode), @core.any(o)]).cast()
@@ -816,7 +816,7 @@ pub fn GPUQueue::writeTexture(
 ///|
 /// Get a promise that resolves when all submitted work is done
 pub async fn GPUQueue::onSubmittedWorkDone(self : GPUQueue) -> Unit {
-  let promise : @js.Promise[Unit] = self
+  let promise : @core.Promise[Unit] = self
     .as_any()
     ._call("onSubmittedWorkDone", [])
     .cast()
@@ -1456,7 +1456,7 @@ pub fn GPUShaderModule::label(self : GPUShaderModule) -> String {
 pub async fn GPUShaderModule::getCompilationInfo(
   self : GPUShaderModule,
 ) -> GPUCompilationInfo {
-  let promise : @js.Promise[GPUCompilationInfo] = self
+  let promise : @core.Promise[GPUCompilationInfo] = self
     .as_any()
     ._call("getCompilationInfo", [])
     .cast()
@@ -1662,7 +1662,9 @@ pub fn GPUCompilationInfo::as_any(self : GPUCompilationInfo) -> @core.Any = "%id
 
 ///|
 /// Get compilation messages
-pub fn GPUCompilationInfo::messages(self : GPUCompilationInfo) -> @js.JsArray {
+pub fn GPUCompilationInfo::messages(
+  self : GPUCompilationInfo,
+) -> @array.JsArray {
   self.as_any()["messages"].cast()
 }
 

@@ -131,7 +131,7 @@ pub fn WebSocket::set_onopen(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onopen"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onopen"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -141,7 +141,7 @@ pub fn WebSocket::set_onmessage(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onmessage"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onmessage"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -151,7 +151,7 @@ pub fn WebSocket::set_onerror(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onerror"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onerror"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|
@@ -161,7 +161,7 @@ pub fn WebSocket::set_onclose(
   self : Self,
   handler : (@core.Any) -> Unit,
 ) -> Unit {
-  self.as_any()["onclose"] = @core.any(@js.from_fn1(handler))
+  self.as_any()["onclose"] = @core.any(@core.from_fn1(handler))
 }
 
 ///|

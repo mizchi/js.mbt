@@ -94,7 +94,7 @@ pub fn EventTarget::addEventListener(
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> Unit {
   let entries : Array[(String, @core.Any)] = []
   entries.push(("capture", @core.any(capture)))
@@ -107,7 +107,7 @@ pub fn EventTarget::addEventListener(
   .as_any()
   ._call("addEventListener", [
     @core.any(event_type),
-    @core.any(@js.from_fn1(handler)),
+    @core.any(@core.from_fn1(handler)),
     @core.from_entries(entries),
   ])
   |> ignore
@@ -122,7 +122,7 @@ pub fn EventTarget::on(
   capture? : Bool = false,
   once? : Bool = false,
   passive? : Bool = false,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
 ) -> Unit {
   self.addEventListener(event_type, handler, capture~, once~, passive~, signal?)
 }
@@ -140,7 +140,7 @@ pub fn EventTarget::removeEventListener(
   .as_any()
   ._call("removeEventListener", [
     @core.any(event_type),
-    @core.any(@js.from_fn1(handler)),
+    @core.any(@core.from_fn1(handler)),
     @core.from_entries([("capture", @core.any(capture))]),
   ])
   |> ignore

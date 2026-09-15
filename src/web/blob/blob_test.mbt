@@ -50,7 +50,7 @@ test "Blob content_type returns empty string when not specified" {
 ///|
 /// Test Blob text method
 test "Blob text returns content as string" {
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     try {
       let blob = Blob::new([@core.any("Hello, Blob!")])
       let text = blob.text()
@@ -64,7 +64,7 @@ test "Blob text returns content as string" {
 ///|
 /// Test Blob arrayBuffer method
 test "Blob array_buffer returns ArrayBuffer" {
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     try {
       let blob = Blob::new([@core.any("test")])
       let buffer = blob.array_buffer()
@@ -131,7 +131,7 @@ test "Blob handles binary data" {
 ///|
 /// Test Blob slice and text together
 test "Blob slice and text work together" {
-  @js.run_async(async fn() noraise {
+  @core.run_async(async fn() noraise {
     try {
       let blob = Blob::new([@core.any("Hello, World!")])
       let sliced = blob.slice(start=0, end=5)

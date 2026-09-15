@@ -18,7 +18,7 @@ pub(open) trait Transferable {
 ///     "type": "greeting"
 ///   }).cast())
 ///   worker.addEventListener("message", _event => {
-///     @js.log("Received message from worker:")
+///     @core.log("Received message from worker:")
 ///   })
 ///   worker.terminate()
 /// }
@@ -85,7 +85,7 @@ pub fn Worker::postMessageWithTransfer(
   ffi_worker_post_message(
     worker,
     message |> @core.identity,
-    transfer |> @js.any,
+    transfer |> @core.any,
   )
 }
 

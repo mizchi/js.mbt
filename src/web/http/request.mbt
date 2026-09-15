@@ -24,7 +24,7 @@ pub struct RequestInit {
   priv referrerPolicy : String?
   priv integrity : String?
   priv keepalive : Bool?
-  priv signal : @js.AbortSignal?
+  priv signal : @js_async.AbortSignal?
   priv priority : String?
 }
 
@@ -41,7 +41,7 @@ pub fn RequestInit::new(
   referrerPolicy? : String,
   integrity? : String,
   keepalive? : Bool,
-  signal? : @js.AbortSignal,
+  signal? : @js_async.AbortSignal,
   priority? : String,
 ) -> RequestInit {
   {
@@ -174,7 +174,7 @@ pub fn RequestInit::get_keepalive(self : RequestInit) -> Bool? {
 
 ///|
 /// Get the abort signal
-pub fn RequestInit::get_signal(self : RequestInit) -> @js.AbortSignal? {
+pub fn RequestInit::get_signal(self : RequestInit) -> @js_async.AbortSignal? {
   self.signal
 }
 
@@ -223,19 +223,22 @@ pub fn Request::clone(self : Request) -> Request {
 
 ///|
 pub async fn Request::json(self : Request) -> @core.Any {
-  let promise : @js.Promise[@core.Any] = self.as_any()._call("json", []).cast()
+  let promise : @core.Promise[@core.Any] = self
+    .as_any()
+    ._call("json", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::text(self : Request) -> String {
-  let promise : @js.Promise[String] = self.as_any()._call("text", []).cast()
+  let promise : @core.Promise[String] = self.as_any()._call("text", []).cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::arraybuffer(self : Request) -> @arraybuffer.ArrayBuffer {
-  let promise : @js.Promise[@arraybuffer.ArrayBuffer] = self
+  let promise : @core.Promise[@arraybuffer.ArrayBuffer] = self
     .as_any()
     ._call("arrayBuffer", [])
     .cast()
@@ -244,13 +247,16 @@ pub async fn Request::arraybuffer(self : Request) -> @arraybuffer.ArrayBuffer {
 
 ///|
 pub async fn Request::blob(self : Request) -> @blob.Blob {
-  let promise : @js.Promise[@blob.Blob] = self.as_any()._call("blob", []).cast()
+  let promise : @core.Promise[@blob.Blob] = self
+    .as_any()
+    ._call("blob", [])
+    .cast()
   promise.wait()
 }
 
 ///|
 pub async fn Request::bytes(self : Request) -> @arraybuffer.Uint8Array {
-  let promise : @js.Promise[@arraybuffer.Uint8Array] = self
+  let promise : @core.Promise[@arraybuffer.Uint8Array] = self
     .as_any()
     ._call("bytes", [])
     .cast()

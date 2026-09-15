@@ -117,7 +117,9 @@ pub extern "js" fn Response::error() -> Response =
   #| () => Response.error()
 
 ///|
-extern "js" fn ffi_response_json(response : Response) -> @js.Promise[@core.Any] =
+extern "js" fn ffi_response_json(
+  response : Response,
+) -> @core.Promise[@core.Any] =
   #| (v) => v.json()
 
 ///|
@@ -127,7 +129,7 @@ pub async fn Response::json(self : Self) -> @core.Any {
 }
 
 ///|
-extern "js" fn ffi_response_text(response : Response) -> @js.Promise[String] =
+extern "js" fn ffi_response_text(response : Response) -> @core.Promise[String] =
   #| (v) => v.text()
 
 ///|
@@ -139,7 +141,7 @@ pub async fn Response::text(self : Self) -> String {
 ///|
 extern "js" fn ffi_response_form_data(
   response : Response,
-) -> @js.Promise[FormData] =
+) -> @core.Promise[FormData] =
   #| (v) => v.formData()
 
 ///|
@@ -151,7 +153,7 @@ pub async fn Response::formData(self : Self) -> FormData {
 ///|
 extern "js" fn ffi_response_bytes(
   response : Response,
-) -> @js.Promise[@arraybuffer.Uint8Array] =
+) -> @core.Promise[@arraybuffer.Uint8Array] =
   #| (v) => v.bytes()
 
 ///|

@@ -261,13 +261,31 @@ members = [
 - `node/wasi` → `fixtures/hello-wasi.wasm` (test only) —
   同様に埋め込み。ファイルシステム経由での読み込みをやめた
 
+- `web/*` 7 パッケージ (`blob`, `event`, `http`, `worker`, `webgpu`, `websocket`,
+  `streams`) → ルートの `mizchi/js` facade (`@js.Promise`, `@js.from_fn1`,
+  `@js.AbortSignal` 等) — 実体のあるパッケージを直接 import するよう書き換え:
+
+  | 旧 (facade 経由)  | 新 (実体)                | 実体のパッケージ                |
+  | ----------------- | ------------------------ | ------------------------------- |
+  | `@js.Promise`     | `@core.Promise`          | `mizchi/js/core`                |
+  | `@js.run_async`   | `@core.run_async`        | `mizchi/js/core`                |
+  | `@js.from_fn1`    | `@core.from_fn1`         | `mizchi/js/core`                |
+  | `@js.any`         | `@core.any`              | `mizchi/js/core`                |
+  | `@js.log`         | `@core.log`              | `mizchi/js/core`                |
+  | `@js.AbortSignal` | `@js_async.AbortSignal`  | `moonbitlang/async/js_async`    |
+  | `@js.JsArray`     | `@array.JsArray`         | `mizchi/js/builtins/array`      |
+
+  `.mbti` は型の**正規パッケージ**を記録しているため、この書き換えでは
+  `.mbti` に差分が出ません (= 公開 API に影響しない純粋なリファクタ)。
+
+  なお `js_browser` / `js_deno` / `js_webextensions` 側の facade import は
+  下流モジュールからの参照なので循環せず、そのままで問題ありません。
+
 ### `mizchi/js_web` 切り出しの前に残っている作業
 
-- `web/*` 7 パッケージ (`blob`, `event`, `http`, `worker`, `webgpu`, `websocket`,
-  `streams`) がルートの `mizchi/js` facade を import しています
-  (`@js.Promise`, `@js.from_fn1`, `@js.AbortSignal` 等)。
-  `mizchi/js` が `js_web` を re-export するようになると循環するため、
-  これらは `@core` / `@js_async` を直接 import するよう書き換える必要があります。
+- `src/` 内からの facade 依存は解消済みです。次は `web/*` を
+  `modules/js_web/` へ移動し、`mizchi/js/web/X` → `mizchi/js_web/X` に
+  一括置換します。
 
 ### 現在の依存階層
 
