@@ -1,0 +1,37 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_builtin/atomics"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+#external
+pub type Atomics
+pub fn Atomics::add(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::and_(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::compareExchange(@js_core.Any, Int, Int, Int) -> Int
+pub fn Atomics::exchange(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::isLockFree(Int) -> Bool
+pub fn Atomics::load(@js_core.Any, Int) -> Int
+pub fn Atomics::notify(@js_core.Any, Int, count? : Int) -> Int
+pub fn Atomics::or_(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::store(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::sub(@js_core.Any, Int, Int) -> Int
+pub fn Atomics::wait(@js_core.Any, Int, Int, timeout? : Int) -> AtomicsWaitResult
+pub fn Atomics::xor(@js_core.Any, Int, Int) -> Int
+
+pub enum AtomicsWaitResult {
+  Ok
+  NotEqual
+  TimedOut
+} derive(Eq)
+pub impl Show for AtomicsWaitResult
+
+// Type aliases
+
+// Traits

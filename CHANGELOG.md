@@ -9,6 +9,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **BREAKING: `builtins/*` split out into `mizchi/js_builtin`.** All 20
+  built-in object packages (`array`, `arraybuffer`, `atomics`, `bigint`,
+  `collection`, `date`, `disposable`, `error`, `function`, `global`,
+  `iterator`, `json`, `math`, `object`, `proxy`, `reflect`, `regexp`,
+  `string`, `symbol`, `weak`) moved out of `mizchi/js`. Package names are
+  unchanged, so `@object` / `@array` / `@json` aliases keep working:
+
+  ```diff
+   # moon.pkg
+   import {
+  -  "mizchi/js/builtins/object",
+  +  "mizchi/js_builtin/object",
+   }
+  ```
+
+  This completes the per-area split of `src/`. `mizchi/js` stays at the repo
+  root as a meta package re-exporting `js_core` + `js_builtin` through
+  `top.mbt`, and keeps `mbtconv`, `internal/*`, `wasm` and `examples`.
+
 - **BREAKING: `core` split out into `mizchi/js_core`.** The FFI foundation
   (`Any`, `Promise`, `Nullable`, the target-specific interop layer) is now its
   own module, which every other module — including the root `mizchi/js` —

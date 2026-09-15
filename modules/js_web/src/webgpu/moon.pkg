@@ -1,7 +1,7 @@
 import {
-  "mizchi/js/builtins/array",
+  "mizchi/js_builtin/array",
   "mizchi/js_core" @core,
-  "mizchi/js/builtins/arraybuffer",
+  "mizchi/js_builtin/arraybuffer",
 }
 
 supported_targets = "js"

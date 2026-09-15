@@ -2,7 +2,7 @@ import {
   "mizchi/js",
   "mizchi/js_core" @core,
   "mizchi/js_browser/dom",
-  "mizchi/js/builtins/global",
+  "mizchi/js_builtin/global",
 }
 
 supported_targets = "js"

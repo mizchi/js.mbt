@@ -6,6 +6,7 @@
  * order so that downstream modules can resolve the freshly-published root:
  *
  *   1. mizchi/js_core           (everything depends on it)
+ *      mizchi/js_builtin        (depends only on js_core)
  *   2. moon update               (refresh registry index)
  *   3. mizchi/js                 (repo root)
  *   4. moon update
@@ -38,11 +39,14 @@ type Mod = { path: string; label: string };
 
 const ROOT: Mod = { path: ".", label: "mizchi/js" };
 
-// Publish order is dependency order. mizchi/js_core is the foundation that
-// every other module (including the root) imports, and mizchi/js_web sits
-// between the root and js_browser / js_deno / js_node. Each has to be
-// resolvable on mooncakes before its dependents go up.
-const CORE: Mod = { path: "modules/js_core", label: "mizchi/js_core" };
+// Publish order is dependency order. js_core is the foundation that every
+// other module (including the root) imports, js_builtin sits directly on top
+// of it, and js_web sits between the root and js_browser / js_deno / js_node.
+// Each has to be resolvable on mooncakes before its dependents go up.
+const FOUNDATION: Mod[] = [
+  { path: "modules/js_core", label: "mizchi/js_core" },
+  { path: "modules/js_builtin", label: "mizchi/js_builtin" },
+];
 const WEB: Mod = { path: "modules/js_web", label: "mizchi/js_web" };
 
 const MODULES: Mod[] = [
@@ -199,7 +203,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  const all = [CORE, ROOT, WEB, ...MODULES];
+  const all = [...FOUNDATION, ROOT, WEB, ...MODULES];
 
   // Sanity: every workspace module must be at the same version.
   const versions = new Map<string, string>(
@@ -235,8 +239,10 @@ async function main(): Promise<void> {
     return;
   }
 
-  // mizchi/js_core first: the root module itself imports it.
-  await publishOne(CORE, rootVersion, opts.dryRun);
+  // js_core then js_builtin: the root module itself imports both.
+  for (const mod of FOUNDATION) {
+    await publishOne(mod, rootVersion, opts.dryRun);
+  }
   moonUpdate(opts.dryRun);
 
   if (!opts.skipRoot) {
