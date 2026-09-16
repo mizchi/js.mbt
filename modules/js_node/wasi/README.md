@@ -24,7 +24,7 @@ import {
 
 ### WASI
 - [x] WASI type
-- [x] WASI::new(options) - Create WASI instance
+- [x] WASI(options) - Create WASI instance
   - Options: args, env, preopens, returnOnExit, stdin, stdout, stderr
 - [x] start(instance) - Start WASI instance
 - [x] initialize(instance) - Initialize WASI instance
@@ -34,7 +34,7 @@ import {
 Provides WebAssembly System Interface support for running WASI modules in Node.js.
 
 ```moonbit
-let wasi = WASI::new(args=["arg1", "arg2"], env=env_obj)
+let wasi = WASI(args=["arg1", "arg2"], env=env_obj)
 let imports = { "wasi_snapshot_preview1": wasi.wasiImport }
 // Load and instantiate WASM module with imports
 wasi.start(instance)

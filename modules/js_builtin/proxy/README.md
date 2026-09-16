@@ -34,7 +34,7 @@ fn main {
   let handler = @core.Object::new()
   
   // Create a proxy
-  let proxy = @proxy.Proxy::new(target, handler)
+  let proxy = @proxy.Proxy(target, handler)
   
   // The proxy intercepts operations on the target object
 }

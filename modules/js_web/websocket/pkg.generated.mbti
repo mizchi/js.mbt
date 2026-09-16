@@ -28,9 +28,11 @@ pub(all) struct WebSocket {
   protocol : String
   mut binaryType : String
 }
+pub fn WebSocket::WebSocket(String, protocols? : FixedArray[String]) -> Self
 pub fn WebSocket::as_any(Self) -> @js_core.Any
 pub fn WebSocket::as_event_target(Self) -> @event.EventTarget
 pub fn WebSocket::close(Self, code? : Int, reason? : String) -> Unit
+#deprecated
 pub fn WebSocket::new(String, protocols? : FixedArray[String]) -> Self
 pub fn WebSocket::send_arraybuffer(Self, @arraybuffer.ArrayBuffer) -> Unit
 pub fn WebSocket::send_blob(Self, @blob.Blob) -> Unit

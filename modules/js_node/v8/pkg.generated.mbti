@@ -47,9 +47,11 @@ pub fn writeHeapSnapshot(filename? : String) -> String
 // Types and methods
 #external
 pub type Deserializer
+pub fn Deserializer::Deserializer(@buffer.Buffer) -> Self
 pub fn Deserializer::as_any(Self) -> @js_core.Any
 #alias(get_wire_format_version)
 pub fn Deserializer::getWireFormatVersion(Self) -> Int
+#deprecated
 pub fn Deserializer::new(@buffer.Buffer) -> Self
 #alias(read_double)
 pub fn Deserializer::readDouble(Self) -> Double
@@ -99,7 +101,9 @@ pub fn HeapStatistics::used_heap_size(Self) -> Int
 
 #external
 pub type Serializer
+pub fn Serializer::Serializer() -> Self
 pub fn Serializer::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn Serializer::new() -> Self
 #alias(release_buffer)
 pub fn Serializer::releaseBuffer(Self) -> @buffer.Buffer

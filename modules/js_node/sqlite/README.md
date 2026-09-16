@@ -25,7 +25,7 @@ import {
 **Requirements**: Node.js 22.5.0 or higher
 
 ### DatabaseSync
-- [x] DatabaseSync::new(path, options?) - Create/open database
+- [x] DatabaseSync(path, options?) - Create/open database
   - Options: readOnly, timeout, returnArrays, enableForeignKeyConstraints, defensive, allowBareNamedParameters, allowUnknownNamedParameters, allowExtension
 - [x] isOpen() - Check if database is open
 - [x] isTransaction() - Check if in transaction

@@ -5,7 +5,7 @@
 ///|
 /// Decode Uint8Array to string using @encoding.TextDecoder
 fn decode_uint8array(arr : @arraybuffer.Uint8Array) -> String {
-  @encoding.TextDecoder::new().decode(arr)
+  @encoding.TextDecoder().decode(arr)
 }
 
 ///|
@@ -180,7 +180,7 @@ fn main {
     let test_file = "test_binary.bin"
 
     // Create binary data using @encoding.TextEncoder
-    let encoder = @encoding.TextEncoder::new()
+    let encoder = @encoding.TextEncoder()
     let arr = encoder.encode("binary test data")
     let arr_nostd : @core.Any = arr.as_any().cast()
     d.writeFile(test_file, arr_nostd)
@@ -274,7 +274,7 @@ fn main {
 
     // Create and write using file handle
     let file = d.create(test_file)
-    let encoder = @encoding.TextEncoder::new()
+    let encoder = @encoding.TextEncoder()
     let data = encoder.encode("file handle test")
     let written = file.write(data.as_any())
     assert_true(written > 0)
@@ -410,7 +410,7 @@ fn main {
 
   // Test Command.output() - run echo command
   d.test_async("Command output", async fn(_ctx) {
-    let cmd = @deno.Command::new("echo", args=["Hello", "from", "MoonBit"])
+    let cmd = @deno.Command("echo", args=["Hello", "from", "MoonBit"])
     let output = cmd.output()
     assert_true(output.success())
     assert_eq(output.code(), 0)
@@ -421,7 +421,7 @@ fn main {
 
   // Test Command.outputSync() - synchronous execution
   d.test_async("Command outputSync", _ctx => {
-    let cmd = @deno.Command::new("echo", args=["sync", "test"])
+    let cmd = @deno.Command("echo", args=["sync", "test"])
     let output = cmd.outputSync()
     assert_true(output.success())
     assert_eq(output.code(), 0)
@@ -432,7 +432,7 @@ fn main {
   // Test Command with cwd option
   d.test_async("Command with cwd", async fn(_ctx) {
     let cwd = d.cwd()
-    let cmd = @deno.Command::new("pwd", cwd~)
+    let cmd = @deno.Command("pwd", cwd~)
     let output = cmd.output()
     assert_true(output.success())
     let stdout_text = decode_uint8array(output.stdout())
@@ -442,7 +442,7 @@ fn main {
   // Test Command spawn and status
   d.test_async("Command spawn", async fn(_ctx) {
     // Use null for stdout/stderr to avoid stream leak issues
-    let cmd = @deno.Command::new(
+    let cmd = @deno.Command(
       "echo",
       args=["spawn", "test"],
       stdout="null",
@@ -458,7 +458,7 @@ fn main {
   // Test Command with exit code
   d.test_async("Command exit code", async fn(_ctx) {
     // Use sh -c to run a command that exits with code 1
-    let cmd = @deno.Command::new("sh", args=["-c", "exit 1"])
+    let cmd = @deno.Command("sh", args=["-c", "exit 1"])
     let output = cmd.output()
     assert_false(output.success())
     assert_eq(output.code(), 1)
@@ -467,7 +467,7 @@ fn main {
   // Test Command stderr
   d.test_async("Command stderr", async fn(_ctx) {
     // Use sh -c to write to stderr
-    let cmd = @deno.Command::new(
+    let cmd = @deno.Command(
       "sh",
       args=["-c", "echo error message >&2"],
       stderr="piped",
@@ -480,7 +480,7 @@ fn main {
 
   // Test Command with multiple arguments
   d.test_async("Command multiple args", async fn(_ctx) {
-    let cmd = @deno.Command::new("sh", args=[
+    let cmd = @deno.Command("sh", args=[
       "-c", "echo $0 $1 $2", "arg1", "arg2", "arg3",
     ])
     let output = cmd.output()

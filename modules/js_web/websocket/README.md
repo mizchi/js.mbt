@@ -29,7 +29,7 @@ Provides bindings for the WebSocket API for persistent connections to servers.
 ```moonbit
 fn main {
   // Create a WebSocket connection
-  let ws = @websocket.WebSocket::new("wss://example.com/socket")
+  let ws = @websocket.WebSocket("wss://example.com/socket")
   
   // Set event handlers
   ws.set_onopen(fn(event) {

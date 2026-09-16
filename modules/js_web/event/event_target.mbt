@@ -9,7 +9,7 @@ pub fn Event::as_any(self : Event) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Event
-pub fn Event::new(
+pub fn Event::Event(
   event_type : String,
   bubbles? : Bool,
   cancelable? : Bool,

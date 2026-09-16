@@ -71,14 +71,14 @@ test "runInContext basic execution" {
 ///|
 /// Test Script class creation
 test "Script creation" {
-  let script = Script::new("1 + 1")
+  let script = Script("1 + 1")
   inspect(script |> @core.any |> @core.typeof_, content="object")
 }
 
 ///|
 /// Test Script::runInThisContext
 test "Script runInThisContext" {
-  let script = Script::new("2 + 3")
+  let script = Script("2 + 3")
   let result = script.runInThisContext()
   inspect(result, content="5")
 }
@@ -86,7 +86,7 @@ test "Script runInThisContext" {
 ///|
 /// Test Script::runInNewContext
 test "Script runInNewContext" {
-  let script = Script::new("a + b")
+  let script = Script("a + b")
   let context = @core.from_entries([("a", @core.any(10)), ("b", @core.any(20))]).cast()
   let result = script.runInNewContext(contextObject=context)
   inspect(result, content="30")
@@ -95,7 +95,7 @@ test "Script runInNewContext" {
 ///|
 /// Test Script::runInContext
 test "Script runInContext" {
-  let script = Script::new("x * y")
+  let script = Script("x * y")
   let context = createContext(
     contextObject=@core.from_entries([("x", @core.any(5)), ("y", @core.any(6))]).cast(),
   )
@@ -106,7 +106,7 @@ test "Script runInContext" {
 ///|
 /// Test Script can be reused
 test "Script reuse" {
-  let script = Script::new("value * 2")
+  let script = Script("value * 2")
   let ctx1 = createContext(
     contextObject=@core.from_entries([("value", @core.any(5))]).cast(),
   )
@@ -137,7 +137,7 @@ test "compileFunction execution" {
 ///|
 /// Test Script sourceMapURL
 test "Script sourceMapURL" {
-  let script = Script::new("1 + 1")
+  let script = Script("1 + 1")
   let url = script.sourceMapURL()
   debug_inspect(url, content="None")
 }
@@ -145,7 +145,7 @@ test "Script sourceMapURL" {
 ///|
 /// Test Script cachedDataRejected
 test "Script cachedDataRejected" {
-  let script = Script::new("1 + 1")
+  let script = Script("1 + 1")
   let rejected = script.cachedDataRejected()
   debug_inspect(rejected, content="None")
 }

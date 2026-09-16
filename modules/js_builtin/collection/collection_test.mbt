@@ -2,7 +2,7 @@
 
 ///|
 test "JsMap creation and basic operations" {
-  let map : @collection.JsMap[String, Int] = @collection.JsMap::new()
+  let map : @collection.JsMap[String, Int] = @collection.JsMap()
 
   // Add items
   map.set("one", 1) |> ignore
@@ -34,7 +34,7 @@ test "JsMap::from_entries" {
 
 ///|
 test "JsMap delete and clear" {
-  let map : JsMap[String, Int] = JsMap::new()
+  let map : JsMap[String, Int] = JsMap()
   map.set("a", 1) |> ignore
   map.set("b", 2) |> ignore
   map.set("c", 3) |> ignore
@@ -86,7 +86,7 @@ test "JsMap forEach" {
 
 ///|
 test "JsSet creation and basic operations" {
-  let set : JsSet[Int] = JsSet::new()
+  let set : JsSet[Int] = JsSet()
 
   // Add items
   set.add(1) |> ignore

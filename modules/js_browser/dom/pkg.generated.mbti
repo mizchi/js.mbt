@@ -3975,6 +3975,8 @@ pub struct ShadowRootInit {
   delegatesFocus : Bool
   slotAssignment : String
 }
+pub fn ShadowRootInit::ShadowRootInit(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
+#deprecated
 pub fn ShadowRootInit::new(String, delegatesFocus? : Bool, slotAssignment? : String) -> Self
 
 #external

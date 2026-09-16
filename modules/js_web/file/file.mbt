@@ -30,7 +30,7 @@ extern "js" fn ffi_new_file(
 
 ///|
 /// Create a new File
-pub fn File::new(
+pub fn File::File(
   data : Array[String],
   filename : String,
   content_type? : String,
@@ -102,7 +102,7 @@ pub fn FileReader::as_any(self : FileReader) -> @core.Any = "%identity"
 
 ///|
 /// Create a new FileReader
-pub extern "js" fn FileReader::new() -> FileReader =
+pub extern "js" fn FileReader::FileReader() -> FileReader =
   #|() => new FileReader()
 
 ///|

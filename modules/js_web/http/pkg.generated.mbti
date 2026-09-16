@@ -33,6 +33,7 @@ pub(all) struct Request {
   url : String
   credentials : String
 }
+pub fn Request::Request(String, init? : RequestInit) -> Self
 pub async fn Request::arraybuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn Request::as_any(Self) -> @js_core.Any
 pub async fn Request::blob(Self) -> @blob.Blob
@@ -40,13 +41,16 @@ pub async fn Request::bytes(Self) -> @arraybuffer.Uint8Array
 pub fn Request::clone(Self) -> Self
 pub async fn Request::json(Self) -> @js_core.Any
 pub fn Request::method_(Self) -> String
+#deprecated
 pub fn Request::new(String) -> Self
+#deprecated
 pub fn Request::new_with_init(String, RequestInit) -> Self
 pub async fn Request::text(Self) -> String
 
 pub struct RequestInit {
   // private fields
 }
+pub fn RequestInit::RequestInit(http_method? : String, headers? : Headers, body? : @js_core.Any, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
 pub fn RequestInit::as_any(Self) -> @js_core.Any
 pub fn RequestInit::get_body(Self) -> @js_core.Any?
 pub fn RequestInit::get_cache(Self) -> String?
@@ -61,6 +65,7 @@ pub fn RequestInit::get_redirect(Self) -> String?
 pub fn RequestInit::get_referrer(Self) -> String?
 pub fn RequestInit::get_referrerPolicy(Self) -> String?
 pub fn RequestInit::get_signal(Self) -> @js_async.AbortSignal?
+#deprecated
 pub fn RequestInit::new(http_method? : String, headers? : Headers, body? : @js_core.Any, mode? : String, credentials? : String, cache? : String, redirect? : String, referrer? : String, referrerPolicy? : String, integrity? : String, keepalive? : Bool, signal? : @js_async.AbortSignal, priority? : String) -> Self
 
 pub(all) struct Response {
@@ -69,6 +74,7 @@ pub(all) struct Response {
   statusText : String
   redirected : Bool
 }
+pub fn Response::Response(body? : String, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
 pub fn Response::as_any(Self) -> @js_core.Any
 pub fn Response::body(Self) -> @streams.ReadableStream?
 pub async fn Response::bytes(Self) -> @arraybuffer.Uint8Array
@@ -76,10 +82,13 @@ pub fn Response::clone(Self) -> Self
 pub fn Response::error() -> Self
 #alias(form_data)
 pub async fn Response::formData(Self) -> FormData
+pub fn Response::from_body_init(body? : @js_core.Any, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
 pub fn Response::html(String, Int) -> Self
 pub async fn Response::json(Self) -> @js_core.Any
 pub fn Response::json_(@js_core.Any, options? : @js_core.Any) -> Self
+#deprecated
 pub fn Response::new(body? : String, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
+#deprecated
 pub fn Response::new_with_body(body? : @js_core.Any, status? : Int, statusText? : String, headers? : @js_core.Any) -> Self
 pub fn Response::redirect(String, status? : Int) -> Self
 pub async fn Response::text(Self) -> String

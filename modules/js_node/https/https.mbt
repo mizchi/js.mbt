@@ -15,7 +15,7 @@ extern "js" fn ffi_new_agent(options : @core.Any) -> Agent =
 
 ///|
 /// Create a new HTTPS Agent
-pub fn Agent::new(
+pub fn Agent::Agent(
   max_cached_sessions? : Int,
   servername? : String,
   keep_alive? : Bool,

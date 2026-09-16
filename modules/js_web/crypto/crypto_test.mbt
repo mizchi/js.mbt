@@ -130,7 +130,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-256" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
   let data : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
+    @encoding.TextEncoder().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-256", data)
   let hex = test_ffi_array_buffer_to_hex(digest)
@@ -142,7 +142,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-384" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
   let data : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
+    @encoding.TextEncoder().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-384", data)
   let hex = test_ffi_array_buffer_to_hex(digest)
@@ -154,7 +154,7 @@ async test "Web Crypto API: SubtleCrypto digest SHA-512" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
   let data : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("Hello, World!").as_any(),
+    @encoding.TextEncoder().encode("Hello, World!").as_any(),
   )
   let digest = subtle.digest("SHA-512", data)
   let hex = test_ffi_array_buffer_to_hex(digest)
@@ -196,14 +196,14 @@ async test "Web Crypto API: SubtleCrypto encrypt and decrypt with AES-GCM" {
   let key = subtle.generateKey(algorithm, true, key_usages)
   let iv : @core.Any = test_ffi_random_bytes(12)
   let plaintext : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("Secret message").as_any(),
+    @encoding.TextEncoder().encode("Secret message").as_any(),
   )
   let enc_algorithm : @core.Any = test_ffi_aes_gcm_params("AES-GCM", iv)
   let encrypted = subtle.encrypt(enc_algorithm, key, plaintext)
   let decrypted = subtle.decrypt(enc_algorithm, key, @core.any(encrypted))
   // Convert ArrayBuffer to Uint8Array for TextDecoder
   let decrypted_bytes = @arraybuffer.Uint8Array::from_array_buffer(decrypted)
-  let result = @encoding.TextDecoder::new().decode(decrypted_bytes)
+  let result = @encoding.TextDecoder().decode(decrypted_bytes)
   assert_eq(result, "Secret message")
 }
 
@@ -217,7 +217,7 @@ async test "Web Crypto API: SubtleCrypto sign and verify with HMAC" {
   let key_usages = ["sign", "verify"]
   let key = subtle.generateKey(algorithm, true, key_usages)
   let data : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("Message to sign").as_any(),
+    @encoding.TextEncoder().encode("Message to sign").as_any(),
   )
   let signature = subtle.sign(algorithm, key, data)
   let is_valid = subtle.verify(algorithm, key, @core.any(signature), data)
@@ -248,7 +248,7 @@ async test "Web Crypto API: getCrypto returns Crypto instance" {
   let crypto = @crypto.Crypto::get()
   let subtle = crypto.subtle
   let data : @core.Any = @core.identity(
-    @encoding.TextEncoder::new().encode("test").as_any(),
+    @encoding.TextEncoder().encode("test").as_any(),
   )
   let digest = subtle.digest("SHA-256", data)
   let hex = test_ffi_array_buffer_to_hex(digest)

@@ -153,7 +153,7 @@ fn main {
 
   // Test Bun.spawn
   b.test_async("spawn echo command", async fn(_ctx) {
-    let opts = @bun.SpawnOptions::new(["echo", "hello"])
+    let opts = @bun.SpawnOptions(["echo", "hello"])
     let proc = b.spawn(opts)
     assert_true(proc.pid() > 0)
     let exit_code = proc.exited()
@@ -194,7 +194,7 @@ fn main {
 
   // Test CryptoHasher
   b.test_("CryptoHasher sha256", _ctx => {
-    let hasher = @bun.CryptoHasher::new("sha256")
+    let hasher = @bun.CryptoHasher("sha256")
     hasher.update(@core.any("hello"))
     let hex = hasher.digest_hex()
     assert_true(hex.length() > 0)
@@ -204,7 +204,7 @@ fn main {
 
   // Test CryptoHasher with multiple updates
   b.test_("CryptoHasher multiple updates", _ctx => {
-    let hasher = @bun.CryptoHasher::new("sha256")
+    let hasher = @bun.CryptoHasher("sha256")
     hasher.update(@core.any("hello"))
     hasher.update(@core.any(" "))
     hasher.update(@core.any("world"))
@@ -214,7 +214,7 @@ fn main {
 
   // Test Glob matching
   b.test_("Glob match", _ctx => {
-    let glob = @bun.Glob::new("*.txt")
+    let glob = @bun.Glob("*.txt")
     assert_true(glob.match_("test.txt"))
     assert_true(glob.match_("file.txt"))
     assert_false(glob.match_("file.js"))
@@ -223,7 +223,7 @@ fn main {
 
   // Test Glob with wildcard
   b.test_("Glob wildcard match", _ctx => {
-    let glob = @bun.Glob::new("**/*.mbt")
+    let glob = @bun.Glob("**/*.mbt")
     assert_true(glob.match_("file.mbt"))
     assert_true(glob.match_("src/test.mbt"))
     assert_true(glob.match_("src/nested/deep.mbt"))

@@ -153,7 +153,7 @@ test "serialize and deserialize object" {
 ///|
 /// Test Serializer write and release
 test "Serializer write and release" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   let success = serializer.write_value(42 |> @core.any)
   inspect(success, content="true")
@@ -164,7 +164,7 @@ test "Serializer write and release" {
 ///|
 /// Test Serializer write_uint32
 test "Serializer write_uint32" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   serializer.write_uint32(42)
   let buffer = serializer.releaseBuffer()
@@ -174,7 +174,7 @@ test "Serializer write_uint32" {
 ///|
 /// Test Serializer write_double
 test "Serializer write_double" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   serializer.write_double(3.14)
   let buffer = serializer.releaseBuffer()
@@ -184,9 +184,9 @@ test "Serializer write_double" {
 ///|
 /// Test Serializer transfer_array_buffer
 test "Serializer transfer_array_buffer" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
-  let ab = @arraybuffer.ArrayBuffer::new(16)
+  let ab = @arraybuffer.ArrayBuffer(16)
   serializer.transferArrayBuffer(1, ab)
   let buffer = serializer.releaseBuffer()
   inspect(@core.identity(buffer.as_any()._get("length")) > 0, content="true")
@@ -195,7 +195,7 @@ test "Serializer transfer_array_buffer" {
 ///|
 /// Test Serializer write_raw_bytes
 test "Serializer write_raw_bytes" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   let buffer = @buffer.Buffer::from_string("test")
   serializer.write_raw_bytes(buffer |> @core.any)
@@ -210,7 +210,7 @@ test "Serializer write_raw_bytes" {
 test "Deserializer read value" {
   let original = 42
   let serialized = serialize(original |> @core.any)
-  let deserializer = Deserializer::new(serialized)
+  let deserializer = Deserializer(serialized)
   deserializer.read_header() |> ignore
   let value = deserializer.read_value()
   inspect(@core.identity(value) == 42, content="true")
@@ -220,7 +220,7 @@ test "Deserializer read value" {
 /// Test Deserializer get wire format version
 test "Deserializer get_wire_format_version" {
   let serialized = serialize(42 |> @core.any)
-  let deserializer = Deserializer::new(serialized)
+  let deserializer = Deserializer(serialized)
   let version = deserializer.get_wire_format_version()
   inspect(version >= 0, content="true")
 }
@@ -228,11 +228,11 @@ test "Deserializer get_wire_format_version" {
 ///|
 /// Test Deserializer transfer_array_buffer
 test "Deserializer transfer_array_buffer" {
-  let ab = @arraybuffer.ArrayBuffer::new(16)
+  let ab = @arraybuffer.ArrayBuffer(16)
   let serialized = serialize(ab |> @core.any)
-  let deserializer = Deserializer::new(serialized)
+  let deserializer = Deserializer(serialized)
   deserializer.read_header() |> ignore
-  let new_ab = @arraybuffer.ArrayBuffer::new(16)
+  let new_ab = @arraybuffer.ArrayBuffer(16)
   deserializer.transfer_array_buffer(1, new_ab)
   inspect(true, content="true")
 }
@@ -240,11 +240,11 @@ test "Deserializer transfer_array_buffer" {
 ///|
 /// Test Deserializer read_uint32
 test "Deserializer read_uint32" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   serializer.write_uint32(12345)
   let buffer = serializer.releaseBuffer()
-  let deserializer = Deserializer::new(buffer)
+  let deserializer = Deserializer(buffer)
   deserializer.read_header() |> ignore
   let value = deserializer.readUint32()
   inspect(value == 12345, content="true")
@@ -253,11 +253,11 @@ test "Deserializer read_uint32" {
 ///|
 /// Test Deserializer read_double
 test "Deserializer read_double" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   serializer.write_double(3.14159)
   let buffer = serializer.releaseBuffer()
-  let deserializer = Deserializer::new(buffer)
+  let deserializer = Deserializer(buffer)
   deserializer.read_header() |> ignore
   let value = deserializer.readDouble()
   inspect(value > 3.14 && value < 3.15, content="true")
@@ -266,12 +266,12 @@ test "Deserializer read_double" {
 ///|
 /// Test Deserializer read_raw_bytes
 test "Deserializer read_raw_bytes" {
-  let serializer = Serializer::new()
+  let serializer = Serializer()
   serializer.write_header()
   let test_buffer = @buffer.Buffer::from_string("test data")
   serializer.write_raw_bytes(test_buffer |> @core.any)
   let buffer = serializer.releaseBuffer()
-  let deserializer = Deserializer::new(buffer)
+  let deserializer = Deserializer(buffer)
   deserializer.read_header() |> ignore
   let read_buffer = deserializer.readRawBytes(9)
   inspect(

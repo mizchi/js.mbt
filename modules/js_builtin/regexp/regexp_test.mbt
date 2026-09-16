@@ -1,12 +1,12 @@
 ///|
 test "RegExp.test" {
-  let re = RegExp::new("^[a-z]+$", flags="igu")
+  let re = RegExp("^[a-z]+$", flags="igu")
   assert_true(re.test_("MoonBit"))
 }
 
 ///|
 test "RegExp.exec" {
-  let re = RegExp::new("^[a-z]+$", flags="igu")
+  let re = RegExp("^[a-z]+$", flags="igu")
   let matched = re.exec("MoonBit")
   guard! matched is Some(matched)
   assert_eq(matched.full, "MoonBit")
@@ -16,7 +16,7 @@ test "RegExp.exec" {
 
 ///|
 test "RegExp.exec with named capture groups" {
-  let re = RegExp::new("(?<name>[a-z]+)", flags="igu")
+  let re = RegExp("(?<name>[a-z]+)", flags="igu")
   let matched = re.exec("MoonBit")
   guard! matched is Some(matched)
   assert_eq(matched.full, "MoonBit")
@@ -27,7 +27,7 @@ test "RegExp.exec with named capture groups" {
 
 ///|
 test "RegExp properties" {
-  let re = RegExp::new("hello", flags="gim")
+  let re = RegExp("hello", flags="gim")
   assert_eq(re.source(), "hello")
   assert_eq(re.flags(), "gim")
   assert_true(re.global())
@@ -39,7 +39,7 @@ test "RegExp properties" {
 
 ///|
 test "RegExp.lastIndex" {
-  let re = RegExp::new("test", flags="g")
+  let re = RegExp("test", flags="g")
   assert_eq(re.lastIndex(), 0)
   re.set_last_index(5)
   assert_eq(re.lastIndex(), 5)
@@ -47,13 +47,13 @@ test "RegExp.lastIndex" {
 
 ///|
 test "RegExp.to_string" {
-  let re = RegExp::new("hello", flags="gi")
+  let re = RegExp("hello", flags="gi")
   assert_eq(re.to_string(), "/hello/gi")
 }
 
 ///|
 test "RegExp.match_" {
-  let re = RegExp::new("world")
+  let re = RegExp("world")
   let result = re.match_("hello world")
   guard! result is Some(r)
   assert_eq(r.matches[0], "world")
@@ -63,7 +63,7 @@ test "RegExp.match_" {
 
 ///|
 test "RegExp.match_all" {
-  let re = RegExp::new("test\\d", flags="g")
+  let re = RegExp("test\\d", flags="g")
   let results = re.matchAll("test1 test2 test3")
   assert_eq(results.length(), 3)
   assert_eq(results[0].matches[0], "test1")
@@ -73,28 +73,28 @@ test "RegExp.match_all" {
 
 ///|
 test "RegExp.replace" {
-  let re = RegExp::new("world")
+  let re = RegExp("world")
   let result = re.replace("hello world", "MoonBit")
   assert_eq(result, "hello MoonBit")
 }
 
 ///|
 test "RegExp.replace_all" {
-  let re = RegExp::new("test", flags="g")
+  let re = RegExp("test", flags="g")
   let result = re.replace_all("test test test", "demo")
   assert_eq(result, "demo demo demo")
 }
 
 ///|
 test "RegExp.search" {
-  let re = RegExp::new("world")
+  let re = RegExp("world")
   let index = re.search("hello world")
   assert_eq(index, 6)
 }
 
 ///|
 test "RegExp.split" {
-  let re = RegExp::new("\\d")
+  let re = RegExp("\\d")
   let parts = re.split("a1b2c3d")
   assert_eq(parts.length(), 4)
   assert_eq(parts[0], "a")
@@ -105,7 +105,7 @@ test "RegExp.split" {
 
 ///|
 test "RegExp.split with limit" {
-  let re = RegExp::new("\\d")
+  let re = RegExp("\\d")
   let parts = re.split("a1b2c3d", limit=2)
   assert_eq(parts.length(), 2)
   assert_eq(parts[0], "a")
@@ -114,7 +114,7 @@ test "RegExp.split with limit" {
 
 ///|
 test "RegExp.replace_fn" {
-  let re = RegExp::new("(\\w+)", flags="g")
+  let re = RegExp("(\\w+)", flags="g")
   let result = re.replace_fn("hello world", fn(
     matched,
     _groups,
@@ -128,7 +128,7 @@ test "RegExp.replace_fn" {
 
 ///|
 test "RegExp.replace_all_fn" {
-  let re = RegExp::new("(\\d+)", flags="g")
+  let re = RegExp("(\\d+)", flags="g")
   let result = re.replace_all_fn("test1 test2 test3", fn(
     _matched,
     _groups,
@@ -143,12 +143,12 @@ test "RegExp.replace_all_fn" {
 ///|
 test "RegExp.dotAll flag" {
   // Without dotAll flag, . doesn't match newlines
-  let re_without = RegExp::new("a.b")
+  let re_without = RegExp("a.b")
   assert_false(re_without.dotAll())
   assert_false(re_without.test_("a\nb"))
 
   // With dotAll flag (s), . matches newlines
-  let re_with = RegExp::new("a.b", flags="s")
+  let re_with = RegExp("a.b", flags="s")
   assert_true(re_with.dotAll())
   assert_true(re_with.test_("a\nb"))
 }
@@ -156,24 +156,24 @@ test "RegExp.dotAll flag" {
 ///|
 test "RegExp.hasIndices flag" {
   // Without hasIndices flag
-  let re_without = RegExp::new("test")
+  let re_without = RegExp("test")
   assert_false(re_without.hasIndices())
 
   // With hasIndices flag (d)
-  let re_with = RegExp::new("test", flags="d")
+  let re_with = RegExp("test", flags="d")
   assert_true(re_with.hasIndices())
 }
 
 ///|
 test "RegExp.exec returns None when no match" {
-  let re = RegExp::new("^[a-z]+$")
+  let re = RegExp("^[a-z]+$")
   let result = re.exec("123")
   inspect(result is None, content="true")
 }
 
 ///|
 test "RegExp.exec with basic pattern" {
-  let re = RegExp::new("(\\d+)-(\\w+)")
+  let re = RegExp("(\\d+)-(\\w+)")
   let result = re.exec("test 123-abc here")
   guard! result is Some(matched)
   assert_eq(matched.full, "123-abc")
@@ -183,7 +183,7 @@ test "RegExp.exec with basic pattern" {
 
 ///|
 test "RegExp.match_ returns None when no match" {
-  let re = RegExp::new("xyz")
+  let re = RegExp("xyz")
   let result = re.match_("hello world")
   inspect(result is None, content="true")
 }

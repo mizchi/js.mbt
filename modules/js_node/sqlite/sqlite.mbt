@@ -7,7 +7,7 @@
 /// # Example
 ///
 /// ```
-/// let db = DatabaseSync::new(":memory:")
+/// let db = DatabaseSync(":memory:")
 /// db.exec("CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT)")
 ///
 /// let stmt = db.prepare("INSERT INTO users (name) VALUES (?)")
@@ -65,7 +65,7 @@ extern "js" fn sqlite_module() -> @core.Any =
 pub type DatabaseSync
 
 ///|
-pub fn DatabaseSync::new(
+pub fn DatabaseSync::DatabaseSync(
   path : String,
   open? : Bool,
   readOnly? : Bool,

@@ -9,7 +9,7 @@ test "Date internal consistency" {
 ///|
 /// Whitebox test for Date mutation
 test "Date setters mutate internal state" {
-  let date = Date::new()
+  let date = Date()
   let original_time = date.get_time()
 
   // Mutate and verify change
@@ -90,7 +90,7 @@ test "Date handles negative timestamps (before 1970)" {
 ///|
 /// Whitebox test for Date timezone offset consistency
 test "Date timezone offset is consistent" {
-  let date1 = Date::new()
+  let date1 = Date()
   let date2 = Date::from_string("2024-06-15T00:00:00.000Z")
   let offset1 = date1.get_timezone_offset()
   let offset2 = date2.get_timezone_offset()

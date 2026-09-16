@@ -9,7 +9,7 @@ pub fn DisposableStack::to_any(self : DisposableStack) -> @core.Any = "%identity
 
 ///|
 /// Create a new DisposableStack
-pub extern "js" fn DisposableStack::new() -> DisposableStack =
+pub extern "js" fn DisposableStack::DisposableStack() -> DisposableStack =
   #| () => new DisposableStack()
 
 ///|
@@ -75,7 +75,7 @@ pub fn AsyncDisposableStack::to_any(self : AsyncDisposableStack) -> @core.Any = 
 
 ///|
 /// Create a new AsyncDisposableStack
-pub extern "js" fn AsyncDisposableStack::new() -> AsyncDisposableStack =
+pub extern "js" fn AsyncDisposableStack::AsyncDisposableStack() -> AsyncDisposableStack =
   #| () => new AsyncDisposableStack()
 
 ///|

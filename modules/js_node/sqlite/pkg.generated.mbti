@@ -108,6 +108,7 @@ pub(all) struct BackupProgress {
 
 #external
 pub type DatabaseSync
+pub fn DatabaseSync::DatabaseSync(String, open? : Bool, readOnly? : Bool, enableForeignKeyConstraints? : Bool, allowExtension? : Bool, timeout? : Int, readBigInts? : Bool, returnArrays? : Bool, allowBareNamedParameters? : Bool, allowUnknownNamedParameters? : Bool, defensive? : Bool) -> Self
 pub fn[T, U] DatabaseSync::aggregate(Self, String, deterministic? : Bool, directOnly? : Bool, useBigIntArguments? : Bool, varargs? : Bool, start? : U, step? : (T, U) -> T, inverse? : (T, U) -> T, result? : (T) -> @js_core.Any) -> Unit
 #alias(apply_changeset)
 pub fn DatabaseSync::applyChangeset(Self, @arraybuffer.Uint8Array, filter? : (@js_core.Any) -> Bool, onConflict? : (@js_core.Any?, @js_core.Any) -> Bool) -> Bool
@@ -127,6 +128,7 @@ pub fn DatabaseSync::isTransaction(Self) -> Bool
 #alias(load_extension)
 pub fn DatabaseSync::loadExtension(Self, String) -> Unit
 pub fn DatabaseSync::location(Self, db_name? : String) -> String?
+#deprecated
 pub fn DatabaseSync::new(String, open? : Bool, readOnly? : Bool, enableForeignKeyConstraints? : Bool, allowExtension? : Bool, timeout? : Int, readBigInts? : Bool, returnArrays? : Bool, allowBareNamedParameters? : Bool, allowUnknownNamedParameters? : Bool, defensive? : Bool) -> Self
 pub fn DatabaseSync::open(Self) -> Unit
 pub fn DatabaseSync::prepare(Self, String) -> StatementSync

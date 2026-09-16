@@ -41,7 +41,7 @@ pub impl Show for AtomicsWaitResult with fn output(self, logger) {
 /// # Example
 ///
 /// ```moonbit no-check
-/// let sab = SharedArrayBuffer::new(1024)
+/// let sab = SharedArrayBuffer(1024)
 /// let ta = Uint8Array::new(sab)
 /// Atomics::add(ta, 0, 12)  // returns 0 (the old value)
 /// Atomics::load(ta, 0)     // 12 (the new value)

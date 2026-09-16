@@ -29,7 +29,7 @@ Provides bindings for MessageChannel and MessagePort for creating communication 
 ```moonbit
 fn main {
   // Create a message channel
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   
   // Get the two ports
   let port1 = channel.port1()

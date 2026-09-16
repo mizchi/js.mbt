@@ -1,14 +1,14 @@
 ///|
 /// Test AsyncLocalStorage::new creates an instance
 test "AsyncLocalStorage::new creates an instance" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   inspect(@core.typeof_(als.as_any()), content="object")
 }
 
 ///|
 /// Test AsyncLocalStorage::run sets and gets store
 test "AsyncLocalStorage::run sets store" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   let store = 42
   let mut retrieved_value : Int = 0
   als.run(store, fn() {
@@ -24,7 +24,7 @@ test "AsyncLocalStorage::run sets store" {
 ///|
 /// Test AsyncLocalStorage::getStore returns None outside context
 test "AsyncLocalStorage::getStore returns None outside context" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   let store = als.getStore()
   assert_eq(store, None)
 }
@@ -32,7 +32,7 @@ test "AsyncLocalStorage::getStore returns None outside context" {
 ///|
 /// Test AsyncLocalStorage::exit clears store
 test "AsyncLocalStorage::exit clears store" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   let store = 42
   let mut is_none = false
   als.run(store, fn() {
@@ -50,7 +50,7 @@ test "AsyncLocalStorage::exit clears store" {
 ///|
 /// Test AsyncLocalStorage::enterWith sets store
 test "AsyncLocalStorage::enterWith sets store" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   let store = 100
   als.enterWith(store)
   let retrieved = als.getStore()
@@ -63,7 +63,7 @@ test "AsyncLocalStorage::enterWith sets store" {
 ///|
 /// Test AsyncLocalStorage::disable can be called
 test "AsyncLocalStorage::disable can be called" {
-  let als : AsyncLocalStorage[Int] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[Int] = AsyncLocalStorage()
   let store = 42
   als.enterWith(store)
   als.disable()
@@ -73,7 +73,7 @@ test "AsyncLocalStorage::disable can be called" {
 ///|
 /// Test AsyncLocalStorage with String type
 test "AsyncLocalStorage with String type" {
-  let als : AsyncLocalStorage[String] = AsyncLocalStorage::new()
+  let als : AsyncLocalStorage[String] = AsyncLocalStorage()
   let store = "Hello"
   let mut retrieved_value = ""
   als.run(store, fn() {

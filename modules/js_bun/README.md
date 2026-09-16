@@ -39,7 +39,7 @@ these are advisory rather than gating.
 | UUID | `random_uuid_v7()` | 🧪 Tested | |
 | `CryptoHasher` | `new()`, `update()`, `digest_hex/base64/buffer()` | 🚧 Partially | |
 | **Glob** |
-| Matching | `Glob::new()`, `match_()`, `scan(cwd?)` | 🚧 Partially | |
+| Matching | `Glob()`, `match_()`, `scan(cwd?)` | 🚧 Partially | |
 | **Test runner** |
 | Define | `test_()`, `test_async()` | 🧪 Tested | `bun test`; this module's own suite uses them |
 | Assert | `expect()` → `toBe`, `toEqual`, `toContain`, `toBeTruthy`, `toBeFalsy`, `toBeNull`, `toBeDefined`, `toBeUndefined` | 🧪 Tested | |

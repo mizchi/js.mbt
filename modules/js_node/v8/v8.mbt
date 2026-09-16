@@ -301,7 +301,7 @@ pub fn Serializer::as_any(self : Serializer) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Serializer
-pub fn Serializer::new() -> Serializer {
+pub fn Serializer::Serializer() -> Serializer {
   ffi_new_serializer() |> @core.identity
 }
 
@@ -372,7 +372,7 @@ pub fn Deserializer::as_any(self : Deserializer) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Deserializer
-pub fn Deserializer::new(buffer : @buffer.Buffer) -> Deserializer {
+pub fn Deserializer::Deserializer(buffer : @buffer.Buffer) -> Deserializer {
   ffi_new_deserializer(buffer |> @core.any) |> @core.identity
 }
 

@@ -13,8 +13,10 @@ import {
 // Types and methods
 #external
 pub type IntersectionObserver
+pub fn IntersectionObserver::IntersectionObserver((@js_core.Any?, Self) -> Unit, options? : @js_core.Any) -> Self
 pub fn IntersectionObserver::as_any(Self) -> @js_core.Any
 pub fn IntersectionObserver::disconnect(Self) -> Unit
+#deprecated
 pub fn IntersectionObserver::new((@js_core.Any?, Self) -> Unit, options? : @js_core.Any) -> Self
 pub fn IntersectionObserver::observe(Self, @dom.Element) -> Unit
 pub fn IntersectionObserver::take_records(Self) -> @js_core.Any
@@ -33,8 +35,10 @@ pub fn IntersectionObserverEntry::as_any(Self) -> @js_core.Any
 
 #external
 pub type MutationObserver
+pub fn MutationObserver::MutationObserver((@js_core.Any?, Self) -> Unit) -> Self
 pub fn MutationObserver::as_any(Self) -> @js_core.Any
 pub fn MutationObserver::disconnect(Self) -> Unit
+#deprecated
 pub fn MutationObserver::new((@js_core.Any?, Self) -> Unit) -> Self
 pub fn MutationObserver::observe(Self, @dom.Element, @js_core.Any) -> Unit
 pub fn MutationObserver::take_records(Self) -> @js_core.Any
@@ -54,8 +58,10 @@ pub fn MutationRecord::mutation_type(Self) -> String
 
 #external
 pub type ResizeObserver
+pub fn ResizeObserver::ResizeObserver((@js_core.Any?, Self) -> Unit) -> Self
 pub fn ResizeObserver::as_any(Self) -> @js_core.Any
 pub fn ResizeObserver::disconnect(Self) -> Unit
+#deprecated
 pub fn ResizeObserver::new((@js_core.Any?, Self) -> Unit) -> Self
 pub fn ResizeObserver::observe(Self, @dom.Element) -> Unit
 pub fn ResizeObserver::observe_with_options(Self, @dom.Element, @js_core.Any) -> Unit

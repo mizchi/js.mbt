@@ -108,6 +108,47 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/exa
 - Try to keep deprecated blocks in file called `deprecated.mbt` in each
   directory.
 
+- **Constructors are `fn Type::Type(..)`, called as `Type(..)`.** This is
+  MoonBit's canonical form since v0.10.0 (which removed the old `fn new(..)`
+  syntax); v0.10.4 extended it to every type, not just structs.
+  `moonbitlang/core` has already moved — there is no `StringBuilder::new`
+  there any more, only `StringBuilder::StringBuilder`.
+
+  Facts established by probing the compiler, worth not re-deriving:
+
+  - A bare call works **through a package alias** — `@url.URL("...")`,
+    `@collection.JsMap()` — and the type still works in type position, so
+    `let u : @url.URL = @url.URL("...")` is fine.
+  - `extern "js"` functions can be constructors:
+    `pub extern "js" fn Foo::Foo(..) -> Foo = ...`.
+  - Generics work, with the type parameters after `fn`:
+    `pub fn[K, V] JsMap::JsMap() -> JsMap[K, V]`.
+  - **A constructor must return the constructed type itself** (error 4200,
+    "User-defined constructor must return the constructed type itself"). This
+    is why `Object::new()` keeps its name: it returns `@core.Any`.
+  - A deprecated `Type::new` shim may coexist with `Type::Type` in the same
+    package. Forward the arguments as `Foo(a, b~, c?, d~)`, but note that an
+    optional **with a default** (`x? : T = v`) binds a plain `T`, not an
+    `Option`, so it forwards as `x~` — not `x?`. Getting this wrong is a type
+    error, not a silent bug.
+  - `moon check --deny-warn` promotes the deprecation warning to an error, so
+    internal call sites have to move in the same change as the rename.
+
+  Secondary factories are named `from_*` (`Response::from_body_init`,
+  `URLPattern::from_object`), not `new_*`.
+
+  One target trap: `js_core` is the only package built for **wasm-gc** as well
+  as js, and it gates per-file through `options(targets: { ... })` in its
+  `moon.pkg`. A new file there — `deprecated.mbt`, say — is compiled for every
+  target unless you add it to that map, so a shim for a js-only type like
+  `Promise` breaks `moon build --target wasm-gc` while `moon check` stays
+  green. Every other package is `supported_targets = "js"`.
+
+  Beware when grepping for constructors to migrate: `^pub fn Type::new(`
+  misses both `pub extern "js" fn Type::new(` and the generic form
+  `pub fn[T] Type::new(`. The generated `.mbti` files are the reliable
+  inventory of what is actually public.
+
 ## Tooling
 
 - `moon fmt` is used to format your code properly.

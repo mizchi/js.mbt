@@ -16,7 +16,7 @@ pub(all) struct Chrome {
 ///|
 /// Initialize Chrome wrapper
 pub fn chrome() -> Chrome {
-  { storage: Storage::new(), runtime: Runtime::new(), tabs: Tabs::new(), }
+  { storage: Storage(), runtime: Runtime(), tabs: Tabs(), }
 }
 
 ///|
@@ -31,7 +31,7 @@ pub(all) struct Storage {
 }
 
 ///|
-fn Storage::new() -> Storage {
+fn Storage::Storage() -> Storage {
   {
     local_area: @storage.local_storage(),
     sync_area: @storage.sync_storage(),
@@ -57,7 +57,7 @@ pub(all) struct Runtime {
 }
 
 ///|
-fn Runtime::new() -> Runtime {
+fn Runtime::Runtime() -> Runtime {
   { id: @runtime.id(), }
 }
 
@@ -160,7 +160,7 @@ pub(all) struct Tabs {
 }
 
 ///|
-fn Tabs::new() -> Tabs {
+fn Tabs::Tabs() -> Tabs {
   { _placeholder: (), }
 }
 

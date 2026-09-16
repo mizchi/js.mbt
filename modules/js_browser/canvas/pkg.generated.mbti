@@ -83,15 +83,19 @@ pub(all) struct ImageData {
   height : Int
   data : @arraybuffer.Uint8Array
 }
+pub fn ImageData::ImageData(Int, Int) -> Self
 pub fn ImageData::from_data(@arraybuffer.Uint8Array, Int, Int) -> Self
+#deprecated
 pub fn ImageData::new(Int, Int) -> Self
 
 #external
 pub type OffscreenCanvas
+pub fn OffscreenCanvas::OffscreenCanvas(Int, Int) -> Self
 pub fn OffscreenCanvas::as_any(Self) -> @js_core.Any
 pub async fn OffscreenCanvas::convertToBlob(Self, options? : String) -> @blob.Blob
 pub fn OffscreenCanvas::getContext(Self, String) -> CanvasRenderingContext2D
 pub fn OffscreenCanvas::height(Self) -> Int
+#deprecated
 pub fn OffscreenCanvas::new(Int, Int) -> Self
 pub fn OffscreenCanvas::setHeight(Self, Int) -> Unit
 pub fn OffscreenCanvas::setWidth(Self, Int) -> Unit

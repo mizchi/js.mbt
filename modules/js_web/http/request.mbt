@@ -29,7 +29,7 @@ pub struct RequestInit {
 }
 
 ///|
-pub fn RequestInit::new(
+pub fn RequestInit::RequestInit(
   http_method? : String = "GET",
   headers? : Headers,
   body? : @core.Any,
@@ -196,16 +196,13 @@ pub(all) struct Request {
 pub fn Request::as_any(self : Request) -> @core.Any = "%identity"
 
 ///|
+/// Create a `Request`, optionally with `RequestInit` options.
 /// https://developer.mozilla.org/ja/docs/Web/API/Request/Request
-pub fn Request::new(url : String) -> Request {
-  let req = ffi_request_new(url)
-  @core.identity(req)
-}
-
-///|
-/// Create a new Request with init options
-pub fn Request::new_with_init(url : String, init : RequestInit) -> Request {
-  let req = ffi_request_new_with_init(url, init.as_any())
+pub fn Request::Request(url : String, init? : RequestInit) -> Request {
+  let req = match init {
+    Some(i) => ffi_request_new_with_init(url, i.as_any())
+    None => ffi_request_new(url)
+  }
   @core.identity(req)
 }
 

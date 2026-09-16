@@ -12,6 +12,7 @@ import {
 // Types and methods
 #external
 pub type RegExp
+pub fn RegExp::RegExp(String, flags? : String) -> Self
 pub fn RegExp::dotAll(Self) -> Bool
 pub fn RegExp::exec(Self, String) -> RegExpResult?
 pub fn RegExp::flags(Self) -> String
@@ -22,6 +23,7 @@ pub fn RegExp::lastIndex(Self) -> Int
 pub fn RegExp::matchAll(Self, String) -> Array[RegExpMatchArray]
 pub fn RegExp::match_(Self, String) -> RegExpMatchArray?
 pub fn RegExp::multiline(Self) -> Bool
+#deprecated
 pub fn RegExp::new(String, flags? : String) -> Self
 pub fn RegExp::replace(Self, String, String) -> String
 pub fn RegExp::replace_all(Self, String, String) -> String

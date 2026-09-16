@@ -614,7 +614,7 @@ extern "js" fn ffi_new_command(
 
 ///|
 /// Create a new Command to run a program
-pub fn Command::new(
+pub fn Command::Command(
   program : String,
   args? : Array[String],
   cwd? : String,

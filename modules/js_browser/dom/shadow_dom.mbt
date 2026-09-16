@@ -119,7 +119,7 @@ pub struct ShadowRootInit {
 
 ///|
 /// Creates a new ShadowRootInit with default values
-pub fn ShadowRootInit::new(
+pub fn ShadowRootInit::ShadowRootInit(
   mode : String,
   delegatesFocus? : Bool = false,
   slotAssignment? : String = "named",

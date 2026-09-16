@@ -35,13 +35,13 @@ fn main {
   let obj = @core.Object::new()
   
   // Create a weak reference
-  let weak_ref = @weak.WeakRef::new(obj)
+  let weak_ref = @weak.WeakRef(obj)
   
   // Dereference (might return None if collected)
   let deref = weak_ref.deref()
   
   // FinalizationRegistry for cleanup callbacks
-  let registry = @weak.FinalizationRegistry::new()
+  let registry = @weak.FinalizationRegistry()
 }
 ```
 

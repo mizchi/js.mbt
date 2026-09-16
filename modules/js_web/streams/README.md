@@ -29,19 +29,19 @@ Provides bindings for the Streams API: ReadableStream, WritableStream, and Trans
 ```moonbit
 fn main {
   // Create a readable stream
-  let readable = @streams.ReadableStream::new()
+  let readable = @streams.ReadableStream()
   
   // Get a reader
   let reader = readable.get_reader()
   
   // Create a writable stream
-  let writable = @streams.WritableStream::new()
+  let writable = @streams.WritableStream()
   
   // Get a writer
   let writer = writable.get_writer()
   
   // Create a transform stream
-  let transform = @streams.TransformStream::new()
+  let transform = @streams.TransformStream()
   
   // Pipe streams
   // readable.pipe_to(writable)

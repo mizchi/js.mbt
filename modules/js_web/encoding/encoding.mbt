@@ -6,7 +6,7 @@ pub type TextEncoder
 pub fn TextEncoder::as_any(self : TextEncoder) -> @core.Any = "%identity"
 
 ///|
-pub extern "js" fn TextEncoder::new() -> TextEncoder =
+pub extern "js" fn TextEncoder::TextEncoder() -> TextEncoder =
   #| () => new TextEncoder()
 
 ///|
@@ -24,7 +24,7 @@ pub type TextDecoder
 pub fn TextDecoder::as_any(self : TextDecoder) -> @core.Any = "%identity"
 
 ///|
-pub extern "js" fn TextDecoder::new() -> TextDecoder =
+pub extern "js" fn TextDecoder::TextDecoder() -> TextDecoder =
   #| () => new TextDecoder()
 
 ///|

@@ -17,7 +17,7 @@ pub fn[T] AsyncLocalStorage::as_any(self : AsyncLocalStorage[T]) -> @core.Any = 
 
 ///|
 /// Create a new AsyncLocalStorage instance
-pub fn[T] AsyncLocalStorage::new() -> AsyncLocalStorage[T] {
+pub fn[T] AsyncLocalStorage::AsyncLocalStorage() -> AsyncLocalStorage[T] {
   @core.identity(@core.new(async_local_storage_constructor(), []))
 }
 

@@ -29,7 +29,7 @@ test "Uint8Array can call inherited methods directly" {
 ///|
 test "Int32Array can call inherited methods directly" {
   let arr = @arraybuffer.Int32Array::{
-    buffer: @arraybuffer.ArrayBuffer::new(20),
+    buffer: @arraybuffer.ArrayBuffer(20),
     byteLength: 20,
     byteOffset: 0,
     length: 5,
@@ -45,7 +45,7 @@ test "Int32Array can call inherited methods directly" {
 ///|
 test "Float64Array can call inherited methods directly" {
   let arr = @arraybuffer.Float64Array::{
-    buffer: @arraybuffer.ArrayBuffer::new(40),
+    buffer: @arraybuffer.ArrayBuffer(40),
     byteLength: 40,
     byteOffset: 0,
     length: 5,

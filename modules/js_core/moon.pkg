@@ -11,6 +11,7 @@ options(
     "core_interop.mbt": [ "js", "wasm-gc" ],
     "core_js.mbt": [ "js" ],
     "core_wasm.mbt": [ "wasm-gc" ],
+    "deprecated.mbt": [ "js" ],
     "error.mbt": [ "js" ],
     "error_test.mbt": [ "js" ],
     "nullish.mbt": [ "js" ],

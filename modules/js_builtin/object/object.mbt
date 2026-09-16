@@ -37,6 +37,11 @@ pub fn Object::to_any(self : Object) -> @core.Any = "%identity"
 /// JS: new Object()
 /// Returns Any directly - use from_map() for creating objects with initial properties
 /// Example: `let obj = @js.from_map({ "key": @core.any(value) })` for typed object creation
+///
+/// Note: this keeps the `::new` name rather than becoming the canonical
+/// `Object::Object()` constructor. MoonBit requires a `Type::Type` constructor
+/// to return the constructed type itself (error 4200), and this returns
+/// `@core.Any` so that the result is usable without an extra cast.
 pub extern "js" fn Object::new() -> @core.Any =
   #| () => ({})
 

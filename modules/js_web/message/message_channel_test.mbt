@@ -1,7 +1,7 @@
 ///|
 /// Test MessagePort Show trait implementation
 test "MessagePort implements Show trait" {
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   inspect(port1.to_string(), content="[object MessagePort]")
 }
@@ -9,7 +9,7 @@ test "MessagePort implements Show trait" {
 ///|
 /// Test MessageChannel Show trait implementation
 test "MessageChannel implements Show trait" {
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   inspect(channel.to_string(), content="[object MessageChannel]")
 }
 

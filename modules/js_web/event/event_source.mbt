@@ -38,7 +38,7 @@ pub fn event_source_closed() -> Int {
 ///|
 /// Create a new EventSource
 /// JS: new EventSource(url, options?)
-pub extern "js" fn EventSource::new(
+pub extern "js" fn EventSource::EventSource(
   url : String,
   withCredentials? : Bool,
 ) -> EventSource =

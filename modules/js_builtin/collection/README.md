@@ -33,21 +33,21 @@ Provides bindings for JavaScript's collection types:
 ```moonbit
 fn main {
   // Map
-  let map = @collection.JsMap::new()
+  let map = @collection.JsMap()
   map.set("key", "value")
   let value = map._get("key")
   let has = map.has("key")
   
   // Set
-  let set = @collection.JsSet::new()
+  let set = @collection.JsSet()
   set.add("item")
   let has_item = set.has("item")
   
   // WeakMap (for objects only)
-  let weak_map = @collection.WeakMap::new()
+  let weak_map = @collection.WeakMap()
   
   // WeakSet (for objects only)
-  let weak_set = @collection.WeakSet::new()
+  let weak_set = @collection.WeakSet()
 }
 ```
 

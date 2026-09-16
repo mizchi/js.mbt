@@ -1,7 +1,7 @@
 ///|
 /// JavaScript Proxy
 ///
-/// After creation with Proxy::new(), use JsImpl trait methods to interact:
+/// After creation with Proxy(), use JsImpl trait methods to interact:
 /// - proxy.get("key") - triggers get trap
 /// - proxy.set("key", value) - triggers set trap
 /// - proxy.delete("key") - triggers deleteProperty trap
@@ -27,11 +27,11 @@ fn proxy_class() -> @core.Any {
 /// ```moonbit no-check
 /// let target = @core.new_object()
 ///
-/// let _proxy = Proxy::new(@core.any(target), get=fn(_target, _prop, _receiver) {
+/// let _proxy = Proxy(@core.any(target), get=fn(_target, _prop, _receiver) {
 ///   @core.any("value")
 /// })
 /// ```
-pub fn Proxy::new(
+pub fn Proxy::Proxy(
   target : @core.Any,
   get? : (@core.Any, @core.Any, @core.Any) -> @core.Any,
   set? : (@core.Any, @core.Any, @core.Any, @core.Any) -> Bool,

@@ -18,7 +18,7 @@ pub fn Session::as_event_target(self : Session) -> @event.EventTarget = "%identi
 
 ///|
 /// Creates a new Inspector Session
-pub extern "js" fn Session::new() -> Session =
+pub extern "js" fn Session::Session() -> Session =
   #| () => {
   #|   const inspector = require('node:inspector');
   #|   return new inspector.Session();

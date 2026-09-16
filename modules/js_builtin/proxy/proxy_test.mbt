@@ -5,7 +5,7 @@ test "Proxy::new with no traps (transparent proxy)" {
   target._set("value", 42 |> @core.any)
 
   // No traps creates a transparent proxy
-  let proxy = Proxy::new(@core.any(target))
+  let proxy = Proxy(@core.any(target))
 
   // All operations pass through to target
   assert_eq(@core.identity(proxy.as_any()["name"]), "original")
@@ -17,7 +17,7 @@ test "Proxy::new with no traps (transparent proxy)" {
 ///|
 test "Proxy::new creates proxy object" {
   let target = @core.new_object()
-  let proxy = Proxy::new(@core.any(target))
+  let proxy = Proxy(@core.any(target))
   assert_true(@core.is_object(proxy.as_any().cast()))
 }
 
@@ -43,7 +43,7 @@ test "Proxy::revocable creates revocable proxy" {
 ///|
 test "Proxy with target array" {
   let target = @core.any([1, 2, 3])
-  let proxy = Proxy::new(@core.any(target))
+  let proxy = Proxy(@core.any(target))
 
   // Transparent proxy works with arrays
   assert_true(@core.is_array(proxy.as_any().cast()))
@@ -52,7 +52,7 @@ test "Proxy with target array" {
 ///|
 test "Proxy with target function" {
   let target_fn = @global.global_this()._get("Math")._get("max")
-  let proxy = Proxy::new(@core.any(target_fn))
+  let proxy = Proxy(@core.any(target_fn))
 
   // Proxy wraps function
   assert_eq(@core.typeof_(proxy.as_any()), "function")
@@ -63,7 +63,7 @@ test "Proxy with get trap" {
   let target = @core.new_object()
   target._set("x", 10 |> @core.any)
   target._set("y", 20 |> @core.any)
-  let proxy = Proxy::new(@core.any(target), get=fn(_target, prop, _receiver) {
+  let proxy = Proxy(@core.any(target), get=fn(_target, prop, _receiver) {
     let key : String = @core.identity(prop)
     if key == "x" {
       @core.any(100)
@@ -78,7 +78,7 @@ test "Proxy with get trap" {
 ///|
 test "Proxy with set trap" {
   let target = @core.new_object()
-  let proxy = Proxy::new(@core.any(target), set=fn(
+  let proxy = Proxy(@core.any(target), set=fn(
     target_obj,
     prop,
     value,
@@ -101,7 +101,7 @@ test "Proxy with set trap" {
 test "Proxy with has trap" {
   let target = @core.new_object()
   target._set("real", "value" |> @core.any)
-  let proxy = Proxy::new(@core.any(target), has=fn(_target, prop) {
+  let proxy = Proxy(@core.any(target), has=fn(_target, prop) {
     let key : String = @core.identity(prop)
     // Always return true for "fake" property
     key == "fake" || key == "real"
@@ -114,7 +114,7 @@ test "Proxy with has trap" {
 ///|
 test "Proxy with multiple traps" {
   let target = @core.new_object()
-  let proxy = Proxy::new(
+  let proxy = Proxy(
     @core.any(target),
     get=fn(_target, _prop, _receiver) { @core.any("intercepted") },
     set=fn(target_obj, prop, value, _receiver) {
@@ -135,7 +135,7 @@ test "Proxy with deleteProperty trap" {
   let target = @core.new_object()
   target._set("x", 10 |> @core.any)
   target._set("y", 20 |> @core.any)
-  let proxy = Proxy::new(target, deleteProperty=fn(target_obj, prop) {
+  let proxy = Proxy(target, deleteProperty=fn(target_obj, prop) {
     delete_called = true
     let key : String = @core.identity(prop)
     let obj : @core.Any = target_obj.cast()
@@ -156,7 +156,7 @@ test "Proxy with apply trap for function" {
     let n : Int = @core.identity(x)
     @core.any(n * 2)
   })
-  let proxy = Proxy::new(@core.any(target_fn), apply=fn(_target, _this, args) {
+  let proxy = Proxy(@core.any(target_fn), apply=fn(_target, _this, args) {
     // Intercept function call and return modified result
     let first : Int = @core.identity(args["0"])
     @core.any(first * 10)
@@ -175,7 +175,7 @@ test "Proxy with construct trap" {
   ])
   |> ignore
   let constructor_fn = global._get("TestConstructor")
-  let proxy = Proxy::new(@core.any(constructor_fn), construct=fn(
+  let proxy = Proxy(@core.any(constructor_fn), construct=fn(
     _target,
     args,
     _newTarget,
@@ -196,7 +196,7 @@ test "Proxy with ownKeys trap" {
   let target = @core.new_object()
   target._set("a", 1 |> @core.any)
   target._set("b", 2 |> @core.any)
-  let proxy = Proxy::new(
+  let proxy = Proxy(
     @core.any(target),
     ownKeys=fn(_target) {
       ownkeys_called = true
@@ -228,7 +228,7 @@ test "Proxy with getPrototypeOf trap" {
   let target = @core.new_object()
   let custom_proto = @core.new_object()
   custom_proto._set("custom", true |> @core.any)
-  let proxy = Proxy::new(@core.any(target), getPrototypeOf=fn(_target) {
+  let proxy = Proxy(@core.any(target), getPrototypeOf=fn(_target) {
     @core.any(custom_proto)
   })
   let object_class = @global.global_this()._get("Object")
@@ -241,7 +241,7 @@ test "Proxy with getPrototypeOf trap" {
 test "Proxy with setPrototypeOf trap" {
   let mut set_proto_called = false
   let target = @core.new_object()
-  let proxy = Proxy::new(@core.any(target), setPrototypeOf=fn(_target, _proto) {
+  let proxy = Proxy(@core.any(target), setPrototypeOf=fn(_target, _proto) {
     set_proto_called = true
     true
   })
@@ -257,7 +257,7 @@ test "Proxy with isExtensible trap" {
   // Make target non-extensible first to match trap result
   let object_class = @global.global_this()._get("Object")
   object_class._call("preventExtensions", [@core.any(target)]) |> ignore
-  let proxy = Proxy::new(@core.any(target), isExtensible=fn(_target) { false })
+  let proxy = Proxy(@core.any(target), isExtensible=fn(_target) { false })
   let extensible : Bool = @core.identity(
     object_class._call("isExtensible", [proxy.as_any()]),
   )
@@ -268,7 +268,7 @@ test "Proxy with isExtensible trap" {
 test "Proxy with preventExtensions trap" {
   let mut prevent_called = false
   let target = @core.new_object()
-  let proxy = Proxy::new(@core.any(target), preventExtensions=fn(target_obj) {
+  let proxy = Proxy(@core.any(target), preventExtensions=fn(target_obj) {
     prevent_called = true
     // Actually prevent extensions on target
     let object_class = @global.global_this()._get("Object")
@@ -285,7 +285,7 @@ test "Proxy with preventExtensions trap" {
 test "Proxy with getOwnPropertyDescriptor trap" {
   let target = @core.new_object()
   target._set("x", 42 |> @core.any)
-  let proxy = Proxy::new(@core.any(target), getOwnPropertyDescriptor=fn(
+  let proxy = Proxy(@core.any(target), getOwnPropertyDescriptor=fn(
     _target,
     _prop,
   ) {
@@ -309,7 +309,7 @@ test "Proxy with getOwnPropertyDescriptor trap" {
 test "Proxy with defineProperty trap" {
   let mut define_called = false
   let target = @core.new_object()
-  let proxy = Proxy::new(@core.any(target), defineProperty=fn(
+  let proxy = Proxy(@core.any(target), defineProperty=fn(
     target_obj,
     prop,
     descriptor,

@@ -17,12 +17,14 @@ pub(all) struct File {
   lastModified : Int
   size : Int
 }
+pub fn File::File(Array[String], String, content_type? : String, last_modified? : Int) -> Self
 #alias(array_buffer)
 pub async fn File::arrayBuffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn File::as_any(Self) -> @js_core.Any
 pub fn File::as_blob(Self) -> @blob.Blob
 #alias(content_type)
 pub fn File::contentType(Self) -> String
+#deprecated
 pub fn File::new(Array[String], String, content_type? : String, last_modified? : Int) -> Self
 pub fn File::slice(Self, start? : Int, end? : Int) -> @blob.Blob
 pub async fn File::text(Self) -> String
@@ -32,8 +34,10 @@ pub(all) struct FileReader {
   result : @js_core.Nullable[@js_core.Any]
   error : @js_core.Nullable[@js_core.Any]
 }
+pub fn FileReader::FileReader() -> Self
 pub fn FileReader::abort(Self) -> Unit
 pub fn FileReader::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn FileReader::new() -> Self
 #alias(read_as_array_buffer)
 pub fn FileReader::readAsArrayBuffer(Self, @blob.Blob) -> Unit

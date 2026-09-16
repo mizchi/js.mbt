@@ -3,7 +3,7 @@
 
 ///|
 async test "Response: read body as text" {
-  let response = Response::new(body="Hello, async world!")
+  let response = Response(body="Hello, async world!")
 
   // Read body as text
   let text_result : @core.Any = response.as_any()._call("text", [])
@@ -15,7 +15,7 @@ async test "Response: read body as text" {
 ///|
 async test "Response: read body as JSON" {
   let json_str = "{\"name\":\"test\",\"value\":42}"
-  let response = Response::new(body=json_str)
+  let response = Response(body=json_str)
 
   // Read body as JSON
   let json_result : @core.Any = response.as_any()._call("json", [])
@@ -29,7 +29,7 @@ async test "Response: read body as JSON" {
 
 ///|
 async test "Response: read body stream chunk by chunk" {
-  let response = Response::new(body="chunk1chunk2chunk3")
+  let response = Response(body="chunk1chunk2chunk3")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -47,7 +47,7 @@ async test "Response: read body stream chunk by chunk" {
         if !done {
           // Decode Uint8Array to string using TextDecoder from @encoding
           let value : @arraybuffer.Uint8Array = data._get("value").cast()
-          let decoder = @encoding.TextDecoder::new()
+          let decoder = @encoding.TextDecoder()
           let text = decoder.decode(value)
           chunks.push(text)
         }
@@ -62,7 +62,7 @@ async test "Response: read body stream chunk by chunk" {
 
 ///|
 async test "Response: clone and read both bodies" {
-  let response = Response::new(body="original content")
+  let response = Response(body="original content")
   let cloned = response.clone()
 
   // Read original
@@ -80,7 +80,7 @@ async test "Response: clone and read both bodies" {
 
 ///|
 async test "Response: read body multiple times fails after first read" {
-  let response = Response::new(body="single read")
+  let response = Response(body="single read")
 
   // First read succeeds
   let text1_result : @core.Any = response.as_any()._call("text", [])
@@ -103,7 +103,7 @@ async test "Response: read large body in chunks" {
     large_content = large_content + "data\{i},"
     i = i + 1
   }
-  let response = Response::new(body=large_content)
+  let response = Response(body=large_content)
   let text_result : @core.Any = response.as_any()._call("text", [])
   let text_promise : @core.Promise[String] = text_result.cast()
   let text = text_promise.wait()
@@ -113,7 +113,7 @@ async test "Response: read large body in chunks" {
 
 ///|
 async test "Response: body stream with defer cleanup" {
-  let response = Response::new(body="test cleanup")
+  let response = Response(body="test cleanup")
   let body = response.body()
   match body {
     Some(stream) => {
@@ -136,7 +136,7 @@ async test "Response: body stream with defer cleanup" {
 
 ///|
 async test "Response: arrayBuffer method" {
-  let response = Response::new(body="buffer test")
+  let response = Response(body="buffer test")
   let buffer_result : @core.Any = response.as_any()._call("arrayBuffer", [])
   let buffer_promise : @core.Promise[@core.Any] = buffer_result.cast()
   let buffer = buffer_promise.wait()
@@ -152,7 +152,7 @@ async test "Response: arrayBuffer method" {
 
 ///|
 async test "Response: blob method" {
-  let response = Response::new(body="blob content")
+  let response = Response(body="blob content")
   let blob_result : @core.Any = response.as_any()._call("blob", [])
   let blob_promise : @core.Promise[@core.Any] = blob_result.cast()
   let blob = blob_promise.wait()
@@ -170,7 +170,7 @@ async test "Response: blob method" {
 async test "Response: new_with_body carries a binary body" {
   // "Hello" as raw bytes — unrepresentable through Response::new's String body.
   let bytes = @arraybuffer.Uint8Array::from_array([72, 101, 108, 108, 111])
-  let response = Response::new_with_body(body=bytes.as_any(), status=201)
+  let response = Response::from_body_init(body=bytes.as_any(), status=201)
   assert_eq(response.status, 201)
   let text = response.text()
   assert_eq(text, "Hello")
@@ -182,7 +182,7 @@ async test "Response: new_with_body dispatches status/headers like new" {
   let headers : @core.Any = @core.from_entries([
     ("Content-Type", @core.identity("image/jpeg")),
   ])
-  let response = Response::new_with_body(
+  let response = Response::from_body_init(
     body=bytes.as_any(),
     status=200,
     statusText="OK",
@@ -200,6 +200,6 @@ async test "Response: new_with_body dispatches status/headers like new" {
 
 ///|
 async test "Response: new_with_body without a body" {
-  let response = Response::new_with_body(status=204)
+  let response = Response::from_body_init(status=204)
   assert_eq(response.status, 204)
 }

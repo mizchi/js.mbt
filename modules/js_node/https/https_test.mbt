@@ -1,14 +1,14 @@
 ///|
 /// Test HTTPS Agent creation
 test "Agent::new creates an agent" {
-  let agent = Agent::new()
+  let agent = Agent()
   inspect(@core.typeof_(agent |> @core.any), content="object")
 }
 
 ///|
 /// Test HTTPS Agent with options
 test "Agent::new with options creates an agent" {
-  let agent = Agent::new(keep_alive=true, timeout=5000)
+  let agent = Agent(keep_alive=true, timeout=5000)
   inspect(@core.typeof_(agent |> @core.any), content="object")
 }
 

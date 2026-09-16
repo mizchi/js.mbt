@@ -29,7 +29,7 @@ Provides bindings for JavaScript's RegExp object for pattern matching and text m
 ```moonbit
 fn main {
   // Create a RegExp
-  let pattern = @regexp.RegExp::new("\\d+", "g")
+  let pattern = @regexp.RegExp("\\d+", "g")
   
   // Test a string
   let matches = pattern.test("abc123")  // true

@@ -13,7 +13,7 @@ pub fn Response::as_any(self : Response) -> @core.Any = "%identity"
 ///|
 /// Create a new Response
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
-pub fn Response::new(
+pub fn Response::Response(
   body? : String,
   status? : Int,
   statusText? : String,
@@ -34,7 +34,7 @@ pub fn Response::new(
 /// this constructor mirrors `RequestInit`, whose `body` is already
 /// `@core.Any`. Typical use: serving image bytes from a Worker.
 /// https://developer.mozilla.org/ja/docs/Web/API/Response/Response
-pub fn Response::new_with_body(
+pub fn Response::from_body_init(
   body? : @core.Any,
   status? : Int,
   statusText? : String,

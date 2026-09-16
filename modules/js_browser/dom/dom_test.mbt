@@ -561,7 +561,7 @@ test "ShadowRoot - attachShadow and basic properties" {
   body.as_node().appendChild(div.as_node()) |> ignore
 
   // attachShadow test with open mode
-  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+  let shadow = div_html.attachShadow(ShadowRootInit("open"))
 
   // mode test
   shadow.mode() |> inspect(content="open")
@@ -585,7 +585,7 @@ test "ShadowRoot - closed mode" {
   body.as_node().appendChild(div.as_node()) |> ignore
 
   // attachShadow with closed mode
-  let shadow = div_html.attachShadow(ShadowRootInit::new("closed"))
+  let shadow = div_html.attachShadow(ShadowRootInit("closed"))
   shadow.mode() |> inspect(content="closed")
 
   // shadowRoot should NOT be accessible for closed mode
@@ -602,7 +602,7 @@ test "ShadowRoot - innerHTML" {
   let div_html = HTMLElement::cast_from_element(div)
   let body = doc.body().unwrap()
   body.as_node().appendChild(div.as_node()) |> ignore
-  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+  let shadow = div_html.attachShadow(ShadowRootInit("open"))
 
   // setInnerHTML test
   shadow.setInnerHTML("<span>Shadow Content</span>")
@@ -618,7 +618,7 @@ test "ShadowRoot - as_node operations" {
   let div_html = HTMLElement::cast_from_element(div)
   let body = doc.body().unwrap()
   body.as_node().appendChild(div.as_node()) |> ignore
-  let shadow = div_html.attachShadow(ShadowRootInit::new("open"))
+  let shadow = div_html.attachShadow(ShadowRootInit("open"))
 
   // Add elements to shadow root via as_node
   let span = doc.createElement("span")
@@ -641,7 +641,7 @@ test "ShadowRoot - ShadowRootInit options" {
   body.as_node().appendChild(div.as_node()) |> ignore
 
   // Test with slotAssignment option
-  let init = ShadowRootInit::new("open", slotAssignment="named")
+  let init = ShadowRootInit("open", slotAssignment="named")
   let shadow = div_html.attachShadow(init)
   shadow.mode() |> inspect(content="open")
   shadow.slotAssignment() |> inspect(content="named")
@@ -763,7 +763,7 @@ test "ShadowRoot getElementById finds elements the document cannot see" {
   let host = doc.createElement("div")
   doc.body().unwrap().as_element().append(host.as_node())
   let root = HTMLElement::cast_from_element(host).attachShadow(
-    ShadowRootInit::new("open"),
+    ShadowRootInit("open"),
   )
   root.setInnerHTML("<input id=\"agree\" type=\"checkbox\">")
   // Inside the shadow tree: visible to the root, invisible to the document.

@@ -171,8 +171,10 @@ pub fn GPUError::message(Self) -> String
 
 pub(all) struct GPUExtent3D {
 }
+pub fn GPUExtent3D::GPUExtent3D(Int, height? : Int, depth_or_array_layers? : Int) -> Self
 pub fn GPUExtent3D::as_any(Self) -> @js_core.Any
 pub fn GPUExtent3D::from_array(Array[Int]) -> Self
+#deprecated
 pub fn GPUExtent3D::new(Int, height? : Int, depth_or_array_layers? : Int) -> Self
 
 pub(all) struct GPUPipelineLayout {

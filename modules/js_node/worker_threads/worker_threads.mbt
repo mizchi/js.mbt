@@ -26,7 +26,7 @@ extern "js" fn ffi_require_worker_threads() -> @core.Any =
 ///|
 /// Create a new Worker instance
 /// https://nodejs.org/api/worker_threads.html#new-workerfilename-options
-pub fn Worker::new(
+pub fn Worker::Worker(
   filename : String,
   workerData? : @core.Any,
   env? : @core.Any,

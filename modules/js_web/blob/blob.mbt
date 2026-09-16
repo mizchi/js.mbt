@@ -22,7 +22,7 @@ extern "js" fn ffi_new_blob(data : @core.Any, options : @core.Any) -> @core.Any 
 
 ///|
 /// Create a new Blob
-pub fn Blob::new(data : Array[@core.Any], content_type? : String) -> Blob {
+pub fn Blob::Blob(data : Array[@core.Any], content_type? : String) -> Blob {
   let js_data = @core.any(data)
   let entries : Array[(String, @core.Any)] = []
   if content_type is Some(v) {

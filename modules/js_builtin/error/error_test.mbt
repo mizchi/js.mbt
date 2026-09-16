@@ -1,6 +1,6 @@
 ///|
 test "JsError creation and properties" {
-  let error = JsError::new("Test error")
+  let error = JsError("Test error")
   assert_eq(error.message, "Test error")
   assert_true(JsError::isError(error.as_any()))
   let error_val : @core.Any = @core.identity(error)
@@ -10,15 +10,15 @@ test "JsError creation and properties" {
 
 ///|
 test "JsError with cause" {
-  let cause_error = JsError::new("Cause error")
-  let error_with_cause = JsError::new("Main error", cause=cause_error)
+  let cause_error = JsError("Cause error")
+  let error_with_cause = JsError("Main error", cause=cause_error)
   let error_with_cause_val : @core.Any = @core.identity(error_with_cause)
   assert_eq(@core.identity(error_with_cause_val._get("message")), "Main error")
 }
 
 // ///|
 // test "JsError Show trait" {
-//   let err = JsError::new("error message")
+//   let err = JsError("error message")
 //   inspect(err, content="error message")
 //   let str = err.message
 //   assert_eq(str, "error message")
@@ -39,7 +39,7 @@ test "JsError with cause" {
 
 // ///|
 // test "JsError Show implementation" {
-//   let error = JsError::new("Test error message")
+//   let error = JsError("Test error message")
 //   let str = error.to_string()
 //   inspect(str, content="Test error message")
 //   // Test that output() uses to_string()
@@ -48,8 +48,8 @@ test "JsError with cause" {
 
 // ///|
 // test "JsError with cause" {
-//   let cause = JsError::new("Root cause")
-//   let error = JsError::new("Main error", cause~)
+//   let cause = JsError("Root cause")
+//   let error = JsError("Main error", cause~)
 //   let str = error.to_string()
 //   inspect(str, content="Main error")
 // }
@@ -59,7 +59,7 @@ test "JsError with cause" {
 //   // Test Error variant
 //   let mut error_str = ""
 //   throwable(fn() {
-//     let err = JsError::new("Show test error")
+//     let err = JsError("Show test error")
 //     throw_(err.to_any())
 //   }) catch {
 //     e => error_str = e.to_string()
@@ -69,42 +69,42 @@ test "JsError with cause" {
 
 ///|
 test "TypeError instanceof check" {
-  let type_error = TypeError::new("Type error")
+  let type_error = TypeError("Type error")
   assert_true(TypeError::instanceof(type_error.as_any()))
   assert_eq(type_error.message, "Type error")
 }
 
 ///|
 test "RangeError instanceof check" {
-  let range_error = RangeError::new("Range error")
+  let range_error = RangeError("Range error")
   assert_true(RangeError::instanceof(range_error.as_any()))
   assert_eq(range_error.message, "Range error")
 }
 
 ///|
 test "ReferenceError instanceof check" {
-  let ref_error = ReferenceError::new("Reference error")
+  let ref_error = ReferenceError("Reference error")
   assert_true(ReferenceError::instanceof(ref_error.as_any()))
   assert_eq(ref_error.message, "Reference error")
 }
 
 ///|
 test "SyntaxError instanceof check" {
-  let syntax_error = SyntaxError::new("Syntax error")
+  let syntax_error = SyntaxError("Syntax error")
   assert_true(SyntaxError::instanceof(syntax_error.as_any()))
   assert_eq(syntax_error.message, "Syntax error")
 }
 
 ///|
 test "URIError instanceof check" {
-  let uri_error = URIError::new("URI error")
+  let uri_error = URIError("URI error")
   assert_true(URIError::instanceof(uri_error.as_any()))
   assert_eq(uri_error.message, "URI error")
 }
 
 ///|
 test "EvalError instanceof check" {
-  let eval_error = EvalError::new("Eval error")
+  let eval_error = EvalError("Eval error")
   assert_true(EvalError::instanceof(eval_error.as_any()))
   assert_eq(eval_error.message, "Eval error")
 }
@@ -112,7 +112,7 @@ test "EvalError instanceof check" {
 ///|
 test "AggregateError instanceof check" {
   let errors = @core.new_array()
-  let agg_error = AggregateError::new(errors, "Aggregate error")
+  let agg_error = AggregateError(errors, "Aggregate error")
   assert_true(AggregateError::instanceof(agg_error.as_any()))
   assert_eq(agg_error.message, "Aggregate error")
 }
@@ -199,8 +199,8 @@ test "AggregateError instanceof check" {
 //   throwable(fn() {
 //     // Create AggregateError with multiple errors
 //     let errors = from_array([
-//       JsError::new("Error 1").as_any(),
-//       JsError::new("Error 2").as_any(),
+//       JsError("Error 1").as_any(),
+//       JsError("Error 2").as_any(),
 //     ])
 //     let agg_error_cls = @global.global_this()._get("AggregateError")
 //     let agg_err = @core.new(agg_error_cls, [errors, any("Multiple errors")])
@@ -218,7 +218,7 @@ test "AggregateError instanceof check" {
 //   let mut caught_error = false
 //   throwable(fn() {
 //     // Create and throw a generic Error
-//     let err = JsError::new("Generic error message")
+//     let err = JsError("Generic error message")
 //     throw_(err.to_any())
 //   }) catch {
 //     ThrowError::Error(err) => {
@@ -320,8 +320,8 @@ test "AggregateError instanceof check" {
 // ///|
 // test "SuppressedError instanceof check" {
 //   let suppressed_error_cls = @global.global_this()._get("SuppressedError")
-//   let err1 = JsError::new("Error 1")
-//   let err2 = JsError::new("Error 2")
+//   let err1 = JsError("Error 1")
+//   let err2 = JsError("Error 2")
 //   let suppressed_err = @core.new(suppressed_error_cls, [
 //     err1 |> @core.any,
 //     err2 |> @core.any,

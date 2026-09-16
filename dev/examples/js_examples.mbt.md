@@ -200,8 +200,10 @@ async fn promise_combinators() -> Unit {
 
 ///|
 fn callback_to_promise() -> @js.Promise[String] {
-  // Convert callback-based API to Promise
-  @js.Promise::new(fn(resolve, _reject) { resolve("done") })
+  @js.Promise(
+    // Convert callback-based API to Promise
+    fn(resolve, _reject) { resolve("done") },
+  )
 }
 
 ///|

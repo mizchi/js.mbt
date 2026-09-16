@@ -1,6 +1,6 @@
 ///|
 test "sqlite exec and prepare" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   let query =
     #|CREATE TABLE t3(x, y);
     #|INSERT INTO t3 VALUES ('a', 4), ('b', 5);
@@ -26,7 +26,7 @@ test "sqlite exec and prepare" {
 
 ///|
 test "node:sqlite aggregate" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   let query =
     #|CREATE TABLE t3(x, y);
     #|INSERT INTO t3 VALUES ('a', 4), ('b', 5);
@@ -46,7 +46,7 @@ test "node:sqlite aggregate" {
 
 ///|
 test "sqlite prepared statement with parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
   )
@@ -68,7 +68,7 @@ test "sqlite prepared statement with parameters" {
 
 ///|
 test "sqlite named parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL)",
   )
@@ -94,7 +94,7 @@ test "sqlite named parameters" {
 
 ///|
 test "sqlite get single row" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE settings(key TEXT PRIMARY KEY, value TEXT)")
   database.exec("INSERT INTO settings VALUES ('theme', 'dark'), ('lang', 'en')")
   let stmt = database.prepare("SELECT value FROM settings WHERE key = ?")
@@ -107,7 +107,7 @@ test "sqlite get single row" {
 
 ///|
 test "sqlite iterate rows" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE numbers(value INTEGER)")
   database.exec("INSERT INTO numbers VALUES (1), (2), (3), (4), (5)")
   let stmt = database.prepare("SELECT value FROM numbers ORDER BY value")
@@ -126,7 +126,7 @@ test "sqlite iterate rows" {
 ///|
 #skip("custom function requires proper varargs handling")
 test "sqlite custom function" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.function(
     "double",
     fn(args) {
@@ -149,7 +149,7 @@ test "sqlite custom function" {
 
 ///|
 test "sqlite statement metadata" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE test(id INTEGER, name TEXT)")
   let stmt = database.prepare("SELECT id, name FROM test")
   let sql = stmt.sourceSQL()
@@ -160,7 +160,7 @@ test "sqlite statement metadata" {
 
 ///|
 test "sqlite isOpen and isTransaction" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   assert_true(database.isOpen())
   assert_false(database.isTransaction())
   database.exec("BEGIN TRANSACTION")
@@ -173,8 +173,8 @@ test "sqlite isOpen and isTransaction" {
 
 ///|
 test "sqlite session and changeset" {
-  let source_db = DatabaseSync::new(":memory:")
-  let target_db = DatabaseSync::new(":memory:")
+  let source_db = DatabaseSync(":memory:")
+  let target_db = DatabaseSync(":memory:")
   source_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   target_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   let session = source_db.createSession()
@@ -192,7 +192,7 @@ test "sqlite session and changeset" {
 
 ///|
 test "sqlite aggregate with window function" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     (
       #|CREATE TABLE sales(product TEXT, amount INTEGER);
@@ -214,7 +214,7 @@ test "sqlite aggregate with window function" {
 
 ///|
 test "sqlite type-safe anonymous parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL, stock INT)",
   )
@@ -268,14 +268,14 @@ test "sqlite type-safe anonymous parameters" {
 
 ///|
 test "sqlite location" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   let location = database.location()
   assert_eq(location, None)
 }
 
 ///|
 test "sqlite with readBigInts option" {
-  let database = DatabaseSync::new(":memory:", readBigInts=true)
+  let database = DatabaseSync(":memory:", readBigInts=true)
   database.exec("CREATE TABLE big_numbers(value INTEGER)")
   database.exec("INSERT INTO big_numbers VALUES (9007199254740991)")
   let stmt = database.prepare("SELECT value FROM big_numbers")
@@ -292,7 +292,7 @@ test "sqlite constants" {
 
 ///|
 test "sqlite mixed type parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE mixed(id INTEGER, str TEXT, num REAL, flag INTEGER)",
   )
@@ -324,7 +324,7 @@ test "sqlite mixed type parameters" {
 
 ///|
 test "sqlite named and anonymous parameters together" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE events(id INTEGER, name TEXT, date TEXT, priority INTEGER)",
   )
@@ -360,7 +360,7 @@ test "sqlite named and anonymous parameters together" {
 
 ///|
 test "sqlite iterate with type-safe parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE scores(player TEXT, score INTEGER)")
   database.exec(
     "INSERT INTO scores VALUES ('Alice', 100), ('Bob', 150), ('Charlie', 120)",
@@ -388,7 +388,7 @@ test "sqlite iterate with type-safe parameters" {
 
 ///|
 test "sqlite get with complex named parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE employees(id INTEGER, name TEXT, salary REAL, department TEXT)",
   )
@@ -427,7 +427,7 @@ test "sqlite get with complex named parameters" {
 
 ///|
 test "sqlite empty parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE simple(id INTEGER PRIMARY KEY, value TEXT)")
   database.exec("INSERT INTO simple VALUES (1, 'test')")
   let stmt = database.prepare("SELECT * FROM simple")
@@ -440,11 +440,11 @@ test "sqlite empty parameters" {
 
 ///|
 test "sqlite DatabaseSync options - readOnly" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(id INTEGER)")
   db.exec("INSERT INTO test VALUES (1)")
   db.close()
-  let db2 = DatabaseSync::new(":memory:", readOnly=false)
+  let db2 = DatabaseSync(":memory:", readOnly=false)
   db2.exec("CREATE TABLE test2(id INTEGER)")
   assert_true(db2.isOpen())
   db2.close()
@@ -452,7 +452,7 @@ test "sqlite DatabaseSync options - readOnly" {
 
 ///|
 test "sqlite DatabaseSync options - timeout" {
-  let db = DatabaseSync::new(":memory:", timeout=5000)
+  let db = DatabaseSync(":memory:", timeout=5000)
   db.exec("CREATE TABLE test(id INTEGER)")
   assert_true(db.isOpen())
   db.close()
@@ -460,7 +460,7 @@ test "sqlite DatabaseSync options - timeout" {
 
 ///|
 test "sqlite DatabaseSync options - returnArrays" {
-  let db = DatabaseSync::new(":memory:", returnArrays=true)
+  let db = DatabaseSync(":memory:", returnArrays=true)
   db.exec("CREATE TABLE test(a INTEGER, b INTEGER)")
   db.exec("INSERT INTO test VALUES (1, 2)")
   let stmt = db.prepare("SELECT * FROM test")
@@ -471,7 +471,7 @@ test "sqlite DatabaseSync options - returnArrays" {
 
 ///|
 test "sqlite DatabaseSync options - enableForeignKeyConstraints" {
-  let db = DatabaseSync::new(":memory:", enableForeignKeyConstraints=true)
+  let db = DatabaseSync(":memory:", enableForeignKeyConstraints=true)
   db.exec(
     (
       #|CREATE TABLE parent(id INTEGER PRIMARY KEY);
@@ -486,7 +486,7 @@ test "sqlite DatabaseSync options - enableForeignKeyConstraints" {
 
 ///|
 test "sqlite DatabaseSync options - defensive" {
-  let db = DatabaseSync::new(":memory:", defensive=true)
+  let db = DatabaseSync(":memory:", defensive=true)
   db.exec("CREATE TABLE test(id INTEGER)")
   assert_true(db.isOpen())
   db.close()
@@ -494,7 +494,7 @@ test "sqlite DatabaseSync options - defensive" {
 
 ///|
 test "sqlite DatabaseSync options - allowBareNamedParameters" {
-  let db = DatabaseSync::new(":memory:", allowBareNamedParameters=true)
+  let db = DatabaseSync(":memory:", allowBareNamedParameters=true)
   db.exec("CREATE TABLE test(id INTEGER, name TEXT)")
   let stmt = db.prepare("INSERT INTO test VALUES (:id, :name)")
   stmt.run(named_parameters={ "id": @core.any(1), "name": @core.any("test") })
@@ -504,7 +504,7 @@ test "sqlite DatabaseSync options - allowBareNamedParameters" {
 
 ///|
 test "sqlite DatabaseSync options - allowUnknownNamedParameters" {
-  let db = DatabaseSync::new(":memory:", allowUnknownNamedParameters=true)
+  let db = DatabaseSync(":memory:", allowUnknownNamedParameters=true)
   db.exec("CREATE TABLE test(id INTEGER)")
   assert_true(db.isOpen())
   db.close()
@@ -512,7 +512,7 @@ test "sqlite DatabaseSync options - allowUnknownNamedParameters" {
 
 ///|
 test "sqlite DatabaseSync options - allowExtension" {
-  let db = DatabaseSync::new(":memory:", allowExtension=false)
+  let db = DatabaseSync(":memory:", allowExtension=false)
   db.exec("CREATE TABLE test(id INTEGER)")
   assert_true(db.isOpen())
   db.close()
@@ -520,7 +520,7 @@ test "sqlite DatabaseSync options - allowExtension" {
 
 ///|
 test "sqlite StatementSync setReturnArrays" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(a INTEGER, b INTEGER)")
   db.exec("INSERT INTO test VALUES (1, 2)")
   let stmt = db.prepare("SELECT * FROM test")
@@ -532,7 +532,7 @@ test "sqlite StatementSync setReturnArrays" {
 
 ///|
 test "sqlite StatementSync setReadBigInts" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(value INTEGER)")
   db.exec("INSERT INTO test VALUES (9007199254740991)")
   let stmt = db.prepare("SELECT value FROM test")
@@ -545,7 +545,7 @@ test "sqlite StatementSync setReadBigInts" {
 
 ///|
 test "sqlite StatementSync setAllowBareNamedParameters" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(id INTEGER, name TEXT)")
   let stmt = db.prepare("INSERT INTO test VALUES (:id, :name)")
   stmt.setAllowBareNamedParameters(true)
@@ -556,7 +556,7 @@ test "sqlite StatementSync setAllowBareNamedParameters" {
 
 ///|
 test "sqlite StatementSync setAllowUnknownNamedParameters" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(id INTEGER)")
   let stmt = db.prepare("SELECT * FROM test WHERE id = :id")
   stmt.setAllowUnknownNamedParameters(true)
@@ -569,7 +569,7 @@ test "sqlite StatementSync setAllowUnknownNamedParameters" {
 
 ///|
 test "sqlite Session patchset" {
-  let source_db = DatabaseSync::new(":memory:")
+  let source_db = DatabaseSync(":memory:")
   source_db.exec("CREATE TABLE data(key INTEGER PRIMARY KEY, value TEXT)")
   let session = source_db.createSession()
   let insert = source_db.prepare("INSERT INTO data (key, value) VALUES (?, ?)")
@@ -583,7 +583,7 @@ test "sqlite Session patchset" {
 
 ///|
 test "sqlite Session with table option" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE data(id INTEGER PRIMARY KEY, value TEXT)")
   let session = db.createSession(table="data")
   let insert = db.prepare("INSERT INTO data (value) VALUES (?)")
@@ -712,7 +712,7 @@ test "sqlite advanced operation constants" {
 
 ///|
 test "sqlite aggregate with all options" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.exec("CREATE TABLE test(x INTEGER)")
   db.exec("INSERT INTO test VALUES (1), (2), (3)")
   db.aggregate(
@@ -734,7 +734,7 @@ test "sqlite aggregate with all options" {
 ///|
 #skip("function registration with options needs fixing")
 test "sqlite function with options" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.function(
     "add_one",
     fn(args) {
@@ -759,7 +759,7 @@ test "sqlite function with options" {
 
 ///|
 test "sqlite enableLoadExtension" {
-  let db = DatabaseSync::new(":memory:")
+  let db = DatabaseSync(":memory:")
   db.enableLoadExtension(false)
   db.exec("CREATE TABLE test(id INTEGER)")
   assert_true(db.isOpen())
@@ -768,7 +768,7 @@ test "sqlite enableLoadExtension" {
 
 ///|
 test "sqlite integer types" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE integers(small INT, medium INT, large INT)")
   let insert = database.prepare("INSERT INTO integers VALUES (?, ?, ?)")
   insert.run(anonymous_parameters=[
@@ -792,7 +792,7 @@ test "sqlite integer types" {
 
 ///|
 test "sqlite float types" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE floats(val REAL)")
   let insert = database.prepare("INSERT INTO floats VALUES (?)")
   insert.run(anonymous_parameters=[@core.any(3.14159)]) |> ignore
@@ -807,7 +807,7 @@ test "sqlite float types" {
 
 ///|
 test "sqlite string escaping" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE texts(content TEXT)")
   let insert = database.prepare("INSERT INTO texts VALUES (?)")
   insert.run(anonymous_parameters=[@core.any("It's a test")]) |> ignore
@@ -820,7 +820,7 @@ test "sqlite string escaping" {
 
 ///|
 test "sqlite multiple queries with same statement" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE counter(id INTEGER PRIMARY KEY, count INTEGER)")
   let insert = database.prepare("INSERT INTO counter (count) VALUES (?)")
   for i = 1; i <= 5; i = i + 1 {
@@ -834,7 +834,7 @@ test "sqlite multiple queries with same statement" {
 
 ///|
 test "sqlite update with type-safe parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE inventory(item TEXT PRIMARY KEY, quantity INTEGER)",
   )
@@ -855,7 +855,7 @@ test "sqlite update with type-safe parameters" {
 
 ///|
 test "sqlite delete with named parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec(
     "CREATE TABLE todos(id INTEGER PRIMARY KEY, task TEXT, done INTEGER)",
   )
@@ -872,7 +872,7 @@ test "sqlite delete with named parameters" {
 
 ///|
 test "sqlite null handling" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE nullable(id INTEGER, value TEXT)")
   let insert = database.prepare("INSERT INTO nullable (id) VALUES (?)")
   insert.run(anonymous_parameters=[@core.any(1)]) |> ignore
@@ -884,7 +884,7 @@ test "sqlite null handling" {
 
 ///|
 test "sqlite transaction with type-safe parameters" {
-  let database = DatabaseSync::new(":memory:")
+  let database = DatabaseSync(":memory:")
   database.exec("CREATE TABLE accounts(id INTEGER PRIMARY KEY, balance REAL)")
   database.exec("INSERT INTO accounts VALUES (1, 100.0), (2, 50.0)")
   database.exec("BEGIN TRANSACTION")
