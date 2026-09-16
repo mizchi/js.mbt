@@ -13,11 +13,19 @@ Core JavaScript FFI bindings package. This is the foundation package that provid
 moon add mizchi/js
 ```
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": ["mizchi/js"]
+```
+import {
+  "mizchi/js@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js" @js,
 }
 ```
 

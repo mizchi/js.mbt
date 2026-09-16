@@ -8,14 +8,19 @@ Browser DOM APIs - Document Object Model manipulation for MoonBit
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_browser/dom"
-  ]
+```
+import {
+  "mizchi/js_browser@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_browser/dom",
 }
 ```
 
@@ -277,7 +282,7 @@ This package includes comprehensive tests using `global-jsdom` to emulate a brow
 
 ```moonbit
 // Setup JSDOM
-extern "js" fn require(module_name : String) -> @js.Val =
+extern "js" fn require(module_name : String) -> @core.Any =
   #| (moduleName) => require(moduleName)
 
 fn setup_jsdom() -> Unit {

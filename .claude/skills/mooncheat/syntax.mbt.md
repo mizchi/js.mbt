@@ -215,13 +215,19 @@ pub fn[T : Show] print_value(x : T) -> Unit {
 
 ### Adding Dependencies
 
-Add libraries in `moon.pkg.json`:
+Add libraries in `moon.pkg`:
 
-```json
-{
-  "import": [
-    "username/package"
-  ]
+```
+import {
+  "username/package",
+}
+```
+
+The module-level dependency goes in `moon.mod`:
+
+```
+import {
+  "username/package@1.0.0",
 }
 ```
 

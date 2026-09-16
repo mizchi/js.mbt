@@ -6,16 +6,22 @@ TCP/IPC server and socket APIs
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_node/events",
-    "mizchi/js_web/streams",
-    "mizchi/js_node/net"
-  ]
+```
+import {
+  "mizchi/js_node@0.13.0",
+  "mizchi/js_web@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_node/events",
+  "mizchi/js_web/streams",
+  "mizchi/js_node/net",
 }
 ```
 

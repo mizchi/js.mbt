@@ -16,6 +16,13 @@ mylib/
 └── moon.pkg.json        # ターゲット設定
 ```
 
+> **注**: 以下は `moon.pkg.json` 時代の記述です。現在の manifest は
+> `moon.pkg` (JSON ではない) で、`import` はトップレベル、`targets` は
+> `options(targets: { ... })` の中に入ります。`native-stub` の
+> `moon.pkg` での綴りはこのリポジトリに実例がなく未確認なので、
+> [公式ドキュメント](https://docs.moonbitlang.com/en/latest/toolchain/moon/package.html)
+> を参照してください。
+
 ## moon.pkg.json の設定
 
 ```json

@@ -4,14 +4,21 @@ MoonBit bindings for Node.js `assert` module.
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_node/assert"
-  ]
+```
+import {
+  "mizchi/js_core@0.13.0",
+  "mizchi/js_node@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_node/assert",
 }
 ```
 
@@ -53,7 +60,7 @@ test "basic assertions" {
 
 test "error assertions" {
   @assert.throws(fn() {
-    @js.throw_("error")
+    @core.throw_(@core.any("error"))
     ()
   })
   

@@ -4,14 +4,19 @@ Mathematical operations with JavaScript's Math API.
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_builtin/math"
-  ]
+```
+import {
+  "mizchi/js_builtin@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_builtin/math",
 }
 ```
 

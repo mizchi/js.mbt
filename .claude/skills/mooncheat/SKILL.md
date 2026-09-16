@@ -11,11 +11,14 @@ allowed-tools: Read, Grep, Glob
 - Grep `.mooncakes/` to check library usages.
   - username/pkg/(src/)?pkg.generated.mbti
 - Configuration
-  - moon.pkg.json
+  - moon.pkg (per package; superseded moon.pkg.json, and is not JSON)
     - See https://docs.moonbitlang.com/en/latest/toolchain/moon/package.html
-    - moon.pkg.json's jsonschema https://raw.githubusercontent.com/moonbitlang/moon/71abb232f9b661c079246a85a19ff8fe3421170a/crates/moonbuild/template/pkg.schema.json
-  - moon.mod.json
+    - `import { "a/b", "c/d" @alias }`, `supported_targets`, `warnings`,
+      `pkgtype(kind: "executable")`, and `options(link: {...}, targets: {...})`
+    - the schemas under moonbuild/template describe the old JSON form only
+  - moon.mod (per module; superseded moon.mod.json, and is not JSON)
     - See https://docs.moonbitlang.com/en/latest/toolchain/moon/module.html
-    - moon.mod.json's jsonschema https://raw.githubusercontent.com/moonbitlang/moon/71abb232f9b661c079246a85a19ff8fe3421170a/crates/moonbuild/template/mod.schema.json
+    - `name`, `version`, `import { "a/b@1.0.0" }`, `readme`, `source`,
+      `preferred_target`; no `exclude`/`files`, and `#` comments are rejected
   - `moon check` warning and alert configuration
     - Get warning list by `moonc build-package -warn-help`
