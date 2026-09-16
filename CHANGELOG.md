@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.1] — `mizchi/js_web` only
+
+A point release of **`mizchi/js_web` alone**, to get the new `nn` package and
+the WebGPU fix out without a full workspace release. Every other module stays
+at 0.13.0, so the rest of the notes below remain unreleased.
+
+Only `js_web` is bumped because a module dependency spec is a **minimum, not an
+exact pin** — `mizchi/js_node@0.13.0` requires js_web ≥ 0.13.0, which 0.13.1
+satisfies, so nothing else needs republishing. (Verified: with both 0.20.5 and
+0.20.0 required, moon resolves 0.20.5.) `js_web` at this revision also needs
+nothing newer than the published `js_core@0.13.0` / `js_builtin@0.13.0` — it
+makes no cross-module call to the new constructors, in its own code or its
+tests.
+
+What ships in it, from the notes below:
+
+- **`mizchi/js_web/nn`** — the WebNN standard API.
+- **The opaque-handle fix**, which is what made `webgpu` non-functional, plus
+  `trusted_types`. The two `dom` event types wait for a `js_browser` release;
+  the bug is latent there.
+- **WebGPU brought up to the current spec** — all 35 `GPU*` interfaces.
+- **`js_web`'s `Type(..)` constructors**, with the old `::new` spellings kept
+  as deprecated aliases. The other modules' constructors are not released yet,
+  so `@url.URL(..)` works while `@collection.JsMap(..)` does not until they
+  are.
+- **The packaging fix**, so a `js_web` install checks without
+  `unused_package` warnings.
+
+`scripts/release.ts` no longer requires every module to be at the same
+version; it reads each `moon.mod` and skips whatever is already on mooncakes,
+so `--only=js_web` or a plain run both publish just this one.
+
 ## [Unreleased]
 
 ### Changed — constructors are now `Type(..)`, not `Type::new(..)`
@@ -54,6 +86,126 @@ Two things deliberately did **not** change:
   `@core.Any` so its result is usable without a cast.
 - **Package aliases are untouched.** `@url`, `@http`, `@regexp` and the rest
   work exactly as before; only the constructor spelling moves.
+
+### Fixed — opaque handle types were erased at runtime
+
+**`mizchi/js_web/webgpu` did not work at all, and part of
+`mizchi/js_web/trusted_types` did not either.**
+
+Both declared their opaque JS handles as zero-field structs
+(`pub(all) struct GPUDevice {}`). MoonBit treats a zero-field struct as
+zero-sized, so the value is erased when a function *returns* one — every such
+function handed back `undefined`. That meant `gpu()`, `requestAdapter()`,
+`createBuffer()`, `getCurrentTexture()`, `trusted_types()`,
+`createPolicy()` and `createHTML()` all returned nothing usable.
+
+It hid well because a cast in and straight back out within one function is
+inlined and appears to work; only a real function boundary loses the value.
+The package had no tests, so nothing caught it.
+
+All 43 affected declarations across `webgpu`, `trusted_types` and two `dom`
+event types (`ChangeEvent`, `ScrollEvent`, where the bug was latent) are now
+`#external pub type`, which round-trips correctly. In the generated
+interfaces this shows up as `pub(all) struct X {}` becoming
+`#external pub type X`; the methods are unchanged, and constructing these
+handles was never meaningful, so no working code changes.
+
+### Added — `mizchi/js_web/nn`, the WebNN standard API
+
+The spec-level [WebNN](https://www.w3.org/TR/webnn/) bindings — `navigator.ml`,
+graph building, compilation, device tensors and dispatch — absorbed from
+[`mizchi/webnn-mbt`](https://github.com/mizchi/webnn-mbt), which becomes a
+consumer of this package rather than carrying its own copy. Model formats,
+shape inference and inference runtimes stay there; only the standard surface
+moved.
+
+`ML`, `MLContext`, `MLGraphBuilder`, `MLOperand`, `MLGraph` and `MLTensor`,
+with the capability probes that make WebNN usable across implementations that
+shipped the spec's changes at different times:
+
+- `context_options` builds either the newer `{accelerated}` or the older
+  `{deviceType}` shape, as `uses_accelerated_contract` reports.
+- `MLContext::has_tensor_io` distinguishes an `MLTensor` implementation from an
+  older `compute()`-only one; `has_op_support_limits`, `op_support_limits`,
+  `supported_operators` and `preferred_input_layout` cover the rest. Note that
+  `supported_operators` returns empty where limits are unavailable, so empty
+  means *unknown*, not "nothing supported".
+- `descriptor` sets both `shape` and the older `dimensions` key.
+
+Named operator wrappers cover binary and unary element-wise ops, `softmax`,
+`clamp`, the shape operators, `reduce_mean`, `layer_normalization`, `conv2d`
+and pooling. `MLGraphBuilder::op` / `op_with_options` reach any other spec
+operator without waiting for a named binding.
+
+Additions over what was absorbed: `MLGraph::destroy`, `op_support_limits`,
+`int32_values`, `named_values`, the `op` escape hatch, and `_of` / `_raw`
+variants so non-float32 data types are expressible (`input_of`,
+`create_tensor_of`, `constant_raw`, `write_tensor_raw`, `read_tensor_raw`).
+All FFI signatures use `FixedArray[T]` per this repo's convention, with
+`Array[T]` kept in the public API.
+
+37 tests, plus a README. Verified against the real consumer: webnn-mbt's own
+980 tests pass with its `raw` package deleted and repointed at `@nn`.
+
+### Added — WebGPU brought up to the current spec
+
+All 35 `GPU*` interfaces are now bound, up from 25. New: `GPUCanvasContext`
+(so you can actually render to a canvas), `GPUQuerySet`, `GPURenderBundle`,
+`GPURenderBundleEncoder`, `GPUExternalTexture`, and the error hierarchy —
+`GPUValidationError`, `GPUOutOfMemoryError`, `GPUInternalError`,
+`GPUPipelineError`, `GPUUncapturedErrorEvent`.
+
+- `GPUError::kind()` discriminates the concrete subtype in one FFI hop and
+  reports `Unknown` rather than throwing where the classes are absent;
+  `as_validation_error` / `as_out_of_memory_error` / `as_internal_error`
+  narrow.
+- `GPUDevice::set_onuncapturederror` — the practical way to see validation
+  failures, since WebGPU reports them asynchronously.
+- `GPUSupportedLimits` grew from 5 accessors to all 34 spec limits, plus
+  `get(name)` for anything unnamed (such as the deprecated
+  `maxInterStageShaderComponents`).
+- `GPUAdapterInfo` gained `isFallbackAdapter` and the optional
+  `subgroupMinSize` / `subgroupMaxSize`.
+- `GPUShaderStage`, `GPUMapMode` and `GPUColorWrite` flags as
+  `SHADER_STAGE_*`, `MAP_MODE_*`, `COLOR_WRITE_*` constants.
+- Async pipeline creation (`createRenderPipelineAsync`,
+  `createComputePipelineAsync`), indirect draws, occlusion queries,
+  `resolveQuerySet`, `copyExternalImageToTexture`, `executeBundles` and debug
+  markers on all three encoder types.
+- `setBindGroup` on the render pass, compute pass and bundle encoders takes an
+  optional `dynamic_offsets`.
+
+`GPUBuffer::mapSync` is deliberately not bound — it is experimental,
+worker-only and Chromium-only. `GPUAdapter::requestAdapterInfo` stays absent:
+the spec removed it in favour of the synchronous `info` property.
+
+The package went from **no tests to 35**, covering the flag values, descriptor
+shapes, accessors and feature-detection paths against stand-in objects, since
+`moon test` has no GPU. It also gained a README.
+
+### Fixed — published archives no longer warn about unused packages
+
+Installing any 0.13.0 module and checking it produced `unused_package`
+warnings — **34 of them across 27 packages**, in every module. Each
+`.moonignore` stripped `*_test.mbt` and `*_wbtest.mbt`, but `moon.pkg` ships
+verbatim including its `import { .. } for "test"` blocks, so those imports had
+nothing left that used them. Two were a module importing itself
+(`js_core` → `mizchi/js_core`, `js_convert` → `mizchi/js_convert`).
+
+The archives now ship their test files, as `moonbitlang/core` does, and the
+extracted archives check with **zero warnings**. Test *packages* are still
+excluded, but as whole directories (`_tests/`, `bun_test/`,
+`_interop_test/`) — that takes each `moon.pkg` along with its sources, so no
+import is left dangling.
+
+This costs archive size: js_node 110 → 145 KB, js_web 92 → 120 KB,
+js_builtin 60 → 88 KB, js_browser 101 → 121 KB, js_core 19 → 36 KB. The 0.13.0
+packaging win was never the test globs — it was not shipping sibling modules,
+which is unaffected. Note the shipped tests need the repo's npm
+devDependencies (`canvas`, `happy-dom`, `jsdom`, …) to actually run.
+
+These warnings were only ever visible in an extracted archive: `moon` does not
+report warnings from registry dependencies, so consumers did not see them.
 
 ### Fixed
 

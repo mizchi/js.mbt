@@ -1,6 +1,6 @@
 name = "mizchi/js_web"
 
-version = "0.13.0"
+version = "0.13.1"
 
 import {
   "mizchi/js_builtin@0.13.0",

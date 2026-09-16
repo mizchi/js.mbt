@@ -49,7 +49,9 @@ These APIs work consistently across:
 | **WebAssembly** |
 | WebAssembly | `mizchi/js_web/webassembly` | 🤖 AI Generated | WASM integration |
 | **WebGPU** |
-| WebGPU | `mizchi/js_web/webgpu` | 🧪 Experimental | GPU compute/rendering (Deno only) |
+| WebGPU | [`mizchi/js_web/webgpu`](webgpu/README.md) | 🧪 Tested | All 35 `GPU*` interfaces, incl. canvas rendering |
+| **WebNN** |
+| WebNN | [`mizchi/js_web/nn`](nn/README.md) | 🧪 Tested | `navigator.ml`, graph building, device tensors |
 | **WebGL** |
 | WebGL | `mizchi/js_web/webgl` | 📅 Planned | 2D/3D graphics rendering |
 | WebGL2 | `mizchi/js_web/webgl` | 📅 Planned | WebGL 2.0 API |
@@ -85,7 +87,12 @@ This package provides comprehensive bindings to **Web Standard APIs** - the comm
 - **Streams**: ReadableStream, WritableStream, TransformStream for efficient data processing
 - **Cryptography**: Web Crypto API for secure operations (hashing, encryption, key generation)
 - **Workers**: Web Workers and MessageChannel for concurrency (browser and Node.js)
-- **WebGPU**: GPU compute and rendering (experimental, Deno `--unstable-webgpu` required)
+- **WebGPU**: GPU compute and rendering — every `GPU*` interface, including
+  `GPUCanvasContext` for drawing to a canvas. Browsers expose it directly;
+  Deno needs `--unstable-webgpu`.
+- **WebNN**: neural-network inference via `navigator.ml` — graph building,
+  compilation and device tensors. Model formats and runtimes live a layer up,
+  in [`mizchi/webnn-mbt`](https://github.com/mizchi/webnn-mbt).
 
 ## Installation
 
