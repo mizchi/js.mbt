@@ -78,6 +78,43 @@ interfaces this shows up as `pub(all) struct X {}` becoming
 `#external pub type X`; the methods are unchanged, and constructing these
 handles was never meaningful, so no working code changes.
 
+### Added — `mizchi/js_web/nn`, the WebNN standard API
+
+The spec-level [WebNN](https://www.w3.org/TR/webnn/) bindings — `navigator.ml`,
+graph building, compilation, device tensors and dispatch — absorbed from
+[`mizchi/webnn-mbt`](https://github.com/mizchi/webnn-mbt), which becomes a
+consumer of this package rather than carrying its own copy. Model formats,
+shape inference and inference runtimes stay there; only the standard surface
+moved.
+
+`ML`, `MLContext`, `MLGraphBuilder`, `MLOperand`, `MLGraph` and `MLTensor`,
+with the capability probes that make WebNN usable across implementations that
+shipped the spec's changes at different times:
+
+- `context_options` builds either the newer `{accelerated}` or the older
+  `{deviceType}` shape, as `uses_accelerated_contract` reports.
+- `MLContext::has_tensor_io` distinguishes an `MLTensor` implementation from an
+  older `compute()`-only one; `has_op_support_limits`, `op_support_limits`,
+  `supported_operators` and `preferred_input_layout` cover the rest. Note that
+  `supported_operators` returns empty where limits are unavailable, so empty
+  means *unknown*, not "nothing supported".
+- `descriptor` sets both `shape` and the older `dimensions` key.
+
+Named operator wrappers cover binary and unary element-wise ops, `softmax`,
+`clamp`, the shape operators, `reduce_mean`, `layer_normalization`, `conv2d`
+and pooling. `MLGraphBuilder::op` / `op_with_options` reach any other spec
+operator without waiting for a named binding.
+
+Additions over what was absorbed: `MLGraph::destroy`, `op_support_limits`,
+`int32_values`, `named_values`, the `op` escape hatch, and `_of` / `_raw`
+variants so non-float32 data types are expressible (`input_of`,
+`create_tensor_of`, `constant_raw`, `write_tensor_raw`, `read_tensor_raw`).
+All FFI signatures use `FixedArray[T]` per this repo's convention, with
+`Array[T]` kept in the public API.
+
+37 tests, plus a README. Verified against the real consumer: webnn-mbt's own
+980 tests pass with its `raw` package deleted and repointed at `@nn`.
+
 ### Added — WebGPU brought up to the current spec
 
 All 35 `GPU*` interfaces are now bound, up from 25. New: `GPUCanvasContext`
