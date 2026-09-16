@@ -9,7 +9,8 @@
 ///|
 /// GPU interface - entry point for WebGPU
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPU
-pub(all) struct GPU {}
+#external
+pub type GPU
 
 ///|
 pub fn GPU::as_any(self : GPU) -> @core.Any = "%identity"
@@ -79,7 +80,8 @@ pub fn GPU::wgslLanguageFeatures(self : GPU) -> @core.Any {
 ///|
 /// GPUAdapter - represents a GPU adapter
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUAdapter
-pub(all) struct GPUAdapter {}
+#external
+pub type GPUAdapter
 
 ///|
 pub fn GPUAdapter::as_any(self : GPUAdapter) -> @core.Any = "%identity"
@@ -152,7 +154,8 @@ pub async fn GPUAdapter::requestDevice(
 ///|
 /// GPUDevice - the main interface for WebGPU operations
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice
-pub(all) struct GPUDevice {}
+#external
+pub type GPUDevice
 
 ///|
 pub fn GPUDevice::as_any(self : GPUDevice) -> @core.Any = "%identity"
@@ -462,7 +465,8 @@ pub async fn GPUDevice::popErrorScope(self : GPUDevice) -> GPUError? {
 ///|
 /// GPUBuffer - represents a block of memory for GPU operations
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUBuffer
-pub(all) struct GPUBuffer {}
+#external
+pub type GPUBuffer
 
 ///|
 pub fn GPUBuffer::as_any(self : GPUBuffer) -> @core.Any = "%identity"
@@ -585,7 +589,8 @@ pub fn GPUBuffer::destroy(self : GPUBuffer) -> Unit {
 ///|
 /// GPUTexture - represents a texture for GPU operations
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUTexture
-pub(all) struct GPUTexture {}
+#external
+pub type GPUTexture
 
 ///|
 pub fn GPUTexture::as_any(self : GPUTexture) -> @core.Any = "%identity"
@@ -715,7 +720,8 @@ pub fn GPUTexture::destroy(self : GPUTexture) -> Unit {
 
 ///|
 /// GPUTextureView - a view into a texture
-pub(all) struct GPUTextureView {}
+#external
+pub type GPUTextureView
 
 ///|
 pub fn GPUTextureView::as_any(self : GPUTextureView) -> @core.Any = "%identity"
@@ -732,7 +738,8 @@ pub fn GPUTextureView::label(self : GPUTextureView) -> String {
 ///|
 /// GPUQueue - command queue for GPU operations
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUQueue
-pub(all) struct GPUQueue {}
+#external
+pub type GPUQueue
 
 ///|
 pub fn GPUQueue::as_any(self : GPUQueue) -> @core.Any = "%identity"
@@ -830,7 +837,8 @@ pub async fn GPUQueue::onSubmittedWorkDone(self : GPUQueue) -> Unit {
 ///|
 /// GPUCommandEncoder - encodes GPU commands
 /// https://developer.mozilla.org/en-US/docs/Web/API/GPUCommandEncoder
-pub(all) struct GPUCommandEncoder {}
+#external
+pub type GPUCommandEncoder
 
 ///|
 pub fn GPUCommandEncoder::as_any(self : GPUCommandEncoder) -> @core.Any = "%identity"
@@ -974,7 +982,8 @@ pub fn GPUCommandEncoder::finish(
 
 ///|
 /// GPUCommandBuffer - contains encoded GPU commands
-pub(all) struct GPUCommandBuffer {}
+#external
+pub type GPUCommandBuffer
 
 ///|
 pub fn GPUCommandBuffer::as_any(self : GPUCommandBuffer) -> @core.Any = "%identity"
@@ -990,7 +999,8 @@ pub fn GPUCommandBuffer::label(self : GPUCommandBuffer) -> String {
 
 ///|
 /// GPURenderPassEncoder - encodes render pass commands
-pub(all) struct GPURenderPassEncoder {}
+#external
+pub type GPURenderPassEncoder
 
 ///|
 pub fn GPURenderPassEncoder::as_any(self : GPURenderPassEncoder) -> @core.Any = "%identity"
@@ -1010,9 +1020,24 @@ pub fn GPURenderPassEncoder::setBindGroup(
   self : GPURenderPassEncoder,
   index : Int,
   bind_group : GPUBindGroup,
+  dynamic_offsets? : Array[Int],
 ) -> Unit {
-  self.as_any()._call("setBindGroup", [@core.any(index), bind_group.as_any()])
-  |> ignore
+  match dynamic_offsets {
+    Some(offsets) =>
+      self
+      .as_any()
+      ._call("setBindGroup", [
+        @core.any(index),
+        bind_group.as_any(),
+        @core.any(offsets),
+      ])
+      |> ignore
+    None =>
+      self
+      .as_any()
+      ._call("setBindGroup", [@core.any(index), bind_group.as_any()])
+      |> ignore
+  }
 }
 
 ///|
@@ -1300,7 +1325,8 @@ pub fn GPURenderPassEncoder::end(self : GPURenderPassEncoder) -> Unit {
 
 ///|
 /// GPUComputePassEncoder - encodes compute pass commands
-pub(all) struct GPUComputePassEncoder {}
+#external
+pub type GPUComputePassEncoder
 
 ///|
 pub fn GPUComputePassEncoder::as_any(self : GPUComputePassEncoder) -> @core.Any = "%identity"
@@ -1320,9 +1346,24 @@ pub fn GPUComputePassEncoder::setBindGroup(
   self : GPUComputePassEncoder,
   index : Int,
   bind_group : GPUBindGroup,
+  dynamic_offsets? : Array[Int],
 ) -> Unit {
-  self.as_any()._call("setBindGroup", [@core.any(index), bind_group.as_any()])
-  |> ignore
+  match dynamic_offsets {
+    Some(offsets) =>
+      self
+      .as_any()
+      ._call("setBindGroup", [
+        @core.any(index),
+        bind_group.as_any(),
+        @core.any(offsets),
+      ])
+      |> ignore
+    None =>
+      self
+      .as_any()
+      ._call("setBindGroup", [@core.any(index), bind_group.as_any()])
+      |> ignore
+  }
 }
 
 ///|
@@ -1391,7 +1432,8 @@ pub fn GPUComputePassEncoder::end(self : GPUComputePassEncoder) -> Unit {
 
 ///|
 /// GPURenderPipeline - render pipeline configuration
-pub(all) struct GPURenderPipeline {}
+#external
+pub type GPURenderPipeline
 
 ///|
 pub fn GPURenderPipeline::as_any(self : GPURenderPipeline) -> @core.Any = "%identity"
@@ -1416,7 +1458,8 @@ pub fn GPURenderPipeline::getBindGroupLayout(
 
 ///|
 /// GPUComputePipeline - compute pipeline configuration
-pub(all) struct GPUComputePipeline {}
+#external
+pub type GPUComputePipeline
 
 ///|
 pub fn GPUComputePipeline::as_any(self : GPUComputePipeline) -> @core.Any = "%identity"
@@ -1441,7 +1484,8 @@ pub fn GPUComputePipeline::getBindGroupLayout(
 
 ///|
 /// GPUShaderModule - compiled shader code
-pub(all) struct GPUShaderModule {}
+#external
+pub type GPUShaderModule
 
 ///|
 pub fn GPUShaderModule::as_any(self : GPUShaderModule) -> @core.Any = "%identity"
@@ -1469,7 +1513,8 @@ pub async fn GPUShaderModule::getCompilationInfo(
 
 ///|
 /// GPUSampler - texture sampling configuration
-pub(all) struct GPUSampler {}
+#external
+pub type GPUSampler
 
 ///|
 pub fn GPUSampler::as_any(self : GPUSampler) -> @core.Any = "%identity"
@@ -1485,7 +1530,8 @@ pub fn GPUSampler::label(self : GPUSampler) -> String {
 
 ///|
 /// GPUBindGroup - group of resources bound together
-pub(all) struct GPUBindGroup {}
+#external
+pub type GPUBindGroup
 
 ///|
 pub fn GPUBindGroup::as_any(self : GPUBindGroup) -> @core.Any = "%identity"
@@ -1501,7 +1547,8 @@ pub fn GPUBindGroup::label(self : GPUBindGroup) -> String {
 
 ///|
 /// GPUBindGroupLayout - layout of a bind group
-pub(all) struct GPUBindGroupLayout {}
+#external
+pub type GPUBindGroupLayout
 
 ///|
 pub fn GPUBindGroupLayout::as_any(self : GPUBindGroupLayout) -> @core.Any = "%identity"
@@ -1517,7 +1564,8 @@ pub fn GPUBindGroupLayout::label(self : GPUBindGroupLayout) -> String {
 
 ///|
 /// GPUPipelineLayout - layout of pipeline bind groups
-pub(all) struct GPUPipelineLayout {}
+#external
+pub type GPUPipelineLayout
 
 ///|
 pub fn GPUPipelineLayout::as_any(self : GPUPipelineLayout) -> @core.Any = "%identity"
@@ -1533,7 +1581,8 @@ pub fn GPUPipelineLayout::label(self : GPUPipelineLayout) -> String {
 
 ///|
 /// GPUSupportedFeatures - set of supported GPU features
-pub(all) struct GPUSupportedFeatures {}
+#external
+pub type GPUSupportedFeatures
 
 ///|
 pub fn GPUSupportedFeatures::as_any(self : GPUSupportedFeatures) -> @core.Any = "%identity"
@@ -1549,50 +1598,16 @@ pub fn GPUSupportedFeatures::has(
 
 ///|
 /// GPUSupportedLimits - supported GPU limits
-pub(all) struct GPUSupportedLimits {}
+#external
+pub type GPUSupportedLimits
 
 ///|
 pub fn GPUSupportedLimits::as_any(self : GPUSupportedLimits) -> @core.Any = "%identity"
 
 ///|
-/// Get max texture dimension 1D
-pub fn GPUSupportedLimits::maxTextureDimension1D(
-  self : GPUSupportedLimits,
-) -> Int {
-  self.as_any()["maxTextureDimension1D"].cast()
-}
-
-///|
-/// Get max texture dimension 2D
-pub fn GPUSupportedLimits::maxTextureDimension2D(
-  self : GPUSupportedLimits,
-) -> Int {
-  self.as_any()["maxTextureDimension2D"].cast()
-}
-
-///|
-/// Get max texture dimension 3D
-pub fn GPUSupportedLimits::maxTextureDimension3D(
-  self : GPUSupportedLimits,
-) -> Int {
-  self.as_any()["maxTextureDimension3D"].cast()
-}
-
-///|
-/// Get max buffer size
-pub fn GPUSupportedLimits::maxBufferSize(self : GPUSupportedLimits) -> Int {
-  self.as_any()["maxBufferSize"].cast()
-}
-
-///|
-/// Get max bind groups
-pub fn GPUSupportedLimits::maxBindGroups(self : GPUSupportedLimits) -> Int {
-  self.as_any()["maxBindGroups"].cast()
-}
-
-///|
 /// GPUAdapterInfo - information about the GPU adapter
-pub(all) struct GPUAdapterInfo {}
+#external
+pub type GPUAdapterInfo
 
 ///|
 pub fn GPUAdapterInfo::as_any(self : GPUAdapterInfo) -> @core.Any = "%identity"
@@ -1623,7 +1638,8 @@ pub fn GPUAdapterInfo::description(self : GPUAdapterInfo) -> String {
 
 ///|
 /// GPUDeviceLostInfo - information about a lost device
-pub(all) struct GPUDeviceLostInfo {}
+#external
+pub type GPUDeviceLostInfo
 
 ///|
 pub fn GPUDeviceLostInfo::as_any(self : GPUDeviceLostInfo) -> @core.Any = "%identity"
@@ -1642,7 +1658,8 @@ pub fn GPUDeviceLostInfo::message(self : GPUDeviceLostInfo) -> String {
 
 ///|
 /// GPUError - base type for GPU errors
-pub(all) struct GPUError {}
+#external
+pub type GPUError
 
 ///|
 pub fn GPUError::as_any(self : GPUError) -> @core.Any = "%identity"
@@ -1655,7 +1672,8 @@ pub fn GPUError::message(self : GPUError) -> String {
 
 ///|
 /// GPUCompilationInfo - shader compilation info
-pub(all) struct GPUCompilationInfo {}
+#external
+pub type GPUCompilationInfo
 
 ///|
 pub fn GPUCompilationInfo::as_any(self : GPUCompilationInfo) -> @core.Any = "%identity"
@@ -1670,7 +1688,8 @@ pub fn GPUCompilationInfo::messages(
 
 ///|
 /// GPUCompilationMessage - a single compilation message
-pub(all) struct GPUCompilationMessage {}
+#external
+pub type GPUCompilationMessage
 
 ///|
 pub fn GPUCompilationMessage::as_any(self : GPUCompilationMessage) -> @core.Any = "%identity"
@@ -1705,7 +1724,8 @@ pub fn GPUCompilationMessage::linePos(self : GPUCompilationMessage) -> Int {
 
 ///|
 /// GPUExtent3D - represents 3D extents
-pub(all) struct GPUExtent3D {}
+#external
+pub type GPUExtent3D
 
 ///|
 pub fn GPUExtent3D::as_any(self : GPUExtent3D) -> @core.Any = "%identity"

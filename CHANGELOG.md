@@ -55,6 +55,65 @@ Two things deliberately did **not** change:
 - **Package aliases are untouched.** `@url`, `@http`, `@regexp` and the rest
   work exactly as before; only the constructor spelling moves.
 
+### Fixed — opaque handle types were erased at runtime
+
+**`mizchi/js_web/webgpu` did not work at all, and part of
+`mizchi/js_web/trusted_types` did not either.**
+
+Both declared their opaque JS handles as zero-field structs
+(`pub(all) struct GPUDevice {}`). MoonBit treats a zero-field struct as
+zero-sized, so the value is erased when a function *returns* one — every such
+function handed back `undefined`. That meant `gpu()`, `requestAdapter()`,
+`createBuffer()`, `getCurrentTexture()`, `trusted_types()`,
+`createPolicy()` and `createHTML()` all returned nothing usable.
+
+It hid well because a cast in and straight back out within one function is
+inlined and appears to work; only a real function boundary loses the value.
+The package had no tests, so nothing caught it.
+
+All 43 affected declarations across `webgpu`, `trusted_types` and two `dom`
+event types (`ChangeEvent`, `ScrollEvent`, where the bug was latent) are now
+`#external pub type`, which round-trips correctly. In the generated
+interfaces this shows up as `pub(all) struct X {}` becoming
+`#external pub type X`; the methods are unchanged, and constructing these
+handles was never meaningful, so no working code changes.
+
+### Added — WebGPU brought up to the current spec
+
+All 35 `GPU*` interfaces are now bound, up from 25. New: `GPUCanvasContext`
+(so you can actually render to a canvas), `GPUQuerySet`, `GPURenderBundle`,
+`GPURenderBundleEncoder`, `GPUExternalTexture`, and the error hierarchy —
+`GPUValidationError`, `GPUOutOfMemoryError`, `GPUInternalError`,
+`GPUPipelineError`, `GPUUncapturedErrorEvent`.
+
+- `GPUError::kind()` discriminates the concrete subtype in one FFI hop and
+  reports `Unknown` rather than throwing where the classes are absent;
+  `as_validation_error` / `as_out_of_memory_error` / `as_internal_error`
+  narrow.
+- `GPUDevice::set_onuncapturederror` — the practical way to see validation
+  failures, since WebGPU reports them asynchronously.
+- `GPUSupportedLimits` grew from 5 accessors to all 34 spec limits, plus
+  `get(name)` for anything unnamed (such as the deprecated
+  `maxInterStageShaderComponents`).
+- `GPUAdapterInfo` gained `isFallbackAdapter` and the optional
+  `subgroupMinSize` / `subgroupMaxSize`.
+- `GPUShaderStage`, `GPUMapMode` and `GPUColorWrite` flags as
+  `SHADER_STAGE_*`, `MAP_MODE_*`, `COLOR_WRITE_*` constants.
+- Async pipeline creation (`createRenderPipelineAsync`,
+  `createComputePipelineAsync`), indirect draws, occlusion queries,
+  `resolveQuerySet`, `copyExternalImageToTexture`, `executeBundles` and debug
+  markers on all three encoder types.
+- `setBindGroup` on the render pass, compute pass and bundle encoders takes an
+  optional `dynamic_offsets`.
+
+`GPUBuffer::mapSync` is deliberately not bound — it is experimental,
+worker-only and Chromium-only. `GPUAdapter::requestAdapterInfo` stays absent:
+the spec removed it in favour of the synchronous `info` property.
+
+The package went from **no tests to 35**, covering the flag values, descriptor
+shapes, accessors and feature-detection paths against stand-in objects, since
+`moon test` has no GPU. It also gained a README.
+
 ### Fixed
 
 - Several module READMEs documented constructors that do not exist

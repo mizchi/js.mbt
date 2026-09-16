@@ -110,8 +110,8 @@ pub fn CSSStyleSheet::ownerNode(Self) -> @js_core.Any?
 pub fn CSSStyleSheet::set_disabled(Self, Bool) -> Unit
 pub fn CSSStyleSheet::title(Self) -> String?
 
-pub(all) struct ChangeEvent {
-}
+#external
+pub type ChangeEvent
 pub fn ChangeEvent::as_any(Self) -> @js_core.Any
 pub fn ChangeEvent::bubbles(Self) -> Bool
 pub fn ChangeEvent::cancelable(Self) -> Bool
@@ -3939,8 +3939,8 @@ pub fn SVGTextElement::toggleAttribute(Self, String, force? : Bool) -> Bool
 pub fn SVGTextElement::x(Self) -> Double
 pub fn SVGTextElement::y(Self) -> Double
 
-pub(all) struct ScrollEvent {
-}
+#external
+pub type ScrollEvent
 pub fn ScrollEvent::as_any(Self) -> @js_core.Any
 pub fn ScrollEvent::bubbles(Self) -> Bool
 pub fn ScrollEvent::cancelable(Self) -> Bool

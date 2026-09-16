@@ -4,7 +4,8 @@
 ///
 /// TrustedHTML represents a string that can be safely inserted into HTML injection sinks.
 /// It cannot be created directly - use TrustedTypePolicy.create_html() instead.
-pub(all) struct TrustedHTML {}
+#external
+pub type TrustedHTML
 
 ///|
 pub fn TrustedHTML::as_any(self : TrustedHTML) -> @core.Any = "%identity"
@@ -29,7 +30,8 @@ pub fn TrustedHTML::toJSON(self : TrustedHTML) -> String {
 /// TrustedScript represents a string containing an uncompiled script body
 /// that can be safely inserted into script execution sinks.
 /// It cannot be created directly - use TrustedTypePolicy.create_script() instead.
-pub(all) struct TrustedScript {}
+#external
+pub type TrustedScript
 
 ///|
 pub fn TrustedScript::as_any(self : TrustedScript) -> @core.Any = "%identity"
@@ -54,7 +56,8 @@ pub fn TrustedScript::toJSON(self : TrustedScript) -> String {
 /// TrustedScriptURL represents a string containing a URL that can be safely
 /// used in script loading sinks.
 /// It cannot be created directly - use TrustedTypePolicy.create_script_url() instead.
-pub(all) struct TrustedScriptURL {}
+#external
+pub type TrustedScriptURL
 
 ///|
 pub fn TrustedScriptURL::as_any(self : TrustedScriptURL) -> @core.Any = "%identity"
@@ -77,7 +80,8 @@ pub fn TrustedScriptURL::toJSON(self : TrustedScriptURL) -> String {
 /// https://developer.mozilla.org/en-US/docs/Web/API/TrustedTypePolicy
 ///
 /// TrustedTypePolicy defines a group of functions for creating trusted type objects.
-pub(all) struct TrustedTypePolicy {}
+#external
+pub type TrustedTypePolicy
 
 ///|
 pub fn TrustedTypePolicy::as_any(self : TrustedTypePolicy) -> @core.Any = "%identity"
@@ -175,7 +179,8 @@ pub fn TrustedTypePolicy::createScriptURLWithArgs(
 ///
 /// TrustedTypePolicyFactory creates policies and verifies Trusted Type objects.
 /// Access via the global `trustedTypes` object.
-pub(all) struct TrustedTypePolicyFactory {}
+#external
+pub type TrustedTypePolicyFactory
 
 ///|
 pub fn TrustedTypePolicyFactory::as_any(

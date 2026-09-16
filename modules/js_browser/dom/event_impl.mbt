@@ -286,7 +286,8 @@ pub fn KeyboardEvent::defaultPrevented(self : KeyboardEvent) -> Bool {
 
 ///|
 /// ChangeEvent represents a change event
-pub(all) struct ChangeEvent {}
+#external
+pub type ChangeEvent
 
 ///|
 pub impl Show for ChangeEvent with fn output(self, logger) {
@@ -914,7 +915,8 @@ pub fn AnimationEvent::defaultPrevented(self : AnimationEvent) -> Bool {
 
 ///|
 /// ScrollEvent represents a scroll event
-pub(all) struct ScrollEvent {}
+#external
+pub type ScrollEvent
 
 ///|
 pub impl Show for ScrollEvent with fn output(self, logger) {
