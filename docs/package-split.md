@@ -217,8 +217,21 @@ import {
 `message`, `performance`, `streams`, `trusted_types`, `url`, `webassembly`,
 `webgpu`, `websocket`, `worker`。
 
-`mizchi/js_node` / `mizchi/js_browser` / `mizchi/js_deno` を使っている場合、
-それらが内部で `mizchi/js_web` に依存するため `moon.mod` への追加が必要です。
+`mizchi/js_node` / `mizchi/js_browser` / `mizchi/js_deno` が内部で
+`mizchi/js_web` に依存している分については、`moon.mod` への追加は**不要**です
+(透過依存は自動で解決されます。`mizchi/js_browser` だけ宣言した状態で
+`mizchi/js_browser/dom` が使えることを実測済み)。
+
+追加が必要なのは、自分の `moon.pkg` が `mizchi/js_web/*` を**直接** import
+する場合です。その場合は他のモジュールが引いていても宣言が必要で、無いと
+build plan の計算に失敗します:
+
+```
+... but its containing module is not imported by <your module>,
+    thus cannot be imported by its package
+```
+
+利用側から見た全体の手引きは [guide.md](guide.md) にあります。
 
 ## 利用側の移行手順 (node API)
 
