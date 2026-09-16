@@ -38,7 +38,7 @@ const REPO_ROOT = resolve(fileURLToPath(import.meta.url), "../..");
 
 type Mod = { path: string; label: string };
 
-const ROOT: Mod = { path: ".", label: "mizchi/js" };
+const ROOT: Mod = { path: "modules/js", label: "mizchi/js" };
 
 // Publish order is dependency order. js_core is the foundation that every
 // other module (including the root) imports, js_builtin sits directly on top
@@ -176,7 +176,7 @@ function printHelp(): void {
     `Usage: scripts/release.ts [options]
 
 Publishes mizchi/js and the split modules to mooncakes in the correct
-order. Run after bumping versions in moon.mod.json and committing the
+order. Run after bumping versions in moon.mod and committing the
 release commit.
 
 Options:

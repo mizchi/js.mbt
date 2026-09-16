@@ -8,7 +8,7 @@ Starting in **v0.11.0**, environment-specific bindings live in their own MoonBit
 
 | Module | Scope | Source |
 |--------|-------|--------|
-| [`mizchi/js`](https://github.com/mizchi/js.mbt) | Core FFI, JS built-ins, Web Standard APIs, Node.js | `src/` |
+| [`mizchi/js`](https://github.com/mizchi/js.mbt) | Core FFI, JS built-ins, Web Standard APIs, Node.js | `modules/js/` |
 | [`mizchi/js_browser`](https://github.com/mizchi/js.mbt/tree/main/modules/js_browser) | Browser-only APIs (DOM, canvas, IndexedDB, storage, navigation, service worker, …) | `modules/js_browser/` |
 | [`mizchi/js_deno`](https://github.com/mizchi/js.mbt/tree/main/modules/js_deno) | Deno runtime APIs | `modules/js_deno/` |
 | [`mizchi/js_bun`](https://github.com/mizchi/js.mbt/tree/main/modules/js_bun) | Bun runtime APIs | `modules/js_bun/` |

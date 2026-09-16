@@ -4,14 +4,14 @@
 import { createJsCoreImports } from "./inject.ts";
 
 const WASM_CANDIDATES = [
-  "../../target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm",
-  "../../target/wasm-gc/debug/build/mizchi/js/wasm/wasm.wasm",
-  "../../_build/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm",
-  "../../_build/wasm-gc/debug/build/mizchi/js/wasm/wasm.wasm",
-  "../../target/wasm-gc/release/build/wasm/wasm.wasm",
-  "../../target/wasm-gc/debug/build/wasm/wasm.wasm",
-  "../../_build/wasm-gc/release/build/wasm/wasm.wasm",
-  "../../_build/wasm-gc/debug/build/wasm/wasm.wasm",
+  "../../../../target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm",
+  "../../../../target/wasm-gc/debug/build/mizchi/js/wasm/wasm.wasm",
+  "../../../../_build/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm",
+  "../../../../_build/wasm-gc/debug/build/mizchi/js/wasm/wasm.wasm",
+  "../../../../target/wasm-gc/release/build/wasm/wasm.wasm",
+  "../../../../target/wasm-gc/debug/build/wasm/wasm.wasm",
+  "../../../../_build/wasm-gc/release/build/wasm/wasm.wasm",
+  "../../../../_build/wasm-gc/debug/build/wasm/wasm.wasm",
 ] as const;
 
 async function resolveWasmPath(): Promise<URL> {
