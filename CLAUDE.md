@@ -149,6 +149,40 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/exa
   `pub fn[T] Type::new(`. The generated `.mbti` files are the reliable
   inventory of what is actually public.
 
+## Opaque JS handles: never a zero-field struct
+
+An opaque handle onto a JS object must be declared
+
+```moonbit
+///|
+#external
+pub type GPUDevice
+```
+
+and **never** as a zero-field struct:
+
+```moonbit
+///|
+pub(all) struct GPUDevice {} // WRONG -- silently erases the value
+```
+
+MoonBit treats a zero-field struct as zero-sized, so the value is dropped
+when a function **returns** one. Every `-> GPUDevice` then hands back
+`undefined`, and the `%identity` `as_any` gives `undefined` too. This is how
+the whole `webgpu` package came to be non-functional before 0.14: `gpu()`,
+`requestAdapter()`, `createBuffer()` all returned nothing.
+
+Two reasons it hides:
+
+- Casting in and straight back out **within one function** is inlined and
+  works, so a quick check looks fine. Only a real function boundary loses it.
+- `moon check` is perfectly happy; the types line up. Nothing but a runtime
+  test catches it.
+
+So when binding a JS object, write a test that calls a function returning the
+handle and reads a property back through it. `grep -nE '^pub(\(all\))? struct
+[A-Za-z0-9_]+ \{\}'` finds the bad pattern.
+
 ## Tooling
 
 - `moon fmt` is used to format your code properly.
