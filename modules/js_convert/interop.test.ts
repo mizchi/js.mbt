@@ -24,7 +24,7 @@ import {
 // Import the compiled MoonBit module
 // This runs setup_interop_test() which exports functions to globalThis
 await import(
-  "../../../target/js/release/build/mizchi/js_convert/_interop_test/_interop_test.js"
+  "../../target/js/release/build/mizchi/js_convert/_interop_test/_interop_test.js"
 );
 
 // Get the exported functions from globalThis

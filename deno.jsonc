@@ -7,7 +7,7 @@
     // mizchi/js_convert TypeScript tests. interop.test.ts imports the
     // *release* build of the _interop_test executable, so it needs a
     // different build than "test:deno" and cannot share "test.include".
-    "test:convert": "moon build --target js --release && deno test -A modules/js_convert/src/interop.test.ts modules/js_convert/src/types.test.ts",
+    "test:convert": "moon build --target js --release && deno test -A modules/js_convert/interop.test.ts modules/js_convert/types.test.ts",
     "test:all": "deno task test:deno && deno task test:convert"
   },
   "test": {

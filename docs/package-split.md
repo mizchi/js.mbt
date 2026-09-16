@@ -2,7 +2,7 @@
 
 このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`**, **`mizchi/js_convert`** の 9 モジュールが独立しています。
 
-`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) で、`src/top.mbt` と `src/wasm` だけを抱えます (`internal` / `examples` は `dev/` = `mizchi/js_dev` に移動)。他のモジュールと同じく `modules/js/` に置いてあり、**リポジトリ root に `moon.mod` はありません**。
+`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) で、`top.mbt` と `wasm/` だけを抱えます (`internal` / `examples` は `dev/` = `mizchi/js_dev` に移動)。他のモジュールと同じく `modules/js/` に置いてあり、**リポジトリ root に `moon.mod` はありません**。
 
 ## 背景
 
@@ -183,7 +183,7 @@ members = [
 `mizchi/js_core` 自身の blackbox テスト (`*_test.mbt`) も同じ方法で alias を復元しています — 自パッケージを `for "test"` で明示 alias 付き import できます:
 
 ```
-# modules/js_core/src/moon.pkg
+# modules/js_core/moon.pkg
 import {
   "moonbitlang/async",
   "mizchi/js_core" @core,
@@ -330,7 +330,7 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 | `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js_convert/_interop_test/_interop_test.js` |
 | `target/wasm-gc/release/build/wasm/wasm.wasm`                  | `target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm`               |
 
-本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `modules/js/src/wasm/test_deno.ts`, `modules/js/src/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
+本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `modules/js/wasm/test_deno.ts`, `modules/js/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
 
 ## 開発者向け: 新モジュールを追加する手順
 
@@ -361,10 +361,13 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
      "mizchi/js_web@0.13.x",
    }
 
-   source = "src"
-
    preferred_target = "js"
    ```
+
+   `source` は書きません。既定 (モジュール root) のままにして、パッケージを
+   `modules/<name>/<pkg>/` に直接置きます。`source = "src"` にしても publish
+   アーカイブの範囲は変わらないので (アーカイブはモジュールディレクトリ全体)、
+   階層を一段増やす意味がありません。
 
    書いたあと、本当に全部使っているか確認すること。`moon check` は
    `moon.pkg` の未使用 import は `unused_package` で報告しますが、
@@ -374,13 +377,14 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 
    ```
    members = [
-     ".",
+     "dev",
+     "modules/js",
      "modules/js_browser",
      "modules/<name>",
    ]
    ```
 
-3. 旧 `src/<env>/*` を `modules/<name>/src/*` へ `git mv`
+3. 旧 `src/<env>/*` を `modules/<name>/*` へ `git mv`
 
 4. 全 `moon.pkg` 内の `mizchi/js/<env>/X` → `mizchi/<name>/X` を一括置換
 
@@ -446,11 +450,11 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 ### `mizchi/js` に残しているもの
 
 `src/` の領域別モジュール化はこれで完了で、残る中身は意図的に `mizchi/js`
-に置いたままにしています:
+(`modules/js/`) に置いたままにしています:
 
-- `src/top.mbt` — `js_core` + `js_builtin` を re-export する facade。
-  `mizchi/js` をこの meta パッケージとして root に残す方針で決着しました。
-- `src/wasm` (= `modules/js/src/wasm`) — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
+- `top.mbt` — `js_core` + `js_builtin` を re-export する facade。
+  `mizchi/js` をこの meta パッケージとして維持する方針で決着しました。
+- `wasm/` — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
   切り出さず、このままにする方針です (`docs/wasm-gc-usage.md` 参照)。
 
 `src/internal` と `src/examples` は `mizchi/js_dev` (`dev/`) に移しました。
@@ -460,9 +464,9 @@ dev 専用のものを publish される木の中に置けないからです:
 
 | 移動後                 | 移動元                             | 中身                              |
 | ---------------------- | ---------------------------------- | --------------------------------- |
-| `dev/src/bench`        | `mizchi/js` `src/internal/bench`   | `js_convert` のバンドルサイズ bench |
-| `dev/src/examples`     | `mizchi/js` `src/examples`         | `.mbt.md` のドキュメント           |
-| `dev/src/size/*`       | `mizchi/js_core` `src/_tests/size*` | バンドルサイズ計測 14 パッケージ   |
+| `dev/bench`        | `mizchi/js` `src/internal/bench`   | `js_convert` のバンドルサイズ bench |
+| `dev/examples`     | `mizchi/js` `src/examples`         | `.mbt.md` のドキュメント           |
+| `dev/size/*`       | `mizchi/js_core` `src/_tests/size*` | バンドルサイズ計測 14 パッケージ   |
 
 `src/internal/test_utils` は削除しました。分割前は `src/node` のテストが使って
 いましたが、`js_node` 独立後は import 元がゼロで、機能は CLAUDE.md の

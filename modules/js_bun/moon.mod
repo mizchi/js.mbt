@@ -15,6 +15,4 @@ keywords = [ "js", "bun" ]
 
 description = "bun-specific js bindings"
 
-source = "src"
-
 preferred_target = "js"

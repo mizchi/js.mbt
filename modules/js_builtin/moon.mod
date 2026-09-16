@@ -15,6 +15,4 @@ keywords = [ "js", "builtins", "object", "array", "json" ]
 
 description = "javascript built-in object bindings (Object, Array, JSON, RegExp, Symbol, Proxy, ...)"
 
-source = "src"
-
 preferred_target = "js"

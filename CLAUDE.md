@@ -4,7 +4,7 @@ This is a [MoonBit](https://docs.moonbitlang.com) project.
 
 ## MoonBit Language Reference
 
-If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
+If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/examples/moonbit_cheatsheet.mbt.md) - it covers common patterns, differences from Rust, and key language features.
 
 ## Project Structure
 
@@ -20,8 +20,8 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
 
 - This repo is a workspace of 9 published modules, plus `mizchi/js_dev`
   (`dev/`) which is never published - see [dev/README.md](dev/README.md).
-  `mizchi/js` is a meta package (`src/top.mbt` re-exports `js_core` +
-  `js_builtin`) plus `src/wasm`; it lives in `modules/js/` like every other
+  `mizchi/js` is a meta package (`top.mbt` re-exports `js_core` +
+  `js_builtin`) plus `wasm/`; it lives in `modules/js/` like every other
   module, so its publish archive contains only its own files:
 
   Indentation below means "depends on the module it hangs off":
@@ -43,8 +43,8 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
     |
     +-- mizchi/js_webextensions
     |
-    +-- mizchi/js                     meta: src/top.mbt re-exports core +
-                                      builtin; also src/wasm
+    +-- mizchi/js                     meta: top.mbt re-exports core +
+                                      builtin; also wasm/
     |
     +-- mizchi/js_dev                 dev only, never published: bench,
                                       examples, bundle-size fixtures
@@ -54,7 +54,7 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
   a module cycle and `moon check` rejects it - `for "test"` imports included.
 
   **`mizchi/js` is a leaf: nothing in the workspace may depend on it.** It
-  exists for users who want one import, and `src/top.mbt` is nothing but
+  exists for users who want one import, and `top.mbt` is nothing but
   `pub using` re-exports. A module that reaches `@core.Promise` through
   `@js.Promise` would drag the whole facade - and its `js_convert` dependency -
   into that module's published manifest, so area modules import `js_core` and
@@ -70,8 +70,10 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
   `moon publish --dry-run`):
 
   - `moon.mod` has **no `exclude` or `files` field** - writing an `exclude`
-    key makes `moon` fail to calculate the build plan. `source = "src"` only
-    says where packages live; it does **not** scope the archive.
+    key makes `moon` fail to calculate the build plan. The archive is the whole
+    module directory, and `source` only says where packages live inside it, so
+    it cannot scope the archive either - no module here sets `source`, leaving
+    packages at the module root.
   - `.moonignore` **does** work, and only for packaging - the build still
     compiles everything, so CI keeps working. Each published module has one,
     excluding `*_test.mbt`, `*_wbtest.mbt` and the `_tests/` / `bun_test/` /
@@ -176,10 +178,10 @@ async test "Socket test example" {
 **Rules:**
 - Place `defer` statement **immediately after** resource creation (server, socket, etc.)
 - This applies to all async tests in:
-  - `modules/js_node/src/http/*_test.mbt`
-  - `modules/js_node/src/https/*_test.mbt`
-  - `modules/js_node/src/http2/*_test.mbt`
-  - `modules/js_node/src/net/*_test.mbt`
+  - `modules/js_node/http/*_test.mbt`
+  - `modules/js_node/https/*_test.mbt`
+  - `modules/js_node/http2/*_test.mbt`
+  - `modules/js_node/net/*_test.mbt`
 - The `defer` ensures cleanup even if the test fails or times out
 - You may still call explicit cleanup (e.g., `server.close(callback=...)`) for verification purposes, but `defer` is mandatory for safety
 
