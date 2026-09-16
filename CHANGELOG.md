@@ -151,6 +151,30 @@ The package went from **no tests to 35**, covering the flag values, descriptor
 shapes, accessors and feature-detection paths against stand-in objects, since
 `moon test` has no GPU. It also gained a README.
 
+### Fixed — published archives no longer warn about unused packages
+
+Installing any 0.13.0 module and checking it produced `unused_package`
+warnings — **34 of them across 27 packages**, in every module. Each
+`.moonignore` stripped `*_test.mbt` and `*_wbtest.mbt`, but `moon.pkg` ships
+verbatim including its `import { .. } for "test"` blocks, so those imports had
+nothing left that used them. Two were a module importing itself
+(`js_core` → `mizchi/js_core`, `js_convert` → `mizchi/js_convert`).
+
+The archives now ship their test files, as `moonbitlang/core` does, and the
+extracted archives check with **zero warnings**. Test *packages* are still
+excluded, but as whole directories (`_tests/`, `bun_test/`,
+`_interop_test/`) — that takes each `moon.pkg` along with its sources, so no
+import is left dangling.
+
+This costs archive size: js_node 110 → 145 KB, js_web 92 → 120 KB,
+js_builtin 60 → 88 KB, js_browser 101 → 121 KB, js_core 19 → 36 KB. The 0.13.0
+packaging win was never the test globs — it was not shipping sibling modules,
+which is unaffected. Note the shipped tests need the repo's npm
+devDependencies (`canvas`, `happy-dom`, `jsdom`, …) to actually run.
+
+These warnings were only ever visible in an extracted archive: `moon` does not
+report warnings from registry dependencies, so consumers did not see them.
+
 ### Fixed
 
 - Several module READMEs documented constructors that do not exist

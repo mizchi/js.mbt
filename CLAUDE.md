@@ -76,8 +76,28 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/exa
     packages at the module root.
   - `.moonignore` **does** work, and only for packaging - the build still
     compiles everything, so CI keeps working. Each published module has one,
-    excluding `*_test.mbt`, `*_wbtest.mbt` and the `_tests/` / `bun_test/` /
-    `_interop_test/` harness packages.
+    excluding the `_tests/` / `bun_test/` / `_interop_test/` harness packages
+    as whole directories.
+  - **Do not exclude `*_test.mbt` / `*_wbtest.mbt`.** `moon.pkg` ships
+    verbatim, `import { .. } for "test"` blocks included, so stripping the test
+    files leaves those imports with nothing that uses them and every archive
+    reports `unused_package` - 34 warnings across 27 packages when they were
+    stripped, two of them a module importing itself. `moonbitlang/core` ships
+    its 352 test files for the same reason. Exclude test *packages* as whole
+    directories instead, which takes each `moon.pkg` along with its sources and
+    leaves no import dangling. Shipping tests costs +19% to +86% per archive
+    (js_core nearly doubles); the big packaging win was never the test globs,
+    it was not shipping sibling modules.
+
+    Note that the warnings do not show up in the repo, only in an extracted
+    archive - `moon` does not report warnings from registry dependencies, which
+    is also why a consumer never sees them. To check the real thing:
+
+    ```bash
+    moon -C modules/js_node package   # writes _build/publish/*.zip
+    # extract every archive into one directory, write a moon.work listing them,
+    # then `moon check --target js` there
+    ```
   - **Its patterns resolve against the workspace root, not the module.** A
     directory pattern naming a sibling - `modules/` in the repo-root
     `.moonignore`, say - silently produces an *empty* archive for every module

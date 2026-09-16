@@ -1,15 +1,20 @@
 # Applies to `moon publish` / `moon package` only -- the build is unaffected,
-# so CI still compiles the test harnesses below from the repo.
+# so CI still compiles everything from the repo.
 #
 # Patterns resolve against the WORKSPACE root, not this module. A directory
 # pattern naming a sibling (e.g. "modules/") therefore empties that module's
-# archive, silently. Keep this file to test code only.
+# archive, silently. Keep this file to whole test-harness directories.
+#
+# `*_test.mbt` / `*_wbtest.mbt` are deliberately NOT excluded. `moon.pkg` ships
+# verbatim, `import { .. } for "test"` blocks included, so stripping the test
+# files leaves those imports with nothing that uses them and every archive
+# reports `unused_package` -- 34 warnings across 27 packages when we did strip
+# them, two of those a module importing itself. `moonbitlang/core` ships its
+# tests for the same reason.
 
-# blackbox and whitebox tests
-*_test.mbt
-*_wbtest.mbt
-
-# test-harness packages (consumers never build these)
+# Test-harness packages, driven from outside `moon test` (deno task / bun test)
+# and not buildable by a consumer. Excluded as whole directories, so each
+# `moon.pkg` goes with its sources and no import is left dangling.
 _tests/
 bun_test/
 _interop_test/
