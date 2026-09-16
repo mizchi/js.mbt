@@ -89,24 +89,31 @@ This package provides comprehensive bindings to **Web Standard APIs** - the comm
 
 ## Installation
 
-Add specific sub-packages to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_web/blob",
-    "mizchi/js_web/crypto",
-    "mizchi/js_web/encoding",
-    "mizchi/js_web/event",
-    "mizchi/js_web/http",
-    "mizchi/js_web/streams",
-    "mizchi/js_web/url",
-    "mizchi/js_web/webassembly",
-    "mizchi/js_web/webgpu",
-    "mizchi/js_web/websocket",
-    "mizchi/js_web/worker"
-  ]
+```
+import {
+  "mizchi/js_core@0.13.0",
+  "mizchi/js_web@0.13.0",
+}
+```
+
+...and pick the sub-packages you need in the `moon.pkg` of the package that uses them:
+
+```
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_web/blob",
+  "mizchi/js_web/crypto",
+  "mizchi/js_web/encoding",
+  "mizchi/js_web/event",
+  "mizchi/js_web/http",
+  "mizchi/js_web/streams",
+  "mizchi/js_web/url",
+  "mizchi/js_web/webassembly",
+  "mizchi/js_web/webgpu",
+  "mizchi/js_web/websocket",
+  "mizchi/js_web/worker",
 }
 ```
 

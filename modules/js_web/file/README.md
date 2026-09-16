@@ -4,14 +4,19 @@ File API for file handling in the browser.
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_browser/file"
-  ]
+```
+import {
+  "mizchi/js_browser@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_browser/file",
 }
 ```
 

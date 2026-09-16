@@ -45,16 +45,12 @@ pub fn console_log(msg : ExternRef) -> Unit {
 
 ### js-string-builtins
 
-`moon.pkg.json` で有効化:
+`moon.pkg` で有効化:
 
-```json
-{
-  "link": {
-    "wasm-gc": {
-      "use-js-builtin-string": true
-    }
-  }
-}
+```
+options(
+  link: { "wasm-gc": { "use-js-builtin-string": true } },
+)
 ```
 
 有効化すると:
@@ -93,22 +89,22 @@ const { instance } = await WebAssembly.instantiateStreaming(
 
 ```
 src/mypackage/
-├── moon.pkg.json        # targets 設定
+├── moon.pkg             # targets 設定
 ├── types.mbt            # 共通の型定義
 ├── mypackage_js.mbt     # js ターゲット用実装
 └── mypackage_wasm.mbt   # wasm-gc ターゲット用実装
 ```
 
-```json
-// moon.pkg.json
-{
-  "targets": {
-    "mypackage_js.mbt": ["js"],
-    "mypackage_wasm.mbt": ["wasm-gc"]
+```
+# moon.pkg
+options(
+  targets: {
+    "mypackage_js.mbt": [ "js" ],
+    "mypackage_wasm.mbt": [ "wasm-gc" ],
   },
-  "link": {
+  link: {
     "wasm-gc": {
-      "use-js-builtin-string": true
+      "use-js-builtin-string": true,
     }
   }
 }

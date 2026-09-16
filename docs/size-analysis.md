@@ -1,5 +1,9 @@
 # Bundle Size Analysis
 
+> **注**: この文書は計測当時の設定をそのまま記録しています。`moon.pkg.json` /
+> `moon.mod.json` は現在 `moon.pkg` / `moon.mod` (JSON ではない) に置き換わって
+> います。現在の書き方は [guide.md](guide.md) を参照してください。
+
 This document analyzes the bundle size of MoonBit JavaScript output, identifying the main contributors to code size and potential optimization opportunities.
 
 **Note:** The analyzed output is after terser DCE (Dead Code Elimination) with compress enabled. Unused code has already been removed.

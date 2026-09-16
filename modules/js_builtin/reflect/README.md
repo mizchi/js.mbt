@@ -4,14 +4,21 @@ Reflection API with JavaScript's Reflect object.
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_builtin/reflect"
-  ]
+```
+import {
+  "mizchi/js_builtin@0.13.0",
+  "mizchi/js_core@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_builtin/reflect",
 }
 ```
 

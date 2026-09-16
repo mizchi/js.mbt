@@ -271,15 +271,13 @@ build plan の計算に失敗します:
 
 ### 1. 依存に `mizchi/js_browser` を追加
 
-`moon.mod.json`:
+`moon.mod`:
 
-```json
-{
-  "deps": {
-    "mizchi/js": "0.10.x",
-+   "mizchi/js_browser": "0.10.x"
-  }
-}
+```diff
+ import {
+   "mizchi/js_core@0.13.x",
++  "mizchi/js_browser@0.13.x",
+ }
 ```
 
 ### 2. import を書き換え

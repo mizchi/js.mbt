@@ -15,18 +15,21 @@ MoonBit WASM-GC ターゲットで `@core` パッケージを使用するガイ�
 moon add mizchi/js
 ```
 
-### 2. moon.pkg.json の設定
+### 2. moon.pkg の設定
 
-```json
-{
-  "import": ["mizchi/js_core"],
-  "link": {
+```
+import {
+  "mizchi/js_core" @core,
+}
+
+options(
+  link: {
     "wasm-gc": {
       "use-js-builtin-string": true,
-      "exports": ["your_function"]
-    }
-  }
-}
+      "exports": [ "your_function" ],
+    },
+  },
+)
 ```
 
 ### 3. inject.ts のインポート

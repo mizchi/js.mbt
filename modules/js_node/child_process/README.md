@@ -6,16 +6,21 @@ Child process creation and management APIs
 
 ## Installation
 
-Add to your `moon.pkg.json`:
+Add to your `moon.mod`:
 
-```json
-{
-  "import": [
-    "mizchi/js",
-    "mizchi/js_node/events",
-    "mizchi/js_node/buffer",
-    "mizchi/js_node/child_process"
-  ]
+```
+import {
+  "mizchi/js_node@0.13.0",
+}
+```
+
+...and to the `moon.pkg` of the package that uses it:
+
+```
+import {
+  "mizchi/js_node/events",
+  "mizchi/js_node/buffer",
+  "mizchi/js_node/child_process",
 }
 ```
 
