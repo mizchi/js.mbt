@@ -2,52 +2,84 @@
 
 Comprehensive JavaScript/ FFI bindings for MoonBit, supporting multiple runtimes and platforms.
 
-## Package Layout
+## Import only what you need
 
-Starting in **v0.11.0**, environment-specific bindings live in their own MoonBit modules under the `mizchi/js_*` namespace. The core `mizchi/js` module covers JavaScript built-ins, Web Standard APIs, and Node.js — pull in the additional modules only for the runtimes you target.
+**0.13.0 split this library into nine modules.** Depend on the ones your
+target actually has, and nothing else — a Cloudflare Worker no longer drags in
+`node:fs`, a CLI no longer drags in the DOM.
 
-| Module | Scope | Source |
-|--------|-------|--------|
-| [`mizchi/js`](https://github.com/mizchi/js.mbt) | Core FFI, JS built-ins, Web Standard APIs, Node.js | `modules/js/` |
-| [`mizchi/js_browser`](https://github.com/mizchi/js.mbt/tree/main/modules/js_browser) | Browser-only APIs (DOM, canvas, IndexedDB, storage, navigation, service worker, …) | `modules/js_browser/` |
-| [`mizchi/js_deno`](https://github.com/mizchi/js.mbt/tree/main/modules/js_deno) | Deno runtime APIs | `modules/js_deno/` |
-| [`mizchi/js_bun`](https://github.com/mizchi/js.mbt/tree/main/modules/js_bun) | Bun runtime APIs | `modules/js_bun/` |
-| [`mizchi/js_webextensions`](https://github.com/mizchi/js.mbt/tree/main/modules/js_webextensions) | WebExtensions (`chrome.*` / `browser.*`) | `modules/js_webextensions/` |
-| [`mizchi/npm_typed`](https://github.com/mizchi/npm_typed.mbt) | NPM package bindings (React, Hono, Zod, AI SDK, …) | separate repo |
-| [`mizchi/cloudflare.mbt`](https://github.com/mizchi/cloudflare.mbt) | Cloudflare Workers bindings | separate repo |
+| Module | Scope |
+|--------|-------|
+| [`mizchi/js_core`](modules/js_core/README.md) | `Any`, `Promise`, `Nullable`, the raw FFI — everything depends on this |
+| [`mizchi/js_builtin`](modules/js_builtin/README.md) | JS built-ins: `Object`, `Array`, `JSON`, `RegExp`, `Date`, `Map`/`Set`, `ArrayBuffer`, … |
+| [`mizchi/js_web`](modules/js_web/README.md) | Web Standards: `fetch`, `Request`/`Response`, `URL`, Streams, `Blob`, `File`, `WebSocket`, Crypto, Workers |
+| [`mizchi/js_node`](modules/js_node/README.md) | Node.js: `fs`, `http`, `path`, `stream`, `child_process`, `sqlite`, … |
+| [`mizchi/js_browser`](modules/js_browser/README.md) | Browser-only: DOM, canvas, IndexedDB, storage, navigation, service worker |
+| [`mizchi/js_deno`](modules/js_deno/README.md) | Deno runtime APIs |
+| [`mizchi/js_bun`](modules/js_bun/README.md) | Bun runtime APIs |
+| [`mizchi/js_webextensions`](modules/js_webextensions/README.md) | WebExtensions (`chrome.*` / `browser.*`) |
+| [`mizchi/js_convert`](modules/js_convert/README.md) | MoonBit ⇔ JS value conversion (`Map`/`Json`/`Option`/`Result` ⇔ `Any`) |
+| [`mizchi/js`](modules/js/README.mbt.md) | Meta package — re-exports `js_core` + `js_builtin` for when you want one import |
 
-See [`docs/package-split.md`](docs/package-split.md) for the migration steps and the multi-module layout.
-
-## Version Requirements
-
-**v0.10.0+** requires MoonBit nightly `2025-12-09` or later for ESM `#module` directive support:
+Dependencies only ever point toward `js_core`:
 
 ```
-moon 0.1.20251209 (8d6e473 2025-12-09)
-moonc v0.6.34+7262739a4-nightly (2025-12-09)
-moonrun 0.1.20251209 (8d6e473 2025-12-09)
+js_core <- js_builtin <- js_web <- js_node / js_browser / js_deno
+                     <- js_bun
+        <- js_convert
+        <- js_webextensions
 ```
 
-If you need stable toolchain compatibility, use **v0.8.x**.
+You only declare what you import directly; the modules those pull in resolve
+on their own.
+
+Bindings that live outside this repo:
+
+| Module | Scope |
+|--------|-------|
+| [`mizchi/npm_typed`](https://github.com/mizchi/npm_typed.mbt) | NPM package bindings (React, Hono, Zod, AI SDK, …) |
+| [`mizchi/cloudflare.mbt`](https://github.com/mizchi/cloudflare.mbt) | Cloudflare Workers bindings |
+
+📖 **[User Guide](docs/guide.md)** — which modules to pick, aliases, per-runtime
+recipes, and the 0.12.x → 0.13.0 migration table.
 
 ## Installation
 
 ```bash
-$ moon add mizchi/js
-# Pull in additional runtimes as needed:
-$ moon add mizchi/js_browser
-$ moon add mizchi/js_deno
-$ moon add mizchi/js_bun
-$ moon add mizchi/js_webextensions
+moon add mizchi/js_core
+moon add mizchi/js_web       # ...and whatever else you need
 ```
 
-Add to your `moon.pkg.json`:
+`moon.mod`:
 
-```json
-{
-  "import": ["mizchi/js_core", "mizchi/js"]
+```
+import {
+  "mizchi/js_core@0.13.0",
+  "mizchi/js_web@0.13.0",
 }
 ```
+
+`moon.pkg` — the default alias is the last path segment, so give the
+module-root packages a short one:
+
+```
+import {
+  "mizchi/js_core" @core,
+  "mizchi/js_web/http",
+}
+```
+
+## Version Requirements
+
+Developed and CI-tested against:
+
+```
+moon 0.1.20260915
+moonc v0.10.13
+```
+
+CI tracks the latest MoonBit release, so a recent toolchain is the supported
+configuration. For the older stable toolchain, use **v0.8.x**.
 
 ## Quick Links
 
@@ -67,7 +99,8 @@ Add to your `moon.pkg.json`:
 - [FFI Best Practice](https://github.com/mizchi/js.mbt/blob/main/dev/examples/ffi_bestpractice.mbt.md) - Best practice for MoonBit JavaScript FFI
 - [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/dev/examples/escape_hatch.mbt.md) - Advanced FFI techniques
 - [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/dev/examples/moonbit_for_ts_user.mbt.md) - Migration guide from TypeScript
-- [Package Split Guide](docs/package-split.md) - moon.work multi-module layout and migration steps
+- [User Guide](docs/guide.md) - Picking modules, aliases, per-runtime recipes, 0.12.x migration
+- [Package Split Guide](docs/package-split.md) - moon.work multi-module layout and the split rationale
 
 ## Supported Modules
 
