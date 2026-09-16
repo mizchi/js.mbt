@@ -28,6 +28,7 @@ Before 0.13.0 you got both either way.
 | A Deno program | `+ mizchi/js_deno` |
 | A Bun program | `+ mizchi/js_bun` |
 | A browser extension (`chrome.*` / `browser.*`) | `+ mizchi/js_webextensions` |
+| Neural-network inference (`navigator.ml`, WebNN) | `+ mizchi/js_web` |
 | Passing `Map` / `Json` / `Option` / `Result` across the FFI boundary | `+ mizchi/js_convert` |
 
 You do not have to list the modules those pull in themselves — see
@@ -61,7 +62,7 @@ mizchi/js_core                    Any, Promise, Nullable, raw FFI
 | ------ | -------- |
 | `mizchi/js_core` | the module root — import it as `mizchi/js_core` |
 | `mizchi/js_builtin` | `array` `arraybuffer` `atomics` `bigint` `collection` `date` `disposable` `error` `function` `global` `iterator` `json` `math` `object` `proxy` `reflect` `regexp` `string` `symbol` `weak` |
-| `mizchi/js_web` | `blob` `console` `crypto` `encoding` `event` `file` `http` `message` `performance` `streams` `trusted_types` `url` `webassembly` `webgpu` `websocket` `worker` |
+| `mizchi/js_web` | `blob` `console` `crypto` `encoding` `event` `file` `http` `message` `nn` `performance` `streams` `trusted_types` `url` `webassembly` `webgpu` `websocket` `worker` |
 | `mizchi/js_node` | `assert` `assert_strict` `async_hooks` `buffer` `child_process` `dns` `events` `fs` `fs_promises` `http` `http2` `https` `inspector` `module` `net` `os` `path` `process` `readline` `readline_promises` `sqlite` `stream` `stream_promises` `test` `tls` `tty` `url` `util` `v8` `vm` `wasi` `worker_threads` `zlib` |
 | `mizchi/js_browser` | `canvas` `dom` `history` `indexeddb` `location` `navigation` `navigator` `observer` `serviceworker` `storage` `test_utils` |
 | `mizchi/js_deno` | the module root |

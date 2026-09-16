@@ -1,0 +1,106 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mizchi/js_web/nn"
+
+import {
+  "mizchi/js_core",
+}
+
+// Values
+pub fn context_options(Bool, String) -> @js_core.Any
+
+pub fn descriptor(String, Array[Int], writable? : Bool, readable? : Bool) -> @js_core.Any
+
+pub fn float32_array(Array[Float]) -> @js_core.Any
+
+pub fn float32_values(@js_core.Any) -> Array[Float]
+
+pub fn int32_array(Array[Int]) -> @js_core.Any
+
+pub fn int32_values(@js_core.Any) -> Array[Int]
+
+pub fn ml() -> ML?
+
+pub fn named_values(Array[String], Array[@js_core.Any]) -> @js_core.Any
+
+pub fn same_builder(MLGraphBuilder, MLGraphBuilder) -> Bool
+
+pub fn uses_accelerated_contract() -> Bool
+
+// Errors
+
+// Types and methods
+#external
+pub type ML
+pub fn ML::as_any(Self) -> @js_core.Any
+pub async fn ML::create_context(Self, @js_core.Any) -> MLContext
+
+#external
+pub type MLContext
+pub fn MLContext::as_any(Self) -> @js_core.Any
+pub async fn MLContext::create_tensor(Self, Array[Int], Bool, Bool) -> MLTensor
+pub async fn MLContext::create_tensor_of(Self, String, Array[Int], Bool, Bool) -> MLTensor
+pub fn MLContext::destroy(Self) -> Unit
+pub fn MLContext::dispatch_many(Self, MLGraph, Array[String], Array[MLTensor], Array[String], Array[MLTensor]) -> Unit
+pub fn MLContext::dispatch_single(Self, MLGraph, String, MLTensor, String, MLTensor) -> Unit
+pub fn MLContext::has_op_support_limits(Self) -> Bool
+pub fn MLContext::has_tensor_io(Self) -> Bool
+pub fn MLContext::op_support_limits(Self) -> @js_core.Any?
+pub fn MLContext::preferred_input_layout(Self) -> String
+pub async fn MLContext::read_tensor(Self, MLTensor) -> Array[Float]
+pub async fn MLContext::read_tensor_raw(Self, MLTensor) -> @js_core.Any
+pub fn MLContext::supported_operators(Self, Array[String]) -> Array[String]
+pub fn MLContext::write_tensor(Self, MLTensor, Array[Float]) -> Unit
+pub fn MLContext::write_tensor_raw(Self, MLTensor, @js_core.Any) -> Unit
+
+#external
+pub type MLGraph
+pub fn MLGraph::as_any(Self) -> @js_core.Any
+pub fn MLGraph::destroy(Self) -> Unit
+
+#external
+pub type MLGraphBuilder
+pub fn MLGraphBuilder::MLGraphBuilder(MLContext) -> Self
+pub fn MLGraphBuilder::add(Self, MLOperand, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::as_any(Self) -> @js_core.Any
+pub fn MLGraphBuilder::average_pool2d(Self, MLOperand, Array[Int], Array[Int], Array[Int], Array[Int], String) -> MLOperand
+pub async fn MLGraphBuilder::build(Self, String, MLOperand) -> MLGraph
+pub async fn MLGraphBuilder::build_many(Self, Array[String], Array[MLOperand]) -> MLGraph
+pub fn MLGraphBuilder::clamp(Self, MLOperand, Float, Float) -> MLOperand
+pub fn MLGraphBuilder::concat(Self, Array[MLOperand], Int) -> MLOperand
+pub fn MLGraphBuilder::constant_float32(Self, Array[Int], Array[Float]) -> MLOperand
+pub fn MLGraphBuilder::constant_int32(Self, Array[Int], Array[Int]) -> MLOperand
+pub fn MLGraphBuilder::constant_raw(Self, String, Array[Int], @js_core.Any) -> MLOperand
+pub fn MLGraphBuilder::conv2d(Self, MLOperand, MLOperand, Array[Int], Array[Int], Array[Int], Int, String, String) -> MLOperand
+pub fn MLGraphBuilder::div(Self, MLOperand, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::gather(Self, MLOperand, MLOperand, Int) -> MLOperand
+pub fn MLGraphBuilder::gelu(Self, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::input(Self, String, Array[Int]) -> MLOperand
+pub fn MLGraphBuilder::input_of(Self, String, String, Array[Int]) -> MLOperand
+pub fn MLGraphBuilder::layer_normalization(Self, MLOperand, MLOperand, MLOperand, Array[Int], Float) -> MLOperand
+pub fn MLGraphBuilder::matmul(Self, MLOperand, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::max_pool2d(Self, MLOperand, Array[Int], Array[Int], Array[Int], Array[Int], String) -> MLOperand
+pub fn MLGraphBuilder::mul(Self, MLOperand, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::op(Self, String, Array[@js_core.Any]) -> MLOperand
+pub fn MLGraphBuilder::op_with_options(Self, String, Array[@js_core.Any], @js_core.Any) -> MLOperand
+pub fn MLGraphBuilder::reduce_mean(Self, MLOperand, Array[Int], Bool) -> MLOperand
+pub fn MLGraphBuilder::relu(Self, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::reshape(Self, MLOperand, Array[Int]) -> MLOperand
+pub fn MLGraphBuilder::sigmoid(Self, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::slice(Self, MLOperand, Array[Int], Array[Int]) -> MLOperand
+pub fn MLGraphBuilder::softmax(Self, MLOperand, Int) -> MLOperand
+pub fn MLGraphBuilder::sub(Self, MLOperand, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::tanh(Self, MLOperand) -> MLOperand
+pub fn MLGraphBuilder::transpose(Self, MLOperand, Array[Int]) -> MLOperand
+
+#external
+pub type MLOperand
+pub fn MLOperand::as_any(Self) -> @js_core.Any
+
+#external
+pub type MLTensor
+pub fn MLTensor::as_any(Self) -> @js_core.Any
+pub fn MLTensor::destroy(Self) -> Unit
+
+// Type aliases
+
+// Traits
