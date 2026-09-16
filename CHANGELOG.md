@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.1] — `mizchi/js_web` only
+
+A point release of **`mizchi/js_web` alone**, to get the new `nn` package and
+the WebGPU fix out without a full workspace release. Every other module stays
+at 0.13.0, so the rest of the notes below remain unreleased.
+
+Only `js_web` is bumped because a module dependency spec is a **minimum, not an
+exact pin** — `mizchi/js_node@0.13.0` requires js_web ≥ 0.13.0, which 0.13.1
+satisfies, so nothing else needs republishing. (Verified: with both 0.20.5 and
+0.20.0 required, moon resolves 0.20.5.) `js_web` at this revision also needs
+nothing newer than the published `js_core@0.13.0` / `js_builtin@0.13.0` — it
+makes no cross-module call to the new constructors, in its own code or its
+tests.
+
+What ships in it, from the notes below:
+
+- **`mizchi/js_web/nn`** — the WebNN standard API.
+- **The opaque-handle fix**, which is what made `webgpu` non-functional, plus
+  `trusted_types`. The two `dom` event types wait for a `js_browser` release;
+  the bug is latent there.
+- **WebGPU brought up to the current spec** — all 35 `GPU*` interfaces.
+- **`js_web`'s `Type(..)` constructors**, with the old `::new` spellings kept
+  as deprecated aliases. The other modules' constructors are not released yet,
+  so `@url.URL(..)` works while `@collection.JsMap(..)` does not until they
+  are.
+- **The packaging fix**, so a `js_web` install checks without
+  `unused_package` warnings.
+
+`scripts/release.ts` no longer requires every module to be at the same
+version; it reads each `moon.mod` and skips whatever is already on mooncakes,
+so `--only=js_web` or a plain run both publish just this one.
+
 ## [Unreleased]
 
 ### Changed — constructors are now `Type(..)`, not `Type::new(..)`

@@ -9,7 +9,7 @@ Add to your `moon.mod`:
 ```
 import {
   "mizchi/js_core@0.13.0",
-  "mizchi/js_web@0.13.0",
+  "mizchi/js_web@0.13.1",
 }
 ```
 

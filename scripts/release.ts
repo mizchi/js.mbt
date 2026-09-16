@@ -19,8 +19,11 @@
  *      mizchi/js_node
  *      mizchi/js_webextensions
  *
- * All workspace modules must already be bumped to the same version in their
- * own `moon.mod` (see CHANGELOG / release commit).
+ * Each module publishes at the version in its own `moon.mod`; they need not
+ * match. A dependency spec like "mizchi/js_web@0.13.0" is a minimum rather
+ * than an exact pin, so a point release of one module still satisfies
+ * dependents pinned at the older version. Anything already on mooncakes is
+ * skipped, so bumping one `moon.mod` and re-running publishes just that one.
  *
  * Usage:
  *   ./scripts/release.ts                # publish everything
@@ -184,10 +187,17 @@ Options:
   --skip-root       Skip publishing the root (use when mizchi/js is
                     already on mooncakes and only the *_browser/_deno/
                     _bun/_webextensions modules need a retry)
-  --only=<name>     Publish a single module. Accepts a module name
-                    (js_deno) or path (modules/js_deno). Skips moon
-                    update; combine with --skip-root if needed.
-  -h, --help        Show this help`,
+  --only=<name>     Publish a single module at the version in its own
+                    moon.mod. Accepts a module name (js_deno) or path
+                    (modules/js_deno). Skips moon update; combine with
+                    --skip-root if needed.
+  -h, --help        Show this help
+
+Module versions are read per module and need not match. A dependency
+spec like "mizchi/js_web@0.13.0" is a minimum, not an exact pin, so a
+point release of one module satisfies dependents pinned at the older
+version. Modules already on mooncakes are skipped, so re-running after
+bumping a single moon.mod publishes only that module.`,
   );
 }
 
@@ -207,23 +217,25 @@ async function main(): Promise<void> {
 
   const all = [...FOUNDATION, ROOT, WEB, ...MODULES];
 
-  // Sanity: every workspace module must be at the same version.
+  // Each module publishes at the version in its own moon.mod. They do not
+  // have to match: a module dependency spec like "mizchi/js_web@0.13.0" is a
+  // *minimum*, not an exact pin (verified: with 0.20.5 and 0.20.0 both
+  // required, moon resolves 0.20.5), so a point release of one module still
+  // satisfies dependents pinned at the older version. `publishOne` skips
+  // anything already on mooncakes, so a lockstep release and a single-module
+  // release run the same way.
   const versions = new Map<string, string>(
     all.map((m) => [m.label, readVersion(m.path)]),
   );
-  const rootVersion = versions.get(ROOT.label)!;
-  const mismatched = [...versions.entries()].filter(
-    ([, v]) => v !== rootVersion,
-  );
-  if (mismatched.length > 0) {
-    console.error("Version mismatch across workspace modules:");
-    for (const [k, v] of versions) console.error(`  ${k}: ${v}`);
-    console.error(
-      "Bump every moon.mod to the same version before releasing.",
-    );
-    process.exit(1);
+  const distinct = new Set(versions.values());
+  if (distinct.size === 1) {
+    console.log(`Releasing workspace at v${[...distinct][0]}`);
+  } else {
+    console.log("Releasing per-module versions:");
+    for (const [k, v] of versions) console.log(`  ${k}: ${v}`);
+    console.log("(modules already on mooncakes are skipped)");
   }
-  console.log(`Releasing workspace at v${rootVersion}`);
+  const versionOf = (m: Mod): string => versions.get(m.label)!;
 
   if (opts.only !== null) {
     const want = opts.only;
@@ -236,7 +248,7 @@ async function main(): Promise<void> {
       console.error(`Available: ${all.map((m) => m.label).join(", ")}`);
       process.exit(1);
     }
-    await publishOne(target, rootVersion, opts.dryRun);
+    await publishOne(target, versionOf(target), opts.dryRun);
     console.log(`\nDone. (--only=${target.label})`);
     return;
   }
@@ -244,12 +256,12 @@ async function main(): Promise<void> {
   // js_core, then the modules that only need js_core. The root module
   // imports all of them.
   for (const mod of FOUNDATION) {
-    await publishOne(mod, rootVersion, opts.dryRun);
+    await publishOne(mod, versionOf(mod), opts.dryRun);
   }
   moonUpdate(opts.dryRun);
 
   if (!opts.skipRoot) {
-    await publishOne(ROOT, rootVersion, opts.dryRun);
+    await publishOne(ROOT, versionOf(ROOT), opts.dryRun);
     moonUpdate(opts.dryRun);
   } else {
     console.log(`\n[--skip-root] skipping ${ROOT.label} publish`);
@@ -257,16 +269,18 @@ async function main(): Promise<void> {
 
   // js_browser / js_deno / js_node depend on mizchi/js_web, so it has to be
   // on mooncakes (and in the refreshed index) before they are published.
-  await publishOne(WEB, rootVersion, opts.dryRun);
+  await publishOne(WEB, versionOf(WEB), opts.dryRun);
   moonUpdate(opts.dryRun);
 
   for (const mod of MODULES) {
-    await publishOne(mod, rootVersion, opts.dryRun);
+    await publishOne(mod, versionOf(mod), opts.dryRun);
   }
 
-  console.log(`\nAll modules published at v${rootVersion}.`);
-  console.log(`Tag manually with:`);
-  console.log(`  git tag v${rootVersion} && git push origin v${rootVersion}`);
+  console.log(`\nAll modules published.`);
+  for (const [k, v] of versions) console.log(`  ${k}@${v}`);
+  const tag = versions.get(ROOT.label)!;
+  console.log(`\nTag manually with:`);
+  console.log(`  git tag v${tag} && git push origin v${tag}`);
 }
 
 main().catch((e) => {
