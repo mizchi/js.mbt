@@ -12,7 +12,7 @@ pub(open) trait Transferable {
 /// cast extern or prebuilt js
 /// ```
 /// fn _worker() -> Unit {
-///   let worker = Worker::new("./worker_script.js", type_="module")
+///   let worker = Worker("./worker_script.js", type_="module")
 ///   // or: extern "js" fn get_my_worker() -> Worker = "() => new Worker('./worker_script.js', { type: 'module' })"
 ///   worker.post_message(@convert.from_json({
 ///     "type": "greeting"
@@ -44,7 +44,7 @@ extern "js" fn ffi_new_worker(
   #| (script_url) => new Worker(script_url)
 
 ///|
-pub fn Worker::new(script_url : String, type_? : String) -> Worker {
+pub fn Worker::Worker(script_url : String, type_? : String) -> Worker {
   let option : @core.Any = if type_ is Some(v) {
     @core.from_entries([("type", @core.any(v))]).cast()
   } else {

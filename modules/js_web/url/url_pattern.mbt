@@ -54,7 +54,7 @@ pub fn URLPatternResult::as_any(self : URLPatternResult) -> @core.Any = "%identi
 
 ///|
 /// Create a new URLPattern from a pattern string
-pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
+pub fn URLPattern::URLPattern(pattern : String, base? : String) -> URLPattern {
   let pattern_val = @core.any(pattern)
   match base {
     Some(b) => @core.identity(ffi_new_url_pattern_with_base(pattern_val, b))
@@ -64,8 +64,7 @@ pub fn URLPattern::new(pattern : String, base? : String) -> URLPattern {
 
 ///|
 /// Create a new URLPattern from a pattern object
-#alias(new_from_object)
-pub fn URLPattern::newFromObject(
+pub fn URLPattern::from_object(
   pattern : @core.Any,
   base? : String,
 ) -> URLPattern {

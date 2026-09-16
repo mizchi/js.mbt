@@ -61,7 +61,7 @@ extern "js" fn ffi_new_memory(descriptor : @core.Any) -> WebAssemblyMemory =
 
 ///|
 /// Create a new WebAssembly memory
-pub fn WebAssemblyMemory::new(
+pub fn WebAssemblyMemory::WebAssemblyMemory(
   descriptor : MemoryDescriptor,
 ) -> WebAssemblyMemory {
   let entries : Array[(String, @core.Any)] = []
@@ -121,7 +121,9 @@ extern "js" fn ffi_new_table(descriptor : @core.Any) -> WebAssemblyTable =
 
 ///|
 /// Create a new WebAssembly table
-pub fn WebAssemblyTable::new(descriptor : TableDescriptor) -> WebAssemblyTable {
+pub fn WebAssemblyTable::WebAssemblyTable(
+  descriptor : TableDescriptor,
+) -> WebAssemblyTable {
   let entries : Array[(String, @core.Any)] = []
   entries.push(("element", @core.any(descriptor.element)))
   entries.push(("initial", @core.any(descriptor.initial)))
@@ -167,7 +169,7 @@ extern "js" fn ffi_new_global(
 
 ///|
 /// Create a new WebAssembly global
-pub fn WebAssemblyGlobal::new(
+pub fn WebAssemblyGlobal::WebAssemblyGlobal(
   descriptor : GlobalDescriptor,
   value : @core.Any,
 ) -> WebAssemblyGlobal {

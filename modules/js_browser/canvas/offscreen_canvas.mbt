@@ -17,7 +17,10 @@ extern "js" fn ffi_new_offscreen_canvas(
   #|(width, height) => new OffscreenCanvas(width, height)
 
 ///|
-pub fn OffscreenCanvas::new(width : Int, height : Int) -> OffscreenCanvas {
+pub fn OffscreenCanvas::OffscreenCanvas(
+  width : Int,
+  height : Int,
+) -> OffscreenCanvas {
   @core.identity(
     ffi_new_offscreen_canvas(width |> @core.any, height |> @core.any),
   )

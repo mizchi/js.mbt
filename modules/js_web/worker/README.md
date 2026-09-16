@@ -29,7 +29,7 @@ Provides bindings for Web Workers and MessagePort for multi-threaded JavaScript 
 ```moonbit
 fn main {
   // Create a worker
-  let worker = @worker.Worker::new("worker.js")
+  let worker = @worker.Worker("worker.js")
   
   // Send message to worker
   worker.post_message("Hello, worker!")

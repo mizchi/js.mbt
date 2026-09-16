@@ -14,7 +14,7 @@ pub fn MutationObserver::as_any(self : MutationObserver) -> @core.Any = "%identi
 ///|
 /// Creates a new MutationObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/MutationObserver
-pub fn MutationObserver::new(
+pub fn MutationObserver::MutationObserver(
   callback : (@core.Any?, MutationObserver) -> Unit,
 ) -> MutationObserver {
   let ctor = @global.global_this()._get("MutationObserver")
@@ -82,7 +82,7 @@ pub fn IntersectionObserver::as_any(self : IntersectionObserver) -> @core.Any = 
 ///|
 /// Creates a new IntersectionObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
-pub fn IntersectionObserver::new(
+pub fn IntersectionObserver::IntersectionObserver(
   callback : (@core.Any?, IntersectionObserver) -> Unit,
   options? : @core.Any,
 ) -> IntersectionObserver {
@@ -157,7 +157,7 @@ pub fn ResizeObserver::as_any(self : ResizeObserver) -> @core.Any = "%identity"
 ///|
 /// Creates a new ResizeObserver
 /// https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
-pub fn ResizeObserver::new(
+pub fn ResizeObserver::ResizeObserver(
   callback : (@core.Any?, ResizeObserver) -> Unit,
 ) -> ResizeObserver {
   let ctor = @global.global_this()._get("ResizeObserver")

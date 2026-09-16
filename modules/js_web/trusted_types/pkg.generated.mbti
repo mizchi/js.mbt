@@ -76,6 +76,8 @@ pub(all) struct TrustedTypePolicyOptions {
   create_script : ((String) -> String)?
   create_script_url : ((String) -> String)?
 }
+pub fn TrustedTypePolicyOptions::TrustedTypePolicyOptions(create_html? : ((String) -> String)?, create_script? : ((String) -> String)?, create_script_url? : ((String) -> String)?) -> Self
+#deprecated
 pub fn TrustedTypePolicyOptions::new(create_html? : ((String) -> String)?, create_script? : ((String) -> String)?, create_script_url? : ((String) -> String)?) -> Self
 
 // Type aliases

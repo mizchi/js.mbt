@@ -411,7 +411,7 @@ pub struct SpawnOptions {
 
 ///|
 /// Create spawn options from command array
-pub fn SpawnOptions::new(cmd : Array[String]) -> SpawnOptions {
+pub fn SpawnOptions::SpawnOptions(cmd : Array[String]) -> SpawnOptions {
   { cmd, cwd: None, env: None, stdin: None, stdout: None, stderr: None, }
 }
 
@@ -580,7 +580,7 @@ extern "js" fn ffi_new_crypto_hasher(algorithm : String) -> CryptoHasher =
 
 ///|
 /// Create a new CryptoHasher with specified algorithm
-pub fn CryptoHasher::new(algorithm : String) -> CryptoHasher {
+pub fn CryptoHasher::CryptoHasher(algorithm : String) -> CryptoHasher {
   ffi_new_crypto_hasher(algorithm)
 }
 
@@ -626,7 +626,7 @@ extern "js" fn ffi_new_glob(pattern : String) -> Glob =
 
 ///|
 /// Create a Glob matcher with pattern
-pub fn Glob::new(pattern : String) -> Glob {
+pub fn Glob::Glob(pattern : String) -> Glob {
   ffi_new_glob(pattern)
 }
 

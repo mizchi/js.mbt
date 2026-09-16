@@ -26,7 +26,9 @@ pub fn ChildProcess::unref(Self) -> Unit
 
 #external
 pub type Command
+pub fn Command::Command(String, args? : Array[String], cwd? : String, env? : @js_core.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
 pub fn Command::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn Command::new(String, args? : Array[String], cwd? : String, env? : @js_core.Any, stdin? : String, stdout? : String, stderr? : String) -> Self
 pub async fn Command::output(Self) -> CommandOutput
 #alias(output_sync)

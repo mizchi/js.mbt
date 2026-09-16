@@ -8,14 +8,14 @@
 ///|
 /// Test File constructor with basic data
 test "File new creates file from string" {
-  let file = File::new(["Hello, File!"], "test.txt", content_type="text/plain")
+  let file = File(["Hello, File!"], "test.txt", content_type="text/plain")
   inspect(file.name == "test.txt", content="true")
 }
 
 ///|
 /// Test File constructor with last_modified
 test "File new with last_modified" {
-  let file = File::new(["test"], "test.txt", last_modified=1234567890)
+  let file = File(["test"], "test.txt", last_modified=1234567890)
   inspect(file.lastModified == 1234567890, content="true")
 }
 
@@ -24,21 +24,21 @@ test "File new with last_modified" {
 ///|
 /// Test File name property
 test "File name returns filename" {
-  let file = File::new(["data"], "myfile.txt")
+  let file = File(["data"], "myfile.txt")
   inspect(file.name == "myfile.txt", content="true")
 }
 
 ///|
 /// Test File size property
 test "File size returns correct size" {
-  let file = File::new(["Hello"], "test.txt")
+  let file = File(["Hello"], "test.txt")
   inspect(file.size == 5, content="true")
 }
 
 ///|
 /// Test File content_type property
 test "File content_type returns MIME type" {
-  let file = File::new(["test"], "test.txt", content_type="text/plain")
+  let file = File(["test"], "test.txt", content_type="text/plain")
   inspect(file.contentType() == "text/plain", content="true")
 }
 
@@ -47,7 +47,7 @@ test "File content_type returns MIME type" {
 ///|
 /// Test File as_blob conversion
 test "File as_blob returns Blob" {
-  let file = File::new(["test"], "test.txt")
+  let file = File(["test"], "test.txt")
   let blob = file.as_blob()
   inspect(blob.size == 4, content="true")
 }
@@ -59,7 +59,7 @@ test "File as_blob returns Blob" {
 test "File text returns content as string" {
   @core.run_async(async fn() noraise {
     try {
-      let file = File::new(["Hello, File!"], "test.txt")
+      let file = File(["Hello, File!"], "test.txt")
       let text = file.text()
       inspect(text == "Hello, File!", content="true")
     } catch {
@@ -73,7 +73,7 @@ test "File text returns content as string" {
 test "File array_buffer returns ArrayBuffer" {
   @core.run_async(async fn() noraise {
     try {
-      let file = File::new(["test"], "test.txt")
+      let file = File(["test"], "test.txt")
       let buffer = file.arrayBuffer()
       inspect(buffer.byteLength > 0, content="true")
     } catch {
@@ -85,7 +85,7 @@ test "File array_buffer returns ArrayBuffer" {
 ///|
 /// Test File slice method
 test "File slice returns Blob" {
-  let file = File::new(["Hello, World!"], "test.txt")
+  let file = File(["Hello, World!"], "test.txt")
   let sliced = file.slice(start=0, end=5)
   inspect(sliced.size == 5, content="true")
 }

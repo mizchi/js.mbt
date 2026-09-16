@@ -1712,7 +1712,7 @@ pub fn GPUExtent3D::as_any(self : GPUExtent3D) -> @core.Any = "%identity"
 
 ///|
 /// Create GPUExtent3D from width, height, depth
-pub fn GPUExtent3D::new(
+pub fn GPUExtent3D::GPUExtent3D(
   width : Int,
   height? : Int,
   depth_or_array_layers? : Int,

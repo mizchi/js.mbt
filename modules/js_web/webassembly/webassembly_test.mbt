@@ -34,7 +34,7 @@ test "WebAssembly module from bytes" {
 /// Test WebAssembly Memory
 test "WebAssembly Memory" {
   // Create a memory with 1 page (64KB)
-  let memory = WebAssemblyMemory::new({
+  let memory = WebAssemblyMemory({
     initial: 1,
     maximum: Some(10),
     shared: false,
@@ -60,7 +60,7 @@ test "WebAssembly Memory" {
 /// Test WebAssembly Table
 test "WebAssembly Table" {
   // Create a table for function references
-  let table = WebAssemblyTable::new({
+  let table = WebAssemblyTable({
     element: "anyfunc",
     initial: 2,
     maximum: Some(10),
@@ -76,7 +76,7 @@ test "WebAssembly Table" {
 /// Test WebAssembly Global
 test "WebAssembly Global" {
   // Create a mutable i32 global
-  let global = WebAssemblyGlobal::new(
+  let global = WebAssemblyGlobal(
     { value: "i32", mutable: true, },
     @core.any(42),
   )
@@ -96,7 +96,7 @@ test "WebAssembly Global" {
 /// Test WebAssembly Global immutable
 test "WebAssembly Global immutable" {
   // Create an immutable f64 global
-  let global = WebAssemblyGlobal::new(
+  let global = WebAssemblyGlobal(
     { value: "f64", mutable: false, },
     @core.any(3.14),
   )

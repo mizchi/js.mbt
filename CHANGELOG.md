@@ -5,6 +5,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed — constructors are now `Type(..)`, not `Type::new(..)`
+
+MoonBit unified custom constructors on the `fn Type::Type(..)` form (removed
+the old `fn new(..)` syntax in v0.10.0, extended `Type::Type` to every type in
+v0.10.4), and `moonbitlang/core` has already moved — `StringBuilder::new` is
+gone there, `StringBuilder::StringBuilder` is what remains. This release brings
+the bindings in line.
+
+**69 constructors** now have a canonical `Type::Type(..)` form, callable
+without the type prefix — including through a package alias:
+
+```diff
+-let u = @url.URL::new("https://example.com")
++let u = @url.URL("https://example.com")
+
+-let re = @regexp.RegExp::new("^a+$", flags="i")
++let re = @regexp.RegExp("^a+$", flags="i")
+
+-let m : @collection.JsMap[String, Int] = @collection.JsMap::new()
++let m : @collection.JsMap[String, Int] = @collection.JsMap()
+```
+
+Nothing is removed. All **73** old `::new` spellings still work as
+`#deprecated` aliases, collected in a `deprecated.mbt` per package, so 0.13.x
+code keeps compiling — with a warning telling you the new spelling. Note that
+`moon check --deny-warn` treats that warning as an error, so projects using
+that flag need to migrate at upgrade time.
+
+Three secondary factories were renamed to match, old names kept as deprecated
+aliases:
+
+| Old | New |
+| --- | --- |
+| `Response::new_with_body(..)` | `Response::from_body_init(..)` |
+| `URLPattern::newFromObject(..)` | `URLPattern::from_object(..)` |
+| `TransformStream::new_identity()` | `TransformStream::identity()` |
+
+`Request::new_with_init(url, init)` folded into the constructor as an optional
+argument — `Request(url, init~)` — and is deprecated.
+
+Two things deliberately did **not** change:
+
+- **`Object::new()` keeps its name.** A `Type::Type` constructor must return
+  the constructed type itself (MoonBit error 4200), and this one returns
+  `@core.Any` so its result is usable without a cast.
+- **Package aliases are untouched.** `@url`, `@http`, `@regexp` and the rest
+  work exactly as before; only the constructor spelling moves.
+
+### Fixed
+
+- Several module READMEs documented constructors that do not exist
+  (`Headers::new`, `URLSearchParams::new`, `CustomEvent::new`,
+  `MessageEvent::new`). Plain `.md` files are not compiled, so these went
+  unnoticed; they are corrected against the generated `.mbti` interfaces.
+
 ## [0.13.0] - 2026-09-15
 
 **This release splits the library into nine modules so you can depend on only
@@ -732,7 +789,7 @@ This repository continues to provide:
 #### Bun Hashing & Cryptography APIs
 - `Bun.hash()` - General-purpose hashing function
 - `CryptoHasher` type for streaming hash computations:
-  - `CryptoHasher::new()` - Create hasher (sha256, sha512, md5, etc.)
+  - `CryptoHasher()` - Create hasher (sha256, sha512, md5, etc.)
   - `update()` - Add data to hash
   - `digest_hex()` - Get hex string digest
   - `digest_base64()` - Get base64 digest
@@ -740,7 +797,7 @@ This repository continues to provide:
 
 #### Bun Glob API
 - `Glob` type for file pattern matching:
-  - `Glob::new()` - Create glob pattern matcher
+  - `Glob()` - Create glob pattern matcher
   - `match_()` - Test string against pattern
   - `scan()` - Scan filesystem for matching files
 

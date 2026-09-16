@@ -24,7 +24,9 @@ pub(all) struct URL {
   mut hash : String
   mut searchParams : URLSearchParams
 } derive(Eq)
+pub fn URL::URL(String, base? : String) -> Self raise @js_core.JsError
 pub fn URL::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn URL::new(String, base? : String) -> Self raise @js_core.JsError
 pub fn URL::searchParams(Self) -> URLSearchParams
 #alias(toJSON)
@@ -44,12 +46,16 @@ pub(all) struct URLPattern {
   hash : String
   hasRegExpGroups : Bool
 }
+pub fn URLPattern::URLPattern(String, base? : String) -> Self
 pub fn URLPattern::as_any(Self) -> @js_core.Any
 pub fn URLPattern::exec(Self, String) -> URLPatternResult?
 #alias(exec_with_base)
 pub fn URLPattern::execWithBase(Self, String, base? : String) -> URLPatternResult?
+pub fn URLPattern::from_object(@js_core.Any, base? : String) -> Self
+#deprecated
 pub fn URLPattern::new(String, base? : String) -> Self
 #alias(new_from_object)
+#deprecated
 pub fn URLPattern::newFromObject(@js_core.Any, base? : String) -> Self
 pub fn URLPattern::test_url(Self, String) -> Bool
 pub fn URLPattern::test_url_with_base(Self, String, base? : String) -> Bool

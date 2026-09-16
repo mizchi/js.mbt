@@ -69,12 +69,12 @@ pub fn[T] Promise::to_any(self : Promise[T]) -> Any = "%identity"
 /// JS: new Promise((resolve, reject) => { ... })
 /// Create a Promise from an async executor function with resolve/reject callbacks.
 /// ```moonbit no-check
-/// let p : Promise[Int] = Promise::new(async fn(resolve, _reject) {
+/// let p : Promise[Int] = Promise(async fn(resolve, _reject) {
 ///   let result = some_async_operation()
 ///   resolve(result)
 /// })
 /// ```
-pub fn[A] Promise::new(
+pub fn[A] Promise::Promise(
   f : async ((A) -> Unit, (Error) -> Unit) -> Unit,
 ) -> Promise[A] {
   ffi_new_promise(fn(resolve, reject) {

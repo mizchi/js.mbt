@@ -18,7 +18,9 @@ pub(all) struct ArrayBuffer {
   maxByteLength : Int
   resizable : Bool
 }
+pub fn ArrayBuffer::ArrayBuffer(Int, max_byte_length? : Int) -> Self
 pub fn ArrayBuffer::isView(@js_core.Any) -> Bool
+#deprecated
 pub fn ArrayBuffer::new(Int, max_byte_length? : Int) -> Self
 pub fn ArrayBuffer::resize(Self, Int) -> Unit
 pub fn ArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
@@ -75,6 +77,7 @@ pub(all) struct DataView {
   byteLength : Int
   byteOffset : Int
 }
+pub fn DataView::DataView(ArrayBuffer, byte_offset? : Int, byte_length? : Int) -> Self
 pub fn DataView::as_any(Self) -> @js_core.Any
 #alias(getFloat32)
 pub fn DataView::get_float32(Self, Int, little_endian? : Bool) -> Double
@@ -92,6 +95,7 @@ pub fn DataView::get_uint16(Self, Int, little_endian? : Bool) -> Int
 pub fn DataView::get_uint32(Self, Int, little_endian? : Bool) -> Int
 #alias(getUint8)
 pub fn DataView::get_uint8(Self, Int) -> Int
+#deprecated
 pub fn DataView::new(ArrayBuffer, byte_offset? : Int, byte_length? : Int) -> Self
 #alias(setFloat32)
 pub fn DataView::set_float32(Self, UInt, Double, little_endian? : Bool) -> Unit
@@ -227,6 +231,8 @@ pub fn Int8Array::toString(Self) -> String
 pub(all) struct SharedArrayBuffer {
   byteLength : Int
 }
+pub fn SharedArrayBuffer::SharedArrayBuffer(Int) -> Self
+#deprecated
 pub fn SharedArrayBuffer::new(Int) -> Self
 pub fn SharedArrayBuffer::slice(Self, begin? : Int, end? : Int) -> Self
 pub fn SharedArrayBuffer::to_any(Self) -> @js_core.Any

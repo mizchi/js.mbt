@@ -328,7 +328,7 @@ pub fn RegExp::exec(self : RegExp, s : String) -> RegExpResult? {
 ///
 /// JavaScript API: `new RegExp(pattern, flags)`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp
-pub fn RegExp::new(pattern : String, flags? : String) -> RegExp {
+pub fn RegExp::RegExp(pattern : String, flags? : String) -> RegExp {
   let flags_str = match flags {
     None => ""
     Some(f) => f

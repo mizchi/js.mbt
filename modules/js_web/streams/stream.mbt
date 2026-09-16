@@ -9,7 +9,7 @@ pub fn ReadableStream::as_any(self : ReadableStream) -> @core.Any = "%identity"
 
 ///|
 /// Create a new ReadableStream with an underlying source
-pub extern "js" fn ReadableStream::new(
+pub extern "js" fn ReadableStream::ReadableStream(
   underlying_source : @core.Any,
 ) -> ReadableStream =
   #|(source) => new ReadableStream(source)
@@ -147,7 +147,7 @@ pub fn WritableStream::as_any(self : WritableStream) -> @core.Any = "%identity"
 
 ///|
 /// Create a new WritableStream with an underlying sink
-pub extern "js" fn WritableStream::new(
+pub extern "js" fn WritableStream::WritableStream(
   underlying_sink : @core.Any,
 ) -> WritableStream =
   #|(sink) => new WritableStream(sink)
@@ -280,14 +280,16 @@ extern "js" fn ffi_new_transform_stream(
 
 ///|
 /// Create a new TransformStream with a transformer
-pub fn TransformStream::new(transformer : @core.Any) -> TransformStream {
+pub fn TransformStream::TransformStream(
+  transformer : @core.Any,
+) -> TransformStream {
   ffi_new_transform_stream(transformer)
 }
 
 ///|
 /// Create a new identity TransformStream (passes data through unmodified)
 #alias(newIdentity)
-pub extern "js" fn TransformStream::new_identity() -> TransformStream =
+pub extern "js" fn TransformStream::identity() -> TransformStream =
   #|() => new TransformStream()
 
 ///|

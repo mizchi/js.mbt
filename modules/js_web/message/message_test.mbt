@@ -4,7 +4,7 @@
 ///|
 async test "MessageChannel: send and receive message between ports" {
   let resolver : @core.PromiseResolvers[String] = @core.Promise::withResolvers()
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   let port2 = channel.port2()
   defer MessagePort::close(port1)
@@ -34,7 +34,7 @@ async test "MessageChannel: send and receive message between ports" {
 async test "MessageChannel: bidirectional messaging" {
   let resolver1 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
   let resolver2 : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   let port2 = channel.port2()
   defer MessagePort::close(port1)
@@ -75,7 +75,7 @@ async test "MessageChannel: bidirectional messaging" {
 async test "MessageChannel: multiple messages in sequence" {
   let messages : Array[String] = []
   let resolver : @core.PromiseResolvers[Int] = @core.Promise::withResolvers()
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   let port2 = channel.port2()
   defer MessagePort::close(port1)
@@ -111,7 +111,7 @@ async test "MessageChannel: multiple messages in sequence" {
 ///|
 async test "MessageChannel: port closes properly" {
   let resolver : @core.PromiseResolvers[Bool] = @core.Promise::withResolvers()
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   let port2 = channel.port2()
   port2
@@ -134,7 +134,7 @@ async test "MessageChannel: port closes properly" {
 ///|
 async test "MessageChannel: message event properties" {
   let resolver : @core.PromiseResolvers[@core.Any] = @core.Promise::withResolvers()
-  let channel = MessageChannel::new()
+  let channel = MessageChannel()
   let port1 = channel.port1()
   let port2 = channel.port2()
   defer MessagePort::close(port1)

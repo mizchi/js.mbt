@@ -14,23 +14,29 @@ pub(all) struct CompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
+pub fn CompressionStream::CompressionStream(String) -> Self
 pub fn CompressionStream::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn CompressionStream::new(String) -> Self
 
 pub(all) struct DecompressionStream {
   readable : ReadableStream
   writable : WritableStream
 }
+pub fn DecompressionStream::DecompressionStream(String) -> Self
 pub fn DecompressionStream::as_any(Self) -> @js_core.Any
+#deprecated
 pub fn DecompressionStream::new(String) -> Self
 
 #external
 pub type ReadableStream
+pub fn ReadableStream::ReadableStream(@js_core.Any) -> Self
 pub fn ReadableStream::as_any(Self) -> @js_core.Any
 pub async fn ReadableStream::cancel(Self, reason? : @js_core.Any) -> Unit
 #alias(get_reader)
 pub fn ReadableStream::getReader(Self) -> ReadableStreamDefaultReader
 pub fn ReadableStream::locked(Self) -> Bool
+#deprecated
 pub fn ReadableStream::new(@js_core.Any) -> Self
 #alias(pipe_through)
 pub fn ReadableStream::pipeThrough(Self, @js_core.Any, options? : @js_core.Any) -> Self
@@ -49,21 +55,27 @@ pub fn ReadableStreamDefaultReader::releaseLock(Self) -> Unit
 
 #external
 pub type TransformStream
+pub fn TransformStream::TransformStream(@js_core.Any) -> Self
 pub fn TransformStream::as_any(Self) -> @js_core.Any
-pub fn TransformStream::new(@js_core.Any) -> Self
 #alias(newIdentity)
+pub fn TransformStream::identity() -> Self
+#deprecated
+pub fn TransformStream::new(@js_core.Any) -> Self
+#deprecated
 pub fn TransformStream::new_identity() -> Self
 pub fn TransformStream::readable(Self) -> ReadableStream
 pub fn TransformStream::writable(Self) -> WritableStream
 
 #external
 pub type WritableStream
+pub fn WritableStream::WritableStream(@js_core.Any) -> Self
 pub async fn WritableStream::abort(Self, reason? : @js_core.Any) -> Unit
 pub fn WritableStream::as_any(Self) -> @js_core.Any
 pub async fn WritableStream::close(Self) -> Unit
 #alias(get_writer)
 pub fn WritableStream::getWriter(Self) -> WritableStreamDefaultWriter
 pub fn WritableStream::locked(Self) -> Bool
+#deprecated
 pub fn WritableStream::new(@js_core.Any) -> Self
 
 #external

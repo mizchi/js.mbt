@@ -1,7 +1,7 @@
 ///|
 /// Test Session creation
 test "Session::new creates session" {
-  let session = Session::new()
+  let session = Session()
   let session_js : @core.Any = session.as_any().cast()
   inspect(@core.typeof_(session_js), content="object")
 }
@@ -9,7 +9,7 @@ test "Session::new creates session" {
 ///|
 /// Test Session connect and disconnect
 test "Session connect and disconnect" {
-  let session = Session::new()
+  let session = Session()
   session.connect()
   session.disconnect()
   let session_js : @core.Any = session.as_any().cast()

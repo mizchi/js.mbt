@@ -37,7 +37,7 @@ fn main {
   let file = files.item(0)
   
   // Read file as text
-  let reader = @file.FileReader::new()
+  let reader = @file.FileReader()
   
   reader.set_onload(fn(event) {
     let result = reader.result()

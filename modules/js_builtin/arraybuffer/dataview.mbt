@@ -17,7 +17,7 @@ extern "js" fn ffi_new_dataview(
   #| (buf, offset, len) => len !== undefined ? new DataView(buf, offset, len) : new DataView(buf, offset)
 
 ///|
-pub fn DataView::new(
+pub fn DataView::DataView(
   buffer : ArrayBuffer,
   byte_offset? : Int = 0,
   byte_length? : Int,

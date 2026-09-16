@@ -29,11 +29,11 @@ Provides bindings for encoding and decoding text between strings and binary data
 ```moonbit
 fn main {
   // Encode string to bytes
-  let encoder = @encoding.TextEncoder::new()
+  let encoder = @encoding.TextEncoder()
   let bytes = encoder.encode("Hello, world!")
   
   // Decode bytes to string
-  let decoder = @encoding.TextDecoder::new()
+  let decoder = @encoding.TextDecoder()
   let text = decoder.decode(bytes)
   
   // Decode with specific encoding

@@ -67,7 +67,7 @@ async test "Promise: @core.Promise::race" {
 
 ///|
 async test "Promise: @core.Promise::new" {
-  let p : @core.Promise[Int] = @core.Promise::new(async fn(resolve, _reject) {
+  let p : @core.Promise[Int] = @core.Promise(async fn(resolve, _reject) {
     @core.sleep(16)
     resolve(42)
   })
@@ -77,7 +77,7 @@ async test "Promise: @core.Promise::new" {
 
 ///|
 async test "Promise: @core.Promise::new with reject" {
-  let p : @core.Promise[Int] = @core.Promise::new(async fn(_resolve, reject) {
+  let p : @core.Promise[Int] = @core.Promise(async fn(_resolve, reject) {
     @core.sleep(16)
     reject(Failure::Failure("test error"))
   })
@@ -219,10 +219,7 @@ async test "Promise: async function with error converts to rejected Promise" {
 
 ///|
 async test "Promise: Promise.new to async unwrap" {
-  let promise : @core.Promise[Int] = @core.Promise::new(async fn(
-    resolve,
-    _reject,
-  ) {
+  let promise : @core.Promise[Int] = @core.Promise(async fn(resolve, _reject) {
     resolve(999)
   })
   let result = promise.wait()
@@ -848,7 +845,7 @@ test "promisify3 creates a Promise" {
 
 ///|
 async test "Promise::new with exception in callback" {
-  let p : @core.Promise[Int] = @core.Promise::new(async fn(_resolve, _reject) {
+  let p : @core.Promise[Int] = @core.Promise(async fn(_resolve, _reject) {
     fail("error in promise callback")
   })
   try p.wait() catch {

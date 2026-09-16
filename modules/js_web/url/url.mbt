@@ -57,7 +57,7 @@ extern "js" fn ffi_url_new(url : String, base? : String) -> URL =
 
 ///|
 /// Create a new URL
-pub fn URL::new(url : String, base? : String) -> URL raise @core.JsError {
+pub fn URL::URL(url : String, base? : String) -> URL raise @core.JsError {
   @core.try_sync(fn() { @core.any(ffi_url_new(url, base?)) }).cast()
 }
 

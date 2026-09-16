@@ -6,7 +6,7 @@
 ///|
 /// Test WASI constructor with preview1
 test "WASI constructor creates instance with preview1" {
-  let wasi = WASI::new(
+  let wasi = WASI(
     "preview1",
     args=["test"],
     env=Map::from_array([("TEST_VAR", "test_value")]),
@@ -19,7 +19,7 @@ test "WASI constructor creates instance with preview1" {
 ///|
 /// Test WASI constructor with unstable version
 test "WASI constructor creates instance with unstable" {
-  let wasi = WASI::new("unstable")
+  let wasi = WASI("unstable")
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
 }
@@ -27,7 +27,7 @@ test "WASI constructor creates instance with unstable" {
 ///|
 /// Test WASI with args option
 test "WASI constructor accepts args" {
-  let wasi = WASI::new("preview1", args=["arg1", "arg2", "arg3"])
+  let wasi = WASI("preview1", args=["arg1", "arg2", "arg3"])
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
 }
@@ -36,7 +36,7 @@ test "WASI constructor accepts args" {
 /// Test WASI with env option
 test "WASI constructor accepts env" {
   let env_map = Map::from_array([("HOME", "/home/user"), ("PATH", "/usr/bin")])
-  let wasi = WASI::new("preview1", env=env_map)
+  let wasi = WASI("preview1", env=env_map)
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
 }
@@ -45,7 +45,7 @@ test "WASI constructor accepts env" {
 /// Test WASI with preopens option
 test "WASI constructor accepts preopens" {
   let preopens_map = Map::from_array([("/tmp", "/tmp")])
-  let wasi = WASI::new("preview1", preopens=preopens_map)
+  let wasi = WASI("preview1", preopens=preopens_map)
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
 }
@@ -53,7 +53,7 @@ test "WASI constructor accepts preopens" {
 ///|
 /// Test WASI with return_on_exit option
 test "WASI constructor accepts return_on_exit" {
-  let wasi = WASI::new("preview1", returnOnExit=false)
+  let wasi = WASI("preview1", returnOnExit=false)
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
 }
@@ -61,7 +61,7 @@ test "WASI constructor accepts return_on_exit" {
 ///|
 /// Test WASI with file descriptor options
 test "WASI constructor accepts fd options" {
-  let wasi = WASI::new("preview1", stdin=0, stdout=1, stderr=2)
+  let wasi = WASI("preview1", stdin=0, stdout=1, stderr=2)
   let import_obj = wasi.getImportObject()
   inspect((import_obj |> @core.typeof_) == "object", content="true")
 }
@@ -71,7 +71,7 @@ test "WASI constructor accepts fd options" {
 ///|
 /// Test get_import_object returns valid object
 test "get_import_object returns object" {
-  let wasi = WASI::new("preview1")
+  let wasi = WASI("preview1")
   let import_obj = wasi.getImportObject()
   inspect(@core.typeof_(import_obj) == "object", content="true")
   // Check that it has wasi_snapshot_preview1 key
@@ -83,7 +83,7 @@ test "get_import_object returns object" {
 ///|
 /// Test wasi_import property
 test "wasi_import returns object" {
-  let wasi = WASI::new("preview1")
+  let wasi = WASI("preview1")
   let wasi_import = wasi.wasiImport()
   inspect(@core.typeof_(wasi_import) == "object", content="true")
 }
@@ -99,7 +99,7 @@ let hello_wasi_wasm : Bytes = b"\x00\x61\x73\x6d\x01\x00\x00\x00\x01\x0c\x02\x60
 ///|
 /// Test WASI with actual WASM module
 test "WASI can run hello-wasi.wasm" {
-  let wasi = WASI::new("preview1", args=["hello-wasi"], returnOnExit=true)
+  let wasi = WASI("preview1", args=["hello-wasi"], returnOnExit=true)
 
   // Instantiate WASM module with WASI imports
   let import_obj = wasi.getImportObject()

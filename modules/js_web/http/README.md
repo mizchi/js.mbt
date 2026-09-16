@@ -22,47 +22,80 @@ import {
 
 ## Overview
 
-Provides bindings for the Fetch API, including Request, Response, Headers, and FormData.
+Provides bindings for the Fetch API: `fetch`, `Request`, `RequestInit`,
+`Response`, `Headers` and `FormData`.
 
 ## Usage Example
 
+`fetch` takes its options as labelled arguments — `method_~` is required
+(`method` is a reserved word in MoonBit):
+
 ```moonbit
-fn main {
-  // Simple GET request
-  let response = @http.fetch("https://api.example.com/data")
-  
-  // Create a Request
-  let request = @http.Request::new("https://api.example.com/users")
-  request.set_method("POST")
-  request.set_header("Content-Type", "application/json")
-  
-  // Fetch with options
-  let init = @http.RequestInit::new()
-  init.set_method("POST")
-  init.set_body("{\"name\":\"value\"}")
-  let response2 = @http.fetch_with_init("https://api.example.com", init)
-  
-  // Working with Headers
-  let headers = @http.Headers::new()
-  headers.set("Content-Type", "application/json")
-  headers.append("X-Custom-Header", "value")
-  
-  // Working with FormData
-  let form = @http.FormData::new()
-  form.append("field", "value")
-  
-  // Create Response
-  let response3 = @http.Response::new("body content")
+///|
+pub async fn get_json() -> @core.Any {
+  let res = @http.fetch("https://api.example.com/data", method_="GET")
+  res.json()
 }
 ```
 
+```moonbit
+///|
+pub async fn post() -> String {
+  let res = @http.fetch(
+    "https://api.example.com/users",
+    method_="POST",
+    headers={ "content-type": "application/json" },
+    body=@core.identity("{\"name\":\"value\"}"),
+  )
+  res.text()
+}
+```
+
+To build a request up front, pass a `RequestInit` to the `Request`
+constructor and hand it to `fetch_request`. `RequestInit` is configured at
+construction — it exposes getters, not setters:
+
+```moonbit
+///|
+pub async fn post_request() -> String {
+  let init = @http.RequestInit(
+    http_method="POST",
+    body=@core.identity("{\"name\":\"value\"}"),
+  )
+  let request = @http.Request("https://api.example.com/users", init~)
+  (@http.fetch_request(request)).text()
+}
+```
+
+Serving a response — a plain text body, or any `BodyInit` (bytes, `Blob`,
+`ReadableStream`, …) via `from_body_init`:
+
+```moonbit
+///|
+pub fn respond() -> @http.Response {
+  @http.Response(
+    body="hello",
+    status=200,
+    headers=@core.from_entries([
+      ("content-type", @core.identity("text/plain")),
+    ]),
+  )
+}
+```
+
+Note that `Headers` and `FormData` have no constructors of their own —
+`Headers` is a read side type reached through `RequestInit::get_headers`, and
+a `FormData` comes from `Response::formData()`. Outgoing headers are passed
+either as a `Map[String, String]` (to `fetch`) or as a `@core.Any` object
+built with `@core.from_entries` (to `Response`), as above.
+
 ## Available Types
 
-- **fetch()** - Make HTTP requests
-- **Request** - HTTP request object
+- **fetch()** / **fetch_request()** - Make HTTP requests
+- **Request** / **RequestInit** - HTTP request and its options
 - **Response** - HTTP response object
-- **Headers** - HTTP headers manipulation
-- **FormData** - Form data encoding
+- **Headers** - HTTP headers, read side
+- **FormData** - Form data decoding
 
 ## Reference
 

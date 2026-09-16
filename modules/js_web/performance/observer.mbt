@@ -26,7 +26,7 @@ extern "js" fn ffi_new_performance_observer(
 /// JS: new PerformanceObserver(callback)
 /// Creates a new PerformanceObserver with the specified callback
 /// The callback receives (list, observer) as arguments
-pub fn PerformanceObserver::new(
+pub fn PerformanceObserver::PerformanceObserver(
   callback : (PerformanceObserverEntryList, PerformanceObserver) -> Unit,
 ) -> PerformanceObserver {
   ffi_new_performance_observer(fn(list, observer) {

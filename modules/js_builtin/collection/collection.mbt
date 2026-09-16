@@ -15,7 +15,7 @@ pub fn[K, V] JsMap::to_any(self : JsMap[K, V]) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Map()
-pub fn[K, V] JsMap::new() -> JsMap[K, V] {
+pub fn[K, V] JsMap::JsMap() -> JsMap[K, V] {
   ffi_new_map() |> @core.identity
 }
 
@@ -26,7 +26,7 @@ extern "js" fn ffi_new_map() -> @core.Any =
 ///|
 /// JS: new Map(entries)
 pub fn[K, V] JsMap::from_entries(entries : Array[(K, V)]) -> JsMap[K, V] {
-  let map : JsMap[K, V] = JsMap::new()
+  let map : JsMap[K, V] = JsMap()
   for entry in entries {
     let (k, v) = entry
     map.set(k, v) |> ignore
@@ -121,7 +121,7 @@ pub fn[T] JsSet::to_any(self : JsSet[T]) -> @core.Any = "%identity"
 
 ///|
 /// JS: new Set()
-pub fn[T] JsSet::new() -> JsSet[T] {
+pub fn[T] JsSet::JsSet() -> JsSet[T] {
   ffi_new_set() |> @core.identity
 }
 
@@ -132,7 +132,7 @@ extern "js" fn ffi_new_set() -> @core.Any =
 ///|
 /// JS: new Set(values)
 pub fn[T] JsSet::from_array(values : Array[T]) -> JsSet[T] {
-  let set : JsSet[T] = JsSet::new()
+  let set : JsSet[T] = JsSet()
   for value in values {
     set.add(value) |> ignore
   }

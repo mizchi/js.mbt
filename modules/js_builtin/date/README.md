@@ -29,7 +29,7 @@ Provides bindings for JavaScript's Date object for working with dates and times.
 ```moonbit
 fn main {
   // Create a new Date
-  let now = @date.Date::new()
+  let now = @date.Date()
   
   // Get timestamp
   let timestamp = @date.Date::now()

@@ -2,13 +2,13 @@
 
 ///|
 test "TextEncoder::new - create encoder" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   assert_eq(@core.typeof_(@core.any(encoder)), "object")
 }
 
 ///|
 test "TextEncoder::encode - basic ASCII text" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("hello").as_typed_array()
   assert_eq(result.length(), 5)
   assert_eq(result.get_at(0), 104) // 'h'
@@ -20,35 +20,35 @@ test "TextEncoder::encode - basic ASCII text" {
 
 ///|
 test "TextEncoder::encode - empty string" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("").as_typed_array()
   assert_eq(result.length(), 0)
 }
 
 ///|
 test "TextEncoder::encode - UTF-8 multibyte characters" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("こんにちは").as_typed_array()
   assert_eq(result.length(), 15) // 5 characters * 3 bytes each
 }
 
 ///|
 test "TextEncoder::encode - emoji" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("😀").as_typed_array()
   assert_eq(result.length(), 4)
 }
 
 ///|
 test "TextEncoder::encode - mixed ASCII and UTF-8" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("Hello 世界").as_typed_array()
   assert_eq(result.length(), 12) // "Hello " (6 bytes) + "世界" (6 bytes)
 }
 
 ///|
 test "TextEncoder::encode - special characters" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("Hello\nWorld\t!").as_typed_array()
   assert_eq(result.get_at(5), 10) // '\n'
   assert_eq(result.get_at(11), 9) // '\t'
@@ -56,13 +56,13 @@ test "TextEncoder::encode - special characters" {
 
 ///|
 test "TextDecoder::new - create decoder" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   assert_eq(@core.typeof_(@core.any(decoder)), "object")
 }
 
 ///|
 test "TextDecoder::decode - basic ASCII text" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   let arr = @arraybuffer.Uint8Array::from_array([104, 101, 108, 108, 111])
   let result = decoder.decode(arr)
   assert_eq(result, "hello")
@@ -70,7 +70,7 @@ test "TextDecoder::decode - basic ASCII text" {
 
 ///|
 test "TextDecoder::decode - empty array" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   let arr = @arraybuffer.Uint8Array::from_size(0)
   let result = decoder.decode(arr)
   assert_eq(result, "")
@@ -78,7 +78,7 @@ test "TextDecoder::decode - empty array" {
 
 ///|
 test "TextDecoder::decode - UTF-8 characters" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   // UTF-8 encoding of "世" (0xE4 0xB8 0x96)
   let arr = @arraybuffer.Uint8Array::from_array([228, 184, 150])
   let result = decoder.decode(arr)
@@ -87,8 +87,8 @@ test "TextDecoder::decode - UTF-8 characters" {
 
 ///|
 test "TextEncoder and TextDecoder - round trip ASCII" {
-  let encoder = TextEncoder::new()
-  let decoder = TextDecoder::new()
+  let encoder = TextEncoder()
+  let decoder = TextDecoder()
   let original = "Hello, World!"
   let encoded = encoder.encode(original)
   let decoded = decoder.decode(encoded)
@@ -97,8 +97,8 @@ test "TextEncoder and TextDecoder - round trip ASCII" {
 
 ///|
 test "TextEncoder and TextDecoder - round trip UTF-8" {
-  let encoder = TextEncoder::new()
-  let decoder = TextDecoder::new()
+  let encoder = TextEncoder()
+  let decoder = TextDecoder()
   let original = "こんにちは世界"
   let encoded = encoder.encode(original)
   let decoded = decoder.decode(encoded)
@@ -107,8 +107,8 @@ test "TextEncoder and TextDecoder - round trip UTF-8" {
 
 ///|
 test "TextEncoder and TextDecoder - round trip emoji" {
-  let encoder = TextEncoder::new()
-  let decoder = TextDecoder::new()
+  let encoder = TextEncoder()
+  let decoder = TextDecoder()
   let original = "Hello 😀 World 🌍"
   let encoded = encoder.encode(original)
   let decoded = decoder.decode(encoded)
@@ -117,8 +117,8 @@ test "TextEncoder and TextDecoder - round trip emoji" {
 
 ///|
 test "TextEncoder and TextDecoder - round trip mixed content" {
-  let encoder = TextEncoder::new()
-  let decoder = TextDecoder::new()
+  let encoder = TextEncoder()
+  let decoder = TextDecoder()
   let original = "ASCII + 日本語 + Emoji 🎉 + Numbers 123"
   let encoded = encoder.encode(original)
   let decoded = decoder.decode(encoded)
@@ -127,8 +127,8 @@ test "TextEncoder and TextDecoder - round trip mixed content" {
 
 ///|
 test "TextEncoder and TextDecoder - special characters round trip" {
-  let encoder = TextEncoder::new()
-  let decoder = TextDecoder::new()
+  let encoder = TextEncoder()
+  let decoder = TextDecoder()
   let original = "Line1\nLine2\tTabbed\rCarriage"
   let encoded = encoder.encode(original)
   let decoded = decoder.decode(encoded)
@@ -137,7 +137,7 @@ test "TextEncoder and TextDecoder - special characters round trip" {
 
 ///|
 test "TextEncoder::encode - long text" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   let result = encoder.encode(text).as_typed_array()
   assert_eq(result.length(), 123)
@@ -145,7 +145,7 @@ test "TextEncoder::encode - long text" {
 
 ///|
 test "TextEncoder::encode - numbers as text" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result = encoder.encode("0123456789").as_typed_array()
   assert_eq(result.length(), 10)
   assert_eq(result.get_at(0), 48) // '0'
@@ -154,7 +154,7 @@ test "TextEncoder::encode - numbers as text" {
 
 ///|
 test "TextDecoder::decode - numbers from bytes" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   let arr = @arraybuffer.Uint8Array::from_array([
     48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
   ])
@@ -164,7 +164,7 @@ test "TextDecoder::decode - numbers from bytes" {
 
 ///|
 test "TextEncoder - multiple encode calls" {
-  let encoder = TextEncoder::new()
+  let encoder = TextEncoder()
   let result1 = encoder.encode("First").as_typed_array()
   let result2 = encoder.encode("Second").as_typed_array()
   assert_eq(result1.length(), 5)
@@ -175,7 +175,7 @@ test "TextEncoder - multiple encode calls" {
 
 ///|
 test "TextDecoder - multiple decode calls" {
-  let decoder = TextDecoder::new()
+  let decoder = TextDecoder()
   let arr1 = @arraybuffer.Uint8Array::from_array([70, 105, 114, 115, 116])
   let arr2 = @arraybuffer.Uint8Array::from_array([83, 101, 99, 111, 110, 100])
   let result1 = decoder.decode(arr1)

@@ -26,7 +26,7 @@ extern "js" fn ffi_new_array_buffer(
   #| (len, maxLen) => maxLen !== undefined ? new ArrayBuffer(len, { maxByteLength: maxLen }) : new ArrayBuffer(len)
 
 ///|
-pub fn ArrayBuffer::new(
+pub fn ArrayBuffer::ArrayBuffer(
   byte_length : Int,
   max_byte_length? : Int,
 ) -> ArrayBuffer {
@@ -65,7 +65,7 @@ pub(all) struct SharedArrayBuffer {
 pub fn SharedArrayBuffer::to_any(self : SharedArrayBuffer) -> @core.Any = "%identity"
 
 ///|
-pub extern "js" fn SharedArrayBuffer::new(
+pub extern "js" fn SharedArrayBuffer::SharedArrayBuffer(
   byte_length : Int,
 ) -> SharedArrayBuffer =
   #| (len) => new SharedArrayBuffer(len)

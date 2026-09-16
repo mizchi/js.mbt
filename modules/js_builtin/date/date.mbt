@@ -24,7 +24,7 @@ pub extern "js" fn Date::now() -> Int =
 ///
 /// JavaScript API: `new Date()`
 /// See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
-pub extern "js" fn Date::new() -> Date =
+pub extern "js" fn Date::Date() -> Date =
   #| () => new Date()
 
 ///|

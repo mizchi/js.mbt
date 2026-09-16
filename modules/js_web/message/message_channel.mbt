@@ -116,7 +116,7 @@ pub impl Show for MessageChannel with fn to_string(_self) {
 ///|
 /// Creates a new MessageChannel object
 /// https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel/MessageChannel
-pub extern "js" fn MessageChannel::new() -> MessageChannel =
+pub extern "js" fn MessageChannel::MessageChannel() -> MessageChannel =
   #| () => new MessageChannel()
 
 ///|

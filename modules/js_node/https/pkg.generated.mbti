@@ -20,6 +20,8 @@ pub fn request(String, (@js_core.Any) -> Unit, method_? : String, host? : String
 // Types and methods
 #external
 pub type Agent
+pub fn Agent::Agent(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
+#deprecated
 pub fn Agent::new(max_cached_sessions? : Int, servername? : String, keep_alive? : Bool, keep_alive_msecs? : Int, max_sockets? : Int, max_free_sockets? : Int, timeout? : Int) -> Self
 
 #external

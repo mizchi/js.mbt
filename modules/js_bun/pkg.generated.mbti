@@ -51,10 +51,12 @@ pub async fn Bun::write(Self, String, @js_core.Any) -> Int
 
 #external
 pub type CryptoHasher
+pub fn CryptoHasher::CryptoHasher(String) -> Self
 pub fn CryptoHasher::as_any(Self) -> @js_core.Any
 pub fn CryptoHasher::digest_base64(Self) -> String
 pub fn CryptoHasher::digest_buffer(Self) -> @arraybuffer.ArrayBuffer
 pub fn CryptoHasher::digest_hex(Self) -> String
+#deprecated
 pub fn CryptoHasher::new(String) -> Self
 pub fn CryptoHasher::update(Self, @js_core.Any) -> Unit
 
@@ -72,8 +74,10 @@ pub fn Expectation::toEqual(Self, @js_core.Any) -> Unit
 
 #external
 pub type Glob
+pub fn Glob::Glob(String) -> Self
 pub fn Glob::as_any(Self) -> @js_core.Any
 pub fn Glob::match_(Self, String) -> Bool
+#deprecated
 pub fn Glob::new(String) -> Self
 pub fn Glob::scan(Self, cwd? : String) -> @js_core.Any
 
@@ -92,6 +96,8 @@ pub struct SpawnOptions {
   stdout : String?
   stderr : String?
 }
+pub fn SpawnOptions::SpawnOptions(Array[String]) -> Self
+#deprecated
 pub fn SpawnOptions::new(Array[String]) -> Self
 
 #external

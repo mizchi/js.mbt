@@ -11,6 +11,7 @@ Before 0.13.0 you got both either way.
 - [Installing](#installing)
 - [Two rules about dependencies](#two-rules-about-dependencies)
 - [Aliases](#aliases)
+- [Constructors](#constructors)
 - [The `mizchi/js` shortcut](#the-mizchijs-shortcut)
 - [Recipes](#recipes)
 - [Migrating from 0.12.x](#migrating-from-012x)
@@ -166,6 +167,44 @@ Now you write `@core.Any` and `@convert.from_map(...)`. Everything else keeps
 the alias it always had — `@http`, `@json`, `@dom`, `@fs` — so only the import
 path changes when you upgrade.
 
+## Constructors
+
+Constructing a value uses the **type's own name**, not `::new`:
+
+```moonbit
+///|
+pub fn examples() -> @regexp.RegExp {
+  let _ = @url.URL("https://example.com/a?b=1") catch { _ => panic() }
+  let _ : @collection.JsMap[String, Int] = @collection.JsMap()
+  @regexp.RegExp("^a+$", flags="i")
+}
+```
+
+This is MoonBit's canonical constructor form — a function named
+`Type::Type(..)`, which you then call as `Type(..)`. It works through a package
+alias (`@url.URL(..)`), it works with generics (`@collection.JsMap()`), and the
+type keeps working in type position (`let u : @url.URL = @url.URL(..)`).
+
+The older `Type::new(..)` spelling still compiles, as a deprecated alias:
+
+```diff
+-let re = @regexp.RegExp::new("^a+$", flags="i")
++let re = @regexp.RegExp("^a+$", flags="i")
+```
+
+Two caveats worth knowing:
+
+- `moon check --deny-warn` turns the deprecation warning into an error, so if
+  you build with that flag you need to update at upgrade time rather than
+  whenever you get round to it.
+- **`@object.Object::new()` is the one that keeps `::new`.** A `Type::Type`
+  constructor has to return the type itself, and this one returns `@core.Any`
+  so you can use the result without a cast.
+
+Secondary factories read as `from_*` rather than `new_*` —
+`@http.Response::from_body_init(..)`, `@url.URLPattern::from_object(..)`,
+`@streams.TransformStream::identity()`.
+
 ## The `mizchi/js` shortcut
 
 If you want one import rather than two, `mizchi/js` re-exports all of
@@ -181,7 +220,7 @@ import { "mizchi/js" @js }
 
 ```moonbit
 let v : @js.Any = @js.any(1)
-let m : @js.JsMap[String, @js.Any] = @js.JsMap::new()
+let m : @js.JsMap[String, @js.Any] = @js.JsMap()
 ```
 
 It is a facade and nothing else — 212 lines of `pub using` re-exports. Reach
@@ -219,11 +258,11 @@ pub fn handle(req : @http.Request) -> @http.Response {
   let headers = @core.from_entries([
     ("content-type", @core.identity("text/plain")),
   ])
-  @http.Response::new(body="hello", status=200, headers~)
+  @http.Response(body="hello", status=200, headers~)
 }
 ```
 
-Binary bodies go through `Response::new_with_body`, which takes any `BodyInit`
+Binary bodies go through `Response::from_body_init`, which takes any `BodyInit`
 (`ArrayBuffer`, a typed array, `Blob`, `ReadableStream`, `FormData`, …) rather
 than a `String`.
 

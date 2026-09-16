@@ -7,7 +7,7 @@ extern "js" fn set_immediate(f : () -> Unit) -> Unit =
 
 ///|
 async test "Node Events: EventEmitter on/emit/off" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut received = 0
   let callback = (data : @core.Any) => {
     let v : Int = @core.identity(data)
@@ -40,7 +40,7 @@ async test "Node Events: EventEmitter on/emit/off" {
 
 ///|
 async test "Node Events: EventEmitter once" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut count = 0
   emitter.once("test", _ => count += 1)
   emitter.emit("test", 1 |> @core.any)
@@ -51,7 +51,7 @@ async test "Node Events: EventEmitter once" {
 
 ///|
 async test "Node Events: EventEmitter eventNames" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   emitter.on("event1", _ => ())
   emitter.on("event2", _ => ())
   let names = emitter.eventNames()
@@ -60,7 +60,7 @@ async test "Node Events: EventEmitter eventNames" {
 
 ///|
 async test "Node Events: EventEmitter multiple listeners" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut count1 = 0
   let mut count2 = 0
   emitter.on("test", _ => count1 += 1)
@@ -74,7 +74,7 @@ async test "Node Events: EventEmitter multiple listeners" {
 
 ///|
 async test "Node Events: EventEmitter with async handlers" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let results : Array[Int] = []
   emitter.on("async", data => {
     let v : Int = @core.identity(data)
@@ -125,7 +125,7 @@ async test "Node Events: timer and promise coordination" {
 
 ///|
 async test "Node Events: EventEmitter stress test" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut total = 0
   emitter.on("data", data => {
     let v : Int = @core.identity(data)
@@ -140,8 +140,8 @@ async test "Node Events: EventEmitter stress test" {
 
 ///|
 async test "Node Events: multiple EventEmitters" {
-  let emitter1 = @events.EventEmitter::new()
-  let emitter2 = @events.EventEmitter::new()
+  let emitter1 = @events.EventEmitter()
+  let emitter2 = @events.EventEmitter()
   let mut count1 = 0
   let mut count2 = 0
   emitter1.on("test", _ => count1 += 1)
@@ -155,7 +155,7 @@ async test "Node Events: multiple EventEmitters" {
 
 ///|
 async test "Node Events: EventEmitter with different payload types" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut int_val = 0
   let mut str_val = ""
   emitter.on("int", data => {
@@ -175,7 +175,7 @@ async test "Node Events: EventEmitter with different payload types" {
 
 ///|
 async test "Node Events: EventEmitter removeAllListeners specific event" {
-  let emitter = @events.EventEmitter::new()
+  let emitter = @events.EventEmitter()
   let mut count = 0
   emitter.on("event1", _ => count += 1)
   emitter.on("event2", _ => count += 10)

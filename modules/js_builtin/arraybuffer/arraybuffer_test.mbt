@@ -2,15 +2,15 @@
 
 ///|
 test "ArrayBuffer creation and properties" {
-  let buffer = @arraybuffer.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer(16)
   assert_eq(buffer.byteLength, 16)
-  let zero_buffer = @arraybuffer.ArrayBuffer::new(0)
+  let zero_buffer = @arraybuffer.ArrayBuffer(0)
   assert_eq(zero_buffer.byteLength, 0)
 }
 
 ///|
 test "ArrayBuffer with maxByteLength" {
-  let buffer = @arraybuffer.ArrayBuffer::new(8, max_byte_length=16)
+  let buffer = @arraybuffer.ArrayBuffer(8, max_byte_length=16)
   assert_eq(buffer.byteLength, 8)
   assert_eq(buffer.maxByteLength, 16)
   assert_true(buffer.resizable)
@@ -20,13 +20,13 @@ test "ArrayBuffer with maxByteLength" {
   assert_eq(buffer.byteLength, 12)
 
   // Non-resizable buffer
-  let fixed_buffer = @arraybuffer.ArrayBuffer::new(8)
+  let fixed_buffer = @arraybuffer.ArrayBuffer(8)
   assert_false(fixed_buffer.resizable)
 }
 
 ///|
 test "@core.ArrayBuffer::slice operations" {
-  let buffer = @arraybuffer.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer(16)
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)
@@ -47,7 +47,7 @@ test "@core.ArrayBuffer::slice operations" {
 
 ///|
 test "@arraybuffer.ArrayBuffer::is_view" {
-  let buffer = @arraybuffer.ArrayBuffer::new(16)
+  let buffer = @arraybuffer.ArrayBuffer(16)
 
   // Plain buffer is not a view
   assert_false(@arraybuffer.ArrayBuffer::isView(buffer |> @core.any))
@@ -61,13 +61,13 @@ test "@arraybuffer.ArrayBuffer::is_view" {
 
 ///|
 test "SharedArrayBuffer creation and properties" {
-  let buffer = SharedArrayBuffer::new(16)
+  let buffer = SharedArrayBuffer(16)
   assert_eq(buffer.byteLength, 16)
 }
 
 ///|
 test "Shared@arraybuffer.ArrayBuffer::slice operations" {
-  let buffer = SharedArrayBuffer::new(16)
+  let buffer = SharedArrayBuffer(16)
 
   // Basic slice
   let sliced = buffer.slice(begin=4, end=12)

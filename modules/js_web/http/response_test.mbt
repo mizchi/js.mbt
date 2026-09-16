@@ -1,7 +1,7 @@
 ///|
 test "Response body returns ReadableStream" {
   // Create a simple Response with text content
-  let response = Response::new(body="Hello, World!")
+  let response = Response(body="Hello, World!")
 
   // Get the body as ReadableStream
   let body = response.body()
@@ -15,7 +15,7 @@ test "Response body returns ReadableStream" {
 
 ///|
 test "Response body can be read with reader" {
-  let response = Response::new(body="test data")
+  let response = Response(body="test data")
   match response.body() {
     Some(stream) => {
       let reader = stream.get_reader()
@@ -40,7 +40,7 @@ test "Response error has no body" {
 
 ///|
 test "Response clone has independent body stream" {
-  let response = Response::new(body="original")
+  let response = Response(body="original")
   let cloned = response.clone()
 
   // Both should have bodies
@@ -63,7 +63,7 @@ test "Response clone has independent body stream" {
 
 ///|
 test "Response body can be teed" {
-  let response = Response::new(body="tee test")
+  let response = Response(body="tee test")
   match response.body() {
     Some(stream) => {
       let (branch1, branch2) = stream.tee()

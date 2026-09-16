@@ -1,7 +1,7 @@
 ///|
 /// Test MessageChannel::new creates a channel
 test "MessageChannel::new creates a channel" {
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   let channel_js : @core.Any = channel.as_any().cast()
   inspect(@core.typeof_(channel_js), content="object")
 }
@@ -9,7 +9,7 @@ test "MessageChannel::new creates a channel" {
 ///|
 /// Test MessageChannel has port1 and port2
 test "MessageChannel::port1 and port2 return MessagePort" {
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   let port1 = @message.MessageChannel::port1(channel)
   let port2 = @message.MessageChannel::port2(channel)
   let port1_js : @core.Any = port1.as_any().cast()
@@ -21,7 +21,7 @@ test "MessageChannel::port1 and port2 return MessagePort" {
 ///|
 /// Test MessagePort::start can be called
 test "MessagePort::start can be called" {
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::start(port1)
   let port1_js : @core.Any = port1.as_any().cast()
@@ -31,7 +31,7 @@ test "MessagePort::start can be called" {
 ///|
 /// Test MessagePort::close can be called
 test "MessagePort::close disconnects the port" {
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::close(port1)
   let port1_js : @core.Any = port1.as_any().cast()
@@ -41,7 +41,7 @@ test "MessagePort::close disconnects the port" {
 // ///|
 // /// Test MessagePort::post_message can send a string
 // test "MessagePort::post_message sends a string" {
-//   let channel = MessageChannel::new()
+//   let channel = MessageChannel()
 //   let port1 = channel.port1()
 //   let port2 = channel.port2()
 //   port1.start()
@@ -55,7 +55,7 @@ test "MessagePort::close disconnects the port" {
 ///|
 /// Test MessagePort::post_message can send a number
 test "MessagePort::post_message sends a number" {
-  let channel = @message.MessageChannel::new()
+  let channel = @message.MessageChannel()
   let port1 = @message.MessageChannel::port1(channel)
   @message.MessagePort::post_message(port1, 42 |> @core.any)
   let port1_js : @core.Any = port1.as_any().cast()
@@ -65,7 +65,7 @@ test "MessagePort::post_message sends a number" {
 // ///|
 // /// Test MessagePort::post_message can send an object
 // test "MessagePort::post_message sends an object" {
-//   let channel = MessageChannel::new()
+//   let channel = MessageChannel()
 //   let port1 = channel.port1()
 //   let data = @convert.from_json({ "type": "test", "value": 123 })
 //   port1.post_message(data)
@@ -75,11 +75,11 @@ test "MessagePort::post_message sends a number" {
 // ///|
 // /// Test MessagePort::post_message_with_transfer
 // test "MessagePort::post_message_with_transfer sends with transferables" {
-//   let channel = MessageChannel::new()
+//   let channel = MessageChannel()
 //   let port1 = channel.port1()
 
 //   // Create another channel to transfer
-//   let transfer_channel = MessageChannel::new()
+//   let transfer_channel = MessageChannel()
 //   let transfer_port = transfer_channel.port1()
 
 //   // Send message with transfer

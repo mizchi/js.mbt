@@ -135,6 +135,6 @@ pub fn EventEmitter::to_any(self : EventEmitter) -> @core.Any = "%identity"
 // impl EventEmitterImpl for EventEmitter with to_any(self) { self.to_any() }
 
 ///|
-pub fn EventEmitter::new() -> EventEmitter {
+pub fn EventEmitter::EventEmitter() -> EventEmitter {
   @core.new(event_emitter_constructor(), []).cast()
 }

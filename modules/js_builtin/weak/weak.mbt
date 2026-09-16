@@ -9,7 +9,7 @@ extern "js" fn ffi_new_weakmap() -> @core.Any =
   #| () => new WeakMap()
 
 ///|
-pub fn[K, V] WeakMap::new() -> WeakMap[K, V] {
+pub fn[K, V] WeakMap::WeakMap() -> WeakMap[K, V] {
   ffi_new_weakmap().cast()
 }
 
@@ -51,7 +51,7 @@ extern "js" fn ffi_new_weakset() -> @core.Any =
   #| () => new WeakSet()
 
 ///|
-pub fn[T] WeakSet::new() -> WeakSet[T] {
+pub fn[T] WeakSet::WeakSet() -> WeakSet[T] {
   ffi_new_weakset().cast()
 }
 
@@ -80,7 +80,7 @@ extern "js" fn ffi_new_weakref(target : @core.Any) -> @core.Any =
   #| (target) => new WeakRef(target)
 
 ///|
-pub fn[T] WeakRef::new(target : T) -> WeakRef[T] {
+pub fn[T] WeakRef::WeakRef(target : T) -> WeakRef[T] {
   ffi_new_weakref(@core.any(target)).cast()
 }
 
@@ -105,7 +105,7 @@ extern "js" fn ffi_new_finalization_registry(
   #| (callback) => new FinalizationRegistry(callback)
 
 ///|
-pub fn[T] FinalizationRegistry::new(
+pub fn[T] FinalizationRegistry::FinalizationRegistry(
   cleanup_callback : (T) -> Unit,
 ) -> FinalizationRegistry[T] {
   ffi_new_finalization_registry(fn(val) { cleanup_callback(val.cast()) }).cast()

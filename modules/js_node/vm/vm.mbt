@@ -31,7 +31,7 @@ pub fn Script::as_any(self : Script) -> @core.Any = "%identity"
 
 ///|
 /// Create a new Script object
-pub fn Script::new(
+pub fn Script::Script(
   code : String,
   filename? : String,
   lineOffset? : Int,

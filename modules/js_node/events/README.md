@@ -24,7 +24,7 @@ import {
 
 ### EventEmitter Class
 - [x] EventEmitter type
-- [x] EventEmitter::new() - Create new emitter
+- [x] EventEmitter() - Create new emitter
 - [x] on(event, listener) - Add listener
 - [x] once(event, listener) - Add one-time listener
 - [x] off(event, listener) - Remove listener

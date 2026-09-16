@@ -176,7 +176,7 @@ async test "TransformStream: transform data through pipeline" {
 
   // Create uppercase transformer using FFI
   let transformer = test_ffi_uppercase_transformer()
-  let transform = TransformStream::new(@core.any(transformer))
+  let transform = TransformStream(@core.any(transformer))
 
   // Pipe through transform
   let pipe1 : @core.Any = readable

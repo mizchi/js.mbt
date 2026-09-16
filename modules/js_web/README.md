@@ -129,7 +129,7 @@ let response = @http.fetch("https://api.example.com/data")
 let json = response.json()
 
 // POST request with JSON body
-let request = @http.Request::new("https://api.example.com/users", 
+let request = @http.Request("https://api.example.com/users", 
   method="POST",
   body="{\"name\":\"Alice\"}",
   headers=headers
@@ -140,13 +140,13 @@ let response = @http.fetch_with_request(request)
 fn handle_request(request : @http.Request) -> @http.Response {
   let url = request.url()
   if url.pathname == "/api/hello" {
-    @http.Response::new(
+    @http.Response(
       body="{\"message\":\"Hello World\"}",
       status=200,
       headers=...
     )
   } else {
-    @http.Response::new(body="Not Found", status=404)
+    @http.Response(body="Not Found", status=404)
   }
 }
 ```
@@ -156,8 +156,8 @@ fn handle_request(request : @http.Request) -> @http.Response {
 ```moonbit
 // Streaming API responses - efficient for large datasets
 fn stream_large_file(file_path : String) -> @http.Response {
-  let stream = @streams.ReadableStream::new(...)
-  @http.Response::new(
+  let stream = @streams.ReadableStream(...)
+  @http.Response(
     body=stream,
     headers=...
   )
@@ -165,13 +165,13 @@ fn stream_large_file(file_path : String) -> @http.Response {
 
 // Transform streams for data processing pipelines
 fn process_stream(input : @streams.ReadableStream) -> @streams.ReadableStream {
-  let transform = @streams.TransformStream::new()
+  let transform = @streams.TransformStream()
   input.pipe_through(transform)
 }
 
 // Server-sent events (SSE) example
 fn create_sse_stream() -> @streams.ReadableStream {
-  @streams.ReadableStream::new(controller => {
+  @streams.ReadableStream(controller => {
     // Send periodic updates
     controller.enqueue("data: {\"time\": \"...\"}\n\n")
   })
@@ -179,8 +179,8 @@ fn create_sse_stream() -> @streams.ReadableStream {
 
 // Compression streams - compress data on the fly
 fn compress_response(data : String) -> @streams.ReadableStream {
-  let compressor = @streams.CompressionStream::new("gzip")
-  let encoder = @encoding.TextEncoder::new()
+  let compressor = @streams.CompressionStream("gzip")
+  let encoder = @encoding.TextEncoder()
   
   // Create a readable stream from data
   let readable = create_stream_from_string(data)
@@ -192,7 +192,7 @@ fn compress_response(data : String) -> @streams.ReadableStream {
 
 // Decompression streams - decompress streamed data
 fn decompress_request(compressed_stream : @streams.ReadableStream) -> @streams.ReadableStream {
-  let decompressor = @streams.DecompressionStream::new("gzip")
+  let decompressor = @streams.DecompressionStream("gzip")
   compressed_stream.pipeThrough(decompressor)
   decompressor.readable()
 }
@@ -202,54 +202,68 @@ fn decompress_request(compressed_stream : @streams.ReadableStream) -> @streams.R
 
 ```moonbit
 // Password hashing (server-side authentication)
-fn hash_password(password : String) -> @js.Promise[@arraybuffer.ArrayBuffer] {
-  let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle
-  let encoder = @js.TextEncoder::new()
-  let data = encoder.encode(password)
-  subtle.digest("SHA-256", data)
+async fn hash_password(password : String) -> @arraybuffer.ArrayBuffer {
+  let subtle = @crypto.Crypto::get().subtle
+  let data = @encoding.TextEncoder().encode(password)
+  subtle.digest("SHA-256", data.as_any())
 }
 
 // Generate JWT tokens (API authentication)
-fn sign_jwt(payload : String, secret : String) -> @js.Promise[String] {
-  let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle
-  
-  // Import HMAC key
+async fn sign_jwt(payload : String, secret : String) -> @arraybuffer.ArrayBuffer {
+  let subtle = @crypto.Crypto::get().subtle
+  let encoder = @encoding.TextEncoder()
+
+  // Algorithm descriptors are plain JS objects
+  let algorithm = @core.from_entries([
+    ("name", @core.any("HMAC")),
+    ("hash", @core.any("SHA-256")),
+  ])
+
+  // Import the HMAC key, then sign
   let key = subtle.import_key(
     "raw",
-    secret,
-    {name: "HMAC", hash: "SHA-256"},
+    encoder.encode(secret).as_any(),
+    algorithm,
     false,
-    ["sign"]
+    ["sign"],
   )
-  
-  // Sign payload
-  subtle.sign("HMAC", key, payload)
+  subtle.sign(algorithm, key.as_any(), encoder.encode(payload).as_any())
 }
 
 // Encrypt sensitive data (database encryption)
-fn encrypt_data(data : String) -> @js.Promise[@arraybuffer.ArrayBuffer] {
-  let crypto = @crypto.get_crypto()
-  let subtle = crypto.subtle
-  
-  // Generate key
+async fn encrypt_data(data : String) -> @arraybuffer.ArrayBuffer {
+  let subtle = @crypto.Crypto::get().subtle
+
+  // Generate an AES-GCM key
   let key = subtle.generate_key(
-    @crypto.AesKeyGenParams::new("AES-GCM", 256),
+    @core.from_entries([
+      ("name", @core.any("AES-GCM")),
+      ("length", @core.any(256)),
+    ]),
     true,
-    ["encrypt", "decrypt"]
+    ["encrypt", "decrypt"],
   )
-  
-  // Encrypt
-  subtle.encrypt(algorithm, key, data)
+
+  // Encrypt -- AES-GCM needs a 12-byte iv
+  let iv = @crypto.Crypto::get().getRandomValues(
+    @arraybuffer.Uint8Array::from_size(12),
+  )
+  let algorithm = @core.from_entries([
+    ("name", @core.any("AES-GCM")),
+    ("iv", iv.as_any()),
+  ])
+  subtle.encrypt(algorithm, key, @encoding.TextEncoder().encode(data).as_any())
 }
 ```
+
+There is no `AesKeyGenParams` type — Web Crypto algorithm descriptors are
+passed as ordinary JS objects built with `@core.from_entries`.
 
 ### WebSocket (Real-Time Communication)
 
 ```moonbit
 // Client-side (browser) or server-side (Node.js, Bun)
-let ws = @websocket.WebSocket::new("wss://api.example.com/ws")
+let ws = @websocket.WebSocket("wss://api.example.com/ws")
 
 ws.addEventListener("open", fn(event) {
   ws.send("{\"type\":\"subscribe\",\"channel\":\"updates\"}")
@@ -272,14 +286,14 @@ fn handle_websocket(request : @http.Request) -> @http.Response {
     // Upgrade connection to WebSocket
     // Handle WebSocket messages
   }
-  @http.Response::new(body="Not a WebSocket request", status=400)
+  @http.Response(body="Not a WebSocket request", status=400)
 }
 ```
 
 ### Web Workers
 
 ```moonbit
-let worker = @worker.Worker::new("worker.js")
+let worker = @worker.Worker("worker.js")
 
 worker.addEventListener("message", fn(event) {
   let result = event.data()
@@ -319,7 +333,7 @@ fn handle(request : @http.Request) -> @http.Response {
   let path = request.url().pathname
   match path {
     "/api/data" => fetch_and_transform_data()
-    _ => @http.Response::new(body="Not Found", status=404)
+    _ => @http.Response(body="Not Found", status=404)
   }
 }
 ```
@@ -339,7 +353,7 @@ WebSocket works in all environments:
 ```moonbit
 // Same code for browser client and Node.js backend
 fn connect_to_server() -> @websocket.WebSocket {
-  @websocket.WebSocket::new("wss://api.example.com/ws")
+  @websocket.WebSocket("wss://api.example.com/ws")
 }
 ```
 

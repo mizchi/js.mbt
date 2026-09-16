@@ -22,37 +22,52 @@ import {
 
 ## Overview
 
-Provides bindings for the Event API, including Event, CustomEvent, and MessageEvent.
+Provides bindings for `Event`, `EventTarget` and `EventSource` (server-sent
+events).
 
 ## Usage Example
 
 ```moonbit
-fn main {
-  // Create a custom event
-  let event = @event.CustomEvent::new("myevent")
-  
-  // Create event with detail
-  let detail_event = @event.CustomEvent::new_with_detail("myevent", "detail data")
-  
-  // Create a message event
-  let msg_event = @event.MessageEvent::new("message")
-  
+///|
+pub fn dispatch(target : @event.EventTarget) -> Bool {
+  // Create an event
+  let event = @event.Event("myevent", bubbles=true, cancelable=true)
+
   // Event properties
-  let event_type = event.type_()
-  let bubbles = event.bubbles()
-  let cancelable = event.cancelable()
+  let _ = event.type_()
+  let _ = event.bubbles()
+  let _ = event.cancelable()
+
+  // Register a listener, then dispatch
+  target.addEventListener("myevent", _ev => ())
+  target.dispatchEvent(event)
+}
+```
+
+Server-sent events go through `EventSource`:
+
+```moonbit
+///|
+pub fn subscribe() -> @event.EventSource {
+  let source = @event.EventSource("/stream")
+  source.set_onmessage(ev => println(@event.get_event_data(ev)))
+  source
 }
 ```
 
 ## Available Types
 
 - **Event** - Base event type
-- **CustomEvent** - Events with custom data
-- **MessageEvent** - Events for message passing
-- **EventTarget** - Event listener registration
+- **EventTarget** - Event listener registration and dispatch
+- **EventSource** - Server-sent events
+
+`CustomEvent` and `MessageEvent` are not bound in this package. A message
+event's payload is readable from the raw value with the `get_event_data` /
+`get_event_origin` / `get_last_event_id` helpers above; `@message` covers
+`MessageChannel` and `MessagePort`.
 
 ## Reference
 
 - [MDN: Event](https://developer.mozilla.org/en-US/docs/Web/API/Event)
-- [MDN: CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
-- [MDN: MessageEvent](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent)
+- [MDN: EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)
+- [MDN: EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)

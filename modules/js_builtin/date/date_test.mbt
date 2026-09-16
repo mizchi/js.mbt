@@ -8,7 +8,7 @@ test "Date.now() returns current time" {
 ///|
 /// Test Date.new() creates a valid date
 test "Date.new() creates current date" {
-  let date = Date::new()
+  let date = Date()
   let time = date.get_time()
   inspect(time > 0, content="true")
 }
@@ -109,7 +109,7 @@ test "Date.get_time() returns timestamp" {
 ///|
 /// Test Date.get_timezone_offset() returns offset
 test "Date.get_timezone_offset() returns offset" {
-  let date = Date::new()
+  let date = Date()
   let offset = date.get_timezone_offset()
   // Offset should be a number (positive or negative)
   inspect(offset.abs() >= 0, content="true")
@@ -167,7 +167,7 @@ test "Date time setters work correctly" {
 ///|
 /// Test Date.set_time() sets timestamp
 test "Date.set_time() sets timestamp" {
-  let date = Date::new()
+  let date = Date()
   let new_time = 1000000000
   ignore(date.set_time(new_time))
   inspect(date.get_time(), content="1000000000")
@@ -260,7 +260,7 @@ test "Date.value_of() returns milliseconds" {
 ///|
 /// Test Date can be converted to Any
 test "Date can be converted to Any" {
-  let date = Date::new()
+  let date = Date()
   let val : @core.Any = date.as_any()
   inspect(@core.is_null(val), content="false")
 }

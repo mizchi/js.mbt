@@ -2,7 +2,7 @@
 
 ///|
 test "URLPattern constructor with string pattern" {
-  let pattern = URLPattern::new("https://example.com/books/:id")
+  let pattern = URLPattern("https://example.com/books/:id")
   assert_eq(pattern.protocol, "https")
   assert_eq(pattern.hostname, "example.com")
   assert_eq(pattern.pathname, "/books/:id")
@@ -10,7 +10,7 @@ test "URLPattern constructor with string pattern" {
 
 ///|
 test "URLPattern test method" {
-  let pattern = URLPattern::new("https://example.com/books/:id")
+  let pattern = URLPattern("https://example.com/books/:id")
   assert_eq(pattern.test_url("https://example.com/books/123"), true)
   assert_eq(pattern.test_url("https://example.com/books/"), false)
   assert_eq(pattern.test_url("https://other.com/books/123"), false)
@@ -18,7 +18,7 @@ test "URLPattern test method" {
 
 ///|
 test "URLPattern exec method" {
-  let pattern = URLPattern::new("https://example.com/books/:id")
+  let pattern = URLPattern("https://example.com/books/:id")
   match pattern.exec("https://example.com/books/123") {
     Some(result) => {
       assert_eq(result.pathname.input, "/books/123")
@@ -31,7 +31,7 @@ test "URLPattern exec method" {
 
 ///|
 test "URLPattern exec returns None for non-matching URL" {
-  let pattern = URLPattern::new("https://example.com/books/:id")
+  let pattern = URLPattern("https://example.com/books/:id")
   match pattern.exec("https://other.com/books/123") {
     Some(_) => fail("Should not match")
     None => ()
@@ -40,20 +40,20 @@ test "URLPattern exec returns None for non-matching URL" {
 
 ///|
 test "URLPattern with wildcard" {
-  let pattern = URLPattern::new("https://example.com/*")
+  let pattern = URLPattern("https://example.com/*")
   assert_eq(pattern.test_url("https://example.com/any/path"), true)
   assert_eq(pattern.test_url("https://example.com/"), true)
 }
 
 ///|
 test "URLPattern pathname pattern" {
-  let pattern = URLPattern::new("https://example.com/books/:id")
+  let pattern = URLPattern("https://example.com/books/:id")
   assert_eq(pattern.pathname, "/books/:id")
 }
 
 ///|
 test "URLPattern with search parameter" {
-  let pattern = URLPattern::new("https://example.com/search?q=:query")
+  let pattern = URLPattern("https://example.com/search?q=:query")
   assert_eq(pattern.test_url("https://example.com/search?q=test"), true)
   match pattern.exec("https://example.com/search?q=moonbit") {
     Some(result) => {
@@ -66,7 +66,7 @@ test "URLPattern with search parameter" {
 
 ///|
 test "URLPattern with hash" {
-  let pattern = URLPattern::new("https://example.com/page#:section")
+  let pattern = URLPattern("https://example.com/page#:section")
   assert_eq(pattern.test_url("https://example.com/page#intro"), true)
   match pattern.exec("https://example.com/page#intro") {
     Some(result) => {
@@ -79,27 +79,25 @@ test "URLPattern with hash" {
 
 ///|
 test "URLPattern protocol property" {
-  let pattern = URLPattern::new("https://example.com/path")
+  let pattern = URLPattern("https://example.com/path")
   assert_eq(pattern.protocol, "https")
 }
 
 ///|
 test "URLPattern hostname property" {
-  let pattern = URLPattern::new("https://example.com/path")
+  let pattern = URLPattern("https://example.com/path")
   assert_eq(pattern.hostname, "example.com")
 }
 
 ///|
 test "URLPattern pathname property" {
-  let pattern = URLPattern::new(
-    "https://example.com/books/:id/chapters/:chapter",
-  )
+  let pattern = URLPattern("https://example.com/books/:id/chapters/:chapter")
   assert_eq(pattern.pathname, "/books/:id/chapters/:chapter")
 }
 
 ///|
 test "URLPattern multiple path parameters" {
-  let pattern = URLPattern::new(
+  let pattern = URLPattern(
     "https://example.com/books/:bookId/chapters/:chapterId",
   )
   match pattern.exec("https://example.com/books/42/chapters/3") {
@@ -117,7 +115,7 @@ test "URLPattern multiple path parameters" {
 
 ///|
 test "URLPattern with port" {
-  let pattern = URLPattern::new("https://example.com:8080/path")
+  let pattern = URLPattern("https://example.com:8080/path")
   assert_eq(pattern.port, "8080")
   assert_eq(pattern.test_url("https://example.com:8080/path"), true)
   assert_eq(pattern.test_url("https://example.com/path"), false)

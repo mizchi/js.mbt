@@ -2,7 +2,7 @@
 
 ///|
 test "WeakMap::set and get - store and retrieve values" {
-  let wm : WeakMap[@core.Any, @core.Any] = WeakMap::new()
+  let wm : WeakMap[@core.Any, @core.Any] = WeakMap()
   let key : @core.Any = @core.new_object() |> @core.identity
   let value = @core.any("test value")
   wm.set(key, value) |> ignore
@@ -12,7 +12,7 @@ test "WeakMap::set and get - store and retrieve values" {
 
 ///|
 test "WeakMap::has - check if key exists" {
-  let wm : WeakMap[@core.Any, @core.Any] = WeakMap::new()
+  let wm : WeakMap[@core.Any, @core.Any] = WeakMap()
   let key : @core.Any = @core.new_object() |> @core.identity
   let value = @core.any("test")
   let has_before = wm.has(key)
@@ -24,7 +24,7 @@ test "WeakMap::has - check if key exists" {
 
 ///|
 test "WeakMap::delete - remove a key-value pair" {
-  let wm : WeakMap[@core.Any, @core.Any] = WeakMap::new()
+  let wm : WeakMap[@core.Any, @core.Any] = WeakMap()
   let key : @core.Any = @core.new_object() |> @core.identity
   let value = @core.any("test")
   wm.set(key, value) |> ignore
@@ -36,7 +36,7 @@ test "WeakMap::delete - remove a key-value pair" {
 
 ///|
 test "WeakMap::get - return None for non-existent key" {
-  let wm : WeakMap[@core.Any, @core.Any] = WeakMap::new()
+  let wm : WeakMap[@core.Any, @core.Any] = WeakMap()
   let key : @core.Any = @core.new_object() |> @core.identity
   let result = wm.get(key)
   assert_true(result is None)
@@ -44,7 +44,7 @@ test "WeakMap::get - return None for non-existent key" {
 
 ///|
 test "WeakSet::add and has - add and check values" {
-  let ws : WeakSet[@core.Any] = WeakSet::new()
+  let ws : WeakSet[@core.Any] = WeakSet()
   let value : @core.Any = @core.new_object() |> @core.identity
   let has_before = ws.has(value)
   ws.add(value) |> ignore
@@ -55,7 +55,7 @@ test "WeakSet::add and has - add and check values" {
 
 ///|
 test "WeakSet::delete - remove a value" {
-  let ws : WeakSet[@core.Any] = WeakSet::new()
+  let ws : WeakSet[@core.Any] = WeakSet()
   let value : @core.Any = @core.new_object() |> @core.identity
   ws.add(value) |> ignore
   let deleted = ws.delete(value)
@@ -66,7 +66,7 @@ test "WeakSet::delete - remove a value" {
 
 ///|
 test "WeakSet::has - return false for non-existent value" {
-  let ws : WeakSet[@core.Any] = WeakSet::new()
+  let ws : WeakSet[@core.Any] = WeakSet()
   let value : @core.Any = @core.new_object() |> @core.identity
   let has = ws.has(value)
   assert_false(has)
@@ -75,14 +75,14 @@ test "WeakSet::has - return false for non-existent value" {
 ///|
 test "WeakRef::new and deref - create and dereference" {
   let target : @core.Any = @core.new_object() |> @core.identity
-  let wr : WeakRef[@core.Any] = WeakRef::new(target)
+  let wr : WeakRef[@core.Any] = WeakRef(target)
   let result = wr.deref()
   assert_false(result is None)
 }
 
 ///|
 test "FinalizationRegistry::register - register an object" {
-  let registry : FinalizationRegistry[@core.Any] = FinalizationRegistry::new(fn(
+  let registry : FinalizationRegistry[@core.Any] = FinalizationRegistry(fn(
     _held_value,
   ) {
     ()
@@ -96,7 +96,7 @@ test "FinalizationRegistry::register - register an object" {
 
 ///|
 test "FinalizationRegistry::unregister - unregister with token" {
-  let registry : FinalizationRegistry[@core.Any] = FinalizationRegistry::new(fn(
+  let registry : FinalizationRegistry[@core.Any] = FinalizationRegistry(fn(
     _held_value,
   ) {
     ()

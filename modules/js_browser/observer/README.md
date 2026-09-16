@@ -31,7 +31,7 @@ Provides bindings for Observer APIs to monitor changes in the DOM and elements.
 ```moonbit
 fn main {
   // MutationObserver - Watch DOM changes
-  let mutation_observer = @observer.MutationObserver::new(fn(mutations, observer) {
+  let mutation_observer = @observer.MutationObserver(fn(mutations, observer) {
     @console.log("DOM changed")
   })
   
@@ -42,7 +42,7 @@ fn main {
   mutation_observer.observe(target, config)
   
   // IntersectionObserver - Watch element visibility
-  let intersection_observer = @observer.IntersectionObserver::new(fn(entries, observer) {
+  let intersection_observer = @observer.IntersectionObserver(fn(entries, observer) {
     @console.log("Element visibility changed")
   })
   
@@ -50,7 +50,7 @@ fn main {
   intersection_observer.observe(element)
   
   // ResizeObserver - Watch element size changes
-  let resize_observer = @observer.ResizeObserver::new(fn(entries, observer) {
+  let resize_observer = @observer.ResizeObserver(fn(entries, observer) {
     @console.log("Element resized")
   })
   

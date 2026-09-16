@@ -206,7 +206,7 @@ pub(all) struct TrustedTypePolicyOptions {
 
 ///|
 /// Create default policy options
-pub fn TrustedTypePolicyOptions::new(
+pub fn TrustedTypePolicyOptions::TrustedTypePolicyOptions(
   create_html? : ((String) -> String)? = None,
   create_script? : ((String) -> String)? = None,
   create_script_url? : ((String) -> String)? = None,

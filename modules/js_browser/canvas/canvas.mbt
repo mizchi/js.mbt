@@ -381,7 +381,7 @@ extern "js" fn ffi_new_image_data_with_data(
   #|(data, width, height) => new ImageData(data, width, height)
 
 ///|
-pub fn ImageData::new(width : Int, height : Int) -> ImageData {
+pub fn ImageData::ImageData(width : Int, height : Int) -> ImageData {
   @core.identity(ffi_new_image_data(width |> @core.any, height |> @core.any))
 }
 

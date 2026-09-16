@@ -28,21 +28,35 @@ Provides bindings for the WebAssembly JavaScript API to compile and instantiate 
 
 ## Usage Example
 
+The bound types are `WebAssemblyModule` and `WebAssemblyInstance`, and they
+are built with `from_*` factories rather than a constructor:
+
 ```moonbit
-fn main {
-  // Compile WebAssembly module from bytes
-  let bytes = get_wasm_bytes() // your WASM binary
-  let module = @webassembly.WebAssembly_Module::new(bytes)
-  
-  // Instantiate the module
-  let imports = @core.Object::new()
-  let instance = @webassembly.WebAssembly_Instance::new(module, imports)
-  
+///|
+pub fn load(bytes : @arraybuffer.Uint8Array) -> @core.Any {
+  // Compile a module from bytes, then instantiate it
+  let wasm = @webassembly.WebAssemblyModule::from_bytes(bytes)
+  let instance = @webassembly.WebAssemblyInstance::from_module(wasm, None)
+
   // Access exports
   let exports = instance.exports()
-  
-  // Call exported functions
-  // let result = exports._get("add")._call([1, 2])
+
+  // Call an exported function
+  exports._call("add", [@core.any(1), @core.any(2)])
+}
+```
+
+`instantiate_bytes` does both steps at once, and `validate` checks a binary
+without compiling it:
+
+```moonbit
+///|
+pub fn load_in_one_step(
+  bytes : @arraybuffer.Uint8Array,
+) -> @webassembly.WebAssemblyInstance? {
+  guard @webassembly.validate(bytes) else { None }
+  let (_module, instance) = @webassembly.instantiate_bytes(bytes, None)
+  Some(instance)
 }
 ```
 

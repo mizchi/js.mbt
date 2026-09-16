@@ -23,9 +23,11 @@ pub fn CompressionStream::as_any(self : CompressionStream) -> @core.Any = "%iden
 ///
 /// Example:
 /// ```moonbit nocheck
-/// let _compressor = CompressionStream::new("gzip")
+/// let _compressor = CompressionStream("gzip")
 /// ```
-pub fn CompressionStream::new(format : String) -> CompressionStream {
+pub fn CompressionStream::CompressionStream(
+  format : String,
+) -> CompressionStream {
   new_compression_stream(format).cast()
 }
 
@@ -54,9 +56,11 @@ pub fn DecompressionStream::as_any(self : DecompressionStream) -> @core.Any = "%
 ///
 /// Example:
 /// ```moonbit nocheck
-/// let _decompressor = DecompressionStream::new("gzip")
+/// let _decompressor = DecompressionStream("gzip")
 /// ```
-pub fn DecompressionStream::new(format : String) -> DecompressionStream {
+pub fn DecompressionStream::DecompressionStream(
+  format : String,
+) -> DecompressionStream {
   new_decompression_stream(format).cast()
 }
 

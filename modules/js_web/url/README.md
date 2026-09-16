@@ -26,27 +26,33 @@ Provides bindings for URL parsing, URLSearchParams, and URLPattern APIs.
 
 ## Usage Example
 
+`URL` is a struct, so its components are **fields**, not method calls. The
+constructor raises `@core.JsError` on an unparseable URL.
+
 ```moonbit
-fn main {
+///|
+pub fn parse() -> String raise @core.JsError {
   // Parse a URL
-  let url = @url.URL::new("https://example.com/path?query=value")
-  
-  // Access URL components
-  let protocol = url.protocol()
-  let hostname = url.hostname()
-  let pathname = url.pathname()
-  let search = url.search()
-  
+  let url = @url.URL("https://example.com/path?query=value")
+
+  // Access URL components -- plain field reads
+  let _ = url.protocol // "https:"
+  let _ = url.hostname // "example.com"
+  let _ = url.pathname // "/path"
+  let _ = url.search // "?query=value"
+
   // Work with query parameters
-  let params = url.search_params()
+  let params = url.searchParams
   params.set("key", "value")
-  let value = params._get("key")
-  
-  // Create URLSearchParams directly
-  let search_params = @url.URLSearchParams::new()
-  search_params.append("name", "value")
+  match params.get("key") {
+    Some(v) => v
+    None => ""
+  }
 }
 ```
+
+`URLSearchParams` has no constructor of its own — you reach one through a
+`URL`, as above.
 
 ## Available Types
 

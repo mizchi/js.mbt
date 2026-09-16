@@ -153,11 +153,13 @@ pub fn[T] Nullish::to_option(Self[T]) -> T?
 
 #external
 pub type Promise[T]
+pub fn[A] Promise::Promise(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
 pub fn[A] Promise::all(Array[Self[A]]) -> Self[Array[A]]
 pub fn[A] Promise::allSettled(Array[Self[A]]) -> Self[Array[SettledResult[A]]]
 pub fn[T] Promise::any(Array[Self[T]]) -> Self[T]
 pub fn[A, B] Promise::catch_(Self[A], (Error) -> Self[B]) -> Self[B]
 pub fn[A] Promise::finally_(Self[A], () -> Unit) -> Self[A]
+#deprecated
 pub fn[A] Promise::new(async ((A) -> Unit, (Error) -> Unit) -> Unit) -> Self[A]
 pub fn[T] Promise::race(Array[Self[T]]) -> Self[T]
 pub fn Promise::reject(Any) -> Self[Any]

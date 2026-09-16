@@ -57,7 +57,7 @@ pub fn WASI::as_any(self : WASI) -> @core.Any = "%identity"
 /// @param stdin File descriptor for standard input
 /// @param stdout File descriptor for standard output
 /// @param stderr File descriptor for standard error
-pub fn WASI::new(
+pub fn WASI::WASI(
   version : String,
   args? : Array[String],
   env? : Map[String, String],

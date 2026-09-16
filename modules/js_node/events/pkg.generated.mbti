@@ -12,11 +12,13 @@ import {
 // Types and methods
 #external
 pub type EventEmitter
+pub fn EventEmitter::EventEmitter() -> Self
 pub fn EventEmitter::as_any(Self) -> @js_core.Any
 pub fn EventEmitter::emit(Self, String, @js_core.Any) -> Unit
 pub fn EventEmitter::eventNames(Self) -> Array[String]
 pub fn EventEmitter::listenerCount(Self, String) -> Int
 pub fn EventEmitter::listeners(Self, event? : String) -> Array[(@js_core.Any) -> Unit]
+#deprecated
 pub fn EventEmitter::new() -> Self
 pub fn EventEmitter::off(Self, String, (@js_core.Any) -> Unit) -> Unit
 pub fn EventEmitter::on(Self, String, (@js_core.Any) -> Unit) -> Unit
