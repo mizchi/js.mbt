@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.13.0] - 2026-09-15
 
+**This release splits the library into nine modules so you can depend on only
+what your target has.** A Worker no longer drags in `node:fs`; a CLI no longer
+drags in the DOM.
+
+Start here: **[docs/guide.md](docs/guide.md)** — which modules to pick,
+aliases, per-runtime recipes, and the full migration table.
+
+### Migrating from 0.12.x
+
+Every import used to begin `mizchi/js/`. The package name at the end of the
+path is unchanged, so only your manifests and import paths need editing — not
+your MoonBit code.
+
+| 0.12.x | 0.13.0 |
+| ------ | ------ |
+| `mizchi/js/core` | `mizchi/js_core` |
+| `mizchi/js/builtins/<pkg>` | `mizchi/js_builtin/<pkg>` |
+| `mizchi/js/web/<pkg>` | `mizchi/js_web/<pkg>` |
+| `mizchi/js/node/<pkg>` | `mizchi/js_node/<pkg>` |
+| `mizchi/js/browser/<pkg>` | `mizchi/js_browser/<pkg>` |
+| `mizchi/js/browser/file` | **`mizchi/js_web/file`** |
+| `mizchi/js/deno` | `mizchi/js_deno` |
+| `mizchi/js/bun` | `mizchi/js_bun` |
+| `mizchi/js/webextensions/<pkg>` | `mizchi/js_webextensions/<pkg>` |
+| `mizchi/js/mbtconv` | **`mizchi/js_convert`** |
+
+Three need more than a prefix swap:
+
+- **`file` went to `js_web`, not `js_browser`** — `File` extends `Blob`, and
+  neither it nor `FileReader` is browser-only.
+- **`mbtconv` is now `js_convert`** — `@mbtconv.` becomes `@convert.`; the
+  function names are untouched.
+- **`core` and `convert` are module roots**, so their default alias is now the
+  module name (`@js_core`, `@js_convert`). Add an explicit alias to keep your
+  sources unchanged:
+  ```
+  # moon.pkg
+  import {
+    "mizchi/js_core" @core,
+    "mizchi/js_convert" @convert,
+  }
+  ```
+
+Prefer one import over precision? `mizchi/js` still re-exports all of
+`js_core` + `js_builtin`.
+
+The rest of this entry is the detail, including why each piece landed where it
+did.
+
 ### Added
 
 - **`Response::new_with_body` for non-`String` bodies** (`mizchi/js_web/http`,
