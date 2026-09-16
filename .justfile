@@ -61,13 +61,13 @@ test-convert:
 
 # Run WASM-GC tests with Deno
 test-wasm:
-    moon build --target wasm-gc --release src/wasm
-    deno run --allow-read src/wasm/test_deno.ts
+    moon build --target wasm-gc --release modules/js/src/wasm
+    deno run --allow-read modules/js/src/wasm/test_deno.ts
 
 # Run WASM-GC DOM tests with happy-dom
 test-wasm-dom:
-    moon build --target wasm-gc --release src/wasm
-    deno run --allow-read --allow-env src/wasm/test_happydom.ts
+    moon build --target wasm-gc --release modules/js/src/wasm
+    deno run --allow-read --allow-env modules/js/src/wasm/test_happydom.ts
 
 # Run Bun tests
 test-bun: build

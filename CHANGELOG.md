@@ -60,6 +60,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`mizchi/js` moved from the repo root to `modules/js/`.** Not a breaking
+  change: the module name and every package path (`mizchi/js`) are unchanged,
+  so consumers need no edits. What changes is what gets published.
+
+  `moon package` archives the whole module directory, and `source = "src"`
+  does not scope it — so while `mizchi/js` *was* the repo-root module, its
+  archive was the entire repository: **2,525,463 bytes across 537 files**,
+  including every sibling module's source, `pnpm-lock.yaml`, `deno.lock`,
+  `moon.work`, `CHANGELOG.md` and the CI config. `.moonignore` could not fix
+  it, because a `modules/` pattern in the repo-root file empties the siblings'
+  archives instead (see the note above).
+
+  Now: **94,580 bytes across 16 files** — `moon.mod`, `src/top.mbt`,
+  `src/moon.pkg`, the two `.mbti` files, `src/README.mbt.md` and `src/wasm/*`.
+  A 96% reduction, and nothing in it that isn't the module's own.
+
+  The repo root no longer has a `moon.mod`; `moon.work` lists `modules/js`
+  like any other member. `readme` now points at `src/README.mbt.md`, the
+  module's own README, since the repo-root `README.md` no longer travels with
+  it. `src/wasm`'s `.ts`/`.html` helpers gained two `../` hops, and the
+  `moon build` / `deno run` invocations in `.github/workflows/check.yaml`,
+  `.justfile` and `package.json` now say `modules/js/src/wasm`. The build
+  output path is unchanged (`mizchi/js/wasm` derives from the module name, not
+  the directory), and `moon info` produced only renamed `.mbti` files.
+
 - **Test code no longer ships in the published packages.** Each published
   module gained a `.moonignore` excluding `*_test.mbt`, `*_wbtest.mbt` and the
   `_tests/` / `bun_test/` / `_interop_test/` harness packages. `.moonignore`
@@ -90,10 +115,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   which is why dev-only packages that pull a dependency still have to live in
   `dev/` rather than merely being ignored.
 
-  Not addressed here: `mizchi/js` is the repo-root module, so its archive is
-  the whole repository (~2.5MB, 537 files — every sibling module, the
-  lockfiles, CI config). `.moonignore` cannot fix that without emptying the
-  siblings; moving `mizchi/js` to `modules/js/` would.
+  That second trap is what forced the `mizchi/js` move described above: no
+  `.moonignore` could slim the repo-root module without emptying its siblings.
 
 - **BREAKING: `file` moved from `mizchi/js_browser` to `mizchi/js_web`.**
   `mizchi/js_browser/file` → `mizchi/js_web/file`. The `@file` alias is

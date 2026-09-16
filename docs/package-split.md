@@ -2,7 +2,7 @@
 
 このドキュメントは `mizchi/js` を `moon.work` で複数モジュールに分割していく計画と、利用側の移行手順をまとめたものです。現時点では **`mizchi/js_browser`**, **`mizchi/js_deno`**, **`mizchi/js_bun`**, **`mizchi/js_webextensions`**, **`mizchi/js_node`**, **`mizchi/js_web`**, **`mizchi/js_core`**, **`mizchi/js_builtin`**, **`mizchi/js_convert`** の 9 モジュールが独立しています。
 
-`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) としてリポジトリ root に残り、`src/top.mbt` と `src/wasm` だけを抱えます (`internal` / `examples` は `dev/` = `mizchi/js_dev` に移動)。
+`src/` の領域別モジュール化は完了しました。`mizchi/js` は `js_core` + `js_builtin` に依存する meta パッケージ (re-export facade) で、`src/top.mbt` と `src/wasm` だけを抱えます (`internal` / `examples` は `dev/` = `mizchi/js_dev` に移動)。他のモジュールと同じく `modules/js/` に置いてあり、**リポジトリ root に `moon.mod` はありません**。
 
 ## 背景
 
@@ -26,11 +26,10 @@
 
 ```
 /
-├── moon.work                          # workspace 定義
-├── moon.mod                           # mizchi/js (facade + wasm)
-├── src/                               # mizchi/js のソース
+├── moon.work                          # workspace 定義 (root に moon.mod は無い)
 ├── dev/                               # mizchi/js_dev (never published)
 └── modules/
+    ├── js/                            # mizchi/js (facade + wasm)
     ├── js_browser/                    # mizchi/js_browser
     ├── js_builtin/                    # mizchi/js_builtin
     ├── js_bun/                        # mizchi/js_bun
@@ -46,8 +45,8 @@
 
 ```
 members = [
-  ".",
   "dev",
+  "modules/js",
   "modules/js_browser",
   "modules/js_builtin",
   "modules/js_bun",
@@ -66,7 +65,7 @@ members = [
 
 | 新モジュール                | 含めるもの                            | 状態 |
 | --------------------------- | ------------------------------------- | ---- |
-| `mizchi/js` (現在のルート)  | facade (`top.mbt`), `wasm`            | 既存 |
+| `mizchi/js` (`modules/js`)  | facade (`top.mbt`), `wasm`            | 既存 |
 | `mizchi/js_browser`         | `browser/*` (DOM, Canvas, ...), DOM 用 test_utils | **済** |
 | `mizchi/js_deno`            | `deno/*` (`deno.mbt`, `permissions.mbt`, `_tests/`) | **済** |
 | `mizchi/js_bun`             | `bun/*` (`bun.mbt`, `bun_test/`)      | **済** |
@@ -331,7 +330,7 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 | `target/js/release/build/mbtconv/_interop_test/_interop_test.js` | `target/js/release/build/mizchi/js_convert/_interop_test/_interop_test.js` |
 | `target/wasm-gc/release/build/wasm/wasm.wasm`                  | `target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm`               |
 
-本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `src/wasm/test_deno.ts`, `src/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
+本リポジトリ内では `deno.jsonc`, `.justfile`, `.github/workflows/*.yaml`, `modules/js/src/wasm/test_deno.ts`, `modules/js/src/wasm/test_happydom.ts`, `scripts/check_sizes.ts` 等を新パスへ更新済みです。
 
 ## 開発者向け: 新モジュールを追加する手順
 
@@ -451,7 +450,7 @@ Deno / Bun / Node 20+ / Workers にある = `js_web` の線引きに乗るため
 
 - `src/top.mbt` — `js_core` + `js_builtin` を re-export する facade。
   `mizchi/js` をこの meta パッケージとして root に残す方針で決着しました。
-- `src/wasm` — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
+- `src/wasm` (= `modules/js/src/wasm`) — wasm-gc ターゲットの動作確認用 entry。`mizchi/js_wasm` として
   切り出さず、このままにする方針です (`docs/wasm-gc-usage.md` 参照)。
 
 `src/internal` と `src/examples` は `mizchi/js_dev` (`dev/`) に移しました。
@@ -517,15 +516,20 @@ import 元が `src/internal/bench` だったため、看板パッケージの利
 
 `js_webextensions` はテストを持たないので変化なしです。
 
-### 未解決: `mizchi/js` がリポジトリ全体を配布している
+### `mizchi/js` を root から `modules/js/` へ移した理由
 
-`mizchi/js` はリポジトリ root のモジュールなので、アーカイブが
-**リポジトリ全体** (約 2.5MB / 537 ファイル) になります。`modules/js_browser/...`
-`modules/js_node/...` `pnpm-lock.yaml` `deno.lock` `moon.work` まで入ります。
+`moon package` はモジュールディレクトリ配下を丸ごと固めます。`mizchi/js` が
+リポジトリ root のモジュールだった間、そのアーカイブは**リポジトリ全体**
+(約 2.5MB / 537 ファイル) でした。`modules/js_browser/...` `modules/js_node/...`
+`pnpm-lock.yaml` `deno.lock` `moon.work` `CHANGELOG.md` まで入っていました。
 
-`.moonignore` では直せません — root に `modules/` を書くと上記のルールで
-兄弟モジュールが空になるためです。`mizchi/js` を `modules/js/` に移せば
-アーカイブが自分のディレクトリに限定され、解決します。
+`.moonignore` では直せません。root に `modules/` を書くと上記のルールで
+兄弟モジュールのアーカイブが空になるためです。そこで `mizchi/js` を
+`modules/js/` に移し、**リポジトリ root からは `moon.mod` を無くしました**。
+これでアーカイブが自分のディレクトリに限定されます。
+
+モジュール名・パッケージパス (`mizchi/js`) は変わらないので、利用側から見て
+破壊的変更ではありません。
 
 ### 現在の依存階層
 

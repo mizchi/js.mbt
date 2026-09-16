@@ -63,8 +63,8 @@ jobs:
           NODE_OPTIONS: "--experimental-wasm-modules --no-warnings=ExperimentalWarnings"
       - name: wasm-gc test
         run: |
-          moon build --target wasm-gc --release src/wasm
-          deno run --allow-read src/wasm/test_deno.ts
+          moon build --target wasm-gc --release modules/js/src/wasm
+          deno run --allow-read modules/js/src/wasm/test_deno.ts
       - name: wasm-gc DOM test (happy-dom)
         run: |
-          deno run --allow-read --allow-env src/wasm/test_happydom.ts
+          deno run --allow-read --allow-env modules/js/src/wasm/test_happydom.ts

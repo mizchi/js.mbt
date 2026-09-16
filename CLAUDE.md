@@ -20,8 +20,9 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
 
 - This repo is a workspace of 9 published modules, plus `mizchi/js_dev`
   (`dev/`) which is never published - see [dev/README.md](dev/README.md).
-  `mizchi/js` at the root is a meta package (`src/top.mbt` re-exports
-  `js_core` + `js_builtin`) plus `src/wasm`:
+  `mizchi/js` is a meta package (`src/top.mbt` re-exports `js_core` +
+  `js_builtin`) plus `src/wasm`; it lives in `modules/js/` like every other
+  module, so its publish archive contains only its own files:
 
   Indentation below means "depends on the module it hangs off":
 
@@ -87,10 +88,11 @@ If you're unsure about MoonBit syntax, refer to the [MoonBit Cheatsheet](dev/src
     That is what `dev/` is for.
   - `moon.mod` rejects `#` comments, so notes go in a README next to it.
 
-  Not yet solved: `mizchi/js` is the repo-root module, so its archive is the
-  whole repository (~2.5MB, 537 files - every sibling module, the lockfiles,
-  CI config). `.moonignore` cannot fix this without emptying the siblings, per
-  the rule above. Moving `mizchi/js` to `modules/js/` would.
+  This is why `mizchi/js` sits in `modules/js/` rather than at the repo root.
+  While it was the root module its archive was the whole repository (~2.5MB,
+  537 files - every sibling module, the lockfiles, CI config), and
+  `.moonignore` could not fix that without emptying the siblings, per the rule
+  above. **The repo root has no `moon.mod`** - keep it that way.
 
   See [docs/package-split.md](docs/package-split.md) for the layout and the
   migration notes.

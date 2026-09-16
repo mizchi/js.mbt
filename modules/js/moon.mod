@@ -8,7 +8,7 @@ import {
   "moonbitlang/async@0.20.5",
 }
 
-readme = "README.md"
+readme = "src/README.mbt.md"
 
 repository = "https://github.com/mizchi/js.mbt"
 
