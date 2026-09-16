@@ -7,6 +7,4 @@ import {
   "mizchi/js_convert@0.13.0",
 }
 
-source = "src"
-
 preferred_target = "js"

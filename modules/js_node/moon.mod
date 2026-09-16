@@ -17,6 +17,4 @@ keywords = [ "js", "node", "nodejs" ]
 
 description = "node.js-specific js bindings (fs, http, stream, ...)"
 
-source = "src"
-
 preferred_target = "js"

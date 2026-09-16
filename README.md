@@ -55,18 +55,18 @@ Add to your `moon.pkg.json`:
 
 | Platform | Documentation | Examples | Status |
 |----------|--------------|----------|--------|
-| **Core JavaScript** | [modules/js_core/src/README.md](modules/js_core/src/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/js_examples.mbt.md) | 🧪 Tested |
-| **Browser** | [modules/js_browser/src/README.md](modules/js_browser/src/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/browser_examples.mbt.md) | 🧪 Tested |
-| **Node.js** | [modules/js_node/src/README.md](modules/js_node/src/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/node_examples.mbt.md) | 🧪 Tested |
-| **Deno** | [modules/js_deno/src/README.md](modules/js_deno/src/README.md) | - | 🧪 Tested |
+| **Core JavaScript** | [modules/js_core/README.md](modules/js_core/README.md) | [js_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/examples/js_examples.mbt.md) | 🧪 Tested |
+| **Browser** | [modules/js_browser/README.md](modules/js_browser/README.md) | [browser_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/examples/browser_examples.mbt.md) | 🧪 Tested |
+| **Node.js** | [modules/js_node/README.md](modules/js_node/README.md) | [node_examples.mbt.md](https://github.com/mizchi/js.mbt/blob/main/dev/examples/node_examples.mbt.md) | 🧪 Tested |
+| **Deno** | [modules/js_deno/README.md](modules/js_deno/README.md) | - | 🧪 Tested |
 | **React** | [mizchi/npm_typed](https://github.com/mizchi/npm_typed.mbt) | See npm_typed repo | 📦 Moved |
 
 ### 📖 Learning Resources
 
-- [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
-- [FFI Best Practice](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/ffi_bestpractice.mbt.md) - Best practice for MoonBit JavaScript FFI
-- [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/escape_hatch.mbt.md) - Advanced FFI techniques
-- [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/dev/src/examples/moonbit_for_ts_user.mbt.md) - Migration guide from TypeScript
+- [MoonBit Cheatsheet](https://github.com/mizchi/js.mbt/blob/main/dev/examples/moonbit_cheatsheet.mbt.md) - Quick reference for MoonBit syntax
+- [FFI Best Practice](https://github.com/mizchi/js.mbt/blob/main/dev/examples/ffi_bestpractice.mbt.md) - Best practice for MoonBit JavaScript FFI
+- [Escape Hatch Pattern](https://github.com/mizchi/js.mbt/blob/main/dev/examples/escape_hatch.mbt.md) - Advanced FFI techniques
+- [For TypeScript Users](https://github.com/mizchi/js.mbt/blob/main/dev/examples/moonbit_for_ts_user.mbt.md) - Migration guide from TypeScript
 - [Package Split Guide](docs/package-split.md) - moon.work multi-module layout and migration steps
 
 ## Supported Modules
@@ -191,7 +191,7 @@ memory |
 Platform-independent Web Standard APIs (browsers, Node.js, Deno, edge runtimes),
 shipped as the separate `mizchi/js_web` module:
 
-> See **[mizchi/js_web](modules/js_web/src/README.md)** for detailed Web APIs documentation
+> See **[mizchi/js_web](modules/js_web/README.md)** for detailed Web APIs documentation
 
 | Category | Package | Status | Note |
 |----------|---------|--------|------|
@@ -229,12 +229,12 @@ Web Standard, Node.js, Browser, Deno, Bun, and WebExtensions APIs ship as separa
 
 | Platform | Module | Status | Documentation |
 |----------|--------|--------|---------------|
-| Web Standards | `mizchi/js_web/*` | 🧪 Tested | [Web README](modules/js_web/src/README.md) |
-| Node.js | `mizchi/js_node/*` | 🧪 Tested | [Node.js README](modules/js_node/src/README.md) |
-| Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/src/README.md) |
-| Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/src/README.md) |
+| Web Standards | `mizchi/js_web/*` | 🧪 Tested | [Web README](modules/js_web/README.md) |
+| Node.js | `mizchi/js_node/*` | 🧪 Tested | [Node.js README](modules/js_node/README.md) |
+| Browser API | `mizchi/js_browser/*` | 🧪 Tested | [Browser README](modules/js_browser/README.md) |
+| Deno | `mizchi/js_deno` | 🧪 Tested | [Deno README](modules/js_deno/README.md) |
 | Bun | `mizchi/js_bun` | 🤖 AI Generated | - |
-| WebExtensions | `mizchi/js_webextensions` | 🤖 AI Generated | [WebExtensions README](modules/js_webextensions/src/README.md) |
+| WebExtensions | `mizchi/js_webextensions` | 🤖 AI Generated | [WebExtensions README](modules/js_webextensions/README.md) |
 
 ### NPM Package Bindings
 

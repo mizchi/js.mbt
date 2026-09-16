@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const WASM_PATH = resolve(__dirname, "../../../../target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm");
+const WASM_PATH = resolve(__dirname, "../../../target/wasm-gc/release/build/mizchi/js/wasm/wasm.wasm");
 
 async function main() {
   console.log("Loading WASM module from:", WASM_PATH);

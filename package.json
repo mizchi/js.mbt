@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "moon build",
-    "dev:spa": "vite modules/js/src/wasm",
+    "dev:spa": "vite modules/js/wasm",
     "generate:dom": "node scripts/generate_inheritance.ts dom",
     "generate:inheritance": "node scripts/generate_inheritance.ts",
     "generate:stream": "node scripts/generate_inheritance.ts stream",

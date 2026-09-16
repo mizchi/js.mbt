@@ -60,28 +60,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **`source = "src"` dropped from every module; packages now sit at the module
+  root.** `modules/js_web/src/http/` → `modules/js_web/http/`, and the same for
+  all ten modules. Not a breaking change and not even a visible one: a
+  package's path is relative to the source root either way, so every package
+  is still `mizchi/js_web/http` and friends. `moon info` produces no `.mbti`
+  content diff, only renames.
+
+  `source` was buying an extra directory level for nothing. It does not scope
+  the publish archive (the archive is the whole module directory — that is what
+  forced the `mizchi/js` move below), so its only effect was the nesting.
+
+  Follow-on edits: `readme` in each `moon.mod` (`src/README.md` → `README.md`),
+  the 26 paths in `scripts/inheritance-config.ts`, `deno.jsonc`, `.justfile`,
+  `package.json`, `.github/workflows/check.yaml`, and the README / docs links.
+  `modules/js/wasm`'s `.ts` and `.html` helpers lost one `../` hop. Two
+  already-broken relative links in `dev/examples/browser_examples.mbt.md` were
+  repaired while passing through.
+
 - **`mizchi/js` moved from the repo root to `modules/js/`.** Not a breaking
   change: the module name and every package path (`mizchi/js`) are unchanged,
   so consumers need no edits. What changes is what gets published.
 
-  `moon package` archives the whole module directory, and `source = "src"`
-  does not scope it — so while `mizchi/js` *was* the repo-root module, its
+  `moon package` archives the whole module directory, and no `source` setting
+  scopes it — so while `mizchi/js` *was* the repo-root module, its
   archive was the entire repository: **2,525,463 bytes across 537 files**,
   including every sibling module's source, `pnpm-lock.yaml`, `deno.lock`,
   `moon.work`, `CHANGELOG.md` and the CI config. `.moonignore` could not fix
   it, because a `modules/` pattern in the repo-root file empties the siblings'
   archives instead (see the note above).
 
-  Now: **94,580 bytes across 16 files** — `moon.mod`, `src/top.mbt`,
-  `src/moon.pkg`, the two `.mbti` files, `src/README.mbt.md` and `src/wasm/*`.
-  A 96% reduction, and nothing in it that isn't the module's own.
+  Now: **94,580 bytes across 16 files** — `moon.mod`, `top.mbt`, `moon.pkg`,
+  the two `.mbti` files, `README.mbt.md` and `wasm/*`. A 96% reduction, and
+  nothing in it that isn't the module's own.
 
   The repo root no longer has a `moon.mod`; `moon.work` lists `modules/js`
-  like any other member. `readme` now points at `src/README.mbt.md`, the
+  like any other member. `readme` now points at `README.mbt.md`, the
   module's own README, since the repo-root `README.md` no longer travels with
-  it. `src/wasm`'s `.ts`/`.html` helpers gained two `../` hops, and the
+  it. `wasm`'s `.ts`/`.html` helpers had their `../` depth corrected, and the
   `moon build` / `deno run` invocations in `.github/workflows/check.yaml`,
-  `.justfile` and `package.json` now say `modules/js/src/wasm`. The build
+  `.justfile` and `package.json` now say `modules/js/wasm`. The build
   output path is unchanged (`mizchi/js/wasm` derives from the module name, not
   the directory), and `moon info` produced only renamed `.mbti` files.
 
@@ -144,24 +162,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dev-only packages moved out of the published modules, into `mizchi/js_dev`.**
   `moon.mod` has no `exclude` or `files` field — an `exclude` key makes `moon`
   fail to calculate the build plan — so everything under a published module's
-  `source = "src"` ships to consumers, and benchmarks, bundle-size fixtures and
-  the literate examples were all inside published trees. The new `dev/`
+  module ships to consumers, and benchmarks, bundle-size fixtures and the
+  literate examples were all inside published trees. The new `dev/`
   workspace member holds them and is never published; `scripts/release.ts`
   publishes a hardcoded list that does not include it.
 
   | moved to | from | what |
   |---|---|---|
-  | `dev/src/bench` | `mizchi/js` `src/internal/bench` | bundle-size bench |
-  | `dev/src/examples` | `mizchi/js` `src/examples` | the `.mbt.md` docs |
-  | `dev/src/size/*` | `mizchi/js_core` `src/_tests/size*` | 14 size fixtures |
+  | `dev/bench` | `mizchi/js` `src/internal/bench` | bundle-size bench |
+  | `dev/examples` | `mizchi/js` `src/examples` | the `.mbt.md` docs |
+  | `dev/size/*` | `mizchi/js_core` `src/_tests/size*` | 14 size fixtures |
 
   Two consequences worth calling out. `js_convert` leaves the root `moon.mod`:
   `src/internal/bench` was its only importer, so every consumer of the headline
   `mizchi/js` had been installing `js_convert` to satisfy a benchmark. And
-  `mizchi/js` now publishes `src/top.mbt` plus `src/wasm` and nothing else —
+  `mizchi/js` now publishes `top.mbt` plus `wasm/` and nothing else —
   previously the facade was about 5% of what shipped.
 
-  `src/wasm` stays in `mizchi/js` as previously decided, and
+  `wasm/` stays in `mizchi/js` as previously decided, and
   `js_browser/src/test_utils` stays put: `dom`'s blackbox tests import it, and
   it is plausibly useful to consumers writing happy-dom tests.
 
@@ -182,7 +200,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `js_browser` (7 packages), `js_deno` (1) and `js_webextensions` (3) reached
     `js_core` *through* the facade. The entire usage was eight symbols —
     `Promise`, `Nullable`, `any`, `run_async`, `suspend`, `from_fn0`/`1`/`2` —
-    all of them `js_core`'s, and `src/top.mbt` is 212 lines of nothing but
+    all of them `js_core`'s, and `top.mbt` is 212 lines of nothing but
     `pub using` re-exports. So three modules carried the whole meta package,
     and its `js_convert` dependency, to reach a module they already imported.
     87 call sites now say `@core.` and the facade import is gone.

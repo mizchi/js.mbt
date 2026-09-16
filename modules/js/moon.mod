@@ -8,7 +8,7 @@ import {
   "moonbitlang/async@0.20.5",
 }
 
-readme = "src/README.mbt.md"
+readme = "README.mbt.md"
 
 repository = "https://github.com/mizchi/js.mbt"
 
@@ -17,7 +17,5 @@ license = "MIT"
 keywords = [ "js", "ffi", "meta", "facade" ]
 
 description = "js bindings for MoonBit: re-exports mizchi/js_core + mizchi/js_builtin (web/node/browser/deno/bun split into mizchi/js_* modules)"
-
-source = "src"
 
 preferred_target = "js"
