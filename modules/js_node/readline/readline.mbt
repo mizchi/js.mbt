@@ -205,14 +205,21 @@ pub extern "js" fn Interface::on_sigcont(
 
 ///|
 /// Add event listener for 'history' event
-pub extern "js" fn Interface::on_history(
+pub extern "js" fn Interface::on_history_ffi(
   self : Interface,
-  callback : (Array[String]) -> Unit,
+  callback : (FixedArray[String]) -> Unit,
 ) -> Interface =
   #|(self, callback) => {
   #|  self.on('history', callback);
   #|  return self;
   #|}
+
+pub fn Interface::on_history(
+  self : Interface,
+  callback : (Array[String]) -> Unit,
+) -> Interface {
+  Interface::on_history_ffi(self, fn(__a1) { callback(Array::from_fixed_array(__a1)) })
+}
 
 ///|
 /// Clear the current line
